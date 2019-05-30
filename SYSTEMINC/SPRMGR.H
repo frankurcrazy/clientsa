@@ -4,114 +4,114 @@
 #ifndef _SPRMGR_H_
 #define _SPRMGR_H_
 
-//#define BMP_FILE			120000	// �£ͣХե��������
-#define MAX_GRAPHICS	 	130000	// ����������
-#define	DEF_COLORKEY		0	// ͸��ɫ�Ȥ���ɫ���� ͸��ɫ��ɫ��
-//#define	DEF_COLORKEY		240	// ͸��ɫ�Ȥ���ɫ����
+//#define BMP_FILE			120000	// ＢＭＰファイルの数
+#define MAX_GRAPHICS	 	130000	// 画像の最大数
+#define	DEF_COLORKEY		0	// 透明色とする色番号 透明色的色号
+//#define	DEF_COLORKEY		240	// 透明色とする色番号
 
-#define SURFACE_WIDTH   64 	// �ָ�`�ե������η� �ָ�ӿڵĿ���
-#define SURFACE_HEIGHT  48  // �ָ�`�ե������θߤ�
-//#define SURFACE_WIDTH   32 	// �ָ�`�ե������η�
-//#define SURFACE_HEIGHT  24  // �ָ�`�ե������θߤ�
+#define SURFACE_WIDTH   64 	// 分割サ`フェイスの幅 分割接口的宽度
+#define SURFACE_HEIGHT  48  // 分割サ`フェイスの高さ
+//#define SURFACE_WIDTH   32 	// 分割サ`フェイスの幅
+//#define SURFACE_HEIGHT  24  // 分割サ`フェイスの高さ
 
-// ���`�ե�������ե������� �س���Ϣ�ṹ
+// サ`フェスインフォ造体 回程信息结构
 struct surfaceInfo{
 
-	LPDIRECTDRAWSURFACE lpSurface; 	// ָ��
+	LPDIRECTDRAWSURFACE lpSurface; 	// 指针
 
-	int	bmpNo;						// λͼ����
-	//���ֵ- 1��ʱ����������ǿա�
+	int	bmpNo;						// 位图号码
+	//这个值- 1的时候，这个表面是空。
 	
-	// ���΂��� -1 �Εr�Ϥ��Υ��`�ե����ϿդǤ���
-	//ʹ��������ӿ����ڼ���
-	UINT date;						// ���Υ��`�ե�����ʹ�ä����ո���ӛ��
-	//��ʾλ������X����
-	short offsetX;					// ��ʾλ�ä���Υ��ե��åȣ�����
-	short offsetY;					// ��ʾλ�ä���Υ��ե��åȣ�����
+	// この -1 のrはこのサ`フェスは空である
+	//使用了这个接口日期记忆
+	UINT date;						// このサ`フェスを使用した日付を
+	//显示位置所在X坐标
+	short offsetX;					// 表示位置からのオフセットＸ座
+	short offsetY;					// 表示位置からのオフセットＹ座
 
-	surfaceInfo	*pNext;				// �ΤΥ��`�ե�������ե�������ؤΥݥ���
+	surfaceInfo	*pNext;				// 次のサ`フェスインフォ造体へのポインタ
 	
 };
 
 typedef struct surfaceInfo SURFACE_INFO;
 
-// ���ץ饤�ȥ���ե�������  ���ֵ���Ϣ�ṹ��
+// スプライトインフォ造体  妖怪的信息结构？
 typedef struct{
 
-//	LPBITMAPINFO lpBmp; 			//λͼ��Ϣ�ṹ��ָ��
+//	LPBITMAPINFO lpBmp; 			//位图信息结构的指针
 	
-	SURFACE_INFO *lpSurfaceInfo; 	// ʹ�ä��Ƥ��륵�`�ե����ꥹ�Ȥ����^���ɥ쥹
-	/// /ʹ�õı���������ǰͷ��ַ/ /���ֵNULL��ʱ�����BMP��VRAMû��
-	// ���΂��� NULL �Εr�Ϥ��Σ£ͣФ� VRAM �ˤϤ��ʤ�
-	short width,height;				//BMP�ĳߴ�
+	SURFACE_INFO *lpSurfaceInfo; 	// 使用しているサ`フェスリストの先^アドレス
+	/// /使用的表面名单的前头地址/ /这个值NULL的时候这个BMP是VRAM没有
+	// この NULL のrはこのＢＭＰは VRAM にはいない
+	short width,height;				//BMP的尺寸
 	
 }SPRITE_INFO;
 
 
 
-// ȫ�ֱ��� ////////////////////////////////////////////////////////////
+// 全局变量 ////////////////////////////////////////////////////////////
 
-// ���ץ饤�ȥ���ե�  ����Ľӿ�
+// スプライトインフォ  程序的接口
 extern SPRITE_INFO SpriteInfo[];
 
-// ���`�ե�������ե�
+// サ`フェスインフォ
 extern SURFACE_INFO SurfaceInfo[];
 
-// �Хȥ륵�`�ե����Υݥ���
-//ս��ͼƬָ�룿
+// バトルサ`フェスのポインタ
+//战斗图片指针？
 extern LPDIRECTDRAWSURFACE lpBattleSurface;
 
-// ���`�ե�������  �ӿ�����
+// サ`フェスの数  接口数量
 extern int SurfaceCnt;
 
-// VRAM �����ɤ������`�ե��������������
-//ȫ���ӿ� ������
+// VRAM に作成したサ`フェスの数カウント
+//全部接口 计数？
 extern int VramSurfaceCnt;
 
-// SYSTEMRAM �����ɤ������`�ե��������������
+// SYSTEMRAM に作成したサ`フェスの数カウント
 extern int SysramSurfaceCnt;
 
-// ���`�ե�����ʹ�ä����ո�
-//�ӿ�ʹ������
+// サ`フェスを使用した日付
+//接口使用日期
 extern UINT SurfaceDate;
 
-// �F�ڤΥ��`�ե�������λ��
-//�ӿ�λ�ü��
+// F在のサ`フェス仕魑恢
+//接口位置检测
 extern int SurfaceSearchPoint;
 
 #ifdef _DEBUG		
-// �F��ʹ�äƤ��륵�`�ե��������������
+// F在使っているサ`フェスの数カウント
 extern int SurfaceUseCnt;
 
-// �F�ڱ�ʾ���Ƥ��륵�`�ե��������������
+// F在表示しているサ`フェスの数カウント
 extern int SurfaceDispCnt;
 #endif
-// �ָ�`�ե������η�
+// 分割サ`フェイスの幅
 extern int SurfaceSizeX;
-// �ָ�`�ե������θߤ�
+// 分割サ`フェイスの高さ
 extern int SurfaceSizeY;
 
-// �v���������� //////////////////////////////////////////////////////////////
+// v数の型宣言 //////////////////////////////////////////////////////////////
 
-/* �ӥåȥޥåפ��i���z�� λͼ����  *****************************************************/
+/* ビットマップのiみzみ 位图加载  *****************************************************/
 void OpenBmp( void );      
 
-/* ���ե�����`�󥵩`�ե��������� *********************************************/
+/* オフスクリ`ンサ`フェスの作成 *********************************************/
 BOOL InitOffScreenSurface( void );
 
-/* ���`�ե�������ե�������γ��ڻ���******************************************/
+/* サ`フェスインフォ造体の初期化　******************************************/
 void InitSurfaceInfo( void );
 
-/* ���ץ饤�ȥ���ե�������γ��ڻ���**************************************/
+/* スプライトインフォ造体の初期化　**************************************/
 void InitSpriteInfo( void );
 
-/* �£ͣФ򥵩`�ե����ظ�굱�� ***********************************************/
+/* ＢＭＰをサ`フェスへ割り当て ***********************************************/
 void AllocateBmpToSurface( int bmpNo );
 
-// �£ͣФ���`�ɤ��� *********************************************************/
+// ＢＭＰをロ`ドする *********************************************************/
 BOOL LoadBmp( int bmpNo );
-//���ת����
-// �£ͣФ���`�ɤ��루����ե��å����ŉ�Q�⤹�룩 ***************************/
+//编号转换？
+// ＢＭＰをロ`ドする（グラフィック番号Qもする） ***************************/
 BOOL LoadBmp2( int bmpNo );
 
 #endif

@@ -1,77 +1,77 @@
 #ifndef _ANIM_TBL_H_
 #define _ANIM_TBL_H_
-//È«²¿Í¼µµ ÒÔÍ¼±êÃû×Ö¹¦ÄÜÈ¡Ãû¶¨Î»
+//å…¨éƒ¨å›¾æ¡£ ä»¥å›¾æ ‡åå­—åŠŸèƒ½å–åå®šä½
 /***********************************************************************
-*	¤³¤Î¥Õ¥¡¥¤¥ë¤Ï¥³¥ó¥Ğ©`¥¿©`¤âÍ¨¤ë
+*	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã‚³ãƒ³ãƒ`ã‚¿`ã‚‚é€šã‚‹
 *
-*	¥³¥ó¥Ğ©`¥¿©`¤Ï
-*		#define SPRxxxxx¡¡¤Ïxxxxx¥Õ¥¡¥¤¥ë¤òÕi¤ßŞz¤â¤¦¤È¤¹¤ë¡£
+*	ã‚³ãƒ³ãƒ`ã‚¿`ã¯
+*		#define SPRxxxxxã€€ã¯xxxxxãƒ•ã‚¡ã‚¤ãƒ«ã‚’iã¿zã‚‚ã†ã¨ã™ã‚‹ã€‚
 *
-*	spr¥Õ¥¡¥¤¥ë¤È¤·¤Æ¤Ï  
+*	sprãƒ•ã‚¡ã‚¤ãƒ«ã¨ã—ã¦ã¯  
 *		#define		SPR_abc	1000
-*	¤È¤¢¤ì¤Ğ¡¢
-*		¥Õ¥¡¥¤¥ëÃû	abc.spr
-*	¤È¤¹¤ë¡£
-*	Êı×Ö¤ÏÒ»Òâ¤Ç¤¢¤ì¤ĞºÎ¤Ç¤â¿É¡£
+*	ã¨ã‚ã‚Œã°ã€
+*		ãƒ•ã‚¡ã‚¤ãƒ«å	abc.spr
+*	ã¨ã™ã‚‹ã€‚
+*	æ•°å­—ã¯ä¸€æ„ã§ã‚ã‚Œã°ä½•ã§ã‚‚å¯ã€‚
 ***********************************************************************/
 
-//#define SPRSTART			30000		// SPR¥Ç©`¥¿¤ÎÊ¼¤Ş¤ê¤Î·¬ºÅ Êı¾İµÄ* * * *¿ªÊ¼µÄºÅÂë
-#define SPRSTART			100000		// SPR¥Ç©`¥¿¤ÎÊ¼¤Ş¤ê¤Î·¬ºÅ
+//#define SPRSTART			30000		// SPRãƒ‡`ã‚¿ã®å§‹ã¾ã‚Šã®ç•ªå· æ•°æ®çš„* * * *å¼€å§‹çš„å·ç 
+#define SPRSTART			100000		// SPRãƒ‡`ã‚¿ã®å§‹ã¾ã‚Šã®ç•ªå·
 
-// ¥­¥ã¥é
-#define SPR_001em			100000		//	×Ó¹©ÄĞ£±	ËØÊÖ 100000
-#define SPR_001ax			100001		// 			¸«
-#define SPR_001cl			100002		//			¤³¤ó°ô
-#define SPR_001sp			100003		//			˜Œ
-#define SPR_001bw			100004		//			¹­
+// ã‚­ãƒ£ãƒ©
+#define SPR_001em			100000		//	å­ä¾›ç”·ï¼‘	ç´ æ‰‹ 100000
+#define SPR_001ax			100001		// 			æ–§
+#define SPR_001cl			100002		//			ã“ã‚“æ£’
+#define SPR_001sp			100003		//			
+#define SPR_001bw			100004		//			å¼“
 
-#define SPR_002em			100005		//	×Ó¹©ÄĞ£±	ËØÊÖ
-#define SPR_002ax			100006		// 			¸«
-#define SPR_002cl			100007		//			¤³¤ó°ô
-#define SPR_002sp			100008		//			˜Œ
-#define SPR_002bw			100009		//			¹­
+#define SPR_002em			100005		//	å­ä¾›ç”·ï¼‘	ç´ æ‰‹
+#define SPR_002ax			100006		// 			æ–§
+#define SPR_002cl			100007		//			ã“ã‚“æ£’
+#define SPR_002sp			100008		//			
+#define SPR_002bw			100009		//			å¼“
 
-#define SPR_003em			100010		//	×Ó¹©ÄĞ£±	ËØÊÖ
-#define SPR_003ax			100011		// 			¸«
-#define SPR_003cl			100012		//			¤³¤ó°ô
-#define SPR_003sp			100013		//			˜Œ
-#define SPR_003bw			100014		//			¹­
+#define SPR_003em			100010		//	å­ä¾›ç”·ï¼‘	ç´ æ‰‹
+#define SPR_003ax			100011		// 			æ–§
+#define SPR_003cl			100012		//			ã“ã‚“æ£’
+#define SPR_003sp			100013		//			
+#define SPR_003bw			100014		//			å¼“
 
-#define SPR_004em			100015		//	×Ó¹©ÄĞ£±	ËØÊÖ
-#define SPR_004ax			100016		// 			¸«
-#define SPR_004cl			100017		//			¤³¤ó°ô
-#define SPR_004sp			100018		//			˜Œ
-#define SPR_004bw			100019		//			¹­
+#define SPR_004em			100015		//	å­ä¾›ç”·ï¼‘	ç´ æ‰‹
+#define SPR_004ax			100016		// 			æ–§
+#define SPR_004cl			100017		//			ã“ã‚“æ£’
+#define SPR_004sp			100018		//			
+#define SPR_004bw			100019		//			å¼“
 
-#define SPR_011em			100020		//	ÉÙÄê£±		ËØÊÖ
-#define SPR_011ax			100021		// 			¸«
-#define SPR_011cl			100022		//			¤³¤ó°ô
-#define SPR_011sp			100023		//			˜Œ
-#define SPR_011bw			100024		//			¹­
+#define SPR_011em			100020		//	å°‘å¹´ï¼‘		ç´ æ‰‹
+#define SPR_011ax			100021		// 			æ–§
+#define SPR_011cl			100022		//			ã“ã‚“æ£’
+#define SPR_011sp			100023		//			
+#define SPR_011bw			100024		//			å¼“
 
-#define SPR_012em			100025		//	ÉÙÄê£±		ËØÊÖ
-#define SPR_012ax			100026		// 			¸«
-#define SPR_012cl			100027		//			¤³¤ó°ô
-#define SPR_012sp			100028		//			˜Œ
-#define SPR_012bw			100029		//			¹­
+#define SPR_012em			100025		//	å°‘å¹´ï¼‘		ç´ æ‰‹
+#define SPR_012ax			100026		// 			æ–§
+#define SPR_012cl			100027		//			ã“ã‚“æ£’
+#define SPR_012sp			100028		//			
+#define SPR_012bw			100029		//			å¼“
 
-#define SPR_013em			100030		//	ÉÙÄê£±		ËØÊÖ
-#define SPR_013ax			100031		// 			¸«
-#define SPR_013cl			100032		//			¤³¤ó°ô
-#define SPR_013sp			100033		//			˜Œ
-#define SPR_013bw			100034		//			¹­
+#define SPR_013em			100030		//	å°‘å¹´ï¼‘		ç´ æ‰‹
+#define SPR_013ax			100031		// 			æ–§
+#define SPR_013cl			100032		//			ã“ã‚“æ£’
+#define SPR_013sp			100033		//			
+#define SPR_013bw			100034		//			å¼“
 
-#define SPR_014em			100035		//	ÉÙÄê£±		ËØÊÖ
-#define SPR_014ax			100036		// 			¸«
-#define SPR_014cl			100037		//			¤³¤ó°ô
-#define SPR_014sp			100038		//			˜Œ
-#define SPR_014bw			100039		//			¹­
+#define SPR_014em			100035		//	å°‘å¹´ï¼‘		ç´ æ‰‹
+#define SPR_014ax			100036		// 			æ–§
+#define SPR_014cl			100037		//			ã“ã‚“æ£’
+#define SPR_014sp			100038		//			
+#define SPR_014bw			100039		//			å¼“
 
-#define SPR_021em			100040		//	ÉÙÄê£²		ËØÊÖ
-#define SPR_021ax			100041		// 			¸«
-#define SPR_021cl			100042		//			¤³¤ó°ô
-#define SPR_021sp			100043		//			˜Œ
-#define SPR_021bw			100044		//			¹­
+#define SPR_021em			100040		//	å°‘å¹´ï¼’		ç´ æ‰‹
+#define SPR_021ax			100041		// 			æ–§
+#define SPR_021cl			100042		//			ã“ã‚“æ£’
+#define SPR_021sp			100043		//			
+#define SPR_021bw			100044		//			å¼“
 
 #define SPR_022em			100045
 #define SPR_022ax			100046
@@ -91,11 +91,11 @@
 #define SPR_024sp			100058
 #define SPR_024bw			100059
 
-#define SPR_031em			100060		//	ÉÙÄê£³		ËØÊÖ
-#define SPR_031ax			100061		// 			¸«
-#define SPR_031cl			100062		//			¤³¤ó°ô
-#define SPR_031sp			100063		//			˜Œ
-#define SPR_031bw			100064		//			¹­
+#define SPR_031em			100060		//	å°‘å¹´ï¼“		ç´ æ‰‹
+#define SPR_031ax			100061		// 			æ–§
+#define SPR_031cl			100062		//			ã“ã‚“æ£’
+#define SPR_031sp			100063		//			
+#define SPR_031bw			100064		//			å¼“
 
 #define SPR_032em			100065
 #define SPR_032ax			100066
@@ -115,11 +115,11 @@
 #define SPR_034sp			100078
 #define SPR_034bw			100079
 
-#define SPR_041em			100080		//	ÇàÄê£±		ËØÊÖ
-#define SPR_041ax			100081		// 			¸«
-#define SPR_041cl			100082		//			¤³¤ó°ô
-#define SPR_041sp			100083		//			˜Œ
-#define SPR_041bw			100084		//			¹­
+#define SPR_041em			100080		//	é’å¹´ï¼‘		ç´ æ‰‹
+#define SPR_041ax			100081		// 			æ–§
+#define SPR_041cl			100082		//			ã“ã‚“æ£’
+#define SPR_041sp			100083		//			
+#define SPR_041bw			100084		//			å¼“
 
 #define SPR_042em			100085
 #define SPR_042ax			100086
@@ -139,11 +139,11 @@
 #define SPR_044sp			100098
 #define SPR_044bw			100099
 
-#define SPR_051em			100100		//	ÇàÄê£²		ËØÊÖ
-#define SPR_051ax			100101		// 			¸«
-#define SPR_051cl			100102		//			¤³¤ó°ô
-#define SPR_051sp			100103		//			˜Œ
-#define SPR_051bw			100104		//			¹­
+#define SPR_051em			100100		//	é’å¹´ï¼’		ç´ æ‰‹
+#define SPR_051ax			100101		// 			æ–§
+#define SPR_051cl			100102		//			ã“ã‚“æ£’
+#define SPR_051sp			100103		//			
+#define SPR_051bw			100104		//			å¼“
 
 #define SPR_052em			100105
 #define SPR_052ax			100106
@@ -163,11 +163,11 @@
 #define SPR_054sp			100118
 #define SPR_054bw			100119
 
-#define SPR_061em			100120		//	×Ó¹©Å®£±		ËØÊÖ
-#define SPR_061ax			100121		// 			¸«
-#define SPR_061cl			100122		//			¤³¤ó°ô
-#define SPR_061sp			100123		//			˜Œ
-#define SPR_061bw			100124		//			¹­
+#define SPR_061em			100120		//	å­ä¾›å¥³ï¼‘		ç´ æ‰‹
+#define SPR_061ax			100121		// 			æ–§
+#define SPR_061cl			100122		//			ã“ã‚“æ£’
+#define SPR_061sp			100123		//			
+#define SPR_061bw			100124		//			å¼“
 
 #define SPR_062em			100125
 #define SPR_062ax			100126
@@ -187,11 +187,11 @@
 #define SPR_064sp			100138
 #define SPR_064bw			100139
 
-#define SPR_071em			100140		//	ÉÙÅ®£±£±	ËØÊÖ
-#define SPR_071ax			100141		// 			¸«
-#define SPR_071cl			100142		//			¤³¤ó°ô
-#define SPR_071sp			100143		//			˜Œ
-#define SPR_071bw			100144		//			¹­
+#define SPR_071em			100140		//	å°‘å¥³ï¼‘ï¼‘	ç´ æ‰‹
+#define SPR_071ax			100141		// 			æ–§
+#define SPR_071cl			100142		//			ã“ã‚“æ£’
+#define SPR_071sp			100143		//			
+#define SPR_071bw			100144		//			å¼“
 
 #define SPR_072em			100145
 #define SPR_072ax			100146
@@ -211,11 +211,11 @@
 #define SPR_074sp			100158
 #define SPR_074bw			100159
 
-#define SPR_081em			100160		//	ÉÙÅ®£²		ËØÊÖ
-#define SPR_081ax			100161		// 			¸«
-#define SPR_081cl			100162		//			¤³¤ó°ô
-#define SPR_081sp			100163		//			˜Œ
-#define SPR_081bw			100164		//			¹­
+#define SPR_081em			100160		//	å°‘å¥³ï¼’		ç´ æ‰‹
+#define SPR_081ax			100161		// 			æ–§
+#define SPR_081cl			100162		//			ã“ã‚“æ£’
+#define SPR_081sp			100163		//			
+#define SPR_081bw			100164		//			å¼“
 
 #define SPR_082em			100165
 #define SPR_082ax			100166
@@ -235,11 +235,11 @@
 #define SPR_084sp			100178
 #define SPR_084bw			100179
 
-#define SPR_091em			100180		//	ÉÙÅ®£³		ËØÊÖ
-#define SPR_091ax			100181		// 			¸«
-#define SPR_091cl			100182		//			¤³¤ó°ô
-#define SPR_091sp			100183		//			˜Œ
-#define SPR_091bw			100184		//			¹­
+#define SPR_091em			100180		//	å°‘å¥³ï¼“		ç´ æ‰‹
+#define SPR_091ax			100181		// 			æ–§
+#define SPR_091cl			100182		//			ã“ã‚“æ£’
+#define SPR_091sp			100183		//			
+#define SPR_091bw			100184		//			å¼“
 
 #define SPR_092em			100185
 #define SPR_092ax			100186
@@ -259,11 +259,11 @@
 #define SPR_094sp			100198
 #define SPR_094bw			100199
 
-#define SPR_101em			100200		//	Å®ĞÔ£±		ËØÊÖ
-#define SPR_101ax			100201		// 			¸«
-#define SPR_101cl			100202		//			¤³¤ó°ô
-#define SPR_101sp			100203		//			˜Œ
-#define SPR_101bw			100204		//			¹­
+#define SPR_101em			100200		//	å¥³æ€§ï¼‘		ç´ æ‰‹
+#define SPR_101ax			100201		// 			æ–§
+#define SPR_101cl			100202		//			ã“ã‚“æ£’
+#define SPR_101sp			100203		//			
+#define SPR_101bw			100204		//			å¼“
 
 #define SPR_102em			100205
 #define SPR_102ax			100206
@@ -283,11 +283,11 @@
 #define SPR_104sp			100218
 #define SPR_104bw			100219
 
-#define SPR_111em			100220		//	Å®ĞÔ£²		ËØÊÖ
-#define SPR_111ax			100221		// 			¸«
-#define SPR_111cl			100222		//			¤³¤ó°ô
-#define SPR_111sp			100223		//			˜Œ
-#define SPR_111bw			100224		//			¹­
+#define SPR_111em			100220		//	å¥³æ€§ï¼’		ç´ æ‰‹
+#define SPR_111ax			100221		// 			æ–§
+#define SPR_111cl			100222		//			ã“ã‚“æ£’
+#define SPR_111sp			100223		//			
+#define SPR_111bw			100224		//			å¼“
 
 #define SPR_112em			100225
 #define SPR_112ax			100226
@@ -308,252 +308,252 @@
 #define SPR_114bw			100239
 
 
-// ¥Ú¥Ã¥È£¨”³£©¥­¥ã¥é  µĞÈË
-#define SPR_pet001			100250		//	¥¦©`¥ê
-#define SPR_pet002			100251		//	¥¦¥ê¥¦¥ê
-#define SPR_pet003			100252		//	¥¦¥ê¥¹¥¿¥¤¥ó
-#define SPR_pet004			100253		//	¥¦¥ê¥Ö¥ë
+// ãƒšãƒƒãƒˆï¼ˆå¸¸â”æ‚­  æ•Œäºº
+#define SPR_pet001			100250		//	ã‚¦`ãƒª
+#define SPR_pet002			100251		//	ã‚¦ãƒªã‚¦ãƒª
+#define SPR_pet003			100252		//	ã‚¦ãƒªã‚¹ã‚¿ã‚¤ãƒ³
+#define SPR_pet004			100253		//	ã‚¦ãƒªãƒ–ãƒ«
 
-#define SPR_pet011			100254		//	¥Ö©`¥Ó¥£
-#define SPR_pet012			100255		//	¥´©`¥ë¥É¥Ö©`¥¤
-#define SPR_pet013			100256		//	¥Ö©`¥¤
-#define SPR_pet014			100257		//	¥Ö¥¤©`¥Ó©`
-#define SPR_pet015			100258		//	¥«©`¥Ö¥¤
+#define SPR_pet011			100254		//	ãƒ–`ãƒ“ã‚£
+#define SPR_pet012			100255		//	ã‚´`ãƒ«ãƒ‰ãƒ–`ã‚¤
+#define SPR_pet013			100256		//	ãƒ–`ã‚¤
+#define SPR_pet014			100257		//	ãƒ–ã‚¤`ãƒ“`
+#define SPR_pet015			100258		//	ã‚«`ãƒ–ã‚¤
 
-#define SPR_pet021			100259		//	¥®¥ã¥ß©`
-#define SPR_pet022			100260		//	¥®¥ã¥Ó©`
-#define SPR_pet023			100261		//	¥®¥ã¥Ó¥ª
-#define SPR_pet024			100262		//	¥®¥ã©`¥¹
+#define SPR_pet021			100259		//	ã‚®ãƒ£ãƒŸ`
+#define SPR_pet022			100260		//	ã‚®ãƒ£ãƒ“`
+#define SPR_pet023			100261		//	ã‚®ãƒ£ãƒ“ã‚ª
+#define SPR_pet024			100262		//	ã‚®ãƒ£`ã‚¹
 
-#define SPR_pet031			100263		//	¥¦¥İ¥İ
-#define SPR_pet032			100264		//	¥¦¥£¥¦¥£
-#define SPR_pet033			100265		//	¥¦¥¬¥ë©`
-#define SPR_pet034			100266		//	¥¦¥£©`¥Ğ
+#define SPR_pet031			100263		//	ã‚¦ãƒãƒ
+#define SPR_pet032			100264		//	ã‚¦ã‚£ã‚¦ã‚£
+#define SPR_pet033			100265		//	ã‚¦ã‚¬ãƒ«`
+#define SPR_pet034			100266		//	ã‚¦ã‚£`ãƒ
 
-#define SPR_pet041			100267		//	¥Ù¥í©`¥ó
-#define SPR_pet042			100268		//	¥Ù¥í¥í¥Ã¥¯
-#define SPR_pet043			100269		//	¥Ù¥í¥İ¥Ã¥¯¥ë
-#define SPR_pet044			100270		//	¥Ù¥í¥İ¥ê
+#define SPR_pet041			100267		//	ãƒ™ãƒ­`ãƒ³
+#define SPR_pet042			100268		//	ãƒ™ãƒ­ãƒ­ãƒƒã‚¯
+#define SPR_pet043			100269		//	ãƒ™ãƒ­ãƒãƒƒã‚¯ãƒ«
+#define SPR_pet044			100270		//	ãƒ™ãƒ­ãƒãƒª
 
-#define SPR_pet051			100271		//	¥«¥á¥Î¥É¥ó
-#define SPR_pet052			100272		//	¥«¥é¥´
-#define SPR_pet053			100273		//	¥ä¥É¥«¥á
-#define SPR_pet054			100274		//	¥«¥é¥´¥ë
+#define SPR_pet051			100271		//	ã‚«ãƒ¡ãƒãƒ‰ãƒ³
+#define SPR_pet052			100272		//	ã‚«ãƒ©ã‚´
+#define SPR_pet053			100273		//	ãƒ¤ãƒ‰ã‚«ãƒ¡
+#define SPR_pet054			100274		//	ã‚«ãƒ©ã‚´ãƒ«
 
-#define SPR_pet061			100275		//	¥Í¥´¥¹
-#define SPR_pet062			100276		//	¥Í¥®¥ã¥¹
-#define SPR_pet063			100277		//	¥¿¥í¥´¥ó
-#define SPR_pet064			100278		//	¥À¥Ã¥¯¥ë
+#define SPR_pet061			100275		//	ãƒã‚´ã‚¹
+#define SPR_pet062			100276		//	ãƒã‚®ãƒ£ã‚¹
+#define SPR_pet063			100277		//	ã‚¿ãƒ­ã‚´ãƒ³
+#define SPR_pet064			100278		//	ãƒ€ãƒƒã‚¯ãƒ«
 
-#define SPR_pet071			100279		//	¥é¥®¥ë¥´
-#define SPR_pet072			100280		//	¥Õ¥Ğ¥Ğ
-#define SPR_pet073			100281		//	¥È¥µ¥­¥ó¥°
-#define SPR_pet074			100282		//	¥ë¥Ë¥Æ¥¹
+#define SPR_pet071			100279		//	ãƒ©ã‚®ãƒ«ã‚´
+#define SPR_pet072			100280		//	ãƒ•ãƒãƒ
+#define SPR_pet073			100281		//	ãƒˆã‚µã‚­ãƒ³ã‚°
+#define SPR_pet074			100282		//	ãƒ«ãƒ‹ãƒ†ã‚¹
 
-#define SPR_pet081			100283		//	¥ë¥Ë¥Æ¥¹
-#define SPR_pet082			100284		//	¥«¥¿¥ë¥«¥¹
-#define SPR_pet083			100285		//	¥¯¥¤¥Ã¥¿
-#define SPR_pet084			100286		//	¥³¥í¥®¥ã¥¹
+#define SPR_pet081			100283		//	ãƒ«ãƒ‹ãƒ†ã‚¹
+#define SPR_pet082			100284		//	ã‚«ã‚¿ãƒ«ã‚«ã‚¹
+#define SPR_pet083			100285		//	ã‚¯ã‚¤ãƒƒã‚¿
+#define SPR_pet084			100286		//	ã‚³ãƒ­ã‚®ãƒ£ã‚¹
 
-#define SPR_pet091			100287		//	¥ê¥¼¥Î¥É¥ó
-#define SPR_pet092			100288		//	¥ä¥ó¥®¥í¥¹
-#define SPR_pet093			100289		//	¥Ğ¥ó¥Ü¥í¥¹
-#define SPR_pet094			100290		//	¥Ğ¥ó¥®©`¥Î
+#define SPR_pet091			100287		//	ãƒªã‚¼ãƒãƒ‰ãƒ³
+#define SPR_pet092			100288		//	ãƒ¤ãƒ³ã‚®ãƒ­ã‚¹
+#define SPR_pet093			100289		//	ãƒãƒ³ãƒœãƒ­ã‚¹
+#define SPR_pet094			100290		//	ãƒãƒ³ã‚®`ãƒ
 
-#define SPR_pet101			100291		//	¥¯¥ì¥ë
-#define SPR_pet102			100292		//	¥¯¥¯¥ë
-#define SPR_pet103			100293		//	¥­¥ç¥í¥ë
-#define SPR_pet104			100294		//	¥ê¥¹¥­©`
+#define SPR_pet101			100291		//	ã‚¯ãƒ¬ãƒ«
+#define SPR_pet102			100292		//	ã‚¯ã‚¯ãƒ«
+#define SPR_pet103			100293		//	ã‚­ãƒ§ãƒ­ãƒ«
+#define SPR_pet104			100294		//	ãƒªã‚¹ã‚­`
 
-#define SPR_pet111			100295		//	¥«¥Ó¥Ã¥È
-#define SPR_pet112			100296		//	¥±¥¤¥Ó©`
-#define SPR_pet113			100297		//	¥­¥å©`¥¤
-#define SPR_pet114			100298		//	¥­¥ã¥Ó¥Ã¥È
+#define SPR_pet111			100295		//	ã‚«ãƒ“ãƒƒãƒˆ
+#define SPR_pet112			100296		//	ã‚±ã‚¤ãƒ“`
+#define SPR_pet113			100297		//	ã‚­ãƒ¥`ã‚¤
+#define SPR_pet114			100298		//	ã‚­ãƒ£ãƒ“ãƒƒãƒˆ
 
-#define SPR_pet121			100299		//	¤Ê¤·
-#define SPR_pet122			100300		//	¤Ê¤·
-#define SPR_pet123			100301		//	¤Ê¤·
-#define SPR_pet124			100302		//	¤Ê¤·
+#define SPR_pet121			100299		//	ãªã—
+#define SPR_pet122			100300		//	ãªã—
+#define SPR_pet123			100301		//	ãªã—
+#define SPR_pet124			100302		//	ãªã—
 
-#define SPR_pet131			100303		//	¤Ê¤·
-#define SPR_pet132			100304		//	¤Ê¤·
-#define SPR_pet133			100305		//	¤Ê¤·
-#define SPR_pet134			100306		//	¤Ê¤·
+#define SPR_pet131			100303		//	ãªã—
+#define SPR_pet132			100304		//	ãªã—
+#define SPR_pet133			100305		//	ãªã—
+#define SPR_pet134			100306		//	ãªã—
 
-#define SPR_pet141			100307		//	¥´¥ë¥É¥ó
-#define SPR_pet142			100308		//	¥®¥é¥É¥ó
-#define SPR_pet143			100309		//	¥®¥é¥´¥ë¥´¥ó
-#define SPR_pet144			100310		//	¥´¥ë©`¥´
+#define SPR_pet141			100307		//	ã‚´ãƒ«ãƒ‰ãƒ³
+#define SPR_pet142			100308		//	ã‚®ãƒ©ãƒ‰ãƒ³
+#define SPR_pet143			100309		//	ã‚®ãƒ©ã‚´ãƒ«ã‚´ãƒ³
+#define SPR_pet144			100310		//	ã‚´ãƒ«`ã‚´
 
-#define SPR_pet151			100311		//	¤Ê¤·
-#define SPR_pet152			100312		//	¤Ê¤·
-#define SPR_pet153			100313		//	¤Ê¤·
-#define SPR_pet154			100314		//	¤Ê¤·
+#define SPR_pet151			100311		//	ãªã—
+#define SPR_pet152			100312		//	ãªã—
+#define SPR_pet153			100313		//	ãªã—
+#define SPR_pet154			100314		//	ãªã—
 
-#define SPR_pet161			100315		//	¤Ê¤·
-#define SPR_pet162			100316		//	¤Ê¤·
-#define SPR_pet163			100317		//	¤Ê¤·
-#define SPR_pet164			100318		//	¤Ê¤·
+#define SPR_pet161			100315		//	ãªã—
+#define SPR_pet162			100316		//	ãªã—
+#define SPR_pet163			100317		//	ãªã—
+#define SPR_pet164			100318		//	ãªã—
 
-#define SPR_pet171			100319		//	¥Ò¥å©`¥Ü
-#define SPR_pet172			100320		//	¥¬¥é¥Ü¥¹
-#define SPR_pet173			100321		//	¥×¥¯¥×¥¯
-#define SPR_pet174			100322		//	¥È¥í©`¥¸¥ã
+#define SPR_pet171			100319		//	ãƒ’ãƒ¥`ãƒœ
+#define SPR_pet172			100320		//	ã‚¬ãƒ©ãƒœã‚¹
+#define SPR_pet173			100321		//	ãƒ—ã‚¯ãƒ—ã‚¯
+#define SPR_pet174			100322		//	ãƒˆãƒ­`ã‚¸ãƒ£
 
-#define SPR_pet181			100323		//	¥Û¥í©`¥ë
-#define SPR_pet182			100324		//	¥¯¥¯©`¥ë
-#define SPR_pet183			100325		//	¥ë¥Ğ¥Ğ
-#define SPR_pet184			100326		//	¥¯¥ë©`¥Ğ
+#define SPR_pet181			100323		//	ãƒ›ãƒ­`ãƒ«
+#define SPR_pet182			100324		//	ã‚¯ã‚¯`ãƒ«
+#define SPR_pet183			100325		//	ãƒ«ãƒãƒ
+#define SPR_pet184			100326		//	ã‚¯ãƒ«`ãƒ
 
-#define SPR_pet191			100327		//	¥Ù¥ë¥¬©`
-#define SPR_pet192			100328		//	¥Ù¥ë¥¤¥¬©`
-#define SPR_pet193			100329		//	¥´¥ë¥·¥¹
-#define SPR_pet194			100330		//	¥­¥ó¥°¥µ©`¥Ù¥ë
+#define SPR_pet191			100327		//	ãƒ™ãƒ«ã‚¬`
+#define SPR_pet192			100328		//	ãƒ™ãƒ«ã‚¤ã‚¬`
+#define SPR_pet193			100329		//	ã‚´ãƒ«ã‚·ã‚¹
+#define SPR_pet194			100330		//	ã‚­ãƒ³ã‚°ã‚µ`ãƒ™ãƒ«
 
-#define SPR_pet201			100331		//	¤Ê¤·
-#define SPR_pet202			100332		//	¤Ê¤·
-#define SPR_pet203			100333		//	¤Ê¤·
-#define SPR_pet204			100334		//	¤Ê¤·
+#define SPR_pet201			100331		//	ãªã—
+#define SPR_pet202			100332		//	ãªã—
+#define SPR_pet203			100333		//	ãªã—
+#define SPR_pet204			100334		//	ãªã—
 
-#define SPR_pet211			100335		//	¥È¥ê¥Î¥×¥¹
-#define SPR_pet212			100336		//	¥Ú¥ó¥¿¥¹
-#define SPR_pet213			100337		//	¥È¥ê¥±¥é©`
-#define SPR_pet214			100338		//	¥È¥í¥×¥¹
+#define SPR_pet211			100335		//	ãƒˆãƒªãƒãƒ—ã‚¹
+#define SPR_pet212			100336		//	ãƒšãƒ³ã‚¿ã‚¹
+#define SPR_pet213			100337		//	ãƒˆãƒªã‚±ãƒ©`
+#define SPR_pet214			100338		//	ãƒˆãƒ­ãƒ—ã‚¹
 
-#define SPR_pet221			100339		//	¥³¥Ğ¥ó¥±¥¹
-#define SPR_pet222			100340		//	¥¸¥ã¥°¥é
-#define SPR_pet223			100341		//	¥¸¥ã©`¥°
-#define SPR_pet224			100342		//	¥Ğ¥ó¥¸©`
+#define SPR_pet221			100339		//	ã‚³ãƒãƒ³ã‚±ã‚¹
+#define SPR_pet222			100340		//	ã‚¸ãƒ£ã‚°ãƒ©
+#define SPR_pet223			100341		//	ã‚¸ãƒ£`ã‚°
+#define SPR_pet224			100342		//	ãƒãƒ³ã‚¸`
 
-#define SPR_pet231			100343		//	¥®¥¬¥í¥¹
-#define SPR_pet232			100344		//	¥®©`¥Ê
-#define SPR_pet233			100345		//	¥®¥¬¥ó¥Ü¥¹
-#define SPR_pet234			100346		//	¥¬¥¬¥®¥ó¥Ü
+#define SPR_pet231			100343		//	ã‚®ã‚¬ãƒ­ã‚¹
+#define SPR_pet232			100344		//	ã‚®`ãƒŠ
+#define SPR_pet233			100345		//	ã‚®ã‚¬ãƒ³ãƒœã‚¹
+#define SPR_pet234			100346		//	ã‚¬ã‚¬ã‚®ãƒ³ãƒœ
 
-#define SPR_pet241			100347		//	¥Ñ©`¥­©`
-#define SPR_pet242			100348		//	¥à©`¥¤©`
-#define SPR_pet243			100349		//	¥·¥Ü©`¥º
-#define SPR_pet244			100350		//	¥È¥ë©`¥İ©`
+#define SPR_pet241			100347		//	ãƒ‘`ã‚­`
+#define SPR_pet242			100348		//	ãƒ `ã‚¤`
+#define SPR_pet243			100349		//	ã‚·ãƒœ`ã‚º
+#define SPR_pet244			100350		//	ãƒˆãƒ«`ãƒ`
 
-#define SPR_pet251			100351		//	¥Ö¥í¥ó¥È¥¹
-#define SPR_pet252			100352		//	¥Ö¥ê¥ó¥Æ¥¹
-#define SPR_pet253			100353		//	¥Ö¥é¥­¥È¥¹
-#define SPR_pet254			100354		//	¥¹¥Æ¥ó¥È¥¹
+#define SPR_pet251			100351		//	ãƒ–ãƒ­ãƒ³ãƒˆã‚¹
+#define SPR_pet252			100352		//	ãƒ–ãƒªãƒ³ãƒ†ã‚¹
+#define SPR_pet253			100353		//	ãƒ–ãƒ©ã‚­ãƒˆã‚¹
+#define SPR_pet254			100354		//	ã‚¹ãƒ†ãƒ³ãƒˆã‚¹
 
-#define SPR_pet261			100355		//	¥Ş¥ó¥â©`
-#define SPR_pet262			100356		//	¥ó¥â¥â
-#define SPR_pet263			100357		//	¥Ş¥â¥Ê¥¹
-#define SPR_pet264			100358		//	¥Ş¥ó¥â¥í¥¹
+#define SPR_pet261			100355		//	ãƒãƒ³ãƒ¢`
+#define SPR_pet262			100356		//	ãƒ³ãƒ¢ãƒ¢
+#define SPR_pet263			100357		//	ãƒãƒ¢ãƒŠã‚¹
+#define SPR_pet264			100358		//	ãƒãƒ³ãƒ¢ãƒ­ã‚¹
 
-#define SPR_pet271			100359		//	¥Æ¥é¥´¥ó
-#define SPR_pet272			100360		//	¥Î¥¬¥í¥ó
-#define SPR_pet273			100361		//	¥¸¥ã¥Ğ¥´¥ó
-#define SPR_pet274			100362		//	¥É¥é¥Ô¥¹
+#define SPR_pet271			100359		//	ãƒ†ãƒ©ã‚´ãƒ³
+#define SPR_pet272			100360		//	ãƒã‚¬ãƒ­ãƒ³
+#define SPR_pet273			100361		//	ã‚¸ãƒ£ãƒã‚´ãƒ³
+#define SPR_pet274			100362		//	ãƒ‰ãƒ©ãƒ”ã‚¹
 
-#define SPR_pet281			100363		//	¤Ê¤·
-#define SPR_pet282			100364		//	¤Ê¤·
-#define SPR_pet283			100365		//	¤Ê¤·
-#define SPR_pet284			100366		//	¤Ê¤·
+#define SPR_pet281			100363		//	ãªã—
+#define SPR_pet282			100364		//	ãªã—
+#define SPR_pet283			100365		//	ãªã—
+#define SPR_pet284			100366		//	ãªã—
 
-#define SPR_pet291			100367		//	¥¿¥Ã¥­©`
-#define SPR_pet292			100368		//	¥¯¥¯¥í¥¹
-#define SPR_pet293			100369		//	¥Û¥ë¥Ã¥¯
-#define SPR_pet294			100370		//	¥­¥£©`¥Ü©`
+#define SPR_pet291			100367		//	ã‚¿ãƒƒã‚­`
+#define SPR_pet292			100368		//	ã‚¯ã‚¯ãƒ­ã‚¹
+#define SPR_pet293			100369		//	ãƒ›ãƒ«ãƒƒã‚¯
+#define SPR_pet294			100370		//	ã‚­ã‚£`ãƒœ`
 
-#define SPR_pet301			100371		//	¥ª¥¬¥í¥¹
-#define SPR_pet302			100372		//	¥¾¥Ç¥£¥Î¥¹
-#define SPR_pet303			100373		//	¥Ñ¥É¥é¥ó
-#define SPR_pet304			100374		//	¥Æ¥é¥¾¥¤¥É
+#define SPR_pet301			100371		//	ã‚ªã‚¬ãƒ­ã‚¹
+#define SPR_pet302			100372		//	ã‚¾ãƒ‡ã‚£ãƒã‚¹
+#define SPR_pet303			100373		//	ãƒ‘ãƒ‰ãƒ©ãƒ³
+#define SPR_pet304			100374		//	ãƒ†ãƒ©ã‚¾ã‚¤ãƒ‰
 
-#define SPR_pet311			100375		//	¥×¥¤¥È
-#define SPR_pet312			100376		//	¥â¥Ê¥·©`¥×
-#define SPR_pet313			100377		//	¥«¥¤¥Û©`¥ó
-#define SPR_pet314			100378		//	¥é¥¤¥Û©`¥ó
+#define SPR_pet311			100375		//	ãƒ—ã‚¤ãƒˆ
+#define SPR_pet312			100376		//	ãƒ¢ãƒŠã‚·`ãƒ—
+#define SPR_pet313			100377		//	ã‚«ã‚¤ãƒ›`ãƒ³
+#define SPR_pet314			100378		//	ãƒ©ã‚¤ãƒ›`ãƒ³
 
-#define SPR_pet321			100379		//	¥¹¥È¥é¥¸¥É¥ó
-#define SPR_pet322			100380		//	¥¶¥á¥í¥¹
-#define SPR_pet323			100381		//	¥¢¥ê¥²¥Î¥¹
-#define SPR_pet324			100382		//	¥À¥¤¥Î¥í¥¹
-#define SPR_pet325			100383		//	¥é¥³¥í¥¹
+#define SPR_pet321			100379		//	ã‚¹ãƒˆãƒ©ã‚¸ãƒ‰ãƒ³
+#define SPR_pet322			100380		//	ã‚¶ãƒ¡ãƒ­ã‚¹
+#define SPR_pet323			100381		//	ã‚¢ãƒªã‚²ãƒã‚¹
+#define SPR_pet324			100382		//	ãƒ€ã‚¤ãƒãƒ­ã‚¹
+#define SPR_pet325			100383		//	ãƒ©ã‚³ãƒ­ã‚¹
 
-#define SPR_pet331			100384		//	¥Ğ¥í¥í¥¯¥¹
-#define SPR_pet332			100385		//	¥é¥ó¥Ù¥ë¥¹
-#define SPR_pet333			100386		//	¥³¥ê¥È¥í¥¹
-#define SPR_pet334			100387		//	¥Î©`¥¹¥È¥í¥¹
+#define SPR_pet331			100384		//	ãƒãƒ­ãƒ­ã‚¯ã‚¹
+#define SPR_pet332			100385		//	ãƒ©ãƒ³ãƒ™ãƒ«ã‚¹
+#define SPR_pet333			100386		//	ã‚³ãƒªãƒˆãƒ­ã‚¹
+#define SPR_pet334			100387		//	ãƒ`ã‚¹ãƒˆãƒ­ã‚¹
 
-// ĞÂÒ×·¼Ó¥Ú¥Ã¥È
-#define SPR_pet005			100388		//	ü\¹Ï
-#define SPR_pet085			100389		//	ÑÒ¥«¥¿¥ë¥«¥¹
-#define SPR_pet086			100390		//	šê¥¯¥¤¥Ã¥¿
-#define SPR_pet087			100391		//	¥Ö¥é¥Ã¥¯¥³¥í¥®¥ã¥¹
-#define SPR_pet088			100392		//	¥¢¥¹¥Õ¥¡¥ë¥È¥í¥®¥¢¥ó
-#define SPR_pet065			100393		//	ïLÊôĞÔ¥Í¥´¥¹
-#define SPR_pet095			100394		//	ïLÊôĞÔ¥ê¥¼¥Î¥É¥ó
-#define SPR_pet175			100395		//	ïLÊôĞÔ¥Ó¥å©`¥Ü
-#define SPR_pet255			100396		//	ïLÊôĞÔ¥Ö¥í¥ó¥È¥¹
+// æ–°èŠ³é¹°è® æ°“
+#define SPR_pet005			100388		//	\ç“œ
+#define SPR_pet085			100389		//	å²©ã‚«ã‚¿ãƒ«ã‚«ã‚¹
+#define SPR_pet086			100390		//	è¾šã…æ°“
+#define SPR_pet087			100391		//	ãƒ–ãƒ©ãƒƒã‚¯ã‚³ãƒ­ã‚®ãƒ£ã‚¹
+#define SPR_pet088			100392		//	ã‚¢ã‚¹ãƒ•ã‚¡ãƒ«ãƒˆãƒ­ã‚®ã‚¢ãƒ³
+#define SPR_pet065			100393		//	Lå±æ€§ãƒã‚´ã‚¹
+#define SPR_pet095			100394		//	Lå±æ€§ãƒªã‚¼ãƒãƒ‰ãƒ³
+#define SPR_pet175			100395		//	Lå±æ€§ãƒ“ãƒ¥`ãƒœ
+#define SPR_pet255			100396		//	Lå±æ€§ãƒ–ãƒ­ãƒ³ãƒˆã‚¹
 
-// ĞÂÒ×·¼Ó¥×¥ì¥¤¥ä©`¥­¥ã¥é
-#define SPR_121em			100400		//	¥¢¥Õ¥í£±	ËØÊÖ
-#define SPR_121ax			100401		//			¸«
-#define SPR_121cl			100402		//			¹÷°ô
-#define SPR_121sp			100403		//			˜Œ
-#define SPR_121bw			100404		//			¹­
+// æ–°èŠ³é¹°æŠ“æ¬¹ã…æ´`ã‚­ãƒ£ãƒ©
+#define SPR_121em			100400		//	ã‚¢ãƒ•ãƒ­ï¼‘	ç´ æ‰‹
+#define SPR_121ax			100401		//			æ–§
+#define SPR_121cl			100402		//			æ£æ£’
+#define SPR_121sp			100403		//			
+#define SPR_121bw			100404		//			å¼“
 
-#define SPR_122em			100405		//	¥¢¥Õ¥í£²	ËØÊÖ
-#define SPR_122ax			100406		//			¸«
-#define SPR_122cl			100407		//			¹÷°ô
-#define SPR_122sp			100408		//			˜Œ
-#define SPR_122bw			100409		//			¹­
+#define SPR_122em			100405		//	ã‚¢ãƒ•ãƒ­ï¼’	ç´ æ‰‹
+#define SPR_122ax			100406		//			æ–§
+#define SPR_122cl			100407		//			æ£æ£’
+#define SPR_122sp			100408		//			
+#define SPR_122bw			100409		//			å¼“
 
-#define SPR_123em			100410		//	¥¢¥Õ¥í£³	ËØÊÖ
-#define SPR_123ax			100411		//			¸«
-#define SPR_123cl			100412		//			¹÷°ô
-#define SPR_123sp			100413		//			˜Œ
-#define SPR_123bw			100414		//			¹­
+#define SPR_123em			100410		//	ã‚¢ãƒ•ãƒ­ï¼“	ç´ æ‰‹
+#define SPR_123ax			100411		//			æ–§
+#define SPR_123cl			100412		//			æ£æ£’
+#define SPR_123sp			100413		//			
+#define SPR_123bw			100414		//			å¼“
 
-#define SPR_124em			100415		//	¥¢¥Õ¥í£´	ËØÊÖ
-#define SPR_124ax			100416		//			¸«
-#define SPR_124cl			100417		//			¹÷°ô
-#define SPR_124sp			100418		//			˜Œ
-#define SPR_124bw			100419		//			¹­
+#define SPR_124em			100415		//	ã‚¢ãƒ•ãƒ­ï¼”	ç´ æ‰‹
+#define SPR_124ax			100416		//			æ–§
+#define SPR_124cl			100417		//			æ£æ£’
+#define SPR_124sp			100418		//			
+#define SPR_124bw			100419		//			å¼“
 
-#define SPR_131em			100420		//	£Ê£Ó£Ó£±	ËØÊÖ
-#define SPR_131ax			100421		//			¸«
-#define SPR_131cl			100422		//			¹÷°ô
-#define SPR_131sp			100423		//			˜Œ
-#define SPR_131bw			100424		//			¹­
+#define SPR_131em			100420		//	ï¼ªï¼³ï¼³ï¼‘	ç´ æ‰‹
+#define SPR_131ax			100421		//			æ–§
+#define SPR_131cl			100422		//			æ£æ£’
+#define SPR_131sp			100423		//			
+#define SPR_131bw			100424		//			å¼“
 
-#define SPR_132em			100425		//	£Ê£Ó£Ó£²	ËØÊÖ
-#define SPR_132ax			100426		//			¸«
-#define SPR_132cl			100427		//			¹÷°ô
-#define SPR_132sp			100428		//			˜Œ
-#define SPR_132bw			100429		//			¹­
+#define SPR_132em			100425		//	ï¼ªï¼³ï¼³ï¼’	ç´ æ‰‹
+#define SPR_132ax			100426		//			æ–§
+#define SPR_132cl			100427		//			æ£æ£’
+#define SPR_132sp			100428		//			
+#define SPR_132bw			100429		//			å¼“
 
-#define SPR_pet315			100430		//	¥Ñ¥ó¥À¥Û©`¥ó
+#define SPR_pet315			100430		//	ãƒ‘ãƒ³ãƒ€ãƒ›`ãƒ³
 
-#define SPR_141em			100431		//	¥²¥ó¤µ¤ó£±	ËØÊÖ
-#define SPR_141ax			100432		//			¸«
-#define SPR_141cl			100433		//			¹÷°ô
-#define SPR_141sp			100434		//			˜Œ
-#define SPR_141bw			100435		//			¹­
+#define SPR_141em			100431		//	ã‚²ãƒ³ã•ã‚“ï¼‘	ç´ æ‰‹
+#define SPR_141ax			100432		//			æ–§
+#define SPR_141cl			100433		//			æ£æ£’
+#define SPR_141sp			100434		//			
+#define SPR_141bw			100435		//			å¼“
 
-#define SPR_142em			100436		//	¥²¥ó¤µ¤ó£²	ËØÊÖ
-#define SPR_142ax			100437		//			¸«
-#define SPR_142cl			100438		//			¹÷°ô
-#define SPR_142sp			100439		//			˜Œ
-#define SPR_142bw			100440		//			¹­
+#define SPR_142em			100436		//	ã‚²ãƒ³ã•ã‚“ï¼’	ç´ æ‰‹
+#define SPR_142ax			100437		//			æ–§
+#define SPR_142cl			100438		//			æ£æ£’
+#define SPR_142sp			100439		//			
+#define SPR_142bw			100440		//			å¼“
 
-#define SPR_133em			100441		//	£Ê£Ó£Ó£³	ËØÊÖ
-#define SPR_133ax			100442		//			¸«
-#define SPR_133cl			100443		//			¹÷°ô
-#define SPR_133sp			100444		//			˜Œ
-#define SPR_133bw			100445		//			¹­
+#define SPR_133em			100441		//	ï¼ªï¼³ï¼³ï¼“	ç´ æ‰‹
+#define SPR_133ax			100442		//			æ–§
+#define SPR_133cl			100443		//			æ£æ£’
+#define SPR_133sp			100444		//			
+#define SPR_133bw			100445		//			å¼“
 
-#define SPR_151em			100446		//	ÉÙÅ®£±£µ	ËØÊÖ
-#define SPR_151ax			100447		// 			¸«
-#define SPR_151cl			100448		//			¤³¤ó°ô
-#define SPR_151sp			100449		//			˜Œ
-#define SPR_151bw			100450		//			¹­
+#define SPR_151em			100446		//	å°‘å¥³ï¼‘ï¼•	ç´ æ‰‹
+#define SPR_151ax			100447		// 			æ–§
+#define SPR_151cl			100448		//			ã“ã‚“æ£’
+#define SPR_151sp			100449		//			
+#define SPR_151bw			100450		//			å¼“
 
 #define SPR_152em			100451
 #define SPR_152ax			100452
@@ -561,11 +561,11 @@
 #define SPR_152sp			100454
 #define SPR_152bw			100455
 
-#define SPR_161em			100456		//	ÉÙÅ®£±£¶	ËØÊÖ
-#define SPR_161ax			100457		// 			¸«
-#define SPR_161cl			100458		//			¤³¤ó°ô
-#define SPR_161sp			100459		//			˜Œ
-#define SPR_161bw			100460		//			¹­
+#define SPR_161em			100456		//	å°‘å¥³ï¼‘ï¼–	ç´ æ‰‹
+#define SPR_161ax			100457		// 			æ–§
+#define SPR_161cl			100458		//			ã“ã‚“æ£’
+#define SPR_161sp			100459		//			
+#define SPR_161bw			100460		//			å¼“
 
 #define SPR_162em			100461
 #define SPR_162ax			100462
@@ -573,7 +573,7 @@
 #define SPR_162sp			100464
 #define SPR_162bw			100465
 
-//Ä¾¡¡¼°¤Ó¡¡Ê¯¥â¥ó¥¹¥¿©`
+//æœ¨ã€€åŠã³ã€€çŸ³ãƒ¢ãƒ³ã‚¹ã‚¿`
 #define SPR_mwood1			100466
 #define SPR_mwood2			100467
 #define SPR_mwood3			100468
@@ -581,49 +581,49 @@
 #define SPR_mstone2			100470
 #define SPR_mstone3			100471
 
-//¸÷·N¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_leader			100500		//	¥ê©`¥À©`¥Ş©`¥¯¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_star			100501		//	¤Ô¤è¤Ô¤è¤ÎĞÇ¥Ş©`¥¯¥¢¥Ë¥á
-#define SPR_boomerang		100502		//	¥Ö©`¥á¥é¥ó¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_stornbomb		100503		//	Ê¯¤Î³Z¤±¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_ono				100504		//	Í¶¤²¸«¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_onokage			100505		//	Í¶¤²¸«¤ÎÓ°¤±¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_isiware			100506		//	Ê¯¸î¤ì¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_mail			100507		//	¥á©`¥ë×ÅĞÅ¥¢¥Ë¥á©`¥·¥ç¥ó
-//„¿¹û¥¢¥Ë¥á
-#define SPR_stone			100550		//	Ê¯»¯„¿¹û¥¢¥Ë¥á
-#define SPR_shock			100551		//	Âé¯w„¿¹û¥¢¥Ë¥á
-#define SPR_drunk			100552		//	áE¤¤„¿¹û¥¢¥Ë¥á
-#define SPR_sleep			100553		//	Ãß¤ê„¿¹û¥¢¥Ë¥á
-#define SPR_conf			100554		//	»ìÂÒ„¿¹û¥¢¥Ë¥á
-#define SPR_poison			100555		//	¶¾„¿¹û¥¢¥Ë¥á
-#define SPR_zokusei			100556		//	ÊôĞÔ‰ä“Q„¿¹û¥¢¥Ë¥á
-//…âĞg¥¨¥Õ¥§¥¯¥È¥¢¥Ë¥á©`¥·¥ç¥ó ÄîÖäĞ§¹û¶¯»­
-#define SPR_effect01		100600		//	…âĞg¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_heal			100601		//	…âĞg¥¢¥Ë¥á©`¥·¥ç¥ó£¨»ØÍ£±£©
-#define SPR_heal2			100602		//	…âĞg¥¢¥Ë¥á©`¥·¥ç¥ó£¨»ØÍ£²£©
-#define SPR_heal3			100603		//	…âĞg¥¢¥Ë¥á©`¥·¥ç¥ó£¨»ØÍ£³£©
-#define SPR_tyusya			100604		//	…âĞg¥¢¥Ë¥á©`¥·¥ç¥ó£¨¥¹¥Æ©`¥¿¥¹®³£»ØÍ£©
-#define SPR_hoshi			100605		//	…âĞg¤ò¤«¤±¤é¤ì¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_kyu				100606		//	¥¹¥Æ©`¥¿¥¹»ØÍ…âĞg¤ò¤«¤±¤é¤ì¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_fukkatu1		100607		//	Í»î£¨£±£©¤ò¤«¤±¤é¤ì¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_fukkatu2		100608		//	Í»î£¨£²£©¤ò¤«¤±¤é¤ì¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_fukkatu3		100609		//	Í»î£¨£³£©¤ò¤«¤±¤é¤ì¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_difence			100610		//	·ÀÓùÏµ…âĞg¤ò¤«¤±¤é¤ì¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_item			100611		//	¥¢¥¤¥Æ¥à¤òÊ¹ÓÃ¤·¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_item3			100612		//	¥¢¥¤¥Æ¥à¤òÊ¹ÓÃ¤·¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
-//·ÀÓùÏµ…âĞg¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_mirror			100650		//	·´Éä¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_barrior			100651		//	¥Ğ¥ê¥¢¥¢¥Ë¥á©`¥·¥ç¥ó
-#define SPR_kyusyu			100652		//	Îü…§¤·¤¿¤È¤­¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
+//å„Nã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_leader			100500		//	ãƒª`ãƒ€`ãƒ`ã‚¯ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_star			100501		//	ã´ã‚ˆã´ã‚ˆã®æ˜Ÿãƒ`ã‚¯ã‚¢ãƒ‹ãƒ¡
+#define SPR_boomerang		100502		//	ãƒ–`ãƒ¡ãƒ©ãƒ³ã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_stornbomb		100503		//	çŸ³ã®Zã‘ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_ono				100504		//	æŠ•ã’æ–§ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_onokage			100505		//	æŠ•ã’æ–§ã®å½±ã‘ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_isiware			100506		//	çŸ³å‰²ã‚Œã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_mail			100507		//	ãƒ¡`ãƒ«ç€ä¿¡ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+//æŠ—è¡°
+#define SPR_stone			100550		//	çŸ³åŒ–æŠ—è¡°
+#define SPR_shock			100551		//	éº»wæŠ—è¡°
+#define SPR_drunk			100552		//	Eã„æŠ—è¡°
+#define SPR_sleep			100553		//	çœ ã‚ŠæŠ—è¡°
+#define SPR_conf			100554		//	æ··ä¹±æŠ—è¡°
+#define SPR_poison			100555		//	æ¯’æŠ—è¡°
+#define SPR_zokusei			100556		//	å±æ€§QæŠ—è¡°
+//åº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ å¿µå’’æ•ˆæœåŠ¨ç”»
+#define SPR_effect01		100600		//	åº‘gã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_heal			100601		//	åº‘gã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ï¼ˆå›ï¼‘ï¼‰
+#define SPR_heal2			100602		//	åº‘gã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ï¼ˆå›ï¼’ï¼‰
+#define SPR_heal3			100603		//	åº‘gã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ï¼ˆå›ï¼“ï¼‰
+#define SPR_tyusya			100604		//	åº‘gã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ï¼ˆã‚¹ãƒ†`ã‚¿ã‚¹å¸¸å›ï¼‰
+#define SPR_hoshi			100605		//	åº‘gã‚’ã‹ã‘ã‚‰ã‚ŒãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_kyu				100606		//	ã‚¹ãƒ†`ã‚¿ã‚¹å›åº‘gã‚’ã‹ã‘ã‚‰ã‚ŒãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_fukkatu1		100607		//	æ´»ï¼ˆï¼‘ï¼‰ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_fukkatu2		100608		//	æ´»ï¼ˆï¼’ï¼‰ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_fukkatu3		100609		//	æ´»ï¼ˆï¼“ï¼‰ã‚’ã‹ã‘ã‚‰ã‚ŒãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_difence			100610		//	é˜²å¾¡ç³»åº‘gã‚’ã‹ã‘ã‚‰ã‚ŒãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_item			100611		//	ã‚¢ã‚¤ãƒ†ãƒ ã‚’ä½¿ç”¨ã—ãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_item3			100612		//	ã‚¢ã‚¤ãƒ†ãƒ ã‚’ä½¿ç”¨ã—ãŸã¨ãã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+//é˜²å¾¡ç³»åº‘gã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_mirror			100650		//	åå°„ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_barrior			100651		//	ãƒãƒªã‚¢ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
+#define SPR_kyusyu			100652		//	å¸Ğ“ç­éƒ¡è¶£è¿è¡°å²`ã‚·ãƒ§ãƒ³
 
-// ¤³¤³¤«¤é¤Ï¡¢£Ó£Ğ£Ò¥Ç©`¥¿¤Ç¤Ï¤Ê¤¤ ******* ´ÓÕâÀï£¬SPRÊı¾İ¡£*********************************************/
-#define CG_INVISIBLE				99	// ¤³¤ìÒÔÏÂ¤Ï»­Ãæ¤ËÃè»­¤µ¤ì¤Ê¤¤  ÕâÒÔÏÂ»­Ãæ±»Ãè»­¡£
+// ã“ã“ã‹ã‚‰ã¯ã€ï¼³ï¼°ï¼²ãƒ‡`ã‚¿ã§ã¯ãªã„ ******* ä»è¿™é‡Œï¼ŒSPRæ•°æ®ã€‚*********************************************/
+#define CG_INVISIBLE				99	// ã“ã‚Œä»¥ä¸‹ã¯ç”»é¢ã«æç”»ã•ã‚Œãªã„  è¿™ä»¥ä¸‹ç”»é¢è¢«æç”»ã€‚
 //#define CG_GRID_CURSOR		99
-#define CG_MOUSE_CURSOR		24316    //Êó±ê25000
+#define CG_MOUSE_CURSOR		24316    //é¼ æ ‡25000
 #define CG_GRID_CURSOR		25001    //
 
-// ¥×¥ì¥¤¥ä©`¤Î¥Ğ¥È¥ë¥Ü¥¿¥ó  Íæ¼ÒÕ½¶·°´Å¥
+// ãƒ—ãƒ¬ã‚¤ãƒ¤`ã®ãƒãƒˆãƒ«ãƒœã‚¿ãƒ³  ç©å®¶æˆ˜æ–—æŒ‰é’®
 #define CG_BTL_BUTTON_ATTACK_UP		25100
 #define CG_BTL_BUTTON_ATTACK_DOWN	25101
 #define CG_BTL_BUTTON_JUJUTU_UP		25102
@@ -640,56 +640,56 @@
 #define CG_BTL_BUTTON_PET_DOWN		25113
 #define CG_BTL_BUTTON_ESCAPE_UP		25114
 #define CG_BTL_BUTTON_ESCAPE_DOWN	25115
-#define CG_BTL_BUTTON_BASE			25116	// ¥Ü¥¿¥ó¤ÎÍÁÌ¨
-#define CG_BTL_BUTTON_CROSS			25117	// ¡Á¥Ü¥¿¥ó
+#define CG_BTL_BUTTON_BASE			25116	// ãƒœã‚¿ãƒ³ã®åœŸå°
+#define CG_BTL_BUTTON_CROSS			25117	// Ã—ãƒœã‚¿ãƒ³
 
-// ÊôĞÔ¥¢¥¤¥³¥ó
-#define CG_ATR_ICON_EARTH_BIG		25120	// ¡¸µØ¡¹´ó
-#define CG_ATR_ICON_EARTH_MDL		25121	// ¡¸µØ¡¹ÖĞ
-#define CG_ATR_ICON_EARTH_SML		25122	// ¡¸µØ¡¹Ğ¡
-#define CG_ATR_ICON_WATER_BIG		25123	// ¡¸Ë®¡¹´ó
-#define CG_ATR_ICON_WATER_MDL		25124	// ¡¸Ë®¡¹ÖĞ
-#define CG_ATR_ICON_WATER_SML		25125	// ¡¸Ë®¡¹Ğ¡
-#define CG_ATR_ICON_FIRE_BIG		25126	// ¡¸»ğ¡¹´ó
-#define CG_ATR_ICON_FIRE_MDL		25127	// ¡¸»ğ¡¹ÖĞ
-#define CG_ATR_ICON_FIRE_SML		25128	// ¡¸»ğ¡¹Ğ¡
-#define CG_ATR_ICON_WIND_BIG		25129	// ¡¸ïL¡¹´ó
-#define CG_ATR_ICON_WIND_MDL		25130	// ¡¸ïL¡¹ÖĞ
-#define CG_ATR_ICON_WIND_SML		25131	// ¡¸ïL¡¹Ğ¡
+// å±æ€§ã‚¢ã‚¤ã‚³ãƒ³
+#define CG_ATR_ICON_EARTH_BIG		25120	// ã€Œåœ°ã€å¤§
+#define CG_ATR_ICON_EARTH_MDL		25121	// ã€Œåœ°ã€ä¸­
+#define CG_ATR_ICON_EARTH_SML		25122	// ã€Œåœ°ã€å°
+#define CG_ATR_ICON_WATER_BIG		25123	// ã€Œæ°´ã€å¤§
+#define CG_ATR_ICON_WATER_MDL		25124	// ã€Œæ°´ã€ä¸­
+#define CG_ATR_ICON_WATER_SML		25125	// ã€Œæ°´ã€å°
+#define CG_ATR_ICON_FIRE_BIG		25126	// ã€Œç«ã€å¤§
+#define CG_ATR_ICON_FIRE_MDL		25127	// ã€Œç«ã€ä¸­
+#define CG_ATR_ICON_FIRE_SML		25128	// ã€Œç«ã€å°
+#define CG_ATR_ICON_WIND_BIG		25129	// ã€ŒLã€å¤§
+#define CG_ATR_ICON_WIND_MDL		25130	// ã€ŒLã€ä¸­
+#define CG_ATR_ICON_WIND_SML		25131	// ã€ŒLã€å°
 
-// ‘éêLÖĞÊôĞÔ¥¢¥¤¥³¥ó
-#define CG_ATR_ICON_EARTH_BATTLE	25132	// ¡¸µØ¡¹
-#define CG_ATR_ICON_WATER_BATTLE	25133	// ¡¸Ë®¡¹
-#define CG_ATR_ICON_FIRE_BATTLE		25134	// ¡¸»ğ¡¹
-#define CG_ATR_ICON_WIND_BATTLE		25135	// ¡¸ïL¡¹
+// æ®›Lä¸­å±æ€§ã‚¢ã‚¤ã‚³ãƒ³
+#define CG_ATR_ICON_EARTH_BATTLE	25132	// ã€Œåœ°ã€
+#define CG_ATR_ICON_WATER_BATTLE	25133	// ã€Œæ°´ã€
+#define CG_ATR_ICON_FIRE_BATTLE		25134	// ã€Œç«ã€
+#define CG_ATR_ICON_WIND_BATTLE		25135	// ã€ŒLã€
 
-// ¥Ú¥Ã¥È¤Î¥Ğ¥È¥ë¥Ü¥¿¥ó
-#define CG_PET_BTL_BUTTON_BASE		25140	// ¥Ü¥¿¥ó¤ÎÍÁÌ¨
-#define CG_PET_BTL_BUTTON_WAZA_UP	25141	// ¼¼¥Ü¥¿¥óÍ¹
-#define CG_PET_BTL_BUTTON_WAZA_DOWN	25142	// ¼¼¥Ü¥¿¥ó°¼
-#define CG_PET_BTL_BUTTON_CANCEL_UP	25143	// ¥­¥ã¥ó¥»¥ë¥Ü¥¿¥óÍ¹
+// ãƒšãƒƒãƒˆã®ãƒãƒˆãƒ«ãƒœã‚¿ãƒ³
+#define CG_PET_BTL_BUTTON_BASE		25140	// ãƒœã‚¿ãƒ³ã®åœŸå°
+#define CG_PET_BTL_BUTTON_WAZA_UP	25141	// æŠ€ãƒœã‚¿ãƒ³å‡¸
+#define CG_PET_BTL_BUTTON_WAZA_DOWN	25142	// æŠ€ãƒœã‚¿ãƒ³å‡¹
+#define CG_PET_BTL_BUTTON_CANCEL_UP	25143	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³å‡¸
 
-// ¥Ò¥Ã¥È¥Ş©`¥¯
-#define CG_HIT_MARK_00				25500	// ĞÇ´ó
-#define CG_HIT_MARK_01				25501	// ĞÇĞ¡
+// ãƒ’ãƒƒãƒˆãƒ`ã‚¯
+#define CG_HIT_MARK_00				25500	// æ˜Ÿå¤§
+#define CG_HIT_MARK_01				25501	// æ˜Ÿå°
 
-#define CG_HIT_MARK_10				25502	// ÇàÉ«
+#define CG_HIT_MARK_10				25502	// é’è‰²
 #define CG_HIT_MARK_11				25503
 #define CG_HIT_MARK_12				25504
 
-#define CG_HIT_MARK_20				25505	// ³àÉ«
+#define CG_HIT_MARK_20				25505	// èµ¤è‰²
 #define CG_HIT_MARK_21				25506
 #define CG_HIT_MARK_22				25507
 
-#define CG_HIT_MARK_30				25508	// Ë®É«
+#define CG_HIT_MARK_30				25508	// æ°´è‰²
 #define CG_HIT_MARK_31				25509
 #define CG_HIT_MARK_32				25510
 
-#define CG_HIT_MARK_40				25511	// »ÆÉ«
+#define CG_HIT_MARK_40				25511	// é»„è‰²
 #define CG_HIT_MARK_41				25512
 #define CG_HIT_MARK_42				25513
 
-// Ì¨Ô~
+// å°~
 #define CG_SPEECH_BTL_OK			25520
 #define CG_SPEECH_CHANGE			25521
 #define CG_SPEECH_GROUP				25522
@@ -697,7 +697,7 @@
 #define CG_SPEECH_YATTA				25524
 #define CG_SPEECH_HELP				25525
 
-// ¥¨¥ó¥«¥¦¥ó¥È¥Ş©`¥¯  ÓöµĞ±êÖ¾
+// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆãƒ`ã‚¯  é‡æ•Œæ ‡å¿—
 #define CG_VS_MARK_1A				25610
 #define CG_VS_MARK_1B				25611
 #define CG_VS_MARK_2A				25612
@@ -719,7 +719,7 @@
 #define CG_VS_MARK_10A				25628
 #define CG_VS_MARK_10B				25629
 
-// ¹­Ê¸
+// å¼“çŸ¢
 #define CG_ARROW_00					25630
 #define CG_ARROW_01					25631
 #define CG_ARROW_02					25632
@@ -737,7 +737,7 @@
 #define CG_ARROW_14					25644
 #define CG_ARROW_15					25645
 
-// ¥«¥¦¥ó¥È¥À¥¦¥óÊı×Ö  µ¹¼ÆÊ±µÄÊı×Ö
+// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³æ•°å­—  å€’è®¡æ—¶çš„æ•°å­—
 #define CG_CNT_DOWN_0				25900
 #define CG_CNT_DOWN_1				25901
 #define CG_CNT_DOWN_2				25902
@@ -749,35 +749,35 @@
 #define CG_CNT_DOWN_8				25908
 #define CG_CNT_DOWN_9   			25909
 
-// šøÓÃ¥¦¥£¥ó¥É¥¦  Í¨ÓÃ´°¿Ú
+// æ°“Î•ï¼…è—ä¸§  é€šç”¨çª—å£
 #define CG_WND_G_0			26001
 #define CG_WND_G_1			26002
 #define CG_WND_G_2			26003
 #define CG_WND_G_3			26004
-#define CG_WND_G_4			26005  //Í¼Æ¬Ëğ»µ»¹ÊÇÊ²Ã´³ö²»À´
+#define CG_WND_G_4			26005  //å›¾ç‰‡æŸåè¿˜æ˜¯ä»€ä¹ˆå‡ºä¸æ¥
 #define CG_WND_G_5			26006
 #define CG_WND_G_6			26007
 #define CG_WND_G_7			26008
 #define CG_WND_G_8			26009
 
-// ¥¦¥£¥ó¥É¥¦¥¿¥¤¥È¥ë   ´°¿Ú±êÌâ
-#define CG_WND_TITLE_SYSTEM	26010  //ÏµÍ³  
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«   çª—å£æ ‡é¢˜
+#define CG_WND_TITLE_SYSTEM	26010  //ç³»ç»Ÿ  
 #define CG_WND_TITLE_LOGOUT	26011
-#define CG_WND_TITLE_CHAT	26015  //ÁÄÌìÉè¶¨
-#define CG_WND_TITLE_BGM	26016  //±³¾°ÒôÀÖ
+#define CG_WND_TITLE_CHAT	26015  //èŠå¤©è®¾å®š
+#define CG_WND_TITLE_BGM	26016  //èƒŒæ™¯éŸ³ä¹
 #define CG_WND_TITLE_SE		26017
 #define CG_WND_TITLE_RESULT	26018
 
-// ¥¿¥¹¥¯¥Ğ©`
+// ã‚¿ã‚¹ã‚¯ãƒ`
 #define CG_TASK_BAR_BACK		26012
 
-// ‘éêL•r¤Î£È£Ğ¤È£Í£Ğ¥Ğ©`
-#define CG_BATTLE_BAR_PLAYER		26013	// ¥×¥ì¥¤¥ä©`
-#define CG_BATTLE_BAR_PLAYER_2		26019	// ¥×¥ì¥¤¥ä©`
-#define CG_BATTLE_BAR_PET			26014	// Ëû¤ÎÈË
-#define CG_BATTLE_BAR_PET_2			26020	// ¥×¥ì¥¤¥ä©`¤Î¥Ú¥Ã¥È
+// æ®›Lrã®ï¼¨ï¼°ã¨ï¼­ï¼°ãƒ`
+#define CG_BATTLE_BAR_PLAYER		26013	// ãƒ—ãƒ¬ã‚¤ãƒ¤`
+#define CG_BATTLE_BAR_PLAYER_2		26019	// ãƒ—ãƒ¬ã‚¤ãƒ¤`
+#define CG_BATTLE_BAR_PET			26014	// ä»–ã®äºº
+#define CG_BATTLE_BAR_PET_2			26020	// ãƒ—ãƒ¬ã‚¤ãƒ¤`ã®ãƒšãƒƒãƒˆ
 
-// šøÓÃ¥¦¥£¥ó¥É¥¦£²  Í¨ÓÃ´°¿Ú2
+// æ°“Î•ï¼…è—ä¸§Î“  é€šç”¨çª—å£2
 #define CG_WND2_G_0			26021
 #define CG_WND2_G_1			26022
 #define CG_WND2_G_2			26023
@@ -788,129 +788,129 @@
 #define CG_WND2_G_7			26028
 #define CG_WND2_G_8			26029
 
-// šøÓÃ¥¦¥£¥ó¥É¥¦£³  Í¨ÓÃ´°¿Ú
-#define CG_WND3_G_7			26037	// ÏÂ¤Î¤ß¡¢ÎÄ×Ö¤ò´ò¤ÁŞz¤á¤ë¥¿¥¤¥×
+// æ°“Î•ï¼…è—ä¸§Î“  é€šç”¨çª—å£
+#define CG_WND3_G_7			26037	// ä¸‹ã®ã¿ã€æ–‡å­—ã‚’æ‰“ã¡zã‚ã‚‹ã‚¿ã‚¤ãƒ—
 #define CG_WND3_G_8			26038
 #define CG_WND3_G_9			26039
 
-// ±¾Îï¥¦¥£¥ó¥É¥¦  ÕæÕıµÄ´°¿Ú
-#define CG_BTL_PET_CHANGE_WND	26040	// ‘éêL•r¤Î¥Ú¥Ã¥ÈÈë¤ìÌæ¤¨¥¦¥£¥ó¥É¥¦
-#define CG_BTL_PET_RETURN_BTN	26041	// ‘éêL•r¤Î¥Ú¥Ã¥È‘ø¤¹¥Ü¥¿¥ó£¨šøÓÃ£©
+// æœ¬ç‰©ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦  çœŸæ­£çš„çª—å£
+#define CG_BTL_PET_CHANGE_WND	26040	// æ®›Lrã®ãƒšãƒƒãƒˆå…¥ã‚Œæ›¿ãˆã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_BTL_PET_RETURN_BTN	26041	// æ®›Lrã®ãƒšãƒƒãƒˆæ”»å €éªè…èŒ«
 
-// šøÓÃ¥Ü¥¿¥ó
-#define CG_CLOSE_BTN			26042	// é]¤¸¤ë¥Ü¥¿¥ó£¨šøÓÃ£©
-#define CG_RETURN_BTN			26043	// ‘ø¤ë¥Ü¥¿¥ó£¨šøÓÃ£©
-#define CG_OK_BTN				26093	// £Ï£Ë¥Ü¥¿¥ó£¨šøÓÃ£©
-#define CG_CANCEL_BTN			26050	// ¥­¥ã¥ó¥»¥ë¥Ü¥¿¥ó£¨šøÓÃ£©
+// æ°“å €éª
+#define CG_CLOSE_BTN			26042	// ]ã˜ã‚‹ãƒœã‚¿ãƒ³ï¼ˆèŒ«
+#define CG_RETURN_BTN			26043	// æ¯³å €éªè…èŒ«
+#define CG_OK_BTN				26093	// ï¼¯ï¼«ãƒœã‚¿ãƒ³ï¼ˆèŒ«
+#define CG_CANCEL_BTN			26050	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³ï¼ˆèŒ«
 
-#define CG_YES_BTN				26094	// ¤Ï¤¤"¥Ü¥¿¥ó  ÊÇ¡±°´Å¥
-#define CG_NO_BTN				26095	// "¤¤¤¤¤¨"¥Ü¥¿¥ó  ²»ÊÇ
-#define CG_EXIT_BTN				26096	// "?£S}""³ö¤ë"¥Ü¥¿¥ó  ³öÈ¥
-#define CG_SEAL_BTN				26097	// "?×…X""‰Ó¤ë"¥Ü¥¿¥ó Âò
-#define CG_BUY_BTN				26098	// "?R?i""ÙI¤¦"¥Ü¥¿¥ó Âô
+#define CG_YES_BTN				26094	// ã¯ã„"ãƒœã‚¿ãƒ³  æ˜¯â€æŒ‰é’®
+#define CG_NO_BTN				26095	// "ã„ã„ãˆ"ãƒœã‚¿ãƒ³  ä¸æ˜¯
+#define CG_EXIT_BTN				26096	// "?S}""å‡ºã‚‹"ãƒœã‚¿ãƒ³  å‡ºå»
+#define CG_SEAL_BTN				26097	// "?X""å©´"ãƒœã‚¿ãƒ³ ä¹°
+#define CG_BUY_BTN				26098	// "?R?i""Iã†"ãƒœã‚¿ãƒ³ å–
 
-// ¥Ú¥Ã¥È¥¦¥£¥ó¥É¥¦  ³èÎï´°¿Ú
-#define CG_PET_WND_VIEW			26044	// ¥Ú¥Ã¥È¥¹¥Æ©`¥¿¥¹Ò»ÓE¥¦¥£¥ó¥É¥¦  ³èÎïÊôĞÔÒ»ÀÀ´°¿Ú
-#define CG_PET_WND_DETAIL		26045	// ¥Ú¥Ã¥È¤ÎÔ”¼š¥¦¥£¥ó¥É¥¦  ³èÎïµÄÏêÏ¸´°¿Ú
+// ãƒšãƒƒãƒˆã‚¦ã‚£ãƒ³ãƒ‰ã‚¦  å® ç‰©çª—å£
+#define CG_PET_WND_VIEW			26044	// ãƒšãƒƒãƒˆã‚¹ãƒ†`ã‚¿ã‚¹ä¸€Eã‚¦ã‚£ãƒ³ãƒ‰ã‚¦  å® ç‰©å±æ€§ä¸€è§ˆçª—å£
+#define CG_PET_WND_DETAIL		26045	// ãƒšãƒƒãƒˆã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦  å® ç‰©çš„è¯¦ç»†çª—å£
 
-#define CG_PET_WND_WAZA_BTN		26046	// ¼¼¥Ü¥¿¥ó£¨šøÓÃ£©  ³èÎï¼¼ÄÜ°´Å¥£¨Í¨ÓÃ
-//#define CG_PREV_BTN				26047	// Ç°¤ËÇĞ¤êÌæ¤¨¤ë¥Ü¥¿¥ó£¨šøÓÃ£©
-//#define CG_NEXT_BTN				26048	// ´Î¤ËÇĞ¤êÌæ¤¨¤ë¥Ü¥¿¥ó£¨šøÓÃ£©
-#define CG_NAME_CHANGE_WND		26049	// ÃûÇ°‰ä¸ü¥¦¥£¥ó¥É¥¦  ¸ü¸ÄĞÕÃû
-//#define CG_NAME_CHANGE_BTN		26051	// ÃûÇ°‰ä¸ü¥Ü¥¿¥ó
-#define CG_NAME_CHANGE_BTN		26058	// ÃûÇ°‰ä¸ü¥Ü¥¿¥óÍ¹  ¸ü¸ÄĞÕÃû
-#define CG_NAME_CHANGE_BTN_DOWN	26059	// ÃûÇ°‰ä¸ü¥Ü¥¿¥ó°¼
+#define CG_PET_WND_WAZA_BTN		26046	// æŠ€ãƒœã‚¿ãƒ³ï¼ˆèŒ«  å® ç‰©æŠ€èƒ½æŒ‰é’®ï¼ˆé€šç”¨
+//#define CG_PREV_BTN				26047	// å‰ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ãƒœã‚¿ãƒ³ï¼ˆèŒ«
+//#define CG_NEXT_BTN				26048	// æ¬¡ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ãƒœã‚¿ãƒ³ï¼ˆèŒ«
+#define CG_NAME_CHANGE_WND		26049	// åå‰æ¶“Î•ï¼…è—ä¸§  æ›´æ”¹å§“å
+//#define CG_NAME_CHANGE_BTN		26051	// åå‰æ¶“å €éª
+#define CG_NAME_CHANGE_BTN		26058	// åå‰æ¶“å €éªç¬¸  æ›´æ”¹å§“å
+#define CG_NAME_CHANGE_BTN_DOWN	26059	// åå‰æ¶“å €éªèŸ€
 
-#define CG_PET_WND_REST_BTN		26052	// ¥Ú¥Ã¥ÈĞİ¤ß¥Ü¥¿¥ó  ³èÎïĞİÏ¢
-#define CG_PET_WND_STANDBY_BTN	26053	// ¥Ú¥Ã¥È´ı™C¥Ü¥¿¥ó  Õ½¶·
-#define CG_PET_WND_BTL_BTN		26054	// ¥Ú¥Ã¥È¥Ğ¥È¥ë¥Ü¥¿¥ó   µÈ´ı
-#define CG_PET_WND_MAIL_BTN		26055	// ¥Ú¥Ã¥È¥á©`¥ë¥Ü¥¿¥ó  ÓÊ¼ş
-#define CG_PET_WND_STATUS_BTN	26056	// ¥Ú¥Ã¥ÈÔ”¼š¥Ü¥¿¥ó   ×´Ì¬
+#define CG_PET_WND_REST_BTN		26052	// ãƒšãƒƒãƒˆä¼‘ã¿ãƒœã‚¿ãƒ³  å® ç‰©ä¼‘æ¯
+#define CG_PET_WND_STANDBY_BTN	26053	// ãƒšãƒƒãƒˆå¾…Cãƒœã‚¿ãƒ³  æˆ˜æ–—
+#define CG_PET_WND_BTL_BTN		26054	// ãƒšãƒƒãƒˆãƒãƒˆãƒ«ãƒœã‚¿ãƒ³   ç­‰å¾…
+#define CG_PET_WND_MAIL_BTN		26055	// ãƒšãƒƒãƒˆãƒ¡`ãƒ«ãƒœã‚¿ãƒ³  é‚®ä»¶
+#define CG_PET_WND_STATUS_BTN	26056	// ãƒšãƒƒãƒˆãƒœã‚¿ãƒ³   çŠ¶æ€
 
 
-// ¥¢¥¤¥Æ¥à¥¦¥£¥ó¥É¥¦  ÎïÆ·´°¿Ú
-#define CG_ITEM_WND_0		26060	// ¥¢¥¤¥Æ¥à¥¦¥£¥ó¥É¥¦ÉÏ
-#define CG_ITEM_WND_1		26061	// ¥¢¥¤¥Æ¥à¥¦¥£¥ó¥É¥¦ÏÂ
-#define CG_ITEM_WND_GOLD_DROP_BTN_UP	26062	// ¤ª½ğÂä¤È¤¹¥Ü¥¿¥óÍ¹
-#define CG_ITEM_WND_GOLD_DROP_BTN_DOWN	26063	// ¤ª½ğÂä¤È¤¹¥Ü¥¿¥ó°¼
-#define CG_ITEM_WND_GOLD_INC_BTN_UP		26064	// ¤ª½ğ‰ˆ¤ä¤¹¥Ü¥¿¥óÍ¹
-#define CG_ITEM_WND_GOLD_INC_BTN_DOWN	26065	// ¤ª½ğ‰ˆ¤ä¤¹¥Ü¥¿¥ó°¼
-#define CG_ITEM_WND_GOLD_DEC_BTN_UP		26066	// ¤ª½ğœp¤é¤¹¥Ü¥¿¥óÍ¹
-#define CG_ITEM_WND_GOLD_DEC_BTN_DOWN	26067	// ¤ª½ğœp¤é¤¹¥Ü¥¿¥ó°¼
-#define CG_JUJUTU_WND					26068	// …âĞg¥¦¥£¥ó¥É¥¦
-#define CG_ITEM_WND_JUJUTU_BTN			26069	// ¥¢¥¤¥Æ¥à¥¦¥£¥ó¥É¥¦¤Î…âĞg¥Ü¥¿¥ó
-#define CG_ITEM_WND_SELECT_WND			26070	// ßx’k¥¦¥£¥ó¥É¥¦
-#define CG_STATUS_WND_GROUP_WND			26071	// ¥¹¥Æ©`¥¿¥¹Ò»ÓE¥¦¥£¥ó¥É¥¦
-#define CG_BTL_ITEM_WND_TITLE			26072	// ‘éêL•r¤Î¥¢¥¤¥Æ¥à¥¦¥£¥ó¥É¥¦¥¿¥¤¥È¥ë
+// ã‚¢ã‚¤ãƒ†ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦  ç‰©å“çª—å£
+#define CG_ITEM_WND_0		26060	// ã‚¢ã‚¤ãƒ†ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä¸Š
+#define CG_ITEM_WND_1		26061	// ã‚¢ã‚¤ãƒ†ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä¸‹
+#define CG_ITEM_WND_GOLD_DROP_BTN_UP	26062	// ãŠé‡‘è½ã¨ã™ãƒœã‚¿ãƒ³å‡¸
+#define CG_ITEM_WND_GOLD_DROP_BTN_DOWN	26063	// ãŠé‡‘è½ã¨ã™ãƒœã‚¿ãƒ³å‡¹
+#define CG_ITEM_WND_GOLD_INC_BTN_UP		26064	// ãŠé‡‘ã‚„ã™ãƒœã‚¿ãƒ³å‡¸
+#define CG_ITEM_WND_GOLD_INC_BTN_DOWN	26065	// ãŠé‡‘ã‚„ã™ãƒœã‚¿ãƒ³å‡¹
+#define CG_ITEM_WND_GOLD_DEC_BTN_UP		26066	// ãŠé‡‘pã‚‰ã™ãƒœã‚¿ãƒ³å‡¸
+#define CG_ITEM_WND_GOLD_DEC_BTN_DOWN	26067	// ãŠé‡‘pã‚‰ã™ãƒœã‚¿ãƒ³å‡¹
+#define CG_JUJUTU_WND					26068	// åº‘gã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_ITEM_WND_JUJUTU_BTN			26069	// ã‚¢ã‚¤ãƒ†ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®åº‘gãƒœã‚¿ãƒ³
+#define CG_ITEM_WND_SELECT_WND			26070	// xkã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_STATUS_WND_GROUP_WND			26071	// ã‚¹ãƒ†`ã‚¿ã‚¹ä¸€Eã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_BTL_ITEM_WND_TITLE			26072	// æ®›Lrã®ã‚¢ã‚¤ãƒ†ãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«
 
-// ¥¹¥Æ©`¥¿¥¹¥¦¥£¥ó¥É¥¦
-#define CG_STATUS_WND					26073	// ¥×¥ì¥¤¥ä©`¥¹¥Æ©`¥¿¥¹¥¦¥£¥ó¥É¥¦
-#define CG_STATUS_WND_VICTORY_MARK		26074	// ßB„Ù¥Ş©`¥¯
-#define CG_STATUS_WND_LV_UP_POINT		26075	// ¥ì¥Ù¥ë¥¢¥Ã¥×ÎÄ×Ö
-#define CG_STATUS_WND_UP_BTN_UP			26076	// ¥¹¥Æ©`¥¿¥¹¥¢¥Ã¥×¥Ü¥¿¥óÍ¹
-#define CG_STATUS_WND_UP_BTN_DOWN		26077	// ¥¹¥Æ©`¥¿¥¹¥¢¥Ã¥×¥Ü¥¿¥ó°¼
-#define CG_STATUS_WND_SHOUGOU_BTN_UP	26078	// ³ÆºÅ¥Ü¥¿¥óÍ¹
-#define CG_STATUS_WND_SHOUGOU_BTN_DOWN	26079	// ³ÆºÅ¥Ü¥¿¥ó°¼
-#define CG_STATUS_WND_GROUP_BTN			26080	// ¥°¥ë©`¥×Ò»ÓE¥Ü¥¿¥ó
+// ã‚¹ãƒ†`ã‚¿ã‚¹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_STATUS_WND					26073	// ãƒ—ãƒ¬ã‚¤ãƒ¤`ã‚¹ãƒ†`ã‚¿ã‚¹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_STATUS_WND_VICTORY_MARK		26074	// Bä½¶è•`ã‚¯
+#define CG_STATUS_WND_LV_UP_POINT		26075	// ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—æ–‡å­—
+#define CG_STATUS_WND_UP_BTN_UP			26076	// ã‚¹ãƒ†`ã‚¿ã‚¹ã‚¢ãƒƒãƒ—ãƒœã‚¿ãƒ³å‡¸
+#define CG_STATUS_WND_UP_BTN_DOWN		26077	// ã‚¹ãƒ†`ã‚¿ã‚¹ã‚¢ãƒƒãƒ—ãƒœã‚¿ãƒ³å‡¹
+#define CG_STATUS_WND_SHOUGOU_BTN_UP	26078	// ç§°å·ãƒœã‚¿ãƒ³å‡¸
+#define CG_STATUS_WND_SHOUGOU_BTN_DOWN	26079	// ç§°å·ãƒœã‚¿ãƒ³å‡¹
+#define CG_STATUS_WND_GROUP_BTN			26080	// ã‚°ãƒ«`ãƒ—ä¸€Eãƒœã‚¿ãƒ³
 
-// ¥Ş¥Ã¥×¥¦¥£¥ó¥É¥¦
-#define CG_MAP_WND						26081	// ¥Ş¥Ã¥×¥¦¥£¥ó¥É¥¦
+// ãƒãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_MAP_WND						26081	// ãƒãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 
-// ¥á©`¥ë¥¦¥£¥ó¥É¥¦
-#define CG_MAIL_WND						26082	// ¥á©`¥ë¥¦¥£¥ó¥É¥¦
-#define CG_MAIL_WND_SEND_WND			26200	// ¥á©`¥ëËÍĞÅ¥¦¥£¥ó¥É¥¦
-#define CG_MAIL_WND_PET_SEND_WND		26201	// ¥á©`¥ë¤È¥Ú¥Ã¥ÈËÍĞÅ¥¦¥£¥ó¥É¥¦
-#define CG_MAIL_WND_ITEM_BTN			26202	// ¥¢¥¤¥Æ¥à¥Ü¥¿¥ó
-#define CG_MAIL_WND_HISTORY_WND			26203	// ¥á©`¥ëÂÄšs¥¦¥£¥ó¥É¥¦
+// ãƒ¡`ãƒ«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_MAIL_WND						26082	// ãƒ¡`ãƒ«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_MAIL_WND_SEND_WND			26200	// ãƒ¡`ãƒ«é€ä¿¡ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_MAIL_WND_PET_SEND_WND		26201	// ãƒ¡`ãƒ«ã¨ãƒšãƒƒãƒˆé€ä¿¡ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_MAIL_WND_ITEM_BTN			26202	// ã‚¢ã‚¤ãƒ†ãƒ ãƒœã‚¿ãƒ³
+#define CG_MAIL_WND_HISTORY_WND			26203	// ãƒ¡`ãƒ«å±¥sã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 
-//#define CG_MAIL_WND_MAIL_BTN			26083	// ¥á©`¥ë¥Ü¥¿¥ó
-#define CG_MAIL_WND_ON_LINE_SUN_BTN		26084	// £Ï£Î¥é¥¤¥ó¥Ü¥¿¥ó¡¸£Ó£Õ£Î¡¹
-#define CG_MAIL_WND_ON_LINE_MOON_BTN	26088	// £Ï£Î¥é¥¤¥ó¥Ü¥¿¥ó¡¸£Í£Ï£Ï£Î¡¹
-#define CG_MAIL_WND_OFF_LINE_BTN		26085	// £Ï£Æ£Æ¥é¥¤¥ó¥Ü¥¿¥ó
-#define CG_MAIL_WND_MAIL_BTN			26086	// ÂÄšs¥Ü¥¿¥ó
-#define CG_MAIL_WND_DELETE_BTN			26087	// Ï÷³ı¥Ü¥¿¥ó
-#define CG_MAIL_WND_CLEAR_BTN_UP		26172	// ÎÄÕÂ¥¯¥ê¥¢¥Ü¥¿¥óÍ¹
-#define CG_MAIL_WND_CLEAR_BTN_DOWN		26173	// ÎÄÕÂ¥¯¥ê¥¢¥Ü¥¿¥ó°¼
-#define CG_SEND_BTN						26099	// "?e?H""ËÍĞÅ"¥Ü¥¿¥óÍ¹
-#define CG_SEND_BTN_DOWN				26174	// "?e?H""ËÍĞÅ"¥Ü¥¿¥ó°¼
+//#define CG_MAIL_WND_MAIL_BTN			26083	// ãƒ¡`ãƒ«ãƒœã‚¿ãƒ³
+#define CG_MAIL_WND_ON_LINE_SUN_BTN		26084	// ï¼¯ï¼®ãƒ©ã‚¤ãƒ³ãƒœã‚¿ãƒ³ã€Œï¼³ï¼µï¼®ã€
+#define CG_MAIL_WND_ON_LINE_MOON_BTN	26088	// ï¼¯ï¼®ãƒ©ã‚¤ãƒ³ãƒœã‚¿ãƒ³ã€Œï¼­ï¼¯ï¼¯ï¼®ã€
+#define CG_MAIL_WND_OFF_LINE_BTN		26085	// ï¼¯ï¼¦ï¼¦ãƒ©ã‚¤ãƒ³ãƒœã‚¿ãƒ³
+#define CG_MAIL_WND_MAIL_BTN			26086	// å±¥sãƒœã‚¿ãƒ³
+#define CG_MAIL_WND_DELETE_BTN			26087	// å‰Šé™¤ãƒœã‚¿ãƒ³
+#define CG_MAIL_WND_CLEAR_BTN_UP		26172	// æ–‡ç« ã‚¯ãƒªã‚¢ãƒœã‚¿ãƒ³å‡¸
+#define CG_MAIL_WND_CLEAR_BTN_DOWN		26173	// æ–‡ç« ã‚¯ãƒªã‚¢ãƒœã‚¿ãƒ³å‡¹
+#define CG_SEND_BTN						26099	// "?e?H""é€ä¿¡"ãƒœã‚¿ãƒ³å‡¸
+#define CG_SEND_BTN_DOWN				26174	// "?e?H""é€ä¿¡"ãƒœã‚¿ãƒ³å‡¹
 
-// ¥¢¥ë¥Ğ¥à¥¦¥£¥ó¥É¥¦
-#define CG_ALBUM_WND					26230	// ¥¢¥ë¥Ğ¥à¥¦¥£¥ó¥É¥¦
-#define CG_ALBUM_WND_NEW_ICON			26231	// ĞÂÒ¥¢¥¤¥³¥ó
-#define CG_ALBUM_WND_SNAP_BTN_UP		26170	// Ğ´Õæ¤ò´é¤ëÍ¹
-#define CG_ALBUM_WND_SNAP_BTN_DOWN		26171	// Ğ´Õæ¤ò´é¤ë°¼
+// ã‚¢ãƒ«ãƒãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_ALBUM_WND					26230	// ã‚¢ãƒ«ãƒãƒ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+#define CG_ALBUM_WND_NEW_ICON			26231	// æ–°ã…å¿
+#define CG_ALBUM_WND_SNAP_BTN_UP		26170	// å†™çœŸã‚’æ’®ã‚‹å‡¸
+#define CG_ALBUM_WND_SNAP_BTN_DOWN		26171	// å†™çœŸã‚’æ’®ã‚‹å‡¹
 
-// ¥Á¥ã¥Ã¥È¤ÎÎÄ×ÖµÇåh¥¦¥£¥ó¥É¥¦
+// ãƒãƒ£ãƒƒãƒˆã®æ–‡å­—ç™»hã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 #define CG_CHAT_REGISTY_WND				26232
 
-// ÎÄ×ÖÈë¤êšøÓÃ¥¦¥£¥ó¥É¥¦
-#define CG_COMMON_WIN_YORO				26090	// "?o???i?H?F???H""¤è¤í¤·¤¤¤Ç¤¹¤«"¤È•ø¤«¤ì¤¿¥¦¥£¥ó¥É¥¦
-#define CG_COMMON_YES_BTN				26091	// ¤Ï¤¤¥Ü¥¿¥ó
-#define CG_COMMON_NO_BTN				26092	// ¤¤¤¤¤¨¥Ü¥¿¥ó
+// æ–‡å­—å…¥ã‚Šæ°“Î•ï¼…è—ä¸§
+#define CG_COMMON_WIN_YORO				26090	// "?o???i?H?F???H""ã‚ˆã‚ã—ã„ã§ã™ã‹"ã¨æ¬·éªÎ•ï¼…è—ä¸§
+#define CG_COMMON_YES_BTN				26091	// ã¯ã„ãƒœã‚¿ãƒ³
+#define CG_COMMON_NO_BTN				26092	// ã„ã„ãˆãƒœã‚¿ãƒ³
 
-// ¥Õ¥£©`¥ë¥É»­Ãæ¥Ü¥¿¥óî
-#define CG_FIELD_MENU_LEFT				26100	// ×óÉÏÌ¨×ù
-#define CG_FIELD_MENU_BTN_OFF			26101	// ¥á¥Ë¥å©`¥Ü¥¿¥ó¥ª¥Õ×´‘B
-#define CG_FIELD_MENU_BTN_ON			26102	// ¥á¥Ë¥å©`¥Ü¥¿¥ó¥ª¥ó×´‘B
-#define CG_FIELD_CARD_BTN_OFF			26103	// Ãû´Ì¥Ü¥¿¥ó¥ª¥Õ×´‘B
-#define CG_FIELD_CARD_BTN_ON			26104	// Ãû´Ì¥Ü¥¿¥ó¥ª¥ó×´‘B
-#define CG_FIELD_GROUP_BTN_OFF			26105	// ¥°¥ë©`¥×¥Ü¥¿¥ó¥ª¥Õ×´‘B
-#define CG_FIELD_GROUP_BTN_ON			26106	// ¥°¥ë©`¥×¥Ü¥¿¥ó¥ª¥ó×´‘B
-#define CG_FIELD_MAIL_LAMP				26107	// ¥á©`¥ëÊÜĞÅ¥é¥ó¥×
-#define CG_FIELD_MENU_RIGHT				26110	// ÓÒÉÏÌ¨×ù
-#define CG_FIELD_JOIN_BTL_BTN_OFF		26111	// ²Î‘é¥Ü¥¿¥ó¥ª¥Õ×´‘B
-#define CG_FIELD_JOIN_BTL_BTN_ON		26112	// ²Î‘é¥Ü¥¿¥ó¥ª¥ó×´‘B
-#define CG_FIELD_DUEL_BTN_OFF			26113	// Œ‘é¥Ü¥¿¥ó¥ª¥Õ×´‘B
-#define CG_FIELD_DUEL_BTN_ON			26114	// Œ‘é¥Ü¥¿¥ó¥ª¥ó×´‘B
-#define CG_FIELD_ACT_BTN_OFF			26115	// ¥¢¥¯¥·¥ç¥ó¥Ü¥¿¥ó¥ª¥Õ×´‘B
-#define CG_FIELD_ACT_BTN_ON				26116	// ¥¢¥¯¥·¥ç¥ó¥Ü¥¿¥ó¥ª¥ó×´‘B
-#define CG_FIELD_AM_PM_00				26117	// ³¯?Ò¹¥°¥é¥Õ¥£¥Ã¥¯
-#define CG_FIELD_AM_PM_01				26118	// ³¯?Ò¹¥°¥é¥Õ¥£¥Ã¥¯
-#define CG_FIELD_AM_PM_02				26119	// ³¯?Ò¹¥°¥é¥Õ¥£¥Ã¥¯
-#define CG_FIELD_AM_PM_03				26120	// ³¯?Ò¹¥°¥é¥Õ¥£¥Ã¥¯
-#define CG_FIELD_MENU_RIGHT_BACK		26121	// ÓÒÉÏÌ¨×ù¤Î¥Ğ¥Ã¥¯
+// ãƒ•ã‚£`ãƒ«ãƒ‰ç”»é¢ãƒœã‚¿ãƒ³
+#define CG_FIELD_MENU_LEFT				26100	// å·¦ä¸Šå°åº§
+#define CG_FIELD_MENU_BTN_OFF			26101	// ãƒ¡ãƒ‹ãƒ¥`ãƒœã‚¿ãƒ³ã‚ªãƒ•çŠ¶B
+#define CG_FIELD_MENU_BTN_ON			26102	// ãƒ¡ãƒ‹ãƒ¥`ãƒœã‚¿ãƒ³ã‚ªãƒ³çŠ¶B
+#define CG_FIELD_CARD_BTN_OFF			26103	// ååˆºãƒœã‚¿ãƒ³ã‚ªãƒ•çŠ¶B
+#define CG_FIELD_CARD_BTN_ON			26104	// ååˆºãƒœã‚¿ãƒ³ã‚ªãƒ³çŠ¶B
+#define CG_FIELD_GROUP_BTN_OFF			26105	// ã‚°ãƒ«`ãƒ—ãƒœã‚¿ãƒ³ã‚ªãƒ•çŠ¶B
+#define CG_FIELD_GROUP_BTN_ON			26106	// ã‚°ãƒ«`ãƒ—ãƒœã‚¿ãƒ³ã‚ªãƒ³çŠ¶B
+#define CG_FIELD_MAIL_LAMP				26107	// ãƒ¡`ãƒ«å—ä¿¡ãƒ©ãƒ³ãƒ—
+#define CG_FIELD_MENU_RIGHT				26110	// å³ä¸Šå°åº§
+#define CG_FIELD_JOIN_BTL_BTN_OFF		26111	// å‚æ¥—å €éªè—å…†B
+#define CG_FIELD_JOIN_BTL_BTN_ON		26112	// å‚æ¥—å €éªè—ç¬B
+#define CG_FIELD_DUEL_BTN_OFF			26113	// æ¥—å €éªè—å…†B
+#define CG_FIELD_DUEL_BTN_ON			26114	// æ¥—å €éªè—ç¬B
+#define CG_FIELD_ACT_BTN_OFF			26115	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒœã‚¿ãƒ³ã‚ªãƒ•çŠ¶B
+#define CG_FIELD_ACT_BTN_ON				26116	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒœã‚¿ãƒ³ã‚ªãƒ³çŠ¶B
+#define CG_FIELD_AM_PM_00				26117	// æœ?å¤œã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
+#define CG_FIELD_AM_PM_01				26118	// æœ?å¤œã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
+#define CG_FIELD_AM_PM_02				26119	// æœ?å¤œã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
+#define CG_FIELD_AM_PM_03				26120	// æœ?å¤œã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
+#define CG_FIELD_MENU_RIGHT_BACK		26121	// å³ä¸Šå°åº§ã®ãƒãƒƒã‚¯
 
-// ¥Ú¥Ã¥È¤Î¼¼¥¦¥£¥ó¥É¥¦
+// ãƒšãƒƒãƒˆã®æŠ€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 #define CG_PET_WAZA_WND		26130
 #define CG_PET_WAZA_BAR_1	26131
 #define CG_PET_WAZA_BAR_2	26132
@@ -920,16 +920,16 @@
 #define CG_PET_WAZA_BAR_6	26136
 #define CG_PET_WAZA_BAR_7	26137
 
-// ¥¢¥¤¥Æ¥à¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦
+// ã‚¢ã‚¤ãƒ†ãƒ ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 #define CG_ITEMSHOP_WIN			26138
 
-// ¼¼¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦
+// æŠ€ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 #define CG_SKILLSHOP_WIN		26139
 
-// ¤Ş¤È¤áÙI¤¤¥¦¥£¥ó¥É¥¦
+// ã¾ã¨ã‚Iã„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 #define CG_ITEMSHOP_KOSU_WIN	26140
 
-// ¥¿¥¹¥¯¥Ğ©`¥Ü¥¿¥ó
+// ã‚¿ã‚¹ã‚¯ãƒ`ãƒœã‚¿ãƒ³
 #define CG_TASK_BAR_MAP_UP		26150
 #define CG_TASK_BAR_MAP_DOWM	26151
 #define CG_TASK_BAR_STATUS_UP	26152
@@ -945,46 +945,46 @@
 #define CG_TASK_BAR_SYSTEM_UP	26162
 #define CG_TASK_BAR_SYSTEM_DOWN	26163
 
-// Ç°áá¥Ü¥¿¥ó  Ç°ºó°´Å¥
-#define CG_PREV_BTN				26180	// £¼¥Ü¥¿¥óÍ¹ ×ó¼ıÍ·
-#define CG_PREV_BTN_DOWN		26181	// £¼¥Ü¥¿¥ó°¼
-#define CG_NEXT_BTN				26182	// £¾¥Ü¥¿¥óÍ¹
-#define CG_NEXT_BTN_DOWN		26183	// £¾¥Ü¥¿¥ó°¼
+// å‰å¾Œãƒœã‚¿ãƒ³  å‰åæŒ‰é’®
+#define CG_PREV_BTN				26180	// ï¼œãƒœã‚¿ãƒ³å‡¸ å·¦ç®­å¤´
+#define CG_PREV_BTN_DOWN		26181	// ï¼œãƒœã‚¿ãƒ³å‡¹
+#define CG_NEXT_BTN				26182	// ï¼ãƒœã‚¿ãƒ³å‡¸
+#define CG_NEXT_BTN_DOWN		26183	// ï¼ãƒœã‚¿ãƒ³å‡¹
 
-#define CG_PREV_BTN2			26184	// ?¥Ü¥¿¥óÍ¹
-#define CG_PREV_BTN2_DOWN		26185	// ?¥Ü¥¿¥ó°¼
-#define CG_NEXT_BTN2			26186	// ?¥Ü¥¿¥óÍ¹
-#define CG_NEXT_BTN2_DOWN		26187	// ?¥Ü¥¿¥ó°¼
+#define CG_PREV_BTN2			26184	// ?ãƒœã‚¿ãƒ³å‡¸
+#define CG_PREV_BTN2_DOWN		26185	// ?ãƒœã‚¿ãƒ³å‡¹
+#define CG_NEXT_BTN2			26186	// ?ãƒœã‚¿ãƒ³å‡¸
+#define CG_NEXT_BTN2_DOWN		26187	// ?ãƒœã‚¿ãƒ³å‡¹
 
-#define CG_UP_BTN				26188	// ¡ø¥Ü¥¿¥óÍ¹
-#define CG_UP_BTN_DOWN			26189	// ¡ø¥Ü¥¿¥ó°¼
-#define CG_DOWN_BTN				26190	// ¨‹¥Ü¥¿¥óÍ¹
-#define CG_DOWN_BTN_DOWN		26191	// ¨‹¥Ü¥¿¥ó°¼
+#define CG_UP_BTN				26188	// â–²ãƒœã‚¿ãƒ³å‡¸
+#define CG_UP_BTN_DOWN			26189	// â–²ãƒœã‚¿ãƒ³å‡¹
+#define CG_DOWN_BTN				26190	// ãƒœã‚¿ãƒ³å‡¸
+#define CG_DOWN_BTN_DOWN		26191	// ãƒœã‚¿ãƒ³å‡¹
 
 
-// ¥¢¥¤¥³¥ó  Í¼±ê
-#define CG_ICON_FUKIDASI		26500	// ¥Á¥ã¥Ã¥ÈÈëÁ¦•ráá¤Î´µ¤­³ö¤·  ÁÄÌìÊäÈëÊ±ºóµÄ³öÀ´ÁË
-#define CG_ICON_COME_ON			26501	// ¡¸Come On!¡¹
-#define CG_ICON_GO				26502	// ¡¸Go!¡¹
-#define CG_ICON_WATCHING		26503	// ¡¸Watching¡¹
-#define CG_ICON_MISS			26504	// ¡¸Miss...¡¹
-#define CG_ICON_FAIL			26505	// ¡¸Fail...¡¹
-#define CG_ICON_GET				26506	// ¡¸Get!!¡¹
-#define CG_ICON_COUNTER			26507	// ¡¸Counter!¡¹
-#define CG_ICON_DANGER			26508	// ¡¸Danger!¡¹
-#define CG_ICON_NO				26509	// ¡¸No!¡¹
-#define CG_ICON_GUARD			26510	// ¡¸Guard!¡¹
-#define CG_ICON_ESCAPE  		26511	// ¡¸Escape!¡¹
-#define CG_ICON_CAPTURE 		26512	// ¡¸Capture!¡¹
-#define CG_ICON_LEAVE			26513	// ¡¸Leave!¡¹
-#define CG_ICON_GUARD_BREAK 	26514	// ¡¸Guard Break!¡¹
-#define CG_ICON_CRUSH		 	26515	// ¡¸Crush!¡¹
-#define CG_ICON_CAPTURE_UP	 	26516	// ¡¸Capture Up!¡¹
+// ã‚¢ã‚¤ã‚³ãƒ³  å›¾æ ‡
+#define CG_ICON_FUKIDASI		26500	// ãƒãƒ£ãƒƒãƒˆå…¥åŠ›rå¾Œã®å¹ãå‡ºã—  èŠå¤©è¾“å…¥æ—¶åçš„å‡ºæ¥äº†
+#define CG_ICON_COME_ON			26501	// ã€ŒCome On!ã€
+#define CG_ICON_GO				26502	// ã€ŒGo!ã€
+#define CG_ICON_WATCHING		26503	// ã€ŒWatchingã€
+#define CG_ICON_MISS			26504	// ã€ŒMiss...ã€
+#define CG_ICON_FAIL			26505	// ã€ŒFail...ã€
+#define CG_ICON_GET				26506	// ã€ŒGet!!ã€
+#define CG_ICON_COUNTER			26507	// ã€ŒCounter!ã€
+#define CG_ICON_DANGER			26508	// ã€ŒDanger!ã€
+#define CG_ICON_NO				26509	// ã€ŒNo!ã€
+#define CG_ICON_GUARD			26510	// ã€ŒGuard!ã€
+#define CG_ICON_ESCAPE  		26511	// ã€ŒEscape!ã€
+#define CG_ICON_CAPTURE 		26512	// ã€ŒCapture!ã€
+#define CG_ICON_LEAVE			26513	// ã€ŒLeave!ã€
+#define CG_ICON_GUARD_BREAK 	26514	// ã€ŒGuard Break!ã€
+#define CG_ICON_CRUSH		 	26515	// ã€ŒCrush!ã€
+#define CG_ICON_CAPTURE_UP	 	26516	// ã€ŒCapture Up!ã€
 
-// ¥Ú¥Ã¥È¤Îî†Ÿo¤·¥°¥é¥Õ¥£¥Ã¥¯  ³èÎïµÄÁ³ÎŞÍ¼ĞÎ
+// ãƒšãƒƒãƒˆã®oã—ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯  å® ç‰©çš„è„¸æ— å›¾å½¢
 #define CG_NOW_PAINTING			28999
 
-// ¥¿¥¤¥È¥ë  ±êÌâ
+// ã‚¿ã‚¤ãƒˆãƒ«  æ ‡é¢˜
 #define CG_LOGO				29000
 #define CG_TITLE			29001
 #define CG_TITLE_NAME_S		29002
@@ -1009,24 +1009,24 @@
 #define CG_TITLE_ID_PASS_OK		29021
 #define CG_TITLE_ID_PASS_QUIT	29022
 
-// ¥­¥ã¥é×÷³É ½ÇÉ«×÷³É °üº¬Îï¼ş
-#define CG_CHR_MAKE_SEL_BG		29030		// ĞÂÒ¥­¥ã¥éßx’k»­Ãæ  ĞÂ½ÇÉ«Ñ¡Ôñ»­Ãæ29030
-#define CG_CHR_MAKE_BG			29031		// ĞÂÒ¥­¥ã¥é¥Ñ¥é¥á©`¥¿Õñ¤ê·Ö¤±»­Ãæ
-#define CG_CHR_SEL_BG			29032		// ¥­¥ã¥é¥¯¥¿ßx’k»­Ãæ
-#define CG_CHR_SEL_LOGIN_BTN	29033		// ¥í¥°¥¤¥ó¥Ü¥¿¥ó
-#define CG_CHR_SEL_NEW_BTN		29034		// ĞÂÒ¥Ü¥¿¥ó
-#define CG_CHR_SEL_DEL_BTN		29035		// Ï÷³ı¥Ü¥¿¥ó
-#define CG_CHR_SEL_BACK_BTN		29036		// ‘ø¤ë¥Ü¥¿¥ó
-#define CG_CHR_MAKE_OK_BTN		29037		// ĞÂÒ¥­¥ã¥é ›Q¶¨¥Ü¥¿¥ó
-#define CG_CHR_MAKE_BACK_BTN	29038		// ĞÂÒ¥­¥ã¥é ‘ø¤ë¥Ü¥¿¥ó
-#define CG_CHR_MAKE_SEL2_BG		29039		// ³öÉíµØßx’k»­Ãæ
-#define CG_CHR_MAKE_HOME_NAME0	29040		// ³öÉíµØÃû¡¸¥µ¥à¥®¥ë¤Î´å¡¹
-#define CG_CHR_MAKE_HOME_NAME1	29041		// ³öÉíµØÃû¡¸¥Ş¥ê¥Ê¥¹¤Î´å¡¹
-#define CG_CHR_MAKE_HOME_NAME2	29042		// ³öÉíµØÃû¡¸¥¸¥ã¥¸¥ã¤Î´å¡¹
-#define CG_CHR_MAKE_HOME_NAME3	29043		// ³öÉíµØÃû¡¸¥«¥ë¥¿©`¥Ê¤Î´å¡¹
-#define CG_CHR_MAKE_EYE_SEL		29044		// ĞÂÒ¥­¥ã¥é Ä¿?¿Úßx’k
-#define CG_CHR_MAKE_NOSE_SEL	29045		// ĞÂÒ¥­¥ã¥é ±Ç?¿Úßx’k
-#define CG_CHR_MAKE_FACE		30000		// ¥­¥ã¥éî†»­Ïñé_Ê¼
+// ã‚­ãƒ£ãƒ©ä½œæˆ è§’è‰²ä½œæˆ åŒ…å«ç‰©ä»¶
+#define CG_CHR_MAKE_SEL_BG		29030		// æ–°æ‚­æª«xkç”»é¢  æ–°è§’è‰²é€‰æ‹©ç”»é¢29030
+#define CG_CHR_MAKE_BG			29031		// æ–°æ‚­æ¥—é´æ¥—å²`ã‚¿æŒ¯ã‚Šåˆ†ã‘ç”»é¢
+#define CG_CHR_SEL_BG			29032		// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿xkç”»é¢
+#define CG_CHR_SEL_LOGIN_BTN	29033		// ãƒ­ã‚°ã‚¤ãƒ³ãƒœã‚¿ãƒ³
+#define CG_CHR_SEL_NEW_BTN		29034		// æ–°å €éª
+#define CG_CHR_SEL_DEL_BTN		29035		// å‰Šé™¤ãƒœã‚¿ãƒ³
+#define CG_CHR_SEL_BACK_BTN		29036		// æ¯³å €éª
+#define CG_CHR_MAKE_OK_BTN		29037		// æ–°æ‚­ Qå®šãƒœã‚¿ãƒ³
+#define CG_CHR_MAKE_BACK_BTN	29038		// æ–°æ‚­ æ¯³å €éª
+#define CG_CHR_MAKE_SEL2_BG		29039		// å‡ºèº«åœ°xkç”»é¢
+#define CG_CHR_MAKE_HOME_NAME0	29040		// å‡ºèº«åœ°åã€Œã‚µãƒ ã‚®ãƒ«ã®æ‘ã€
+#define CG_CHR_MAKE_HOME_NAME1	29041		// å‡ºèº«åœ°åã€ŒãƒãƒªãƒŠã‚¹ã®æ‘ã€
+#define CG_CHR_MAKE_HOME_NAME2	29042		// å‡ºèº«åœ°åã€Œã‚¸ãƒ£ã‚¸ãƒ£ã®æ‘ã€
+#define CG_CHR_MAKE_HOME_NAME3	29043		// å‡ºèº«åœ°åã€Œã‚«ãƒ«ã‚¿`ãƒŠã®æ‘ã€
+#define CG_CHR_MAKE_EYE_SEL		29044		// æ–°æ‚­ ç›®?å£xk
+#define CG_CHR_MAKE_NOSE_SEL	29045		// æ–°æ‚­ é¼»?å£xk
+#define CG_CHR_MAKE_FACE		30000		// ã‚­ãƒ£ãƒ©ç”»åƒ_å§‹
 
 #endif
 

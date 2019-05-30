@@ -10,12 +10,12 @@
 #define TONE_MAX	256
 
 typedef struct{
-	int voice_place;	//¥Ü¥¤¥¹¤ÎˆöËù£¨£­£±¤Ï¥Ü¥¤¥¹¤Ê¤·£©
-	int voice_cnt;		//¥Ü¥¤¥¹¤ÎÊı
-	int voice_loop;		//¥ë©`¥×¥Õ¥é¥°
-	int voice_volume;		//ÒôÉ«¥Ü¥ê¥å©`¥à
-	int voice_note;		//¥Î©`¥È·¬ºÅ
-	int play_time;		//ÔÙÉú•rég
+	int voice_place;	//ãƒœã‚¤ã‚¹ã®éŠÇå ¡è†å €ã…å·¥èƒœç½š
+	int voice_cnt;		//ãƒœã‚¤ã‚¹ã®æ•°
+	int voice_loop;		//ãƒ«`ãƒ—ãƒ•ãƒ©ã‚°
+	int voice_volume;		//éŸ³è‰²ãƒœãƒªãƒ¥`ãƒ 
+	int voice_note;		//ãƒ`ãƒˆç•ªå·
+	int play_time;		//å†ç”Ÿrg
 	int voice_rate;
 	int voice_address;
 } TONE_EQU;

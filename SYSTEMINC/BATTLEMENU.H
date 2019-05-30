@@ -4,75 +4,75 @@
 #ifndef _BATTLE_MENU_H_
 #define _BATTLE_MENU_H_
 
-// BattleBpFlag¤Î¥Ó¥Ã¥ÈÇéˆó
-#define BATTLE_BP_JOIN				( 1 << 0 )		// ²Î‘é
-#define BATTLE_BP_PLAYER_MENU_NON	( 1 << 1 )		// ¥×¥ì¥¤¥ä©`¥á¥Ë¥å©`¤Ê¤·
-#define BATTLE_BP_BOOMERANG			( 1 << 2 )		// ¥Ö©`¥á¥é¥ó
-#define BATTLE_BP_PET_MENU_NON		( 1 << 3 )		// ¥Ú¥Ã¥È¥á¥Ë¥å©`¤Ê¤·
-#define BATTLE_BP_ENEMY_SURPRISAL	( 1 << 4 )		// ”³¤¬²»Òâ´ò¤Ä¤¤¤¿•r£¨²»Òâ¤Ä¤«¤ì¤¿•r£©
-#define BATTLE_BP_PLAYER_SURPRISAL	( 1 << 5 )		// ¥×¥ì¥¤¥ä©`¤¬²»Òâ´ò¤ò¤Ä¤¤¤¿•r
+// BattleBpFlagã®ãƒ“ãƒƒãƒˆæƒ…
+#define BATTLE_BP_JOIN				( 1 << 0 )		// å‚
+#define BATTLE_BP_PLAYER_MENU_NON	( 1 << 1 )		// ãƒ—ãƒ¬ã‚¤ãƒ¤`ãƒ¡ãƒ‹ãƒ¥`ãªã—
+#define BATTLE_BP_BOOMERANG			( 1 << 2 )		// ãƒ–`ãƒ¡ãƒ©ãƒ³
+#define BATTLE_BP_PET_MENU_NON		( 1 << 3 )		// ãƒšãƒƒãƒˆãƒ¡ãƒ‹ãƒ¥`ãªã—
+#define BATTLE_BP_ENEMY_SURPRISAL	( 1 << 4 )		// é•¿ç°ç¯é¢è†œã„rï¼ˆä¸æ„ã¤ã‹ã‚ŒãŸrï¼‰
+#define BATTLE_BP_PLAYER_SURPRISAL	( 1 << 5 )		// ãƒ—ãƒ¬ã‚¤ãƒ¤`ãŒä¸æ„æ‰“ã‚’ã¤ã„ãŸr
 
-// ¥Ð¥È¥ë¥³¥Þ¥ó¥É¥µ¥¤¥º
+// ãƒãƒˆãƒ«ã‚³ãƒžãƒ³ãƒ‰ã‚µã‚¤ã‚º
 #define BATTLE_BUF_SIZE	4
 #define BATTLE_COMMAND_SIZE			4096
-// ¥Ð¥È¥ë¥³¥Þ¥ó¥ÉÎÄ×ÖÁÐ
+// ãƒãƒˆãƒ«ã‚³ãƒžãƒ³ãƒ‰æ–‡å­—åˆ—
 extern char BattleCmd[ BATTLE_COMMAND_SIZE ];
 extern char BattleCmdBak[ BATTLE_BUF_SIZE ][ BATTLE_COMMAND_SIZE ];
-// ¥Ð¥È¥ë¥³¥Þ¥ó¥ÉÎÄ×ÖÁÐ¥Ý¥¤¥ó¥¿©`
+// ãƒãƒˆãƒ«ã‚³ãƒžãƒ³ãƒ‰æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿`
 extern int BattleCmdReadPointer;
 extern int BattleCmdWritePointer;
-// ¥Ð¥È¥ë¥³¥Þ¥ó¥ÉÎÄ×ÖÁÐ¥Ð¥Ã¥¯¥¢¥Ã¥×
+// ãƒãƒˆãƒ«ã‚³ãƒžãƒ³ãƒ‰æ–‡å­—åˆ—ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
 //extern char BattleCmdBak[];
-// ¥Ð¥È¥ë×´‘BÎÄ×ÖÁÐ
+// ãƒãƒˆãƒ«çŠ¶Bæ–‡å­—åˆ—
 extern char BattleStatus[ BATTLE_COMMAND_SIZE ];
 extern char BattleStatusBak[ BATTLE_BUF_SIZE ][ BATTLE_COMMAND_SIZE ];
-// ¥Ð¥È¥ë×´‘BÎÄ×ÖÁÐ¥Ý¥¤¥ó¥¿©`
+// ãƒãƒˆãƒ«çŠ¶Bæ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿`
 extern int BattleStatusReadPointer;
 extern int BattleStatusWritePointer;
-// ¥Ð¥È¥ë×´‘BÎÄ×ÖÁÐ¥Ð¥Ã¥¯¥¢¥Ã¥×
+// ãƒãƒˆãƒ«çŠ¶Bæ–‡å­—åˆ—ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
 //extern char BattleStatusBak[];
-// ¥Ð¥È¥ë×´‘BÎÄ×ÖÁÐ¥Ð¥Ã¥¯¥¢¥Ã¥×
+// ãƒãƒˆãƒ«çŠ¶Bæ–‡å­—åˆ—ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
 //extern char BattleStatusBak2[];
-// ¥Ð¥È¥ë¥á¥Ë¥å©`¥Õ¥é¥°
+// ãƒãƒˆãƒ«ãƒ¡ãƒ‹ãƒ¥`ãƒ•ãƒ©ã‚°
 extern int battleMenuFlag2;
-// ×Ô·Ö¤ÎÅäÁÐ·¬ºÅ
+// è‡ªåˆ†ã®é…åˆ—ç•ªå·
 extern int BattleMyNo;
-// ‘éêL•r¤Î×Ô·Ö¤Î£Í£Ð
+// æ®›Lrã®è‡ªåˆ†ã®ï¼­ï¼°
 extern int BattleMyMp;
-// ‘éêLŠÖÆ½KÁË¥Õ¥é¥°
+// æ®›Låˆ¶Käº†ãƒ•ãƒ©ã‚°
 extern int BattleEscFlag;
-// ¥Ú¥Ã¥È¥¹¥¿¥á¥ó¥«¥¦¥ó¥¿©`
+// ãƒšãƒƒãƒˆã‚¹ã‚¿ãƒ¡ãƒ³ã‚«ã‚¦ãƒ³ã‚¿`
 extern int BattlePetStMenCnt;
-// ²Î‘é¥Ú¥Ã¥È·¬ºÅ¥Ð¥Ã¥¯¥¢¥Ã¥×
+// å‚æ¥—è® æ°“ç¡®é’®å•¸æ°“æ°“
 extern int battlePetNoBak;
-// ²Î‘é¥Ú¥Ã¥È·¬ºÅ¥Ð¥Ã¥¯¥¢¥Ã¥×£²
+// å‚æ¥—è® æ°“ç¡®é’®å•¸æ°“æ°“ç¥
 extern int battlePetNoBak2;
 
-// £Â£Ð¥Õ¥é¥°
+// ï¼¢ï¼°ãƒ•ãƒ©ã‚°
 extern int BattleBpFlag;
-// ¥³¥Þ¥ó¥ÉÈëÁ¦œg¤ß¥Õ¥é¥°
+// ã‚³ãƒžãƒ³ãƒ‰å…¥åŠ›gã¿ãƒ•ãƒ©ã‚°
 extern int BattleAnimFlag;
-// ¥¿©`¥óÊÜÐÅ¥Õ¥é¥°
+// ã‚¿`ãƒ³å—ä¿¡ãƒ•ãƒ©ã‚°
 extern BOOL BattleTurnReceiveFlag;
-// ¬FÔÚ¤Î¥¯¥é¥¤¥¢¥ó¥È¥¿©`¥ó·¬ºÅ
+// Fåœ¨ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¿`ãƒ³ç•ªå·
 extern int BattleCliTurnNo;
-// ¬FÔÚ¤Î¥µ©`¥Ð©`¥¿©`¥ó·¬ºÅ
+// Fåœ¨ã®ã‚µ`ãƒ`ã‚¿`ãƒ³ç•ªå·
 extern int BattleSvTurnNo;
 
-// ‘éêL½Y¹û¥¦¥£¥ó¥É¥¦¥Õ¥é¥°
+// æ®›LYæžœã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ•ãƒ©ã‚°
 extern BOOL BattleResultWndFlag;
 
-// ¥Ð¥È¥ë¥á¥Ë¥å©`„IÀí *********************************************************/
+// ãƒãƒˆãƒ«ãƒ¡ãƒ‹ãƒ¥`Iç† *********************************************************/
 void BattleMenuProc( void );
-// ¥Ü¥¿¥ó¥Õ¥é¥°È«³õÆÚ»¯¡¡*****************************************************/
+// ãƒœã‚¿ãƒ³ãƒ•ãƒ©ã‚°å…¨åˆæœŸåŒ–ã€€*****************************************************/
 void ClearBattleButton( void );
-// ¥Ð¥È¥ë¥á¥Ë¥å©`³õÆÚ»¯ ********************************************************/
+// ãƒãƒˆãƒ«ãƒ¡ãƒ‹ãƒ¥`åˆæœŸåŒ– ********************************************************/
 void InitBattleMenu( void );
-// ¥³¥Þ¥ó¥ÉÈëÁ¦œg¤ß¥Õ¥é¥°¤Î¥Á¥§¥Ã¥¯ ********************************************/
+// ã‚³ãƒžãƒ³ãƒ‰å…¥åŠ›gã¿ãƒ•ãƒ©ã‚°ã®ãƒã‚§ãƒƒã‚¯ ********************************************/
 void CheckBattleAnimFlag( void );
-// Ò»ÈËÓÃ¤«¶þÈËÓÃ¤«¥Á¥§¥Ã¥¯ ********************************************/
+// ä¸€äººç”¨ã‹äºŒäººç”¨ã‹ãƒã‚§ãƒƒã‚¯ ********************************************/
 int CheckBattle1P2P( void );
-// ÄÍ¾ÃÁ¦¥á©`¥¿©`±íÊ¾ ***********************************************************/
+// è€ä¹…åŠ›ãƒ¡`ã‚¿`è¡¨ç¤º ***********************************************************/
 void HpMeterDisp( int no );
 
 #endif

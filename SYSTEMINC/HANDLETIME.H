@@ -30,10 +30,10 @@
 
 #endif
 
-/*¤³¤³¤«¤éÏÂ¡¢HiO¡£LS•régév‚S¡£*/
-/*  Œg•rég150(·Ö)*60=9000Ãë=750*12 ¤Ç   LS1ÈÕ   */
-/*  LS1200•rég  LS1ÈÕ   */
-/*  LS100ÈÕ¤Ç   LS1Äê   */
+/*ã“ã“ã‹ã‚‰ä¸‹ã€HiOã€‚LSrgvSã€‚*/
+/*  grg150(åˆ†)*60=9000ç§’=750*12 ã§   LS1æ—¥   */
+/*  LS1200rg  LS1æ—¥   */
+/*  LS100æ—¥ã§   LS1å¹´   */
 typedef struct tagLSTIME
 {
 	int year;
@@ -50,17 +50,17 @@ typedef enum
 	LS_MORNING ,
 }LSTIME_SECTION;
 
-// ¥¹¥È©`¥ó¥¨¥¤¥¸•rég
+// ã‚¹ãƒˆ`ãƒ³ã‚¨ã‚¤ã‚¸rg
 extern LSTIME SaTime;
 extern long serverTime;
 extern long clientTime;
-extern int SaTimeZoneNo;	// ¬FÔÚ¤Î•rég¡
-extern BOOL TimeZonePalChangeFlag; // •rég¡¤Ç¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸¤¹¤ë¥Õ¥é¥°
+extern int SaTimeZoneNo;	// Fåœ¨ã®rg
+extern BOOL TimeZonePalChangeFlag; // rgã§ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸ã™ã‚‹ãƒ•ãƒ©ã‚°
 
 void RealTimeToSATime( LSTIME *lstime );
 /*void LSTimeToRealTime( LSTIME *lstime, long *t);*/
 LSTIME_SECTION getLSTime (LSTIME *lstime);
-// •rég¡¤Ç¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸„IÀí ***********************************/
+// rgã§ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸Iç† ***********************************/
 void TimeZoneProc( void );
 
 #endif  /*__HANDLETIME_H__*/

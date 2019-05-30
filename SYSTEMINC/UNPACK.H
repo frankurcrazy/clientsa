@@ -1,4 +1,4 @@
-// unpack.cpp ¥Ø¥Ã¥À¥Õ¥¡¥¤¥ë
+// unpack.cpp ãƒ˜ãƒƒãƒ€ãƒ•ã‚¡ã‚¤ãƒ«
 
 #ifndef _UNPACK_H_
 #define _UNPACK_H_
@@ -6,7 +6,7 @@
 typedef struct
 {
 	unsigned char id[2];
-	unsigned char compressFlag;  //Ñ¹Ëõ±êÖ¾1ÊÇÑ¹Ëõ
+	unsigned char compressFlag;  //å‹ç¼©æ ‡å¿—1æ˜¯å‹ç¼©
 	unsigned int width;
 	unsigned int height;
 	unsigned int size;
@@ -14,12 +14,12 @@ typedef struct
 
  typedef struct
 {
- unsigned char id[2];  //¹Ì¶¨Îª'RD'
- unsigned char compressFlag;  //Ñ¹Ëõ±êÖ¾1ÊÇÑ¹Ëõ //Å¼Êı±íÊ¾Î´Ñ¹Ëõ£¬°´Î»Í¼´æ·Å£»ÆæÊıÔò±íÊ¾Ñ¹Ëõ¹ı
- unsigned int width;  //¿í¶È;
+ unsigned char id[2];  //å›ºå®šä¸º'RD'
+ unsigned char compressFlag;  //å‹ç¼©æ ‡å¿—1æ˜¯å‹ç¼© //å¶æ•°è¡¨ç¤ºæœªå‹ç¼©ï¼ŒæŒ‰ä½å›¾å­˜æ”¾ï¼›å¥‡æ•°åˆ™è¡¨ç¤ºå‹ç¼©è¿‡
+ unsigned int width;  //å®½åº¦;
  unsigned int height;
- unsigned int size; //Êı¾İ¿éµÄ³¤¶È£¬°üÀ¨Êı¾İÍ·±¾ÉíµÄ³¤¶È(16BYTE)
- //ºóÈıÏîºÍµØÖ·ÎÄ¼şÖĞµÄÒ»Ñù£¬Í¼ÏñÊı¾İ½ô¸úÔÚÊı¾İÍ·ºóÃæ¡£
+ unsigned int size; //æ•°æ®å—çš„é•¿åº¦ï¼ŒåŒ…æ‹¬æ•°æ®å¤´æœ¬èº«çš„é•¿åº¦(16BYTE)
+ //åä¸‰é¡¹å’Œåœ°å€æ–‡ä»¶ä¸­çš„ä¸€æ ·ï¼Œå›¾åƒæ•°æ®ç´§è·Ÿåœ¨æ•°æ®å¤´åé¢ã€‚
 } RD_HEADER;
 
 unsigned char *encoder( unsigned char *, unsigned char **,

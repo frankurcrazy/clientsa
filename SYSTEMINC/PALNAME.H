@@ -2,21 +2,21 @@
 
 
 
-// ¥Ñ¥ì¥Ã¥È¥Õ¥¡¥¤¥ë¥Í©`¥à
-"data\\pal\\Palet_1.sap",	// Öç
-"data\\pal\\Palet_2.sap",	// Ï¦·½
-"data\\pal\\Palet_3.sap",	// Ò¹
-"data\\pal\\Palet_4.sap",	// ³¯
+// ãƒ‘ãƒ¬ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ãƒ`ãƒ 
+"data\\pal\\Palet_1.sap",	// æ˜¼
+"data\\pal\\Palet_2.sap",	// å¤•æ–¹
+"data\\pal\\Palet_3.sap",	// å¤œ
+"data\\pal\\Palet_4.sap",	// æœ
 
-"data\\pal\\Palet_5.sap",	// µØÊôĞÔ
-"data\\pal\\Palet_6.sap",	// Ë®ÊôĞÔ
-"data\\pal\\Palet_7.sap",	// »ğÊôĞÔ
-"data\\pal\\Palet_8.sap",	// ïLÊôĞÔ
-"data\\pal\\Palet_9.sap",	// ³à
-"data\\pal\\Palet_10.sap",	// ¥Ş¥¼¥ó¥¿
-"data\\pal\\Palet_11.sap",	// ¥·¥¢¥ó
-"data\\pal\\Palet_12.sap",	// ×Ï
-"data\\pal\\Palet_13.sap",	// Çà
-"data\\pal\\Palet_14.sap",	// ¾v
-"data\\pal\\Palet_15.sap",	// »Æ
+"data\\pal\\Palet_5.sap",	// åœ°å±æ€§
+"data\\pal\\Palet_6.sap",	// æ°´å±æ€§
+"data\\pal\\Palet_7.sap",	// ç«å±æ€§
+"data\\pal\\Palet_8.sap",	// Lå±æ€§
+"data\\pal\\Palet_9.sap",	// èµ¤
+"data\\pal\\Palet_10.sap",	// ãƒã‚¼ãƒ³ã‚¿
+"data\\pal\\Palet_11.sap",	// ã‚·ã‚¢ãƒ³
+"data\\pal\\Palet_12.sap",	// ç´«
+"data\\pal\\Palet_13.sap",	// é’
+"data\\pal\\Palet_14.sap",	// v
+"data\\pal\\Palet_15.sap",	// é»„
 

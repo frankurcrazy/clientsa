@@ -3,11 +3,11 @@
 
 #include<time.h>
 
-// ίBΙδ¤·¤Ώ•r¤ΛΚά¤±Έ¶¤±¤λιgΈτ
-#define FIELD_BTN_PUSH_WAIT			500		// 0.5Γλ
+// Bε°„γ—γrγ«ε—γ‘δ»γ‘γ‚‹gι”
+#define FIELD_BTN_PUSH_WAIT			500		// 0.5η§’
 
-// ¥α©`¥λ¥ι¥σ¥Χ¤ΞµγηιgΈτ
-#define FIELD_MAIL_LAMP_FLASH_TIME	1000	// 1ΓλιgΈτ
+// γƒ΅`γƒ«γƒ©γƒ³γƒ—γ®η‚Ήη³gι”
+#define FIELD_MAIL_LAMP_FLASH_TIME	1000	// 1η§’gι”
 
 enum
 {

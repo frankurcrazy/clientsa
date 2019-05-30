@@ -1,19 +1,19 @@
 #ifndef _NETMAIN_H_
 #define _NETMAIN_H_
 
-// ƒQ[ƒ€ƒT[ƒo[‚ÌŠÇ——p\‘¢‘Ì
+// Q[T[o[p\
 struct gameserver
 {
-	char ipaddr[128];		// IPƒAƒhƒŒƒX
-	char port[64];			// ƒ|[ƒg
+	char ipaddr[128];		// IPAhX
+	char port[64];			// |[g
 };
 
 
-#define SUCCESSFULSTR	"successful"        // ƒvƒƒgƒRƒ‹‚ÅŽg‚¤•¶Žš’è”ŒQ
+#define SUCCESSFULSTR	"successful"        // vgRgQ
 #define FAILEDSTR		"failed" 
 #define OKSTR           "ok"
 
-#define TIMEOUT (600*1000)                   //  ƒlƒbƒgƒ[ƒN‚Ì‚·‚×‚Ä‚Ì‚Æ‚±‚ë‚Å‚Â‚©‚¤‚ ‚«‚ç‚ßŽžŠÔ
+#define TIMEOUT (600*1000)                   //  lbg[N
 
 #define NETBUFSIZ (1024*16)
 
@@ -59,39 +59,39 @@ int sendn( unsigned int s , char *buffer , int len );
 int getServerInfoByServerName( char *servername , char *hostname , short *port );
 
 
-// ƒGƒ‰[ƒƒbƒZ[ƒW
-#define NET_ERRMSG_SOCKLIBERROR		"ºô¸ô©|¥¼·Ç³Æ¦n¡C" //"ƒlƒbƒgƒ[ƒN‚Ì€”õ‚ªo—ˆ‚Ä‚¢‚Ü‚¹‚ñB"
-#define NET_ERRMSG_BADNAME          "¦øªA¾¹¦WºÙ¤£¥¿½T¡C" //"ƒT[ƒo–¼‚ª•s³‚Å‚·B"
-#define NET_ERRMSG_SOCKETERROR      "µLªk°µ¦¨TCP¡C" //"ƒlƒbƒgƒ[ƒNƒ\ƒPƒbƒg(TCP)‚ðì¬‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB"
-#define NET_ERRMSG_NOTGETADDR		"µLªkÀò±o¦øªA¾¹ªº¢×¢Þ¦ì¸m¡C(%s)" //"ƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ð“¾‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB(%s)"
-#define NET_ERRMSG_NOTCONNECT_S		"µLªk¶}©l¶i¦æ¦øªA¾¹ªº³s±µ¡C" //"ƒT[ƒo‚ÉÚ‘±‚·‚éˆ—‚ðŠJŽn‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB"
-#define NET_ERRMSG_NOTCONNECT		"µLªk³s±µ¦øªA¾¹¡C" //"ƒT[ƒo‚ÉÚ‘±‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB "
-#define NET_ERRMSG_CONNECTTIMEOUT	"¦øªA¾¹³s±µ®É¶¡¤w¨ì¡C" //"ƒT[ƒoÚ‘±’†‚Éƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B" 
-#define NET_ERRMSG_LOGINTIMEOUT		"µn¥X³B²z®É¶¡¤w¨ì¡C" //"ƒƒOƒCƒ“ˆ—’†‚Éƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define NET_ERRMSG_CHARLISTTIMEOUT	"Åª¨ú¤Hª«ªí®É¶¡¤w¨ì¡C" //"ƒLƒƒƒ‰ƒNƒ^ƒŠƒXƒg‚ðŽæ“¾’†‚Éƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define NET_ERRMSG_LOGOUTTIMEOUT	"µn¥X³B²z®É¶¡¤w¨ì¡C" //"ƒƒOƒAƒEƒgˆ—’†‚Éƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define NET_ERRMSG_LOGINFAIL		"µLªkµn¤J¦øªA¾¹¡C" //"ƒƒOƒCƒ“o—ˆ‚Ü‚¹‚ñ‚Å‚µ‚½B"
-#define NET_ERRMSG_CREATECHARTIMEOUT	"¤Hª«»s§@®É¶¡¤w¨ì¡C" //"ƒLƒƒƒ‰ƒNƒ^‚ðì¬’†‚Éƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define NET_ERRMSG_DELETECHARTIMEOUT    "¤Hª««d°£®É¶¡¤w¨ì¡C" //"ƒLƒƒƒ‰ƒNƒ^‚ðíœ’†‚Éƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
+// G[bZ[W
+#define NET_ERRMSG_SOCKLIBERROR		"å‘¼éš”|ã‚¼éžç§°nC" //"lbg[NoB"
+#define NET_ERRMSG_BADNAME          "Aç«ŸWå˜¿ãƒã‚¿TC" //"T[osB"
+#define NET_ERRMSG_SOCKETERROR      "Lkæš—Î˜TCPC" //"lbg[N\Pbg(TCP)B"
+#define NET_ERRMSG_NOTGETADDR		"LkèŽ‰oAç«Ÿâ’†â‘¥mC(%s)" //"T[oIPAhXB(%s)"
+#define NET_ERRMSG_NOTCONNECT_S		"Lk}liAç«Ÿsé’¡C" //"T[oJnB"
+#define NET_ERRMSG_NOTCONNECT		"Lksé’¡Aç«ŸC" //"T[oB "
+#define NET_ERRMSG_CONNECTTIMEOUT	"Aç«Ÿsé’¡ä¸wC" //"T[o^CAEgB" 
+#define NET_ERRMSG_LOGINTIMEOUT		"nXBzä¸wC" //"OC^CAEgB"
+#define NET_ERRMSG_CHARLISTTIMEOUT	"å¼„Hä¸wC" //"LN^Xg^CAEgB"
+#define NET_ERRMSG_LOGOUTTIMEOUT	"nXBzä¸wC" //"OAEg^CAEgB"
+#define NET_ERRMSG_LOGINFAIL		"LknJAç«ŸC" //"OCoB"
+#define NET_ERRMSG_CREATECHARTIMEOUT	"Hs@ä¸wC" //"LN^^CAEgB"
+#define NET_ERRMSG_DELETECHARTIMEOUT    "HdåŸƒä¸wC" //"LN^^CAEgB"
 
 
 
-#define GAMESTATE_ERRMSG_LOGOUTDENY        "¦øªA¾¹©Úµ´³B²zµn¥X¡C" //"ƒƒOƒAƒEƒgˆ—‚ªƒT[ƒo‚É‹‘”Û‚³‚ê‚Ü‚µ‚½B"
+#define GAMESTATE_ERRMSG_LOGOUTDENY        "Aç«Ÿâ”¶è¡BznXC" //"OAEgT[oB"
 
 #if 0
-#define GAMESTATE_ERRMSG_NEEDSERVERNAME   "¨S¦³«ü©w¦øªA¾¹¦WºÙ¡C" //"ƒT[ƒo‚Ì–¼‘O‚ªŽw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB"
-#define GAMESTATE_ERRMSG_NEEDCHOOSE       "¤£¥ý¿ï¾Ü¦øªA¾¹«hµLªk¶i¦æ¸Ó¶µ³B²z¡C" //"ƒT[ƒo‚ð‘I‘ð‚µ‚Ä‚©‚ç‚Å‚È‚¢‚Æ‚±‚Ìˆ—‚ÍŽÀs‚Å‚«‚Ü‚¹‚ñB" 
-#define GAMESTATE_ERRMSG_CANTSAVEUSERINFO "µLªk«O¦s¨Ï¥ÎªÌªº±¡³ø¡CºÏºÐ®e¶q¤£¨¬¡C" //"ƒ†[ƒUî•ñ‚ðƒtƒ@ƒCƒ‹‚É•Û‘¶‚Å‚«‚Ü‚¹‚ñBƒfƒBƒXƒN‚Ì‹ó‚«—e—Ê‚ª‘«‚è‚Ü‚¹‚ñB"
-#define GAMESTATE_ERRMSG_CLIENTLOGINERROR "µLªkµn¤J¦øªA¾¹¡C" //"ƒT[ƒo‚ÉƒƒOƒCƒ“‚Å‚«‚Ü‚¹‚ñB"
-#define GAMESTATE_ERRMSG_CLIENTLOGINTIMEOUT "µn¤J¦øªA¾¹®É¶¡¤w¨ì¡C" //"ƒT[ƒo‚ÉƒƒOƒCƒ“‚·‚éˆ—‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define GAMESTATE_ERRMSG_CANNOTLOADPASSWD "¥Ñ©ó©|¥¼¿é¤J¨Ï¥ÎªÌ±¡³ø¡AµLªkÅÜ§ó±K½X¡C½Ð¥ý¿é¤J¨Ï¥ÎªÌ±¡³ø¡C" //"‚Ü‚¾ƒ†[ƒUî•ñ‚ª“ü—Í‚³‚ê‚Ä‚¢‚È‚¢‚Ì‚ÅAƒpƒXƒ[ƒh‚ð•ÏX‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB‚Ü‚¸ƒ†[ƒU[î•ñ‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B"
-#define GAMESTATE_ERRMSG_CANNOTSAVEPASSWD "µLªk«O¦s¨Ï¥ÎªÌ±¡³ø¡A±K½XÅÜ§ó¥¢±Ñ¡C" //"ƒ†[ƒUî•ñ‚ðƒtƒ@ƒCƒ‹‚É•Û‘¶‚Å‚«‚È‚©‚Á‚½‚Ì‚ÅAƒpƒXƒ[ƒh•ÏX‚ÉŽ¸”s‚µ‚Ü‚µ‚½B"
-#define GAMESTATE_ERRMSG_CHPASSERROR      "µLªkÅÜ§ó±K½X¡C" //"ƒpƒXƒ[ƒh‚Ì•ÏX‚ª‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B"
-#define GAMESTATE_ERRMSG_CHPASSTIMEOUT    "±K½XÅÜ§ó®É¶¡¤w¨ì¡C" //"ƒpƒXƒ[ƒh•ÏXˆ—‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define GAMESTATE_ERRMSG_DELETECHARSERVERDENY    "¦øªA¾¹©Úµ´³B²z«d°£¤Hª«¡C" //"ƒLƒƒƒ‰íœˆ—‚ªƒT[ƒo‚É‹‘”Û‚³‚ê‚Ü‚µ‚½B"
-#define GAMESTATE_ERRMSG_CHARLISTDENY      "¦øªA¾¹©Úµ´³B²zÅª¨ú¤Hª«ªí¡C" //"ƒLƒƒƒ‰ƒNƒ^[•\Žæ“¾ˆ—‚ªƒT[ƒo‚É‹‘”Û‚³‚ê‚Ü‚µ‚½B"
-#define GAMESTATE_ERRMSG_LOGINTIMEOUT			"µn¤J³B²z®É¶¡¤w¨ì¡C" //"ƒƒOƒCƒ“ˆ—‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚Ü‚µ‚½B"
-#define GAMESTATE_ERRMSG_NOTIMPLEMENTED   "©|¥¼¸Ë¸m¸Ó¥\¯à¡C" //"‚Ü‚¾‚»‚Ì‹@”\‚ÍŽÀ‘•‚³‚ê‚Ä‚È‚¢‚È‚è"
+#define GAMESTATE_ERRMSG_NEEDSERVERNAME   "SÎ¤wAç«ŸWå˜¿C" //"T[oOwB"
+#define GAMESTATE_ERRMSG_NEEDCHOOSE       "ãƒåŒ¡æ‹’Aç«ŸhLkièµ£å…œBzC" //"T[oIsB" 
+#define GAMESTATE_ERRMSG_CANTSAVEUSERINFO "LkOsã„ãƒŽè–„åŽ¨Cåˆç›’eqãƒÃ¬C" //"[Ut@CBfBXNeB"
+#define GAMESTATE_ERRMSG_CLIENTLOGINERROR "LknJAç«ŸC" //"T[oOCB"
+#define GAMESTATE_ERRMSG_CLIENTLOGINTIMEOUT "nJAç«Ÿä¸wC" //"T[oOC^CAEgB"
+#define GAMESTATE_ERRMSG_CANNOTLOADPASSWD "ãƒ‘|ã‚¼å—Jã„ãƒŽè–„åŽ¨ALkè·‘KXCå«å—Jã„ãƒŽè–„åŽ¨C" //"[UApX[hXB[U[B"
+#define GAMESTATE_ERRMSG_CANNOTSAVEPASSWD "LkOsã„ãƒŽè–„åŽ¨AKXè·‘ã‚¢æ¯–C" //"[Ut@CApX[hXsB"
+#define GAMESTATE_ERRMSG_CHPASSERROR      "Lkè·‘KXC" //"pX[hXB"
+#define GAMESTATE_ERRMSG_CHPASSTIMEOUT    "KXè·‘ä¸wC" //"pX[hX^CAEgB"
+#define GAMESTATE_ERRMSG_DELETECHARSERVERDENY    "Aç«Ÿâ”¶è¡BzdåŸƒHC" //"LT[oB"
+#define GAMESTATE_ERRMSG_CHARLISTDENY      "Aç«Ÿâ”¶è¡Bzå¼„HC" //"LN^[\T[oB"
+#define GAMESTATE_ERRMSG_LOGINTIMEOUT			"nJBzä¸wC" //"OC^CAEgB"
+#define GAMESTATE_ERRMSG_NOTIMPLEMENTED   "|ã‚¼æ†mèµ£\C" //"@\"
 #endif
 
 

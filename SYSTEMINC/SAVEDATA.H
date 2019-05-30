@@ -22,9 +22,9 @@ char *getPassword( char * );
 extern unsigned char savedataErrorCode;
 
 
-// ¥¨¥é©`¥á¥Ã¥»©`¥¸
+// ã‚¨ãƒ©`ãƒ¡ãƒƒã‚»`ã‚¸
 
-#define SAVE_ERRMSG_loadNowState	"±£´æµÄÊı¾İµÄ¶ÁÈ¡Ê§°ÜÁË¡C(code = %d)" //"±£´æµÄÊı¾İµÄ¶ÁÈ¡Ê§°ÜÁË¡£(code = %d)"
+#define SAVE_ERRMSG_loadNowState	"ä¿å­˜çš„æ•°æ®çš„è¯»å–å¤±è´¥äº†C(code = %d)" //"ä¿å­˜çš„æ•°æ®çš„è¯»å–å¤±è´¥äº†ã€‚(code = %d)"
 
 
 #if 0

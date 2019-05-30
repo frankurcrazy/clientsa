@@ -6,120 +6,120 @@
 
 enum
 {
-	CHR_STATUS_P 		= 0x0001,			// ¶¾
-	CHR_STATUS_N 		= 0x0002,			// Âé¯w
-	CHR_STATUS_Q 		= 0x0004,			// Éòüa
-	CHR_STATUS_S 		= 0x0008,			// Ê¯»¯
-	CHR_STATUS_D 		= 0x0010,			// °µéœ
-	CHR_STATUS_C 		= 0x0020,			// »ìÂÒ
-	CHR_STATUS_W 		= 0x0040,			// ¤³¤ÎÉÏ¤òši¤±¤ë¤«
-	CHR_STATUS_H 		= 0x0080,			// ¸ß¤µ¤¬¤¢¤ë¤«
-	CHR_STATUS_LEADER	= 0x0100,			// ¥ê©`¥À©`
-	CHR_STATUS_PARTY	= 0x0200,			// ¥Ñ©`¥Æ¥£¤ÎÒ»†T
-	CHR_STATUS_BATTLE	= 0x0400,			// ‘éêLÖÐ
-	CHR_STATUS_USE_MAGIC= 0x0800,			// …âÐgÊ¹ÓÃ
-	CHR_STATUS_HELP		= 0x1000,			// ¥Ø¥ë¥×
-	CHR_STATUS_FUKIDASHI= 0x2000,			// ´µ¤­³ö¤·
-	CHR_STATUS_WATCH	= 0x4000			// ÓQ‘éÖÐ
+	CHR_STATUS_P 		= 0x0001,			// æ¯’
+	CHR_STATUS_N 		= 0x0002,			// éº»w
+	CHR_STATUS_Q 		= 0x0004,			// æ²ˆa
+	CHR_STATUS_S 		= 0x0008,			// çŸ³åŒ–
+	CHR_STATUS_D 		= 0x0010,			// æš—
+	CHR_STATUS_C 		= 0x0020,			// æ··ä¹±
+	CHR_STATUS_W 		= 0x0040,			// ã“ã®ä¸Šã‚’iã‘ã‚‹ã‹
+	CHR_STATUS_H 		= 0x0080,			// é«˜ã•ãŒã‚ã‚‹ã‹
+	CHR_STATUS_LEADER	= 0x0100,			// ãƒª`ãƒ€`
+	CHR_STATUS_PARTY	= 0x0200,			// ãƒ‘`ãƒ†ã‚£ã®ä¸€T
+	CHR_STATUS_BATTLE	= 0x0400,			// æ®›Lä¸­
+	CHR_STATUS_USE_MAGIC= 0x0800,			// åº‘gä½¿ç”¨
+	CHR_STATUS_HELP		= 0x1000,			// ãƒ˜ãƒ«ãƒ—
+	CHR_STATUS_FUKIDASHI= 0x2000,			// å¹ãå‡ºã—
+	CHR_STATUS_WATCH	= 0x4000			// Qæ©¹
 };
 
 
 enum
-{											// ¥­¥ã¥é¹ÜÀí•r¤Î·Nî
+{											// ã‚­ãƒ£ãƒ©ç®¡ç†rã®N
 	CHAROBJ_TYPE_NPC		= 0x0001,		// NPC
-	CHAROBJ_TYPE_ITEM		= 0x0002,		// ¥¢¥¤¥Æ¥à
-	CHAROBJ_TYPE_MONEY		= 0x0004,		// ¤ª½ð
-	CHAROBJ_TYPE_USER_NPC	= 0x0008,		// ËûÈË¤Î¥­¥ã¥é¥¯¥¿
-	CHAROBJ_TYPE_LOOKAT		= 0x0010,		// ÒŠ¤ì¤ë
-	CHAROBJ_TYPE_ALL		= 0x00FF		// È«¤Æ
+	CHAROBJ_TYPE_ITEM		= 0x0002,		// ã‚¢ã‚¤ãƒ†ãƒ 
+	CHAROBJ_TYPE_MONEY		= 0x0004,		// ãŠé‡‘
+	CHAROBJ_TYPE_USER_NPC	= 0x0008,		// ä»–äººã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿
+	CHAROBJ_TYPE_LOOKAT		= 0x0010,		// ã‚Œã‚‹
+	CHAROBJ_TYPE_ALL		= 0x00FF		// å…¨ã¦
 };
 
 
-// ¥µ©`¥ÐÉÏ¤Ç¤Î¹ÜÀí·¬ºÅ
+// ã‚µ`ãƒä¸Šã§ã®ç®¡ç†ç•ªå·
 enum
 {
-	CHAR_TYPENONE,			// ºÎ¤Ç¤â¤Ê¤¤
-	CHAR_TYPEPLAYER,		// ¥×¥ì¥¤¥ä©`
-	CHAR_TYPEENEMY,			// ”³
-	CHAR_TYPEPET,			// ¥Ú¥Ã¥È
-	CHAR_TYPEDOOR,			// ¥É¥¢
-	CHAR_TYPEBOX,			// ±¦Ïä
-	CHAR_TYPEMSG,			// ¿´°å
-	CHAR_TYPEWARP,			// ¥ï©`¥×¥¾©`¥ó
-	CHAR_TYPESHOP,			// µê
-	CHAR_TYPEHEALER,		// ¥Ò©`¥é©`
-	CHAR_TYPEOLDMAN,		// éLÀÏ
-	CHAR_TYPEROOMADMIN,		// ²»„Ó®bÎÝ
-	CHAR_TYPETOWNPEOPLE,	// ¤Þ¤Á¤Î¤Ò¤È
-	CHAR_TYPEDENGON,		// »ÑÔ°æ
-	CHAR_TYPEADM,			// »ÑÔ°æ
+	CHAR_TYPENONE,			// ä½•ã§ã‚‚ãªã„
+	CHAR_TYPEPLAYER,		// ãƒ—ãƒ¬ã‚¤ãƒ¤`
+	CHAR_TYPEENEMY,			// 
+	CHAR_TYPEPET,			// ãƒšãƒƒãƒˆ
+	CHAR_TYPEDOOR,			// ãƒ‰ã‚¢
+	CHAR_TYPEBOX,			// å®ç®±
+	CHAR_TYPEMSG,			// çœ‹æ¿
+	CHAR_TYPEWARP,			// ãƒ¯`ãƒ—ã‚¾`ãƒ³
+	CHAR_TYPESHOP,			// åº—
+	CHAR_TYPEHEALER,		// ãƒ’`ãƒ©`
+	CHAR_TYPEOLDMAN,		// Lè€
+	CHAR_TYPEROOMADMIN,		// ä¸èµ¢bå±‹
+	CHAR_TYPETOWNPEOPLE,	// ã¾ã¡ã®ã²ã¨
+	CHAR_TYPEDENGON,		// è°Žå›­
+	CHAR_TYPEADM,			// è°Žå›­
 	CHAR_TYPETEMPLE,		// Temple master
-	CHAR_TYPESTORYTELLER,	// ÕZ¤ê²¿
-	CHAR_TYPERANKING,		// ²»„Ó®b¥é¥ó¥­¥ó¥°±íÊ¾£Î£Ð£Ã
-	CHAR_TYPEOTHERNPC,		// ¤½¤ÎËû¤Î—ÊË÷ŒÏó¤Ë¤Ê¤é¤Ê¤¤NPC
-	CHAR_TYPEPRINTPASSMAN,	// ¥É¥¢¤Î¥Ñ¥¹¥ï©`¥É±íÊ¾¤¹¤ëNPC
-	CHAR_TYPENPCENEMY,		// ¹Ì¶¨”³
-	CHAR_TYPEACTION,		// ¥¢¥¯¥·¥ç¥ó¤Ë·´ê¤¹¤ëNPC
-	CHAR_TYPEWINDOWMAN,		// ¥¦¥£¥ó¥É¥¦±íÊ¾¤¹¤ëNPC£¨¥Æ¥¹¥È¤«¤â)
-	CHAR_TYPESAVEPOINT,		// ¥»©`¥Ö¥Ý¥¤¥ó¥È
-	CHAR_TYPEWINDOWHEALER,	// ¥¦¥¤¥ó¥É¥¦¥¿¥¤¥×¤Î¥Ò©`¥é©`
-	CHAR_TYPEITEMSHOP,		// ¤ªµê
-	CHAR_TYPESTONESHOP,		// Ê¯±PÎÝ£¨¥Ú¥Ã¥È¤Î¼¼ÎÝ£©
-	CHAR_TYPEDUELRANKING,	// DUEL¥é¥ó¥­¥ó¥°NPC
+	CHAR_TYPESTORYTELLER,	// Zã‚Šéƒ¨
+	CHAR_TYPERANKING,		// ä¸èµ¢bãƒ©ãƒ³ã‚­ãƒ³ã‚°è¡¨ç¤ºï¼®ï¼°ï¼£
+	CHAR_TYPEOTHERNPC,		// ãã®ä»–ã®ä»•è±¡ã«ãªã‚‰ãªã„NPC
+	CHAR_TYPEPRINTPASSMAN,	// ãƒ‰ã‚¢ã®ãƒ‘ã‚¹ãƒ¯`ãƒ‰è¡¨ç¤ºã™ã‚‹NPC
+	CHAR_TYPENPCENEMY,		// å›ºå®š
+	CHAR_TYPEACTION,		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«åã™ã‚‹NPC
+	CHAR_TYPEWINDOWMAN,		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤ºã™ã‚‹NPCï¼ˆãƒ†ã‚¹ãƒˆã‹ã‚‚)
+	CHAR_TYPESAVEPOINT,		// ã‚»`ãƒ–ãƒã‚¤ãƒ³ãƒˆ
+	CHAR_TYPEWINDOWHEALER,	// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒ—ã®ãƒ’`ãƒ©`
+	CHAR_TYPEITEMSHOP,		// ãŠåº—
+	CHAR_TYPESTONESHOP,		// çŸ³På±‹ï¼ˆãƒšãƒƒãƒˆã®æŠ€å±‹ï¼‰
+	CHAR_TYPEDUELRANKING,	// DUELãƒ©ãƒ³ã‚­ãƒ³ã‚°NPC
 	CHAR_TYPENUM
 };
 
 
 typedef struct
 {
-	short use;				// Ê¹ÓÃÖÐ¤«
-	short type;				// ·Nî
-	int id;					// ¥µ©`¥Ð¤Î¹ÜÀí·¬ºÅ
-	int graNo;				// ¥°¥é¥Õ¥£¥Ã¥¯·¬ºÅ
-	int gx, gy;				// ¥Þ¥Ã¥×¤Î×ù˜Ë
-	int level;				// ¥ì¥Ù¥ë
-	int dir;				// Ïò¤­
-	int stockDir;			// ÒÆ„Óáá¤ËÏò¤­‰ä¸ü¤¬¤¢¤ì¤Ð‰ä¸ü¤¹¤ë
-	int stockDirX, stockDirY;// stockDir¤òßmÓÃ¤¹¤ë×ù˜Ë
-	short nameColor;		// ÃûÇ°±íÊ¾•r¤ÎÉ«
-	unsigned short status;	// ¥¹¥Æ©`¥¿¥¹
-	int classNo;			// ¥¢¥¤¥Æ¥àÓÃ£¨£¿£©
-	int money;				// ¤ª½ðÓÃ
-	char name[CHAR_NAME_LEN+1];			// ÃûÇ°
-	char freeName[CHAR_FREENAME_LEN+1];	// ¥æ©`¥¶¤¬¸¶¤±¤¿³ÆºÅ
-	char info[64];			// £±ÐÐ¥¤¥ó¥Õ¥©¥á©`¥·¥ç¥ó£¨ACTION¤ËÈë¤ì¤¿¤é¤¤¤é¤Ê¤¤¤«¤â£©
-	int battleNo;			// ‘éêL·¬ºÅ
-	short sideNo;			// ‘éêL•r¤Ë¤É¤Á¤é¥µ¥¤¥É¤ËÊô¤·¤Æ¤¤¤ë¤«
-	short helpMode;			// ¥Ø¥ë¥×¥â©`¥É
-	int charType;			// ¥¢¥¯¥·¥ç¥ó¤ËÔO¶¨¤¹¤ëÊôÐÔ
-	short newFoundFlag;		// ÐÂ°kÒŠ¤Î¹Öª•¤«¤ò¥Á¥§¥Ã¥¯¤¹¤ë¤«¤Î¥Õ¥é¥°
+	short use;				// ä½¿ç”¨ä¸­ã‹
+	short type;				// N
+	int id;					// ã‚µ`ãƒã®ç®¡ç†ç•ªå·
+	int graNo;				// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ç•ªå·
+	int gx, gy;				// ãƒžãƒƒãƒ—ã®åº§
+	int level;				// ãƒ¬ãƒ™ãƒ«
+	int dir;				// å‘ã
+	int stockDir;			// ç§»ä¿žå¹›è®¼é¢æ¶“æ¬·æ¶“å·¥
+	int stockDirX, stockDirY;// stockDirã‚’mç”¨ã™ã‚‹åº§
+	short nameColor;		// åå‰è¡¨ç¤ºrã®è‰²
+	unsigned short status;	// ã‚¹ãƒ†`ã‚¿ã‚¹
+	int classNo;			// ã‚¢ã‚¤ãƒ†ãƒ ç”¨ï¼ˆï¼Ÿï¼‰
+	int money;				// ãŠé‡‘ç”¨
+	char name[CHAR_NAME_LEN+1];			// åå‰
+	char freeName[CHAR_FREENAME_LEN+1];	// ãƒ¦`ã‚¶ãŒä»˜ã‘ãŸç§°å·
+	char info[64];			// ï¼‘è¡Œã‚¤ãƒ³ãƒ•ã‚©ãƒ¡`ã‚·ãƒ§ãƒ³ï¼ˆACTIONã«å…¥ã‚ŒãŸã‚‰ã„ã‚‰ãªã„ã‹ã‚‚ï¼‰
+	int battleNo;			// æ®›Lç•ªå·
+	short sideNo;			// æ®›Lrã«ã©ã¡ã‚‰ã‚µã‚¤ãƒ‰ã«å±žã—ã¦ã„ã‚‹ã‹
+	short helpMode;			// ãƒ˜ãƒ«ãƒ—ãƒ¢`ãƒ‰
+	int charType;			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã«Oå®šã™ã‚‹å±žæ€§
+	short newFoundFlag;		// æ–°kã®æ€ªã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
 	ACTION *ptAct;
 } CHAROBJ;
 
 
 typedef struct
 {
-	int charObjTblId;			// ¹ÜÀí¥Æ©`¥Ö¥ë¤ÎºÎ·¬Ä¿¤ËÈë¤Ã¤Æ¤¤¤ë¤«
-	ACTION *ptActLeaderMark;	// ¥ê©`¥À©`¥Þ©`¥¯±íÊ¾ÓÃ
-	ACTION *ptActMagicEffect;	// …âÐg¥¨¥Õ¥§¥¯¥È
-	unsigned int drawFukidashiTime;	// ´µ¤­³ö¤·¤ò³ö¤¹•rég
+	int charObjTblId;			// ç®¡ç†ãƒ†`ãƒ–ãƒ«ã®ä½•ç•ªç›®ã«å…¥ã£ã¦ã„ã‚‹ã‹
+	ACTION *ptActLeaderMark;	// ãƒª`ãƒ€`ãƒž`ã‚¯è¡¨ç¤ºç”¨
+	ACTION *ptActMagicEffect;	// åº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
+	unsigned int drawFukidashiTime;	// å¹ãå‡ºã—ã‚’å‡ºã™rg
 } CHAREXTRA;
 
 
 typedef struct
 {
-	short mode;					// ¥Ú¥Ã¥È¤Î„Ó×÷¥â©`¥É
-	short moveDir;				// ÒÆ„Ó•r¤ËÏò¤«¤¦·½Ïò
-	short preDir;				// ¤Ò¤È¤ÄÇ°¤ËÇú¤¬¤Ã¤¿Ïò¤­
-	short dirCnt;				// ßB¾A¤ÇÇú¤¬¤Ã¤¿»ØÊý
-	int preGx, preGy;			// ¤Ò¤È¤ÄÇ°¤Î¥°¥ê¥Ã¥É
-	int walkCnt;				// ÒÆ„ÓšiÊý
-	unsigned int createTime;	// ×÷³É•rég
+	short mode;					// ãƒšãƒƒãƒˆã®å¹¼é³çŒ¢`ãƒ‰
+	short moveDir;				// ç§»rã«å‘ã‹ã†æ–¹å‘
+	short preDir;				// ã²ã¨ã¤å‰ã«æ›²ãŒã£ãŸå‘ã
+	short dirCnt;				// BAã§æ›²ãŒã£ãŸå›žæ•°
+	int preGx, preGy;			// ã²ã¨ã¤å‰ã®ã‚°ãƒªãƒƒãƒ‰
+	int walkCnt;				// ç§»iæ•°
+	unsigned int createTime;	// ä½œæˆrg
 	ACTION *ptAct;
 	ACTION *ptAct2;
 	float angle;
 	int r;
-	int id;						// ¥µ©`¥Ð¤Î¹ÜÀí·¬ºÅ
+	int id;						// ã‚µ`ãƒã®ç®¡ç†ç•ªå·
 } PETEXTRA;
 
 

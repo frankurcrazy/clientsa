@@ -4,66 +4,66 @@
 #ifndef _PROCESS_H_
 #define _PROCESS_H_
 
-/* ¥×¥í¥»¥¹¤Î·Nî */
+/* ãƒ—ãƒ­ã‚»ã‚¹ã®N */
 enum{
 	PROC_INIT,
-	PROC_ID_PASSWORD,				// £É£Ä¡¢¥Ñ¥¹¥ï©`¥ÉÈëÁ¦„IÀí
-	PROC_TITLE_MENU,				// ¥¿¥¤¥È¥ë»­Ãæ¥á¥Ë¥å©`±íÊ¾
-	PROC_CHAR_SELECT,				// ¥­¥ã¥éßx’k
-	PROC_CHAR_MAKE,					// ¥­¥ã¥é×÷³É
-	PROC_CHAR_LOGIN_START,			// ¥­¥ã¥é¥í¥°¥¤¥óé_Ê¼
-	PROC_CHAR_LOGIN,				// ¥­¥ã¥é¥í¥°¥¤¥óÖÐ
-	PROC_CHAR_LOGOUT,				// ¥­¥ã¥é¥í¥°¥¢¥¦¥È
+	PROC_ID_PASSWORD,				// ï¼©ï¼¤ã€ãƒ‘ã‚¹ãƒ¯`ãƒ‰å…¥åŠ›Iç†
+	PROC_TITLE_MENU,				// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ãƒ¡ãƒ‹ãƒ¥`è¡¨ç¤º
+	PROC_CHAR_SELECT,				// ã‚­ãƒ£ãƒ©xk
+	PROC_CHAR_MAKE,					// ã‚­ãƒ£ãƒ©ä½œæˆ
+	PROC_CHAR_LOGIN_START,			// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¤ãƒ³_å§‹
+	PROC_CHAR_LOGIN,				// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¤ãƒ³ä¸­
+	PROC_CHAR_LOGOUT,				// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ
 	PROC_OPENNING,
-	PROC_GAME,						// ¥²©`¥à¥×¥í¥»¥¹
-	PROC_BATTLE,					// ¥Ð¥È¥ë¥×¥í¥»¥¹
-	PROC_DISCONNECT_SERVER,			// ¥Í¥Ã¥È¥ï©`¥¯¤¬ÇÐ¶Ï¤µ¤ì¤¿•r¤Î„IÀí
+	PROC_GAME,						// ã‚²`ãƒ ãƒ—ãƒ­ã‚»ã‚¹
+	PROC_BATTLE,					// ãƒãƒˆãƒ«ãƒ—ãƒ­ã‚»ã‚¹
+	PROC_DISCONNECT_SERVER,			// ãƒãƒƒãƒˆãƒ¯`ã‚¯ãŒåˆ‡æ–­ã•ã‚ŒãŸrã®Iç†
 
 #ifdef _DEBUG		
 
-	PROC_TAKE_TEST,					// ÖñÄÚ¥Æ¥¹¥È
-	PROC_OHTA_TEST,					// Ì«Ìï¥Æ¥¹¥È
-	PROC_DWAF_TEST,					// ËÉ´å¥Æ¥¹¥È
-	PROC_SPR_VIEW,					// ¥¹¥×¥é¥¤¥È´_ÕJ¥×¥í¥»¥¹
-	PROC_ANIM_VIEW,					// ¥¢¥Ë¥á©`¥·¥ç¥ó´_ÕJ¥×¥í¥»¥¹
-	PROC_SE_TEST,					// £Ó£Å´_ÕJ¥×¥í¥»¥¹
+	PROC_TAKE_TEST,					// ç«¹å†…ãƒ†ã‚¹ãƒˆ
+	PROC_OHTA_TEST,					// å¤ªç”°ãƒ†ã‚¹ãƒˆ
+	PROC_DWAF_TEST,					// æ¾æ‘ãƒ†ã‚¹ãƒˆ
+	PROC_SPR_VIEW,					// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ_Jãƒ—ãƒ­ã‚»ã‚¹
+	PROC_ANIM_VIEW,					// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³_Jãƒ—ãƒ­ã‚»ã‚¹
+	PROC_SE_TEST,					// ï¼³ï¼¥_Jãƒ—ãƒ­ã‚»ã‚¹
 	
 #endif
 	PROC_ENDING
 	
 };
 
-/* ¥×¥í¥»¥¹·¬ºÅ */
+/* ãƒ—ãƒ­ã‚»ã‚¹ç•ªå· */
 extern UINT ProcNo;
-/* ¥µ¥Ö¥×¥í¥»¥¹·¬ºÅ */
+/* ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ç•ªå· */
 extern UINT SubProcNo;
 
 extern int palNo;
 extern int oldPalNo;
 
 
-/* ¥×¥í¥»¥¹„IÀí */
+/* ãƒ—ãƒ­ã‚»ã‚¹Iç† */
 void Process( void );
 
-/* ¥×¥í¥»¥¹‰ä¸ü„IÀí */
+/* ãƒ—ãƒ­ã‚»ã‚¹æ¶“Iç† */
 void ChangeProc( int procNo );
-/* ¥×¥í¥»¥¹‰ä¸ü„IÀí */
+/* ãƒ—ãƒ­ã‚»ã‚¹æ¶“Iç† */
 void ChangeProc( int procNo, int subProcNo );
 
-/* ¥²©`¥à¥×¥í¥»¥¹„IÀí */
+/* ã‚²`ãƒ ãƒ—ãƒ­ã‚»ã‚¹Iç† */
 void GameProc( void );
 
-// ¥ï©`¥×ÑÝ³öÓÃ
+// ãƒ¯`ãƒ—æ¼”å‡ºç”¨
 void warpEffectProc( void );
 
 void paletteProc( void );
 
 #ifdef _DEBUG		
 
-/* ÖñÄÚ¤µ¤ó¥Æ¥¹¥È¥×¥í¥»¥¹ */
+/* ç«¹å†…ã•ã‚“ãƒ†ã‚¹ãƒˆãƒ—ãƒ­ã‚»ã‚¹ */
 void TakeTestProc( void );
 
-/* Ì«Ìï¥Æ¥¹¥È¥×¥í¥»¥¹ */
+/* å¤ªç”°ãƒ†ã‚¹ãƒˆãƒ—ãƒ­ã‚»ã‚¹ */
 void OhtaTestProc( void );
 
 #endif

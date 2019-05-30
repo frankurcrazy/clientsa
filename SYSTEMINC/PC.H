@@ -3,257 +3,257 @@
 
 #include"action.h"
 
-#define MAXCHARACTER			2		// ���`�Щ`�˱��椹����󥭥����
-#define CHAR_NAME_LEN			16		// ��������ǰ���L��
-#define CHAR_FREENAME_LEN		12		// ��`�����O�������ƺŤ��L��
-#define MAGIC_NAME_LEN			24		// ���g�����L��
-#define MAGIC_MEMO_LEN			72		// ���g���h���Ĥ��L��
-#define ITEM_NAME_LEN			28		// �����ƥ������L��
-#define ITEM_NAME2_LEN			16		// �����ƥ��������L��
-#define ITEM_MEMO_LEN			84		// �����ƥ���h�����L��
-#define PET_NAME_LEN			16		// �ڥåȤ���ǰ���L��
+#define MAXCHARACTER			2		// サ`バ`に保存する最大キャラ数
+#define CHAR_NAME_LEN			16		// キャラの名前のLさ
+#define CHAR_FREENAME_LEN		12		// ユ`ザがO定した称号のLさ
+#define MAGIC_NAME_LEN			24		// 庑g名のLさ
+#define MAGIC_MEMO_LEN			72		// 庑gのh明文のLさ
+#define ITEM_NAME_LEN			28		// アイテム名のLさ
+#define ITEM_NAME2_LEN			16		// アイテム名２のLさ
+#define ITEM_MEMO_LEN			84		// アイテムのh明のLさ
+#define PET_NAME_LEN			16		// ペットの名前のLさ
 
 
-//#define CHARNAMELEN				256		// �����ꥹ����
+//#define CHARNAMELEN				256		// キャラリスト用
 
-#define MAX_PET					5		// ���ڥå�ȡ����
+#define MAX_PET					5		// 最大ペット取得数
 
-#define MAX_MAGIC				5		// �����g��
+#define MAX_MAGIC				5		// 最大庑g数
 
-#define MAX_PARTY				5		// ������g�����Է֤򺬤ࣩ
+#define MAX_PARTY				5		// 最大仲g数（自分を含む）
 
-#define	MAX_ADR_BOOK_COUNT		4		// ���ɥ쥹�֥å��Σ��ک`���˱�ʾ��������
-#define	MAX_ADR_BOOK_PAGE		10		// ���ɥ쥹�֥å������ک`����
-#define MAX_ADR_BOOK			(MAX_ADR_BOOK_COUNT*MAX_ADR_BOOK_PAGE)	// ���ɥ쥹�֥å��������
+#define	MAX_ADR_BOOK_COUNT		4		// アドレスブックの１ペ`ジに表示する人数
+#define	MAX_ADR_BOOK_PAGE		10		// アドレスブックの最大ペ`ジ数
+#define MAX_ADR_BOOK			(MAX_ADR_BOOK_COUNT*MAX_ADR_BOOK_PAGE)	// アドレスブックの最大数
 
-#define MAX_ITEM				20		// ��󥢥��ƥ���
+#define MAX_ITEM				20		// 最大アイテム数
 
-#define RESULT_ITEM_COUNT		3		// ���L�Y��ȡ�å����ƥ���
-#define RESULT_ITEM_NAME_LEN	24		// ���L�Y��ȡ�å����ƥ������L��
-#define RESULT_CHR_EXP			4		// ���L�Y���ţأ�ȡ�å�å��`������
+#define RESULT_ITEM_COUNT		3		// 殛LY果取得アイテム数
+#define RESULT_ITEM_NAME_LEN	24		// 殛LY果取得アイテム名のLさ
+#define RESULT_CHR_EXP			4		// 殛LY果ＥＸＰ取得メッセ`ジの数
 
-#define SKILL_NAME_LEN			24		// ���������ǰ���L��
-#define SKILL_MEMO_LEN			72		// ������Υ����L��
-#define MAX_SKILL				7		// ������餬���֤Ǥ��뼼����
+#define SKILL_NAME_LEN			24		// スキルの名前のLさ
+#define SKILL_MEMO_LEN			72		// スキルのメモのLさ
+#define MAX_SKILL				7		// １キャラが保持できる技の数
 
 
 enum
 {
-	PC_ETCFLAG_PARTY		= 0x0001,	// ���g�ϣ˥ե饰�ӥå�
-	PC_ETCFLAG_JOINT_BTL	= 0x0002,	// �Α�ϣ˥ե饰�ӥå�
-	PC_ETCFLAG_DUEL			= 0x0004,	// ����ϣ˥ե饰�ӥå�
-	PC_ETCFLAG_CHAT_MODE	= 0x0008,	// ����åȥ�`�ɥե饰�ӥå�
-	PC_ETCFLAG_MAIL			= 0x0010	// ���̽��Q�ϣ˥ե饰�ӥå�
+	PC_ETCFLAG_PARTY		= 0x0001,	// 仲gＯＫフラグビット
+	PC_ETCFLAG_JOINT_BTL	= 0x0002,	// 参椋希衰榨楗哎鹰氓
+	PC_ETCFLAG_DUEL			= 0x0004,	// 椋希衰榨楗哎鹰氓
+	PC_ETCFLAG_CHAT_MODE	= 0x0008,	// チャットモ`ドフラグビット
+	PC_ETCFLAG_MAIL			= 0x0010	// 名刺交QＯＫフラグビット
 };
 
 
-#define ITEM_FLAG_PET_MAIL		( 1 << 0 ) 	// �ڥåȥ�`������ſ��ܥ����ƥ�
-#define ITEM_FLAG_MIX			( 1 << 1 ) 	// �����Ĥ˺ϳɤǤ��뤫
-#define ITEM_FLAG_COOKING_MIX	( 1 << 2 ) 	// �����ϳɿ��ܥ����ƥ�
+#define ITEM_FLAG_PET_MAIL		( 1 << 0 ) 	// ペットメ`ルで送信可能アイテム
+#define ITEM_FLAG_MIX			( 1 << 1 ) 	// 根本的に合成できるか
+#define ITEM_FLAG_COOKING_MIX	( 1 << 2 ) 	// 料理合成可能アイテム
 
 typedef struct
 {
-	short useFlag;					// ʹ�åե饰
-	char name[ITEM_NAME_LEN+1];		// �����ƥ���
-	char name2[ITEM_NAME2_LEN+1];	// �����ƥ�����
-	char memo[ITEM_MEMO_LEN+1];		// ���
-	int color;						// ��ǰ��ɫ
-	int graNo;						// ���񷬺�
-	int level;						// �����ƥ��٥�
-	short field;					// ʹ�äǤ������
-	short target;					// ����
-	short deadTargetFlag;			// ����Ǥ��Ĥ⌝��ե饰
-	short sendFlag;					// �ڥåȥ�`������ſ��ܤ�
+	short useFlag;					// 使用フラグ
+	char name[ITEM_NAME_LEN+1];		// アイテム名
+	char name2[ITEM_NAME2_LEN+1];	// アイテム名２
+	char memo[ITEM_MEMO_LEN+1];		// メモ
+	int color;						// 名前の色
+	int graNo;						// 画像番号
+	int level;						// アイテムレベル
+	short field;					// 使用できる鏊
+	short target;					// 象
+	short deadTargetFlag;			// 死んでるやつも象フラグ
+	short sendFlag;					// ペットメ`ルで送信可能か
 } ITEM;
 
 typedef struct
 {
-	int graNo;						// ����ե��å�����
-	int faceGraNo;					// ��񷬺�
-	int id;							// ������ID
-	int dir;						// ��
-	int hp, maxHp;					// �ȣУ����ȣ�
-	int mp, maxMp;					// �ͣУ����ͣ�
-	int vital;						// ����
-	int str, tgh, dex;				// �����򤿤쏊�������礵
-	int exp, maxExp;				// �U�Y�����ΤΥ�٥�˱�Ҫ�ʽU�Y��
-	int level;						// ��٥�
-	int atk, def;					// �F�ڹ��������F�ڷ�����
-	int quick, charm, luck;			// ���������������\
-	int earth, water, fire, wind;	// ��ˮ���L
-	int gold;						// ����
-	int titleNo;					// �ƺŷ���
-	int dp;							// �ǥ奨��ݥ����
-	char name[CHAR_NAME_LEN+1];		// ��ǰ
-	char freeName[CHAR_FREENAME_LEN+1];	// �Է֤ǤĤ�����ǰ
-	short nameColor;				// ��ǰ��ɫ
-	unsigned short status;			// ���Ʃ`����(�ӥåȥե饰)
-	unsigned short etcFlag;			// ���gOK?���L;�вμ�OK?�ǥ奨��OK �ե饰
-	short battlePetNo;				// ���L�˲μӤ�����ڥåȤ���ä����з��ţ������ϲμӤ����ʤ���
-	short selectPetNo[MAX_PET];		// ���L������x�k�Ǥ���ڥå�
-	short mailPetNo;				// ��`����\�֥ڥåȤη���
-	int battleNo;					// ���L����
-	short sideNo;					// ���L�r�ˤɤ���Ȥ�
-	short helpMode;					// �إ�ץ�`��
-	ITEM item[MAX_ITEM];			// �����ƥ�
-	ACTION *ptAct;					// �ץ쥤��`�Υ��������
+	int graNo;						// グラフィック番号
+	int faceGraNo;					// 画像番号
+	int id;							// 管理用ID
+	int dir;						// 向き
+	int hp, maxHp;					// ＨＰ／最大ＨＰ
+	int mp, maxMp;					// ＭＰ／最大ＭＰ
+	int vital;						// 体力
+	int str, tgh, dex;				// 力／打たれさ／素早さ
+	int exp, maxExp;				// UY韦违欹佶毪吮匾式UY
+	int level;						// レベル
+	int atk, def;					// F在攻牧ΓF在防御力
+	int quick, charm, luck;			// 俊敏さ／魅力／\
+	int earth, water, fire, wind;	// 地水火L
+	int gold;						// お金
+	int titleNo;					// 称号番号
+	int dp;							// デュエルポイント
+	char name[CHAR_NAME_LEN+1];		// 名前
+	char freeName[CHAR_FREENAME_LEN+1];	// 自分でつける名前
+	short nameColor;				// 名前の色
+	unsigned short status;			// ステ`タス(ビットフラグ)
+	unsigned short etcFlag;			// 仲gOK?殛L途中参加OK?デュエルOK フラグ
+	short battlePetNo;				// 殛Lに参加させるペットの入った配列番号（－１は参加させない）
+	short selectPetNo[MAX_PET];		// 殛L画面でxkできるペット
+	short mailPetNo;				// メ`ルを\ぶペットの番号
+	int battleNo;					// 殛L番号
+	short sideNo;					// 殛Lrにどちら趣
+	short helpMode;					// ヘルプモ`ド
+	ITEM item[MAX_ITEM];			// アイテム
+	ACTION *ptAct;					// プレイヤ`のアクション
 } PC;
 
 
 enum
 {
-	MAGIC_FIELD_ALL,		// ���٤ƤΈ�����ʹ����
-	MAGIC_FIELD_BATTLE,		// ���L�ФΤ�
-	MAGIC_FIELD_MAP			// ͨ���ޥå��ϤΤ�
+	MAGIC_FIELD_ALL,		// すべての鏊鞘工à
+	MAGIC_FIELD_BATTLE,		// 殛L中のみ
+	MAGIC_FIELD_MAP			// 通常マップ上のみ
 };
 
 enum
 {
-	MAGIC_TARGET_MYSELF,				// �Է֤Τ�
-	MAGIC_TARGET_OTHER,					// �����ˣ��Էֺ���)
-	MAGIC_TARGET_ALLMYSIDE,				// ζ��ȫ��
-	MAGIC_TARGET_ALLOTHERSIDE,			// ���ւ�ȫ��
-	MAGIC_TARGET_ALL,					// ȫ��
-	MAGIC_TARGET_NONE,					// ���`���åȟo��
-	MAGIC_TARGET_OTHERWITHOUTMYSELF,	// �Է�����
-	MAGIC_TARGET_WITHOUTMYSELFANDPET,	// �Է֤ȥڥå�����
-	MAGIC_TARGET_WHOLEOTHERSIDE,    	// �ɤ��餫�Υ�����ȫ��
+	MAGIC_TARGET_MYSELF,				// 自分のみ
+	MAGIC_TARGET_OTHER,					// 他の人（自分含む)
+	MAGIC_TARGET_ALLMYSIDE,				// 味方全体
+	MAGIC_TARGET_ALLOTHERSIDE,			// 相手热
+	MAGIC_TARGET_ALL,					// 全て
+	MAGIC_TARGET_NONE,					// タ`ゲットoし
+	MAGIC_TARGET_OTHERWITHOUTMYSELF,	// 自分以外
+	MAGIC_TARGET_WITHOUTMYSELFANDPET,	// 自分とペット以外
+	MAGIC_TARGET_WHOLEOTHERSIDE,    	// どちらかのサイド全体
 };
 
 enum
 {
-	PETSKILL_FIELD_ALL,			// ���٤ƤΈ�����ʹ����
-	PETSKILL_FIELD_BATTLE,		// ���L�ФΤ�
-	PETSKILL_FIELD_MAP			// ͨ���ޥå��ϤΤ�
+	PETSKILL_FIELD_ALL,			// すべての鏊鞘工à
+	PETSKILL_FIELD_BATTLE,		// 殛L中のみ
+	PETSKILL_FIELD_MAP			// 通常マップ上のみ
 };
 
 enum
 {
-	PETSKILL_TARGET_MYSELF,				// �Է֤Τ�
-	PETSKILL_TARGET_OTHER,				// �����ˣ��Էֺ���)
-	PETSKILL_TARGET_ALLMYSIDE,			// ζ��ȫ��
-	PETSKILL_TARGET_ALLOTHERSIDE,		// ���ւ�ȫ��
-	PETSKILL_TARGET_ALL,				// ȫ��
-	PETSKILL_TARGET_NONE,				// ���`���åȟo��
-	PETSKILL_TARGET_OTHERWITHOUTMYSELF,	// �Է�����
-	PETSKILL_TARGET_WITHOUTMYSELFANDPET	// �Է֤ȥڥå�����
+	PETSKILL_TARGET_MYSELF,				// 自分のみ
+	PETSKILL_TARGET_OTHER,				// 他の人（自分含む)
+	PETSKILL_TARGET_ALLMYSIDE,			// 味方全体
+	PETSKILL_TARGET_ALLOTHERSIDE,		// 相手热
+	PETSKILL_TARGET_ALL,				// 全て
+	PETSKILL_TARGET_NONE,				// タ`ゲットoし
+	PETSKILL_TARGET_OTHERWITHOUTMYSELF,	// 自分以外
+	PETSKILL_TARGET_WITHOUTMYSELFANDPET	// 自分とペット以外
 };
 
 enum
 {
-	ITEM_FIELD_ALL,				// ���٤ƤΈ�����ʹ����
-	ITEM_FIELD_BATTLE,			// ���L�ФΤ�
-	ITEM_FIELD_MAP,				// ͨ���ޥå��ϤΤ�
+	ITEM_FIELD_ALL,				// すべての鏊鞘工à
+	ITEM_FIELD_BATTLE,			// 殛L中のみ
+	ITEM_FIELD_MAP,				// 通常マップ上のみ
 };
 
 enum
 {
-	ITEM_TARGET_MYSELF,			// �Է֤Τ�
-	ITEM_TARGET_OTHER,			// �����ˣ��Էֺ���)
-	ITEM_TARGET_ALLMYSIDE,		// ζ��ȫ��
-	ITEM_TARGET_ALLOTHERSIDE,	// ���ւ�ȫ��
-	ITEM_TARGET_ALL,			// ȫ��
-	ITEM_TARGET_NONE,				// ���`���åȟo��
-	ITEM_TARGET_OTHERWITHOUTMYSELF,	// �Է�����
-	ITEM_TARGET_WITHOUTMYSELFANDPET	// �Է֤ȥڥå�����
+	ITEM_TARGET_MYSELF,			// 自分のみ
+	ITEM_TARGET_OTHER,			// 他の人（自分含む)
+	ITEM_TARGET_ALLMYSIDE,		// 味方全体
+	ITEM_TARGET_ALLOTHERSIDE,	// 相手热
+	ITEM_TARGET_ALL,			// 全て
+	ITEM_TARGET_NONE,				// タ`ゲットoし
+	ITEM_TARGET_OTHERWITHOUTMYSELF,	// 自分以外
+	ITEM_TARGET_WITHOUTMYSELFANDPET	// 自分とペット以外
 };
 
 typedef struct
 {
-	int graNo;						// ���񷬺�
-	int hp, maxHp;					// �ȣУ����ȣ�
-	int mp, maxMp;					// �ͣУ����ͣ�
-	int exp, maxExp;				// �U�Y�����ΤΥ�٥�˱�Ҫ�ʽU�Y��
-	int level;						// ��٥�
-	int atk, def;					// �F�ڹ��������F�ڷ�����
-	int quick;						// ������
-	int ai;							// ���\��
-	int earth, water, fire, wind;	// ��ˮ���L
-	int maxSkill;					// ��󥹥�����
-	unsigned short status;			// ���Ʃ`����(�ӥåȥե饰)
-	char name[CHAR_NAME_LEN+1];		// �N���
-	char freeName[PET_NAME_LEN+1];	// ��`�����Ĥ�����ǰ
-	short useFlag;					// ���Ιڤ˥ڥåȤ����뤫�ե饰
-	short changeNameFlag;			// ��ǰ��Ĥ���뤫�ե饰
+	int graNo;						// 画像番号
+	int hp, maxHp;					// ＨＰ／最大ＨＰ
+	int mp, maxMp;					// ＭＰ／最大ＭＰ
+	int exp, maxExp;				// UY韦违欹佶毪吮匾式UY
+	int level;						// レベル
+	int atk, def;					// F在攻牧ΓF在防御力
+	int quick;						// 俊敏さ
+	int ai;							// 忠\度
+	int earth, water, fire, wind;	// 地水火L
+	int maxSkill;					// 最大スキル数
+	unsigned short status;			// ステ`タス(ビットフラグ)
+	char name[CHAR_NAME_LEN+1];		// N名
+	char freeName[PET_NAME_LEN+1];	// ユ`ザがつける名前
+	short useFlag;					// この冥衰讠氓趣い毪榨楗
+	short changeNameFlag;			// 名前をつけれるかフラグ
 } PET;
 
 
 typedef struct
 {
-	short useFlag;					// ʹ�åե饰
-	int mp;							// ��Ҫ�ͣ�
-	short field;					// ʹ�äǤ������
-	short target;					// ����
-	short deadTargetFlag;			// ����Ǥ��Ĥ⌝��ե饰
-	char name[MAGIC_NAME_LEN+1];	// ���g��
-	char memo[MAGIC_MEMO_LEN+1];	// �h��
+	short useFlag;					// 使用フラグ
+	int mp;							// 必要ＭＰ
+	short field;					// 使用できる鏊
+	short target;					// 象
+	short deadTargetFlag;			// 死んでるやつも象フラグ
+	char name[MAGIC_NAME_LEN+1];	// 庑g名
+	char memo[MAGIC_MEMO_LEN+1];	// h明
 } MAGIC;
 
 
 typedef struct
 {
-	short useFlag;					// ʹ�åե饰
-	int id;							// �����ɣ�
-	int level;						// ��٥�
-	int maxHp;						// ���ȣ�
-	int hp;							// �ȣ�
-	int mp;							// �ͣ�
-	char name[CHAR_NAME_LEN+1];		// ��ǰ
-	ACTION *ptAct;					// ���������
+	short useFlag;					// 使用フラグ
+	int id;							// 管理ＩＤ
+	int level;						// レベル
+	int maxHp;						// 最大ＨＰ
+	int hp;							// ＨＰ
+	int mp;							// ＭＰ
+	char name[CHAR_NAME_LEN+1];		// 名前
+	ACTION *ptAct;					// アクション
 } PARTY;
 
 
 typedef struct
 {
-	short useFlag;					// ʹ�åե饰
-	short onlineFlag;				// ����饤��ɤ���
-	int level;						// ��٥�
-	int dp;							// �ǥ奨��ݥ����
-	int graNo;						// ���񷬺�
-	char name[CHAR_NAME_LEN+1];		// ��ǰ
+	short useFlag;					// 使用フラグ
+	short onlineFlag;				// オンラインどうか
+	int level;						// レベル
+	int dp;							// デュエルポイント
+	int graNo;						// 画像番号
+	char name[CHAR_NAME_LEN+1];		// 名前
 } ADDRESS_BOOK;
 
 
 typedef struct
 {
-	short petNo;					// �ڥåȷ���
-	short levelUp;					// ��٥륢�åץե饰
-	int exp;						// ȡ�ýU�Y��
+	short petNo;					// ペット番号
+	short levelUp;					// レベルアップフラグ
+	int exp;						// 取得UY
 } BATTLE_RESULT_CHR;
 
 typedef struct
 {
-	short useFlag;					// ʹ�åե饰
-	BATTLE_RESULT_CHR resChr[RESULT_CHR_EXP];	// ���L�Y���U�Y����å��`��
-	char item[RESULT_ITEM_COUNT][RESULT_ITEM_NAME_LEN+1];		// ȡ�å����ƥ���
+	short useFlag;					// 使用フラグ
+	BATTLE_RESULT_CHR resChr[RESULT_CHR_EXP];	// 殛LY果UY幞氓哗`ジ
+	char item[RESULT_ITEM_COUNT][RESULT_ITEM_NAME_LEN+1];		// 取得アイテム名
 } BATTLE_RESULT_MSG;
 
 
 typedef struct
 {
-	short useFlag;						// ʹ�åե饰
-	short skillId;						// ������ɣ�
-	short field;						// ʹ�äǤ������
-	short target;						// ���Ό���
-	char name[SKILL_NAME_LEN+1];		// ������ǰ
-	char memo[SKILL_MEMO_LEN+1];		// ���
+	short useFlag;						// 使用フラグ
+	short skillId;						// スキルＩＤ
+	short field;						// 使用できる鏊
+	short target;						// 技の象
+	char name[SKILL_NAME_LEN+1];		// 技の名前
+	char memo[SKILL_MEMO_LEN+1];		// メモ
 } PET_SKILL;
 
 
 typedef struct
 {
-	char name[CHAR_NAME_LEN+1];		// SJIS����ǰ�򤤤��
-	short level;					// ��٥�
-	int login;						// �����������
+	char name[CHAR_NAME_LEN+1];		// SJISで名前をいれる
+	short level;					// レベル
+	int login;						// ログイン回数
 
-	int faceGraNo;					// ��񷬺�
-	int hp;							// �ȣ�
-	int str;						// ������
-	int def;						// ������
-	int agi;						// ������
-	int app;						// ����
-	int attr[4];					// ���ԣ���?ˮ?��?�L��
-	int dp;							// �ǥ奨��ݥ����
+	int faceGraNo;					// 画像番号
+	int hp;							// ＨＰ
+	int str;						// 攻牧
+	int def;						// 防御力
+	int agi;						// 敏捷力
+	int app;						// 魅力
+	int attr[4];					// 属性（地?水?火?L）
+	int dp;							// デュエルポイント
 } CHARLISTTABLE;
 
 

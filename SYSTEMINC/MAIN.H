@@ -1,43 +1,43 @@
-// main.cpp ¥Ø¥Ã¥À¥Õ¥¡¥¤¥ë
+// main.cpp ãƒ˜ãƒƒãƒ€ãƒ•ã‚¡ã‚¤ãƒ«
 
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
 //---------------------------------------------------------------------------//
-// ¸ÅÒª £º¥Ş¥¯¥í£¨define)ĞûÑÔ                                                //
+// æ¦‚è¦ ï¼šãƒã‚¯ãƒ­ï¼ˆdefine)å®£è¨€                                                //
 //---------------------------------------------------------------------------//
-//±êÌâÀ¸µÄÃû×Ö
-#define DEF_APPNAME		"Ä§Á¦" // "£Ó£ô£ï£î£å£Á£ç£å" //¥¿¥¤¥È¥ë¥Ğ©`¤ÎÃûÇ°   ºÃÏñÃ»ÓÃ´°¿ÚÄ£Ê½ÏÂ 
-#define DEF_APPSIZEX	640								//×÷³É¤¹¤ëWINDOWS¤Îºá·ù640	
-#define DEF_APPSIZEY	480							//×÷³É¤¹¤ëWINDOWS¤Î¿k·ù480
-//#define DEF_APPSIZEX	320								//×÷³É¤¹¤ëWINDOWS¤Îºá·ù
-//#define DEF_APPSIZEY	240								//×÷³É¤¹¤ëWINDOWS¤Î¿k·ù
+//æ ‡é¢˜æ çš„åå­—
+#define DEF_APPNAME		"é­”åŠ›" // "ï¼³ï½”ï½ï½ï½…ï¼¡ï½‡ï½…" //ã‚¿ã‚¤ãƒˆãƒ«ãƒ`ã®åå‰   å¥½åƒæ²¡ç”¨çª—å£æ¨¡å¼ä¸‹ 
+#define DEF_APPSIZEX	640								//ä½œæˆã™ã‚‹WINDOWSã®æ¨ªå¹…640	
+#define DEF_APPSIZEY	480							//ä½œæˆã™ã‚‹WINDOWSã®kå¹…480
+//#define DEF_APPSIZEX	320								//ä½œæˆã™ã‚‹WINDOWSã®æ¨ªå¹…
+//#define DEF_APPSIZEY	240								//ä½œæˆã™ã‚‹WINDOWSã®kå¹…
 
 #define SCREEN_WIDTH_CENTER			DEF_APPSIZEX/2
 #define SCREEN_HEIGHT_CENTER		DEF_APPSIZEY/2
 
 //---------------------------------------------------------------------------//
-// ¸ÅÒª £ºévÊı¥×¥í¥È¥¿¥¤¥×ĞûÑÔ                                               //
+// æ¦‚è¦ ï¼švæ•°ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€                                               //
 //---------------------------------------------------------------------------//
 
-int PASCAL WinMain( HINSTANCE 		hInstance, 	HINSTANCE 		hPrevInstance, 	LPSTR lpCmdLine, 	int nCmdShow );	// ³õÆÚ»¯évÊı
+int PASCAL WinMain( HINSTANCE 		hInstance, 	HINSTANCE 		hPrevInstance, 	LPSTR lpCmdLine, 	int nCmdShow );	// åˆæœŸåŒ–væ•°
 
-LRESULT CALLBACK PASCAL WindMsgProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );				//¥á¥¤¥ó¥×¥í¥·©`¥¸¥ã©`
-BOOL SystemTask( void );																		// ¥á¥Ã¥»©`¥¸¥ë©`¥×évÊı
+LRESULT CALLBACK PASCAL WindMsgProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );				//ãƒ¡ã‚¤ãƒ³ãƒ—ãƒ­ã‚·`ã‚¸ãƒ£`
+BOOL SystemTask( void );																		// ãƒ¡ãƒƒã‚»`ã‚¸ãƒ«`ãƒ—væ•°
 
 //#define P( a ) 	printf( #a "\n")
 //#define Pd( a ) printf( #a " = %d\n",a )
 //#define Pf( a ) printf( #a " = %f\n",a )
 //#define Pp( a ) printf( #a " = %p\n",a )
 
-// ¥°¥í©`¥Ğ¥ë‰äÊı
-extern HWND hWnd;		// ¥¦¥£¥ó¥É¥¦¥Ï¥ó¥É¥ë
-extern BOOL WindowMode;		// ¥¦¥£¥ó¥É¥¦¥â©`¥É
+// ã‚°ãƒ­`ãƒãƒ«æ¶«
+extern HWND hWnd;		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+extern BOOL WindowMode;		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ¢`ãƒ‰
 extern int ResoMode;
-extern int LowResoCmdFlag;		// ½âÏñ¶È‰ä¸ü¥³¥Ş¥ó¥É¥Õ¥é¥°
-extern int	CmdShow;	// WinMainévÊı¤ÎÒıÊı¤ò¥°¥í©`¥Ğ¥ë¤Ë¤¹¤ë
-extern LPSTR CmdLine; 	// WinMainévÊı¤Î¥³¥Ş¥ó¥É¥é¥¤¥óÒıÊı¤ò¥°¥í©`¥Ğ¥ë¤Ë¤¹¤ë
-extern HANDLE hMutex;	// Í¬•rÆğ„Ó¥Á¥§¥Ã¥¯¥ª¥Ö¥¸¥§¥¯¥È¤Î¥Ï¥ó¥É¥ë
+extern int LowResoCmdFlag;		// è§£åƒåº¦æ¶“å¿è•™è—ä¸§æ¦¨æ¥—
+extern int	CmdShow;	// WinMainvæ•°ã®å¼•æ•°ã‚’ã‚°ãƒ­`ãƒãƒ«ã«ã™ã‚‹
+extern LPSTR CmdLine; 	// WinMainvæ•°ã®ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã‚’ã‚°ãƒ­`ãƒãƒ«ã«ã™ã‚‹
+extern HANDLE hMutex;	// åŒrèµ·é¹°éš¶Ğ”æ°“èŠå¼—Ğ”è¶£è¿è†è—ä¸§
 
 extern char realBinName[];
 extern char adrnBinName[];
@@ -46,9 +46,9 @@ extern char sprAdrnBinName[];
 
 #ifdef _DEBUG
 extern BOOL offlineFlag;
-extern char DebugKey0[ 256 ];		// ¥Ç¥Ğ¥Ã¥¯¥­©`£°
-extern char DebugKey1[ 256 ];		// ¥Ç¥Ğ¥Ã¥¯¥­©`£±
-extern char DebugKey2[ 256 ];		// ¥Ç¥Ğ¥Ã¥¯¥­©`£²
+extern char DebugKey0[ 256 ];		// ãƒ‡ãƒãƒƒã‚¯ã‚­`ï¼
+extern char DebugKey1[ 256 ];		// ãƒ‡ãƒãƒƒã‚¯ã‚­`ï¼‘
+extern char DebugKey2[ 256 ];		// ãƒ‡ãƒãƒƒã‚¯ã‚­`ï¼’
 #endif
 
 #endif

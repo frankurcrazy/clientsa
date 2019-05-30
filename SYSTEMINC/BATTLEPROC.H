@@ -4,16 +4,16 @@
 #ifndef _BATTLE_PROC_H_
 #define _BATTLE_PROC_H_
 
-// ���󥫥���ȥե饰
+// エンカウントフラグ
 extern BOOL EncountFlag;
-// �إ�ןo���Εr
+// ヘルプoしのr
 extern BOOL NoHelpFlag;
-// ���󥫥���ȥ��եե饰
+// エンカウントオフフラグ
 extern BOOL EncountOffFlag;
-// �ǥ奨��ե饰
+// デュエルフラグ
 extern BOOL DuelFlag;
 
-// �Хȥ�ץ����� 
+// バトルプロセス 
 void BattleProc( void );
 
 #endif

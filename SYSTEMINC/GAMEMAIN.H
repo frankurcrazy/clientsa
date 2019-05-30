@@ -1,38 +1,38 @@
-// gamemain.cpp е╪е├е└е╒ебедеы
+// gamemain.cpp уГШуГГуГАуГХуВбуВдуГл
 
 #ifndef _GAMEMAIN_H_
 #define _GAMEMAIN_H_
 
-// е▓й`ерд╬╫┤СB
+// уВ▓`уГауБочК╢B
 enum{
-	GAME_LOGIN,					// еэе░едеє
-	GAME_FIELD,					// е╒егй`еые╔е▐е├е╫
-	GAME_FIELD_TO_ENCOUNT,		// е╒егй`еые╔е▐е├е╫длдщеиеєележеєе╚╤▌│Ў╓╨
-	GAME_ENCOUNT_TO_BATTLE,		// еиеєележеєе╚╤▌│ЎдлдщСщъL
-	GAME_BATTLE				// еиеєележеєе╚╤▌│ЎдлдщСщъL
+	GAME_LOGIN,					// уГнуВ░уВдуГ│
+	GAME_FIELD,					// уГХуВг`уГлуГЙуГЮуГГуГЧ
+	GAME_FIELD_TO_ENCOUNT,		// уГХуВг`уГлуГЙуГЮуГГуГЧуБЛуВЙуВиуГ│уВлуВжуГ│уГИц╝ФхЗ║ф╕н
+	GAME_ENCOUNT_TO_BATTLE,		// уВиуГ│уВлуВжуГ│уГИц╝ФхЗ║уБЛуВЙцоЫL
+	GAME_BATTLE				// уВиуГ│уВлуВжуГ│уГИц╝ФхЗ║уБЛуВЙцоЫL
 };
 
 
-extern int	GameState;	// е▓й`ерд╬╫┤СB
-extern double NowTime;	// мF╘┌д╬Хrщg╙ЫСЫ
+extern int	GameState;	// уВ▓`уГауБочК╢B
+extern double NowTime;	// FхЬиуБоrg
 
 //---------------------------------------------------------------------------//
-// щv╩¤е╫еэе╚е┐еде╫╨√╤╘                                                      //
+// vцХ░уГЧуГнуГИуВ┐уВдуГЧхогшиА                                                      //
 //---------------------------------------------------------------------------//
-BOOL GameMain( void );				// е▓й`ерДI└эеседеєщv╩¤
+BOOL GameMain( void );				// уВ▓`уГаIчРЖуГбуВдуГ│vцХ░
 
-// е▓й`ерщ_╩╝ДI└э
+// уВ▓`уГа_хзЛIчРЖ
 BOOL InitGame( void );
 
-// е▓й`ер╜K┴╦ДI└э
+// уВ▓`уГаKф║ЖIчРЖ
 void EndGame( void );
 
 #ifdef _DEBUG		
-// ╟щИє▒э╩╛
+// цГЕшЯКчбО
 void InfoDisp( void );
 #endif
 
-// е╒еьй`ереьй`е╚д╬╙Л╦уги═т╚╦дм╫ў│╔гй
+// уГХуГм`уГауГм`уГИуБочоЧя╝ИхдЦф║║уБМф╜ЬцИРя╝Й
 void DisplayFrameRate( void );
 
 #endif

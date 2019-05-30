@@ -1,55 +1,55 @@
 #ifndef _MAP_H_ 
 #define _MAP_H_
 
-// ƒ}ƒbƒvƒ^ƒCƒ‹•\Ž¦Žž‚ÌƒOƒŠƒbƒh”ÍˆÍi’†S‚©‚ç‚Ì‘Š‘Î”ÍˆÍj
-//µ±µØÍ¼tileÍø¸ñÏÔÊ¾ÇøÓò  µ±µØÍ¼Æ½ÆÌÏÔÊ¾ÇøÓòµçÍø £¨·¶Î§Ïà¶ÔÓÚÖÐÐÄ£©
+// }bv^C\ObhiSj
+//å½“åœ°å›¾tileç½‘æ ¼æ˜¾ç¤ºåŒºåŸŸ  å½“åœ°å›¾å¹³é“ºæ˜¾ç¤ºåŒºåŸŸç”µç½‘ ï¼ˆèŒƒå›´ç›¸å¯¹äºŽä¸­å¿ƒï¼‰
 #if 1
 #define MAP_TILE_GRID_X1	-20
-#define MAP_TILE_GRID_X2	+17		// ²»°üÀ¨½áÊø
+#define MAP_TILE_GRID_X2	+17		// ä¸åŒ…æ‹¬ç»“æŸ
 #define MAP_TILE_GRID_Y1	-16
-#define MAP_TILE_GRID_Y2	+21		// ’[‚ÍŠÜ‚Ü‚È‚¢
+#define MAP_TILE_GRID_Y2	+21		// [
 #else
 #define MAP_TILE_GRID_X1	-19
-#define MAP_TILE_GRID_X2	+15		// ’[‚ÍŠÜ‚Ü‚È‚¢
+#define MAP_TILE_GRID_X2	+15		// [
 #define MAP_TILE_GRID_Y1	-14
-#define MAP_TILE_GRID_Y2	+20		// ’[‚ÍŠÜ‚Ü‚È‚¢
+#define MAP_TILE_GRID_Y2	+20		// [
 #endif
 
-// µØÍ¼³ß´ç
+// åœ°å›¾å°ºå¯¸
 #define MAP_X_SIZE	(MAP_TILE_GRID_X2 - MAP_TILE_GRID_X1)
 #define MAP_Y_SIZE	(MAP_TILE_GRID_Y2 - MAP_TILE_GRID_Y1)
 
-// Íø¸ñµÄ´óÐ¡
+// ç½‘æ ¼çš„å¤§å°
 #define GRID_SIZE		64
 
-// ÒÆ„ÓËÙ¶È
+// ç§»é“€ä¿£
 #define MOVE_SPEED			4
 #define MOVE_FRAME			(GRID_SIZE/MOVE_SPEED)
 
-// ÊÂ¼þ±àºÅ
+// äº‹ä»¶ç¼–å·
 enum
 {
-	EVENT_NONE,			// ÊÂ¼þ²»»á·¢Éú  
-	EVENT_NPC,			// ŒÅ’èNPC  ¹Ì¶¨NPC 
-	EVENT_ENEMY,		// ³ÖÐøÔâÓöµÐÈË  ¾ÍÊÇÓöµÐ
-	EVENT_WARP,			// ¾­  ×ª»»µØÍ¼£¿
-	EVENT_DOOR,			// ÃÅ
-	//ËÑË÷µØÍ¼ Èç¹ûÊÇµÄ»°
-	EVENT_ALTERRATIVE,	// ‰½‚©‚ ‚é‚©‚à’m‚ê‚È‚¢‚Ì‚Åƒ}ƒbƒv‚Ì—v‹‚ð•K‚¸‚·‚é
-	EVENT_WARP_MONING,	// ’©ŒÀ’èƒ[ƒv  ÉÏÎç
-	EVENT_WARP_NOON,	// ’‹ŒÀ’èƒ[ƒv  ÖÐÎç
-	EVENT_WARP_NIGHT,	// –éŒÀ’èƒ[ƒv  ÏÂÎçÏÞÖÆ
+	EVENT_NONE,			// äº‹ä»¶ä¸ä¼šå‘ç”Ÿ  
+	EVENT_NPC,			// NPC  å›ºå®šNPC 
+	EVENT_ENEMY,		// æŒç»­é­é‡æ•Œäºº  å°±æ˜¯é‡æ•Œ
+	EVENT_WARP,			// ç»  è½¬æ¢åœ°å›¾ï¼Ÿ
+	EVENT_DOOR,			// é—¨
+	//æœç´¢åœ°å›¾ å¦‚æžœæ˜¯çš„è¯
+	EVENT_ALTERRATIVE,	// m}bvvK
+	EVENT_WARP_MONING,	// [v  ä¸Šåˆ
+	EVENT_WARP_NOON,	// [v  ä¸­åˆ
+	EVENT_WARP_NIGHT,	// [v  ä¸‹åˆé™åˆ¶
 
-	EVENT_END		// ×îºóÒ»¸öÊÂ¼þ±àºÅ
+	EVENT_END		// æœ€åŽä¸€ä¸ªäº‹ä»¶ç¼–å·
 };
 
-// ±êÖ¾µÄµØÍ¼
-//Èç¹ûÓÐÊý¾Ý±êÖ¾£¨¦Â°æ£©  ¶ÁÈ¡
-#define MAP_READ_FLAG	0x8000		// ƒf[ƒ^‚ª‚ ‚é‚©‚Ìƒtƒ‰ƒOiƒÀƒo[ƒWƒ‡ƒ“j
-//ÐÔ¸ñµÄ±êÖ¾µ½¸ÃÎ»ÖÃ  ¿É¼û
-#define MAP_SEE_FLAG	0x4000		// ƒLƒƒƒ‰‚ª‚»‚ÌêŠ‚És‚Á‚½‚©‚Ìƒtƒ‰ƒO
+// æ ‡å¿—çš„åœ°å›¾
+//å¦‚æžœæœ‰æ•°æ®æ ‡å¿—ï¼ˆÎ²ç‰ˆï¼‰  è¯»å–
+#define MAP_READ_FLAG	0x8000		// f[^tOio[Wj
+//æ€§æ ¼çš„æ ‡å¿—åˆ°è¯¥ä½ç½®  å¯è§
+#define MAP_SEE_FLAG	0x4000		// LstO
 
-// µØ×©µÄÃû³ÆµÄ³¤¶È
+// åœ°ç –çš„åç§°çš„é•¿åº¦
 #define FLOOR_NAME_LEN	24
 
 extern char nowFloorName[];
@@ -74,11 +74,11 @@ extern int viewOffsetY;
 extern short moveAddTbl[8][2];
 
 
-extern BOOL mouseLeftCrick;//Êó±ê×ó¼ü°´ÏÂ£¿
+extern BOOL mouseLeftCrick;//é¼ æ ‡å·¦é”®æŒ‰ä¸‹ï¼Ÿ
 extern BOOL mouseLeftOn;
 extern BOOL mouseRightCrick;
 extern BOOL mouseRightOn;
-extern unsigned int mouseLeftPushTime;//°´Ñ¹Ê±¼ä£¿
+extern unsigned int mouseLeftPushTime;//æŒ‰åŽ‹æ—¶é—´ï¼Ÿ
 extern unsigned int beforeMouseLeftPushTime;
 
 
@@ -151,11 +151,11 @@ void camGamenToMap( float, float, float *, float * );
 
 enum
 {
-	MAP_EFFECT_TYPE_NONE,//ÎÞ
-	MAP_EFFECT_TYPE_RAIN,//Óê
-	MAP_EFFECT_TYPE_SNOW,//Ñ©
-	MAP_EFFECT_TYPE_STAR,//ÐÇ
-	MAP_EFFECT_TYPE_HOTARU//ÔÂ
+	MAP_EFFECT_TYPE_NONE,//æ— 
+	MAP_EFFECT_TYPE_RAIN,//é›¨
+	MAP_EFFECT_TYPE_SNOW,//é›ª
+	MAP_EFFECT_TYPE_STAR,//æ˜Ÿ
+	MAP_EFFECT_TYPE_HOTARU//æœˆ
 };
 
 typedef struct _MAP_EFFECT

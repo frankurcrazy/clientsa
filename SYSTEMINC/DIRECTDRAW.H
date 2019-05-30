@@ -1,18 +1,18 @@
-// directDraw.cpp Í·ÎÄ¼þ
+// directDraw.cpp å¤´æ–‡ä»¶
 
 #ifndef _DIRECT_DRAW_H_
 #define _DIRECT_DRAW_H_
 
-// ×î´óµ÷É«°åÊýÁ¿
+// æœ€å¤§è°ƒè‰²æ¿æ•°é‡
 #define MAX_PAL	15
-// Ä¬ÈÏµ÷É«°å
-#define DEF_PAL	0	//ÍÐÅÌÒ»Ìì
+// é»˜è®¤è°ƒè‰²æ¿
+#define DEF_PAL	0	//æ‰˜ç›˜ä¸€å¤©
 
-// ÍÐÅÌ½»»»Ê±¼ä£¨ÔÚÒ»·ÖÖÓÄÚÍê³É£©
+// æ‰˜ç›˜äº¤æ¢æ—¶é—´ï¼ˆåœ¨ä¸€åˆ†é’Ÿå†…å®Œæˆï¼‰
 #define PAL_CHANGE_TIME			3600
 
-// ÍÐÅÌÏµÍ³
-#define SYSTEM_PAL_WHITE 		255//ÑÕÉ«¶¨Òå°×
+// æ‰˜ç›˜ç³»ç»Ÿ
+#define SYSTEM_PAL_WHITE 		255//é¢œè‰²å®šä¹‰ç™½
 #define SYSTEM_PAL_AQUA 		254
 #define SYSTEM_PAL_PURPLE 		253
 #define SYSTEM_PAL_BLUE 		252
@@ -21,7 +21,7 @@
 #define SYSTEM_PAL_RED 			249
 #define SYSTEM_PAL_GRAY 		248
 #define SYSTEM_PAL_BLUE3 		247
-#define SYSTEM_PAL_GREEN3 		246//»ÒÉ«
+#define SYSTEM_PAL_GREEN3 		246//ç°è‰²
 
 #define SYSTEM_PAL_WHITE2 		7
 #define SYSTEM_PAL_AQUA2 		6
@@ -30,11 +30,11 @@
 #define SYSTEM_PAL_YELLOW2 		3
 #define SYSTEM_PAL_GREEN2 		2
 #define SYSTEM_PAL_RED2 		1
-#define SYSTEM_PAL_BLACK 		0//ºÚ
+#define SYSTEM_PAL_BLACK 		0//é»‘
 #define SYSTEM_PAL_BLUE4 		8
 #define SYSTEM_PAL_GREEN4 		9
 
-// ×ÖÌåµ÷É«°å
+// å­—ä½“è°ƒè‰²æ¿
 #define FONT_PAL_WHITE 		0
 #define FONT_PAL_AQUA 		1
 #define FONT_PAL_PURPLE 	2
@@ -47,124 +47,124 @@
 #define FONT_PAL_GREEN2 	9
 
 
-// ÈçºÎ»æÖÆºóÌ¨»º³åÇø  ±³¾°£¿
+// å¦‚ä½•ç»˜åˆ¶åŽå°ç¼“å†²åŒº  èƒŒæ™¯ï¼Ÿ
 enum{
-	DRAW_BACK_NORMAL,	//Õý³£
-	DRAW_BACK_NON,		// ²»»­
-	DRAW_BACK_PRODUCE,	// Éú³É
-	DRAW_BACK_BATTLE,	// Õ½¶·
+	DRAW_BACK_NORMAL,	//æ­£å¸¸
+	DRAW_BACK_NON,		// ä¸ç”»
+	DRAW_BACK_PRODUCE,	// ç”Ÿæˆ
+	DRAW_BACK_BATTLE,	// æˆ˜æ–—
 };
 
 //---------------------------------------------------------------------------//
-// Direct DrawŠÇ——p\‘¢‘ÌŒ^éŒ¾         ¹ÜÀíÓÃ˜‹ÔìÌåÐÍÐûÑÔ                                      //
+// Direct Drawp\^         ç®¡ç†ç”¨é€ ä½“åž‹å®£è¨€                                      //
 //---------------------------------------------------------------------------//
 typedef struct
 {
-	LPDIRECTDRAW			lpDD;				// DirectDraw¶ÔÏó
-	LPDIRECTDRAW2			lpDD2;				// DirectDraw2  ÄÜ²»ÄÜÐÞ¸Ä³É¸ß¼¶£¿ÎÒÐÞ¸ÄÔ­Ê¼ÊÇ2
-	LPDIRECTDRAWSURFACE		lpFRONTBUFFER;		// Ç°»º³åÇø
-	LPDIRECTDRAWSURFACE		lpBACKBUFFER;		// ºó
-	LPDIRECTDRAWCLIPPER		lpCLIPPER;			// ¼ôÌù
-	DDSURFACEDESC			ddsd;				// ´¦ÀíÖØÐÂ¶¨ÒåµÄ±íÃæ½á¹¹Ìå  Ô­±¾ÊÇÃ»2 ÎÒÐÞ¸Ä
-	LPDIRECTDRAWPALETTE		lpPALETTE;			// µ÷É«°å
-	int						xSize, ySize;		// ³ß´ç
+	LPDIRECTDRAW			lpDD;				// DirectDrawå¯¹è±¡
+	LPDIRECTDRAW2			lpDD2;				// DirectDraw2  èƒ½ä¸èƒ½ä¿®æ”¹æˆé«˜çº§ï¼Ÿæˆ‘ä¿®æ”¹åŽŸå§‹æ˜¯2
+	LPDIRECTDRAWSURFACE		lpFRONTBUFFER;		// å‰ç¼“å†²åŒº
+	LPDIRECTDRAWSURFACE		lpBACKBUFFER;		// åŽ
+	LPDIRECTDRAWCLIPPER		lpCLIPPER;			// å‰ªè´´
+	DDSURFACEDESC			ddsd;				// å¤„ç†é‡æ–°å®šä¹‰çš„è¡¨é¢ç»“æž„ä½“  åŽŸæœ¬æ˜¯æ²¡2 æˆ‘ä¿®æ”¹
+	LPDIRECTDRAWPALETTE		lpPALETTE;			// è°ƒè‰²æ¿
+	int						xSize, ySize;		// å°ºå¯¸
 } DIRECT_DRAW;
 
-// ƒpƒŒƒbƒg\‘¢‘Ì
+// pbg\
 extern PALETTEENTRY			Palette[256];
 
-// ƒpƒŒƒbƒgó‘Ô\‘¢‘Ì
+// pbg\
 typedef struct{
-	int palNo;		// µ÷É«°åºÅÂëID
-	int time;		// ‰Šú‰»ŽžŠÔ ³õÆÚ»¯•rég
-	int flag;		// ‰Šú‰»ƒtƒ‰ƒO ³õÆÚ»¯×ªÕÛµã ÓÐÃ»³õÊ¼»¯±êÖ¾£¿
-}PALETTE_STATE; //µ÷É«°å½á¹¹
+	int palNo;		// è°ƒè‰²æ¿å·ç ID
+	int time;		//  åˆæœŸåŒ–rg
+	int flag;		// tO åˆæœŸåŒ–è½¬æŠ˜ç‚¹ æœ‰æ²¡åˆå§‹åŒ–æ ‡å¿—ï¼Ÿ
+}PALETTE_STATE; //è°ƒè‰²æ¿ç»“æž„
 
-// È«¾Ö±äÁ¿ /////////////////////////////////////////////////////////////
+// å…¨å±€å˜é‡ /////////////////////////////////////////////////////////////
 extern DIRECT_DRAW	*lpDraw;
-// DirectDraw  ³õÊ¼»¯±êÖ¾
+// DirectDraw  åˆå§‹åŒ–æ ‡å¿—
 extern BOOL DDinitFlag;	
-// ×ÖÌå´¦Àí
+// å­—ä½“å¤„ç†
 extern HFONT hFont;
-// µ÷É«°åµÄ½á¹¹Ìå
+// è°ƒè‰²æ¿çš„ç»“æž„ä½“
 extern PALETTE_STATE PalState;	
-// ÍÐÅÌ¸Ä±ä±êÖ¾
+// æ‰˜ç›˜æ”¹å˜æ ‡å¿—
 extern BOOL	PalChangeFlag;	
-// ÈçºÎ»æÖÆºóÌ¨»º³åÇø
+// å¦‚ä½•ç»˜åˆ¶åŽå°ç¼“å†²åŒº
 extern int BackBufferDrawType;
 
 //---------------------------------------------------------------------------//
-// ŠÖ”ƒvƒƒgƒ^ƒCƒvéŒ¾                                                      //
+// vg^Cv                                                      //
 //---------------------------------------------------------------------------//
-// DirectDraw³õÊ¼»¯
+// DirectDrawåˆå§‹åŒ–
 BOOL InitDirectDraw( void );
 
-// µ÷É«°å³õÊ¼»¯
+// è°ƒè‰²æ¿åˆå§‹åŒ–
 BOOL InitPalette( void );
 
-// ƒoƒbƒNƒT[ƒtƒFƒX‚ð•‚ÅƒNƒŠƒA[
+// obNT[tFXNA[
 void ClearBackSurface( void );
 
-// ƒT[ƒtƒFƒX‚ð•‚ÅƒNƒŠƒA[
+// T[tFXNA[
 void ClearSurface( LPDIRECTDRAWSURFACE lpSurface );
 
-// ÔØÈëÍ¼Æ¬
+// è½½å…¥å›¾ç‰‡
 LPBITMAPINFO LoadDirectDrawBitmap( char *pFile );
 
-// ²úÉú½Ó¿Ú
+// äº§ç”ŸæŽ¥å£
 LPDIRECTDRAWSURFACE CreateSurface( short sizeX, short sizeY, DWORD ColorKey, unsigned int VramOrSysram );
 
-// ¿ì½øµ½ºóÃæµÄ±íÃæ  ¿ìËÙ
+// å¿«è¿›åˆ°åŽé¢çš„è¡¨é¢  å¿«é€Ÿ
 HRESULT DrawSurfaceFast( short bx, short by, LPDIRECTDRAWSURFACE lpSurface );
-// ƒoƒbƒNƒT[ƒtƒFƒX‚Ö‚‘¬“]‘—
+// obNT[tFX]
 HRESULT DrawSurfaceFast2( short bx, short by, RECT *rect, LPDIRECTDRAWSURFACE lpSurface );
 
-// ƒoƒbƒNƒT[ƒtƒFƒX‚Ö“]‘—
+// obNT[tFX]
 //HRESULT DrawSurface( short bx, short by, RECT *rect, LPDIRECTDRAWSURFACE lpSurface );
 
-// ´«µÝº¯ÊýµÄ±íÃæºÍBMPµÄ´«µÝ  StretchDIBits Ê¹ÓÃ
+// ä¼ é€’å‡½æ•°çš„è¡¨é¢å’ŒBMPçš„ä¼ é€’  StretchDIBits ä½¿ç”¨
 void DrawBitmapToSurface( LPDIRECTDRAWSURFACE lpSurface, int offsetX, int offsetY, LPBITMAPINFO pInfo );
-// ÄÚ´æµÄ´«µÝµ½½Ó¿Ú memcpy ‚ðŽg—p j
+// å†…å­˜çš„ä¼ é€’åˆ°æŽ¥å£ memcpy gp j
 void DrawBitmapToSurface2( LPDIRECTDRAWSURFACE lpSurface, int offsetX, int offsetY, int sizeX, int sizeY, LPBITMAPINFO pBmpInfo );
 
-// ƒT[ƒtƒFƒXFLIPŠÖ”//±íÃæflip¹¦ÄÜ
+// T[tFXFLIP//è¡¨é¢flipåŠŸèƒ½
 void Flip( void );
 
-// ¼ì²é±íÃæÀë¿ª
+// æ£€æŸ¥è¡¨é¢ç¦»å¼€
 BOOL CheckSurfaceLost( void );
 
-// DirectDrawƒIƒuƒWƒFƒNƒg‚ðŠJ•ú‚·‚é
+// DirectDrawIuWFNgJ
 void ReleaseDirectDraw( void );
 
-// »æÖÆ¹ý³ÌÖÐ²ÉÈ¡µÄÊ±¼ä£¨µ÷ÊÔ£©
+// ç»˜åˆ¶è¿‡ç¨‹ä¸­é‡‡å–çš„æ—¶é—´ï¼ˆè°ƒè¯•ï¼‰
 void DrawDebugLine( unsigned char color );
 
-// »æÖÆÒ»¸ö¿ò */
+// ç»˜åˆ¶ä¸€ä¸ªæ¡† */
 void DrawBox( RECT *rect, unsigned char color, BOOL fill );
 
-// ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚Ìì¬ */
+// tHgIuWFNg */
 void InitFont( int fontNo );
 
-// ÎÄ±¾ÊÓÍ¼
+// æ–‡æœ¬è§†å›¾
 void PutText( char fontPrio ); 
 
-// µ÷É«°å ³ÌÐò  ÍÐÅÌ´¦Àí ***************************************************************/
+// è°ƒè‰²æ¿ ç¨‹åº  æ‰˜ç›˜å¤„ç† ***************************************************************/
 void PaletteProc( void );
 
-// ƒpƒŒƒbƒgƒ`ƒFƒ“ƒW ***********************************************************/
+// pbg`FW ***********************************************************/
 void PaletteChange( int palNo, int time );
 
-// ƒI[ƒgƒ}ƒbƒsƒ“ƒO•\Ž¦
+// I[g}bsO\
 void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h );
-// ‰æ‘œ‚Ì•½‹Ï‚ðŽæ‚Á‚ÄƒI[ƒgƒ}ƒbƒv‚ÌF‚ðì‚é
+// I[g}bvF
 int getAutoMapColor( unsigned int GraphicNo );
-// F”entry‚ÌƒpƒŒƒbƒgpalette‚Ì’†‚©‚çAcolor‚Éˆê”Ô‹ß‚¢‚à‚Ì‚Ìindex‚ð•Ô‚·B
-//´Óµ÷É«°åÖÐµÄÑÕÉ«µ÷É«°åÌõÄ¿ÊýÁ¿£¬µ«·µ»Ø×î½Ó½üµÄÑÕÉ«Ë÷Òý¡£
+// FentrypbgpaletteAcolorindexB
+//ä»Žè°ƒè‰²æ¿ä¸­çš„é¢œè‰²è°ƒè‰²æ¿æ¡ç›®æ•°é‡ï¼Œä½†è¿”å›žæœ€æŽ¥è¿‘çš„é¢œè‰²ç´¢å¼•ã€‚
 int getNearestColorIndex( COLORREF color, PALETTEENTRY *palette, int entry );
 
-// ±£´æ¿ìÕÕ
+// ä¿å­˜å¿«ç…§
 void snapShot( void );
-// ‰æ‘œ‚ð‚a‚l‚oƒtƒ@ƒCƒ‹‚É•Û‘¶ ±£´æÎªBMPÍ¼ÏñÎÄ¼þ
+// alot@C ä¿å­˜ä¸ºBMPå›¾åƒæ–‡ä»¶
 BOOL saveBmpFile( const char *, BYTE *,	int, int, int, int, int, RGBQUAD *, int );
 
 

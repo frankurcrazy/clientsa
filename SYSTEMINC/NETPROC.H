@@ -64,8 +64,8 @@ extern char gamestate_deletechar_charname[128];
 
 
 
-// ˆÈ‰º‚ÌŠÖ”‚Ígamestate‚ÌƒXƒCƒbƒ`‚©‚ç‚æ‚Ñ‚¾‚³‚ê‚éˆ—ŠÖ”‚Å‚ ‚éB
-// ÒÔÏÂ¤ÎévÊı¤Ïgamestate¤Î¥¹¥¤¥Ã¥Á¤«¤é¤è¤Ó¤À¤µ¤ì¤ë„IÀíévÊı¤Ç¤¢¤ë¡£
+// gamestateXCb`B
+// ä»¥ä¸‹ã®væ•°ã¯gamestateã®ã‚¹ã‚¤ãƒƒãƒã‹ã‚‰ã‚ˆã³ã ã•ã‚Œã‚‹Iç†væ•°ã§ã‚ã‚‹ã€‚
 
 void chpassStart(void);
 void chpassProc(void);

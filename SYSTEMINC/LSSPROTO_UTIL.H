@@ -1,4 +1,4 @@
-#ifndef _LSSPROTOUTIL_H_//¼ÓÃÜ·â°üº¯Êı£¿£¿£¿
+#ifndef _LSSPROTOUTIL_H_//åŠ å¯†å°åŒ…å‡½æ•°ï¼Ÿï¼Ÿï¼Ÿ
 #define _LSSPROTOUTIL_H_
 #include <stdlib.h>
 #include <string.h>

@@ -4,53 +4,53 @@
 #ifndef _FONT_H_
 #define _FONT_H_
 
-// �ե���Ȥ�Փ���� ������߼���
+// フォントの理高 字体的逻辑高
 #define FONT_SIZE 16
 
-// ȫ�����֤κ�����ɥå���������
+// 全角文字の横幅（ドット数）点数
 #define FONT_ZENKAU_WIDTH FONT_SIZE + 1
-// ������֤κ�����ɥå�����
+// 半角文字の横幅（ドット数）
 #define	FONT_HANKAKU_WIDTH	FONT_SIZE / 2 + 1
 
-// ȫ�����֤κ�����ɥå�����
+// 全角文字の横幅（ドット数）
 extern int FontZenkauWidth;
-// ������֤κ�����ɥå�����
+// 半角文字の横幅（ドット数）
 extern int FontHankakuWidth;
 
-/* �ե���ȱ�ʾ�����λ  fontPrio �΂� ****************************************/
-//������ʾ����˳���* * * * fontPrioֵ
+/* フォント表示先位  fontPrio の ****************************************/
+//字体显示优先顺序的* * * * fontPrio值
 enum{
-	FONT_PRIO_BACK, 		/* ����˱�ʾ  ���棬��ʾ	*/
-	FONT_PRIO_FRONT			/* ǰ�˱�ʾ 	*/
+	FONT_PRIO_BACK, 		/* 後ろに表示  后面，表示	*/
+	FONT_PRIO_FRONT			/* 前に表示 	*/
 };
 
-// �ե���ȥХåե��`������ ���建��ṹ
+// フォントバッファ`造体 字体缓冲结构
 typedef struct{
-	short x, y;			// ��ʾ����
-	char color;			// ��ʾɫ
-	char str[ 256 ]; 	// ������
-	UCHAR	fontPrio; 	// ��ʾ�΃����λ
-	BOOL hitFlag;		// �������ж����뤫�ե饰���ϣΣ������ϣƣƣ���  ÿ�ж���ת�۵�ON��1�ۿۣ�0
+	short x, y;			// 表示座
+	char color;			// 表示色
+	char str[ 256 ]; 	// 文字列
+	UCHAR	fontPrio; 	// 表示の先位
+	BOOL hitFlag;		// 当たり判定するかフラグ　ＯＮ：１　ＯＦＦ：０  每判定？转折点ON：1折扣：0
 }FONT_BUFFER;
 
-// �ե���ȥХåե��`  ���建����
+// フォントバッファ`  字体缓冲器
 extern FONT_BUFFER FontBuffer[];
 
-// �ե���ȥ����󥿩`  �����̨
+// フォントカウンタ`  字体柜台
 extern int FontCnt;
 
-// �ե���ȱ�ʾ�v�� //  ������ʾ����/////////////////////////////////////////////////////////
+// フォント表示v数 //  字体显示函数/////////////////////////////////////////////////////////
 void FontPrint( char *moji, int x, int y, int dispPrio );
 
-// ���֥ե���ȱ�ʾ�v�� //  ����������ʾ����/////////////////////////////////////////////////////
+// 数字フォント表示v数 //  数字字体显示函数/////////////////////////////////////////////////////
 void FontPrintDec( char *moji, int x, int y, int dispPrio );
 
-/* �ե��������Хåե������� *********************************************/
-//������Ϣ����* * * * * *�����* * 
+/* フォント情螭颔啸氓榨・肆铯幛 *********************************************/
+//字体信息缓冲* * * * * *蓄积在* * 
 int StockFontBuffer( int x, int y, char fontPrio, int color, char *str, BOOL hitFlag );
 
-/* �ե��������Хåե������루������ɤ���********************************/
-//������Ϣ���崢��������* * * * *������
+/* フォント情螭颔啸氓榨・肆铯幛耄造体渡し）********************************/
+//字体信息缓冲储（构造体* * * * *交给）
 void StockFontBuffer2( STR_BUFFER *strBuffer );
 
 #endif

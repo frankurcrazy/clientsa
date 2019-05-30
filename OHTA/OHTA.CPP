@@ -27,45 +27,45 @@ void Ken( ACTION *pAct );
 ACTION *MakeGameOver( void );
 void GameOver( ACTION *pAct );
 
-/* ±¨∞k•«©`•ø */
+/* ÁàÜk„Éá`„Çø */
 int bomData[] = { 21, 22, 23, 23, 22, 21 };
 
-/* ◊‘ôC§Œ•›•§•Û•ø */
+/* Ëá™C„ÅÆ„Éù„Ç§„É≥„Çø */
 ACTION *pJiki;
 
 
-/* π•ìƒ§Œ∑NÓê */
+/* ÊîªËÜúÁïèN */
 enum{
-	TAMA_NORMAL,	/* •Œ©`•ﬁ•Î */
-	TAMA_TWIN,		/* •ƒ•§•Û */
-	TAMA_3WAY,		/* £≥∑ΩœÚ */
-	TAMA_DIR,		/* »´∑ΩœÚ */
-	TAMA_END		/* ΩK§Ô§Í */
+	TAMA_NORMAL,	/* „Éé`„Éû„É´ */
+	TAMA_TWIN,		/* „ÉÑ„Ç§„É≥ */
+	TAMA_3WAY,		/* ÔºìÊñπÂêë */
+	TAMA_DIR,		/* ÂÖ®ÊñπÂêë */
+	TAMA_END		/* K„Çè„Çä */
 };
 	
 /********************************************/
-/*	◊‘ôC									*/
+/*	Ëá™C									*/
 /********************************************/
 
-/* ◊‘ôC”ËÇ‰òã‘ÏÃÂ */
+/* Ëá™C‰∫àÈÄ†‰Ωì */
 typedef struct{
-	int cnt,cnt2,cnt3;	/* ö¯”√•´•¶•Û•ø */
-	int tamaDir;		/* èé§Œ∑ΩœÚ */
-	int tamaDx;			/* èé§Œ£ÿâà∑÷ */
-	int attackKind;		/* π•ìƒ§Œ∑NÓê */
-	STR_BUFFER strTestBuffer;	/* •∆•π•»Œƒ◊÷¡– */
+	int cnt,cnt2,cnt3;	/* Ê∞ìŒïËûó */
+	int tamaDir;		/* ÁïèËæÉ */
+	int tamaDx;			/* Âç±ÂàÜ */
+	int attackKind;		/* ÊîªËÜúÁïèN */
+	STR_BUFFER strTestBuffer;	/* „ÉÜ„Çπ„ÉàÊñáÂ≠óÂàó */
 }JIKI;
 
 static No = 36000;
 
 
-/* ◊‘ôCÑI¿Ì *******************************************************************/
+/* Ëá™CIÁêÜ *******************************************************************/
 void Jiki( ACTION *pAct )
 {
 	JIKI *pYobi = ( JIKI *)pAct->pYobi;
 	//int i;
 	
-	/* π•ìƒ ‹§±§øïr */
+	/* ÊîªÊ∞ñÂü≠Â†°r */
 	if( pAct->damage > 0 ){
 		pAct->hp -= pAct->damage;
 		if( pAct->hp <= 0 ){ 
@@ -76,32 +76,32 @@ void Jiki( ACTION *pAct )
 		}
 		pAct->damage = 0;
 	}
-	// »°≥ˆ§π◊˘òÀ
+	// ÂèñÂá∫„ÅôÂ∫ß
 //	rcX = Rnd( 0,608 );
 //	rcY = Rnd( 0,400 );
 //	SetRect( &Rc[ pAct->bmpNo ], rcX, rcY, rcX + 32, rcY + 32 ); 
 	
-	// •ﬁ•¶•π“∆Ñ”
+	// „Éû„Ç¶„ÇπÁßª
 	//pAct->x = mouse.nowPoint.x;
 	//pAct->y = mouse.nowPoint.y;
 
-	// •ﬁ•¶•π§«èé∞k…‰
+	// „Éû„Ç¶„Çπ„ÅßkÂ∞Ñ
 	if( pYobi->cnt3 <= 0 ){
-		// èé∞k…‰
+		// kÂ∞Ñ
 		//if( mouse.state == MOUSE_LEFT_CRICK ){
 		if( mouse.onceState & MOUSE_LEFT_CRICK ){
-			// »Î¡¶•’•©©`•´•π»°µ√
+			// ÂÖ•Âäõ„Éï„Ç©`„Ç´„ÇπÂèñÂæó
 			//GetKeyInputFocus( &pYobi->strTestBuffer );
-			/* èé◊˜≥… */
+			/* Èûí */
 			//MakeJikiTama( pAct->x , pAct->y -16, 0, -8, Rnd( 0, BMP_FILE - 1 ) );
 			//MakeJikiTama( pAct->x , pAct->y -16, 0, -8, 1034 );
 			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, 25 );
 			
 			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 0, BMP_FILE - 2 ) );
 			
-			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 31554, 31557 ) ); // £‘£«£”
-			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 31000, 31069 ) ); // •‚•Û•π•ø©`
-//			MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 30100, 30135 ) ); // £–£√
+			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 31554, 31557 ) ); // Ôº¥ÔºßÔº≥
+			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 31000, 31069 ) ); // „É¢„É≥„Çπ„Çø`
+//			MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 30100, 30135 ) ); // Ôº∞Ôº£
 			//MakeJikiTama( pAct->x + 10, pAct->y -16, 0, -8, Rnd( 0, BMP_FILE - 1 ) );
 			//MakeJikiTama( pAct->x, pAct->y -16, 0, -8, 29 );
 			//MakeJikiTama( pAct->x - 10, pAct->y -16, 0, -8, 29 );
@@ -109,16 +109,16 @@ void Jiki( ACTION *pAct )
 			pYobi->cnt3 = 5;
 #if 0
 			for( i = 0; i < (int)256; i++ ){
-				// √˜§Î§Ø§π§Î
+				// Êòé„Çã„Åè„Åô„Çã
 				Palette[i].peRed 	 *= 0.95;
 				Palette[i].peGreen *= 0.95;
 				Palette[i].peBlue  *= 0.95;
 			}
-			// •—•Ï•√•»§Œ÷–…Ì§Ú‘O∂®
+			// „Éë„É¨„ÉÉ„Éà„ÅÆ‰∏≠Ë∫´„ÇíOÂÆö
 			lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 #endif
 		}
-		// ’Ê÷–•‹•ø•Û
+		// Áúü‰∏≠„Éú„Çø„É≥
 		if( GetAsyncKeyState( VK_MBUTTON ) ){
 			//MakeJikiTama( pAct->x, pAct->y -16, 0, -8, 29 );
 			//MakeJikiTama( pAct->x, 	   	pAct->y -16,  0, -8, Rnd( 0, BMP_FILE - 1 ) );
@@ -126,16 +126,16 @@ void Jiki( ACTION *pAct )
 			pYobi->cnt3 = 5;
 			
 		}
-		// èé∞k…‰
+		// kÂ∞Ñ
 		//if( mouse.onceState & MOUSE_RIGHT_CRICK ){
 		if( mouse.state & MOUSE_RIGHT_CRICK ){
-			// »Î¡¶•’•©©`•´•π»°µ√
+			// ÂÖ•Âäõ„Éï„Ç©`„Ç´„ÇπÂèñÂæó
 			//GetKeyInputFocus( &MyChatBuffer );
 		//if( GetAsyncKeyState( VK_RBUTTON ) 	& 0x8000 ){
 		//	MakeJikiTama( pAct->x, pAct->y -16, 0, -8, 29 );
-		// •µ©`•’•ß•π§¨§¢§√§ø§È
+		// „Çµ`„Éï„Çß„Çπ„Åå„ÅÇ„Å£„Åü„Çâ
 		//if( lpSurface[ 0 ] != NULL ){
-		//	// •Í•Í©`•π
+		//	// „É™„É™`„Çπ
 		//	lpSurface[ 0 ]->Release( );
 		//	lpSurface[ 0 ] = NULL;
 		//}
@@ -156,67 +156,67 @@ void Jiki( ACTION *pAct )
 			pYobi->cnt3 = 5;
 #if 0
 			for( i = 0; i < (int)256; i++ ){
-				// ∞µ§Ø§π§Î
+				// Êöó„Åè„Åô„Çã
 				Palette[i].peRed  *= 1.05;
 				Palette[i].peGreen*= 1.05;
 				Palette[i].peBlue *= 1.05;
 			}
-			//•—•Ï•√•»§Œ÷–…Ì§Ú‘O∂®
+			//„Éë„É¨„ÉÉ„Éà„ÅÆ‰∏≠Ë∫´„ÇíOÂÆö
 			lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 #endif
 		}
 		
 	}else pYobi->cnt3--;
 
-	/* ◊¥ëB§«∑÷·™ */
+	/* Áä∂B„ÅßÂàÜÂ≤ê */
 	switch( pAct->state ){
-		/* Õ®≥£ïr */
+		/* ÈÄöÂ∏∏r */
 		case ACT_STATE_ACT:
 		
-			/* î≥èé§»§Œµ±§ø§Í≈–∂® */
+			/* Ë∂£ËîöÂ†°ÈÉ°Êò±Âç∏ */
 			//Hit( pAct, PRIO_ENEMY_TAMA );
-			/* î≥§»§Œµ±§ø§Í≈–∂® */
+			/* ÈïøË∂£ËîöÂ†°ÈÉ°Êò±Âç∏ */
 			//Hit( pAct, PRIO_ENEMY );
 
-			/* “∆Ñ” */
-			if( joy_con[ 0 ] & JOY_UP ){	/* …œ */
+			/* Áßª */
+			if( joy_con[ 0 ] & JOY_UP ){	/* ‰∏ä */
 				pAct->y -= 2;
 				if( pAct->y < 0 ) pAct->y = 0;
 			}
-			if( joy_con[ 0 ] & JOY_DOWN ){	/* œ¬ */
+			if( joy_con[ 0 ] & JOY_DOWN ){	/* ‰∏ã */
 				pAct->y += 2;
 				if( pAct->y > 448 ) pAct->y = 448;
 			}
-			if( joy_con[ 0 ] & JOY_LEFT ){	/* ◊Û */
+			if( joy_con[ 0 ] & JOY_LEFT ){	/* Â∑¶ */
 				pAct->x -= 2;
 				if( pAct->x < 0 ) pAct->x = 0;
 			}
-			if( joy_con[ 0 ] & JOY_RIGHT ){	/* ”“ */
+			if( joy_con[ 0 ] & JOY_RIGHT ){	/* Âè≥ */
 				pAct->x += 2;
 				if( pAct->x > 608 ) pAct->x = 608;
 			}
 			
-			// î≥◊˜≥…
+			// ÂåôÈûí
 			//if( joy_con[ 0 ] & JOY_B )	MakeEnemy();
 			
-			/* èé∞k…‰ */
-			if( pYobi->cnt3 <= 0 ){ /* èé•¶•ß•§•» */
+			/* kÂ∞Ñ */
+			if( pYobi->cnt3 <= 0 ){ /* Œï–î„ÅÖ */
 				if( joy_con[ 0 ] & JOY_A ){
 					
 					/*DeathAllAction();*/
-					/* èé§Œ∑NÓê§«∑÷·™ */
+					/* ÁïèN„ÅßÂàÜÂ≤ê */
 					switch( pYobi->attackKind ){
 						
 						case TAMA_NORMAL:
 						
-							/* èé◊˜≥… */
+							/* Èûí */
 							MakeJikiTama( pAct->x, pAct->y -16, 0, -8, 28 );
 							
 							break;
 							
 						case TAMA_TWIN:
 						
-							/* èé◊˜≥… */
+							/* Èûí */
 							MakeJikiTama( pAct->x - 10, pAct->y -16, 0, -8, 29 );
 							MakeJikiTama( pAct->x + 10, pAct->y -16, 0, -8, 29 );
 							
@@ -234,32 +234,32 @@ void Jiki( ACTION *pAct )
 						
 							MakeJikiTama( pAct->x, pAct->y -16,  pYobi->tamaDx, -8, 29 );
 							MakeJikiTama( pAct->x, pAct->y -16, -pYobi->tamaDx, -8, 29 );
-							/* èé∑ΩœÚ */
+							/* ËæÉ */
 							pYobi->tamaDx += pYobi->tamaDir;
 							if(	pYobi->tamaDx <= -10 || 10 <= pYobi->tamaDx ){
 								pYobi->tamaDir *= -1;
 							}
 							break;
 					}
-					pYobi->cnt3 = 2; /*  èé•¶•ß•§•» */
-					//pYobi->cnt3 = 0; /*  èé•¶•ß•§•» */
+					pYobi->cnt3 = 2; /*  Œï–î„ÅÖ */
+					//pYobi->cnt3 = 0; /*  Œï–î„ÅÖ */
 				}
 			}else{
 				if( pYobi->cnt3 > 0 ) pYobi->cnt3--;
 			}
 			
-			/* µ„úÁ */
+			/* ÁÇπ */
 /*			if( ( int )pAct->x % 2 ) pAct->atr |= ACT_ATR_HIDE;
 			else pAct->atr &= ~ACT_ATR_HIDE;
 */		
-			/* î≥◊˜≥… */
+			/* ÂåôÈûí */
 			pYobi->cnt++;
 			if( pYobi->cnt >= 1 ){
 				//MakeEnemy();
 				pYobi->cnt2++;
 				if( pYobi->cnt2 >= 5 ){
 					pYobi->cnt2 = 0;
-					/* èéâ‰∏¸ */
+					/* Ê∂ì */
 					//pYobi->attackKind++;
 					if( pYobi->attackKind >= TAMA_END ){
 						pYobi->attackKind = 0;
@@ -270,20 +270,20 @@ void Jiki( ACTION *pAct )
 			
 			break;
 	
-		/* À¿Õˆïr */	
+		/* Ê≠ª‰∫°r */	
 		case ACT_STATE_DEAD:
 		
 			if( pYobi->cnt == 0 ){ 
 				pAct->bmpNo = bomData[ 0 ];
 				pYobi->cnt = 1;
 			}
-			/* ±¨∞k•¢•À•·©`•∑•Á•Û */
+			/* ÁàÜk„Ç¢„Éã„É°`„Ç∑„Éß„É≥ */
 			pYobi->cnt2++;
 			if( pYobi->cnt2 >= 5 ){
 				pAct->bmpNo = bomData[ pYobi->cnt ];
 				pYobi->cnt++;
 				pYobi->cnt2 = 0;
-				/* ΩK§Ô§√§ø§ÈÀ¿§Ã */
+				/* K„Çè„Å£„Åü„ÇâÊ≠ª„Å¨ */
 				if( pYobi->cnt == 6 ){
 					DeathAction( pAct );
 					MakeGameOver( );
@@ -293,7 +293,7 @@ void Jiki( ACTION *pAct )
 			break;
 	}
 	
-	// ±Ì æ•«©`•ø§Ú•–•√•’•°§À¡Ô§·§Î
+	// Ë°®Á§∫„Éá`„Çø„Çí„Éê„ÉÉ„Éï„Ç°„Å´Ê∫ú„ÇÅ„Çã
 	//StockDispBuffer( pAct->x + 32, pAct->y, pAct->dispPrio, pAct->anim_chr_no, 0 );
 	//StockDispBuffer( pAct->x - 32, pAct->y, pAct->dispPrio, pAct->anim_chr_no, 0 );
 	{
@@ -302,57 +302,57 @@ void Jiki( ACTION *pAct )
 	//	StockFontBuffer( pAct->x, pAct->y, FONT_PRIO_FRONT, 2, szMoji, 0 );
 	}
 	
-	// •¢•À•·©`•∑•Á•Û
+	// „Ç¢„Éã„É°`„Ç∑„Éß„É≥
 	pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
-	// •∆•π•»Œƒ◊÷¡–±Ì æ
+	// „ÉÜ„Çπ„ÉàÊñáÂ≠óÂàóË°®Á§∫
 	//StockFontBuffer( 320, 200, FONT_PRIO_FRONT, pYobi->strTestBuffer.color, pYobi->strTestBuffer.buffer, 0 );
 	StockFontBuffer2( &pYobi->strTestBuffer );
 }
 
 /********************************************/
-/*	◊‘ôCèé									*/
+/*	Ëá™C									*/
 /********************************************/
 
-/* ◊‘ôCèé◊˜≥… *********************************************************************/
+/* Ëá™CÈûí *********************************************************************/
 ACTION *MakeJikiTama( int x, int y, int dx, int dy, int bmpNo )
 {
 	ACTION *pAct;
 	
-	/* •¢•Ø•∑•Á•Û•Í•π•»§Àµ«Âh */
+	/* „Ç¢„ÇØ„Ç∑„Éß„É≥„É™„Çπ„Éà„Å´Áôªh */
 	pAct = GetAction( PRIO_JIKI_TAMA, 0 );
 	if( pAct == NULL ) return NULL;
 	
-	/* åg––Èv ˝ */
+	/* gË°åvÊï∞ */
 	pAct->func = JikiTama;
-	// anim_tbl.h §Œ∑¨∫≈
-	pAct->anim_chr_no = bmpNo; // •§•Œ•∑•∑
-	// Ñ”◊˜∑¨∫≈
+	// anim_tbl.h „ÅÆÁï™Âè∑
+	pAct->anim_chr_no = bmpNo; // „Ç§„Éé„Ç∑„Ç∑
+	// ÂπºÈû£
 	//pAct->anim_no = ANIM_ATTACK;
 	pAct->anim_no = Rnd( ANIM_ATTACK, ANIM_WALK );
 	//pAct->anim_no = ANIM_WALK;
-	// •¢•À•·©`•∑•Á•ÛœÚ§≠( £∞°´£∑ )( œ¬§¨£∞§«”“ªÿ§Í )
+	// „Ç¢„Éã„É°`„Ç∑„Éß„É≥Âêë„Åç( ÔºêÔΩûÔºó )( ‰∏ã„ÅåÔºê„ÅßÂè≥Âõû„Çä )
 	pAct->anim_ang = Rnd( 0, 7 );
-	///* •π•◊•È•§•»∑¨∫≈ */
+	///* „Çπ„Éó„É©„Ç§„ÉàÁï™Âè∑ */
 	//pAct->bmpNo = bmpNo;
-	/* ±Ì æÉûœ»∂» */
+	/* Ë°®Á§∫ÂÖàÂ∫¶ */
 	pAct->dispPrio = 2;
-	/* £»£– */
+	/* Ôº®Ôº∞ */
 	pAct->hp = 10000;
-	/* ≥ı∆⁄Œª÷√ */
+	/* ÂàùÊúü‰ΩçÁΩÆ */
 	pAct->x = x - dx;
 	pAct->y = y - dy;
-	/* âà∑÷ */
+	/* ÂàÜ */
 	pAct->dx = dx / 2;
 	pAct->dy = dy / 2;
 	
 	return pAct;
 }
 
-/* ◊‘ôCèéÑI¿Ì *********************************************************************/
+/* Ëá™CIÁêÜ *********************************************************************/
 void JikiTama( ACTION *pAct )
 {
 
-	/* π•ìƒ ‹§±§øïr */
+	/* ÊîªÊ∞ñÂü≠Â†°r */
 	if( pAct->damage > 0 ){
 		pAct->hp -= pAct->damage;
 		if( pAct->hp <= 0 ){ 
@@ -361,19 +361,19 @@ void JikiTama( ACTION *pAct )
 		pAct->damage = 0;
 	}
 
-	/* ◊¥ëB§«∑÷·™ */
+	/* Áä∂B„ÅßÂàÜÂ≤ê */
 	switch( pAct->state ){
-		/* Õ®≥£ïr */
+		/* ÈÄöÂ∏∏r */
 		case ACT_STATE_ACT:
 
-			/* î≥§»§Œµ±§ø§Í≈–∂® */
+			/* ÈïøË∂£ËîöÂ†°ÈÉ°Êò±Âç∏ */
 			//Hit( pAct, PRIO_ENEMY );
 
-			/* “∆Ñ” */
+			/* Áßª */
 			pAct->x += pAct->dx;
 			pAct->y += pAct->dy;
 	
-			/* •Í•ﬂ•√•» */
+			/* „É™„Éü„ÉÉ„Éà */
 			if(	pAct->y <= -32 ){ 
 				pAct->y = -32;
 				MakeEnemyTama( pAct );
@@ -395,7 +395,7 @@ void JikiTama( ACTION *pAct )
 
 			break;
 		
-		/* À¿Õˆïr */	
+		/* Ê≠ª‰∫°r */	
 		case ACT_STATE_DEAD:
 		
 			DeathAction( pAct );
@@ -404,44 +404,44 @@ void JikiTama( ACTION *pAct )
 	}
 	
 	
-	// •¢•À•·©`•∑•Á•Û
+	// „Ç¢„Éã„É°`„Ç∑„Éß„É≥
 	pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 }
 
 
 /********************************************/
-/*	î≥										*/
+/*											*/
 /********************************************/
 
-/* î≥”ËÇ‰òã‘ÏÃÂ */
+/* Áß§ÈÄ†‰Ωì */
 typedef struct{
-	int cnt,cnt2,cnt3,animCnt;	/* ö¯”√•´•¶•Û•ø */
+	int cnt,cnt2,cnt3,animCnt;	/* Ê∞ìŒïËûó */
 }ENEMY;
 
-/* î≥◊˜≥… *********************************************************************/
+/* ÂåôÈûí *********************************************************************/
 ACTION *MakeEnemy( void )
 {
 	ACTION *pAct;
 	ENEMY *pYobi;
 	short bmpTbl[] = { 1, 3, 5, 7, 9, 29 };
 	
-	/* •¢•Ø•∑•Á•Û•Í•π•»§Àµ«Âh */
+	/* „Ç¢„ÇØ„Ç∑„Éß„É≥„É™„Çπ„Éà„Å´Áôªh */
 	pAct = GetAction( PRIO_ENEMY, sizeof( ENEMY ) );
 	if( pAct == NULL ) return NULL;
 	
-	/* ”ËÇ‰òã‘ÏÃÂ§Œ•¢•…•Ï•π */
+	/* ‰∫àÈÄ†‰Ωì„ÅÆ„Ç¢„Éâ„É¨„Çπ */
 	pYobi = ( ENEMY *)pAct->pYobi;
 	
-	/* åg––Èv ˝ */
+	/* gË°åvÊï∞ */
 	pAct->func = Enemy;
-	/* •π•◊•È•§•»∑¨∫≈ */
+	/* „Çπ„Éó„É©„Ç§„ÉàÁï™Âè∑ */
 	pAct->bmpNo = bmpTbl[ ( int )Rnd( 0, 4 ) ];
 	//pAct->bmpNo = Rnd( 1, 10 );
-	/* ±Ì æÉûœ»∂» */
+	/* Ë°®Á§∫ÂÖàÂ∫¶ */
 	pAct->dispPrio = 1;
-	/* £»£– */
+	/* Ôº®Ôº∞ */
     pAct->hp = 10;//Rnd( 10, 50 );
-	/* ≥ı∆⁄Œª÷√•È•Û•¿•‡ */
+	/* ÂàùÊúü‰ΩçÁΩÆ„É©„É≥„ÉÄ„É† */
 //	pAct->x = Rnd( 0, 608 );
 	pAct->x = Rnd( 0, 640 );
 	ATR_CRS(pAct) = 16;
@@ -449,28 +449,28 @@ ACTION *MakeEnemy( void )
 	pAct->dx = 0;
 
 	pAct->y = 0;
-	/* âà∑÷•È•Û•¿•‡ */
+	/* ÂàÜ„É©„É≥„ÉÄ„É† */
 	pAct->dx = Rnd( -3, 3 );
 	pAct->dy = Rnd( 1, 3 );
 	
 	return pAct;
 }
 
-/* î≥èéÑI¿Ì *********************************************************************/
+/* IÁêÜ *********************************************************************/
 void enemy_missile( ACTION *a0 )
 {
-	gemini(a0);		//“∆Ñ”
-	//ª≠√ÊÕ‚§ §È
+	gemini(a0);		//Áßª
+	//ÁîªÈù¢Â§ñ„Å™„Çâ
 	if(ATR_H_POS(a0)>=640 || ATR_H_POS(a0)<-32 || ATR_V_POS(a0)>480 || ATR_V_POS(a0)<-32)
-		DeathAction( a0 );		//ΩK¡À
+		DeathAction( a0 );		//K‰∫Ü
 }
 
-/* î≥ÑI¿Ì *********************************************************************/
+/* IÁêÜ *********************************************************************/
 void Enemy( ACTION *pAct )
 {
 	ENEMY *pYobi = ( ENEMY *)pAct->pYobi;
 
-	/* π•ìƒ ‹§±§øïr */
+	/* ÊîªÊ∞ñÂü≠Â†°r */
 	if( pAct->damage > 0 ){
 		pAct->hp -= pAct->damage;
 		if( pAct->hp <= 0 ){ 
@@ -482,16 +482,16 @@ void Enemy( ACTION *pAct )
 		pAct->damage = 0;
 	}
 
-	/* ◊¥ëB§«∑÷·™ */
+	/* Áä∂B„ÅßÂàÜÂ≤ê */
 	switch( pAct->state ){
-		/* Õ®≥£ïr */
+		/* ÈÄöÂ∏∏r */
 		case ACT_STATE_ACT:
 		
-			/* “∆Ñ” */
+			/* Áßª */
 //			pAct->x += pAct->dx;
 //			pAct->y += pAct->dy;
 
-			/* •Í•ﬂ•√•»•¡•ß•√•Ø */
+			/* „É™„Éü„ÉÉ„Éà„ÉÅ„Çß„ÉÉ„ÇØ */
 //			if( pAct->x < 0 ){ 
 //				pAct->x = 0;
 //				pAct->dx *= -1;
@@ -505,47 +505,47 @@ void Enemy( ACTION *pAct )
 //				pAct->y = -32;
 //			}
 
-			pAct->dx++;		//£≤∏Ó§Íﬁz§ﬂ§À£±ªÿ•π•‘©`•…â‰∏¸§π§Î
+			pAct->dx++;		//ÔºíÂâ≤„Çäz„Åø„Å´ÔºëÂõû„Çπ„Éî`„ÉâÊ∂ìÂ∑•
 			pAct->dx&=1;	//
-			gemini(pAct);		//“∆Ñ”
-			if(ATR_CRS(pAct)==0){		//…œ“∆Ñ”÷–§ §È
-				if( pAct->y < -32 ){			//…œ∂À§ §È
-					ATR_CRS(pAct)=16;			//œ¬“∆Ñ”È_ º
+			gemini(pAct);		//Áßª
+			if(ATR_CRS(pAct)==0){		//‰∏äÁßªÂèàËÇñËÉú
+				if( pAct->y < -32 ){			//‰∏äÁ´Ø„Å™„Çâ
+					ATR_CRS(pAct)=16;			//‰∏ãÁßªÂ®±_Âßã
 					ATR_SPD(pAct) = Rnd( 28, 36 );
 					pAct->x = Rnd( 0, 640 );	//
 				} else {
 					if(pAct->dx)
-						ATR_SPD(pAct)++;		//•π•‘©`•…•¢•√•◊
+						ATR_SPD(pAct)++;		//„Çπ„Éî`„Éâ„Ç¢„ÉÉ„Éó
 				}
 			} else {
 				if(pAct->dx){
-					ATR_SPD(pAct)--;		//•π•‘©`•…•¿•¶•Û
-					if(!ATR_SPD(pAct)){		//Õ£÷π§∑§ø§ §È
-						ATR_CRS(pAct)=0;		//…œ“∆Ñ”È_ º
-						ACTION *a1;		//•ﬂ•µ•§•Î∞k…‰
+					ATR_SPD(pAct)--;		//„Çπ„Éî`„Éâ„ÉÄ„Ç¶„É≥
+					if(!ATR_SPD(pAct)){		//ÂÅúÊ≠¢„Åó„Åü„Å™„Çâ
+						ATR_CRS(pAct)=0;		//‰∏äÁßªÂ®±_Âßã
+						ACTION *a1;		//„Éü„Çµ„Ç§„É´kÂ∞Ñ
 						int d1,d2;
-						/* •¢•Ø•∑•Á•Û•Í•π•»§Àµ«Âh */
+						/* „Ç¢„ÇØ„Ç∑„Éß„É≥„É™„Çπ„Éà„Å´Áôªh */
 						a1 = GetAction( PRIO_ENEMY_TAMA, 0 );
 						if( a1 == NULL ) break;
-						/* åg––Èv ˝ */
+						/* gË°åvÊï∞ */
 						a1->func = enemy_missile;
-						/* •π•◊•È•§•»∑¨∫≈ */
+						/* „Çπ„Éó„É©„Ç§„ÉàÁï™Âè∑ */
 						a1->bmpNo = No++;
-						/* ±Ì æÉûœ»∂» */
+						/* Ë°®Á§∫ÂÖàÂ∫¶ */
 						a1->dispPrio = 3;
-						/* ≥ı∆⁄Œª÷√ */
+						/* ÂàùÊúü‰ΩçÁΩÆ */
 						ATR_H_POS(a1) = ATR_H_POS(pAct)+16;
 						ATR_V_POS(a1) = ATR_V_POS(pAct)+16;
-						d1 = pJiki->x;			//◊‘ôC§Œ∑ΩœÚ•ª•√•»
+						d1 = pJiki->x;			//Ëá™C„ÅÆÊñπÂêë„Çª„ÉÉ„Éà
 						d2 = pJiki->y;			//
 						radar(a1, &d1, &d2);	//
 						ATR_CRS(a1)=d1;			//
-						ATR_SPD(a1)=16;			//“∆Ñ”ÀŸ∂»
-						play_se( 2, ATR_H_POS(a1), ATR_V_POS(a1) );		//•ﬂ•µ•§•Î∞k…‰“Ù
+						ATR_SPD(a1)=16;			//ÁßªÈìÄ‰ø£
+						play_se( 2, ATR_H_POS(a1), ATR_V_POS(a1) );		//„Éü„Çµ„Ç§„É´kÂ∞ÑÈü≥
 					}
 				}
 			}
-			// •¢•À•·©`•∑•Á•Û
+			// „Ç¢„Éã„É°`„Ç∑„Éß„É≥
 /*			pYobi->cnt3 += pAct->dy;
 			if( pYobi->cnt3 >= 20 ){ 
 				pYobi->cnt3 = 0;
@@ -565,20 +565,20 @@ void Enemy( ACTION *pAct )
 			
 			break;
 		
-		/* À¿Õˆïr */	
+		/* Ê≠ª‰∫°r */	
 		case ACT_STATE_DEAD:
 		
 			if( pYobi->cnt == 0 ){ 
 				pAct->bmpNo = bomData[ 0 ];
 				pYobi->cnt = 1;
 			}
-			/* ±¨∞k•¢•À•·©`•∑•Á•Û */
+			/* ÁàÜk„Ç¢„Éã„É°`„Ç∑„Éß„É≥ */
 			pYobi->cnt2++;
 			if( pYobi->cnt2 >= 5 ){
 				pAct->bmpNo = bomData[ pYobi->cnt ];
 				pYobi->cnt++;
 				pYobi->cnt2 = 0;
-				/* ΩK§Ô§√§ø§ÈÀ¿§Ã */
+				/* K„Çè„Å£„Åü„ÇâÊ≠ª„Å¨ */
 				if( pYobi->cnt == 6 ){
 					DeathAction( pAct );
 				}
@@ -590,42 +590,42 @@ void Enemy( ACTION *pAct )
 }
 
 /********************************************/
-/*	î≥èé									*/
+/*										*/
 /********************************************/
 
 
-/* •≤©`•‡•™©`•–©`ÑI¿Ì *******************************************************************/
+/* „Ç≤`„É†„Ç™`„Éê`IÁêÜ *******************************************************************/
 void GameOver( ACTION *pAct )
 {
 	//char szMoji[128];
 	
-	// GAME OVER ±Ì æ
+	// GAME OVER Ë°®Á§∫
 	
 }
 
-/* £¬£«◊˜≥… *********************************************************************/
+/* Ôº¢Ôºß‰ΩúÊàê *********************************************************************/
 ACTION *MakeBg( void )
 {
 	ACTION *pAct;
 	
-	/* •¢•Ø•∑•Á•Û•Í•π•»§Àµ«Âh */
+	/* „Ç¢„ÇØ„Ç∑„Éß„É≥„É™„Çπ„Éà„Å´Áôªh */
 	pAct = GetAction( PRIO_BG, NULL );
 	if( pAct == NULL ) return NULL;
 	
-	/* åg––Èv ˝ */
+	/* gË°åvÊï∞ */
 	pAct->func = Bg;
 	
-	/* •π•◊•È•§•»∑¨∫≈ */
+	/* „Çπ„Éó„É©„Ç§„ÉàÁï™Âè∑ */
 	//pAct->bmpNo = 30;
 //	pAct->bmpNo = 44;
 	pAct->anim_chr_no = 9376;
-	/* ±Ì æÉûœ»∂» */
+	/* Ë°®Á§∫ÂÖàÂ∫¶ */
 	pAct->dispPrio = 0;
-	/* ≥ı∆⁄Œª÷√ */
+	/* ÂàùÊúü‰ΩçÁΩÆ */
 	pAct->x = 320;
 	pAct->y = 240;
 
-	// »°≥ˆ§π◊˘òÀ
+	// ÂèñÂá∫„ÅôÂ∫ß
 	//pYobi->rcX = 0;
 	//pYobi->rcY = 480;
 	//SetRect( &Rc[ pAct->bmpNo ], pYobi->rcX, pYobi->rcY, pYobi->rcX + 640, pYobi->rcY + 480 ); 
@@ -633,41 +633,41 @@ ACTION *MakeBg( void )
 	return pAct;
 }
 	
-/* £¬£«ÑI¿Ì *********************************************************************/
+/* Ôº¢ÔºßIÁêÜ *********************************************************************/
 void Bg( ACTION *pAct )
 {
-	// »°≥ˆ§π◊˘òÀ
-	// »°≥ˆ§π◊˘òÀ
+	// ÂèñÂá∫„ÅôÂ∫ß
+	// ÂèñÂá∫„ÅôÂ∫ß
 	//pAct->y++;
 	//if( pAct->y >= 240 ) pAct->y = -240; 
-	pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );		//•¢•À•·©`•∑•Á•ÛÑI¿Ì
+	pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );		//„Ç¢„Éã„É°`„Ç∑„Éß„É≥IÁêÜ
 	//StockDispBuffer( pAct->x, pAct->y+480, 0, pAct->anim_chr_no, 0 );
 	//StockDispBuffer( pAct->x, pAct->y, 0, pAct->anim_chr_no, 0 );
 	//StockDispBuffer( pAct->x, pAct->y+480, 0, pAct->anim_chr_no, 0);
 }
 
 
-/* •±•Û◊˜≥… *********************************************************************/
+/* „Ç±„É≥‰ΩúÊàê *********************************************************************/
 ACTION *MakeKen( void )
 {
 	ACTION *pAct;
 	
-	/* •¢•Ø•∑•Á•Û•Í•π•»§Àµ«Âh */
+	/* „Ç¢„ÇØ„Ç∑„Éß„É≥„É™„Çπ„Éà„Å´Áôªh */
 	pAct = GetAction( PRIO_BG, NULL );
 	if( pAct == NULL ) return NULL;
 	
-	/* åg––Èv ˝ */
+	/* gË°åvÊï∞ */
 	pAct->func = Ken;
 	
-	/* •π•◊•È•§•»∑¨∫≈ */
+	/* „Çπ„Éó„É©„Ç§„ÉàÁï™Âè∑ */
 	pAct->bmpNo = 33;
-	/* ±Ì æÉûœ»∂» */
+	/* Ë°®Á§∫ÂÖàÂ∫¶ */
 	pAct->dispPrio = 100;
-	/* ≥ı∆⁄Œª÷√ */
+	/* ÂàùÊúü‰ΩçÁΩÆ */
 	pAct->x = 100;
 	pAct->y = 100;
 	
-	// »°≥ˆ§π◊˘òÀ
+	// ÂèñÂá∫„ÅôÂ∫ß
 	//pYobi->rcX = 0;
 	//pYobi->rcY = 480;
 	//SetRect( &Rc[ pAct->bmpNo ], pYobi->rcX, pYobi->rcY, pYobi->rcX + 640, pYobi->rcY + 480 ); 
@@ -675,7 +675,7 @@ ACTION *MakeKen( void )
 	return pAct;
 }
 	
-/* •±•ÛÑI¿Ì *********************************************************************/
+/* „Ç±„É≥IÁêÜ *********************************************************************/
 void Ken( ACTION *pAct )
 {
 	int anim[] = { 	0,0,0,0,

@@ -7,50 +7,50 @@
 #include "map.h"
 #include "menu.h"
 
-/* ̫��ץ������I�� ********************************************************************/
+/* 太田プロセスI理 ********************************************************************/
 void OhtaTestProc( void )
 {
-	/* ���֥ץ��������ŤǷ�� */
+	/* サブプロセス番号で分岐 */
 	switch( SubProcNo ){
 	
 		case 0:
 		
-			/* �ԙC ���������� */
+			/* 自C タスク作成 */
 			MakeJiki();
 			SubProcNo++;
-			/* ����å��v�B���ڻ� */
+			/* チャットvB初期化 */
 			InitChat();
-			// �����ե��`����ȡ��
+			// 入力フォ`カス取得
 			GetKeyInputFocus( &MyChatBuffer );
 			
 			break;
 		
 		case 1:
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			FlashKeyboardCursor();
 			
-			// �ޥ�����٥뤬��˥�`���¤Εr
+			// マウスレベルがメニュ`以下のr
 			if( mouse.level < DISP_PRIO_MENU && TaskBarFlag == FALSE ){
-				drawGrid();		// ����åɥ��`�����ʾ
-				moveProc();		// �ƄӄI��
+				drawGrid();		// グリッドカ`ソル表示
+				moveProc();		// 移I理
 			}
 			
-			/* ����������ߤ餻�� */
+			/* アクション走らせる */
 			RunAction();
-			// ��������ʾ�ǩ`����Хåե�������
+			// タスク表示デ`タをバッファに溜める
 			StockTaskDispBuffer();
 			
-			drawMap();	// �ޥåױ�ʾ
+			drawMap();	// マップ表示
 
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();		
-			// �ѥ�åȄI��
+			// パレットI理
 			PaletteProc();
 			
 			break;

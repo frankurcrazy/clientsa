@@ -9,33 +9,33 @@
 
 #ifdef _DEBUG		
 
-// ¥Ò¥Ã¥È¥Ş©`¥¯„IÀí£¨»áĞÄ£©
+// ãƒ’ãƒƒãƒˆãƒ`ã‚¯Iç†ï¼ˆä¼šå¿ƒï¼‰
 extern void hit_mark_critical( ACTION *a0 );
 
-// ±íÊ¾¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë£¨£Ó£ğ£ò£Ö£é£å£÷ÓÃ£©
+// è¡¨ç¤ºãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹ï¼ˆï¼³ï½ï½’ï¼¶ï½‰ï½…ï½—ç”¨ï¼‰
 void StockDispBufferSprView( int x, int y, UCHAR dispPrio, int bmpNo )
 {	
-	// ½ñ»Ø±£´æ¤¹¤ëˆöËù¤Ş¤Ç¥¢¥É¥ì¥¹¤òßM¤Ş¤»¤ë
+	// ä»Šå›ä¿å­˜ã™ã‚‹éŠè“¼é’ä¸§æ¬¹å·¥èœ»Mã¾ã›ã‚‹
 	DISP_SORT 	*pDispSort = DispBuffer.DispSort + DispBuffer.DispCnt;
 	DISP_INFO 	*pDispInfo = DispBuffer.DispInfo + DispBuffer.DispCnt;
 	
-	// ¥«¥¦¥ó¥È¥ª©`¥Ğ©`¤Î•r
+	// ã‚«ã‚¦ãƒ³ãƒˆã‚ª`ãƒ`ã®r
 	if( DispBuffer.DispCnt >= DISP_BUFFER_SIZE ) return;
 	
-	// ±íÊ¾ƒÏÈ¥½©`¥ÈÓÃ˜‹ÔìÌå
+	// è¡¨ç¤ºå…ˆã‚½`ãƒˆç”¨é€ ä½“
 	pDispSort->dispPrio = dispPrio;
 	pDispSort->no = DispBuffer.DispCnt;
-	// ±íÊ¾Çéˆó˜‹ÔìÌå£¨ ¥½©`¥È¤·¤Ê¤¤ÄÚÈİ £©
+	// è¡¨ç¤ºæƒ…é€ ä½“ï¼ˆ ã‚½`ãƒˆã—ãªã„å†…å®¹ ï¼‰
 	pDispInfo->x = x;
 	pDispInfo->y = y;
 	pDispInfo->bmpNo = bmpNo;
 	pDispInfo->hitFlag = 2;
 
-	// ±íÊ¾¥«¥¦¥ó¥¿©`¥×¥é¥¹
+	// è¡¨ç¤ºã‚«ã‚¦ãƒ³ã‚¿`ãƒ—ãƒ©ã‚¹
 	DispBuffer.DispCnt++;
 }
 
-/* ¥¹¥×¥é¥¤¥È´_ÕJ¥×¥í¥»¥¹ ********************************************************************/
+/* ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ_Jãƒ—ãƒ­ã‚»ã‚¹ ********************************************************************/
 void SprViewProc( void )
 {
 	char szMoji[ 256 ];
@@ -43,133 +43,133 @@ void SprViewProc( void )
 	int bmpY;
 	static int bmpNo = 0;
 	int bmpNoBak;
-	static int no = 0; // ‰ˆ·Ö·¬ºÅ
-	static BOOL fontFlag = TRUE; // ¥Õ¥©¥ó¥È±íÊ¾¥Õ¥é¥°
-	// ‰ˆ·Ö¥Æ©`¥Ö¥ë
+	static int no = 0; // åˆ†ç•ªå·
+	static BOOL fontFlag = TRUE; // ãƒ•ã‚©ãƒ³ãƒˆè¡¨ç¤ºãƒ•ãƒ©ã‚°
+	// åˆ†ãƒ†`ãƒ–ãƒ«
 	int zoubunTbl[] ={   1,  5,  25,  100, 	500,  1000,
 						-1, -5, -25, -100, -500, -1000 };
-	static int palNo = 0; // ¥Ñ¥ì¥Ã¥È·¬ºÅ
-	static int time = 600; // ¥Ñ¥ì¥Ã¥È·¬ºÅ
+	static int palNo = 0; // ãƒ‘ãƒ¬ãƒƒãƒˆç•ªå·
+	static int time = 600; // ãƒ‘ãƒ¬ãƒƒãƒˆç•ªå·
 	
-	/* ¥µ¥Ö¥×¥í¥»¥¹·¬ºÅ¤Ç·Öáª */
+	/* ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ç•ªå·ã§åˆ†å² */
 	switch( SubProcNo ){
 	
 		case 0:
-			// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`Ãè»­·½·¨¤Ç·Öáª
+			// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`æç”»æ–¹æ³•ã§åˆ†å²
 			//BackBufferDrawType = DRAW_BACK_NON
-			// ¥­©`¥Ü©`¥É¤Ç²Ù×÷¤¹¤ë•r
-			// ßM¤Ş¤»¤ë
+			// ã‚­`ãƒœ`ãƒ‰ã§æ“ä½œã™ã‚‹r
+			// Mã¾ã›ã‚‹
 			if( joy_auto[ 0 ] & JOY_RIGHT ) bmpNo += zoubunTbl[ no ];
-			// ‘ø¤ë
+			// 
 			if( joy_auto[ 0 ] & JOY_LEFT ) bmpNo -= zoubunTbl[ no ];
-			// ‰ˆ·Ö¥×¥é¥¹
+			// åˆ†ãƒ—ãƒ©ã‚¹
 			if( joy_trg[ 0 ] & JOY_UP ){ 
 				no++;
-				if( no >= 6 ) no = 0; // ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+				if( no >= 6 ) no = 0; // ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 			}
-			// ‰ˆ·Ö¥Ş¥¤¥Ê¥¹
+			// åˆ†ãƒã‚¤ãƒŠã‚¹
 			if( joy_trg[ 0 ] & JOY_DOWN ){
 				no--;
-				if( no <= -1 ) no = 5; // ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+				if( no <= -1 ) no = 5; // ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 			}
 #if 0
-			// ¥Ş¥¦¥¹¤Ç²Ù×÷¤¹¤ë•r
-			// ×ó¥¯¥ê¥Ã¥¯¤ÇßM¤à
+			// ãƒã‚¦ã‚¹ã§æ“ä½œã™ã‚‹r
+			// å·¦ã‚¯ãƒªãƒƒã‚¯ã§Mã‚€
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
 				bmpNo += zoubunTbl[ no ];
-				// ¥¯¥ê¥Ã¥¯Òô
+				// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				play_se( 201, 320, 240 );
 			}
-			// ÕæÖĞ¥¯¥ê¥Ã¥¯¤ÇÔçËÍ¤ê
+			// çœŸä¸­ã‚¯ãƒªãƒƒã‚¯ã§æ—©é€ã‚Š
 			if( GetAsyncKeyState( VK_MBUTTON ) ){
 				bmpNo += zoubunTbl[ no ];
 			}
 			
-			// ÓÒ¥¯¥ê¥Ã¥¯¤Ç‰ˆ·Ö‰ä¸ü
+			// å³ã‚¯ãƒªãƒƒã‚¯ã§åˆ†æ¶“
 			if( mouse.onceState & MOUSE_RIGHT_CRICK ){
 			//if( mouse.state & MOUSE_RIGHT_CRICK ){
 				no++;
-				if( no == 6 ) no = 0; // ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
-				// ¥¯¥ê¥Ã¥¯Òô
+				if( no == 6 ) no = 0; // ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
+				// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				play_se( 201, 320, 240 );
 			}
 #endif			
-			// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+			// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 			if( bmpNo < 0 ) bmpNo = 0;
 			if( bmpNo >= MAX_GRAPHICS - 25 ) bmpNo = MAX_GRAPHICS -25;
 			
-			// ¥Ñ¥ì¥Ã¥È‰ä¸ü
-			if( joy_trg[ 0 ] & JOY_A ){	/* ¥×¥é¥¹ */
+			// ãƒ‘ãƒ¬ãƒƒãƒˆæ¶“
+			if( joy_trg[ 0 ] & JOY_A ){	/* ãƒ—ãƒ©ã‚¹ */
 				palNo--;
 				if( palNo < 0 ) palNo = MAX_PAL - 1;
-				// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+				// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 				PaletteChange( palNo, 10 );
-				// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+				// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 				play_se( 202, 320, 240 );
 			}
-			if( joy_trg[ 0 ] & JOY_B ){	/* ¥Ş¥¤¥Ê¥¹ */
+			if( joy_trg[ 0 ] & JOY_B ){	/* ãƒã‚¤ãƒŠã‚¹ */
 				palNo++;
 				if( palNo >= MAX_PAL ) palNo = 0;
-				// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+				// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 				PaletteChange( palNo, 10 );
-				// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+				// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 				play_se( 202, 320, 240 );
 			}
-			// ¥Õ¥©¥ó¥È¥Õ¥é¥°‰ä¸ü
-			if( joy_trg[ 0 ] & JOY_DEL ){	/* ¥×¥é¥¹ */
+			// ãƒ•ã‚©ãƒ³ãƒˆãƒ•ãƒ©ã‚°æ¶“
+			if( joy_trg[ 0 ] & JOY_DEL ){	/* ãƒ—ãƒ©ã‚¹ */
 				if( fontFlag ) fontFlag = 0;
 				else fontFlag = 1;
-				// ¥¢¥¤¥Æ¥àÊ¹¤¦Òô
+				// ã‚¢ã‚¤ãƒ†ãƒ ä½¿ã†éŸ³
 				play_se( 212, 320, 240 );
 			}
 			
-			// £Å£Ó£Ã¤Ç½KÁË
-			if( joy_trg[ 0 ] & JOY_ESC ){	/* ¥Ş¥¤¥Ê¥¹ */
-				// £×£É£Î£Ä£Ï£×£Ó¤Ë WM_CLOSE ¥á¥Ã¥»©`¥¸¤òËÍ¤é¤»¤ë
+			// ï¼¥ï¼³ï¼£ã§Käº†
+			if( joy_trg[ 0 ] & JOY_ESC ){	/* ãƒã‚¤ãƒŠã‚¹ */
+				// ï¼·ï¼©ï¼®ï¼¤ï¼¯ï¼·ï¼³ã« WM_CLOSE ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‰ã›ã‚‹
 				PostMessage( hWnd, WM_CLOSE, 0, 0L );
 			}
 			
-			// £Â£Í£Ğ·¬ºÅ¥Ğ¥Ã¥¯¥¢¥Ã¥×
+			// ï¼¢ï¼­ï¼°ç•ªå·ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
 			bmpNoBak = bmpNo;
 			
-			// Ò»»­Ãæ·Ö¥ë©`¥×£¨£²£µÃ¶·Ö£©
+			// ä¸€ç”»é¢åˆ†ãƒ«`ãƒ—ï¼ˆï¼’ï¼•æšåˆ†ï¼‰
 			for( bmpY = 0 ; bmpY < 480 ; bmpY += 96 ){
 				for( bmpX = 0 ; bmpX < 640 ; bmpX += 128 ){
-					// ¥Õ¥©¥ó¥È¥Õ¥é¥°£Ï£Î¤Î•r
+					// ãƒ•ã‚©ãƒ³ãƒˆãƒ•ãƒ©ã‚°ï¼¯ï¼®ã®r
 					if( fontFlag == TRUE ){
-						// £Â£Í£Ğ·¬ºÅ
+						// ï¼¢ï¼­ï¼°ç•ªå·
 						wsprintf( szMoji,"%7d", bmpNoBak );
 						StockFontBuffer( bmpX, bmpY, FONT_PRIO_BACK, 0, szMoji, 0 );
 					}
-					// £Â£Í£Ğ±íÊ¾¥Ğ¥Ã¥Õ¥¡¤Ë¤¿¤á¤ë
+					// ï¼¢ï¼­ï¼°è¡¨ç¤ºãƒãƒƒãƒ•ã‚¡ã«ãŸã‚ã‚‹
 					StockDispBufferSprView( bmpX, bmpY, 0, bmpNoBak++ );
 				}
 			}
-			// ¥Õ¥©¥ó¥È¥Õ¥é¥°£Ï£Î¤Î•r
+			// ãƒ•ã‚©ãƒ³ãƒˆãƒ•ãƒ©ã‚°ï¼¯ï¼®ã®r
 			if( fontFlag == TRUE ){
-				// ‰ˆ·Ö±íÊ¾
-				wsprintf( szMoji, "PAL:%2d¡¡‰ˆ·Ö:%6d", palNo, zoubunTbl[ no ] );
+				// åˆ†è¡¨ç¤º
+				wsprintf( szMoji, "PAL:%2dã€€åˆ†:%6d", palNo, zoubunTbl[ no ] );
 				StockFontBuffer( 640 - 16 * 12, 462, FONT_PRIO_FRONT, 0, szMoji, 0 );
 					
-				// ½KÁË±íÊ¾
-				StockFontBuffer( 4, 462, FONT_PRIO_FRONT, 0, "ESC:½KÁË¡¡X or Y:PAL‰ä¸ü¡¡DEL:ÎÄ×Ö ON/OFF", 0 );
+				// Käº†è¡¨ç¤º
+				StockFontBuffer( 4, 462, FONT_PRIO_FRONT, 0, "ESC:Käº†ã€€X or Y:PALæ¶“DEL:æ–‡å­— ON/OFF", 0 );
 			}
-			/* ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë */
+			/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹ */
 			RunAction();
-			// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+			// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 			StockTaskDispBuffer();
 			
-			// ±³¾°Ãè»­£¨×ÏÉ«£©
+			// èƒŒæ™¯æç”»ï¼ˆç´«è‰²ï¼‰
 			StockBoxDispBuffer( 0, 0, 640, 480, DISP_PRIO_BG, SYSTEM_PAL_PURPLE , 1 );
 			
-			// ¬FÔÚ¤Î•rég¤òÓ›‘›
+			// Fåœ¨ã®rgã‚’
 			NowTime = GetTickCount();
 
 			break;
 	}
 }
 
-/* ¥¢¥Ë¥á©`¥·¥ç¥ó¥¢¥¯¥·¥ç¥ó„IÀí ***********************************************/
+/* ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ã‚¢ã‚¯ã‚·ãƒ§ãƒ³Iç† ***********************************************/
 void AnimSpr( ACTION *pAct )
 {
 	char szMoji[ 256 ];
@@ -181,14 +181,14 @@ void AnimSpr( ACTION *pAct )
 	static slowFlag = FALSE;
 	static hitNo = 0;
 	
-	/* ×´‘B¤Ç·Öáª */
+	/* çŠ¶Bã§åˆ†å² */
 	switch( pAct->state ){
-		/* Í¨³£•r */
+		/* é€šå¸¸r */
 		case ACT_STATE_ACT:
-			// ¥¹¥í©`¤Ç¤Ê¤¤•r
+			// ã‚¹ãƒ­`ã§ãªã„r
 			if( slowFlag == FALSE ){
-				// ¥¹¥×¥é¥¤¥È·¬ºÅ‰ä¸ü£¨¡À£±£©
-				if( joy_auto[ 0 ] & JOY_RIGHT ){	/* ¥×¥é¥¹ */
+				// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç•ªå·æ¶“Äæºƒä¿
+				if( joy_auto[ 0 ] & JOY_RIGHT ){	/* ãƒ—ãƒ©ã‚¹ */
 					while( 1 ){
 						pAct->anim_chr_no++;
 						if( SpriteData[pAct->anim_chr_no - SPRSTART].ptAnimlist !=NULL ) break;
@@ -198,7 +198,7 @@ void AnimSpr( ACTION *pAct )
 						}
 					}
 				}
-				if( joy_auto[ 0 ] & JOY_LEFT ){		/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_auto[ 0 ] & JOY_LEFT ){		/* ãƒã‚¤ãƒŠã‚¹ */
 					while( 1 ){
 						pAct->anim_chr_no--;
 						if( SpriteData[pAct->anim_chr_no - SPRSTART].ptAnimlist !=NULL ) break;
@@ -208,8 +208,8 @@ void AnimSpr( ACTION *pAct )
 						}
 					}
 				}
-				// ¥¹¥×¥é¥¤¥È·¬ºÅ‰ä¸ü£¨¡À£±£°£°£°£©
-				if( joy_trg[ 0 ] & JOY_INS ){	/* ¥×¥é¥¹ */
+				// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç•ªå·æ¶“Äæºƒä¿åŸƒåŸƒåŸƒ
+				if( joy_trg[ 0 ] & JOY_INS ){	/* ãƒ—ãƒ©ã‚¹ */
 					pAct->anim_chr_no += 1000;
 					while( 1 ){
 						pAct->anim_chr_no++;
@@ -220,7 +220,7 @@ void AnimSpr( ACTION *pAct )
 						}
 					}
 				}
-				if( joy_trg[ 0 ] & JOY_DEL ){	/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_trg[ 0 ] & JOY_DEL ){	/* ãƒã‚¤ãƒŠã‚¹ */
 					pAct->anim_chr_no -= 1000;
 					while( 1 ){
 						pAct->anim_chr_no--;
@@ -231,167 +231,167 @@ void AnimSpr( ACTION *pAct )
 						}
 					}
 				}
-				// ¥¢¥Ë¥á©`¥·¥ç¥óÓĞ¤êŸo¤·¥Á¥§¥Ã¥¯
+				// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³æœ‰ã‚Šoã—ãƒã‚§ãƒƒã‚¯
 				//while( 1 ){
 				//if( SpriteData[ pAct->anim_chr_no ].ptAnimlist == NULL )
 				//{
 					
 				
-				// ·½Ïò‰ä“Q
-				if( joy_auto[ 0 ] & JOY_UP ){		/* ¥×¥é¥¹ */
+				// æ–¹å‘Q
+				if( joy_auto[ 0 ] & JOY_UP ){		/* ãƒ—ãƒ©ã‚¹ */
 					pAct->anim_ang++;
 					if( pAct->anim_ang >= 8 ) pAct->anim_ang = 0;
 				}
-				if( joy_auto[ 0 ] & JOY_DOWN ){		/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_auto[ 0 ] & JOY_DOWN ){		/* ãƒã‚¤ãƒŠã‚¹ */
 					pAct->anim_ang--;
 					if( pAct->anim_ang < 0 ) pAct->anim_ang =  7;
 				}
 				
-				// ¥¢¥Ë¥á©`¥·¥ç¥ó·¬ºÅ±íÊ¾
-				if( joy_trg[ 0 ] & JOY_HOME ){		/* ¥×¥é¥¹ */
+				// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ç•ªå·è¡¨ç¤º
+				if( joy_trg[ 0 ] & JOY_HOME ){		/* ãƒ—ãƒ©ã‚¹ */
 					pAct->anim_no++;
 					if( pAct->anim_no > 12 ) pAct->anim_no = 12;
 				}
-				if( joy_trg[ 0 ] & JOY_END ){	/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_trg[ 0 ] & JOY_END ){	/* ãƒã‚¤ãƒŠã‚¹ */
 					pAct->anim_no--;
 					if( pAct->anim_no < 0 ) pAct->anim_no =  0;
 				}
 				
-				// ¥¹¥Ô©`¥É‰ä¸ü
-				if( joy_trg[ 0 ] & JOY_A ){	/* ¥×¥é¥¹ */
+				// ã‚¹ãƒ”`ãƒ‰æ¶“
+				if( joy_trg[ 0 ] & JOY_A ){	/* ãƒ—ãƒ©ã‚¹ */
 					anim_spd--;
 					if( anim_spd < 0 ) anim_spd = 0;
 				}
-				if( joy_trg[ 0 ] & JOY_B ){	/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_trg[ 0 ] & JOY_B ){	/* ãƒã‚¤ãƒŠã‚¹ */
 					anim_spd++;
 					if( anim_spd >= 255 ) anim_spd = 255;
 				}
 			}
-			// £Å£Ó£Ã¤Ç½KÁË
-			if( joy_trg[ 0 ] & JOY_ESC ){	/* ¥Ş¥¤¥Ê¥¹ */
-				// £×£É£Î£Ä£Ï£×£Ó¤Ë WM_CLOSE ¥á¥Ã¥»©`¥¸¤òËÍ¤é¤»¤ë
+			// ï¼¥ï¼³ï¼£ã§Käº†
+			if( joy_trg[ 0 ] & JOY_ESC ){	/* ãƒã‚¤ãƒŠã‚¹ */
+				// ï¼·ï¼©ï¼®ï¼¤ï¼¯ï¼·ï¼³ã« WM_CLOSE ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‰ã›ã‚‹
 				PostMessage( hWnd, WM_CLOSE, 0, 0L );
 			}
 			
 			
-			// ¥³¥ŞËÍ¤ê¥Õ¥é¥°£Ï£Î
+			// ã‚³ãƒé€ã‚Šãƒ•ãƒ©ã‚°ï¼¯ï¼®
 			if( joy_trg[ 1 ] & JOY_F12 ){ 
 				pAct->anim_frame_cnt = 0;
 				slowFlag = TRUE;
 			}
-			// ¥³¥Ş‘ø¤·¥Õ¥é¥°£Ï£Î
+			// ã‚³ãƒä¼æ¦¨æ¥—åŸƒå¸Œ
 			if( joy_trg[ 1 ] & JOY_F11 ){ 
 				pAct->anim_cnt -= 2;
-				// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+				// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 				if( pAct->anim_cnt <= 0 ) pAct->anim_cnt = 0;
 				pAct->anim_frame_cnt = 0;
 				slowFlag = TRUE;
 			}
-			// ¥³¥ŞËÍ¤ê¥Õ¥é¥°£Ï£Æ£Æ
+			// ã‚³ãƒé€ã‚Šãƒ•ãƒ©ã‚°ï¼¯ï¼¦ï¼¦
 			if( joy_trg[ 1 ] & JOY_F10 ) slowFlag = FALSE;
 			
 			if( slowFlag == FALSE || joy_trg[ 1 ] & JOY_F11 || joy_trg[ 1 ] & JOY_F12 ){
-				// ¥¢¥Ë¥á©`¥·¥ç¥ó
+				// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
 				pattern( pAct, anim_spd, ANM_LOOP );
 			}
 			
-			// µ±¤¿¤êÅĞ¶¨¤Î•r
+			// å½“ãŸã‚Šåˆ¤å®šã®r
 			if( pAct->anim_hit >= 10000 ){
-				hitNo = pAct->anim_hit; // µ±¤¿¤êÅĞ¶¨·¬ºÅÓ›‘›
-				pAct->anim_hit = 0; // ³õÆÚ»¯
-				// ¥Ò¥Ã¥È¥Ş©`¥¯×÷³É
+				hitNo = pAct->anim_hit; // å½“ãŸã‚Šåˆ¤å®šç•ªå·
+				pAct->anim_hit = 0; // åˆæœŸåŒ–
+				// ãƒ’ãƒƒãƒˆãƒ`ã‚¯ä½œæˆ
 				for( d0=5 ;d0>0 ;d0--){
-					//¥Ò¥Ã¥È¥Ş©`¥¯¥»¥Ã¥È
+					//ãƒ’ãƒƒãƒˆãƒ`ã‚¯ã‚»ãƒƒãƒˆ
 					a1 = GetAction( PRIO_JIKI, sizeof( ATR_EQU ) );
 					if( a1 == NULL ) return;
-					/* ±íÊ¾ƒÏÈ¶È */
+					/* è¡¨ç¤ºå…ˆåº¦ */
 					ATR_DISP_PRIO(a1) = DISP_PRIO_CHAR + 1;
-					/* ¥¹¥×¥é¥¤¥È·¬ºÅ */
+					/* ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç•ªå· */
 					ATR_CHR_NO(a1) = CG_HIT_MARK_22;
 					ATR_H_POS(a1) = 320;
 					ATR_V_POS(a1) = 240;
 					ATR_SPD(a1) = Rnd( 4, 7 );
 					ATR_CRS(a1) = d0 * 6;
-					ATR_FIRST_FLG(a1) = ATR_STIMER(a1) = 32;		//±íÊ¾•rég¥»¥Ã¥È
+					ATR_FIRST_FLG(a1) = ATR_STIMER(a1) = 32;		//è¡¨ç¤ºrgã‚»ãƒƒãƒˆ
 					ATR_KAISHIN(a1) = 1;
 					ATR_NAME(a1) = hit_mark_critical;
 					ATR_CHR_NO(a1) = CG_HIT_MARK_01;
 				}
 			}
-			// ¥¹¥×¥é¥¤¥È·¬ºÅ±íÊ¾
-			wsprintf( szMoji, "¥¹¥×¥é¥¤¥È·¬ºÅ =  %8d £º Left or Right ( ¡À1 )", pAct->anim_chr_no );
+			// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç•ªå·è¡¨ç¤º
+			wsprintf( szMoji, "ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç•ªå· =  %8d ï¼š Left or Right ( Â±1 )", pAct->anim_chr_no );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			StockFontBuffer( x + 236, y, FONT_PRIO_FRONT, 0, "£º DEL  or INS ( ¡À1000 )", 0 ); y += 20;
-			// ·½Ïò±íÊ¾
-			wsprintf( szMoji, "·½¡¡¡¡¡¡¡¡¡¡Ïò =  %8d £º Down or UP", pAct->anim_ang );
+			StockFontBuffer( x + 236, y, FONT_PRIO_FRONT, 0, "ï¼š DEL  or INS ( Â±1000 )", 0 ); y += 20;
+			// æ–¹å‘è¡¨ç¤º
+			wsprintf( szMoji, "æ–¹ã€€ã€€ã€€ã€€ã€€å‘ =  %8d ï¼š Down or UP", pAct->anim_ang );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// ¥¢¥Ë¥á©`¥·¥ç¥ó·¬ºÅ±íÊ¾
-			wsprintf( szMoji, "ĞĞ¡¡„Ó¡¡·¬¡¡ºÅ =  %8d £º END  or HOME", pAct->anim_no );
+			// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ç•ªå·è¡¨ç¤º
+			wsprintf( szMoji, "è¡Œã€€å°ã€‹ã€ =  %8d ï¼š END  or HOME", pAct->anim_no );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// ‰ˆ·Ö±íÊ¾
-			wsprintf( szMoji, "¥¹¡¡¥Ô¡¡©`¡¡¥É =  %8d £º Z    or X", anim_spd );
+			// åˆ†è¡¨ç¤º
+			wsprintf( szMoji, "ã‚¹ã€€ãƒ”ã€€`ã€€ãƒ‰ =  %8d ï¼š Z    or X", anim_spd );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 			
-			// „¿¹ûÒô·¬ºÅ
-			wsprintf( szMoji, "„¿¹ûÒô¡¡·¬¡¡ºÅ =  %8d", t_music_se_no );
+			// æŠ—èˆ´
+			wsprintf( szMoji, "æŠ—ç°Ÿã€‹ã€ =  %8d", t_music_se_no );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// „¿¹ûÒô¤¢¤ë•r
+			// æŠ—ç°¸r
 			if( t_music_se_no != -1 ){
-				// „¿¹ûÒô¤ÎÒôÁ¿
-				if( joy_trg[ 1 ] & JOY_F8 ){		/* ¥×¥é¥¹ */
+				// æŠ—ç°¸æˆ‘è¢…
+				if( joy_trg[ 1 ] & JOY_F8 ){		/* ãƒ—ãƒ©ã‚¹ */
 					tone_tbl[ t_music_se_no ].voice_volume++;
 					if( tone_tbl[ t_music_se_no ].voice_volume >= 128 ) tone_tbl[ t_music_se_no ].voice_volume = 127;
 				}
-				if( joy_trg[ 1 ] & JOY_F7 ){	/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_trg[ 1 ] & JOY_F7 ){	/* ãƒã‚¤ãƒŠã‚¹ */
 					tone_tbl[ t_music_se_no ].voice_volume--;
 					if( tone_tbl[ t_music_se_no ].voice_volume <= -1 ) tone_tbl[ t_music_se_no ].voice_volume = 0;
 				}
 				
-				// „¿¹ûÒô¤Î¥Ô¥Ã¥Á
-				if( joy_trg[ 1 ] & JOY_F6 ){	/* ¥×¥é¥¹ */
+				// æŠ—ç°¸è¿è±«æ°“
+				if( joy_trg[ 1 ] & JOY_F6 ){	/* ãƒ—ãƒ©ã‚¹ */
 					tone_tbl[ t_music_se_no ].voice_note++;
 					if( tone_tbl[ t_music_se_no ].voice_note + tone_tbl[ t_music_se_no ].voice_rate >= 63 ) tone_tbl[ t_music_se_no ].voice_note = 62 - tone_tbl[ t_music_se_no ].voice_rate;
 				}
-				if( joy_trg[ 1 ] & JOY_F5 ){	/* ¥Ş¥¤¥Ê¥¹ */
+				if( joy_trg[ 1 ] & JOY_F5 ){	/* ãƒã‚¤ãƒŠã‚¹ */
 					tone_tbl[ t_music_se_no ].voice_note--;
 					if( tone_tbl[ t_music_se_no ].voice_note + tone_tbl[ t_music_se_no ].voice_rate <= 0 ) tone_tbl[ t_music_se_no ].voice_note = -tone_tbl[ t_music_se_no ].voice_rate + 1;
 				}
-				// „¿¹ûÒôÒôÁ¿
-				wsprintf( szMoji, "„¿¹ûÒô¡¡Òô¡¡Á¿ =  %8d £º F7 or F8", tone_tbl[ t_music_se_no ].voice_volume );
+				// æŠ—ç²¢è¢…
+				wsprintf( szMoji, "æŠ—ç°Ÿâˆ«ç°ŸÃ— =  %8d ï¼š F7 or F8", tone_tbl[ t_music_se_no ].voice_volume );
 				StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-				// „¿¹ûÒô¥Ô¥Ã¥Á
-				wsprintf( szMoji, "„¿¹ûÒô¡¡¥Ô¥Ã¥Á =  %8d £º F5 or F6", tone_tbl[ t_music_se_no ].voice_note );
+				// æŠ—ç±è±«æ°“
+				wsprintf( szMoji, "æŠ—ç°ŸË‰è±«æ°“ =  %8d ï¼š F5 or F6", tone_tbl[ t_music_se_no ].voice_note );
 				StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 			}else{
-				// „¿¹ûÒôÒôÁ¿
-				wsprintf( szMoji, "„¿¹ûÒô¡¡Òô¡¡Á¿ =  %8d £º F7 or F8", 0 );
+				// æŠ—ç²¢è¢…
+				wsprintf( szMoji, "æŠ—ç°Ÿâˆ«ç°ŸÃ— =  %8d ï¼š F7 or F8", 0 );
 				StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-				// „¿¹ûÒô¥Ô¥Ã¥Á
-				wsprintf( szMoji, "„¿¹ûÒô¡¡¥Ô¥Ã¥Á =  %8d £º F5 or F6", 0 );
+				// æŠ—ç±è±«æ°“
+				wsprintf( szMoji, "æŠ—ç°ŸË‰è±«æ°“ =  %8d ï¼š F5 or F6", 0 );
 				StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 			}
 			
-			// £Â£Í£Ğ·¬ºÅ
-			//wsprintf( szMoji, "£Â£Í£Ğ¡¡·¬¡¡ºÅ =  %8d", pAct->bmpNo );
+			// ï¼¢ï¼­ï¼°ç•ªå·
+			//wsprintf( szMoji, "ï¼¢ï¼­ï¼°ã€€ç•ªã€€å· =  %8d", pAct->bmpNo );
 			//StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// ¥µ¥¤¥º±íÊ¾
-			//wsprintf( szMoji, "£Â£Í£Ğ¡¡¥µ¥¤¥º = %4d,%4d", SpriteInfo[ pAct->bmpNo ].width, SpriteInfo[ pAct->bmpNo ].height );
+			// ã‚µã‚¤ã‚ºè¡¨ç¤º
+			//wsprintf( szMoji, "ï¼¢ï¼­ï¼°ã€€ã‚µã‚¤ã‚º = %4d,%4d", SpriteInfo[ pAct->bmpNo ].width, SpriteInfo[ pAct->bmpNo ].height );
 			//StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 						
-			// µ±¤¿¤êÅĞ¶¨·¬ºÅ
-			wsprintf( szMoji, "µ±¤¿¤êÅĞ¶¨·¬ºÅ =  %8d", hitNo );
+			// å½“ãŸã‚Šåˆ¤å®šç•ªå·
+			wsprintf( szMoji, "å½“ãŸã‚Šåˆ¤å®šç•ªå· =  %8d", hitNo );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 			
-			// ¥³¥ŞËÍ¤ê¤ÎÕhÃ÷
-			wsprintf( szMoji, "F12£º¥³¥ŞËÍ¤ê¡¡F11£º¥³¥Ş‘ø¤·¡¡F10£º£Ï£Æ£Æ" );
+			// ã‚³ãƒé€ã‚Šã®hæ˜
+			wsprintf( szMoji, "F12ï¼šã‚³ãƒé€ã‚Šã€€F11ï¼šã‚³ãƒè´°F10ï¼šï¼¯ï¼¦ï¼¦" );
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 			
-			// ½KÁË±íÊ¾
-			StockFontBuffer( 530, 460, FONT_PRIO_FRONT, 0, "½KÁË£ºESC", 0 );
+			// Käº†è¡¨ç¤º
+			StockFontBuffer( 530, 460, FONT_PRIO_FRONT, 0, "Käº†ï¼šESC", 0 );
 			
 			break;
 		
-		/* ËÀÍö•r */	
+		/* æ­»äº¡r */	
 		case ACT_STATE_DEAD:
 		
 			DeathAction( pAct );
@@ -400,90 +400,90 @@ void AnimSpr( ACTION *pAct )
 	}
 }
 
-/* ¥¢¥Ë¥á©`¥·¥ç¥ó¥¢¥¯¥·¥ç¥ó×÷³É ***********************************************/
+/* ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ ***********************************************/
 ACTION *MakeAnimSpr( void )
 {
 	ACTION *pAct;
 	
-	/* ¥¢¥¯¥·¥ç¥ó¥ê¥¹¥È¤ËµÇåh */
+	/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆã«ç™»h */
 	pAct = GetAction( PRIO_JIKI, 0 );
 	if( pAct == NULL ) return NULL;
 	
-	/* ŒgĞĞévÊı */
+	/* gè¡Œvæ•° */
 	pAct->func = AnimSpr;
-	// anim_tbl.h ¤Î·¬ºÅ
+	// anim_tbl.h ã®ç•ªå·
 	pAct->anim_chr_no = SPRSTART; 
-	// „Ó×÷·¬ºÅ
+	// å¹¼é£
 	pAct->anim_no = 0;//ANIM_ATTACK;
-	// ¥¢¥Ë¥á©`¥·¥ç¥óÏò¤­( £°¡«£· )( ÏÂ¤¬£°¤ÇÓÒ»Ø¤ê )
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³å‘ã( ï¼ï½ï¼— )( ä¸‹ãŒï¼ã§å³å›ã‚Š )
 	pAct->anim_ang = 0;//Rnd( 0, 7 );
-	// ¥Ü¥Ã¥¯¥¹±íÊ¾
+	// ãƒœãƒƒã‚¯ã‚¹è¡¨ç¤º
 	pAct->atr |= ACT_ATR_HIT_BOX;
-	/* ±íÊ¾ƒÏÈ¶È */
+	/* è¡¨ç¤ºå…ˆåº¦ */
 	pAct->dispPrio = DISP_PRIO_CHAR;
-	/* ³õÆÚÎ»ÖÃ */
+	/* åˆæœŸä½ç½® */
 	pAct->x = 320;
 	pAct->y = 360;
 	
-	// ¥¢¥Ë¥á©`¥·¥ç¥ó
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
 	pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 	
 	return pAct;
 }
 
-/* ¥¢¥Ë¥á©`¥·¥ç¥ó´_ÕJ¥×¥í¥»¥¹ ********************************************************************/
+/* ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³_Jãƒ—ãƒ­ã‚»ã‚¹ ********************************************************************/
 void AnimViewProc( void )
 {
-	/* ¥µ¥Ö¥×¥í¥»¥¹·¬ºÅ¤Ç·Öáª */
+	/* ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ç•ªå·ã§åˆ†å² */
 	switch( SubProcNo ){
 	
 		case 0:
 			
-			// ¥¢¥Ë¥á©`¥·¥ç¥ó¥¢¥¯¥·¥ç¥ó×÷³É
+			// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 			MakeAnimSpr();
-			// ‘éêL£Â£Ç£ÍøQ¤é¤¹
+			// æ®›Lï¼¢ï¼§ï¼­Qã‚‰ã™
 			play_bgm( 1 );
-			// ¥µ¥Ö¥×¥í¥»¥¹·¬ºÅ¥×¥é¥¹
+			// ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ç•ªå·ãƒ—ãƒ©ã‚¹
 			SubProcNo++;
 			
 			break;
 			
 		case 1:
 		
-			/* ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë */
+			/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹ */
 			RunAction();
-			// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+			// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 			StockTaskDispBuffer();
 			
-			// ±³¾°Ãè»­£¨×ÏÉ«£©
+			// èƒŒæ™¯æç”»ï¼ˆç´«è‰²ï¼‰
 			StockBoxDispBuffer( 0, 0, 640, 480, DISP_PRIO_BG, SYSTEM_PAL_PURPLE , 1 );
 			
 			break;
 	}
 }
 
-/* £Ó£Å´_ÕJ¥×¥í¥»¥¹ ********************************************************************/
+/* ï¼³ï¼¥_Jãƒ—ãƒ­ã‚»ã‚¹ ********************************************************************/
 void SeTestProc( void )
 {
 	char szMoji[ 256 ];
 	int x = 128, y = 196;
 	static int seNo = 1, bgmFlag;
 	
-	/* ¥µ¥Ö¥×¥í¥»¥¹·¬ºÅ¤Ç·Öáª */
+	/* ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ç•ªå·ã§åˆ†å² */
 	switch( SubProcNo ){
 	
 		case 0:
 			
-			// ¥µ¥Ö¥×¥í¥»¥¹·¬ºÅ¥×¥é¥¹
+			// ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ç•ªå·ãƒ—ãƒ©ã‚¹
 			SubProcNo++;
 			
 			break;
 			
 		case 1:
 			
-			// „¿¹ûÒôøQ¤é¤¹
+			// æŠ—è±‡Qã‚‰ã™
 			if( joy_trg[ 0 ] & JOY_A ) play_se( seNo, 320, 240 );
-			// ¥Õ¥£©`¥ë¥É£Â£Ç£ÍøQ¤é¤¹
+			// ãƒ•ã‚£`ãƒ«ãƒ‰ï¼¢ï¼§ï¼­Qã‚‰ã™
 			if( joy_trg[ 0 ] & JOY_B ){ 
 				if( bgmFlag == FALSE ){
 					bgmFlag = TRUE;
@@ -494,61 +494,61 @@ void SeTestProc( void )
 				}
 			}
 			
-			// „¿¹ûÒô·¬ºÅ‰ä¸ü£¨¡À£±£©
-			if( joy_auto[ 0 ] & JOY_RIGHT ){	/* ¥×¥é¥¹ */
+			// æŠ—èˆ´æ¶“Äæºƒä¿
+			if( joy_auto[ 0 ] & JOY_RIGHT ){	/* ãƒ—ãƒ©ã‚¹ */
 				while( 1 ){
 					seNo++;
 					if( seNo >= TONE_MAX ) seNo = 1;
 					if( tone_tbl[ seNo ].voice_volume != 0 ) break;
 				}
 			}
-			if( joy_auto[ 0 ] & JOY_LEFT ){		/* ¥Ş¥¤¥Ê¥¹ */
+			if( joy_auto[ 0 ] & JOY_LEFT ){		/* ãƒã‚¤ãƒŠã‚¹ */
 				while( 1 ){
 					seNo--;
 					if( seNo < 0 ) seNo = TONE_MAX - 1;
 					if( tone_tbl[ seNo ].voice_volume != 0 ) break;
 				}
 			}
-			// „¿¹ûÒô¤ÎÒôÁ¿
-			if( joy_auto[ 1 ] & JOY_F8 ){		/* ¥×¥é¥¹ */
+			// æŠ—ç°¸æˆ‘è¢…
+			if( joy_auto[ 1 ] & JOY_F8 ){		/* ãƒ—ãƒ©ã‚¹ */
 				tone_tbl[ seNo ].voice_volume++;
 				if( tone_tbl[ seNo ].voice_volume >= 128 ) tone_tbl[ seNo ].voice_volume = 127;
 			}
-			if( joy_auto[ 1 ] & JOY_F7 ){	/* ¥Ş¥¤¥Ê¥¹ */
+			if( joy_auto[ 1 ] & JOY_F7 ){	/* ãƒã‚¤ãƒŠã‚¹ */
 				tone_tbl[ seNo ].voice_volume--;
 				if( tone_tbl[ seNo ].voice_volume <= -1 ) tone_tbl[ seNo ].voice_volume = 0;
 			}
 			
-			// „¿¹ûÒô¤Î¥Ô¥Ã¥Á
-			if( joy_auto[ 1 ] & JOY_F6 ){	/* ¥×¥é¥¹ */
+			// æŠ—ç°¸è¿è±«æ°“
+			if( joy_auto[ 1 ] & JOY_F6 ){	/* ãƒ—ãƒ©ã‚¹ */
 				tone_tbl[ seNo ].voice_note++;
 				if( tone_tbl[ seNo ].voice_note + tone_tbl[ seNo ].voice_rate >= 63 ) tone_tbl[ seNo ].voice_note = 62 - tone_tbl[ seNo ].voice_rate;
 			}
-			if( joy_auto[ 1 ] & JOY_F5 ){	/* ¥Ş¥¤¥Ê¥¹ */
+			if( joy_auto[ 1 ] & JOY_F5 ){	/* ãƒã‚¤ãƒŠã‚¹ */
 				tone_tbl[ seNo ].voice_note--;
 				if( tone_tbl[ seNo ].voice_note + tone_tbl[ seNo ].voice_rate <= 0 ) tone_tbl[ seNo ].voice_note = -tone_tbl[ seNo ].voice_rate + 1;
 			}
 			
-			// £Å£Ó£Ã¤Ç½KÁË
-			if( joy_trg[ 0 ] & JOY_ESC ){	/* ¥Ş¥¤¥Ê¥¹ */
-				// £×£É£Î£Ä£Ï£×£Ó¤Ë WM_CLOSE ¥á¥Ã¥»©`¥¸¤òËÍ¤é¤»¤ë
+			// ï¼¥ï¼³ï¼£ã§Käº†
+			if( joy_trg[ 0 ] & JOY_ESC ){	/* ãƒã‚¤ãƒŠã‚¹ */
+				// ï¼·ï¼©ï¼®ï¼¤ï¼¯ï¼·ï¼³ã« WM_CLOSE ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‰ã›ã‚‹
 				PostMessage( hWnd, WM_CLOSE, 0, 0L );
 			}
-			// „¿¹ûÒô·¬ºÅ
-			wsprintf( szMoji, "„¿¹ûÒô¡¡·¬¡¡ºÅ =  %4d £º Left or Right", seNo );
+			// æŠ—èˆ´
+			wsprintf( szMoji, "æŠ—ç°Ÿã€‹ã€ =  %4d ï¼š Left or Right", seNo );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// „¿¹ûÒôÒôÁ¿
-			wsprintf( szMoji, "„¿¹ûÒô¡¡Òô¡¡Á¿ =  %4d £º F7   or F8", tone_tbl[ seNo ].voice_volume );
+			// æŠ—ç²¢è¢…
+			wsprintf( szMoji, "æŠ—ç°Ÿâˆ«ç°ŸÃ— =  %4d ï¼š F7   or F8", tone_tbl[ seNo ].voice_volume );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// „¿¹ûÒô¥Ô¥Ã¥Á
-			wsprintf( szMoji, "„¿¹ûÒô¡¡¥Ô¥Ã¥Á =  %4d £º F5   or F6", tone_tbl[ seNo ].voice_note );
+			// æŠ—ç±è±«æ°“
+			wsprintf( szMoji, "æŠ—ç°ŸË‰è±«æ°“ =  %4d ï¼š F5   or F6", tone_tbl[ seNo ].voice_note );
 			StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
-			// „¿¹ûÒôøQ¤é¤¹¥Ü¥¿¥ó
-			wsprintf( szMoji, "Z£º„¿¹ûÒôøQ¤é¤¹¡¡X£º£Â£Ç£ÍøQ¤é¤¹" );
+			// æŠ—è±‡Qã‚‰ã™ãƒœã‚¿ãƒ³
+			wsprintf( szMoji, "Zï¼šæŠ—è±‡Qã‚‰ã™ã€€Xï¼šï¼¢ï¼§ï¼­Qã‚‰ã™" );
 			StockFontBuffer( 16, 460, FONT_PRIO_FRONT, 0, szMoji, 0 ); y += 20;
 			
-			// ½KÁË±íÊ¾
-			StockFontBuffer( 530, 460, FONT_PRIO_FRONT, 0, "½KÁË£ºESC", 0 );
+			// Käº†è¡¨ç¤º
+			StockFontBuffer( 530, 460, FONT_PRIO_FRONT, 0, "Käº†ï¼šESC", 0 );
 			
 			break;
 	}

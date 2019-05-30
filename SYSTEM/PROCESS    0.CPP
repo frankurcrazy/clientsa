@@ -1,5 +1,5 @@
 /************************/
-/*	process.c		½ø³ÌÖØÒª´¦ÀíÊÂÎñ	*/
+/*	process.c		è¿›ç¨‹é‡è¦å¤„ç†äº‹åŠ¡	*/
 /************************/
 #include "system.h"
 #include "../ohta/ohta.h"
@@ -21,138 +21,138 @@
 #include "field.h"
 #include "handletime.h"
 
-/* ÃüÁî´¦ÀíÒş²Ø *******************************************************************/
+/* å‘½ä»¤å¤„ç†éšè— *******************************************************************/
 extern void kakushi_command(void);
-/* ½ø³ÌºÅ */
+/* è¿›ç¨‹å· */
 UINT ProcNo;
-/* ×Ó½ø³Ì */
+/* å­è¿›ç¨‹ */
 UINT SubProcNo;
 
-int palNo;//ĞÖµÜ
+int palNo;//å…„å¼Ÿ
 int oldPalNo;
 
-/* ƒvƒƒZƒXˆ— ********************************************************************/
+/* vZX ********************************************************************/
 void Process( void )
 {
-	/* ƒvƒƒZƒX•ªŠò */
+	/* vZX */
 	switch( ProcNo ){
 	
 		case PROC_OPENNING:
 		
 			break;
 			
-		case PROC_INIT: 	/* ‰Šú‰»ƒvƒƒZƒX */
+		case PROC_INIT: 	/* vZX */
 		
 			InitProc();
 			
 			break;
 			
 
-		// Éí·İÖ¤£¬ÃÜÂë´¦Àí
+		// èº«ä»½è¯ï¼Œå¯†ç å¤„ç†
 		case PROC_ID_PASSWORD:
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			idPasswordProc();
-			RunAction();			// Ö´ĞĞ¶¯×÷
-			StockTaskDispBuffer();	// ÏÔÊ¾Êı¾İ»º³åÇøµÄÈÎÎñ
-			FlashKeyboardCursor();	// ´¦Àí¹â±êÉÁË¸¼üÅÌ/ /
-			ImeProc();				// ÊäÈë·¨ÓĞ¹ØµÄ´¦Àí
+			RunAction();			// æ‰§è¡ŒåŠ¨ä½œ
+			StockTaskDispBuffer();	// æ˜¾ç¤ºæ•°æ®ç¼“å†²åŒºçš„ä»»åŠ¡
+			FlashKeyboardCursor();	// å¤„ç†å…‰æ ‡é—ªçƒé”®ç›˜/ /
+			ImeProc();				// è¾“å…¥æ³•æœ‰å…³çš„å¤„ç†
 			break;
 
-		// ±êÌâºÍ²Ëµ¥Ñ¡Ôñ
+		// æ ‡é¢˜å’Œèœå•é€‰æ‹©
 		case PROC_TITLE_MENU:
-			// /¸Ä±äÁËÍË»º³åÇø
+			// /æ”¹å˜äº†é€€ç¼“å†²åŒº
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			titleProc();
-			TitleProduce();			// Ö°ÏÎ/ 
-			RunAction();			// /Ö´ĞĞ¶¯×÷
-			StockTaskDispBuffer();	// ÏÔÊ¾Êı¾İ»º³åÇøµÄÈÎÎñ
-			kakushi_command();		//Òş²ØµÄÃüÁî´¦Àí
+			TitleProduce();			// èŒè¡”/ 
+			RunAction();			// /æ‰§è¡ŒåŠ¨ä½œ
+			StockTaskDispBuffer();	// æ˜¾ç¤ºæ•°æ®ç¼“å†²åŒºçš„ä»»åŠ¡
+			kakushi_command();		//éšè—çš„å‘½ä»¤å¤„ç†
 			break;
 
 
-		// ÈËÎïÑ¡Ôñ
-		case PROC_CHAR_SELECT:		// ÈËÎïÑ¡Ôñ
-			// ¸ü¸ÄºóµÄäÖÈ¾´¦Àí
-			BackBufferDrawType = DRAW_BACK_NORMAL;// ±ê×¼
+		// äººç‰©é€‰æ‹©
+		case PROC_CHAR_SELECT:		// äººç‰©é€‰æ‹©
+			// æ›´æ”¹åçš„æ¸²æŸ“å¤„ç†
+			BackBufferDrawType = DRAW_BACK_NORMAL;// æ ‡å‡†
 			selectCharacterProc();
 			break;
 
-		// ´´½¨ÈËÎï
+		// åˆ›å»ºäººç‰©
 		case PROC_CHAR_MAKE:
-			// äÖÈ¾´¦Àí
+			// æ¸²æŸ“å¤„ç†
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			makeCharacterProc();
 			break;
 
-		// ¿ªÊ¼µÇÂ½Ñ¡¶¨µÄÈËÎï
+		// å¼€å§‹ç™»é™†é€‰å®šçš„äººç‰©
 		case PROC_CHAR_LOGIN_START:
-			// ×ª»»ÈËÎï
+			// è½¬æ¢äººç‰©
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
-			// charLoginStart();Òò´ËÈçºÎ´ÓÍøÂçÉÏµÄÊı¾İ±¸·İ»º³åÇø
-			//³õÊ¼»¯ÒÔ±£³ÖÆä
-			initMap();		// µØÍ¼
-			initPcAll();	// PCµÄ³õÊ¼»¯ĞÅÏ¢£¨Çå³ı
-			initCharObj();	// ³õÊ¼»¯ÈËÎï¹ÜÀí±í
-			initOpenServerWindow();	// ³õÊ¼»¯µÄ´°¿ÚÖĞÏÔÊ¾·şÎñÆ÷µÄÏßÂ·
-			initFieldProc();		// ´°¿Ú³õÊ¼»¯
-			initMapEffect();		// µØÍ¼³õÊ¼»¯µÄÓ°Ïì
+			// charLoginStart();å› æ­¤å¦‚ä½•ä»ç½‘ç»œä¸Šçš„æ•°æ®å¤‡ä»½ç¼“å†²åŒº
+			//åˆå§‹åŒ–ä»¥ä¿æŒå…¶
+			initMap();		// åœ°å›¾
+			initPcAll();	// PCçš„åˆå§‹åŒ–ä¿¡æ¯ï¼ˆæ¸…é™¤
+			initCharObj();	// åˆå§‹åŒ–äººç‰©ç®¡ç†è¡¨
+			initOpenServerWindow();	// åˆå§‹åŒ–çš„çª—å£ä¸­æ˜¾ç¤ºæœåŠ¡å™¨çš„çº¿è·¯
+			initFieldProc();		// çª—å£åˆå§‹åŒ–
+			initMapEffect();		// åœ°å›¾åˆå§‹åŒ–çš„å½±å“
 			EncountFlag = FALSE;
 			logOutFlag = FALSE;
-			InitOhtaParam();	// ÆäËû²ÎÊı
+			InitOhtaParam();	// å…¶ä»–å‚æ•°
 			
 			ChangeProc( PROC_CHAR_LOGIN );
-			// ‚a‚f‚lƒtƒF[ƒhƒAƒEƒgŠJn
-			fade_out_bgm();//ÍË³öGM£¿
+			// afltF[hAEgJn
+			fade_out_bgm();//é€€å‡ºGMï¼Ÿ
 			break;
 
 		case PROC_CHAR_LOGIN:
-			// ƒoƒbƒNƒoƒbƒtƒ@[•`‰æ•û–@•ÏX
+			// obNobt@[`@X
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			characterLoginProc();
 			break;
 
-		// ƒƒOƒAƒEƒg
+		// OAEg
 		case PROC_CHAR_LOGOUT:
-			// ÈÕÖ¾Êä³ö
+			// æ—¥å¿—è¾“å‡º
 //			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			characterLogoutProc();
 			break;
 
 
-		case PROC_GAME:     /*½ø³ÌµÄÓÎÏ· */
+		case PROC_GAME:     /*è¿›ç¨‹çš„æ¸¸æˆ */
 		
 			GameProc();
 			break;
 
-		case PROC_DISCONNECT_SERVER://¶Ï¿ªÓÎÏ·£¿
+		case PROC_DISCONNECT_SERVER://æ–­å¼€æ¸¸æˆï¼Ÿ
 			switch( SubProcNo )
 			{
 				case 0:
-					// ‰Šú‰»
-					// PCƒŠƒZƒbƒg  / /³õÊ¼»¯/ /µçÄÔ¸´Î»
+					// 
+					// PCZbg  / /åˆå§‹åŒ–/ /ç”µè„‘å¤ä½
 					resetPc();
-					// ÈËÎï¹ÜÀí±í
+					// äººç‰©ç®¡ç†è¡¨
 					initCharObj();
-					// È¡Ïû¶¯×÷
+					// å–æ¶ˆåŠ¨ä½œ
 					DeathAllAction();
 
 
-					//  /³õÊ¼»¯Éú²ú
+					//  /åˆå§‹åŒ–ç”Ÿäº§
 					ProduceInitFlag = TRUE;
-					// ¸´ÖÆ±³¾°´´½¨Í¼Ïñ
+					// å¤åˆ¶èƒŒæ™¯åˆ›å»ºå›¾åƒ
 					CopyBackBuffer();
-					// äÖÈ¾·½·¨
+					// æ¸²æŸ“æ–¹æ³•
 					BackBufferDrawType = DRAW_BACK_PRODUCE; 
-					// ±³¾°ÒôÀÖ
+					// èƒŒæ™¯éŸ³ä¹
 					fade_out_bgm();
-					// ¼ÇÂ¼µ±Ç°Ê±¼ä
+					// è®°å½•å½“å‰æ—¶é—´
 					NowTime = GetTickCount();
 					SubProcNo++;
 
 					break;
 
 				case 1:
-					// Éú³É
+					// ç”Ÿæˆ
 					if( DrawProduce( PRODUCE_DOWN_ACCELE ) == TRUE )
 					{
 						BackBufferDrawType = DRAW_BACK_NORMAL; 
@@ -161,58 +161,58 @@ void Process( void )
 					break;
 
 				case 2:
-					// ½áÊø
+					// ç»“æŸ
 					break;
 			}
-			// ¶Ï¿ª¾¯¸æWindows ´°¿Ú
+			// æ–­å¼€è­¦å‘ŠWindows çª—å£
 			if( disconnectServer() )
 			{
-				// ³õÊ¼»¯ÍøÂç
+				// åˆå§‹åŒ–ç½‘ç»œ
 				cleanupNetwork();
-				// »Ö¸´Ä¬ÈÏµ÷É«°å
+				// æ¢å¤é»˜è®¤è°ƒè‰²æ¿
 				PaletteChange( DEF_PAL, 0 );
-				// µ½±êÌâ»­Ãæ
+				// åˆ°æ ‡é¢˜ç”»é¢
 				ChangeProc( PROC_TITLE_MENU );
-				// /Ïû³ıĞĞ¶¯
+				// /æ¶ˆé™¤è¡ŒåŠ¨
 				DeathAllAction();
 				disconnectServerFlag = FALSE;
 				oldDisconnectServerFlag = FALSE;
 				break;
 			}
-			RunAction();			// ƒAƒNƒVƒ‡ƒ“‘–‚ç‚¹‚é
-			StockTaskDispBuffer();	// ƒ^ƒXƒN•\¦ƒf[ƒ^‚ğƒoƒbƒtƒ@‚É—­‚ß‚é
+			RunAction();			// ANV
+			StockTaskDispBuffer();	// ^XN\f[^obt@
 			break;
 
 
-		case PROC_BATTLE:     /* ƒoƒgƒ‹ƒvƒƒZƒX */
+		case PROC_BATTLE:     /* ogvZX */
 		
 			BattleProc();
 			break;
 			
 #ifdef _DEBUG		
-		//case PROC_OHTA_TEST:     /* ‘¾“cƒeƒXƒgƒvƒƒZƒX */
+		//case PROC_OHTA_TEST:     /* ceXgvZX */
 		
 		//	OhtaTestProc();
 		//	break;
 			
-		//case PROC_TAKE_TEST:     /* ’|“à‚³‚ñƒeƒXƒgƒvƒƒZƒX */
+		//case PROC_TAKE_TEST:     /* |eXgvZX */
 		
 		//	TakeTestProc();
 		//	break;
 
-		//case PROC_DWAF_TEST:	// DWAFƒeƒXƒg
+		//case PROC_DWAF_TEST:	// DWAFeXg
 		//	dwafTestProc();
 		//	break;
 
-		case PROC_SPR_VIEW:		// ³õÊ¼ÑéÖ¤
+		case PROC_SPR_VIEW:		// åˆå§‹éªŒè¯
 			SprViewProc();
 			break;
 			
-		case PROC_ANIM_VIEW:	// ¶¯»­ÑéÖ¤
+		case PROC_ANIM_VIEW:	// åŠ¨ç”»éªŒè¯
 			AnimViewProc();
 			break;
 			
-		case PROC_SE_TEST:	//  SEµÄÉó²é¹ı³Ì
+		case PROC_SE_TEST:	//  SEçš„å®¡æŸ¥è¿‡ç¨‹
 			SeTestProc();
 			break;
 #endif
@@ -223,68 +223,68 @@ void Process( void )
 	}
 }
 
-/* ƒvƒƒZƒX•ÏXˆ— ***********************************************************/
+/* vZXX ***********************************************************/
 void ChangeProc( int procNo )
 {
-	// ƒvƒƒZƒX”Ô†‚ğ‹L‰¯
+	// vZXL
 	ProcNo = procNo;
-	// ƒTƒuƒvƒƒZƒX”Ô†‚Ì‰Šú‰»
+	// TuvZX
 	SubProcNo = 0;
 }
-/* ƒvƒƒZƒX•ÏXˆ— ***********************************************************/
+/* vZXX ***********************************************************/
 void ChangeProc( int procNo, int subProcNo )
 {
-	// ƒvƒƒZƒX”Ô†‚ğ‹L‰¯
+	// vZXL
 	ProcNo = procNo;
-	// ƒTƒuƒvƒƒZƒX”Ô†‚Ì‰Šú‰»
+	// TuvZX
 	SubProcNo = subProcNo;
 }
 
-/* ƒQ[ƒ€ƒvƒƒZƒXˆ— ********************************************************************/
+/* Q[vZX ********************************************************************/
 void GameProc( void )
 {
 	static int now_bgm;
-	static BOOL produceFlag;	// ‰‰oƒtƒ‰ƒO
+	static BOOL produceFlag;	// otO
 
-	/* ƒTƒuƒvƒƒZƒX”Ô†‚Å•ªŠò */
+	/* TuvZX */
 	switch( SubProcNo ){
 	
 		case 0:
 #ifdef _DEBUG
-			// ƒIƒtƒ‰ƒCƒ“ƒ‚[ƒh‚Ì‚Ìƒ}ƒbƒv‰Šú‰»
+			// ItC[h}bv
 			if( offlineFlag )
 			{
-				initMap();		// ƒ}ƒbƒv‰Šú‰»
+				initMap();		// }bv
 			}
 #endif
 
-			//InitIme();		// ‚h‚l‚dŠÖ˜A‚Ì‰Šú‰»
-			ClrImeCompositionString(); // ƒEƒBƒ“ƒhƒEƒY‚Ì‚h‚l‚dƒoƒbƒtƒ@[‚ğƒNƒŠƒA‚·‚é
-			InitChat();		/* ƒ`ƒƒƒbƒgŠÖ˜A‰Šú‰» */
-			// ‰‰o”Ô†ƒ‰ƒ“ƒ_ƒ€i‹ô”‚Ì‚İj
+			//InitIme();		// hldA
+			ClrImeCompositionString(); // EBhEYhldobt@[NA
+			InitChat();		/* `bgA */
+			// o_ij
 			//ProduceNo = Rnd( 0, PRODUCE_END - 1 ) & 0xfffffffe;
-			produceFlag = FALSE;	// ‰‰oƒtƒ‰ƒO‚n‚e‚e
-			EncountFlag = FALSE;	// ƒGƒ“ƒJƒEƒ“ƒgƒtƒ‰ƒO‚n‚e‚e
-			//ƒtƒB[ƒ‹ƒh‚a‚f‚lÄ¶ŠJn
+			produceFlag = FALSE;	// otOnee
+			EncountFlag = FALSE;	// GJEgtOnee
+			//tB[haflJn
 //			play_bgm(0);
-			// ƒAƒ‹ƒoƒ€‚Ì“Ç‚İ‚İ
+			// Ao
 			LoadAlbum();
 			
 			SubProcNo++;
 
-		// ƒƒOƒCƒ“‰‰o
+		// OCo
 		case 150:
 			SubProcNo = 100;
 
 		case 100:
-			initPc();				// ƒvƒŒƒCƒ„[ƒLƒƒƒ‰ì¬
-			resetFieldProc();		// ƒtƒB[ƒ‹ƒhˆ—‚ÌƒŠƒZƒbƒg
-			restorePtActCharObjAll();	// ƒLƒƒƒ‰ŠÇ—ƒe[ƒuƒ‹‚ÌƒAƒNƒVƒ‡ƒ“•œŠˆ
-			initOpenServerWindow();	// ƒT[ƒo‚Ìw¦‚Å•\¦‚·‚éƒEƒBƒ“ƒhƒE‚Ì‰Šú‰»
-			InitMenu();		// ƒƒjƒ…[ŠÖ˜A‚Ì‰Šú‰»
-//			BattleStatusBak[ 0 ] = NULL;// ƒoƒgƒ‹ó‘Ô‰Šú‰»
+			initPc();				// vC[L
+			resetFieldProc();		// tB[hZbg
+			restorePtActCharObjAll();	// Le[uANV
+			initOpenServerWindow();	// T[ow\EBhE
+			InitMenu();		// j[A
+//			BattleStatusBak[ 0 ] = NULL;// og
 //			BattleStatusReadPointer = BattleStatusWritePointer =0;
-			// “ü—ÍƒtƒH[ƒJƒXæ“¾
+			// tH[JX
 			GetKeyInputFocus( &MyChatBuffer );
 			SubProcNo++;
 
@@ -297,49 +297,49 @@ void GameProc( void )
 			SubProcNo++;
 
 		case 102:
-			// ‰‰o‰æ‘œ‚Ìì¬
-			// ƒoƒbƒtƒ@‰Šú‰»
+			// o
+			// obt@
 			paletteProc();
 
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
-			initCharPartsPrio();	// ƒLƒƒƒ‰Eƒp[ƒc‚Ì—Dæ‡ˆÊŒˆ’èˆ—‚Ì‰Šú‰»
-			RunAction();			// ƒAƒNƒVƒ‡ƒ“‘–‚ç‚¹‚é
-			StockTaskDispBuffer();	// ƒ^ƒXƒN•\¦ƒf[ƒ^‚ğƒoƒbƒtƒ@‚É—­‚ß‚é
-			stop_bgm();				//‚a‚f‚l’â~
-			drawMap();				//	ƒ}ƒbƒv•\¦
-			MenuProc();				// ƒƒjƒ…[ˆ—
-			// ˆêsƒCƒ“ƒtƒH—““h‚è‚Â‚Ô‚µi•Fj
+			initCharPartsPrio();	// LEp[cD
+			RunAction();			// ANV
+			StockTaskDispBuffer();	// ^XN\f[^obt@
+			stop_bgm();				//afl~
+			drawMap();				//	}bv\
+			MenuProc();				// j[
+			// sCtHhiFj
 			//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
-			ChatProc();				// ƒ`ƒƒƒbƒgˆ—
-			ChatBufferToFontBuffer(); // ƒ`ƒƒƒbƒgƒoƒbƒtƒ@[‚ğƒtƒHƒ“ƒgƒoƒbƒtƒ@‚É—­‚ß‚é
-			ImeProc();				// ‚h‚l‚dŠÖ˜Aˆ—
-			SortDispBuffer(); 	// •\¦ƒoƒbƒtƒ@ƒ\[ƒg
-			// ƒoƒbƒNƒT[ƒtƒFƒX‚ğ•‚ÅƒNƒŠƒA[
+			ChatProc();				// `bg
+			ChatBufferToFontBuffer(); // `bgobt@[tHgobt@
+			ImeProc();				// hldA
+			SortDispBuffer(); 	// \obt@\[g
+			// obNT[tFXNA[
 			ClearBackSurface();	
-			// ‚a‚l‚o‚ğƒoƒbƒNƒT[ƒtƒFƒX‚ÉƒZƒbƒg
+			// aloobNT[tFXZbg
 			PutBmp();	
-			// ƒoƒbƒNƒT[ƒtƒFƒX‚©‚çƒoƒgƒ‹ƒT[ƒtƒFƒX‚ÖƒRƒs[
+			// obNT[tFXogT[tFXRs[
 			lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-			// ƒoƒbƒtƒ@‰Šú‰»
+			// obt@
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
 
 			play_bgm( map_bgm_no );
 
-			// Œ»İ‚ÌŠÔ‚ğ‹L‰¯
+			// L
 			NowTime = GetTickCount();
-			// ƒoƒbƒNƒoƒbƒtƒ@[•`‰æ•û–@•ÏX
+			// obNobt@[`@X
 //			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
-			// ‰‰o’†
+			// o
 			ProduceInitFlag = TRUE;
 			DrawProduce( PRODUCE_BRAN_BIG );
 			SubProcNo++;
 			break;
 
 		case 103:
-			// ‰‰o’†
+			// o
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			if( DrawProduce( PRODUCE_BRAN_BIG ) == TRUE )
 			{
@@ -350,34 +350,34 @@ void GameProc( void )
 			break;
 
 
-		// ƒ[ƒv‰‰o
+		// [vo
 		case 200:
-			// ‚a‚f‚lƒtƒF[ƒhƒAƒEƒgŠJn
+			// afltF[hAEgJn
 //			fade_out_bgm();
 
-			// SƒvƒƒgƒRƒ‹‚ÌC‚Å warpEffectProc();‚ªŒÄ‚Î‚ê‚Ä
-			// ‰æ–Ê‚ğì‚é‚Ì‚Å‚±‚±‚Å‚Í‚µ‚È‚­‚Ä—Ç‚¢
+			// SvgRC warpEffectProc();
+			// 
 			SubProcNo++;
 
 		case 201:
-			// ‰‰o’†
+			// o
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			if( DrawProduce( PRODUCE_CENTER_PRESSIN ) == TRUE )
 			{
 				SubProcNo++;
 			}
-			drawField();	// ƒtƒB[ƒ‹ƒh‰æ–Ê‚É‚¢‚ë‚¢‚ë•\¦
-			MenuProc();	// ƒƒjƒ…[ˆ—
-			ImeProc();	// ‚h‚l‚dŠÖ˜Aˆ—
+			drawField();	// tB[h\
+			MenuProc();	// j[
+			ImeProc();	// hldA
 			break;
 
 		case 202:
 			if( !warpEffectStart || !warpEffectOk )
 			{
 				BackBufferDrawType = DRAW_BACK_NORMAL; 
-				drawField();	// ƒtƒB[ƒ‹ƒh‰æ–Ê‚É‚¢‚ë‚¢‚ë•\¦
-				MenuProc();	// ƒƒjƒ…[ˆ—
-				ImeProc();	// ‚h‚l‚dŠÖ˜Aˆ—
+				drawField();	// tB[h\
+				MenuProc();	// j[
+				ImeProc();	// hldA
 				break;
 			}
 			warpEffectStart = FALSE;
@@ -385,20 +385,20 @@ void GameProc( void )
 			SubProcNo++;
 
 		case 203:
-			// ‰‰o‰æ‘œ‚Ìì¬
-			// ƒoƒbƒtƒ@‰Šú‰»
+			// o
+			// obt@
 			paletteProc();
 
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
-			initCharPartsPrio();	// ƒLƒƒƒ‰Eƒp[ƒc‚Ì—Dæ‡ˆÊŒˆ’èˆ—‚Ì‰Šú‰»
-			RunAction();			// ƒAƒNƒVƒ‡ƒ“‘–‚ç‚¹‚é
-			StockTaskDispBuffer();	// ƒ^ƒXƒN•\¦ƒf[ƒ^‚ğƒoƒbƒtƒ@‚É—­‚ß‚é
+			initCharPartsPrio();	// LEp[cD
+			RunAction();			// ANV
+			StockTaskDispBuffer();	// ^XN\f[^obt@
 			redrawMap();
-			drawMap();				//	ƒ}ƒbƒv•\¦
+			drawMap();				//	}bv\
 
 #if 1
-			// ƒGƒtƒFƒNƒg‚ÌƒNƒŠƒA
+			// GtFNgNA
 			if( (mapEffectRainLevel == 0 && oldMapEffectRainLevel != 0 )
 			 || (mapEffectSnowLevel == 0 && oldMapEffectSnowLevel != 0 ) )
 			{
@@ -406,35 +406,35 @@ void GameProc( void )
 			}
 #endif
 
-			// ˆêsƒCƒ“ƒtƒH—““h‚è‚Â‚Ô‚µi•Fj
+			// sCtHhiFj
 			//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
-			ChatProc();				// ƒ`ƒƒƒbƒgˆ—
-			ChatBufferToFontBuffer(); // ƒ`ƒƒƒbƒgƒoƒbƒtƒ@[‚ğƒtƒHƒ“ƒgƒoƒbƒtƒ@‚É—­‚ß‚é
-			SortDispBuffer(); 	// •\¦ƒoƒbƒtƒ@ƒ\[ƒg
-			// ƒoƒbƒNƒT[ƒtƒFƒX‚ğ•‚ÅƒNƒŠƒA[
+			ChatProc();				// `bg
+			ChatBufferToFontBuffer(); // `bgobt@[tHgobt@
+			SortDispBuffer(); 	// \obt@\[g
+			// obNT[tFXNA[
 			ClearBackSurface();	
 #if 1
 			if( (mapEffectRainLevel != 0 && oldMapEffectRainLevel == 0 )
 			 || (mapEffectSnowLevel != 0 && oldMapEffectSnowLevel == 0 ) )
 			{
-				mapEffectProc2( 80 );		// ƒ}ƒbƒvƒGƒtƒFƒNƒgi‰JEá“™j
+				mapEffectProc2( 80 );		// }bvGtFNgiJEj
 			}
 #endif
-			// ‚a‚l‚o‚ğƒoƒbƒNƒT[ƒtƒFƒX‚ÉƒZƒbƒg
+			// aloobNT[tFXZbg
 			PutBmp();	
-			// ƒoƒbƒNƒT[ƒtƒFƒX‚©‚çƒoƒgƒ‹ƒT[ƒtƒFƒX‚ÖƒRƒs[
+			// obNT[tFXogT[tFXRs[
 			lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-			// ƒoƒbƒtƒ@‰Šú‰»
+			// obt@
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
 
 //			if( map_bgm_no != now_bgm )
 //			{
-//				stop_bgm();				//‚a‚f‚l’â~
+//				stop_bgm();				//afl~
 //				play_bgm( map_bgm_no );
 //			}
 
-			// Œ»İ‚ÌŠÔ‚ğ‹L‰¯
+			// L
 			NowTime = GetTickCount();
 
 			ProduceInitFlag = TRUE;
@@ -442,74 +442,74 @@ void GameProc( void )
 			SubProcNo++;
 
 		case 204:
-			// ‰‰o’†
+			// o
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			if( DrawProduce( PRODUCE_CENTER_PRESSOUT ) == TRUE )
 			{
 				SubProcNo = 3;
 				fieldInfoTime = GetTickCount();
 			}
-			drawField();	// ƒtƒB[ƒ‹ƒh‰æ–Ê‚É‚¢‚ë‚¢‚ë•\¦
-			MenuProc();	// ƒƒjƒ…[ˆ—
-			ImeProc();	// ‚h‚l‚dŠÖ˜Aˆ—
+			drawField();	// tB[h\
+			MenuProc();	// j[
+			ImeProc();	// hldA
 			break;
 
 
 		case 1:
-			initPc();				// ƒvƒŒƒCƒ„[ƒLƒƒƒ‰ì¬
-			resetFieldProc();		// ƒtƒB[ƒ‹ƒhˆ—‚ÌƒŠƒZƒbƒg
-			restorePtActCharObjAll();	// ƒLƒƒƒ‰ŠÇ—ƒe[ƒuƒ‹‚ÌƒAƒNƒVƒ‡ƒ“•œŠˆ
-			initOpenServerWindow();	// ƒT[ƒo‚Ìw¦‚Å•\¦‚·‚éƒEƒBƒ“ƒhƒE‚Ì‰Šú‰»
-			InitMenu();		// ƒƒjƒ…[ŠÖ˜A‚Ì‰Šú‰»
-//			BattleStatusBak[ 0 ] = NULL;// ƒoƒgƒ‹ó‘Ô‰Šú‰»
+			initPc();				// vC[L
+			resetFieldProc();		// tB[hZbg
+			restorePtActCharObjAll();	// Le[uANV
+			initOpenServerWindow();	// T[ow\EBhE
+			InitMenu();		// j[A
+//			BattleStatusBak[ 0 ] = NULL;// og
 //			BattleStatusReadPointer = BattleStatusWritePointer =0;
-			// “ü—ÍƒtƒH[ƒJƒXæ“¾
+			// tH[JX
 			GetKeyInputFocus( &MyChatBuffer );
 			
-			// ‰‰o‚·‚é
+			// o
 			if( produceFlag == TRUE ){
-			// í“¬Œ‹‰ÊƒEƒBƒ“ƒhƒEƒtƒ‰ƒO‚n‚m
+			// EBhEtOnm
 			//if( BattleResultWndFlag == TRUE ){
 
-				// ‰‰o‰æ‘œ‚Ìì¬
-				// ƒoƒbƒtƒ@‰Šú‰»
+				// o
+				// obt@
 				DispBuffer.DispCnt = 0;
 				FontCnt = 0;
-				initCharPartsPrio();	// ƒLƒƒƒ‰Eƒp[ƒc‚Ì—Dæ‡ˆÊŒˆ’èˆ—‚Ì‰Šú‰»
-				RunAction();			// ƒAƒNƒVƒ‡ƒ“‘–‚ç‚¹‚é
-				StockTaskDispBuffer();	// ƒ^ƒXƒN•\¦ƒf[ƒ^‚ğƒoƒbƒtƒ@‚É—­‚ß‚é
-				stop_bgm();				//‚a‚f‚l’â~
-				drawMap();				//	ƒ}ƒbƒv•\¦
-				//‚a‚f‚l‚ª‚È‚¯‚ê‚Î
+				initCharPartsPrio();	// LEp[cD
+				RunAction();			// ANV
+				StockTaskDispBuffer();	// ^XN\f[^obt@
+				stop_bgm();				//afl~
+				drawMap();				//	}bv\
+				//afl
 				if(!draw_map_bgm_flg){
-					//‚³‚Á‚«‚Ì‚a‚f‚lÄ¶
+					//afl
 					play_bgm(map_bgm_no = now_bgm);
 					draw_map_bgm_flg = 1;
 				}
-				MenuProc();				// ƒƒjƒ…[ˆ—
-				// ˆêsƒCƒ“ƒtƒH—““h‚è‚Â‚Ô‚µi•Fj
+				MenuProc();				// j[
+				// sCtHhiFj
 				//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
-				ChatProc();				// ƒ`ƒƒƒbƒgˆ—
-				ChatBufferToFontBuffer(); // ƒ`ƒƒƒbƒgƒoƒbƒtƒ@[‚ğƒtƒHƒ“ƒgƒoƒbƒtƒ@‚É—­‚ß‚é
-				ImeProc();				// ‚h‚l‚dŠÖ˜Aˆ—
-				SortDispBuffer(); 	// •\¦ƒoƒbƒtƒ@ƒ\[ƒg
-				// ƒoƒbƒNƒT[ƒtƒFƒX‚ğ•‚ÅƒNƒŠƒA[
+				ChatProc();				// `bg
+				ChatBufferToFontBuffer(); // `bgobt@[tHgobt@
+				ImeProc();				// hldA
+				SortDispBuffer(); 	// \obt@\[g
+				// obNT[tFXNA[
 				ClearBackSurface();	
-				// ‚a‚l‚o‚ğƒoƒbƒNƒT[ƒtƒFƒX‚ÉƒZƒbƒg
+				// aloobNT[tFXZbg
 				PutBmp();	
-				// ƒoƒbƒNƒT[ƒtƒFƒX‚©‚çƒoƒgƒ‹ƒT[ƒtƒFƒX‚ÖƒRƒs[
+				// obNT[tFXogT[tFXRs[
 				lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-				// ƒoƒbƒtƒ@‰Šú‰»
+				// obt@
 				DispBuffer.DispCnt = 0;
 				FontCnt = 0;
-				// Œ»İ‚ÌŠÔ‚ğ‹L‰¯
+				// L
 				NowTime = GetTickCount();
-				// ƒoƒbƒNƒoƒbƒtƒ@[•`‰æ•û–@•ÏX
+				// obNobt@[`@X
 				BackBufferDrawType = DRAW_BACK_PRODUCE; 
-				// ‰‰o’†
+				// o
 				DrawProduce( PRODUCE_4WAY_IN );
 			}else{
-				// ‰‰oƒtƒ‰ƒO‚n‚m
+				// otOnm
 				produceFlag = TRUE;
 				SubProcNo++;
 			}
@@ -517,9 +517,9 @@ void GameProc( void )
 			
 			break;
 		
-		case 2:	// ƒtƒB[ƒ‹ƒhƒCƒ“‰‰o
+		case 2:	// tB[hCo
 			
-			// ‰‰o’†
+			// o
 			if( DrawProduce( PRODUCE_4WAY_IN ) == TRUE ){
 				SubProcNo++;
 				warpEffectStart = FALSE;
@@ -528,118 +528,118 @@ void GameProc( void )
 			break;
 			
 		case 3:
-			// ƒoƒbƒNƒoƒbƒtƒ@[•`‰æ•û–@•ÏX
+			// obNobt@[`@X
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			
 			paletteProc();
 			
-			initItemOverlapCheck();	// ƒAƒCƒeƒ€d‚È‚èƒ`ƒFƒbƒNˆ—‚Ì‰Šú‰»
-			drawGrid();				// ƒOƒŠƒbƒhƒJ[ƒ\ƒ‹•\¦
-			fieldProc();			// ƒtƒB[ƒ‹ƒhŠÖ˜Aˆ—
-			moveProc();				// ˆÚ“®ˆ—
-			charObjProc();			// ƒLƒƒƒ‰ŠÇ—ˆ—
-			initCharPartsPrio();	// ƒLƒƒƒ‰Eƒp[ƒc‚Ì—Dæ‡ˆÊŒˆ’èˆ—‚Ì‰Šú‰»
-			addressBookProc();		// ƒAƒhƒŒƒXƒuƒbƒNˆ—
-			openServerWindowProc();	// ƒT[ƒo‹­§ƒEƒBƒ“ƒhƒE
-			drawFieldInfoWin();		// ƒ[ƒvŒã‚ÌêŠî•ñ
+			initItemOverlapCheck();	// ACed`FbN
+			drawGrid();				// ObhJ[\\
+			fieldProc();			// tB[hA
+			moveProc();				// 
+			charObjProc();			// L
+			initCharPartsPrio();	// LEp[cD
+			addressBookProc();		// AhXubN
+			openServerWindowProc();	// T[oEBhE
+			drawFieldInfoWin();		// [v
 			
-			/* ƒAƒNƒVƒ‡ƒ“‘–‚ç‚¹‚é */
+			/* ANV */
 			RunAction();
-			// ƒ^ƒXƒN•\¦ƒf[ƒ^‚ğƒoƒbƒtƒ@‚É—­‚ß‚é
-			// w’è”ÍˆÍ‚ÍƒXƒgƒbƒN‚µ‚È‚¢
+			// ^XN\f[^obt@
+			// wXgbN
 			StockTaskDispBuffer();
 
-			mapEffectProc();		// ƒ}ƒbƒvƒGƒtƒFƒNƒgi‰JEá“™j
+			mapEffectProc();		// }bvGtFNgiJEj
 
-			drawMap();		// ƒ}ƒbƒv•\¦
-			drawField();	// ƒtƒB[ƒ‹ƒh‰æ–Ê‚É‚¢‚ë‚¢‚ë•\¦
+			drawMap();		// }bv\
+			drawField();	// tB[h\
 
-			/* ƒ`ƒƒƒbƒgˆ— */
+			/* `bg */
 			ChatProc();
-			// ƒ`ƒƒƒbƒgƒoƒbƒtƒ@[‚ğƒtƒHƒ“ƒgƒoƒbƒtƒ@‚É—­‚ß‚é
+			// `bgobt@[tHgobt@
 			ChatBufferToFontBuffer(); 
-			// ƒL[ƒ{[ƒhƒJ[ƒ\ƒ‹“_–Åˆ—
+			// L[{[hJ[\_
 			FlashKeyboardCursor();
-			// ƒƒjƒ…[ˆ—
+			// j[
 			MenuProc();
-			// ‚h‚l‚dŠÖ˜Aˆ—
+			// hldA
 			ImeProc();		
-			// ŠÔ‘Ñˆ—‚ÆƒpƒŒƒbƒgƒ`ƒFƒ“ƒWˆ—
+			// pbg`FW
 			TimeZoneProc();
 			
 #ifdef _DEBUG
-			// ƒGƒ“ƒJƒEƒ“ƒgƒ{ƒ^ƒ“
+			// GJEg{^
 			if( joy_trg[ 0 ] & JOY_P_DOWN ){
 				if( pc.ptAct != NULL ){
-					resetMap();					// ƒ}ƒbƒvˆ—ƒŠƒZƒbƒg
-					// ƒGƒ“ƒJƒEƒ“ƒg‘—M
+					resetMap();					// }bvZbg
+					// GJEgM
 					lssproto_EN_send( sockfd, pc.ptAct->gx, pc.ptAct->gy );
 					eventEnemyFlag = 0;
 				}
 			}
 #endif
-			// ƒGƒ“ƒJƒEƒ“ƒg‚µ‚½
+			// GJEg
 			if( EncountFlag == TRUE ){
-				resetPc();				// PCƒŠƒZƒbƒg
-				resetCharObj();			// ƒLƒƒƒ‰ŠÇ—ƒe[ƒuƒ‹ƒŠƒZƒbƒg
-				resetMap();				// ƒ}ƒbƒvˆ—ƒŠƒZƒbƒg
-				clearPtActPartyParam();	// ’‡ŠÔî•ñ‚ÌƒAƒNƒVƒ‡ƒ“ƒ|ƒCƒ“ƒ^‚¾‚¯‚ğNULL‚É‚·‚é
-				fieldInfoTime = 0;		// êŠî•ñ‚ªo‚Ä‚½‚çÁ‚·
-				drawFieldInfoWin();		// ƒ[ƒvŒã‚ÌêŠî•ñ
-				nowEncountPercentage = minEncountPercentage;// ƒGƒ“ƒJƒEƒ“ƒg—¦‚ğÅ¬‚É–ß‚·
+				resetPc();				// PCZbg
+				resetCharObj();			// Le[uZbg
+				resetMap();				// }bvZbg
+				clearPtActPartyParam();	// ANV|C^NULL
+				fieldInfoTime = 0;		// o
+				drawFieldInfoWin();		// [v
+				nowEncountPercentage = minEncountPercentage;// GJEg
 				sendEnFlag = 0;
 				encountNowFlag = 1;
 				eventEnemySendFlag = 0;
 				duelSendFlag = 0;
 				jbSendFlag = 0;
-				// ƒ}ƒbƒvƒEƒBƒ“ƒhƒEƒtƒ‰ƒOƒoƒbƒNƒAƒbƒv
+				// }bvEBhEtOobNAbv
 				if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
-				// Á‚¦‚é‚Ü‚Å‚ÌŠÔƒ^ƒCƒ}[
+				// ^C}[
 				ResultWndTimer = RESULT_WND_CLOSE_TIME;
-				InitMenu();			// ƒƒjƒ…[ŠÖ˜A‚Ì‰Šú‰»
-				BattleCmd[ 0 ] = NULL;		// ƒoƒgƒ‹ƒRƒ}ƒ“ƒh‰Šú‰»
-//				BattleCmdBak[ 0 ] = NULL;	// ƒoƒgƒ‹ƒRƒ}ƒ“ƒh‰Šú‰»
+				InitMenu();			// j[A
+				BattleCmd[ 0 ] = NULL;		// ogR}h
+//				BattleCmdBak[ 0 ] = NULL;	// ogR}h
 //				BattleCmdReadPointer = BattleCmdWritePointer =0;
-				BattleStatus[ 0 ] = NULL;	// ƒoƒgƒ‹ó‘Ô‰Šú‰»
-				//BattleStatusBak[ 0 ] = NULL;// ƒoƒgƒ‹ó‘Ô‰Šú‰»
+				BattleStatus[ 0 ] = NULL;	// og
+				//BattleStatusBak[ 0 ] = NULL;// og
 //				BattleStatusReadPointer = BattleStatusWritePointer =0;
-				BattleTurnReceiveFlag = TRUE;	// ƒ^[ƒ“óMƒtƒ‰ƒO‚n‚m
-				// ƒGƒ“ƒJƒEƒ“ƒg‰¹
+				BattleTurnReceiveFlag = TRUE;	// ^[MtOnm
+				// GJEg
 				play_se( 215, 320, 240 );
-				// Œ»İ‚Ì‚a‚f‚l•Û‘¶
+				// afl
 				now_bgm = t_music_bgm_no;
-				// ‚a‚f‚l’â~
+				// afl~
 				stop_bgm();
 				SubProcNo++;
 			}
 			break;
 			
-		case 4:	// ƒoƒbƒNƒoƒbƒtƒ@[‚ğ‰‰o—pƒT[ƒtƒFƒX‚ÉƒRƒs[
-			// ƒoƒgƒ‹ƒT[ƒtƒFƒX‚Ì‰æ‘œì¬ 
+		case 4:	// obNobt@[opT[tFXRs[
+			// ogT[tFX 
 			CopyBackBuffer();
-			// ƒoƒbƒNƒoƒbƒtƒ@[•`‰æ•û–@•ÏX
+			// obNobt@[`@X
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			SubProcNo++;
 			
 			break;
 			
-		case 5:	// ƒGƒ“ƒJƒEƒ“ƒg‰‰o
+		case 5:	// GJEgo
 		
-			// ‰‰o’†
+			// o
 			if( DrawProduce( PRODUCE_HAGARE_OCHI_OUT ) == TRUE ){
 			//if( GameState == GAME_ENCOUNT_TO_BATTLE ){ 
-				// ƒvƒƒZƒXƒ`ƒFƒ“ƒW
+				// vZX`FW
 				ChangeProc( PROC_BATTLE );
 			}
-			MenuProc();	// ƒƒjƒ…[ˆ—
-			ImeProc();	// ‚h‚l‚dŠÖ˜Aˆ—
+			MenuProc();	// j[
+			ImeProc();	// hldA
 			
 			break;
 	}
 }
 
 
-// ƒ[ƒv‰‰o—p
+// [vop
 void warpEffectProc( void )
 {
 	oldMapEffectRainLevel = mapEffectRainLevel;
@@ -648,52 +648,52 @@ void warpEffectProc( void )
 	DispBuffer.DispCnt = 0;
 	FontCnt = 0;
 
-	// ƒ}ƒbƒvƒEƒBƒ“ƒhƒEƒtƒ‰ƒOƒoƒbƒNƒAƒbƒv
+	// }bvEBhEtOobNAbv
 	if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
 	InitMenu2();
 
-	fieldProc();			// ƒtƒB[ƒ‹ƒhŠÖ˜Aˆ—
-	charObjProc();			// ƒLƒƒƒ‰ŠÇ—ˆ—
-	initCharPartsPrio();	// ƒLƒƒƒ‰Eƒp[ƒc‚Ì—Dæ‡ˆÊŒˆ’èˆ—‚Ì‰Šú‰»
-	openServerWindowProc();	// ƒT[ƒo‹­§ƒEƒBƒ“ƒhƒE
+	fieldProc();			// tB[hA
+	charObjProc();			// L
+	initCharPartsPrio();	// LEp[cD
+	openServerWindowProc();	// T[oEBhE
 
-	fieldInfoTime = 0;		// êŠî•ñ‚ªo‚Ä‚½‚çÁ‚·
-	drawFieldInfoWin();		// ƒ[ƒvŒã‚ÌêŠî•ñ
+	fieldInfoTime = 0;		// o
+	drawFieldInfoWin();		// [v
 
 
-	/* ƒAƒNƒVƒ‡ƒ“‘–‚ç‚¹‚é */
+	/* ANV */
 	RunAction();
-	// ƒ^ƒXƒN•\¦ƒf[ƒ^‚ğƒoƒbƒtƒ@‚É—­‚ß‚é
+	// ^XN\f[^obt@
 	StockTaskDispBuffer();
 
-	mapEffectProc();		// ƒ}ƒbƒvƒGƒtƒFƒNƒgi‰JEá“™j
+	mapEffectProc();		// }bvGtFNgiJEj
 
 	redrawMap();
-	drawMap();		// ƒ}ƒbƒv•\¦
+	drawMap();		// }bv\
 
-	/* ƒ`ƒƒƒbƒgˆ— */
+	/* `bg */
 	ChatProc();
-	// ƒ`ƒƒƒbƒgƒoƒbƒtƒ@[‚ğƒtƒHƒ“ƒgƒoƒbƒtƒ@‚É—­‚ß‚é
+	// `bgobt@[tHgobt@
 	ChatBufferToFontBuffer(); 
-	// ŠÔ‘Ñˆ—‚ÆƒpƒŒƒbƒgƒ`ƒFƒ“ƒWˆ—
+	// pbg`FW
 //	TimeZoneProc();
 
-	SortDispBuffer(); 	// •\¦ƒoƒbƒtƒ@ƒ\[ƒg
+	SortDispBuffer(); 	// \obt@\[g
 
-	// ƒoƒbƒNƒT[ƒtƒFƒX‚ğ•‚ÅƒNƒŠƒA[
+	// obNT[tFXNA[
 	ClearBackSurface();	
-	// ‚a‚l‚o‚ğƒoƒbƒNƒT[ƒtƒFƒX‚ÉƒZƒbƒg
+	// aloobNT[tFXZbg
 	PutBmp();	
 
 
-	// ƒoƒbƒNƒT[ƒtƒFƒX‚©‚çƒoƒgƒ‹ƒT[ƒtƒFƒX‚ÖƒRƒs[
+	// obNT[tFXogT[tFXRs[
 	lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
 
-	// ƒoƒbƒtƒ@‰Šú‰»
+	// obt@
 	DispBuffer.DispCnt = 0;
 	FontCnt = 0;
 
-	// Œ»İ‚ÌŠÔ‚ğ‹L‰¯
+	// L
 	NowTime = GetTickCount();
 
 	ProduceInitFlag = TRUE;
@@ -704,18 +704,18 @@ void paletteProc( void )
 {
 	if( palNo == -1 )
 	{
-		// ƒpƒŒƒbƒgƒ`ƒFƒ“ƒW
+		// pbg`FW
 		PaletteChange( SaTimeZoneNo, 0 );
-		// ŠÔ‘Ñ‚ÅƒpƒŒƒbƒgƒ`ƒFƒ“ƒW‚·‚é
+		// pbg`FW
 		TimeZonePalChangeFlag = TRUE;
 		palNo = -2;
 	}
 	else
 	if( palNo >= 0 )
 	{
-		// ŒÅ’èƒpƒŒƒbƒgİ’è
-		PaletteChange( palNo, 0 );// ƒpƒŒƒbƒgƒ`ƒFƒ“ƒW
-		// ŠÔ‘Ñ‚ÅƒpƒŒƒbƒgƒ`ƒFƒ“ƒW‚µ‚È‚¢
+		// pbg
+		PaletteChange( palNo, 0 );// pbg`FW
+		// pbg`FW
 		TimeZonePalChangeFlag = FALSE;
 		palNo = -2;
 	}

@@ -3,7 +3,7 @@
 #include<string.h>
 #include<direct.h>
 #include<math.h>
-//ս����ͼ
+//战斗地图
 
 
 #include"system.h"
@@ -32,13 +32,13 @@
 
 #include "field.h"
 
-// �ѥͥ�?�ܥ���ȫ��
+// パネル?ボタン全体
 short drawFieldButtonFlag = 1;
-int fieldBtnHitId[FIELD_FUNC_END];	// �ޥ����Ȥε������ж���
+int fieldBtnHitId[FIELD_FUNC_END];	// マウスとの当たり判定用
 short drawTimeAnimeFlag = 0;
 
 
-// ����åȥܥ���
+// チャットボタン
 short menuBtn = 0;
 short menuBtnFocus = 0;
 int menuBtnGraNo[] =
@@ -47,7 +47,7 @@ int menuBtnGraNo[] =
 	CG_FIELD_MENU_BTN_ON
 };
 
-// ���̥ܥ���
+// 名刺ボタン
 short cardBtn = 0;
 short cardBtnFocus = 0;
 int cardBtnGraNo[] =
@@ -56,7 +56,7 @@ int cardBtnGraNo[] =
 	CG_FIELD_CARD_BTN_ON
 };
 
-// ���g�ܥ���
+// 仲gボタン
 short partyBtn = 0;
 short partyBtnFocus = 0;
 short partyBtnEnableFlag = 1;
@@ -66,12 +66,12 @@ int partyBtnGraNo[] =
 	CG_FIELD_GROUP_BTN_ON
 };
 
-// ��`�����
+// メ`ルランプ
 short mailLamp = 0;
 short mailLampDrawFlag = 0;
 unsigned int mailLampFlashTime = 0;
 
-// �Α�ܥ���
+// 参楗堀骏
 short joinBattleBtn = 0;
 short joinBattleBtnFocus = 0;
 short joinBattleBtnEnableFlag = 1;
@@ -82,7 +82,7 @@ int joinBattleBtnGraNo[] =
 	CG_FIELD_JOIN_BTL_BTN_ON
 };
 
-// ����ܥ���
+// 楗堀骏
 short duelBtn = 0;
 short duelBtnFocus = 0;
 int duelBtnGraNo[] =
@@ -91,7 +91,7 @@ int duelBtnGraNo[] =
 	CG_FIELD_DUEL_BTN_ON
 };
 
-// ���������ܥ���
+// アクションボタン
 short actBtn = 0;
 short actBtnForcus = 0;
 int actBtnUpTime;
@@ -105,12 +105,12 @@ short charActionAnimeChangeProcNo;
 short charActionAnimeChangeWindowFlag;
 
 
-// ���g?�Α�?����ϣ˥����å��ե饰
+// 仲g?参?椋希衰攻ぅ氓隶榨楗
 short etcSwitchProcNo;
 short etcSwitchChangeFlag = 0;
 
 
-// ��?ҹ���˥�
+// 朝?夜アニメ
 int amPmAnimeTime;
 int amPmAnimeX;
 int amPmAnimeGraNoIndex0, amPmAnimeGraNoIndex1;
@@ -123,21 +123,21 @@ int amPmAnimeGraNo[] =
 };
 
 
-// ���`�ФغΤ��Υץ��ȥ�����ͤä�
+// サ`バへ何かのプロトコルを送った
 short etcSendFlag = 0;
 
-// ��˥�`�v�B
-short nowFieldMenuOpenFlag = 0;		// ��˥�`�����Υե�`����_���Ƥ��뤫
+// メニュ`vB
+short nowFieldMenuOpenFlag = 0;		// メニュ`がこのフレ`ムに_いているか
 
 
-// �ե��`��ɥܥ����Ѻ���ƥץ��ȥ�����ͤä��r�g
+// フィ`ルドボタンを押してプロトコルを送ったrg
 unsigned int fieldBtnPushTime = 0;
 
-// ��`�וr�ˬF�ڤ�λ�ä��ʾ
+// ワ`プrにF在の位置を表示
 unsigned int fieldInfoTime = 0;
 
 
-// �ץ��ȥ�����
+// プロトタイプ
 void initCharActionAnimeChange( void );
 int charActionAnimeChange( void );
 void initEtcSwitch( void );
@@ -150,7 +150,7 @@ time_t serverAliveLongTime;
 
 
 
-// �ե��`����ϤǤ΄I���γ��ڻ�
+// フィ`ルド上でのI理の初期化
 void initFieldProc( void )
 {
 	int i;
@@ -160,7 +160,7 @@ void initFieldProc( void )
 	menuBtn = 0;
 	cardBtn = 0;
 	partyBtn = 0;
-// initPcAll()��ζ�i���{�٤��O�����Ƥ�ΤǤ����ǤϺΤ⤷�ʤ�
+// initPcAll()で味iを{べてO定してるのでここでは何もしない
 //	mailLamp = 0;
 
 	mailLampDrawFlag = 0;
@@ -195,7 +195,7 @@ void initFieldProc( void )
 }
 
 
-// �ե��`��ɄI���Υꥻ�å�
+// フィ`ルドI理のリセット
 void resetFieldProc( void )
 {
 	actBtn = 0;
@@ -204,7 +204,7 @@ void resetFieldProc( void )
 }
 
 
-// �ե��`����ϤǤ΄I��
+// フィ`ルド上でのI理
 void fieldProc( void )
 {
 	int selId;
@@ -212,7 +212,7 @@ void fieldProc( void )
 	int focusId;
 	BOOL walkFlag = FALSE;
 
-	// ���������ؤ�
+	// 乱数かき回す
 	rand2();
 
 #ifdef _DEBUG
@@ -273,18 +273,18 @@ void fieldProc( void )
 #endif
 
 
-	// ������������Υ���`�ȥ��åȥ��`�΄I��
+	// アクション涓违伐绌`トカットキ`のI理
 	actionShortCutKeyProc();
 
 
-	// ��˥�`�Υե饰��䤨�褦�Ȥ����B�����Ƥ����ä����ä��Τ�
-	// �����r�g���^���Ƥ����ͤ�
+	// メニュ`のフラグを浃à瑜Δ趣筏七B射抑制に引っかかったので
+	// 待ちrgが^ぎてから送る
 	if( etcSwitchChangeFlag
 	 && eventWarpSendFlag == 0
 	 && eventEnemySendFlag == 0
 	 && sendEnFlag == 0 )
 	{
-		if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+		if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 		{
 			lssproto_FS_send( sockfd, pc.etcFlag );
 			fieldBtnPushTime = GetTickCount();
@@ -293,7 +293,7 @@ void fieldProc( void )
 	}
 
 
-	// ���Υ�˥�`�����Ƥ�Ȥ��ϱ�ʾ���ʤ�
+	// 他のメニュ`が出てるときは表示しない
 	if( CheckMenuFlag()
 	 || windowTypeWN > -1
 	 || actBtn == 1
@@ -308,19 +308,19 @@ void fieldProc( void )
 
 
 
-	// ��ե��`��ɄI���Ǥʤ󤫤Υ�����ɥ������Ƥ뤫�����å�
+	// 今フィ`ルドI理でなんかのウィンドウ出してるかチェック
 	nowFieldMenuOpenFlag = 0;
-	// ���`�Хꥯ�����Ț��å�����ɥ����_���Ƥ�
+	// サ`バリクエスト氓Ε％螗丧Δ蜷_いてる
 	if( windowTypeWN != -1 )
 	{
 		nowFieldMenuOpenFlag = 1;
 	}
-	// �����������������ɥ����_���Ƥ�
+	// アクション涓Ε％螗丧Δ蜷_いてる
 	if( actBtn == 1 )
 	{
 		nowFieldMenuOpenFlag = 1;
 	}
-	// ���g?�Α�?����ϣ˥����å�������ɥ����_���Ƥ�
+	// 仲g?参?椋希衰攻ぅ氓隶Ε％螗丧Δ蜷_いてる
 	if( menuBtn == 1 )
 	{
 		nowFieldMenuOpenFlag = 1;
@@ -328,18 +328,18 @@ void fieldProc( void )
 
 
 
-	// �ӣ��r�g�ˤ�볯?��?ҹ���˥�`�����I�����ӣ��r�g1�դ�1024��
+	// ＳＡrgによる朝?昼?夜アニメ`ションI理（ＳＡrg1日は1024）
 	amPmAnimeTime = (SaTime.hour+832)%1024;
 	amPmAnimeGraNoIndex0 = amPmAnimeTime/256;
 	amPmAnimeGraNoIndex1 = (amPmAnimeGraNoIndex0+1)%4;
 	amPmAnimeX = (amPmAnimeTime%256)/4;
 
 
-	// �Уä��ƄӤ��Ƥ��뤫�����å�
+	// ＰＣが移婴筏皮い毪隶Д氓
 	if( nowVx != 0 || nowVy != 0 )
 		walkFlag = TRUE;
 
-	// ���`�Ф��ͤä��ץ��ȥ���η��¤����äƤ�����ե饰��ꥻ�å�
+	// サ`バに送ったプロトコルの返事が返ってきたらフラグをリセット
 	if( etcSendFlag )
 	{
 		if( prSendFlag == 0
@@ -354,12 +354,12 @@ void fieldProc( void )
 		}
 	}
 
-	// �Τ餫�Υץ��ȥ���򥵩`�Ф��ͤäƤ���r��
-	// ���ΙC�ܤ�g�ФǤ��ʤ�����
-	// �i���Ƥ�Ȥ���
+	// 何らかのプロトコルをサ`バに送っているrは
+	// 他のC能をg行できなくする
+	// iいてるときも
 	if( etcSendFlag == 0 && walkFlag == FALSE )
 	{
-		// ���N�ܥ���Ѻ���줿�������å�
+		// 各Nボタンが押されたかチェック
 		selId = selGraId( fieldBtnHitId, sizeof( fieldBtnHitId )/sizeof( int ) );
 		pushId = pushGraId( fieldBtnHitId, sizeof( fieldBtnHitId )/sizeof( int ) );
 		focusId = focusGraId( fieldBtnHitId, sizeof( fieldBtnHitId )/sizeof( int ) );
@@ -369,7 +369,7 @@ void fieldProc( void )
 		selId = -1;
 	}
 
-	// �ض��Υե����Ǥ����g�ܥ����ʹ�äǤ��ʤ�����
+	// 特定のフロアでは仲gボタンを使用できなくする
 	if( nowFloor == 31706
 	 || nowFloor == 10204
 	 || (10601 <= nowFloor && nowFloor <= 10605 )
@@ -385,10 +385,10 @@ void fieldProc( void )
 		partyBtnEnableFlag = 1;
 	}
 
-	// �ض��Υե����ǤϲΑ�ܥ�����Q��ܥ���Ȥ��ƒQ����Τ��h����������
+	// 特定のフロアでは参楗堀骏螭嫌Q楗堀骏螭趣筏Qわれるのでh明を涓工
 	if( nowFloor < 10000 && (nowFloor/1000 > 0) && (nowFloor%1000 == 7) )
 	{
-		joinBattleHelpMsgFlag = 0;	// �Α��h��
+		joinBattleHelpMsgFlag = 0;	// 参檎h明
 		joinBattleBtnEnableFlag = 1;
 	}
 	else
@@ -399,12 +399,12 @@ void fieldProc( void )
 	 || nowFloor == 10204
 	)
 	{
-		joinBattleHelpMsgFlag = 2;	// �Α�Ǥ��ʤ��h����
+		joinBattleHelpMsgFlag = 2;	// 参椁扦胜ふh明。
 		joinBattleBtnEnableFlag = 0;
 	}
 	else
 	{
-		joinBattleHelpMsgFlag = 1;	// �Q���h��
+		joinBattleHelpMsgFlag = 1;	// Q檎h明
 		joinBattleBtnEnableFlag = 1;
 	}
 
@@ -412,17 +412,17 @@ void fieldProc( void )
 
 
 
-	// ��˥�`�ܥ���I��
+	// メニュ`ボタンI理
 	if( selId == FIELD_FUNC_MENU
 	 || (joy_trg[1] & JOY_CTRL_Q) )
 	{
 		if( menuBtn == 0 )
 		{
-			// �����������������ɥ����_���Ƥ��뤫�⤷��ʤ��Τ��]����
-			// ���_���Ƥʤ��r�i��Ǥ↖�}�o����
+			// アクション涓Ε％螗丧Δ_いているかもしれないので]じる
+			// （_いてないriんでも}oい）
 			closeCharActionAnimeChange();
 
-			// ���Υ�����ɥ������Ƥ�������
+			// 他のウィンドウが出てたら消す
 			if( CheckMenuFlag() )
 			{
 				InitMenu2();
@@ -430,7 +430,7 @@ void fieldProc( void )
 
 			initEtcSwitch();
 			menuBtn = 1;
-			play_se( 202, 320, 240 );	// ������ɥ��_����
+			play_se( 202, 320, 240 );	// ウィンドウ_く音
 		}
 		else
 		{
@@ -446,7 +446,7 @@ void fieldProc( void )
 	}
 	if( focusId == FIELD_FUNC_MENU )
 	{
-		menuBtnFocus = 1;		// �ܥ���˥ե��`���������äƤ���
+		menuBtnFocus = 1;		// ボタンにフォ`カスがあっている
 	}
 	else
 	{
@@ -454,7 +454,7 @@ void fieldProc( void )
 	}
 
 
-	// ���̥ܥ���I��
+	// 名刺ボタンI理
 	if( pushId == FIELD_FUNC_CARD )
 	{
 		cardBtn = 1;
@@ -464,23 +464,23 @@ void fieldProc( void )
 			int dx, dy;
 			int flag;
 
-			// �Է֤�����˥���餬���뤫�{�٤�
+			// 自分の正面にキャラがいるか{べる
 			getRouteData( pc.dir, &dx, &dy );
 			flag = checkCharObjPoint( nowGx+dx, nowGy+dy, CHAROBJ_TYPE_USER_NPC );
-			// �ѩ`�ƥ�����äƤʤ��r������˥���餬����
+			// パ`ティに入ってないrで正面にキャラがいる
 			if( partyModeFlag == 0 && flag == TRUE
 			 && eventWarpSendFlag == 0
 			 && eventEnemySendFlag == 0
 			 && sendEnFlag == 0 )
 			{
-				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 				{
-					// ���̽��Q
+					// 名刺交Q
 					lssproto_AAB_send( sockfd, nowGx, nowGy );
 					fieldBtnPushTime = GetTickCount();
 				}
 			}
-			play_se( 217, 320, 240 );	// ����å���
+			play_se( 217, 320, 240 );	// クリック音
 		}
 	}
 	else
@@ -489,7 +489,7 @@ void fieldProc( void )
 	}
 	if( focusId == FIELD_FUNC_CARD )
 	{
-		cardBtnFocus = 1;		// �ܥ���˥ե��`���������äƤ���
+		cardBtnFocus = 1;		// ボタンにフォ`カスがあっている
 	}
 	else
 	{
@@ -497,39 +497,39 @@ void fieldProc( void )
 	}
 
 
-	// ���g�ܥ���I��
+	// 仲gボタンI理
 	if( pushId == FIELD_FUNC_PARTY )
 	{
 		partyBtn = 1;
 		if( partyBtnEnableFlag == 0 )
 		{
-			// �ض��ΥޥåפǤ����g�ˤʤ�ʤ�
+			// 特定のマップでは仲gになれない
 			partyBtn = 0;
-			play_se( 220, 320, 240 );	// �Σ���
+			play_se( 220, 320, 240 );	// ＮＧ音
 		}
 		else
 		if( selId == FIELD_FUNC_PARTY )
 		{
 
-			// �ѩ`�ƥ�����äƤʤ��r�΄���
+			// パ`ティに入ってないrの幼
 			if( partyModeFlag == 0 )
 			{
 				int dx, dy;
 				int flag;
 
-				// ����ˑ��L�򤷤Ƥ��ʤ�����餬���뤫�����å�
+				// 正面に殛Lをしていないキャラがいるかチェック
 				getRouteData( pc.dir, &dx, &dy );
 				flag = checkCharObjPointNotStatus( nowGx+dx, nowGy+dy,
 					CHAROBJ_TYPE_USER_NPC, CHR_STATUS_BATTLE );
-				// ����˥���餬����Τ����gҪ��
+				// 正面にキャラがいるので仲g要求
 				if( flag == 1
 				 && eventWarpSendFlag == 0
 				 && eventEnemySendFlag == 0
 				 && sendEnFlag == 0 )
 				{
-					if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+					if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 					{
-						// �l�����g�ˤ�ʤäƤʤ��r���Է֤���`���`�Ǥ⣩�����gҪ��
+						// lの仲gにもなってないr（自分がリ`ダ`でも）、仲g要求
 						lssproto_PR_send( sockfd, nowGx, nowGy, 1 );
 						prSendMode = 1;
 						prSendFlag = 1;
@@ -539,15 +539,15 @@ void fieldProc( void )
 				}
 			}
 			else
-			// �ѩ`�ƥ��Εr�΄���
+			// パ`ティのrの幼
 			{
 				if( eventWarpSendFlag == 0
 				 && eventEnemySendFlag == 0
 				 && sendEnFlag == 0 )
 				{
-					if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+					if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 					{
-						// �l�������g�Εr�����
+						// lかの仲gのr、除
 						lssproto_PR_send( sockfd, nowGx, nowGy, 0 );
 						prSendMode = 0;
 						prSendFlag = 1;
@@ -556,7 +556,7 @@ void fieldProc( void )
 					}
 				}
 			}
-			play_se( 217, 320, 240 );	// ����å���
+			play_se( 217, 320, 240 );	// クリック音
 		}
 	}
 	else
@@ -565,7 +565,7 @@ void fieldProc( void )
 	}
 	if( focusId == FIELD_FUNC_PARTY )
 	{
-		partyBtnFocus = 1;		// �ܥ���˥ե��`���������äƤ���
+		partyBtnFocus = 1;		// ボタンにフォ`カスがあっている
 	}
 	else
 	{
@@ -573,15 +573,15 @@ void fieldProc( void )
 	}
 
 
-	// �Α�ܥ���I��
+	// 参楗堀骏I理
 	if( pushId == FIELD_FUNC_JOIN_BATTLE )
 	{
 		joinBattleBtn = 1;
 		if( joinBattleBtnEnableFlag == 0 )
 		{
-			// �ض��ΥޥåפǤϲΑ�Ǥ��ʤ�
+			// 特定のマップでは参椁扦胜
 			joinBattleBtn = 0;
-			play_se( 220, 320, 240 );	// �Σ���
+			play_se( 220, 320, 240 );	// ＮＧ音
 		}
 		else
 		if( selId == FIELD_FUNC_JOIN_BATTLE )
@@ -589,13 +589,13 @@ void fieldProc( void )
 			int dx, dy;
 			int flag;
 
-			// �ѩ`�ƥ�����äƤʤ��r
-			// �ޤ��ϡ���`���Εr
-			// ����ˑ��L�򤷤Ƥ��륭��餬���뤫�����å�
+			// パ`ティに入ってないr
+			// または、リ`ダのr
+			// 正面に殛Lをしているキャラがいるかチェック
 			getRouteData( pc.dir, &dx, &dy );
 			flag = checkCharObjPointStatus( nowGx+dx, nowGy+dy,
 				CHAROBJ_TYPE_USER_NPC, CHR_STATUS_BATTLE );
-			// ����ˑ��L�򤷤Ƥ��륭��餬����
+			// 正面に殛Lをしているキャラがいる
 			if( (partyModeFlag == 0
 			 || (partyModeFlag == 1 && (pc.status & CHR_STATUS_LEADER) != 0))
 			 && flag == 2
@@ -603,16 +603,16 @@ void fieldProc( void )
 			 && eventEnemySendFlag == 0
 			 && sendEnFlag == 0 )
 			{
-				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 				{
-					// ���L�Ф����֤˲Α���ͤ�
+					// 殛L中の相手に参椁蛩亭
 					lssproto_JB_send( sockfd, nowGx, nowGy );
 					jbSendFlag = 1;
 					etcSendFlag = 1;
 					fieldBtnPushTime = GetTickCount();
 				}
 			}
-			play_se( 217, 320, 240 );	// ����å���
+			play_se( 217, 320, 240 );	// クリック音
 		}
 	}
 	else
@@ -621,7 +621,7 @@ void fieldProc( void )
 	}
 	if( focusId == FIELD_FUNC_JOIN_BATTLE )
 	{
-		joinBattleBtnFocus = 1;		// �ܥ���˥ե��`���������äƤ���
+		joinBattleBtnFocus = 1;		// ボタンにフォ`カスがあっている
 	}
 	else
 	{
@@ -629,7 +629,7 @@ void fieldProc( void )
 	}
 
 
-	// ����ܥ���I��
+	// 楗堀骏I理
 	if( pushId == FIELD_FUNC_DUEL )
 	{
 		duelBtn = 1;
@@ -639,12 +639,12 @@ void fieldProc( void )
 			int dx, dy;
 			int flag;
 
-			// �ѩ`�ƥ�����äƤʤ��r
-			// �ޤ��ϡ���`���Εr
-			// ����˥���餬���뤫�����å�
+			// パ`ティに入ってないr
+			// または、リ`ダのr
+			// 正面にキャラがいるかチェック
 			getRouteData( pc.dir, &dx, &dy );
 			flag = checkCharObjPoint( nowGx+dx, nowGy+dy, CHAROBJ_TYPE_USER_NPC );
-			// ����˥���餬����Τǌ����ꤷ�z��
+			// 正面にキャラがいるので樯辘忿zみ
 			if( (partyModeFlag == 0
 			 || (partyModeFlag == 1 && (pc.status & CHR_STATUS_LEADER) != 0))
 			 && flag == TRUE
@@ -652,7 +652,7 @@ void fieldProc( void )
 			 && eventEnemySendFlag == 0
 			 && sendEnFlag == 0 )
 			{
-				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 				{
 					lssproto_DU_send( sockfd, nowGx, nowGy );
 					duelSendFlag = 1;
@@ -660,7 +660,7 @@ void fieldProc( void )
 					fieldBtnPushTime = GetTickCount();
 				}
 			}
-			play_se( 217, 320, 240 );	// ����å���
+			play_se( 217, 320, 240 );	// クリック音
 		}
 	}
 	else
@@ -669,24 +669,24 @@ void fieldProc( void )
 	}
 	if( focusId == FIELD_FUNC_DUEL )
 	{
-		duelBtnFocus = 1;	// �ܥ���˥ե��`���������äƤ���
+		duelBtnFocus = 1;	// ボタンにフォ`カスがあっている
 	}
 	else
 	{
 		duelBtnFocus = 0;
 	}
 
-	// ���������ܥ���I��
+	// アクションボタンI理
 	if( selId == FIELD_FUNC_ACT
 	 || (joy_trg[1] & JOY_CTRL_W) )
 	{
 		if( actBtn == 0 )
 		{
-			// ���g?�Α�?����ϣ˥����å��ե饰���_���Ƥ��뤫�⤷��ʤ��Τ��]����
-			// ���_���Ƥʤ��r�i��Ǥ↖�}�o����
+			// 仲g?参?椋希衰攻ぅ氓隶榨楗挨_いているかもしれないので]じる
+			// （_いてないriんでも}oい）
 			closeEtcSwitch();
 
-			// ���Υ�����ɥ������Ƥ�������
+			// 他のウィンドウが出てたら消す
 			if( CheckMenuFlag() )
 			{
 				InitMenu2();
@@ -694,7 +694,7 @@ void fieldProc( void )
 
 			initCharActionAnimeChange();
 			actBtn = 1;
-			play_se( 202, 320, 240 );	// ������ɥ��_����
+			play_se( 202, 320, 240 );	// ウィンドウ_く音
 		}
 		else
 		{
@@ -710,7 +710,7 @@ void fieldProc( void )
 	}
 	if( focusId == FIELD_FUNC_ACT )
 	{
-		actBtnForcus = 1;	// �ܥ���˥ե��`���������äƤ���
+		actBtnForcus = 1;	// ボタンにフォ`カスがあっている
 	}
 	else
 	{
@@ -718,10 +718,10 @@ void fieldProc( void )
 	}
 
 
-	// ��`����ׄI��
+	// メ`ルランプI理
 	if( mailLamp )
 	{
-		// ���ڻ�
+		// 初期化
 		if( mailLampFlashTime == 0 )
 		{
 			mailLampDrawFlag = 1;
@@ -743,12 +743,12 @@ void fieldProc( void )
 }
 
 
-// �ե��`����ϤǤ΄I����ӳ�����軭
+// フィ`ルド上でのI理を反映して描画
 void drawField( void )
 {
-	int leftUpPanelX = 0;		// ���ϥܥ����̨��������
+	int leftUpPanelX = 0;		// 左上ボタンの台座の座
 	int leftUpPanelY = 0;
-	int rightUpPanelX = 504;	// ���ϥܥ����̨��������
+	int rightUpPanelX = 504;	// 右上ボタンの台座の座
 	int rightUpPanelY = 0;
 	int i;
 
@@ -758,8 +758,8 @@ void drawField( void )
 
 	char msg[256];
 
-	// ���`�Ф���Echo�����Ť��Фä��r�Εr�g���ʾ
-	//  ͨ�����`��Υץ��ȥ��뤬���Ť���Ƥ����g�ϸ��¤���ʤ�
+	// サ`バからEchoの受信を行ったrのrgを表示
+	//  通常ゲ`ムのプロトコルが送信されているgは更新されない
 	sprintf( msg, "%s Server Alive -> %02d/%02d/%02d %02d:%02d:%02d",
 		selectServerName2[selectServerIndex],
 		(serverAliveTime->tm_year % 100), serverAliveTime->tm_mon+1, serverAliveTime->tm_mday,
@@ -772,70 +772,70 @@ void drawField( void )
 
 	if( drawFieldButtonFlag )
 	{
-		// ���ϥܥ����̨��
+		// 左上ボタンの台座
 		StockDispBuffer( leftUpPanelX+52, leftUpPanelY+28,
 			DISP_PRIO_MENU, CG_FIELD_MENU_LEFT, 0 );
 
-		// ���ϥ�˥�`�ܥ���
+		// 左上メニュ`ボタン
 		fieldBtnHitId[FIELD_FUNC_MENU] =
 			StockDispBuffer( leftUpPanelX+52, leftUpPanelY+28,
 				DISP_PRIO_IME3, menuBtnGraNo[menuBtn], 2 );
 		if( menuBtnFocus )
 		{
-			// ��˥�`�ܥ����h��
+			// メニュ`ボタンh明
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"���N�O�����Ф��ޤ���", 0 );
+				"各NO定を行います。", 0 );
 		}
 
-		// �������̥ܥ���
+		// 左上名刺ボタン
 		fieldBtnHitId[FIELD_FUNC_CARD] =
 			StockDispBuffer( leftUpPanelX+52, leftUpPanelY+28,
 				DISP_PRIO_IME3, cardBtnGraNo[cardBtn], 2 );
 		if( cardBtnFocus )
 		{
-			// ���̥ܥ����h��
+			// 名刺ボタンh明
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"���Υ���饯���`�����̽��Q�򤷤ޤ���", 0 );
+				"他のキャラクタ`と名刺交Qをします。", 0 );
 		}
 
-		// �������g�ܥ���
+		// 左上仲gボタン
 		fieldBtnHitId[FIELD_FUNC_PARTY] =
 			StockDispBuffer( leftUpPanelX+52, leftUpPanelY+28,
 				DISP_PRIO_IME3, partyBtnGraNo[partyBtn], 2 );
 		if( partyBtnFocus )
 		{
 #if 0
-			// ���g�ܥ����h��
+			// 仲gボタンh明
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"���Υ���饯���`�����g�����ޤ���", 0 );
+				"他のキャラクタ`の仲gに入ります。", 0 );
 #else
-			// ���g�ܥ����h��
-			// �ض��ΥޥåפǤ����g�ܥ����ʹ���ʤ����뤿��
+			// 仲gボタンh明
+			// 特定のマップでは仲gボタンを使えなくするため
 			if( partyBtnEnableFlag == 0 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"�����Ǥ����g������¤������ޤ���", 0 );
+					"ここでは仲gに入る事が出来ません。", 0 );
 			}
 			else
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"���Υ���饯���`�����g�����ޤ���", 0 );
+					"他のキャラクタ`の仲gに入ります。", 0 );
 			}
 #endif
 		}
 
 
-		// ���ϥ�`�����
+		// 左上メ`ルランプ
 		if( mailLampDrawFlag )
 			StockDispBuffer( leftUpPanelX+52, leftUpPanelY+28,
 				DISP_PRIO_IME3, CG_FIELD_MAIL_LAMP, 0 );
 
 
-		// ���ϥܥ����̨��
+		// 右上ボタンの台座
 		StockDispBuffer( rightUpPanelX+68, rightUpPanelY+32,
 			DISP_PRIO_MENU, CG_FIELD_MENU_RIGHT, 0 );
 
-		// ���ϲΑ�ܥ���
+		// 右上参楗堀骏
 		fieldBtnHitId[FIELD_FUNC_JOIN_BATTLE] =
 			StockDispBuffer( rightUpPanelX+68, rightUpPanelY+32,
 				DISP_PRIO_IME3, joinBattleBtnGraNo[joinBattleBtn], 2 );
@@ -843,48 +843,48 @@ void drawField( void )
 		{
 			if( joinBattleHelpMsgFlag == 1 )
 			{
-				// �Α�ܥ����h��
+				// 参楗堀骏笳h明
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"���L�ФΥ���饯���`���������Ȥ��ƲΑ餷�ޤ���", 0 );
+					"殛L中のキャラクタ`の手助けとして参椁筏蓼埂", 0 );
 			}
 			else
 			if( joinBattleHelpMsgFlag == 2 )
 			{
-				// �Α�ܥ����h��
+				// 参楗堀骏笳h明
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"�����ǤϲΑ�Ǥ��ޤ���", 0 );
+					"ここでは参椁扦蓼护蟆", 0 );
 			}
 			else
 			{
-				// �Q��ܥ����h��
+				// Q楗堀骏笳h明
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"�ǥ奨����Q�餷�ޤ���", 0 );
+					"デュエルをQ椁筏蓼埂", 0 );
 			}
 		}
 
-		// ���ό���ܥ���
+		// 右上楗堀骏
 		fieldBtnHitId[FIELD_FUNC_DUEL] =
 			StockDispBuffer( rightUpPanelX+68, rightUpPanelY+32,
 				DISP_PRIO_IME3, duelBtnGraNo[duelBtn], 2 );
 		if( duelBtnFocus )
 		{
-			// �ǥ奨��ܥ����h��
+			// デュエルボタンh明
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"���Υץ쥤��`����饯���`�˥ǥ奨��(����)���ꤷ�z�ߤޤ���", 0 );
+				"他のプレイヤ`キャラクタ`にデュエル()を申しzみます。", 0 );
 		}
 
-		// ���ϥ��������ܥ���
+		// 右上アクションボタン
 		fieldBtnHitId[FIELD_FUNC_ACT] =
 			StockDispBuffer( rightUpPanelX+68, rightUpPanelY+32,
 				DISP_PRIO_IME3, actBtnGraNo[actBtn], 2 );
 		if( actBtnForcus )
 		{
-			// ���������ܥ����h��
+			// アクションボタンh明
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"����饯���`��ɫ���ʥ��������򤵤��ޤ���", 0 );
+				"キャラクタ`に色々なアクションをさせます。", 0 );
 		}
 
-		// �r�g���˥�
+		// rgアニメ
 		if( drawTimeAnimeFlag )
 		{
 			StockDispBuffer( rightUpPanelX+104-amPmAnimeX, rightUpPanelY+21,
@@ -894,7 +894,7 @@ void drawField( void )
 		}
 		else
 		{
-			// �r�g���˥���ʾ���ʤ��r�����󥸥��Ȥ����ϥХå���������
+			// rgアニメを表示しないr（ダンジョンとか）はバック画像を出す
 			StockDispBuffer( rightUpPanelX+68, rightUpPanelY+32,
 				DISP_PRIO_MENU, CG_FIELD_MENU_RIGHT_BACK, 0 );
 		}
@@ -912,7 +912,7 @@ void drawField( void )
 
 
 
-// ��˥�`�_���Ƥ뤫�ɤ���
+// メニュ`_いてるかどうか
 BOOL checkFieldMenuFlag( void )
 {
 	return nowFieldMenuOpenFlag;
@@ -921,24 +921,24 @@ BOOL checkFieldMenuFlag( void )
 
 
 
-// ����饢���������������ɥ�
-// ���ڻ�
+// キャラアクション涓Ε％螗丧
+// 初期化
 void initCharActionAnimeChange( void )
 {
 	charActionAnimeChangeProcNo = 0;
 }
 
 
-// �I����K��餻��
+// I理をKわらせる
 void closeCharActionAnimeChange( void )
 {
 	charActionAnimeChangeProcNo = 1000;
 }
 
 
-// ������������I��
-//  ���ꂎ: 0 ... �I����
-//          !0 ... �I������
+// アクション涓I理
+//  : 0 ... I理中
+//          !0 ... I理完了
 int charActionAnimeChange( void )
 {
 	static ACTION *ptActMenuWin = NULL;
@@ -948,86 +948,86 @@ int charActionAnimeChange( void )
 	int focusId = 0;
 	char *msg[] =
 	{
-		" ���� ",
-			" վ�� ",
-			" ����",
-			" �߶� ",
-			" ��ͷ",
-			" �ε� ",
-			" ���� ",
-			" ���� ",
-			" ���� ",
-			" ���� ",
-			" ���� ",
-			" ����",
-			" Ͷ�� "
+		" 坐下 ",
+			" 站立 ",
+			" 挥手",
+			" 走动 ",
+			" 点头",
+			" 晕倒 ",
+			" 高兴 ",
+			" 攻击 ",
+			" 生气 ",
+			" 防御 ",
+			" 悲伤 ",
+			" 受伤",
+			" 投掷 "
 	};
 	char *msg2[] =
 	{
-		"����(Ctrl+1)",
-			"վ��(Ctrl+7)",
-			"����(Ctrl+2)",
-			"�߶�(Ctrl+8)",
-			"��ͷ(Ctrl+3)",
-			"�ε�(Ctrl+9)",
-			"����(Ctrl+4)",
-			"����(Ctrl+0)",
-			"����(Ctrl+5)",
-			"����(Ctrl+-)",
-			"Ͷ��(Ctrl+6)",
-			"����(Ctrl+^)",
-			"Ͷ��(Ctrl+\\)"
+		"坐下(Ctrl+1)",
+			"站立(Ctrl+7)",
+			"挥手(Ctrl+2)",
+			"走动(Ctrl+8)",
+			"点头(Ctrl+3)",
+			"晕倒(Ctrl+9)",
+			"高兴(Ctrl+4)",
+			"攻击(Ctrl+0)",
+			"生气(Ctrl+5)",
+			"防御(Ctrl+-)",
+			"投掷(Ctrl+6)",
+			"悲伤(Ctrl+^)",
+			"投掷(Ctrl+\\)"
 	};
 	/*
 	char *msg[] =
 	{
-		" ������ ",
-		" ������ ",
-		"�֤����",
-		" �i���� ",
-		"���ʤ���",
-		" ����� ",
-		" ϲ���� ",
-		" ������ ",
-		" ŭ���� ",
-		" ���`�� ",
-		" ������ ",
-		"����`��",
-		" Ͷ���� "
+		" 座　る ",
+		" 立　つ ",
+		"手を振る",
+		" i　く ",
+		"うなずく",
+		" 倒れる ",
+		" 喜　ぶ ",
+		" 攻　 ",
+		" 怒　る ",
+		" ガ`ド ",
+		" 悲しむ ",
+		"ダメ`ジ",
+		" 投げる "
 	};
 	char *msg2[] =
 	{
-		"���륢�������򤷤ޤ���(Ctrl+1)",
-		"���ĥ��������򤷤ޤ���(Ctrl+7)",
-		"�֤���륢�������򤷤ޤ���(Ctrl+2)",
-		"�i�����������򤷤ޤ���(Ctrl+8)",
-		"���ʤ������������򤷤ޤ���(Ctrl+3)",
-		"����륢�������򤷤ޤ���(Ctrl+9)",
-		"ϲ�֥��������򤷤ޤ���(Ctrl+4)",
-		"���ĥ��������򤷤ޤ���(Ctrl+0)",
-		"ŭ�륢�������򤷤ޤ���(Ctrl+5)",
-		"���`�ɥ��������򤷤ޤ���(Ctrl+-)",
-		"�����ॢ�������򤷤ޤ���(Ctrl+6)",
-		"����`�����������򤷤ޤ���(Ctrl+^)",
-		"Ͷ���륢�������򤷤ޤ���(Ctrl+\\)"
+		"座るアクションをします。(Ctrl+1)",
+		"立つアクションをします。(Ctrl+7)",
+		"手を振るアクションをします。(Ctrl+2)",
+		"iくアクションをします。(Ctrl+8)",
+		"うなずくアクションをします。(Ctrl+3)",
+		"倒れるアクションをします。(Ctrl+9)",
+		"喜ぶアクションをします。(Ctrl+4)",
+		"攻磨伐绁螭颏筏蓼埂(Ctrl+0)",
+		"怒るアクションをします。(Ctrl+5)",
+		"ガ`ドアクションをします。(Ctrl+-)",
+		"悲しむアクションをします。(Ctrl+6)",
+		"ダメ`ジアクションをします。(Ctrl+^)",
+		"投げるアクションをします。(Ctrl+\\)"
 	};*/
 	int i, j;
 	int x1, y1, x2, y2;
 	int chgTbl[] =
 	{
-	   5,	//  ������ 
-	   3,	//  ������ 
-	   6,	// �֤����
-	   4,	//  �i���� 
-	  11,	// ���ʤ���
-	   2,	//  ����� 
-	   7,	//  ϲ���� 
-	   0,	//  ������ 
-	   8,	//  ŭ���� 
-	  10,	//  ���`�� 
-	   9,	//  ������ 
-	   1,	// ����`��
-	  12	// Ͷ����
+	   5,	//  座　る 
+	   3,	//  立　つ 
+	   6,	// 手を振る
+	   4,	//  i　く 
+	  11,	// うなずく
+	   2,	//  倒れる 
+	   7,	//  喜　ぶ 
+	   0,	//  攻　 
+	   8,	//  怒　る 
+	  10,	//  ガ`ド 
+	   9,	//  悲しむ 
+	   1,	// ダメ`ジ
+	  12	// 投げる
 	};
 
 
@@ -1038,7 +1038,7 @@ int charActionAnimeChange( void )
 			btnId[i] = -2;
 		}
 
-		// ������ɥ�����
+		// ウィンドウ作成
 		w = 3;
 		h = 6;
 		x = 440;
@@ -1055,7 +1055,7 @@ int charActionAnimeChange( void )
 		focusId = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// �ܥ�����x�k�ж�
+			// ボタンのxk判定
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			focusId = focusGraId( btnId, sizeof( btnId )/sizeof( int ) );
 
@@ -1094,29 +1094,29 @@ int charActionAnimeChange( void )
 			}
 		}
 
-		// ���Υ�˥�`������ΤǤ��ä��Υ�����ɥ����]����
+		// 他のメニュ`が出るのでこっちのウィンドウを]じる
 		if( CheckMenuFlag() )
 		{
 			id = 100;
 		}
 		else
-		// ESC��Ѻ���줿�ΤǽK��
+		// ESCが押されたのでK了
 		if( (joy_trg[ 0 ] & JOY_ESC) && ImeBufferBak2 == NULL )
 		{
 			id = 100;
-			play_se( 203, 320, 240 );	// ������ɥ��]������
+			play_se( 203, 320, 240 );	// ウィンドウ]じる音
 		}
 		else
-		// �K���v�������Ф줿�ΤǽK��
+		// K了v数が呼ばれたのでK了
 		if( charActionAnimeChangeProcNo == 1000 )
 		{
 			id = 100;
 		}
 
-		// ����󥻥�
+		// キャンセル
 		if( id == 0 )
 		{
-			play_se( 203, 320, 240 );	// ������ɥ��]������
+			play_se( 203, 320, 240 );	// ウィンドウ]じる音
 		}
 		else
 		if( 1 <= id && id <= 13 )
@@ -1128,16 +1128,16 @@ int charActionAnimeChange( void )
 			 && eventEnemySendFlag == 0
 			 && sendEnFlag == 0 )
 			{
-				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 				{
 					lssproto_AC_send( sockfd, nowGx, nowGy, chgTbl[id] );
 					setPcAction( chgTbl[id] );
 					fieldBtnPushTime = GetTickCount();
 				}
 			}
-			// ��˥�`���Ŀ���x��Ǥ⥦����ɥ����]���ʤ��褦�ˤ���
+			// メニュ`の目をxんでもウィンドウを]じないようにする
 			id = -1;
-			play_se( 217, 320, 240 );	// ����å���
+			play_se( 217, 320, 240 );	// クリック音
 		}
 
 		if( id >= 0 )
@@ -1153,9 +1153,9 @@ int charActionAnimeChange( void )
 					DISP_PRIO_MENU, CG_CLOSE_BTN, 2 );
 			if( focusId == 0 )
 			{
-				// ��˥�`�Ŀ�h��
+				// メニュ`目h明
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"��������󥦥���ɥ����]���ޤ���", 0 );
+					"アクションウィンドウを]じます。", 0 );
 			}
 
 			for( i = 0; i < 6; i++ )
@@ -1166,7 +1166,7 @@ int charActionAnimeChange( void )
 						FONT_PRIO_FRONT, FONT_PAL_WHITE, msg[i*2+j], 0 );
 					if( i*2+j == focusId-1 )
 					{
-						// ��˥�`�Ŀ�h��
+						// メニュ`目h明
 						StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 							msg2[i*2+j], 0 );
 					}
@@ -1178,7 +1178,7 @@ int charActionAnimeChange( void )
 				FONT_PRIO_FRONT, FONT_PAL_WHITE, msg[i*2+j], 0 );
 			if( i*2+j == focusId-1 )
 			{
-				// ��˥�`�Ŀ�h��
+				// メニュ`目h明
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 					msg2[i*2+j], 0 );
 			}
@@ -1191,25 +1191,25 @@ int charActionAnimeChange( void )
 
 
 
-// ���g?�Α�?����ϣ˥����å�������ɥ�
-// ���ڻ�
+// 仲g?参?椋希衰攻ぅ氓隶Ε％螗丧
+// 初期化
 void initEtcSwitch( void )
 {
 	etcSwitchProcNo = 0;
 }
 
 
-// �I����K��餻��
+// I理をKわらせる
 void closeEtcSwitch( void )
 {
 	etcSwitchProcNo = 1000;
 }
 
 
-// ���g?�Α�?����ϣ˥����å��I��
-//  ���ꂎ: 0 ... �I����
-//          !0 ... �I������
-/// /��飿��ս����սOK���ش���/ /����ֵ:0...������/ /0...������ϣ�
+// 仲g?参?椋希衰攻ぅ氓I理
+//  : 0 ... I理中
+//          !0 ... I理完了
+/// /伙伴？参战？对战OK开关处理/ /返回值:0...处理中/ /0...处理完毕！
 int etcSwitch( void )
 {
 	static ACTION *ptActMenuWin = NULL;
@@ -1217,31 +1217,31 @@ int etcSwitch( void )
 	static int btnId[5];
 	int id = 0;
 	int focusId = 0;
-	//�����޸İ�ť
+	//这里修改按钮
 	char *msg[] =
-		//�����ţ�",����",������������Ƭ��",�����죺��
+		//“集团：",“：",决斗“交换名片：",“聊天：“
 	{
-		"��ӣ�",
-		"����",
-		"��Ƭ",
-		"����"
+		"组队：",
+		"决斗",
+		"名片",
+		"聊天"
 	};
 	char *msg2[] =
 	{
-		" �Ρ���",
-		" �٣ţ�"
+		" Ｎ　Ｏ",
+		" ＹＥＳ"
 	};
 	char *msg3[] =
 	{
-		"ȫ��",
-		"����"
+		"全体",
+		"家族"
 	};
 	char *msg4[] =
 	{
-		"������ɫ���趨�Ƿ��ܳ�Ϊͬ��",
-		"������ɫ�Ķ�ս�������ܵ��趨",
-		"������Ƭ�Ƿ���ܵ��趨",
-		"������Ϣ�ķ�Χ�趨"
+		"其他角色的设定是否能成为同伴",
+		"其他角色的对战报名接受的设定",
+		"交换名片是否接受的设定",
+		"聊天消息的范围设定"
 	};
 	int mask[] =
 	{
@@ -1260,7 +1260,7 @@ int etcSwitch( void )
 			btnId[i] = -2;
 		}
 
-		// ������ɥ�����
+		// ウィンドウ作成
 		w = 3;
 		h = 4;
 		x = 16;
@@ -1278,7 +1278,7 @@ int etcSwitch( void )
 		focusId = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// �ܥ�����x�k�ж�
+			// ボタンのxk判定
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			focusId = focusGraId( btnId, sizeof( btnId )/sizeof( int ) );
 
@@ -1299,41 +1299,41 @@ int etcSwitch( void )
 			}
 		}
 
-		// ���Υ�˥�`������ΤǤ��ä��Υ�����ɥ����]����
+		// 他のメニュ`が出るのでこっちのウィンドウを]じる
 		if( CheckMenuFlag() )
 		{
 			id = 100;
 		}
 		else
-		// ESC��Ѻ���줿�ΤǽK��
+		// ESCが押されたのでK了
 		if( ((joy_trg[ 0 ] & JOY_ESC) && ImeBufferBak2 == NULL) )
 		{
 			id = 100;
-			play_se( 203, 320, 240 );	// ������ɥ��]������
+			play_se( 203, 320, 240 );	// ウィンドウ]じる音
 		}
 		else
-		// �K���v�������Ф줿�ΤǽK��
+		// K了v数が呼ばれたのでK了
 		if( etcSwitchProcNo == 1000 )
 		{
 			id = 100;
 		}
 
-		// ����󥻥�
+		// キャンセル
 		if( id == 0 )
 		{
-			play_se( 203, 320, 240 );	// ������ɥ��]������
+			play_se( 203, 320, 240 );	// ウィンドウ]じる音
 		}
 		else
 		if( 1 <= id && id <= sizeof( msg )/sizeof( char * ) )
 		{
 			id--;
-			// �ӥåɤ��Ϥ��äƤ����¤���
+			// ビッドが上がってたら下ろす
 			if( pc.etcFlag & mask[id] )
 			{
 				pc.etcFlag &= ~mask[id];
 			}
 			else
-			// �¤��äƤ����Ϥ���
+			// 下がってたら上げる
 			{
 				pc.etcFlag |= mask[id];
 			}
@@ -1341,21 +1341,21 @@ int etcSwitch( void )
 			 && eventEnemySendFlag == 0
 			 && sendEnFlag == 0 )
 			{
-				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+				if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 				{
 					lssproto_FS_send( sockfd, pc.etcFlag );
 					fieldBtnPushTime = GetTickCount();
 				}
 				else
 				{
-					// �ե饰��䤨�褦�Ȥ������B�����Ƥ����ä����ä��Τ�
-					// ����ͤ�
+					// フラグを浃à瑜Δ趣筏郡B射抑制に引っかかったので
+					// 後で送る
 					etcSwitchChangeFlag = 1;
 				}
 			}
-			// ��˥�`���Ŀ���x��Ǥ⥦����ɥ����]���ʤ��褦�ˤ���
+			// メニュ`の目をxんでもウィンドウを]じないようにする
 			id = -1;
-			play_se( 217, 320, 240 );	// ����å���
+			play_se( 217, 320, 240 );	// クリック音
 		}
 
 		if( id >= 0 )
@@ -1370,17 +1370,17 @@ int etcSwitch( void )
 
 #if 0
 			btnId[0] = StockFontBuffer( x+54, y+154,
-//						FONT_PRIO_FRONT, FONT_PAL_WHITE, "����󥻥�", 2 );
-						FONT_PRIO_FRONT, FONT_PAL_WHITE, "���]���롡", 2 );
+//						FONT_PRIO_FRONT, FONT_PAL_WHITE, "キャンセル", 2 );
+						FONT_PRIO_FRONT, FONT_PAL_WHITE, "　]じる　", 2 );
 #else
 			btnId[0] = StockDispBuffer( x+96, y+162,
 					DISP_PRIO_MENU, CG_CLOSE_BTN, 2 );
 #endif
 			if( focusId == 0 )
 			{
-				// ��˥�`�Ŀ�h��
+				// メニュ`目h明
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"��˥�`������ɥ����]���ޤ���", 0 );
+					"メニュ`ウィンドウを]じます。", 0 );
 			}
 
 			for( i = 0; i < sizeof( msg )/sizeof( char * ); i++ )
@@ -1399,7 +1399,7 @@ int etcSwitch( void )
 				}
 				if( i == focusId-1 )
 				{
-					// ��˥�`�Ŀ�h��
+					// メニュ`目h明
 					StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 						msg4[i], 0 );
 				}
@@ -1412,9 +1412,9 @@ int etcSwitch( void )
 
 
 
-// ���`�ФȤνӾA��;�Ф줿
-//   ���ꂎ�� 0 ... �I����
-//            1 ... "�Ϥ�"�ܥ���Ѻ���줿
+// サ`バとの接Aが途切れた
+//    0 ... I理中
+//            1 ... "はい"ボタンが押された
 int disconnectServer( void )
 {
 	static ACTION *ptActMenuWin = NULL;
@@ -1423,8 +1423,8 @@ int disconnectServer( void )
 	int id = 0;
 	char *msg[] =
 	{
-		"���`�ФȤνӾA��;�Ф�ޤ�����",
-		"�����ȥ�ؑ���ޤ���"
+		"サ`バとの接Aが途切れました。",
+		"タイトルへ辘蓼埂"
 	};
 	int i;
 	int ret = 0;
@@ -1433,7 +1433,7 @@ int disconnectServer( void )
 
 	if( ptActMenuWin == NULL )
 	{
-		// ���Υ�����ɥ������Ƥ�������
+		// 他のウィンドウが出てたら消す
 		if( CheckMenuFlag() )
 		{
 			InitMenu2();
@@ -1447,7 +1447,7 @@ int disconnectServer( void )
 			btnId[i] = -2;
 		}
 
-		// ������ɥ�����
+		// ウィンドウ作成
 		w = 5;
 		h = 3;
 		x = (640 - w*64)/2;
@@ -1460,7 +1460,7 @@ int disconnectServer( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// �ܥ�����x�k�ж�
+			// ボタンのxk判定
 			id = selFontId( btnId, sizeof( btnId )/sizeof( int ) );
 			if( id >= 0 )
 			{
@@ -1477,9 +1477,9 @@ int disconnectServer( void )
 					FONT_PRIO_FRONT, FONT_PAL_WHITE, msg[i], 0 );
 			}
 
-			xx = (w*64-strlen( "�Ϥ�" )/2*17)/2;
+			xx = (w*64-strlen( "はい" )/2*17)/2;
 			btnId[0] = StockFontBuffer( x+xx, y+3*yy,
-						FONT_PRIO_FRONT, FONT_PAL_YELLOW, "�Ϥ�", 2 );
+						FONT_PRIO_FRONT, FONT_PAL_YELLOW, "はい", 2 );
 		}
 	}
 
@@ -1487,7 +1487,7 @@ int disconnectServer( void )
 }
 
 
-// ��`���᤽�Έ�������ǰ���ʾ
+// ワ`プ後その鏊蚊挨虮硎
 void drawFieldInfoWin( void )
 {
 	static ACTION *ptActMenuWin = NULL;
@@ -1511,24 +1511,24 @@ void drawFieldInfoWin( void )
 
 	if( ptActMenuWin == NULL )
 	{
-		// ���Υ�����ɥ������Ƥ�������
+		// 他のウィンドウが出てたら消す
 		if( CheckMenuFlag() )
 		{
-			// �ޥåץ�����ɥ��ե饰�Хå����å�
+			// マップウィンドウフラグバックアップ
 			if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
 			InitMenu2();
 		}
 		closeEtcSwitch();
 		closeCharActionAnimeChange();
 
-		// ������ɥ�����
+		// ウィンドウ作成
 		w = 4;
 		h = 2;
 		x = (640 - w*64)/2;
 		y = (456 - h*48)/2;
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 3 );
 
-		play_se( 202, 320, 240 );	// ������ɥ��_����
+		play_se( 202, 320, 240 );	// ウィンドウ_く音
 	}
 
 	if( ptActMenuWin != NULL )
@@ -1557,7 +1557,7 @@ void drawFieldInfoWin( void )
 
 
 
-// ������������Υ���`�ȥ��åȥ��`�΄I��
+// アクション涓违伐绌`トカットキ`のI理
 void actionShortCutKeyProc( void )
 {
 	unsigned int key[] =
@@ -1579,7 +1579,7 @@ void actionShortCutKeyProc( void )
 	int i;
 	BOOL pushFlag = FALSE;
 
-	// �Уä��ƄӤ��Ƥ�����Τ⤷�ʤ�
+	// ＰＣが移婴筏皮い郡楹韦猡筏胜
 	if( nowVx != 0 || nowVy != 0 )
 		return;
 
@@ -1601,7 +1601,7 @@ void actionShortCutKeyProc( void )
 	 && eventEnemySendFlag == 0
 	 && sendEnFlag == 0 )
 	{
-		if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// �B������
+		if( fieldBtnPushTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )// B射抑制
 		{
 			lssproto_AC_send( sockfd, nowGx, nowGy, i );
 			setPcAction( i );

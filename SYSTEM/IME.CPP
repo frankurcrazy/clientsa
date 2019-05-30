@@ -7,181 +7,181 @@
 #include "ime_sa.h"
 #include "menu.h"
 
-// �ɣͣŤΥϥ�ɥ�
+// ＩＭＥのハンドル
 HIMC hImc;
 HIMC hImcBegin;
 
-// �ɣͣ�������`��ȡ����
+// ＩＭＥ入力モ`ド取得用
 DWORD conversion;
 DWORD sentence;
 
-// �ɣͣ�������`��������  IME�ַ�������ģʽ
+// ＩＭＥ入力モ`ド文字列  IME字符串输入模式
 /*
 static char *ImeModeStr[] = { 
 								"    ??/abc","","",
 								"    ??/???"","","","","", // Nuke.1
-								" ??/����",
-								" ??/������","",
-								" ??/������","","","","",
+								" ??/ａｂｃ",
+								" ??/あいう","",
+								" ??/アイウ","","","","",
 								"   ???/abc","","",
 								"   ???/???"","","","","", // Nuke.2
-								"???/����",
-								"???/������","",
-								"???/������",
+								"???/ａｂｃ",
+								"???/あいう","",
+								"???/アイウ",
 								};
-// �ɣͣ�������`�������У��ã����ã� IME���뷽ʽ�����У�Caps�ã�
+// ＩＭＥ入力モ`ド文字列（Ｃａｐｓ用） IME输入方式文字列（Caps用）
 static char *ImeModeStrCaps[] = { 
 								"    ??/ABC","","",
 								"    ??/???"","","","","", // Nuke.3
-								" ??/���£�",
-								" ??/������","",
-								" ??/������","","","","",
+								" ??/ＡＢＣ",
+								" ??/あいう","",
+								" ??/アイウ","","","","",
 								"   ???/ABC","","",
 								"   ???/???"","","","","", // Nuke.4
-								"???/���£�",
-								"???/������","",
-								"???/������",
+								"???/ＡＢＣ",
+								"???/あいう","",
+								"???/アイウ",
 								};*/
 
-//IME�ַ�������ģʽСд
+//IME字符串输入模式小写
 static char *ImeModeStr[] = { 
-	"    ��/abc","","",
-								"    ��/��?","","","","", // Nuke.1
-								" ��/������",
-								" ��/������","",
-								" ��/�A�C�E","","","","",
-								"   ۰?abc","","",
-								"   ۰?��?","","","","", // Nuke.2
-								"۰?������",
-								"۰?������","",
-								"۰?�A�C�E",
+	"    杜/abc","","",
+								"    杜/辈?","","","","", // Nuke.1
+								" 杜/",
+								" 杜/","",
+								" 杜/ACE","","","","",
+								"   郯?abc","","",
+								"   郯?辈?","","","","", // Nuke.2
+								"郯?",
+								"郯?","",
+								"郯?ACE",
 };
-// IME���뷽ʽ�����У�Caps�ã���д
+// IME输入方式文字列（Caps用）大写
 static char *ImeModeStrCaps[] = { 
-	"    ��/ABC","","",
-								"    ��/��?","","","","", // Nuke.3
-								" ��/�`�a�b",
-								" ��/������","",
-								" ��/�A�C�E","","","","",
-								"   ۰?ABC","","",
-								"   ۰?��?","","","","", // Nuke.4
-								"۰?�`�a�b",
-								"۰?������","",
-								"۰?�A�C�E",
+	"    杜/ABC","","",
+								"    杜/辈?","","","","", // Nuke.3
+								" 杜/`ab",
+								" 杜/","",
+								" 杜/ACE","","","","",
+								"   郯?ABC","","",
+								"   郯?辈?","","","","", // Nuke.4
+								"郯?`ab",
+								"郯?","",
+								"郯?ACE",
 								};
 #if 0
-// ��ǥ��ʤ���ȫ�ǥ��ʉ�Q��������
-char *ZenkakuKana = "?��������?�򥡥������������"
-					"�`������������������������������"
-					"�����ĥƥȥʥ˥̥ͥΥϥҥեإۥ�"
-					"�ߥ��������������a�b";
+// 半角カナから全角カナQ用文字列
+char *ZenkakuKana = "?。「」、?ヲァィゥェォャュョッ"
+					"`アイウエオカキクケコサシスセソ"
+					"タチツテトナニヌネノハヒフヘホマ"
+					"ミムメモヤユヨラリルレロワンab";
 #endif
 
-// �ɣͣťХåե��` IME������ ���޸� _asm
+// ＩＭＥバッファ` IME缓冲器 我修改 _asm
 char ImeBuffer[ 256 ];
 //char *ImeBuffer;
-// �ɣͣ��Ĺ��Хåե��`  ���ﻺ����
+// ＩＭＥ文バッファ`  短语缓冲器
 char ImeBlock[ 256 ];
-// �ɣͣťХåե��`�Хå����å�  ���屸�� ���޸� _asm
+// ＩＭＥバッファ`バックアップ  缓冲备份 我修改 _asm
 char ImeBufferBak2; 
 //char *ImeBufferBak2;
 
-// �ɣͣ��v�B�γ��ڻ� *********************************************************/
+// ＩＭＥvBの初期化 *********************************************************/
 void InitIme( void )
 {
-	// �Хåե��`���ڻ�  ���޸� _asm
+	// バッファ`初期化  我修改 _asm
 
 	ImeBuffer[ 0 ] = NULL;
 	ImeBlock[ 0 ] = NULL;
 	ImeBufferBak2 = NULL;
 	
-	// ��ǰ�ˣɣͣŤ����ä���������   ��ǰIME�Ļ���ʧ��
+	// 以前にＩＭＥがあったら消す。   以前IME的话消失。
 	if( hImc != NULL ){
-		// �ɣͣť���ƥ������_��
+		// ＩＭＥコンテキスト_放
 		EndIme();
 	}
 	//hImc = ImmGetContext( hWnd );
 	
-	// �ɣͣť���ƥ����Ȥ�ȡ��  �����ĵ�ȡ��
+	// ＩＭＥコンテキストの取得  上下文的取得
 	hImc = ImmCreateContext();
 	
 #ifdef _DEBUG
-	// ʧ�������r  
+	// 失・筏r  
 	if( ( hImc = ImmCreateContext() ) == NULL )
 	{
-		MessageBox( hWnd, "IME��ʼ��ʧ�ܣ�̫��Ϊֹ������ϵ", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "IME初始化失败，太田为止，请联系", "_J", MB_OK | MB_ICONSTOP );
 	}
 #endif
 	
 	hImcBegin = ImmAssociateContext( hWnd , hImc );
 	/*
-	����һ�����������ġ�Ҫ�����������ķ����һ�����ڣ���Ҫ����ImmAssociateContext������
-	�������������һ�����������������ǰ�봰�ڹ��������������ĵľ����
-	�����ǰû��������������Щ��������������������صľ������Ĭ�����������ģ��ľ������
-	ͨ��������Ҫ������������Ĭ�Ͼ���������㲻����ʹ���Լ�������������ʱ���ٰ����봰��
-	���¹����ϡ�
+	创建一个输入上下文。要把输入上下文分配给一个窗口，需要调用ImmAssociateContext函数。
+	这个函数将返回一个句柄，这个句柄是先前与窗口关联的输入上下文的句柄。
+	如果先前没有输入上下文与些窗口相关联，函数将返回的句柄将是默认输入上下文（的句柄）。
+	通常，你需要保存这个句柄（默认句柄），当你不想再使用自己的输入上下文时，再把它与窗口
+	重新关联上。
    */
-	// �ɣͣ�  ������ʧ
+	// ＩＭＥ  窗口消失
     //WINNLSEnableIME( hWnd, FALSE );
    	//WINNLSEnableIME( NULL, TRUE );
 
 }
 	
-// �ɣͣŤνK�� ***************************************************************/
+// ＩＭＥのK了 ***************************************************************/
 void EndIme( void )
 {
-	// �ɣͣť���ƥ������_��
+	// ＩＭＥコンテキスト_放
 	ImmReleaseContext( hWnd, hImc );
 	ImmAssociateContext( hWnd , hImcBegin );
-	// �ɣͣť�����ɥ�����
+	// ＩＭＥウィンドウ消す
     //WINNLSEnableIME( NULL, FALSE );
 }
 
 //*****************************************************************************/
-// �ɣͣŤΣϣΡ��ϣƣ�״�B�δ_�J 
-// ���ꂎ��	�ϣΡ���TRUE
-// 			�ϣƣƣ�FALSE
+// ＩＭＥのＯＮ、ＯＦＦ状Bの_J 
+// 	ＯＮ　：TRUE
+// 			ＯＦＦ：FALSE
 //*****************************************************************************/
 BOOL ImeOpenState( void )
 {
     return ImmGetOpenStatus( hImc );
 }
 //*****************************************************************************/
-// �ףɣΣģϣףӤΣɣͣťХåե��`�򥯥ꥢ����   ����ͨ��
+// ＷＩＮＤＯＷＳのＩＭＥバッファ`をクリアする   缓冲通关
 //*****************************************************************************/
 void ClrImeCompositionString( void )
 {
-	// �ɣͣŤ��ϣΤΕr
+	// ＩＭＥがＯＮのr
     if( ImeOpenState() == TRUE ){
-		// �ɣͣţϣƣƤˤ���
+		// ＩＭＥＯＦＦにする
     	ImmSetOpenStatus( hImc, FALSE );
-		// �ɣͣţϣΤˤ���
+		// ＩＭＥＯＮにする
     	ImmSetOpenStatus( hImc, TRUE );
-		// �ϣƣƤˤ��ƣϣΤˤ������
+		// ＯＦＦにしてＯＮにするだけ
 	}
 }
 #if 0
 //*****************************************************************************/
-// ��ǥ��ʤ�����r��ȫ�ǥ��ʤˉ�Q����  ���Ƭ������ʱ��ȫ�Ǽ���ת��
+// 半角カナがあるr、全角カナにQする  半角片假名的时候，全角假名转换
 //*****************************************************************************/
 void HanKanaToZenKana( char *str )
 {
 	char work[ 512 ];
 	int i = 0, j = 0;
 	
-	// �������֥�`��
+	// 文字数分ル`プ
 	while( str[ i ] != NULL ){
-		// ȫ�ǤΤȤ�
-		// ���֤���Ǥ�ȫ�Ǥ����{�٤�
+		// 全角のとき
+		// 文字が半角か全角かを{べる
 		if( GetCharByte( str[ i ] ) == 2 ){
-			// ���֥Хåե�������
+			// 文字バッファに溜める
 			work[ j++ ] = str[ i++ ];
 			work[ j++ ] = str[ i++ ];
 		}else{
-			// ��ǥ��ʤΕr��ȫ�Ǥ��ʤˉ�Q����
+			// 半角カナのr、全角かなにQする
 			if( ( char )0xa0 <= str[ i ] && str[ i ] <= ( char )0xdf )
 			{ 
-				// ���֥Хåե�������
+				// 文字バッファに溜める
 				
 				work[ j++ ] = ZenkakuKana[ ( str[ i ] - ( char )0xa0 ) * 2 ];
 				work[ j++ ] = ZenkakuKana[ ( str[ i++ ] - ( char )0xa0 ) * 2 + 1 ];
@@ -190,70 +190,70 @@ void HanKanaToZenKana( char *str )
 			}
 			else
 			{
-				// ���֥Хåե�������
+				// 文字バッファに溜める
 				work[ j++ ] = str[ i++ ];
 			}
 		}
 	}
-	// �K��ӛ�Ť�����
+	// K端号を入れる
 	if( j >= 256 ) work[ 255 ] = NULL;
 	else work[ j ] = NULL;
 	
-	// ��Q���������Ф򥳥ԩ`����  ת��������ָ���
+	// Qした文字列をコピ`する  转换后的文字复制
 	strcpy( str, work );
 }
 #endif
 
-// �ɣͣ��v�B�I�� ********��ش���*****************************************************/
+// ＩＭＥvBI理 ********相关处理*****************************************************/
 void ImeProc( void )
 {
 
-	//int strWidth;	// �����Фκ�����ɥå�����
-	int strWidth2;	// �����Фκ�����ɥå����� �����еĿ���������
-	int blockXcnt = 0; 		// �Ĺ��ܥå��������ˤΥ����󥿩`  ����������Ĺ�̨
-	int blockX1 = 0,blockX2 = 0; 	// �Ĺ��ܥå���������  ����������
-	int blockFlag = FALSE; 	// �Ĺ��ե饰  ����ת�۵�
-	char *ImeBufferBak = ImeBuffer;	// ���I��
-	char *ImeBlockBak = ImeBlock;	// ���I��
-	BOOL imeOpenFlag;				// �ɣͣŤΣϣΡ��ϣƣƥե饰
-	BOOL capsLockFlag;				// capsLock �ΣϣΡ��ϣƣƥե饰
-	char keyBoardState[ 256 ];		// ���`�ܩ`�ɤ�״�B  ���̵�״̬
-	char imePrio;					// �ɣͣťܥå����α�ʾ���ȶ�  �����ʾ���ȶ�
+	//int strWidth;	// 文字列の横幅（ドット数）
+	int strWidth2;	// 文字列の横幅（ドット数） 文字列的宽（点数）
+	int blockXcnt = 0; 		// 文ボックスの座摔违Ε螗咯`  短语框的坐标的柜台
+	int blockX1 = 0,blockX2 = 0; 	// 文ボックスの座  短语框的坐标
+	int blockFlag = FALSE; 	// 文フラグ  短语转折点
+	char *ImeBufferBak = ImeBuffer;	// 作I用
+	char *ImeBlockBak = ImeBlock;	// 作I用
+	BOOL imeOpenFlag;				// ＩＭＥのＯＮ、ＯＦＦフラグ
+	BOOL capsLockFlag;				// capsLock のＯＮ、ＯＦＦフラグ
+	char keyBoardState[ 256 ];		// キ`ボ`ドの状B  键盘的状态
+	char imePrio;					// ＩＭＥボックスの表示先度  箱的显示优先度
 	
 	
-	// �Хå����å�  ���� ���޸� _asm
+	// バックアップ  备份 我修改 _asm
 
 	ImeBufferBak2 = ImeBuffer[ 0 ];
 	//ImeBufferBak2 = ImeBuffer;
-	// �ɣͣŤ�״�B��ӛ�������ϣΡ��ϣƣơ���  �����״̬
+	// ＩＭＥの状Bを（　ＯＮ、ＯＦＦ　）  记忆的状态
 	imeOpenFlag = ImeOpenState();
 	
-	// capsLock ���ж�
-	// ���`�ܩ`�ɤ�״�B��ȤäƤ��루ȫ�ƤΥ��`��
-	//�ж�/ /���̵�״̬ץ��������Կ
+	// capsLock の判定
+	// キ`ボ`ドの状Bをとってくる（全てのキ`）
+	//判定/ /键盘的状态抓起（所有密钥
 	GetKeyboardState( ( BYTE *) keyBoardState );
-	// capsLock ״�B�����ϣΡ��ϣƣơ���  �õ�  capsLock ״�B
+	// capsLock 状B（　ＯＮ、ＯＦＦ　）  得到  capsLock 状B
 	capsLockFlag = keyBoardState[ VK_CAPITAL ];
 	
-	// �ɣͣ�������`�������Фα�ʾ
-	// �������Щ`���Ǳ�ʾ�Εr
-	/// / IME������������ʾģʽ/ /����������ʾ��ʱ��
+	// ＩＭＥ入力モ`ド文字列の表示
+	// タスクバ`が非表示のr
+	/// / IME输入文字列显示模式/ /任务栏不显示的时候
 	if( TaskBarFlag == FALSE )
 	{
-		// �ɣͣŤ��ϣΤΕr   ON��ʱ��
+		// ＩＭＥがＯＮのr   ON的时候
 		if( imeOpenFlag )
 		{
-			// CapsLock �Εr   �����Сд�Ĵ���
+			// CapsLock のr   负责大小写的处理
 			if( capsLockFlag )
 			{
 				if( conversion >= 28 )
 				{
-					// ���ֱ�ʾ�Хåե������� ���ֱ�ʾ������
+					// 文字表示バッファに溜める 文字表示缓冲蓄
 					StockFontBuffer( 545, 460, FONT_PRIO_FRONT, 0, "       ABC", 0 );
 				}
 				else
 				{
-					// ���ֱ�ʾ�Хåե�������
+					// 文字表示バッファに溜める
 					StockFontBuffer( 545, 460, FONT_PRIO_FRONT, 0, ImeModeStrCaps[ conversion ], 0 );
 				}
 			}
@@ -261,45 +261,45 @@ void ImeProc( void )
 			{
 				if( conversion >= 28 )
 				{
-					// ���ֱ�ʾ�Хåե�������
+					// 文字表示バッファに溜める
 					StockFontBuffer( 545, 460, FONT_PRIO_FRONT, 0, "       abc", 0 );
 				}
 				else
 				{
-					// ���ֱ�ʾ�Хåե�������
+					// 文字表示バッファに溜める
 					StockFontBuffer( 545, 460, FONT_PRIO_FRONT, 0, ImeModeStr[ conversion ], 0 );
 				}
 			}
 		}
-		// �ɣͣŤ��ϣƣƤΕr
+		// ＩＭＥがＯＦＦのr
 		else
 		{	
-			// CapsLock �Εr
+			// CapsLock のr
 			if( capsLockFlag )
 			{
-				// ���ֱ�ʾ�Хåե�������
+				// 文字表示バッファに溜める
 				StockFontBuffer( 545, 460, FONT_PRIO_FRONT, 0, "       ABC", 0 );
 			}
 			else
 			{
-				// ���ֱ�ʾ�Хåե�������
+				// 文字表示バッファに溜める
 				StockFontBuffer( 545, 460, FONT_PRIO_FRONT, 0, "       abc", 0 );
 			}
 		}
 	}
 	
-	// �ɣͣ������Фα�ʾ
-	// �ɣͣŤ��ϣΤΕr���ģɣͣťХåե������֤�����Ȥ�
-	/// / IME�ַ����ı�ʾ/ / IME ONʱ��IME�������ֵ�ʱ��
+	// ＩＭＥ文字列の表示
+	// ＩＭＥがＯＮのrかつＩＭＥバッファに文字があるとき
+	/// / IME字符串的表示/ / IME ON时且IME缓冲文字的时候
 	if( imeOpenFlag && *ImeBuffer != NULL )
 	{
 		
-		// �����������ʤ��r����   ���룬û�еط������
+		// 入力鏊胜r   输入，没有地方点回来
 		if( pNowStrBuffer == NULL )
 			return;
 		
-		// �������֤΃��ȶȤ���ɣͣťܥå����΃��ȶȤ�Q���  
-		//�������ֵ����ȶ�IME������ȶȾ���
+		// 入力文字の先度からＩＭＥボックスの先度をQめる  
+		//输入文字的优先度IME框的优先度决定
 		if( pNowStrBuffer->fontPrio == FONT_PRIO_BACK )
 		{
 			imePrio = DISP_PRIO_IME1;
@@ -307,18 +307,18 @@ void ImeProc( void )
 		else 
 			imePrio = DISP_PRIO_IME3;
 		
-		// �����Фκ��������
+		// 文字列の横幅を求める
 		//strWidth = GetStrWidth( pNowStrBuffer->buffer );
-		// ���ֱ�ʾ�Хåե�������
+		// 文字表示バッファに溜める
 		StockFontBuffer( pNowStrBuffer->imeX, pNowStrBuffer->imeY, pNowStrBuffer->fontPrio, 0, ImeBuffer, 0 );
 		
-		// ���֤α������軭
-		// �ɣͣťХåե��`�������Фκ��������
+		// 文字の背景を描画
+		// ＩＭＥバッファ`の文字列の横幅を求める
 		strWidth2 = GetStrWidth( ImeBuffer );
-		//���������������ɥåȥ�`�ɤΕr
+		//３２０＊２４０ドットモ`ドのr
 		if(ResoMode == 1)
 		{
-			// �ܥå�����ʾ�ǩ`����Хåե�������
+			// ボックス表示デ`タをバッファに溜める
 			StockBoxDispBuffer( pNowStrBuffer->imeX - 1, 
 				pNowStrBuffer->imeY   , 
 				pNowStrBuffer->imeX + strWidth2, 
@@ -327,70 +327,70 @@ void ImeProc( void )
 		}
 		else 
 		{
-			// �ܥå�����ʾ�ǩ`����Хåե�������
+			// ボックス表示デ`タをバッファに溜める
 			StockBoxDispBuffer( pNowStrBuffer->imeX - 1, 
 				pNowStrBuffer->imeY -1, 
 				pNowStrBuffer->imeX + strWidth2, 
 				pNowStrBuffer->imeY - 1 + FONT_ZENKAU_WIDTH, 
 				imePrio, 0, 1 );
 		}
-		// �Ĺ������ˤ�ȡ��   �Ľ������ȡ��
+		// 文の座摔稳〉   文节坐标的取得
 		while( 1 )
 		{
-			// �Ĺ���ʼ�ޤ���ä���  �Ľڿ�ʼ�Ļ�
+			// 文の始まりだったら  文节开始的话
 			if( ( *ImeBlockBak == 1 || *ImeBlockBak == 3 ) && blockFlag == FALSE )
 			{
-				// �Ĺ���ʼ�ޤ������
+				// 文の始まりの座
 				blockX1 = blockXcnt;
-				// �Ĺ��ե饰�ϣ�
+				// 文フラグＯＮ
 				blockFlag = TRUE;
 				//blockFlag = *ImeBlockBak;
 			}
 			
-			// �Ĺ��K�����ä��� �Ľڽ����Ļ�
+			// 文Kわりだったら 文节结束的话
 			if( ( *ImeBlockBak == 2 || *ImeBlockBak == NULL ) && blockFlag >= TRUE )
 			{
-				// �Ĺ��νK��������
+				// 文のKわりの座
 				blockX2 = blockXcnt;
 				break;
 			}
 			
-			// �K������
+			// K了条件
 			if( *ImeBlockBak == NULL ) break;
 			
-			// ���ɥ쥹�����ˤθ���
-			// ���֤�ȫ�ǤΕr / /��ַ������ĸ���ȫ��/ /���ֵ�ʱ��
+			// アドレスと座摔胃
+			// 文字が全角のr / /地址和坐标的更新全角/ /文字的时候
 			
 			if( GetCharByte( *ImeBufferBak ) == 2 )
 			{
 				
-				ImeBufferBak += 2;	// ���Х����M���
-				ImeBlockBak += 2;	// ���Х����M���
-				blockXcnt += FontZenkauWidth; // ȫ�ǥɥåȷ��㤹ȫ��Բ��ּ�
+				ImeBufferBak += 2;	// ２バイトMめる
+				ImeBlockBak += 2;	// ２バイトMめる
+				blockXcnt += FontZenkauWidth; // 全角ドット分足す全角圆点分加
 				
 			}
 
 			else
-			{ // ��ǤΤȤ�
+			{ // 半角のとき
 				
-				ImeBufferBak += 1;	// ���Х����M���
-				ImeBlockBak += 1;	// ���Х����M���
-				blockXcnt += FontHankakuWidth; // ��ǥɥåȷ��㤹
+				ImeBufferBak += 1;	// １バイトMめる
+				ImeBlockBak += 1;	// １バイトMめる
+				blockXcnt += FontHankakuWidth; // 半角ドット分足す
 			}
 		}
 		
-		//�Ĺ�������Ȥ�
+		//文があるとき
 		if( blockFlag >= TRUE ){
-			//���������������ɥåȥ�`�ɤΕr
+			//３２０＊２４０ドットモ`ドのr
 			if(ResoMode == 1){
-				// �ܥå�����ʾ�ǩ`����Хåե�������
+				// ボックス表示デ`タをバッファに溜める
 				StockBoxDispBuffer( pNowStrBuffer->imeX + blockX1 - 1, 
 									pNowStrBuffer->imeY    , 
 									pNowStrBuffer->imeX + blockX2, 
 									pNowStrBuffer->imeY - 1 + FONT_ZENKAU_WIDTH, 
 									imePrio + 1, 252, 1 );
 			} else {
-				// �ܥå�����ʾ�ǩ`����Хåե�������
+				// ボックス表示デ`タをバッファに溜める
 				StockBoxDispBuffer( pNowStrBuffer->imeX + blockX1 - 1, 
 									pNowStrBuffer->imeY - 1, 
 									pNowStrBuffer->imeX + blockX2, 
@@ -402,169 +402,169 @@ void ImeProc( void )
 }
 	
 	
-// WM_IME_COMPOSITION ��å��`���΄I�� **��Ϣ����**************************************/
+// WM_IME_COMPOSITION メッセ`ジのI理 **信息处理**************************************/
 void ImeComposition( LPARAM lParam )
 {
 	
 	int strLen;
 	char str[ 256 ];
 	int i;
-	BOOL zenkakuFlag = FALSE; // ȫ�ǥե饰
+	BOOL zenkakuFlag = FALSE; // 全角フラグ
 	
-	// ���ִ_�������Ȥ� ����ȷ����ʱ��
+	// 文字_定したとき 文字确定的时候
 	if ( lParam & GCS_RESULTSTR ){
-		// ���֤��L����ȡ��  ���ֵĳ��ȵ�ȡ��
+		// 文字のLさの取得  文字的长度的取得
 		strLen = ImmGetCompositionString( hImc, GCS_RESULTSTR, NULL, 0 );
-		// ��ߥåȥ����å� ���޼��
+		// リミットチェック 极限检查
 		if( strLen >= 256 ) strLen = 255;
-		// �����Ф�ȡ�äƤ���  ����������
+		// 文字列を取ってくる  文字列拿来
 		ImmGetCompositionString( hImc, GCS_RESULTSTR, str, strLen );
-		// �K��ӛ��
+		// K端号
 		str[ strLen ] = NULL;
-		// ��ǥ��ʤ�����r��ȫ�ǥ��ʤˉ�Q����
+		// 半角カナがあるr、全角カナにQする
 		//HanKanaToZenKana( str );
-		// ��Q������֤��L����ȡ��  ת��������ֵĳ��ȵ�ȡ��
+		// Q後の文字のLさの取得  转换后的文字的长度的取得
 		strLen = strlen( str );
-		// ��ߥåȥ����å�
+		// リミットチェック
 		if( strLen >= 256 ) strLen = 255;
-		// ���֤���������`��
-		//pNowStrBuffer->buffer[256] =str[256];//�Ҽ�  ���Ϻ����˵ķ���NPC��Ϣ��ʧ
-		//��ȥ ������������������
+		// 文字の数だけル`プ
+		//pNowStrBuffer->buffer[256] =str[256];//我加  加上后服务端的返回NPC消息消失
+		//我去 中文输入问题在这里
 		
 		for( i = 0 ; i < strLen ; i++ )
 		{
-			// ���֥Хåե�������  ���ֻ����� ��ȥ
+			// 文字バッファに溜める  文字缓冲蓄 我去
 			StockStrBufferChar( str[ i ] );
 		}
 	}
 	
-	// ��ʾ����Ƥ������֣��_��ǰ�� ��ʾ�����֣�ȷ��ǰ��
+	// 表示されている文字（_定前） 显示的文字（确定前）
 	if( lParam & GCS_COMPSTR )
 	{
 		
-		// ���֤��L����ȡ��
+		// 文字のLさの取得
 		strLen = ImmGetCompositionString( hImc, GCS_COMPSTR, NULL, 0 );
-		// ��ߥåȥ����å�
+		// リミットチェック
 		if( strLen >= 256 ) strLen = 255;
-		// �����Ф�ȡ�äƤ���
+		// 文字列を取ってくる
 		ImmGetCompositionString( hImc, GCS_COMPSTR, ImeBuffer, strLen );
-		// �K��ӛ�� ��ȥ
+		// K端号 我去
 		ImeBuffer[ strLen ] = NULL;
-			//pNowStrBuffer->buffer[256] =str[256];//�Ҽ�
-		// ��ǥ��ʤ�����r��ȫ�ǥ��ʤˉ�Q����
+			//pNowStrBuffer->buffer[256] =str[256];//我加
+		// 半角カナがあるr、全角カナにQする
 		//HanKanaToZenKana( ImeBuffer );
 		
 	}
-//	else{	// �����һ�����������Ȥ�
-		// ���֤��L����ȡ��
+//	else{	// 最後の一文字消したとき
+		// 文字のLさの取得
 //		strLen = ImmGetCompositionString( hImc, GCS_COMPSTR, NULL, 0 );
 //		if( strLen == 0 ){
-//			// �����Ф�դˤ���
+//			// 文字列を空にする
 //			*ImeBuffer = NULL;
 //		}
 //	}
 	
-	// �Ĺ���ȡ�äƤ���  ��������
+	// 文を取ってくる  短语拿来
 	if( lParam & GCS_COMPATTR )
 	{
-		// ���֤��L����ȡ��
+		// 文字のLさの取得
 		strLen = ImmGetCompositionString( hImc, GCS_COMPATTR, NULL, 0 );
-		// ��ߥåȥ����å�
+		// リミットチェック
 		if( strLen >= 256 ) strLen = 255;
-		// �����Ф�ȡ�äƤ���
+		// 文字列を取ってくる
 		ImmGetCompositionString( hImc, GCS_COMPATTR, ImeBlock, strLen );
-		// �K��ӛ��
+		// K端号
 		ImeBlock[ strLen ] = NULL;
 	}
 #if 0	
-	// ��ꁢ����ȡ��
+	// 振り⒚蛉〉
 	if( lParam & GCS_COMPREADSTR ){
-		// ���֤��L����ȡ��
+		// 文字のLさの取得
 		strLen = ImmGetCompositionString( hImc, GCS_COMPREADSTR, NULL, 0 );
-		// �����Ф�ȡ�äƤ���
+		// 文字列を取ってくる
 		ImmGetCompositionString( hImc, GCS_COMPREADSTR, str, strLen );
 	}
 	
 	if( lParam & GCS_COMPCLAUSE ){
-		// �K��ӛ��
+		// K端号
 		str[ 0 ] = NULL;
-		// ���֤��L����ȡ��
+		// 文字のLさの取得
 		strLen = ImmGetCompositionString( hImc, GCS_COMPCLAUSE, NULL, 0 );
-		// �����Ф�ȡ�äƤ���
+		// 文字列を取ってくる
 		ImmGetCompositionString( hImc, GCS_COMPCLAUSE, str, strLen );
 	}
 	
 	if( lParam & GCS_COMPREADCLAUSE ){
-		// ���֤��L����ȡ��
+		// 文字のLさの取得
 		strLen = ImmGetCompositionString( hImc, GCS_COMPREADCLAUSE, NULL, 0 );
-		// �����Ф�ȡ�äƤ���
+		// 文字列を取ってくる
 		ImmGetCompositionString( hImc, GCS_COMPREADCLAUSE, str, strLen );
 	}
 #endif
 }
 	
-/* WM_IME_NOTIFY ��å��`���΄I�� *****����IME��Ϣ����****************************************/
+/* WM_IME_NOTIFY メッセ`ジのI理 *****处理IME消息函数****************************************/
 void ImeNotify( WPARAM wParam ,LPARAM lParam )
 {
 	switch ( wParam )
 	{
 	
 	case IMN_OPENCANDIDATE:
-		//�������ԣ��任�򲹽����С���ڴ򿪵�ʱ����
-		// ���Υ�å��`���ϡ���Q���a����äƤ�����ä��㤤������ɥ����_�������ߥ󥰤����롣
-	case IMN_CHANGECANDIDATE:// ���Υ�å��`���ϡ���Q���a��䤨�뤿�Ӥ����롣
-		//�������ԣ�ÿ�����ı�任�򲹡�
+		//这条留言，变换候补进入的小窗口打开的时机来
+		// このメッセ`ジは、Q候aが入っているちっちゃいウインドウが_くタイミングで来る。
+	case IMN_CHANGECANDIDATE:// このメッセ`ジは、Q候aを浃à毪郡婴死搐搿
+		//这条留言，每次来改变变换候补。
 		break;
 		
 	case IMN_CLOSECANDIDATE:
-		// ���Υ�å��`���ϡ���Q���a����äƤ�����ä��㤤������ɥ��������륿���ߥ󥰤Ǥ��롣
-		//�������ԣ��任�򲹽����С������ʧ��ʱ����
+		// このメッセ`ジは、Q候aが入っているちっちゃいウインドウが消えるタイミングでくる。
+		//这条留言，变换候补进入的小窗口消失的时机。
 		break;
 		
 #if 0	
-	case IMN_SETOPENSTATUS:// IME���Є��ˤ�����o���ˤ����ꤷ���Ȥ����롣
+	case IMN_SETOPENSTATUS:// IMEを有郡摔筏郡o郡摔筏郡辘筏郡趣搐搿
 		break;
 #endif
     }
 }
 #if 0
-/** �ɣͣ��v�B��å��`���I�� **************************************************/
+/** ＩＭＥvBメッセ`ジI理 **************************************************/
 void ImeMsgProc( UINT Message, WPARAM wParam, LPARAM lParam )
 {
-	// ��å��`���Ƿ��
+	// メッセ`ジで分岐
 	switch( Message ){
 	
-		//IME��С���ڱ仯��ʱ��
-		case WM_IME_COMPOSITION: // �ɣͣŤΤ��ä��㤤������ɥ��ˉ仯������r
+		//IME的小窗口变化的时候
+		case WM_IME_COMPOSITION: // ＩＭＥのちっちゃいウィンドウに浠r
 	
-			// WM_IME_COMPOSITION ��å��`���΄I�� ��Ϣ����
+			// WM_IME_COMPOSITION メッセ`ジのI理 信息处理
 			ImeComposition( lParam );
 			break;
-		case WM_IME_ENDCOMPOSITION: // ���֤�_������ֱ������롣��Q�Ф����֤�ȫ��BS�Ǥ������Ȥ��⤯�롣
-			// �ɣͣťХåե��`��դˤ���
+		case WM_IME_ENDCOMPOSITION: // 文字を_定した直後に来る。Q中の文字を全部BSでけしたときもくる。
+			// ＩＭＥバッファ`を空にする
 			*ImeBuffer = NULL;
 			break;
 		
 		case WM_IME_NOTIFY:
-			/* WM_IME_NOTIFY ��å��`���΄I�� */
+			/* WM_IME_NOTIFY メッセ`ジのI理 */
 			//ImeNotify( wParam ,lParam );
-			// ������DEFWINDOWPROC������ȡ���Q���a������ɥ�������褦����
+			// ここにDEFWINDOWPROCがあると、Q候aウインドウを出すようだ。
 			break;
 		case WM_IME_SETCONTEXT:
-			//���ڻ������Ȥ����Ƥ�Τ��ʣ��ե��`�������Ƥä��Ȥ�������褦����
+			//初期化したとき来てるのかな？フォ`カスが移ったときも来るようだ。
 			break;
 #if 0
-		case WM_IME_STARTCOMPOSITION:// IME��ON��״�B�ǡ����֤���������ֱ������롣
+		case WM_IME_STARTCOMPOSITION:// IMEがONの状Bで、文字を入力した直後に来る。
 			break;
 		case WM_IME_CONTROL:
 			break;
-		case WM_IME_SELECT: // IME�򤨤����Ȥ�����餷�����Хåե�����ڻ��Ȥ�����Ф����Τ��ʣ�
+		case WM_IME_SELECT: // IMEをえらんだとき来るらしい。バッファを初期化とかすればいいのかな？
 			break;
-		case WM_IME_KEYDOWN:   // IME�Υ��`���`��
-			// ������DefWindowProc������ȡ�WM_KEYDOWN�����ɤ���
+		case WM_IME_KEYDOWN:   // IMEのキ`コ`ド
+			// ここにDefWindowProcがあると、WM_KEYDOWNを生成する
 			break;
 		case WM_IME_CHAR:
-			// ������DefWindowProc������ȡ�WM_CHAR�����ɤ���
+			// ここにDefWindowProcがあると、WM_CHARを生成する
 			break;
 #endif
 	}

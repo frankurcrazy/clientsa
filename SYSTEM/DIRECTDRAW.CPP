@@ -9,119 +9,119 @@
 #include "loadrealbin.h"
 #include "map.h"
 
-//���̱���ļ��������ģʽ��
-#define PAL_CHANGE_INTERVAL_WIN		120		// �ѥ�åȉ�����g����������ɥ���`�ɣ�
-//���̱���ļ����ȫ��ģʽ��
-#define PAL_CHANGE_INTERVAL_FULL	60		// �ѥ�åȉ�����g�����ե륹����`���`�ɣ�
+//托盘变更的间隔（窗口模式）
+#define PAL_CHANGE_INTERVAL_WIN		120		// パレット涓伍g隔（ウィンドウモ`ド）
+//托盘变更的间隔（全屏模式）
+#define PAL_CHANGE_INTERVAL_FULL	60		// パレット涓伍g隔（フルスクリ`ンモ`ド）
 
 
 //---------------------------------------------------------------------------//
-// �����`�Х�������x                                                        //
+// グロ`バル涫x                                                        //
 //---------------------------------------------------------------------------//
-DIRECT_DRAW	*lpDraw;		// DirectDraw���֥������ȥݥ���  DirectDraw����
-BOOL DDinitFlag = FALSE;	// DirectDraw���ڻ��ե饰 ��ʼ����־
-HFONT hFont;				// �ե���ȥϥ�ɥ� ������
+DIRECT_DRAW	*lpDraw;		// DirectDrawオブジェクトポインタ  DirectDraw对象
+BOOL DDinitFlag = FALSE;	// DirectDraw初期化フラグ 初始化标志
+HFONT hFont;				// フォントハンドル 字体句柄
 
-PALETTEENTRY	Palette[256];	// �ѥ�åȘ�����  
-PALETTE_STATE 	PalState;		// �ѥ�å�״�B������  
-BOOL 			PalChangeFlag;	// �ѥ�åȥ����󥸥ե饰  
+PALETTEENTRY	Palette[256];	// パレット造体  
+PALETTE_STATE 	PalState;		// パレット状B造体  
+BOOL 			PalChangeFlag;	// パレットチェンジフラグ  
 
-// �ѥ�åȥե�����ͩ`��   ��ɫ���ļ���
+// パレットファイルネ`ム   调色板文件名
 char *palFileName[] = {	
 	#include "palName.h"
 };
 
-/* DirectDraw ���ڻ� **********************************************************/
+/* DirectDraw 初期化 **********************************************************/
 BOOL InitDirectDraw( void )
 {
-	DDSCAPS ddscaps;		// ��������ꥵ�`�ե������x�Ø�����  ?�E��??ϒ??????�U?
+	DDSCAPS ddscaps;		// セカンダリサ`フェス定x用造体  ?E豸????????U?
 	
-	// DirectDraw�γ��ڻ��I�� ʧ�������� NULL �򷵤�  ,NULL?��??�p????????????��?
+	// DirectDrawの初期化I理 失・筏郡 NULL を返す  ,NULL?桄??p????????????雎?
 	if( DirectDrawCreate( NULL, &lpDraw->lpDD, NULL ) != DD_OK )
-	{//?????????? ?????????????? ?????????�y?
+	{//?????????? ?????????????? ?????????y?
 		if( DirectDrawCreate( (GUID *)DDCREATE_EMULATIONONLY, &lpDraw->lpDD, NULL ) != DD_OK )
 		//if( DirectDrawCreate( (GUID *)DDCREATE_HARDWAREONLY, &lpDraw->lpDD, NULL ) != DD_OK )
 		{
-			MessageBox( hWnd, "DirectDrawCreate Error", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "DirectDrawCreate Error", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
 	}
 
-	// DirectDraw2������`�ɤ�����  ??????????????
+	// DirectDraw2モ`ドへ移行  ??????????????
 	if( lpDraw->lpDD->QueryInterface( IID_IDirectDraw2, (LPVOID *)&lpDraw->lpDD2 ) != DD_OK )//???? IID_IDirectDraw2  ??????
 	{
-		MessageBox( hWnd, "QueryInterface Error", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "QueryInterface Error", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 	
 	// ????????DirectDraw
 	lpDraw->lpDD->Release();
 
-////// ������ɥ���`�ɤΕr //////���ڷ�ʽ��ʱ��////////////////////////////////////////////
+////// ウィンドウモ`ドのr //////窗口方式的时候////////////////////////////////////////////
 //	_asm{int 3}
 	if( WindowMode )
 	{
-		// ���Υ��ץꥱ�`�����Θ��ޥ�٥���O��(������ɥ���`�ɣ�
-		//?�W????????��?????????????????????????? ?????????????????? ????
-		//���� ģʽ������
+		// このアプリケ`ションの叵蕙欹佶毪蛟O定(ウィンドウモ`ド）
+		//?W?????????????????????????????????? ?????????????????? ????
+		//窗口 模式的设置
 		if( lpDraw->lpDD2->SetCooperativeLevel( hWnd ,DDSCL_NORMAL ) != DD_OK )//???? IID_IDirectDraw2  ??????
-		//DDSCL_NORMAL ?��????????��??????�R????Windows???????��????????????DDSCL_ALLOWMODEX ??DDSCL_EXCLUSIVE ??DDSCL_FULLSCREEN ???��?????
+		//DDSCL_NORMAL ?桄??????????????R????Windows???????????????????DDSCL_ALLOWMODEX ??DDSCL_EXCLUSIVE ??DDSCL_FULLSCREEN ????????
         //if( lpDraw->lpDD2->SetCooperativeLevel( hWnd ,DDSCL_EXCLUSIVE|DDSCL_FULLSCREEN ) != DD_OK )
 
 
-		// ���Υ��ץꥱ�`�����Θ��ޥ�٥���O��(������٥� & �ե륹����`���棩
+		// このアプリケ`ションの叵蕙欹佶毪蛟O定(排他レベル & フルスクリ`ン画面）
 		//if( lpDraw->lpDD2->SetCooperativeLevel( hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN ) != DD_OK )
 		//if( lpDraw->lpDD2->SetCooperativeLevel( hWnd, DDSCL_EXCLUSIVE ) != DD_OK )
 		{
-			MessageBox( hWnd, "SetCooperativeLevel Error", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "SetCooperativeLevel Error", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
 		
-		// �ǥ����ץ쥤��ʾ��`�ɤ��� ��ʾ����ʾģʽ�ı��  �������ܶ�̬���� ���� ���λ�� ���ǲ����޸�
+		// ディスプレイ表示モ`ドを涓 显示器显示模式的变更  开启后能动态设置 但是 这个位数 还是不能修改
 		//lpDraw->lpDD2->SetDisplayMode( 1152, 864, 8 ,0 ,0 );
 		//lpDraw->lpDD2->SetDisplayMode( 800, 600, 16,0 ,0 );
 		
-		// ��(�ץ饤�ޥ�)�Хåե��γ��ڻ�
+		// 表(プライマリ)バッファの初期化
 		ZeroMemory( &lpDraw->ddsd, sizeof( lpDraw->ddsd ) ); 
 		lpDraw->ddsd.dwSize = sizeof( lpDraw->ddsd );
 #if 0
-		{	// ���`�Щ`�쥤��������å�  ���Ƕ�Ӧ���  �ſ���ģʽ����
+		{	// オ`バ`レイチェック  覆盖对应检查  放开后模式不对
 			HRESULT ret;
-			ret = lpDraw->lpDD2->GetCaps( (DDCAPS_DX6*)&ddscaps, NULL );//��ȡӲ���豸���������������⸲��֧�� DDCAPS_DX6*
+			ret = lpDraw->lpDD2->GetCaps( (DDCAPS_DX6*)&ddscaps, NULL );//获取硬件设备驱动程序的能力检测覆盖支持 DDCAPS_DX6*
 			if( ret != DD_OK || !( ddscaps.dwCaps & DDCAPS_OVERLAY ) )
 			{
-				MessageBox( hWnd, "���`�Щ`�쥤�˷ǌ���  ���ӣ��Ƕ�Ӧ", "�_�J", MB_OK | MB_ICONSTOP );
+				MessageBox( hWnd, "オ`バ`レイに非  叠加，非对应", "_J", MB_OK | MB_ICONSTOP );
 			}else{ 
-				MessageBox( hWnd, "���`�Щ`�쥤�ˌ���", "�_�J", MB_OK | MB_ICONSTOP );
+				MessageBox( hWnd, "オ`バ`レイに", "_J", MB_OK | MB_ICONSTOP );
 			}
 		}
 #endif
-		// ddsCaps��������Є��� & dwBackBufferCount�������Є�
+		// ddsCaps造体を有炕 & dwBackBufferCount涫蛴
 		lpDraw->ddsd.dwFlags = DDSD_CAPS;
 		
-		// �ץ饤�ޥꥵ�`�ե���(������)�Ȥ����O�� ,���Υ��`�ե�����Flip��ʹ�äǤ��롣,�}���Υ��`�ե�����ӛ�����Є� 
+		// プライマリサ`フェス(表画面)としてO定 ,このサ`フェスがFlipを使用できる。,}数のサ`フェスの述を有 
 		lpDraw->ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
 		
-		// �ץ饤�ޥ�`���`�ե��������� ʹ�� DirectDraw �ӿڶ��󴴽� DirectDrawSurface ��ҳ�����.
+		// プライマリ`サ`フェスの作成 使用 DirectDraw 接口对象创建 DirectDrawSurface 主页面对象.
 
-		if( lpDraw->lpDD2->CreateSurface( &lpDraw->ddsd, &lpDraw->lpFRONTBUFFER, NULL ) != DD_OK )//��ʾƽ��
+		if( lpDraw->lpDD2->CreateSurface( &lpDraw->ddsd, &lpDraw->lpFRONTBUFFER, NULL ) != DD_OK )//显示平面
 		{
-			MessageBox( hWnd, "�ץ饤�ޥꥵ�`�ե��������ɤ�ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "プライマリサ`フェスの作成に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
 		
-		// ����åѩ`������  ???????????�f??�v??��???????//???? IID_IDirectDraw2  ??????
+		// クリッパ`の作成  ???????????f??v?????????//???? IID_IDirectDraw2  ??????
 		if( lpDraw->lpDD2->CreateClipper( 0,&lpDraw->lpCLIPPER, NULL ) != DD_OK )
 		{
-			MessageBox( hWnd, "����åѩ`�����ɤ�ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "クリッパ`の作成に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
-		// ����åѩ`�˥�����ɥ��Υϥ�ɥ�򥻥åȤ���  ��ǯ���ڵķ���������
+		// クリッパ`にウィンドウのハンドルをセットする  剪钳窗口的方向盘设置
 		lpDraw->lpCLIPPER->SetHWnd( 0, hWnd );
-		// �ץ饤�ޥꥵ�`�ե����˥���åѩ`���v�B������  ?????�w?
+		// プライマリサ`フェスにクリッパ`をvB付ける  ?????w?
 		lpDraw->lpFRONTBUFFER->SetClipper( lpDraw->lpCLIPPER );
 		
-		// �Y(�Хå�)�Хåե��γ��ڻ�
+		// Y(バック)バッファの初期化
 		ZeroMemory( &lpDraw->ddsd, sizeof( lpDraw->ddsd ) ); 
 		lpDraw->ddsd.dwSize = sizeof( lpDraw->ddsd );
         lpDraw->ddsd.dwFlags           = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
@@ -130,110 +130,110 @@ BOOL InitDirectDraw( void )
        	lpDraw->ddsd.dwHeight          = lpDraw->ySize;
        	if( lpDraw->lpDD2->CreateSurface( &lpDraw->ddsd, &lpDraw->lpBACKBUFFER, NULL ) != DD_OK )//???? IID_IDirectDraw2  ??????
 		{
-			MessageBox( hWnd, "�Хå��Хåե������ɤ�ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "バックバッファの作成に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
-		//MessageBox( hWnd, "DirectDraw ���ڻ��K��", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "DirectDraw 初期化K了", "_J", MB_OK | MB_ICONSTOP );
 		
 	
-////// �ե륹����`���`�ɤΕr //////////////////////////////////////////////
+////// フルスクリ`ンモ`ドのr //////////////////////////////////////////////
 	}
 	else
 	{
-		// ���Υ��ץꥱ�`�����Θ��ޥ�٥���O��(������٥� & �ե륹����`���棩
+		// このアプリケ`ションの叵蕙欹佶毪蛟O定(排他レベル & フルスクリ`ン画面）
 		//if( lpDraw->lpDD2->SetCooperativeLevel( hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN ) != DD_OK )
-		//ȫ��ģʽ
+		//全屏模式
 		if( lpDraw->lpDD2->SetCooperativeLevel( hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN | DDSCL_ALLOWMODEX ) != DD_OK )// DDSCL_ALLOWREBOOT  ????
 		{
-			MessageBox( hWnd, "SetCooperativeLevel Error", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "SetCooperativeLevel Error", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
-		// �ǥ����ץ쥤��ʾ��`�ɤ���
+		// ディスプレイ表示モ`ドを涓
 		//lpDraw->lpDD2->SetDisplayMode( lpDraw->xSize, lpDraw->ySize, 8 ,0 ,0 ); ????????8????????32??
 		
-		//������ʾģʽ
+		//设置显示模式
 		
-		lpDraw->lpDD2->SetDisplayMode( lpDraw->xSize, lpDraw->ySize, 8,0 ,0 );//����������16���޸�û�ô���ģʽ�� 0��ϵͳĬ�ϵ�
-		//lpDraw->lpDD2->SetDisplayMode( 1024, 768, 8,0 ,0 );//����������16���޸�û�ô���ģʽ�� 0��ϵͳĬ�ϵ�
+		lpDraw->lpDD2->SetDisplayMode( lpDraw->xSize, lpDraw->ySize, 8,0 ,0 );//第三个参数16我修改没用窗口模式下 0是系统默认的
+		//lpDraw->lpDD2->SetDisplayMode( 1024, 768, 8,0 ,0 );//第三个参数16我修改没用窗口模式下 0是系统默认的
 		
 		//lpDraw->lpDD2->SetDisplayMode( lpDraw->xSize, lpDraw->ySize, 32,0 ,0 );
 		//lpDraw->lpDD2->SetDisplayMode( 1024,768, 16 ,0 ,0 );
 		
-		// ��(�ץ饤�ޥ�)�Хåե��γ��ڻ�
-		// ddsd ����������ݤ򥼥����ꥢ����
+		// 表(プライマリ)バッファの初期化
+		// ddsd 造体の内容をゼロクリアする
 		ZeroMemory( &lpDraw->ddsd, sizeof( lpDraw->ddsd ) );
 		
-		// ddsd ����������ɤ��륵�`�ե����������{����
-		// ddsd ������Υ�������ָ���� �Щ`����󥢥åפˌ��ꤵ���뤿�� ��
+		// ddsd 造体に作成するサ`フェスの情螭蚋窦{する
+		// ddsd 造体のサイズの指定（ バ`ジョンアップにさせるため ）
 		lpDraw->ddsd.dwSize = sizeof( lpDraw->ddsd );
 		
-		//?�??��??��?
-		// ddsCaps  ?�U??�x��???   & dwBackBufferCount ?��?
+		//???豢???
+		// ddsCaps  ?U??x???   & dwBackBufferCount ?菽?
 		lpDraw->ddsd.dwFlags = DDSD_CAPS | DDSD_BACKBUFFERCOUNT;
 		
-		// �ץ饤�ޥꥵ�`�ե���(������)�Ȥ����O�� ,���Υ��`�ե�����Flip��ʹ�äǤ��롣,�}���Υ��`�ե�����ӛ�����Є� 
+		// プライマリサ`フェス(表画面)としてO定 ,このサ`フェスがFlipを使用できる。,}数のサ`フェスの述を有 
 		lpDraw->ddsd.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE | DDSCAPS_FLIP | DDSCAPS_COMPLEX;
 		
-		// �Хå��Хåե����򣱤ĥ��å�
+		// バックバッファ数を１つセット
 		lpDraw->ddsd.dwBackBufferCount = 1;
 		
-		// �ץ饤�ޥ�`���`�ե����Όg���ɄI��
+		// プライマリ`サ`フェスのg作成I理
 		//???? IID_IDirectDraw2  ??????
 		if( lpDraw->lpDD2->CreateSurface( &lpDraw->ddsd, &lpDraw->lpFRONTBUFFER, NULL ) != DD_OK )
 		{
-			MessageBox( hWnd, "�ץ饤�ޥꥵ�`�ե��������ɤ�ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd, "プライマリサ`フェスの作成に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
 		
-		// �Y�Хåե��γ��ڻ�
+		// Yバッファの初期化
 		ddscaps.dwCaps = DDSCAPS_BACKBUFFER;
-		// �Y�Хåե���ץ饤�ޥꥵ�`�ե����˽ӾA
+		// Yバッファをプライマリサ`フェスに接A
 		lpDraw->lpFRONTBUFFER->GetAttachedSurface( &ddscaps, &lpDraw->lpBACKBUFFER );
 		
 	}
 	
-	// DirectDraw���ڻ��ե饰��TURE�ˤ���
+	// DirectDraw初期化フラグをTUREにする
 	DDinitFlag = TRUE;	
 	
-	// �O������DirectDraw���혋�����꥿�`��
+	// O定したDirectDraw管理造体をリタ`ン
 	return TRUE;
 		
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ��ָ���꥽�`���ˤ��ѥ�åȳ��ڻ��v�� ?????????��????????�f??̻?????????                              //
-// ���� ��DIRECT_DRAW *lpDraw : DirectDraw???���U?                         //
-//        LPBITMAPINFO pInfo  : BITMAP?????�U?                             //
-//��ɫ����ɫ���� ��������֧��ϵͳ��ɫ Ҫ�޸�--------------------------------------------------------------------------//
+// 概要 ：指定リソ`スによるパレット初期化v数 ?????????????????f??袒?????????                              //
+// 引数 ：DIRECT_DRAW *lpDraw : DirectDraw???U?                         //
+//        LPBITMAPINFO pInfo  : BITMAP?????U?                             //
+//调色板颜色不对 不能正常支持系统颜色 要修改--------------------------------------------------------------------------//
 
 
 BOOL InitPalette( void )
 {
 	
 	int i;
-	FILE *fp; // �ե�����ݥ��� �ļ�ָ��
+	FILE *fp; // ファイルポインタ 文件指针
 
-	//���ϵͳ��ɫ�� �Լ����������ǵ�д���� ����ǰ��10����ȫһ��
+	//获得系统调色板 自己对照下他们的写死的 发现前面10个完全一致
 	//PALETTEENTRY PP[256];
 
 	//GetSystemPaletteEntries ((HDC__ *)hWnd,246,255,PP);
 	
-	// ������ɥ������ƥ�ѥ�å�
+	// ウィンドウシステムパレット
 	//PALETTEENTRY pal[ 20 ]={
 	PALETTEENTRY pal[ 32 ]={
-		// ����Σ���ɫ
-		{0x00 ,0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 0:�\
-		{0x80 ,0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 1:������
-		{0x00 ,0x80, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 2:�����v
-		{0x80 ,0x80, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 3:������
-		{0x00 ,0x00, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 4:������
-		{0x80 ,0x00, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 5:������
-		{0x00 ,0x80, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 6:����ˮɫ
-		{0xc0 ,0xc0, 0xc0, PC_NOCOLLAPSE | PC_RESERVED}, // 7:������
-		{0xc0 ,0xdc, 0xc0, PC_NOCOLLAPSE | PC_RESERVED}, // 8:��
-		{0xa6 ,0xca, 0xf0, PC_NOCOLLAPSE | PC_RESERVED}, // 9:��
+		// 最初の１０色
+		{0x00 ,0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 0:\
+		{0x80 ,0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 1:暗い赤
+		{0x00 ,0x80, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 2:暗いv
+		{0x80 ,0x80, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 3:暗い黄
+		{0x00 ,0x00, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 4:暗い青
+		{0x80 ,0x00, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 5:暗い紫
+		{0x00 ,0x80, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 6:暗い水色
+		{0xc0 ,0xc0, 0xc0, PC_NOCOLLAPSE | PC_RESERVED}, // 7:暗い白
+		{0xc0 ,0xdc, 0xc0, PC_NOCOLLAPSE | PC_RESERVED}, // 8:？
+		{0xa6 ,0xca, 0xf0, PC_NOCOLLAPSE | PC_RESERVED}, // 9:？
 		
-		// �¥����ƥ�ѥ�å� ��ϵͳ��ɫ��
+		// 新システムパレット 新系统调色板
 		{ 0xde, 0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED },
 		{ 0xff, 0x5f, 0x00, PC_NOCOLLAPSE | PC_RESERVED },
 		{ 0xff, 0xff, 0xa0, PC_NOCOLLAPSE | PC_RESERVED },
@@ -241,7 +241,7 @@ BOOL InitPalette( void )
 		{ 0x50, 0xd2, 0xff, PC_NOCOLLAPSE | PC_RESERVED },
 		{ 0x28, 0xe1, 0x28, PC_NOCOLLAPSE | PC_RESERVED },
 		
-		// �¥����ƥ�ѥ�å�
+		// 新システムパレット
 		{ 0xf5, 0xc3, 0x96, PC_NOCOLLAPSE | PC_RESERVED },
 		{ 0xe1, 0xa0, 0x5f, PC_NOCOLLAPSE | PC_RESERVED },
 		{ 0xc3, 0x7d, 0x46, PC_NOCOLLAPSE | PC_RESERVED },
@@ -249,20 +249,20 @@ BOOL InitPalette( void )
 		{ 0x46, 0x41, 0x37, PC_NOCOLLAPSE | PC_RESERVED },
 		{ 0x28, 0x23, 0x1e, PC_NOCOLLAPSE | PC_RESERVED },
 		
-		// ����Σ���ɫ
-		{0xff ,0xfb, 0xf0, PC_NOCOLLAPSE | PC_RESERVED}, // 246:��
-		{0xa0 ,0xa0, 0xa4, PC_NOCOLLAPSE | PC_RESERVED}, // 247:��
-		{0x80 ,0x80, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 248:��ɫ
-		{0xff ,0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 249:��
-		{0x00 ,0xff, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 250:�v
-		{0xff ,0xff, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 251:��
-		{0x00 ,0x00, 0xff, PC_NOCOLLAPSE | PC_RESERVED}, // 252:��
-		{0xff ,0x00, 0xff, PC_NOCOLLAPSE | PC_RESERVED}, // 253:��
-		{0x00 ,0xff, 0xff, PC_NOCOLLAPSE | PC_RESERVED}, // 254:ˮɫ
-		{0xff ,0xff, 0xff, PC_NOCOLLAPSE | PC_RESERVED}  // 255:��
+		// 最後の１０色
+		{0xff ,0xfb, 0xf0, PC_NOCOLLAPSE | PC_RESERVED}, // 246:？
+		{0xa0 ,0xa0, 0xa4, PC_NOCOLLAPSE | PC_RESERVED}, // 247:？
+		{0x80 ,0x80, 0x80, PC_NOCOLLAPSE | PC_RESERVED}, // 248:灰色
+		{0xff ,0x00, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 249:赤
+		{0x00 ,0xff, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 250:v
+		{0xff ,0xff, 0x00, PC_NOCOLLAPSE | PC_RESERVED}, // 251:黄
+		{0x00 ,0x00, 0xff, PC_NOCOLLAPSE | PC_RESERVED}, // 252:青
+		{0xff ,0x00, 0xff, PC_NOCOLLAPSE | PC_RESERVED}, // 253:紫
+		{0x00 ,0xff, 0xff, PC_NOCOLLAPSE | PC_RESERVED}, // 254:水色
+		{0xff ,0xff, 0xff, PC_NOCOLLAPSE | PC_RESERVED}  // 255:白
 	};
 	
-	// �����ƥ�ѥ�åȤ��O�� ϵͳ��ɫ����趨
+	// システムパレットのO定 系统调色板的设定
 	for( i = 0; i < 10; i++ ){
 		Palette[i].peBlue  	= pal[i].peBlue;
 		Palette[i].peGreen 	= pal[i].peGreen;
@@ -275,7 +275,7 @@ BOOL InitPalette( void )
 		Palette[i+246].peFlags 	= PC_EXPLICIT;
 	}
 	
-	// �¥����ƥ�ѥ�åȤ��O��
+	// 新システムパレットのO定
 	for( i = 0; i < 6; i++ )
 	{
 		Palette[i+10].peBlue  	= pal[i+10].peBlue;
@@ -289,34 +289,34 @@ BOOL InitPalette( void )
 		Palette[i+240].peFlags 	= PC_NOCOLLAPSE | PC_RESERVED;
 	}
 	
-	// ���ڻ�����Ƥʤ��r��һ�����������
+	// 初期化されてないr（一番最初だけ）
 	if( PalState.flag == FALSE ){
 	
-		// �ѥ�åȥե����륪�`�ץ� �����ļ�����
+		// パレットファイルオ`プン 托盘文件开放
 	
 		fp = fopen( palFileName[ DEF_PAL ], "rb" );
 		
-		// ���ɤ�ʹ����ѥ�åȤ��O��  ����ʹ�����̵��趨
+		// 自由に使えるパレットのO定  自由使用托盘的设定
 		//for( i = 10; i < 246; i++ ){
 		for( i = 16; i < 240; i++ )
 		{
-			// �ѥ�åȤ��i���z��
+			// パレットのiみzみ
 			Palette[i].peBlue  	= fgetc( fp );
 			Palette[i].peGreen 	= fgetc( fp );
 			Palette[i].peRed 	= fgetc( fp );
 			
-			// ������ɥ���`�ɤΕr  ���ڷ�ʽ��ʱ��
-			//�ҿ���//if( WindowMode ){
+			// ウィンドウモ`ドのr  窗口方式的时候
+			//我开启//if( WindowMode ){
 			if( WindowMode ){
 				Palette[i].peFlags = PC_NOCOLLAPSE | PC_RESERVED;
-				//�ҿ���
+				//我开启
 				Palette[i].peFlags = PC_RESERVED;
-				//�ҿ���3��
+				//我开启3行
 			}else{
 				Palette[i].peFlags = PC_EXPLICIT;
 			}
 		}
-		// �ե������]����
+		// ファイル]じる
 		fclose( fp );
 		
 	}
@@ -329,10 +329,10 @@ BOOL InitPalette( void )
 	else
 	{
 	
-		// ���ɤ�ʹ����ѥ�åȤ��O��  ����ʹ�õ�ɫ����趨
+		// 自由に使えるパレットのO定  自由使用调色板的设定
 		//for( i = 10; i < 246; i++ ){
 		for( i = 16; i < 240; i++ ){
-			// ������ɥ���`�ɤΕr  ���ڷ�ʽ��ʱ��
+			// ウィンドウモ`ドのr  窗口方式的时候
 			if( WindowMode )
 			{
 				Palette[i].peFlags = PC_NOCOLLAPSE | PC_RESERVED;
@@ -344,108 +344,108 @@ BOOL InitPalette( void )
 		}
 	}
 #endif
-	// 8Bitָ��Palette�������ڻ������lpPALETTE���ء�
-	// 8Bit����ǥå�����Palette�����ǳ��ڻ������Y����lpPALETTE�ط�����
+	// 8Bit指数Palette变数初期化，结果lpPALETTE返回。
+	// 8BitインデックスをPalette涫浅跗诨贰⒔Y果をlpPALETTEへ返す。
 	//DDPCAPS_8BIT
 	
 	lpDraw->lpDD2->CreatePalette( DDPCAPS_8BIT , Palette, &lpDraw->lpPALETTE, NULL );
 	// != DD_OK
 	if( lpDraw->lpPALETTE == NULL )
-	//if( lpDraw->lpPALETTE != DD_OK )  //����ɹ�Ҳ����DD_OK������
+	//if( lpDraw->lpPALETTE != DD_OK )  //这里成功也不是DD_OK？？？
 	{
-		MessageBox(hWnd, "����δ�ܴ���ָ��ɫ��", "Error", MB_OK| MB_ICONSTOP );
+		MessageBox(hWnd, "托盘未能创建指调色板", "Error", MB_OK| MB_ICONSTOP );
 		return FALSE;
 	}
 
-	// �ץ饤�ޥꥵ�`�ե����Υѥ�åȤ���ӛȡ�åѥ�åȤ򥢥��å�����
+	// プライマリサ`フェスのパレットに上取得パレットをアタッチする
 	//if( lpDraw->lpFRONTBUFFER->SetPalette( lpDraw->lpPALETTE ) != DD_OK ){
-		//MessageBox(hWnd, "�ѥ�åȤΥ��å�����ʧ��", "Error", MB_OK);
-	//	MessageBox(hWnd, "����򣲣���ɫ��`�ɤˤ����¤���", "Error", MB_OK);
+		//MessageBox(hWnd, "パレットのアッタチに失", "Error", MB_OK);
+	//	MessageBox(hWnd, "画面を２５６色モ`ドにして下さい", "Error", MB_OK);
 	//	return FALSE;
 	//}
 	
-	// �ץ饤�ޥꥵ�`�ե����Υѥ�åȤ���ӛȡ�åѥ�åȤ򥢥��å�����
-	//?????????�f??�??��??�f??ʚuraimarisafesu
+	// プライマリサ`フェスのパレットに上取得パレットをアタッチする
+	//?????????f??蠡????f??uraimarisafesu
 	//while( lpDraw->lpFRONTBUFFER->SetPalette( lpDraw->lpPALETTE ) != DD_OK )
 	while( lpDraw->lpFRONTBUFFER->SetPalette( lpDraw->lpPALETTE ) != DD_OK )
 	{  
-		//MessageBox(hWnd, "�ѥ�åȤΥ��å�����ʧ��", "Error", MB_OK);
-		if( MessageBox(hWnd, "???256ɫ��ɫ��ʧ��   ", "????", MB_RETRYCANCEL | MB_ICONEXCLAMATION ) == IDCANCEL) return FALSE;
+		//MessageBox(hWnd, "パレットのアッタチに失", "Error", MB_OK);
+		if( MessageBox(hWnd, "???256色调色板失败   ", "????", MB_RETRYCANCEL | MB_ICONEXCLAMATION ) == IDCANCEL) return FALSE;
 	}
 	
-	// �ѥ�åȤ��������O��
+	// パレットの中身をO定
 	//lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 	
-	// ���ڻ��ե饰��ϣ�
+	// 初期化フラグをＯＮ
 	PalState.flag = TRUE;
 	
 	return TRUE;
 }
 
-// �ѥ�åȥ����� ***********************************************************/
+// パレットチェンジ ***********************************************************/
 void PaletteChange( int palNo, int time )
 {
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( palNo >= MAX_PAL ) return;
 	
-	// �ѥ�åȷ���
+	// パレット番号
 	PalState.palNo = palNo;
-	// �ѥ�åȉ���r�g
+	// パレット涓rg
 	PalState.time = time;
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( PalState.time <= 0 ) PalState.time = 1;
 }
 
-// �ѥ�åȄI�� ***************************************************************/
+// パレットI理 ***************************************************************/
 void PaletteProc( void )
 {
-	FILE *fp; // �ե�����ݥ���
-	static PALETTEENTRY	pal[256];	// �ѥ�åȘ�����
-	static float	dRed[256];		// �ѥ�åȉ���
-	static float	dGreen[256];	// �ѥ�åȉ���
-	static float	dBlue[256];		// �ѥ�åȉ���
-	static float	dRedBak[256];	// С����ѥ�å�
-	static float	dGreenBak[256];	// С����ѥ�å�
-	static float	dBlueBak[256];	// С����ѥ�å�
-	static int 	timeCnt;			// �����५���󥿩`
-	static int 	changeCnt;			// �����󥸥����󥿩`
-	static int 	palNoBak = 0;		// �����󥿩`
-	static int 	openFlag = FALSE;	// �ե����륪�`�ץ�ե饰
+	FILE *fp; // ファイルポインタ
+	static PALETTEENTRY	pal[256];	// パレット造体
+	static float	dRed[256];		// パレット分
+	static float	dGreen[256];	// パレット分
+	static float	dBlue[256];		// パレット分
+	static float	dRedBak[256];	// 小数点パレット
+	static float	dGreenBak[256];	// 小数点パレット
+	static float	dBlueBak[256];	// 小数点パレット
+	static int 	timeCnt;			// タイムカウンタ`
+	static int 	changeCnt;			// チェンジカウンタ`
+	static int 	palNoBak = 0;		// カウンタ`
+	static int 	openFlag = FALSE;	// ファイルオ`プンフラグ
 	int i;
 	
-	// �ѥ�åȤ��������Ƥʤ��r
+	// パレットが涓丹欷皮胜r
 	if( palNoBak == PalState.palNo && openFlag == FALSE ) return;
 	
-	// ���`�ץ󤷤Ƥʤ��ä���
+	// オ`プンしてなかったら
 	if( palNoBak != PalState.palNo ){
-		// �ѥ�åȥե����륪�`�ץ�
+		// パレットファイルオ`プン
 		fp = fopen( palFileName[ PalState.palNo ], "rb" );
 	
-		// ���ɤ�ʹ����ѥ�åȤ��O��
+		// 自由に使えるパレットのO定
 		//for( i = 10; i < 246; i++ ){
 		for( i = 16; i < 240; i++ ){
 			pal[i].peBlue  	= fgetc( fp );
 			pal[i].peGreen 	= fgetc( fp );
 			pal[i].peRed 	= fgetc( fp );
 			
-			// 168��ɫ��( 0, 0, 0 )�ˉ�Q  168����ɫ��0��00����ת�� �����ǲ��Ǳ���ɫ
+			// 168の色は( 0, 0, 0 )にQ  168的颜色（0，00），转换 估计是不是背景色
 			if( i == 168 ){
 				pal[168].peBlue  	= 0;
 				pal[168].peGreen 	= 0;
 				pal[168].peRed 		= 0;
 			}
 			
-			// С���ѥ�å�
+			// 小数パレット
 			dBlueBak[ i ] 	= 	Palette[i].peBlue;
 			dGreenBak[ i ] 	= 	Palette[i].peGreen;
 			dRedBak[ i ] 	= 	Palette[i].peRed;
-			// ����Ӌ��
+			// 分算
 			dBlue[ i ] 	= 	( float )( pal[ i ].peBlue - Palette[i].peBlue ) 	/ ( float )PalState.time;
 			dGreen[ i ] = 	( float )( pal[ i ].peGreen - Palette[i].peGreen )	/ ( float )PalState.time;
 			dRed[ i ] 	= 	( float )( pal[ i ].peRed - Palette[i].peRed ) 		/ ( float )PalState.time;
-//�ҿ���
+//我开启
 //#if 0
-			// ������ɥ���`�ɤΕr
+			// ウィンドウモ`ドのr
 			if( WindowMode ){
 				Palette[i].peFlags = PC_NOCOLLAPSE | PC_RESERVED;
 			}else{
@@ -455,52 +455,52 @@ void PaletteProc( void )
 		}
 		
 	
-		fclose( fp );				// �ե������]����
-		timeCnt = 0;				// �ڲ��Ĥ˥ѥ�åȤ򥻥åȤ��륫���󥿩`���ڻ�
-		changeCnt = 0;				// �g�H�˥ѥ�åȤ򥻥åȤ��륫���󥿩`���ڻ�;
-		palNoBak = PalState.palNo;	// �Хå����å�
-		openFlag = TRUE;			// �ե饰�ϣ�
+		fclose( fp );				// ファイル]じる
+		timeCnt = 0;				// 内部的にパレットをセットするカウンタ`初期化
+		changeCnt = 0;				// gHにパレットをセットするカウンタ`初期化;
+		palNoBak = PalState.palNo;	// バックアップ
+		openFlag = TRUE;			// フラグＯＮ
 	}
 	
-	// �����󥿩`
+	// カウンタ`
 	timeCnt++;
-	// �������r
+	// 涓工r
 	if( timeCnt <= PalState.time ){	
-		// ���ɤ�ʹ����ѥ�åȤ��O��
+		// 自由に使えるパレットのO定
 		//for( i = 10 ; i < 246 ; i++ ){
 		for( i = 16; i < 240; i++ ){
-			// С����ѥ�å�
+			// 小数点パレット
 			dBlueBak[ i ] 	+= 	dBlue[ i ];
 			dGreenBak[ i ]	+=	dGreen[ i ];
 			dRedBak[ i ]	+=	dRed[ i ];
-			// �����ѥ�å�
+			// 整数パレット
 			Palette[i].peBlue  	= ( BYTE )dBlueBak[ i ];
 			Palette[i].peGreen 	= ( BYTE )dGreenBak[ i ];
 			Palette[i].peRed 	= ( BYTE )dRedBak[ i ];
 		}
 	}else{ 
 			
-		// ����Υե�`��ˤ���ȫ�ʥѥ�åȤ΂��򤤤��
-		// ���ɤ�ʹ����ѥ�åȤ��O��
+		// 最後のフレ`ムにに完全なパレットの颏い欷
+		// 自由に使えるパレットのO定
 		//for( i = 10; i < 246; i++ ){
 		for( i = 16; i < 240; i++ ){
 			Palette[i].peBlue  	= pal[ i ].peBlue;
 			Palette[i].peGreen 	= pal[ i ].peGreen;
 			Palette[i].peRed 	= pal[ i ].peRed;
 		}
-		openFlag = FALSE;	// �ե饰���ڻ�
+		openFlag = FALSE;	// フラグ初期化
 	}
 	
-	// �����ե�`���һ�ؤ�����ʾ�����^���뤿�ᣩ
+	// １０フレ`ムに一回だけ表示（重^ぎるため）
 	if( changeCnt == 0 || openFlag == FALSE ){
-		// �ѥ�åȥ����󥸥ե饰�ϣ�
+		// パレットチェンジフラグＯＮ
 		PalChangeFlag = TRUE;
-		// �ѥ�åȤ��������O��
+		// パレットの中身をO定
 		//lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 	}
-	// �����󥿩`�ץ饹
+	// カウンタ`プラス
 	changeCnt++;
-	// ������ɥ���`�ɤΕr
+	// ウィンドウモ`ドのr
 	if( WindowMode ){
 		if( changeCnt >= PAL_CHANGE_INTERVAL_WIN ) changeCnt = 0;
 	}else{
@@ -509,35 +509,35 @@ void PaletteProc( void )
 }	
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ����ֱͬ�ھ��Ф˥Хå����`�ե�������ե���ȥ��`�ե����إ��ԩ`       //
-// ���� ���ʤ�                         										 //
-// ���� ���ʤ�                                                               //
+// 概要 ：垂直同期中にバックサ`フェスからフロントサ`フェスへコピ`       //
+// 引数 ：なし                         										 //
+//  ：なし                                                               //
 //---------------------------------------------------------------------------//
 void Flip( void )
 {
-	// ������ɥ���`�ɤΕr
+	// ウィンドウモ`ドのr
 	if( WindowMode == TRUE ){
 	
-		RECT 	clientRect;  // ���饤������I��ξ����I����{
-		POINT 	clientPoint; // ���饤������I������ϤΥ�����`������λ�ä��{
-		RECT 	moveRect;  	 // ܞ��Ԫ�ξ����I����{
+		RECT 	clientRect;  // クライアントI域の矩形I域を格{
+		POINT 	clientPoint; // クライアントI域の左上のスクリ`ン座宋恢盲蚋窦{
+		RECT 	moveRect;  	 // 送元の矩形I域を格{
 		
-		// �ݥ���Ș�����γ��ڻ�
+		// ポイント造体の初期化
 		clientPoint.x = clientPoint.y = 0;
-		// ���饤������I��Υ�������ȡ��
+		// クライアントI域のサイズを取得
 		GetClientRect( hWnd, &clientRect );
-		// ���饤������I������ϤΥ�����`�����ˤ�ȡ��
+		// クライアントI域の左上のスクリ`ン座摔蛉〉
 		ClientToScreen( hWnd, &clientPoint ); 
-		// ���饤������I��ȫ��Υ�����`�����ˤ����� ( clientRect �˸�{����� )
+		// クライアントI域全体のスクリ`ン座摔蚯螭幛 ( clientRect に格{される )
 		OffsetRect( &clientRect, clientPoint.x, clientPoint.y );
-		// ܞ��Ԫ�ξ����I��򥻥å�
+		// 送元の矩形I域をセット
 		SetRect(&moveRect, 0, 0, lpDraw->xSize, lpDraw->ySize );
-		// �ץ饤�ޥ�`���`�ե�����һ�kܞ�� ( ���줬������ɥ���`�ɤΥե�å� )
+		// プライマリ`サ`フェスへ一k送 ( これがウィンドウモ`ドのフリップ )
 		lpDraw->lpFRONTBUFFER->Blt( &clientRect, lpDraw->lpBACKBUFFER, &moveRect, DDBLT_WAIT, NULL );
 	
-	}else{  // �ե륹����`���`�ɤΕr
+	}else{  // フルスクリ`ンモ`ドのr
 	
-		// ����Υե�å�
+		// 画面のフリップ
 		lpDraw->lpFRONTBUFFER->Flip( NULL, DDFLIP_WAIT );
 		
 	}
@@ -545,9 +545,9 @@ void Flip( void )
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ���Хå����`�ե������ꥢ�v��                                         //
-// ���� ��DIRECT_DRAW *lpDraw : DirectDraw���혋����                         //
-// ���� ���ʤ�                                                               //
+// 概要 ：バックサ`フェスクリアv数                                         //
+// 引数 ：DIRECT_DRAW *lpDraw : DirectDraw管理造体                         //
+//  ：なし                                                               //
 //---------------------------------------------------------------------------//
 void ClearBackSurface( void )
 {
@@ -561,9 +561,9 @@ void ClearBackSurface( void )
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ �����`�ե������ꥢ�v��                 		                         //
-// ���� ��DIRECT_DRAW *lpDraw : DirectDraw���혋����                         //
-// ���� ���ʤ�                                                               //
+// 概要 ：サ`フェスクリアv数                 		                         //
+// 引数 ：DIRECT_DRAW *lpDraw : DirectDraw管理造体                         //
+//  ：なし                                                               //
 //---------------------------------------------------------------------------//
 void ClearSurface( LPDIRECTDRAWSURFACE lpSurface )
 {
@@ -571,7 +571,7 @@ void ClearSurface( LPDIRECTDRAWSURFACE lpSurface )
 
 	ZeroMemory( &ddbltfx, sizeof( DDBLTFX ) );
 	ddbltfx.dwSize = sizeof( DDBLTFX );
-	ddbltfx.dwFillColor = DEF_COLORKEY; // ͸��ɫ���O��
+	ddbltfx.dwFillColor = DEF_COLORKEY; // 透明色をO定
 	
 	lpSurface->Blt( NULL, NULL, NULL, DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx );
 
@@ -579,12 +579,12 @@ void ClearSurface( LPDIRECTDRAWSURFACE lpSurface )
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ���ӥåȥޥåץե�������i���z�߼��ӥ���`�_��   λͼ�����ļ����洢��ȷ��                   //
-// ���� ��char * pFile  : �ӥåȥޥåץե�������   λͼ�ļ���                            //
-// ���ꂎ��LPBITMAPINFO : NULL .����_��Or�ե�����ʧ��                     //
-//                NULL����.LPBITMAPINFO���ɥ쥹 
-//����ֵ��LPBITMAPINFO: NULL.�ڴ�ȷ��Or�ļ�/ /
-//ʧ��NULL����. / / LPBITMAPINFO��ַ                             //
+// 概要 ：ビットマップファイルのiみzみ及びメモリ`_保   位图加载文件及存储器确保                   //
+// 引数 ：char * pFile  : ビットマップファイル名   位图文件名                            //
+// LPBITMAPINFO : NULL .メモリ_保Orファイル失                     //
+//                NULL以外.LPBITMAPINFOアドレス 
+//返回值：LPBITMAPINFO: NULL.内存确保Or文件/ /
+//失败NULL以外. / / LPBITMAPINFO地址                             //
 //---------------------------------------------------------------------------//
 LPBITMAPINFO LoadDirectDrawBitmap( char *pFile )
 {
@@ -593,64 +593,64 @@ LPBITMAPINFO LoadDirectDrawBitmap( char *pFile )
 	BITMAPFILEHEADER BmpFileHeader;
 	LPBITMAPINFO lpBmpInfo;
 
-	//�ե������i���z��
+	//ファイルiみzみ
 	if( ( hFile = OpenFile( pFile, &ofSt, OF_READ ) ) == HFILE_ERROR )
 		return (LPBITMAPINFO)NULL; // File Open Error
 
-	//�ӥåȥޥåץե�����إå��`�i���z��
+	//ビットマップファイルヘッダ`iみzみ
 	_hread( hFile, &BmpFileHeader, sizeof(BITMAPFILEHEADER) );
 
-	//�ӥåȥޥå����I��_��
+	//ビットマップ用I域_保
 	if( (lpBmpInfo = (LPBITMAPINFO)GlobalAllocPtr( GPTR, BmpFileHeader.bfSize )) == NULL ){
-		MessageBox( hWnd, "λͼ������ȷ��ʧ��", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "位图用领域确保失败", "_J", MB_OK | MB_ICONSTOP );
 		return (LPBITMAPINFO)NULL; //Memory Error
 	}
 	
-	//�ӥåȥޥå��i�߳��� λͼ����
+	//ビットマップiみ出し 位图读出
 	_hread( hFile, (void *)lpBmpInfo, BmpFileHeader.bfSize );
 
-	//�ե����륯���`�� �ļ��ر�
+	//ファイルクロ`ズ 文件关闭
 	_lclose( hFile );
 	
-	// �£ͣ�
-	//bmp  ��ͼ������Ϊֹ��ƫ��
+	// ＢＭＰ
+	//bmp  的图像数据为止的偏移
 	BmpOffBits = BmpFileHeader.bfOffBits - sizeof( BITMAPFILEHEADER );
 	
 	return lpBmpInfo;
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ���ѥ��`���å��`�ե���������                                         //
-// ���� ��short bxsize           : ����?????���(????)                       //
-//        short bysize           : ����?????�k��(????)                       //
-//        DWORD ColorKey         : ͸��ɫ�Ȥ���ɫ����(0��255)   �������Ƶ���ɫ             //
-// ���ꂎ�������K�� ... ���`�ե����Υ��ɥ쥹 / ʧ�� ... NULL                 //
+// 概要 ：パタ`ン用サ`フェスの作成                                         //
+// 引数 ：short bxsize           : 作成?????横幅(????)                       //
+//        short bysize           : 作成?????k幅(????)                       //
+//        DWORD ColorKey         : 透明色とする色番号(0～255)   不被复制的颜色             //
+// 赫＝K了 ... サ`フェスのアドレス / 失 ... NULL                 //
 //---------------------------------------------------------------------------//
 LPDIRECTDRAWSURFACE CreateSurface( short bxsize, short bysize, DWORD ColorKey, unsigned int VramOrSysram )
 {
-	DDCOLORKEY ddck;  //ɫ�ʼ��� �������Ƶ���ɫ 
+	DDCOLORKEY ddck;  //色彩键码 不被复制的颜色 
 	LPDIRECTDRAWSURFACE lpSurface;
 
 
 	lpSurface = (LPDIRECTDRAWSURFACE)GlobalAllocPtr( GPTR, (DWORD)sizeof( LPDIRECTDRAWSURFACE ) );
 
-	// �ѥ��`���åХåե�������
-	// ddsCaps�������  �Є��� & dwWidth,dwHeightָ���Є�
+	// パタ`ン用バッファの生成
+	// ddsCaps造体を  有炕 & dwWidth,dwHeight指定有
 	lpDraw->ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
-	// ���Ρ����`�ե����ϥե���ȤǤ�Хå��Ǥ�ʤ������`�ե����Ǥ��뤳�Ȥ�ָ��
+	// この、サ`フェスはフロントでもバックでもない、サ`フェスであることを指定
 	lpDraw->ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | VramOrSysram;
 	//lpDraw->ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
 	//lpDraw->ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_VIDEOMEMORY;
-	// ���`�ե����η���ָ��
+	// サ`フェスの幅を指定
 	lpDraw->ddsd.dwWidth = bxsize;
-	// ���`�ե����θߤ���ָ��
+	// サ`フェスの高さを指定
 	lpDraw->ddsd.dwHeight = bysize;
-	// �ѥ��`���å��`�ե����Όg���x
+	// パタ`ン用サ`フェスのg定x
 	//???? IID_IDirectDraw2  ??????
     if( lpDraw->lpDD2->CreateSurface( &lpDraw->ddsd, &lpSurface, NULL ) != DD_OK )
 		return (LPDIRECTDRAWSURFACE)NULL;
 
-	// ͸��ɫ����`���`���O��
+	// 透明色カラ`キ`のO定
 	ddck.dwColorSpaceLowValue =  ColorKey;
 	ddck.dwColorSpaceHighValue = ColorKey;
 	lpSurface->SetColorKey( DDCKEY_SRCBLT, &ddck );
@@ -660,26 +660,26 @@ LPDIRECTDRAWSURFACE CreateSurface( short bxsize, short bysize, DWORD ColorKey, u
 
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ���ӥåȥޥåפ�ָ�����`�ե������軭                                 //
-// ���� ��LPDIRECTDRAWSURFACE lpSurface : �軭���`�ե���                     //
-//        short Xpoint        : �i��ȡ��£ͣк�λ��                         //
-//        short Ypoint        :	�i��ȡ��£ͣпkλ��                         //
-//        LPBITMAPINFO pInfo  : �軭����ӥåȥޥåט�����                   //
-// ���� ���ʤ�                                                               //
+// 概要 ：ビットマップを指定サ`フェスへ描画                                 //
+// 引数 ：LPDIRECTDRAWSURFACE lpSurface : 描画サ`フェス                     //
+//        short Xpoint        : iみ取るＢＭＰ横位置                         //
+//        short Ypoint        :	iみ取るＢＭＰk位置                         //
+//        LPBITMAPINFO pInfo  : 描画するビットマップ造体                   //
+//  ：なし                                                               //
 //---------------------------------------------------------------------------//
-// �£ͣФ򥵩`�ե�����ܞ���v�� �� StretchDIBits ��ʹ�� ��
+// ＢＭＰをサ`フェスへ送v数 （ StretchDIBits を使用 ）
 void DrawBitmapToSurface( LPDIRECTDRAWSURFACE lpSurface, int offsetX, int offsetY, LPBITMAPINFO pBmpInfo )
 {
 	HDC hDcDest;
 	//HDC hDcBmp;
 	//HBITMAP hBmp;
 	
-	//DDSURFACEDESC ddsd;	// ���`�ե���������
-    //char *pDest;		// ܞ���ȤΥݥ���
-    //char *pSource; 		// ܞ��Ԫ�Υݥ���
+	//DDSURFACEDESC ddsd;	// サ`フェス造体
+    //char *pDest;		// 送先のポインタ
+    //char *pSource; 		// 送元のポインタ
 	//int i;
 	
-	// ָ�����`�ե������ŤؤΥӥåȥޥå׻����ܞ��
+	// 指定サ`フェス番号へのビットマップ画像の送
 	lpSurface->GetDC( &hDcDest );
 	StretchDIBits( 	hDcDest, 
 					0, 0, 
@@ -705,130 +705,130 @@ void DrawBitmapToSurface( LPDIRECTDRAWSURFACE lpSurface, int offsetX, int offset
 	return;
 }
 
-// �£ͣФ򥵩`�ե�����ܞ���v�� �� memcpy ��ʹ�� ��****************************/
+// ＢＭＰをサ`フェスへ送v数 （ memcpy を使用 ）****************************/
 void DrawBitmapToSurface2( LPDIRECTDRAWSURFACE lpSurface, int offsetX, int offsetY, int sizeX, int sizeY, LPBITMAPINFO pBmpInfo )
 {
-	DDSURFACEDESC ddsd;	// ���`�ե���������
-    char *pDest;		// ܞ���ȤΥݥ���
-    char *pSource; 		// ܞ��Ԫ�Υݥ���
-    //char *pDestBak;		// ܞ���ȤΥݥ��󥿥Хå����å�
-    //char *pSourceBak; 	// ܞ��Ԫ�Υݥ��󥿥Хå����å�
-	int surfacePitch;	// ���`�ե����κ��ӛ��
-	int bmpWidth;		// �£ͣФκ��ӛ��
+	DDSURFACEDESC ddsd;	// サ`フェス造体
+    char *pDest;		// 送先のポインタ
+    char *pSource; 		// 送元のポインタ
+    //char *pDestBak;		// 送先のポインタバックアップ
+    //char *pSourceBak; 	// 送元のポインタバックアップ
+	int surfacePitch;	// サ`フェスの横幅
+	int bmpWidth;		// ＢＭＰの横幅
 	int i;
 	
-	// ���`�ե����ݥ��󥿤�NULL�Εr����
+	// サ`フェスポインタがNULLのr
 	if( lpSurface == NULL ) return;
 	
-	// ������γ��ڻ�
+	// 造体の初期化
 	ZeroMemory( &ddsd, sizeof( DDSURFACEDESC ) );
 	ddsd.dwSize = sizeof( DDSURFACEDESC );
 	
-	// �����������륵�`�ե�������å�����( ͬ�r�� ddsd ���������Ƥ�餦 )
+	// アクセスするサ`フェスをロックする( 同rに ddsd に情螭蛉毪欷皮猡椁 )
 	if( lpSurface->Lock( NULL, &ddsd, DDLOCK_WAIT, NULL ) != DD_OK ){
-		//MessageBox( hWnd, "���`�ե����Υ��å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}	
 	
-	// ���`�ե�����������Υ��ɥ쥹
+	// サ`フェスの左上隅のアドレス
 	pDest = ( char *)( ddsd.lpSurface );
 	
-#if 0	// �£ͣХե����뤫���i���z��Ȥ�
+#if 0	// ＢＭＰファイルからiみzむとき
 
-	// ܞ��Ԫ�Υ��ɥ쥹
+	// 送元のアドレス
 	pSource = ( char *)pBmpInfo + BmpOffBits
 				+ offsetY * pBmpInfo->bmiHeader.biWidth + offsetX;
 				
-#else	// Realbin �����i���z��Ȥ�
+#else	// Realbin からiみzむとき
 
-	// ܞ��Ԫ�Υ��ɥ쥹
+	// 送元のアドレス
 	pSource = pRealBinBits
 				+ offsetY * RealBinWidth + offsetX;
 
 #endif
 				
-	// ���`�ե����κ��ӛ��
+	// サ`フェスの横幅
 	surfacePitch = ddsd.lPitch;
 #if 0
-	// �£ͣФκ��ӛ��
+	// ＢＭＰの横幅
 	bmpWidth = pBmpInfo->bmiHeader.biWidth;
 	
-#else // Realbin �i���z��Ȥ�
-	// �£ͣФκ��ӛ��
+#else // Realbin iみzむとき
+	// ＢＭＰの横幅
 	bmpWidth = RealBinWidth;
 #endif
 
-	//���������������ɥåȥ�`�ɤΕr
+	//３２０＊２４０ドットモ`ドのr
 	if(ResoMode == 1){
-		//ܞ��Ԫ���ɥ쥹�򣱥饤��֤��餹
+		//送元アドレスを１ライン分ずらす
 		pSource -= bmpWidth;
-		//��`�׻���������
+		//ル`プ回数１／２
 		sizeY >>= 1;
 	}
-	// �k�Υ������֥�`�פ���
+	// kのサイズ分ル`プする
 	for( i = 0 ; i < sizeY ; i++ ){
-		// �£ͣФ򥵩`�ե����إ��ԩ`
+		// ＢＭＰをサ`フェスへコピ`
 
-		//���������������ɥåȥ�`�ɤΕr
+		//３２０＊２４０ドットモ`ドのr
 		if(ResoMode == 1){
 			_asm{
-			mov		edi,[pDest]		//ܞ���ȥ��ɥ쥹  ת�Ƶ�ַ
-			mov		esi,[pSource]	//ܞ��Ԫ���ɥ쥹
-			mov		eax,[sizeX]		//��`�ץ����󥿩`
+			mov		edi,[pDest]		//送先アドレス  转移地址
+			mov		esi,[pSource]	//送元アドレス
+			mov		eax,[sizeX]		//ル`プカウンタ`
 //			mov		ah,al			//
 			shr		ax,1
 			mov		cx,ax
-			inc		esi				//ܞ��Ԫ���ɥ쥹�򣱥ɥåȤ��餹
+			inc		esi				//送元アドレスを１ドットずらす
 
 	loop_100:
-			mov		al,[esi]		//���Х���ȡ�����
-//			cmp		al,240			//�ԥ󥯤�͸����
-//			jne		loop_200		//�����Ǥʤ���дΤ�
+			mov		al,[esi]		//１バイト取りだし
+//			cmp		al,240			//ピンクの透明か
+//			jne		loop_200		//そうでなければ次へ
 
-//			xor		al,al			//����͸���ˉ��
+//			xor		al,al			//０の透明に涓
 
 //loop_200:
-			mov		[edi],al		//���Х��ȕ�������
-			inc		esi				//ܞ��Ԫ���ɥ쥹����
-			inc		esi				//ܞ��Ԫ���ɥ쥹����
-			inc		edi				//ܞ���ȥ��ɥ쥹����
-//			dec		ah				//�K�ˤ�
-			dec		cx				//�K�ˤ�
-			jne		loop_100		//�����Ǥʤ�����R�귵��
+			mov		[edi],al		//１バイト长
+			inc		esi				//送元アドレス更新
+			inc		esi				//送元アドレス更新
+			inc		edi				//送先アドレス更新
+//			dec		ah				//K了か
+			dec		cx				//K了か
+			jne		loop_100		//そうでなければRり返す
 			}
-			// ���`�ե����κ���֥��ɥ쥹������� �椫��ܞ�ͤ��Ƥ��뤿�� ��
+			// サ`フェスの横幅分アドレスを梗 逆から送しているため ）
 			pSource -= bmpWidth*2;
 		} else {
-			//���������������ɥåȥ�`������Εr
+			//３２０＊２４０ドットモ`ド以外のr
 			memcpy( pDest, pSource, sizeX );
-			// ���`�ե����κ���֥��ɥ쥹������� �椫��ܞ�ͤ��Ƥ��뤿�� ��
+			// サ`フェスの横幅分アドレスを梗 逆から送しているため ）
 			pSource -= bmpWidth;
 		}
-		// ���`�ե����κ���֥��ɥ쥹���M���
+		// サ`フェスの横幅分アドレスをMめる
 		pDest += surfacePitch;
     }
 
-	// �����������륵�`�ե����򥢥���å�����
+	// アクセスするサ`フェスをアンロックする
 	if( lpSurface->Unlock( NULL ) != DD_OK ){
-		//MessageBox( hWnd, "���`�ե����Υ�����å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのアンロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}	
 	
 	return;
 }
 
-// �ܥå������軭 *****���ͼ*********************************************************/
+// ボックスを描画 *****箱绘图*********************************************************/
 void DrawBox( RECT *rect, unsigned char color, BOOL fill )
 {
-	DDSURFACEDESC ddsd;	// ���`�ե���������
-    char *pDest;		// ܞ���ȤΥݥ���
-	int surfacePitch;	// ���`�ե����κ��ӛ��
-	int i;				// ��`�ץ�����
-	int bottom;			// �¾��ޤǤΥ��ɥ쥹��
-	int w;				// ���
-	int h;				// �k��
+	DDSURFACEDESC ddsd;	// サ`フェス造体
+    char *pDest;		// 送先のポインタ
+	int surfacePitch;	// サ`フェスの横幅
+	int i;				// ル`プカウンタ
+	int bottom;			// 下までのアドレス数
+	int w;				// 横幅
+	int h;				// k幅
 	
-	//���������������ɥåȥ�`�ɤΕr
+	//３２０＊２４０ドットモ`ドのr
 	if(ResoMode == 1){
 		rect->top = rect->top / 2 - 1;
 		rect->left = rect->left / 2 - 1;
@@ -836,107 +836,107 @@ void DrawBox( RECT *rect, unsigned char color, BOOL fill )
 		rect->bottom = rect->bottom / 2 + 1;
 	}
 	
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( rect->left < 0 ) rect->left = 0;
 	if( rect->right >= lpDraw->xSize ) rect->right = lpDraw->xSize;
 	if( rect->top < 0 ) rect->top = 0;
 	if( rect->bottom >= lpDraw->ySize ) rect->bottom = lpDraw->ySize;
 	
-	w = rect->right - rect->left; // ���
-	h = rect->bottom - rect->top; // �k��
+	w = rect->right - rect->left; // 横幅
+	h = rect->bottom - rect->top; // k幅
 	
-	// �����ʤ��r������
+	// 幅がないr　
 	//if( w <= 2 || h <= 2 ) return;
-	// �饤��Ǥʤ������ʤ��r������
+	// ラインでなく幅がないr　
 	if( fill != 2 && ( w <= 2 || h <= 2 ) ) return;
 	if( fill == 2 && w == 0 ) return;
 	
-	// ������γ��ڻ�
+	// 造体の初期化
 	ZeroMemory( &ddsd, sizeof( DDSURFACEDESC ) );
 	ddsd.dwSize = sizeof( DDSURFACEDESC );
 	
-	// �����������륵�`�ե�������å�����( ͬ�r�� ddsd ���������Ƥ�餦 )
+	// アクセスするサ`フェスをロックする( 同rに ddsd に情螭蛉毪欷皮猡椁 )
 	if( lpDraw->lpBACKBUFFER->Lock( NULL, &ddsd, DDLOCK_WAIT, NULL ) != DD_OK ){
-		//MessageBox( hWnd, "���`�ե����Υ��å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}	
 	
-	// ���`�ե����κ��ӛ��
+	// サ`フェスの横幅
 	surfacePitch = ddsd.lPitch;
 	
-	// �T��ʼ��륵�`�ե����Υ��ɥ쥹
+	// Tり始めるサ`フェスのアドレス
 	pDest = ( char *)( ddsd.lpSurface ) + rect->top * surfacePitch + rect->left;
 
-	// �ܥå����ΤȤ�
+	// ボックスのとき
 	if( fill == FALSE ){
 	
-		pDest++;	// λ�åɥåȤ��餹
+		pDest++;	// 位置ドットずらす
 		
-		// �¾��ޤǤΥ��ɥ쥹
+		// 下までのアドレス
 		bottom = ( h - 1 ) * surfacePitch;
 	
-		// ���`��
+		// 横ル`プ
 		for( i = 0; i < w - 2; i++ ){
-			// �Ϥξ����軭
+			// 上のを描画
 			*( pDest + i ) = color;
 			*( pDest + i + surfacePitch ) = color;
-			// �¤ξ����軭
+			// 下のを描画
 			*( pDest + i + bottom ) = color;
 			*( pDest + i + bottom - surfacePitch ) = color;
     	}
 	
-		// �ڂȤ��ĵ���軭
-		*( pDest + surfacePitch + surfacePitch + 1 ) = color;					// ����
-		*( pDest + surfacePitch + surfacePitch + w - 4 ) = color;				// ����
-		*( pDest + bottom - ( surfacePitch + surfacePitch ) + 1 ) = color;		// ����
-		*( pDest + bottom - ( surfacePitch + surfacePitch ) + w - 4 ) = color;	// ����
+		// 内趣嗡牡悚蛎杌
+		*( pDest + surfacePitch + surfacePitch + 1 ) = color;					// 左上
+		*( pDest + surfacePitch + surfacePitch + w - 4 ) = color;				// 右上
+		*( pDest + bottom - ( surfacePitch + surfacePitch ) + 1 ) = color;		// 左下
+		*( pDest + bottom - ( surfacePitch + surfacePitch ) + w - 4 ) = color;	// 右下
 		
-		// ���`�ե����κ���֥��ɥ쥹���M���
+		// サ`フェスの横幅分アドレスをMめる
 		pDest += surfacePitch - 1;
 		
-		// �k��`��
+		// kル`プ
 		for( i = 0 ; i < h - 2 ; i++ ){
-			// ��ξ����軭
+			// 左のを描画
 			*pDest = color;
 			*( pDest + 1 ) = color;
-			// �Ҥξ����軭
+			// 右のを描画
 			*( pDest + w - 1 ) = color;
 			*( pDest + w - 2 ) = color;
-			// ���`�ե����κ���֥��ɥ쥹���M���
+			// サ`フェスの横幅分アドレスをMめる
 			pDest += surfacePitch;
     	}
-	}else if( fill == 1 ){	// �T��Ĥ֤��Εr
+	}else if( fill == 1 ){	// Tりつぶしのr
 		
-		pDest++;	// λ�åɥåȤ��餹
+		pDest++;	// 位置ドットずらす
 		
-		// �ϤΣ̣ɣΣŤ��軭
+		// 上のＬＩＮＥを描画
 		memset( pDest, color, w - 2 );
-		// ���`�ե����κ���֥��ɥ쥹���M���
+		// サ`フェスの横幅分アドレスをMめる
 		pDest += surfacePitch - 1;
 		
-		// �k��`��
+		// kル`プ
 		for( i = 0 ; i < h - 2 ; i++ ){
-			// �̣ɣΣŤ��軭
+			// ＬＩＮＥを描画
 			memset( pDest, color, w );
-			// ���`�ե����κ���֥��ɥ쥹���M���
+			// サ`フェスの横幅分アドレスをMめる
 			pDest += surfacePitch;
 	    }
-		// �¤Σ̣ɣΣŤ��軭
+		// 下のＬＩＮＥを描画
 		memset( pDest + 1, color, w - 2 );
 		
-	}else if( fill == 2 ){	// �饤��Εr
+	}else if( fill == 2 ){	// ラインのr
 		
-		// �̣ɣΣŤ��軭
+		// ＬＩＮＥを描画
 		memset( pDest, color, w );
-		// ���`�ե����κ���֥��ɥ쥹���M���
+		// サ`フェスの横幅分アドレスをMめる
 		//pDest += surfacePitch;
-		// �̣ɣΣŤ��軭
+		// ＬＩＮＥを描画
 		//memset( pDest, color, w );
 	}	
 	
-	// �����������륵�`�ե����򥢥���å�����
+	// アクセスするサ`フェスをアンロックする
 	if( lpDraw->lpBACKBUFFER->Unlock( NULL ) != DD_OK ){
-		//MessageBox( hWnd, "���`�ե����Υ�����å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのアンロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}	
 	
@@ -945,19 +945,19 @@ void DrawBox( RECT *rect, unsigned char color, BOOL fill )
 
 
 //---------------------------------------------------------------------------//
-// ���`�ȥޥåԥ󥰤��軭                                                    //
+// オ`トマッピングを描画                                                    //
 //---------------------------------------------------------------------------//
-// ������	int x, y;						���ϱ�ʾ����
-//			unsigned char *autoMap;			�ޥåױ�ʾ��ɫ���  ��ͼ��ʾ����ɫ��Ϣ
-//			int w, h;						autoMap �Υ����� �ߴ�
+// 引数：	int x, y;						左上表示座
+//			unsigned char *autoMap;			マップ表示用色情  地图表示用颜色信息
+//			int w, h;						autoMap のサイズ 尺寸
 void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h )
 {
-	DDSURFACEDESC ddsd;	// ���`�ե��������� ���湹����
-	char *ptDest;		// ܞ���ȤΥݥ��� ת�ݵ�ַ��ָ��
-	char *tmpPtDest;	// ��`��
-	char *tmpPtDest2;	// ��`����
-	int surfacePitch;	// ���`�ե����κ��ӛ��  ���ļ���
-	int i, j;			// ��`�ץ�����  ѭ��������
+	DDSURFACEDESC ddsd;	// サ`フェス造体 表面构造体
+	char *ptDest;		// 送先のポインタ 转递地址的指针
+	char *tmpPtDest;	// ワ`ク
+	char *tmpPtDest2;	// ワ`ク２
+	int surfacePitch;	// サ`フェスの横幅  宽的记忆
+	int i, j;			// ル`プカウンタ  循环计数器
 	int color;
 	static short pcFlush = 0;
 	static unsigned int pcFlushTime = 0;
@@ -971,7 +971,7 @@ void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h )
 	hh = h;
 	mul = 1;
 
-	//���������������ɥåȥ�`�ɤΕr  ��״��ʽ��ʱ��
+	//３２０＊２４０ドットモ`ドのr  点状方式的时候
 	if( ResoMode == 1 )
 	{
 		x  = x/2;
@@ -984,20 +984,20 @@ void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h )
 	}
 
 
-	// ������γ��ڻ�
+	// 造体の初期化
 	ZeroMemory( &ddsd, sizeof( DDSURFACEDESC ) );
 	ddsd.dwSize = sizeof( DDSURFACEDESC );
 
-	// �����������륵�`�ե�������å�����( ͬ�r�� ddsd ���������Ƥ�餦 )
+	// アクセスするサ`フェスをロックする( 同rに ddsd に情螭蛉毪欷皮猡椁 )
 	if( lpDraw->lpBACKBUFFER->Lock( NULL, &ddsd, DDLOCK_WAIT, NULL ) != DD_OK )
 	{
-		//MessageBox( hWnd, "���`�ե����Υ��å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}
-	// ���`�ե����κ��ӛ��
+	// サ`フェスの横幅
 	surfacePitch = ddsd.lPitch;
 
-	// �T��ʼ��륵�`�ե����Υ��ɥ쥹
+	// Tり始めるサ`フェスのアドレス
 	ptDest = (char *)(ddsd.lpSurface) + (y+yy) * surfacePitch + (x+xx);
 	tmpPtDest  = ptDest;
 	tmpPtDest2 = ptDest;
@@ -1016,7 +1016,7 @@ void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h )
 		tmpPtDest += (surfacePitch+2);
 	}
 
-	// �Уå����α�ʾ���ޥå�����ǰ��\��磩
+	// ＰＣキャラの表示（マップ中央で白\点纾
 	ptDest = tmpPtDest2 + (surfacePitch+2)*hh/2 - (surfacePitch-2)*ww/2;
 	if( pcFlush )
 	{
@@ -1038,10 +1038,10 @@ void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h )
 	*(ptDest-surfacePitch)	= color;
 
 
-	// �����������륵�`�ե����򥢥���å�����
+	// アクセスするサ`フェスをアンロックする
 	if( lpDraw->lpBACKBUFFER->Unlock( NULL ) != DD_OK )
 	{
-		//MessageBox( hWnd, "���`�ե����Υ�����å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのアンロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}
 
@@ -1049,8 +1049,8 @@ void DrawAutoMapping( int x, int y, unsigned char *autoMap, int w, int h )
 }
 
 
-// �����ƽ����ȡ�äƥ��`�ȥޥåפ�ɫ������
-//ͼ���ƽ����ȡ�Զ���ͼ��������ɫ
+// 画像の平均を取ってオ`トマップの色を作る
+//图像的平均采取自动地图制作的颜色
 int getAutoMapColor( unsigned int GraphicNo )
 {
 	int index = 0;
@@ -1061,14 +1061,14 @@ int getAutoMapColor( unsigned int GraphicNo )
 	int i, j;
 	int color;
 
-	// real.bin��ͨ�����Ť��饤��`���ǩ`�����i���z��  ͨ����Ŵ�ͼ�����ݶ�ȡ
+	// real.binの通し番号からイメ`ジデ`タをiみzむ  通过编号从图像数据读取
 	if( realGetImage( GraphicNo, ( unsigned char **)&graBuf, &width, &height ) == FALSE )
 	{
 		return 0;
 	}
 
 #if 0
-	// ��������ĤΣңǣ� ͼ������ĵ�RGB
+	// 画像の中心のＲＧＢ 图像的中心的RGB
 	cnt = 1;
 	index = graBuf[(height/2)*width+width/2];
 	red   = Palette[index].peRed;
@@ -1076,14 +1076,14 @@ int getAutoMapColor( unsigned int GraphicNo )
 	blue  = Palette[index].peBlue;
 	
 #else
-	// ����Σңǣ³ɷ֤�ƽ������ ƽ���ĳɷ�  ͼ���RGB�ɷ�ƽ����ƽ���ɷ�
+	// 画像のＲＧＢ成分を平均する 平均的成分  图像的RGB成分平均的平均成分
 	for( i = 0; i < height; i++ )
 	{
 		for( j = 0; j < width; j++ )
 		{
 			index = graBuf[i*width+j];
-			//͸����ɫ������
-			if( index != DEF_COLORKEY )	// ͸�^ɫ�τI�����ʤ�
+			//透射颜色不处理
+			if( index != DEF_COLORKEY )	// 透^色はI理しない
 			{
 				red   += Palette[index].peRed;
 				green += Palette[index].peGreen;
@@ -1096,9 +1096,9 @@ int getAutoMapColor( unsigned int GraphicNo )
 
 	if( cnt == 0 )
 		return 0;
-	//ƽ����ɫ��ӽ�����ɫ�ĵ�ɫ��Ѱ��ָ��
+	//平均颜色最接近的颜色的调色板寻找指数
 
-	// ƽ��ɫ��һ������ɫ�Υѥ�åȥ���ǥå�����̽��
+	// 平均色に一番近い色のパレットインデックスを探す
 	color = getNearestColorIndex( RGB( red/cnt, green/cnt, blue/cnt ), Palette, 256 );
 
 	return color;
@@ -1106,7 +1106,7 @@ int getAutoMapColor( unsigned int GraphicNo )
 
 
 //---------------------------------------------------------------------------//
-// ɫ��entry�Υѥ�å�palette���Ф��顢color��һ��������Τ�index�򷵤���
+// 色数entryのパレットpaletteの中から、colorに一番近いもののindexを返す。
 //---------------------------------------------------------------------------//
 int getNearestColorIndex( COLORREF color, PALETTEENTRY *palette, int entry )
 {
@@ -1137,13 +1137,13 @@ int getNearestColorIndex( COLORREF color, PALETTEENTRY *palette, int entry )
 
 
 //---------------------------------------------------------------------------//
-// �ޥåץ��ե����Ȥ��軭                                                    //
+// マップエフェクトを描画                                                    //
 //---------------------------------------------------------------------------//
 void DrawMapEffect( void )
 {
-	DDSURFACEDESC ddsd;	// ���`�ե���������
-	char *ptDest;		// ܞ���ȤΥݥ���
-	int surfacePitch;	// ���`�ե����κ��ӛ��
+	DDSURFACEDESC ddsd;	// サ`フェス造体
+	char *ptDest;		// 送先のポインタ
+	int surfacePitch;	// サ`フェスの横幅
 	int ww, hh;
 	MAP_EFFECT *buf;
 
@@ -1151,7 +1151,7 @@ void DrawMapEffect( void )
 	ww = DEF_APPSIZEX;
 	hh = DEF_APPSIZEY;
 
-	//���������������ɥåȥ�`�ɤΕr
+	//３２０＊２４０ドットモ`ドのr
 	if( ResoMode == 1 )
 	{
 		ww /= 2;
@@ -1159,17 +1159,17 @@ void DrawMapEffect( void )
 	}
 
 
-	// ������γ��ڻ�
+	// 造体の初期化
 	ZeroMemory( &ddsd, sizeof( DDSURFACEDESC ) );
 	ddsd.dwSize = sizeof( DDSURFACEDESC );
 
-	// �����������륵�`�ե�������å�����( ͬ�r�� ddsd ���������Ƥ�餦 )
+	// アクセスするサ`フェスをロックする( 同rに ddsd に情螭蛉毪欷皮猡椁 )
 	if( lpDraw->lpBACKBUFFER->Lock( NULL, &ddsd, DDLOCK_WAIT, NULL ) != DD_OK )
 	{
-		//MessageBox( hWnd, "���`�ե����Υ��å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}
-	// ���`�ե����κ��ӛ��
+	// サ`フェスの横幅
 	surfacePitch = ddsd.lPitch;
 
 
@@ -1206,7 +1206,7 @@ void DrawMapEffect( void )
 			{
 				if( buf->mode == 0 )
 				{
-					// �ǣ��ס��裩
+					// 星（白、丸）
 					*(ptDest-surfacePitch-1) = (char)8;
 					*(ptDest-surfacePitch) = (char)255;
 					*(ptDest-surfacePitch+1) = (char)8;
@@ -1220,7 +1220,7 @@ void DrawMapEffect( void )
 				else
 				if( buf->mode == 1 )
 				{
-					// �ǣ���ɫ��ʮ�֣�
+					// 星（黄色、十字）
 					*(ptDest-surfacePitch) = (char)251;
 					*(ptDest-1) = (char)251;
 					*(ptDest) = (char)251;
@@ -1230,7 +1230,7 @@ void DrawMapEffect( void )
 				else
 				if( buf->mode == 2 )
 				{
-					// �ǣ���ɫ?�ס����㣩
+					// 星（黄色?白、４点）
 					*(ptDest) = (char)251;
 					*(ptDest+1) = (char)255;
 					*(ptDest+surfacePitch) = (char)255;
@@ -1239,7 +1239,7 @@ void DrawMapEffect( void )
 				else
 				if( buf->mode == 3 )
 				{
-					// �ǣ���?��ɫ�����㣩
+					// 星（白?黄色、４点）
 					*(ptDest) = (char)255;
 					*(ptDest+1) = (char)251;
 					*(ptDest+surfacePitch) = (char)251;
@@ -1248,7 +1248,7 @@ void DrawMapEffect( void )
 				else
 				if( buf->mode == 4 )
 				{
-					// �ǣ���ɫ����?�ȣ��㣩
+					// 星（黄色１点?橙３点）
 					*(ptDest) = (char)251;
 					*(ptDest+1) = (char)193;
 					*(ptDest+surfacePitch) = (char)193;
@@ -1257,25 +1257,25 @@ void DrawMapEffect( void )
 				else
 				if( buf->mode == 5 )
 				{
-					// �ǣ�����ɫ����
+					// 星（薄黄色１）
 					*(ptDest) = (char)198;
 				}
 				else
 				if( buf->mode == 6 )
 				{
-					// �ǣ�����ɫ����
+					// 星（薄黄色２）
 					*(ptDest) = (char)193;
 				}
 				else
 				if( buf->mode == 7 )
 				{
-					// �ǣ�����ɫ����
+					// 星（薄黄色３）
 					*(ptDest) = (char)208;
 				}
 				else
 				if( buf->mode == 8 )
 				{
-					// �ǣ���ɫ��
+					// 星（黄色）
 					*(ptDest) = (char)251;
 				}
 			}
@@ -1290,10 +1290,10 @@ void DrawMapEffect( void )
 
 
 
-	// �����������륵�`�ե����򥢥���å�����
+	// アクセスするサ`フェスをアンロックする
 	if( lpDraw->lpBACKBUFFER->Unlock( NULL ) != DD_OK )
 	{
-		//MessageBox( hWnd, "���`�ե����Υ�����å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのアンロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}
 
@@ -1305,53 +1305,53 @@ void DrawMapEffect( void )
 
 
 
-// �I���ˤ����ä��r�g���軭�� �ǥХå��� ��************************************/
+// I理にかかったrgを描画（ デバッグ用 ）************************************/
 void DrawDebugLine( unsigned char color )
 {
-	DDSURFACEDESC ddsd;	// ���`�ե���������
-    char *pDest;		// ܞ���ȤΥݥ���
-	int surfacePitch;	// ���`�ե����κ��ӛ��
+	DDSURFACEDESC ddsd;	// サ`フェス造体
+    char *pDest;		// 送先のポインタ
+	int surfacePitch;	// サ`フェスの横幅
 	int i, j, k, l;
 	
-	// ������ɥ���`�ɤʤ����
+	// ウィンドウモ`ドなら
 	if( WindowMode ) return;
 	
-	// ������γ��ڻ�
+	// 造体の初期化
 	ZeroMemory( &ddsd, sizeof( DDSURFACEDESC ) );
 	ddsd.dwSize = sizeof( DDSURFACEDESC );
 	
-	// �����������륵�`�ե�������å�����( ͬ�r�� ddsd ���������Ƥ�餦 )
+	// アクセスするサ`フェスをロックする( 同rに ddsd に情螭蛉毪欷皮猡椁 )
 	if( lpDraw->lpFRONTBUFFER->Lock( NULL, &ddsd, DDLOCK_WAIT, NULL ) != DD_OK ){
-		//MessageBox( hWnd, "���`�ե����Υ��å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "サ`フェスのロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}	
-	//������
+	//Ｘ座
 	j = 630;
 	k = 480;
 	l = 8;
-	//���������������ɥåȥ�`�ɤΕr
+	//３２０＊２４０ドットモ`ドのr
 	if(ResoMode == 1){
 		j >>= 1;
 		k >>= 1;
 		l >>= 1;
 	}
-	// �T��ʼ��륵�`�ե����Υ��ɥ쥹
+	// Tり始めるサ`フェスのアドレス
 	pDest = ( char *)( ddsd.lpSurface ) + j;
 	
-	// ���`�ե����κ��ӛ��
+	// サ`フェスの横幅
 	surfacePitch = ddsd.lPitch;
 	
-	// �k��`��
+	// kル`プ
 	for( i = 0 ; i < k ; i++ ){
-		// �̣ɣΣŤ��軭
+		// ＬＩＮＥを描画
 		memset( pDest, color, l );
-		// ���`�ե����κ���֥��ɥ쥹���M���
+		// サ`フェスの横幅分アドレスをMめる
 		pDest += surfacePitch;
     }
 
-	// �����������륵�`�ե����򥢥���å�����
+	// アクセスするサ`フェスをアンロックする
 	if( lpDraw->lpFRONTBUFFER->Unlock( NULL ) != DD_OK ){
-		MessageBox( hWnd, "���`�ե����Υ�����å���ʧ�����ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "サ`フェスのアンロックに失・筏蓼筏", "_J", MB_OK | MB_ICONSTOP );
 		return; 
 	}	
 	
@@ -1359,59 +1359,59 @@ void DrawDebugLine( unsigned char color )
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ��RECT���ˤ�ʾ��??????????����?????????�ظ���ܞ��                    //
-// ���� ��DIRECT_DRAW *lpDraw : DirectDraw���혋����                         //
-//        short  bx           : �軭�Ⱥ�λ��                                 //
-//        short  by           : �軭�ȿkλ��                                 //
-//        LPDIRECTDRAWSURFACE lpSurface : �軭Ԫ���`�ե���                   //
-// ���� ��DD_OK:�����K��                                                     //
+// 概要 ：RECT座摔兢??????????から?????????へ高速送                    //
+// 引数 ：DIRECT_DRAW *lpDraw : DirectDraw管理造体                         //
+//        short  bx           : 描画先横位置                                 //
+//        short  by           : 描画先k位置                                 //
+//        LPDIRECTDRAWSURFACE lpSurface : 描画元サ`フェス                   //
+//  ：DD_OK:正常K了                                                     //
 //---------------------------------------------------------------------------//
 HRESULT DrawSurfaceFast( short bx, short by, LPDIRECTDRAWSURFACE lpSurface )
 {
 	short x0, y0;
 	long w, h;
 	
-	// ܞ���I��Υ��å�
-	//RECT rect = { 0, 0, SurfaceSizeX - 1, SurfaceSizeY - 1 }; // �ǥХå�������
+	// 送I域のセット
+	//RECT rect = { 0, 0, SurfaceSizeX - 1, SurfaceSizeY - 1 }; // デバッグ付き
 	RECT rect = { 0, 0, SurfaceSizeX, SurfaceSizeY };
 	x0 = bx;
 	y0 = by;
 	w = rect.right - rect.left;
 	h = rect.bottom - rect.top;
 
-	// ����åԥ󥰄I��
-	//   �����ʤߤ� RECT ���������ˤΥɥåȤϱ�ʾ����ʤ���
+	// クリッピングI理
+	//   （ちなみに RECT の右下座摔违丧氓趣媳硎兢丹欷胜ぃ
 
-	// ȫ����ʾ���벿�֤��o����Б���
+	// 全く表示する部分がoければ
 	if( bx >= lpDraw->xSize || bx + w <= 0 || by >= lpDraw->ySize || by + h <= 0 ){
 		return DD_OK;
 	}
 	
-	// ��ˤΥ����å�
+	// 左端のチェック
 	if( bx < 0 ){
 		rect.left -= bx;
 		x0 = 0;
 	}
-	// �ҶˤΥ����å�
+	// 右端のチェック
 	if( bx + w > lpDraw->xSize ){
 		rect.right -= bx + w - lpDraw->xSize;
 	}
-	// �϶ˤΥ����å�
+	// 上端のチェック
 	if( by < 0 ){
 		rect.top -= by;
 		y0 = 0;
 	}
-	// �¶ˤΥ����å�
+	// 下端のチェック
 	if( by + h > lpDraw->ySize ){
 		rect.bottom -= by + h - lpDraw->ySize;
 	}
 	
 #ifdef _DEBUG		
-	// �F�ڱ�ʾ���Ƥ��륵�`�ե��������������
+	// F在表示しているサ`フェスの数カウント
 	SurfaceDispCnt++;
 #endif
 	
-	// �Хå����`�ե����ظ���ܞ��
+	// バックサ`フェスへ高速送
 	return lpDraw->lpBACKBUFFER->BltFast( x0, y0, lpSurface, &rect, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT );
 	//return lpDraw->lpBACKBUFFER->BltFast( bx, by, lpSurface, &rect, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT );
 	//return lpDraw->lpBACKBUFFER->BltFast( x0, y0, lpSurface, &rect, DDBLTFAST_WAIT );
@@ -1419,13 +1419,13 @@ HRESULT DrawSurfaceFast( short bx, short by, LPDIRECTDRAWSURFACE lpSurface )
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ��RECT���ˤ�ʾ��??????????����?????????�ظ���ܞ��                    //
-// ���� ��DIRECT_DRAW *lpDraw : DirectDraw���혋����                         //
-//        short  bx           : �軭�Ⱥ�λ��                                 //
-//        short  by           : �軭�ȿkλ��                                 //
-//        RECT * rect         : �軭Ԫ�I������                             //
-//        LPDIRECTDRAWSURFACE lpSurface : �軭Ԫ���`�ե���                   //
-// ���� ��DD_OK:�����K��                                                     //
+// 概要 ：RECT座摔兢??????????から?????????へ高速送                    //
+// 引数 ：DIRECT_DRAW *lpDraw : DirectDraw管理造体                         //
+//        short  bx           : 描画先横位置                                 //
+//        short  by           : 描画先k位置                                 //
+//        RECT * rect         : 描画元I域造体                             //
+//        LPDIRECTDRAWSURFACE lpSurface : 描画元サ`フェス                   //
+//  ：DD_OK:正常K了                                                     //
 //---------------------------------------------------------------------------//
 HRESULT DrawSurfaceFast2( short bx, short by, RECT *rect, LPDIRECTDRAWSURFACE lpSurface )
 {
@@ -1437,134 +1437,134 @@ HRESULT DrawSurfaceFast2( short bx, short by, RECT *rect, LPDIRECTDRAWSURFACE lp
 	w = rect->right - rect->left;
 	h = rect->bottom - rect->top;
 
-	// ����åԥ󥰄I��
-	//   �����ʤߤ� RECT ���������ˤΥɥåȤϱ�ʾ����ʤ���
+	// クリッピングI理
+	//   （ちなみに RECT の右下座摔违丧氓趣媳硎兢丹欷胜ぃ
 
-	// ȫ����ʾ���벿�֤��o����Б���
+	// 全く表示する部分がoければ
 	if( bx >= lpDraw->xSize || bx + w <= 0 || by >= lpDraw->ySize || by + h <= 0 ){
 		return DD_OK;
 	}
 	
-	// ��ˤΥ����å�
+	// 左端のチェック
 	if( bx < 0 ){
 		rect->left -= bx;
 		x0 = 0;
 	}
-	// �ҶˤΥ����å�
+	// 右端のチェック
 	if( bx + w > lpDraw->xSize ){
 		rect->right -= bx + w - lpDraw->xSize;
 	}
-	// �϶ˤΥ����å�
+	// 上端のチェック
 	if( by < 0 ){
 		rect->top -= by;
 		y0 = 0;
 	}
-	// �¶ˤΥ����å�
+	// 下端のチェック
 	if( by + h > lpDraw->ySize ){
 		rect->bottom -= by + h - lpDraw->ySize;
 	}
 	
 #ifdef _DEBUG		
-	// �F�ڱ�ʾ���Ƥ��륵�`�ե��������������
+	// F在表示しているサ`フェスの数カウント
 	SurfaceDispCnt++;
 #endif
 	
-	// �Хå����`�ե����ظ���ܞ��
+	// バックサ`フェスへ高速送
 	//return lpDraw->lpBACKBUFFER->BltFast( x0, y0, lpSurface, rect, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT );
 	return lpDraw->lpBACKBUFFER->BltFast( x0, y0, lpSurface, rect, DDBLTFAST_WAIT );
 }
 
-/* ���֥������Ȥ��_�Ť��� ****************************************************/
+/* オブジェクトを_放する ****************************************************/
 void ReleaseDirectDraw( void )
 {
 	int i;
 	
-	// ȫ�ƤΥ��ե�����`�󥵩`�ե������_��
+	// 全てのオフスクリ`ンサ`フェスを_放
 	for( i = 0 ; i < SurfaceCnt ; i++ ){
-		// ���`�ե��������ä���
+		// サ`フェスがあったら
 		if( SurfaceInfo[ i ].lpSurface != NULL ){
-			// ���`��
+			// リリ`ス
 			SurfaceInfo[ i ].lpSurface->Release();
 			SurfaceInfo[ i ].lpSurface = NULL;
 		}
 	}
-	// �Хȥ륵�`�ե������_��
+	// バトルサ`フェスの_放
 	if( lpBattleSurface != NULL ){
-		// ���`��
+		// リリ`ス
 		lpBattleSurface->Release();
 		lpBattleSurface = NULL;
 	}
 	
-	// �ѥ�åȽ��
+	// パレット解放
 	if( lpDraw->lpPALETTE != NULL ){
 		lpDraw->lpPALETTE->Release();
 		lpDraw->lpPALETTE = NULL;
 	}
-	// ����åѩ`�_��
+	// クリッパ`_放
 	if( lpDraw->lpCLIPPER != NULL ){
 		lpDraw->lpCLIPPER->Release();
 		lpDraw->lpCLIPPER = NULL;
 	}
-	// �Хå����`�ե������
+	// バックサ`フェス解放
 	if( lpDraw->lpBACKBUFFER != NULL ){
 		lpDraw->lpBACKBUFFER->Release();
 		lpDraw->lpBACKBUFFER = NULL;
 	}
-	// �ץ饤�ޥꥵ�`�ե������
+	// プライマリサ`フェス解放
 	if( lpDraw->lpFRONTBUFFER != NULL ){
 		lpDraw->lpFRONTBUFFER->Release();
 		lpDraw->lpFRONTBUFFER = NULL;
 	}
-	// DirectDraw���_�� //???? IID_IDirectDraw2  ??????
+	// DirectDrawの_放 //???? IID_IDirectDraw2  ??????
 	if( lpDraw->lpDD2 != NULL){ 
 		lpDraw->lpDD2->Release();
 		lpDraw->lpDD2 = NULL;
 	}
-	// DIRECT_DRAW �������_��
+	// DIRECT_DRAW 造体_放
 	if( lpDraw != NULL){ 
 		GlobalFreePtr( lpDraw );
 		lpDraw = NULL;
 	}
 	
-	// DirectDraw ���ڻ��ե饰�� FALSE �ˤ���
+	// DirectDraw 初期化フラグを FALSE にする
 	DDinitFlag = FALSE;	
 }
 
-// ���`�ե��������ȤΥ����å��v�� ////�س�ʧ��ļ�麯��////�ͷŽӿ�////////////////////////////////////
+// サ`フェスロストのチェックv数 ////回程失落的检查函数////释放接口////////////////////////////////////
 BOOL CheckSurfaceLost( void )
 {
 	int i;
 	BOOL SurfaceLostFlag = FALSE;
 	
-	// ȫ�ƤΥ��ե�����`�󥵩`�ե�����͎�
+	// 全てのオフスクリ`ンサ`フェスを
 	for( i = 0 ; i < SurfaceCnt ; i++ ){
-		// ���`�ե��������ä���
+		// サ`フェスがあったら
 		if( SurfaceInfo[ i ].lpSurface != NULL ){
-			// ���`�ե���������Ƥ�����ꥹ�ȥ�
+			// サ`フェスが菠欷皮い郡楗辚攻去
 			if( SurfaceInfo[ i ].lpSurface->IsLost() ){
 				SurfaceLostFlag = TRUE;
 			}
 		}
 	}
 	
-	// �Хȥ륵�`�ե����Ώ͎�
+	// バトルサ`フェスの
 	if( lpBattleSurface != NULL ){
-		// ���`��
+		// リリ`ス
 		if( lpBattleSurface->IsLost() ){
 			SurfaceLostFlag = TRUE;
 		}
 	}
 	
-	// �Хå����`�ե����͎�
+	// バックサ`フェス
 	if( lpDraw->lpBACKBUFFER != NULL ){
-		// ���`�ե���������Ƥ�����ꥹ�ȥ�
+		// サ`フェスが菠欷皮い郡楗辚攻去
 		if( lpDraw->lpBACKBUFFER->IsLost() ){
 			SurfaceLostFlag = TRUE;
 		}
 	}
-	// �ץ饤�ޥꥵ�`�ե����͎�
+	// プライマリサ`フェス
 	if( lpDraw->lpFRONTBUFFER != NULL ){
-		// ���`�ե���������Ƥ�����ꥹ�ȥ�
+		// サ`フェスが菠欷皮い郡楗辚攻去
 		if( lpDraw->lpFRONTBUFFER->IsLost() ){
 			SurfaceLostFlag = TRUE;
 		}
@@ -1573,65 +1573,65 @@ BOOL CheckSurfaceLost( void )
 	return SurfaceLostFlag;
 }	
 
-// �ե���ȥ��֥������Ȥ����� ***������������**********************************************/
+// フォントオブジェクトの作成 ***字体对象的作成**********************************************/
 void InitFont( int fontNo )
 {
-	// �ե���Ȥ���ǰ
-	char *fnotName[] = { "�ͣ� �����å�", "�ͣ� ����", "�ģ�POP��" };
+	// フォントの名前
+	char *fnotName[] = { "ＭＳ ゴシック", "ＭＳ 明朝", "ＤＦPOP体" };
 	
-	// �ե���Ȥ����ä���
+	// フォントがあったら
 	if( hFont != NULL ){
-		// �ե���ȥ��֥������Ȥ�Ĩ��
+		// フォントオブジェクトを抹
 		DeleteObject( hFont );
 	}
 	
-	//���������������ɥåȥ�`�ɤΕr
+	//３２０＊２４０ドットモ`ドのr
 	if(ResoMode == 1){
-		//�ե���Ȥκ���O��
+		//フォントの横幅O定
 		FontZenkauWidth = FONT_SIZE;
 		FontHankakuWidth = FONT_SIZE / 2;
-		// MS�����å��ˤ�ָ���������Υե���ȥ��֥������Ȥ�����
+		// MSゴシックにて指定サイズのフォントオブジェクトを作成
 		hFont = CreateFont( 
-							FONT_SIZE/2, 	/* �ե���Ȥ�Փ����	*/ 
-							0, 		/* ���֤�Փ��ƽ����	*/ 
-							0, 		/* �ƥ������ФνǶ�	*/ 
-							0,		/* �٩`�� �饤���x�S�νǶ�	*/ 
-							/* �ե���Ȥ�̫��	*/ 
+							FONT_SIZE/2, 	/* フォントの理高	*/ 
+							0, 		/* 文字の理平均幅	*/ 
+							0, 		/* テキスト行の角度	*/ 
+							0,		/* ベ`ス ラインとxSの角度	*/ 
+							/* フォントの太さ	*/ 
 							FW_DONTCARE,		// 0 
-							/* ������å������ԤΥե饰	*/ 
+							/* イタリック体属性のフラグ	*/ 
 							FALSE, 					
-							/* �¾��������ԤΥե饰	*/ 
+							/* 下付き属性のフラグ	*/ 
 							FALSE,					
-							/* ����������������ԤΥե饰	*/ 
+							/* 打ち消し付き属性のフラグ	*/ 
 							FALSE,					
-							/* ���֥��å��R�e��	*/ 
-							//DEFAULT_CHARSET, 	// ��ͨ������
-							//���޸�
+							/* 文字セットRe子	*/ 
+							//DEFAULT_CHARSET, 	// 普通の文字
+							//我修改
 							GB2312_CHARSET,
 
-							/* ��������	*/ 
+							/* 出力精度	*/ 
 							OUT_DEFAULT_PRECIS, 
-							/* ����åԥ󥰾���	*/ 
+							/* クリッピング精度	*/ 
 							CLIP_DEFAULT_PRECIS,
-							/* ����Ʒ�|	*/ 
-							DEFAULT_QUALITY,	// �ե���Ȥ����Q����Ҫҕ����ޤ���
-							/* �ԥå� */ 
+							/* 出力品|	*/ 
+							DEFAULT_QUALITY,	// フォントの外Qは重要されません。
+							/* ピッチ */ 
 							FIXED_PITCH |
-							/* �ե��ߥ�	*/ 
-							FF_ROMAN,			// ��ɉ䥹�ȥ��`������֤�? ����ո����ե���ȤǤ���MS(R) Serif�ʤɤ�����ޤ���
+							/* ファミリ	*/ 
+							FF_ROMAN,			// ○可浈攻去愆`ク幅を持つ? セリフ付きフォントです。MS(R) Serifなどがあります。
 							fnotName[ fontNo ] ); 
 	} else {
-		//�ե���Ȥκ���O��
+		//フォントの横幅O定
 		FontZenkauWidth = FONT_SIZE + 1;
 		FontHankakuWidth = FONT_SIZE / 2 + 1;
-		// MS�����å��ˤ�ָ���������Υե���ȥ��֥������Ȥ�����
+		// MSゴシックにて指定サイズのフォントオブジェクトを作成
 		hFont = CreateFont( 
-							FONT_SIZE, 	/* �ե���Ȥ�Փ����	*/ 
-							0, 		/* ���֤�Փ��ƽ����	*/ 
-							0, 		/* �ƥ������ФνǶ�	*/ 
-							0,		/* �٩`�� �饤���x�S�νǶ�	*/ 
+							FONT_SIZE, 	/* フォントの理高	*/ 
+							0, 		/* 文字の理平均幅	*/ 
+							0, 		/* テキスト行の角度	*/ 
+							0,		/* ベ`ス ラインとxSの角度	*/ 
 
-							/* �ե���Ȥ�̫��	*/ 
+							/* フォントの太さ	*/ 
 							//FW_DONTCARE,		// 0 
 							//FW_THIN,			// 100 
 							//FW_EXTRALIGHT,	// 200 
@@ -1643,32 +1643,32 @@ void InitFont( int fontNo )
 							//FW_EXTRABOLD,		// 800 
 							//FW_HEAVY,			// 900
 						
-							/* ������å������ԤΥե饰	*/ 
+							/* イタリック体属性のフラグ	*/ 
 							FALSE, 					
 							//TRUE,
 							
-							/* �¾��������ԤΥե饰	*/ 
+							/* 下付き属性のフラグ	*/ 
 							FALSE,					
 							//TRUE,
 							
-							/* ����������������ԤΥե饰	*/ 
+							/* 打ち消し付き属性のフラグ	*/ 
 							FALSE,					
 							//TRUE,
 						
-							/* ���֥��å��R�e��	*/ 
-							//ANSI_CHARSET,		// �������
-							//UNICODE_CHARSET,	//���x����Ƥ��ʤ�
-							//SYMBOL_CHARSET,	// �������
-							//SHIFTJIS_CHARSET,	// ��ͨ������
-							//HANGEUL_CHARSET,	// ��ͨ������
-							//CHINESEBIG5_CHARSET,// ��ͨ������
-							//OEM_CHARSET,		// �������
-							//ԭʼ
-							//DEFAULT_CHARSET, 	// ��ͨ������
-							//���޸�
+							/* 文字セットRe子	*/ 
+							//ANSI_CHARSET,		// 浃饰淖
+							//UNICODE_CHARSET,	//定xされていない
+							//SYMBOL_CHARSET,	// 浃饰淖
+							//SHIFTJIS_CHARSET,	// 普通の文字
+							//HANGEUL_CHARSET,	// 普通の文字
+							//CHINESEBIG5_CHARSET,// 普通の文字
+							//OEM_CHARSET,		// 浃饰淖
+							//原始
+							//DEFAULT_CHARSET, 	// 普通の文字
+							//我修改
 							GB2312_CHARSET,
 							
-							/* ��������	*/ 
+							/* 出力精度	*/ 
 							OUT_DEFAULT_PRECIS, 
 							//OUT_STRING_PRECIS,
 							//OUT_CHARACTER_PRECIS, 
@@ -1679,7 +1679,7 @@ void InitFont( int fontNo )
 							//OUT_TT_ONLY_PRECIS,
 							//OUT_OUTLINE_PRECIS,
 	
-							/* ����åԥ󥰾���	*/ 
+							/* クリッピング精度	*/ 
 							CLIP_DEFAULT_PRECIS,
 							//CLIP_CHARACTER_PRECIS,
 							//CLIP_STROKE_PRECIS,
@@ -1688,13 +1688,13 @@ void InitFont( int fontNo )
 							//CLIP_TT_ALWAYS,
 							//CLIP_EMBEDDED,
 	
-							/* ����Ʒ�|	*/ 
-							DEFAULT_QUALITY,	// �ե���Ȥ����Q����Ҫҕ����ޤ���
-							//DRAFT_QUALITY,		// �ե���Ȥ����Q����Ҫҕ����ޤ���
-							//PROOF_QUALITY,		// �ե���Ȥ����Q�������Ҫҕ����ޤ���
+							/* 出力品|	*/ 
+							DEFAULT_QUALITY,	// フォントの外Qは重要されません。
+							//DRAFT_QUALITY,		// フォントの外Qは重要されます。
+							//PROOF_QUALITY,		// フォントの外Qは最も重要されます。
 							
 							
-							/* �ԥå� */ 
+							/* ピッチ */ 
 							FIXED_PITCH |
 							
 							//DEFAULT_PITCH, 
@@ -1702,32 +1702,32 @@ void InitFont( int fontNo )
 							
 							//| FF_ROMAN
 							
-							/* �ե��ߥ�	*/ 
-							//FF_DECORATIVE,	// ��װ����ե���ȤǤ���Old English�ʤɤ�����ޤ���
-							//FF_DONTCARE,		// ���ե��ߥ���ؤ�ָ�����ʤ��ե����? �ޤ��ϥե��ߥ꤬�����Υե���ȤǤ���
-							//FF_MODERN,		// ���̶����ȥ��`������֤�? ����ո����ޤ��ϥ���դʤ��Υե���ȤǤ���Pica? Elite? Courier New(R) �ʤɤ�����ޤ���
-							FF_ROMAN,			// ��ɉ䥹�ȥ��`������֤�? ����ո����ե���ȤǤ���MS(R) Serif�ʤɤ�����ޤ���
-							//FF_SCRIPT,		// ���֕����L�˱�ʾ�����ե���ȤǤ���Script? Cursive�ʤɤ�����ޤ���
-							//FF_SWISS,			// ��ɉ䥹�ȥ��`������֤�? ����դʤ�
+							/* ファミリ	*/ 
+							//FF_DECORATIVE,	// ○装付きフォントです。Old Englishなどがあります。
+							//FF_DONTCARE,		// ×ファミリを特に指定しないフォント? またはファミリが不明のフォントです。
+							//FF_MODERN,		// ×固定ストロ`ク幅を持つ? セリフ付きまたはセリフなしのフォントです。Pica? Elite? Courier New(R) などがあります。
+							FF_ROMAN,			// ○可浈攻去愆`ク幅を持つ? セリフ付きフォントです。MS(R) Serifなどがあります。
+							//FF_SCRIPT,		// ○手Lに表示されるフォントです。Script? Cursiveなどがあります。
+							//FF_SWISS,			// ○可浈攻去愆`ク幅を持つ? セリフなし
 											
-							/* �����ץե������������ФΥ��ɥ쥹	*/ 				
+							/* タイプフェイス名文字列のアドレス	*/ 				
 							//"MSGOTHIC");			
 							//"Times New Roman"); 				
 							//"MS Scan Serif");
 							//"Small Fonts"); 				
-							//"HG��������-PRO"); 				
-							//"�ͣ� ����"); 		//��		
-					//"�ͣ� �����å�"); 	//��			
+							//"HG正楷-PRO"); 				
+							//"ＭＳ 明朝"); 		//○		
+					//"ＭＳ ゴシック"); 	//○			
 							//"MS UI Gothic"); 				
-					//"�ģ�POP��"); 		//��		
-							//"HG��?????M-PRO"); 	//��				
-							//"�ȣ�?????E-PRO"); 	//��			
-							//"�ģ���̫�����å���"); 	//��			
+					//"ＤＦPOP体"); 		//○		
+							//"HG丸?????M-PRO"); 	//×				
+							//"ＨＧ?????E-PRO"); 	//×			
+							//"ＤＦ特太ゴシック体"); 	//○			
 							fnotName[ fontNo ] ); 
 	}
 }
 
-// �ե���Ȥ�Хå����`�ե����˥��å� //////���屳��ʵ������//////////////////////////////////
+// フォントをバックサ`フェスにセット //////字体背部实体设置//////////////////////////////////
 void PutText( char fontPrio )
 {
 	HDC  hDc;
@@ -1735,91 +1735,91 @@ void PutText( char fontPrio )
 	//int j;
 	BOOL colorFlag = FALSE;
 	int	color;
-	// �ե���ȥѥ�å�
+	// フォントパレット
 	static DWORD FontPal[]={
 #if 1
-			RGB(0xff ,0xff, 0xff ), // 0:��
-			RGB(0x00 ,0xff, 0xff ), // 1:ˮɫ
-			RGB(0xff ,0x00, 0xff ), // 2:��
-			RGB(0x00 ,0x00, 0xff ), // 3:��
-			RGB(0xff ,0xff, 0x00 ), // 4:��
-			RGB(0x00 ,0xff, 0x00 ), // 5:�v
-			RGB(0xff ,0x00, 0x00 ), // 6:��
-			RGB(0xa0 ,0xa0, 0xa4 ), // 7:��ɫ
-			RGB(0xa6 ,0xca, 0xf0 ), // 8:������
-			RGB(0xc0 ,0xdc, 0xc0 )  // 9:�����v
+			RGB(0xff ,0xff, 0xff ), // 0:白
+			RGB(0x00 ,0xff, 0xff ), // 1:水色
+			RGB(0xff ,0x00, 0xff ), // 2:紫
+			RGB(0x00 ,0x00, 0xff ), // 3:青
+			RGB(0xff ,0xff, 0x00 ), // 4:黄
+			RGB(0x00 ,0xff, 0x00 ), // 5:v
+			RGB(0xff ,0x00, 0x00 ), // 6:赤
+			RGB(0xa0 ,0xa0, 0xa4 ), // 7:灰色
+			RGB(0xa6 ,0xca, 0xf0 ), // 8:淡い青
+			RGB(0xc0 ,0xdc, 0xc0 )  // 9:淡いv
 #else
-			0x80000000 | RGB(0xff ,0xff, 0xff ), // 0:��
-			0x80000000 | RGB(0x00 ,0xff, 0xff ), // 1:ˮɫ
-			0x80000000 | RGB(0xff ,0x00, 0xff ), // 2:��
-			0x80000000 | RGB(0x00 ,0x00, 0xff ), // 3:��
-			0x80000000 | RGB(0xff ,0xff, 0x00 ), // 4:��
-			0x80000000 | RGB(0x00 ,0xff, 0x00 ), // 5:�v
-			0x80000000 | RGB(0xff ,0x00, 0x00 ), // 6:��
-			0x80000000 | RGB(0xa0 ,0xa0, 0xa4 ), // 7:��ɫ
-			0x80000000 | RGB(0xa6 ,0xca, 0xf0 ), // 8:������
-			0x80000000 | RGB(0xc0 ,0xdc, 0xc0 )  // 9:�����v
+			0x80000000 | RGB(0xff ,0xff, 0xff ), // 0:白
+			0x80000000 | RGB(0x00 ,0xff, 0xff ), // 1:水色
+			0x80000000 | RGB(0xff ,0x00, 0xff ), // 2:紫
+			0x80000000 | RGB(0x00 ,0x00, 0xff ), // 3:青
+			0x80000000 | RGB(0xff ,0xff, 0x00 ), // 4:黄
+			0x80000000 | RGB(0x00 ,0xff, 0x00 ), // 5:v
+			0x80000000 | RGB(0xff ,0x00, 0x00 ), // 6:赤
+			0x80000000 | RGB(0xa0 ,0xa0, 0xa4 ), // 7:灰色
+			0x80000000 | RGB(0xa6 ,0xca, 0xf0 ), // 8:淡い青
+			0x80000000 | RGB(0xc0 ,0xdc, 0xc0 )  // 9:淡いv
 #endif		
 		};
 		
-	// ��ʾ�������֤��ʤ��ä���
+	// 表示する文字がなかったら
 	if( FontCnt == 0 ) return;
 	
-	// �Хå����`�ե����ΥǥХ�������ƥ����Ȥ�ȡ��
+	// バックサ`フェスのデバイスコンテキストを取得
 	lpDraw->lpBACKBUFFER->GetDC( &hDc );
-	// �ޥåԥ󥰥�`�ɤ��O�� ( �ǥХ����ԥ�����˥ޥåԥ� )
+	// マッピングモ`ドのO定 ( デバイスピクセルにマッピング )
 	//nOldMap = SetMapMode( hDc, MM_TEXT );
-	//SetMapMode( hDc, MM_TEXT ); // ���ʤ��Ƥ������⣿
-	// ������ʾ��`�ɤ��O�� ( ����ɫ��oҕ���� )
+	//SetMapMode( hDc, MM_TEXT ); // しなくていいかも？
+	// 背景表示モ`ドのO定 ( 背景色をoする )
 	SetBkMode( hDc, TRANSPARENT );
 	
 	//hFont = ( HFONT )GetStockObject(DEFAULT_GUI_FONT);
 	
-	//hOldFont = ( HFONT )SelectObject( hDc, hFont ); // ��ǰ�Υե���Ȥ����
-	SelectObject( hDc, hFont ); // ��ǰ�Υե���Ȥ����
+	//hOldFont = ( HFONT )SelectObject( hDc, hFont ); // 以前のフォントを代入
+	SelectObject( hDc, hFont ); // 以前のフォントを代入
 	
-	// �\ɫ�򥻥å�
+	// \色をセット
 	SetTextColor( hDc, 0 );
-	// ���Ƥ��������֤�Хå����`�ե������軭
+	// 溜めておいた文字をバックサ`フェスに描画
 	for( i = 0 ; i < FontCnt ; i++ ){
-		// ǰ�˱�ʾ������˱�ʾ��  ǰ��ʾ�����ʾ��
+		// 前に表示か後ろに表示か  前表示后面表示吗？
 		if( FontBuffer[ i ].fontPrio == fontPrio ){
-			//���������������ɥåȥ�`�ɤΕr
+			//３２０＊２４０ドットモ`ドのr
 			if(ResoMode == 1){
-				// �ޤ��\ɫ��Ӱ���軭
+				// まず\色の影を描画
 				TextOut( hDc, FontBuffer[ i ].x/2 + 1, FontBuffer[ i ].y/2 + 1, FontBuffer[ i ].str, ( int )strlen( FontBuffer[ i ].str ) ); 
 			} else {
-				// �ޤ��\ɫ��Ӱ���軭
+				// まず\色の影を描画
 				TextOut( hDc, FontBuffer[ i ].x + 1, FontBuffer[ i ].y + 1, FontBuffer[ i ].str, ( int )strlen( FontBuffer[ i ].str ) ); 
 			}
 		}
 	}
 #if 0
 	for( i = 0 ; i < FontCnt ; i++ ){
-		// �����Ϥ���ָ�����줿ɫ���軭
+		// その上から指定された色で描画
 		SetTextColor( hDc, FontPal[ FontBuffer[ i ].color ] );
 		TextOut( hDc, FontBuffer[ i ].x, FontBuffer[ i ].y, FontBuffer[ i ].str, ( int )strlen( FontBuffer[ i ].str ) ); 
 	}
 #else
-	// ɫ�e�˥�`�ף� SetTextColor����ֻ������p��ΤǄI�����٤� ��
+	// 色eにル`プ（ SetTextColorを呼ぶ回数がpるのでI理が速い ）
 	for( color = 0 ; color < 10 ; color++ ){
-		// �Хåե��`�֥�`��
+		// バッファ`分ル`プ
 		for( i = 0 ; i < FontCnt ; i++ ){
-			// ǰ�˱�ʾ������˱�ʾ��
+			// 前に表示か後ろに表示か
 			if( FontBuffer[ i ].fontPrio == fontPrio ){
-				// color ��ɫ��ʹ���Ƥ�����
+				// color の色が使われていたら
 				if( FontBuffer[ i ].color == color ){
-					// �ޤ�����ɫ�����åȤ���Ƥ��ʤ��ä���
+					// まだこの色がセットされていなかったら
 					if( colorFlag == FALSE ){
 						SetTextColor( hDc, FontPal[ color ] );
 						colorFlag = TRUE;
 					}
-					//���������������ɥåȥ�`�ɤΕr
+					//３２０＊２４０ドットモ`ドのr
 					if(ResoMode == 1){
-						// �����Ϥ���ָ�����줿ɫ���軭
+						// その上から指定された色で描画
 						TextOut( hDc, FontBuffer[ i ].x/2, FontBuffer[ i ].y/2, FontBuffer[ i ].str, ( int )strlen( FontBuffer[ i ].str ) ); 
 					} else {
-						// �����Ϥ���ָ�����줿ɫ���軭
+						// その上から指定された色で描画
 						TextOut( hDc, FontBuffer[ i ].x, FontBuffer[ i ].y, FontBuffer[ i ].str, ( int )strlen( FontBuffer[ i ].str ) ); 
 					}
 				}
@@ -1829,20 +1829,20 @@ void PutText( char fontPrio )
 	}
 #endif
 	
-	// �ޥåԥ󥰥�`�ɤ�ָ��
+	// マッピングモ`ドを指定
 	//SetMapMode( hDc, nOldMap );
-	// ��ǰ�Υե���Ȥ�ָ��
+	// 以前のフォントを指定
 	//SelectObject( hDc ,hOldFont );
-	// �ե���ȥ��֥������Ȥ�Ĩ��
+	// フォントオブジェクトを抹
 	//DeleteObject( hFont );
-	// �ǥХ�������ƥ����Ȥ��_��
+	// デバイスコンテクストを_放
 	lpDraw->lpBACKBUFFER->ReleaseDC( hDc );
 }
 
 
 
 //---------------------------------------------------------------------------//
-// ���ʥåץ���åȤα���  ����
+// スナップショットの保存  快照
 //---------------------------------------------------------------------------//
 void snapShot( void )
 {
@@ -1854,23 +1854,23 @@ void snapShot( void )
 	time_t longTime;
 	FILE *fp;
 	int w, h;
-	POINT 	clientPoint; // ���饤������I������ϤΥ�����`������λ�ä��{
+	POINT 	clientPoint; // クライアントI域の左上のスクリ`ン座宋恢盲蚋窦{
 
-	// �ݥ���Ș�����γ��ڻ�
+	// ポイント造体の初期化
 	clientPoint.x = 0;
 	clientPoint.y = 0;
-	// ���饤������I������ϤΥ�����`�����ˤ�ȡ��
+	// クライアントI域の左上のスクリ`ン座摔蛉〉
 	ClientToScreen( hWnd, &clientPoint ); 
 
-	// ����ե����������
+	// 保存フォルダの作成
 	if( _mkdir( "screenshot" ) != 0 )
 	{
 		if( errno != EEXIST )
 			return;
 	}
 
-	// ����ե�������������
-	time( &longTime );					// �F�ڤ��Օr��ȡ��
+	// 保存ファイル名の作成
+	time( &longTime );					// F在の日rを取得
 	nowTime = localtime( &longTime );
 
 	for( i =  0; i < 1000; i ++ )
@@ -1880,7 +1880,7 @@ void snapShot( void )
  
 		if( (fp = fopen( fileName, "r" )) != NULL )
 		{
-			// �ե����뤬���ä���ΤΥե�������M�ࡣ
+			// ファイルがあったら次のファイルにMむ。
 			fclose( fp );
 			continue;
 		}
@@ -1891,13 +1891,13 @@ void snapShot( void )
     }
 
 
-	// �ѥ�å�ȡ��
+	// パレット取得
 //	if( WindowMode )
 //	{
 //	}
 //	else
 //	{
-		// �ե륹����`���`��
+		// フルスクリ`ンモ`ド
 		for( i = 0; i < 256; i++ )
 		{
 			rgbpal[i].rgbRed   = Palette[i].peRed;
@@ -1931,7 +1931,7 @@ void snapShot( void )
 }
 
 
-// �����£ͣХե�����˱���  ΪBMP���浽�ļ�
+// 画像をＢＭＰファイルに保存  为BMP保存到文件
 BOOL saveBmpFile( const char *filename, BYTE *buf,
 	int x, int y, int width, int height, int srcpitch,
 	RGBQUAD *rgbpal, int colorCnt )

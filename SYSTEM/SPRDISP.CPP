@@ -1,5 +1,5 @@
 /************************/
-/*	sprdisp.c	������ʾ		*/
+/*	sprdisp.c	人物显示		*/
 /************************/
 #include "system.h"
 #include "loadrealbin.h"
@@ -7,52 +7,52 @@
 #include "anim_tbl.h"
 #include "map.h"
 
-#define STOCK_DISP_BUFFER_NO_BMP	( 1 << 31 ) 	// �£ͣФǤʤ��r
-#define STOCK_DISP_BUFFER_LINE		( 1 << 30 ) 	// �饤��
-#define STOCK_DISP_BUFFER_BOX		( 1 << 29 ) 	// �ܥå���
-#define STOCK_DISP_BUFFER_BOX_FILL	( 1 << 28 )		// �ܥå����T��Ĥ֤�
-#define STOCK_DISP_BUFFER_CIRCLE	( 1 << 27 ) 	// ��
+#define STOCK_DISP_BUFFER_NO_BMP	( 1 << 31 ) 	// ＢＭＰでないr
+#define STOCK_DISP_BUFFER_LINE		( 1 << 30 ) 	// ライン
+#define STOCK_DISP_BUFFER_BOX		( 1 << 29 ) 	// ボックス
+#define STOCK_DISP_BUFFER_BOX_FILL	( 1 << 28 )		// ボックスTりつぶし
+#define STOCK_DISP_BUFFER_CIRCLE	( 1 << 27 ) 	// 
 
-// ��ʾ�Хåե�������
+// 表示バッファ造体
 DISP_BUFFER DispBuffer;
 
-// �£ͣФΥ���`���ǩ`���ޤǤΥ��ե��å�
+// ＢＭＰのイメ`ジデ`タまでのオフセット
 int BmpOffBits;
-// �£ͣ��i���z���å�`���I��ؤΥݥ���
+// ＢＭＰiみzみ用ワ`クI域へのポインタ
 LPBITMAPINFO lpBmpInfo;
-// Realbin �i���z���å�`���I��ؤΥݥ���
+// Realbin iみzみ用ワ`クI域へのポインタ
 char *pRealBinBits;
-// ��� Realbin �����i���z��£ͣФΥ�����
+// 今回 Realbin からiみzむＢＭＰのサイズ
 int RealBinWidth, RealBinHeight;
-// BitBlt�Εr
+// BitBltのr
 HBITMAP	hBmp;
 
-// ���`�ե����������`�ե饰
+// サ`フェスヴィジ`フラグ
 int SurfaceBusyFlag = 0;
 
-// ������ɥ��ݥ���
+// ウィンドウポインタ
 extern ACTION* pActMenuWnd2;
-// �ȥ���ե饰
+// トグルフラグ
 extern unsigned int MenuToggleFlag;
 
-// ���`�ȱ��^�v��
+// ソ`ト比^v数
 int SortComp( DISP_SORT *pDisp1, DISP_SORT *pDisp2 );
 typedef int CMPFUNC( const void *, const void * );
-// ��ʾ�Хåե��`����ܥå����ǩ`����ȡ�����
+// 表示バッファ`からボックスデ`タを取り出す
 void GetBoxDispBuffer( DISP_INFO *pDispInfo, int bmpNo );
 
-// ��ʾ�Хåե����`�� /////��ʾ���򻺳���//////////////////////////////////////////////////////
+// 表示バッファソ`ト /////表示排序缓冲区//////////////////////////////////////////////////////
 void SortDispBuffer( void )
 {	
-	//�����å����`�� ��������
-	qsort( 	DispBuffer.DispSort,	// ������Υ��ɥ쥹 �ṹ�ĵ�ַ
-			DispBuffer.DispCnt,		// ���^���낀��
-			sizeof( DISP_SORT ), 	// ������Υ����� �ṹ�ߴ�
-			( CMPFUNC * )SortComp 	// ���^�v���ؤΥݥ��� �ȽϺ�����ָ��
+	//クイックソ`ト 快速排序
+	qsort( 	DispBuffer.DispSort,	// 造体のアドレス 结构的地址
+			DispBuffer.DispCnt,		// 比^する数
+			sizeof( DISP_SORT ), 	// 造体のサイズ 结构尺寸
+			( CMPFUNC * )SortComp 	// 比^v数へのポインタ 比较函数的指针
 		);				
 }
 
-// �£ͣФ��軭 ///�趨����- -//////////////////////////////////////////////////////////////
+// ＢＭＰの描画 ///设定载入- -//////////////////////////////////////////////////////////////
 void PutBmp( void )
 {
 	SURFACE_INFO *lpSurfaceInfo;
@@ -60,49 +60,49 @@ void PutBmp( void )
 	DISP_INFO 	*pDispInfo;
 	int i;
 	int bmpNo;
-	UCHAR putTextFlag = 0; // �ե���Ȥ��軭�������ե饰 ����ı�־ ���������ת�۵�
+	UCHAR putTextFlag = 0; // フォントを描画したかフラグ 字体的标志 字体绘制了转折点
 	unsigned char drawMapEffectFlag = 0;
 	
-	// ����줿��������`��  ����Ĵ���ѭ��
+	// 溜められた数だけル`プ  积蓄的次数循环
 	for( i = 0; i < DispBuffer.DispCnt ; i++, pDispSort++ ){
-		// ��ʾ�ǩ`������äƤ��륢�ɥ쥹�˥��å�
+		// 表示デ`タの入っているアドレスにセット
 		pDispInfo = DispBuffer.DispInfo + pDispSort->no;
-		bmpNo = pDispInfo->bmpNo; // �£ͣз���
+		bmpNo = pDispInfo->bmpNo; // ＢＭＰ番号
 		
-		// �ե���Ȥα�ʾ( BACK )
+		// フォントの表示( BACK )
 		if( putTextFlag == 0 ){
-			// ��˥�`��ǰ���ä���
+			// メニュ`の前だったら
 			if( pDispSort->dispPrio >= DISP_PRIO_MENU ){
-				// �ե���Ȥ�Хå����`�ե����˥��å�
+				// フォントをバックサ`フェスにセット
 				PutText( FONT_PRIO_BACK );	
-				// �ե饰�ϣ�
+				// フラグＯＮ
 				putTextFlag = 1;	
 			}
 		}
-		// �ե���Ȥα�ʾ( FRONT )
+		// フォントの表示( FRONT )
 		if( putTextFlag == 1 ){
-			// �Ϥ���������������ɥ���ǰ���ä���
+			// はい、いいえウィンドウの前だったら
 			if( pDispSort->dispPrio >= DISP_PRIO_YES_NO_WND ){
-				// �ե���Ȥ�Хå����`�ե����˥��å�
+				// フォントをバックサ`フェスにセット
 				PutText( FONT_PRIO_FRONT );	
-				// �ե饰�ϣ�
+				// フラグＯＮ
 				putTextFlag = 2;	
 			}
 		}
 		
-		// ��˥�`�����K��ä���
+		// メニュ`Kわったら
 		if( pDispSort->dispPrio > DISP_PRIO_MENU ){
-			// �ޥåץ�����ɥ�����r
+			// マップウィンドウあるr
 			if( MenuToggleFlag & JOY_CTRL_M && pActMenuWnd2 != NULL ){
-				// ������ɥ����������äƤ�����
+				// ウィンドウ出来あがっていたら
 				if( pActMenuWnd2->hp > 0 ){
-					// ���`�ȥޥå��軭
+					// オ`トマップ描画
 					drawAutoMap( pActMenuWnd2->x, pActMenuWnd2->y );
 				}
 			}
 		}
 
-		// �ޥåפΥ��ե�����
+		// マップのエフェクト
 		if( pDispSort->dispPrio >= DISP_PRIO_RESERVE )
 		{
 			drawMapEffect();
@@ -110,32 +110,32 @@ void PutBmp( void )
 		}
 
 
-		// �£ͣ�����Εr
+		// ＢＭＰ以外のr
 		if( bmpNo & STOCK_DISP_BUFFER_NO_BMP ){
-			// �ܥå������ޤ��ϥ饤��Εr
+			// ボックス、またはラインのr
 			if( bmpNo & ( STOCK_DISP_BUFFER_BOX | STOCK_DISP_BUFFER_BOX_FILL | STOCK_DISP_BUFFER_LINE ) ){
-				// ��ʾ�Хåե��`����ܥå����ǩ`����ȡ�����
+				// 表示バッファ`からボックスデ`タを取り出す
 				GetBoxDispBuffer( pDispInfo, bmpNo );
 			}
 			continue;
 		}
 		
-		// �£ͣФΕr
-		// �������ж��Τߤ��루�Ǳ�ʾ��
+		// ＢＭＰのr
+		// 当たり判定のみする（非表示）
 		if( pDispInfo->pAct != NULL ){
 			if( pDispInfo->pAct->atr & ACT_ATR_HIDE2 ) continue;
 		}
-		// �֣ң��ͤˤ��ʤ��Ȥ��ϥϩ`�ɥǥ�����������`�ɤ���
-		// �£ͣФ���`�ɤ���
+		// ＶＲＡＭにいないときはハ`ドディスクからロ`ドする
+		// ＢＭＰをロ`ドする
 		if( LoadBmp( bmpNo ) == FALSE ) continue;
 		
-		// ���`�ե����ꥹ�Ȥ���������`��
+		// サ`フェスリストの数だけル`プ
 		for(lpSurfaceInfo = SpriteInfo[ bmpNo ].lpSurfaceInfo ;
 			lpSurfaceInfo != NULL;
 			lpSurfaceInfo = lpSurfaceInfo->pNext ){
 				
-			// ����åԥ󥰄I���ȥ��ե�����`�󥵩`�ե��`������Хå����`�ե����˸���ܞ��
-			//���������������ɥåȥ�`�ɤΕr
+			// クリッピングI理とオフスクリ`ンサ`フェ`スからバックサ`フェスに高速送
+			//３２０＊２４０ドットモ`ドのr
 			if(ResoMode == 1){
 				//DrawSurfaceFast( 	pDispInfo->x/2 + lpSurfaceInfo->offsetX, 
 				//					pDispInfo->y/2 + lpSurfaceInfo->offsetY, 
@@ -153,25 +153,25 @@ void PutBmp( void )
 					
 			}
 			
-			// ���`�ե�����ʹ�ä����ո���ӛ��
+			// サ`フェスを使用した日付を
 			lpSurfaceInfo->date = SurfaceDate;
 		}
 	}
 	
-	// �ե���ȱ�ʾ����ֹ
-	// �ե���Ȥα�ʾ( BACK )
+	// フォント表示もれ防止
+	// フォントの表示( BACK )
 	if( putTextFlag == 0 ){
-		// �ե���Ȥ�Хå����`�ե����˥��å�
+		// フォントをバックサ`フェスにセット
 		PutText( FONT_PRIO_BACK );	
-		// �ե饰�ϣ�
+		// フラグＯＮ
 		putTextFlag = 1;	
 	}
-	// �ե���Ȥα�ʾ( FRONT )
+	// フォントの表示( FRONT )
 	if( putTextFlag == 1 ){
-		// �ե���Ȥ�Хå����`�ե����˥��å�
+		// フォントをバックサ`フェスにセット
 		PutText( FONT_PRIO_FRONT );	
 	}
-	// �ޥåפΥ��ե�����
+	// マップのエフェクト
 	if( drawMapEffectFlag == 0 )
 	{
 		drawMapEffect();
@@ -179,34 +179,34 @@ void PutBmp( void )
 }
 
 //**************************************************************************/
-// 	��Ҫ��	�R�r��ʾ�ǩ`����Хåե�������
-// 	������	UCHAR dispPrio����ʾ�Υץ饤����ƥ�
-//		  	int x, int y����ʾ����
-//			int bmpNo���£ͣз���
-//			int chr_no������饯���`����
-//			int pat_no���ѥ��`�󷬺�
+// 	概要：	Rr表示デ`タをバッファに溜める
+// 	引数：	UCHAR dispPrio：表示のプライオリティ
+//		  	int x, int y：表示座
+//			int bmpNo：ＢＭＰ番号
+//			int chr_no：キャラクタ`番号
+//			int pat_no：パタ`ン番号
 
-/// /��Ҫ����ʱ��ʾ�����������
-///������UCHAR dispPrio����ʾ�����ȼ�/ / 
-///int x��y��ʾ��int����/ / 
-///int bmpNo��BMP����/ / 
-///int chr _ no����ɫ����/ / int pat _ no��ģʽ����
+/// /概要：临时显示数据蓄积缓冲
+///参数：UCHAR dispPrio：表示的优先级/ / 
+///int x，y表示：int坐标/ / 
+///int bmpNo：BMP号码/ / 
+///int chr _ no：角色号码/ / int pat _ no：模式号码
 //**************************************************************************/
 int StockDispBuffer( int x, int y, UCHAR dispPrio, int bmpNo, BOOL hitFlag )
 {	
 	short dx,dy;
 	int BmpNo;
-	// ��ر��椹������ޤǥ��ɥ쥹���M�ޤ���  ��α����չ����ַ
+	// 今回保存する鏊蓼钎丧欹工蜻Mませる  这次保存进展到地址
 	DISP_SORT 	*pDispSort = DispBuffer.DispSort + DispBuffer.DispCnt;
 	DISP_INFO 	*pDispInfo = DispBuffer.DispInfo + DispBuffer.DispCnt;
 	
-	// ������ȥ��`�Щ`�Εr  ����ʱ������ʱ��
+	// カウントオ`バ`のr  倒计时结束的时候
 	if( DispBuffer.DispCnt >= DISP_BUFFER_SIZE ) return -2;
 	
-	// �£ͣФ����åȤ���Ƥʤ��Ȥ�  ���õ�ʱ��
+	// ＢＭＰがセットされてないとき  设置的时候
 	if( -1 <= bmpNo && bmpNo <= CG_INVISIBLE ) return -2;
 	
-	// ͨ����ʾ�ΤȤ�
+	// 通常表示のとき
 	if( bmpNo > CG_INVISIBLE )
 	{
 		realGetNo( bmpNo , (U4 *)&BmpNo );
@@ -214,138 +214,138 @@ int StockDispBuffer( int x, int y, UCHAR dispPrio, int bmpNo, BOOL hitFlag )
 	}
 	else
 	{
-		// �ܥå�����ʾ�ΤȤ��ω�Q���ʤ�  ���ʾ��ʱ��ת��
+		// ボックス表示のときはQしない  箱表示的时候不转换
 		dx = 0;
 		dy = 0;
 		BmpNo = bmpNo;
 	}
 
-	// ��ʾ���ȥ��`���Ø�����
+	// 表示先ソ`ト用造体
 	pDispSort->dispPrio = dispPrio;
 	pDispSort->no = DispBuffer.DispCnt;
-	// ��ʾ������壨 ���`�Ȥ��ʤ����� ��
+	// 表示情造体（ ソ`トしない内容 ）
 	pDispInfo->x = x + dx;
 	pDispInfo->y = y + dy;
 	pDispInfo->bmpNo = BmpNo;
 	pDispInfo->hitFlag = hitFlag;
 	pDispInfo->pAct = NULL;
 
-	// ��ʾ�����󥿩`�ץ饹
+	// 表示カウンタ`プラス
 	return DispBuffer.DispCnt++;
 }
 
 //**************************************************************************/
-// 	��Ҫ��	�R�r��ʾ�ǩ`����Хåե�������
-// 	������	UCHAR dispPrio����ʾ�Υץ饤����ƥ�
-//		  	int x, int y����ʾ����
-//			int bmpNo���£ͣз���(realGetNo()�򤷤ʤ�)
-//			int chr_no������饯���`����
-//			int pat_no���ѥ��`�󷬺�
+// 	概要：	Rr表示デ`タをバッファに溜める
+// 	引数：	UCHAR dispPrio：表示のプライオリティ
+//		  	int x, int y：表示座
+//			int bmpNo：ＢＭＰ番号(realGetNo()をしない)
+//			int chr_no：キャラクタ`番号
+//			int pat_no：パタ`ン番号
 //**************************************************************************/
 int StockDispBuffer2( int x, int y, UCHAR dispPrio, int bmpNo, BOOL hitFlag )
 {	
 	short dx,dy;
 	int BmpNo;
-	// ��ر��椹������ޤǥ��ɥ쥹���M�ޤ���
+	// 今回保存する鏊蓼钎丧欹工蜻Mませる
 	DISP_SORT 	*pDispSort = DispBuffer.DispSort + DispBuffer.DispCnt;
 	DISP_INFO 	*pDispInfo = DispBuffer.DispInfo + DispBuffer.DispCnt;
 	
-	// ������ȥ��`�Щ`�Εr
+	// カウントオ`バ`のr
 	if( DispBuffer.DispCnt >= DISP_BUFFER_SIZE ) return -2;
 	
-	// �£ͣФ����åȤ���Ƥʤ��Ȥ�
+	// ＢＭＰがセットされてないとき
 	if( -1 <= bmpNo && bmpNo <= CG_INVISIBLE ) return -2;
 	
-	// ͨ����ʾ�ΤȤ�
+	// 通常表示のとき
 	if( bmpNo > CG_INVISIBLE ){
 		BmpNo = bmpNo;
 		realGetPos( BmpNo  , &dx, &dy);
 	}else{
-		// �ܥå�����ʾ�ΤȤ��ω�Q���ʤ�
+		// ボックス表示のときはQしない
 		dx = 0;
 		dy = 0;
 		BmpNo = bmpNo;
 	}
 
-	// ��ʾ���ȥ��`���Ø�����
+	// 表示先ソ`ト用造体
 	pDispSort->dispPrio = dispPrio;
 	pDispSort->no = DispBuffer.DispCnt;
-	// ��ʾ������壨 ���`�Ȥ��ʤ����� ��
+	// 表示情造体（ ソ`トしない内容 ）
 	pDispInfo->x = x + dx;
 	pDispInfo->y = y + dy;
 	pDispInfo->bmpNo = BmpNo;
 	pDispInfo->hitFlag = hitFlag;
 	pDispInfo->pAct = NULL;
 
-	// ��ʾ�����󥿩`�ץ饹
+	// 表示カウンタ`プラス
 	return DispBuffer.DispCnt++;
 }
 
-// ��������ʾ�ǩ`����Хåե������� ///////////////////////////////////////////////////
+// タスク表示デ`タをバッファに溜める ///////////////////////////////////////////////////
 void StockTaskDispBuffer( void )
 {
-	ACTION *pActLoop; 	/* ���^�Υꥹ�ȥݥ���ȡ�� */
+	ACTION *pActLoop; 	/* 先^のリストポインタ取得 */
 	DISP_SORT 	*pDispSort = DispBuffer.DispSort + DispBuffer.DispCnt;
 	DISP_INFO 	*pDispInfo = DispBuffer.DispInfo + DispBuffer.DispCnt;
 	
-	/* ����β������ޤǥ�`��  �����֮ǰѭ��*/	
+	/* 最後尾が来るまでル`プ  最后来之前循环*/	
 	//while( pActLoop != pActBtm ){
 	for(pActLoop = pActTop->pNext ; 
 		pActLoop != pActBtm ;
-		/* �ΤΥݥ��󥿤򥻥å� */
+		/* 次のポインタをセット */
 		pActLoop = pActLoop->pNext )
 		{
 		
-		// ������ȥ��`�Щ`�Εr
+		// カウントオ`バ`のr
 		if( DispBuffer.DispCnt >= DISP_BUFFER_SIZE ) break;
 		
-		// �£ͣФ����åȤ���Ƥʤ��Ȥ� ���õ�ʱ��
+		// ＢＭＰがセットされてないとき 设置的时候
 		if( -1 <= pActLoop ->bmpNo && pActLoop ->bmpNo <= CG_INVISIBLE ) continue;
 		
-		// �����ե饰�����äƤ���Ȥ�
+		// 死亡フラグが立っているとき
 		if( pActLoop ->deathFlag == TRUE ) continue;
 		
-		/* �Ǳ�ʾ�ʤ�i���� */
+		/* 非表示ならiける */
 		if( pActLoop->atr & ACT_ATR_HIDE ) continue;
 
-		// ��ʾ���ȥ��`���Ø�����
+		// 表示先ソ`ト用造体
 		pDispSort->dispPrio = pActLoop->dispPrio;
 		pDispSort->no = DispBuffer.DispCnt;
-		// ��ʾ������壨 ���`�Ȥ��ʤ����� ��
+		// 表示情造体（ ソ`トしない内容 ）
 		pDispInfo->x = pActLoop->x + pActLoop->anim_x;
 		pDispInfo->y = pActLoop->y + pActLoop->anim_y;
 		pDispInfo->bmpNo = pActLoop->bmpNo;
 		pDispInfo->pAct = pActLoop;
 		
-		// �������ж����뤫��
-		// �}���x�k�Εr
+		// 当たり判定するか？
+		// }数xkのr
 		if( pActLoop->atr & ACT_ATR_HIT_BOX_ALL3 ) pDispInfo->hitFlag = 5;
 		else
 		if( pActLoop->atr & ACT_ATR_HIT_BOX_ALL2 ) pDispInfo->hitFlag = 4;
 		else 
 		if( pActLoop->atr & ACT_ATR_HIT_BOX_ALL1 ) pDispInfo->hitFlag = 3;
-		else // �ܥå�����ʾ
+		else // ボックス表示
 		if( pActLoop->atr & ACT_ATR_HIT_BOX ) pDispInfo->hitFlag = 2;
-		else // �ж��Τ�
+		else // 判定のみ
 		if( pActLoop->atr & ACT_ATR_HIT ) pDispInfo->hitFlag = 1;
 		else pDispInfo->hitFlag = FALSE;
-		// �ޥ������`���뵱�����ж�����ӛ��
+		// マウスカ`ソル当たり判定番号
 		pActLoop->hitDispNo = DispBuffer.DispCnt;
 		
-		// ��ʾ�����󥿩`�ץ饹
+		// 表示カウンタ`プラス
 		DispBuffer.DispCnt++;
-		// ���ɥ쥹�ץ饹
+		// アドレスプラス
 		pDispSort++;
 		pDispInfo++;
 	}
 	
 }
 
-// ��������ʾ�ǩ`����Хåե������� ///////////////////////////////////////////////////
-// ������prio1����prio2�ޤǤΤ�ΤτI�����ʤ�
+// タスク表示デ`タをバッファに溜める ///////////////////////////////////////////////////
+// ただしprio1からprio2までのものはI理しない
 void StockTaskDispBuffer2( int prio1, int prio2 )
 {
-	ACTION *pActLoop; 	/* ���^�Υꥹ�ȥݥ���ȡ�� */
+	ACTION *pActLoop; 	/* 先^のリストポインタ取得 */
 	DISP_SORT 	*pDispSort = DispBuffer.DispSort + DispBuffer.DispCnt;
 	DISP_INFO 	*pDispInfo = DispBuffer.DispInfo + DispBuffer.DispCnt;
 	int tmp;
@@ -357,139 +357,139 @@ void StockTaskDispBuffer2( int prio1, int prio2 )
 		prio2 = tmp;
 	}
 	
-	/* ����β������ޤǥ�`�� */	
+	/* 最後尾が来るまでル`プ */	
 	//while( pActLoop != pActBtm ){
 	for(pActLoop = pActTop->pNext ; 
 		pActLoop != pActBtm ;
-		/* �ΤΥݥ��󥿤򥻥å� */
+		/* 次のポインタをセット */
 		pActLoop = pActLoop->pNext ){
 		
-		// ������ȥ��`�Щ`�Εr
+		// カウントオ`バ`のr
 		if( DispBuffer.DispCnt >= DISP_BUFFER_SIZE ) break;
 		
-		// prio1����prio2��ָ������τI�����ʤ�
+		// prio1からprio2の指定欷I理しない
 		if( prio1 <= pActLoop->dispPrio && pActLoop->dispPrio <= prio2 )
 			continue;
 		
-		// �£ͣФ����åȤ���Ƥʤ��Ȥ�
+		// ＢＭＰがセットされてないとき
 		if( -1 <= pActLoop ->bmpNo && pActLoop ->bmpNo <= CG_INVISIBLE ) continue;
 		
-		// �����ե饰�����äƤ���Ȥ�
+		// 死亡フラグが立っているとき
 		if( pActLoop ->deathFlag == TRUE ) continue;
 		
-		/* �Ǳ�ʾ�ʤ�i���� */
+		/* 非表示ならiける */
 		if( pActLoop->atr & ACT_ATR_HIDE ) continue;
 
-		// ��ʾ���ȥ��`���Ø�����
+		// 表示先ソ`ト用造体
 		pDispSort->dispPrio = pActLoop->dispPrio;
 		pDispSort->no = DispBuffer.DispCnt;
-		// ��ʾ������壨 ���`�Ȥ��ʤ����� ��
+		// 表示情造体（ ソ`トしない内容 ）
 		pDispInfo->x = pActLoop->x + pActLoop->anim_x;
 		pDispInfo->y = pActLoop->y + pActLoop->anim_y;
 		pDispInfo->bmpNo = pActLoop->bmpNo;
 		pDispInfo->pAct = pActLoop;
 		
-		// �������ж����뤫��
+		// 当たり判定するか？
 		if( pActLoop->atr & ACT_ATR_HIT_BOX ) pDispInfo->hitFlag = 2;
 		else 
 		if( pActLoop->atr & ACT_ATR_HIT ) pDispInfo->hitFlag = 1;
 		else pDispInfo->hitFlag = FALSE;
-		// �ޥ������`���뵱�����ж�����ӛ��
+		// マウスカ`ソル当たり判定番号
 		pActLoop->hitDispNo = DispBuffer.DispCnt;
 		
-		// ��ʾ�����󥿩`�ץ饹
+		// 表示カウンタ`プラス
 		DispBuffer.DispCnt++;
-		// ���ɥ쥹�ץ饹
+		// アドレスプラス
 		pDispSort++;
 		pDispInfo++;
 	}
 	
 }
 
-// �ܥå�����ʾ�ǩ`����Хåե������� ***************************************/
+// ボックス表示デ`タをバッファに溜める ***************************************/
 void StockBoxDispBuffer( int x1, int y1, int x2, int y2, UCHAR dispPrio, int color, BOOL fill )
 {
-	int col;	// ɫ��ָ��
-	// int �� short �򣲂������
-	int x = ( x1 << 16 ) | x2; 	// ��λ���Х��Ȥ���λ���Х��Ȥˤ����
-	int y = ( y1 << 16 ) | y2;	// ��λ���Х��Ȥ���λ���Х��Ȥˤ����
+	int col;	// 色の指定
+	// int に short を２いれる
+	int x = ( x1 << 16 ) | x2; 	// 上位２バイトと下位２バイトにいれる
+	int y = ( y1 << 16 ) | y2;	// 上位２バイトと下位２バイトにいれる
 	
-	// �ܥå����ΤȤ�
+	// ボックスのとき
 	if( fill == 0 ) col = color | STOCK_DISP_BUFFER_BOX | STOCK_DISP_BUFFER_NO_BMP ;
-	// �T��Ĥ֤��ΤȤ�
+	// Tりつぶしのとき
 	else if( fill == 1 ) col = color | STOCK_DISP_BUFFER_BOX_FILL | STOCK_DISP_BUFFER_NO_BMP ;
-	// �饤��Εr
+	// ラインのr
 	else if( fill == 2 ) col = color | STOCK_DISP_BUFFER_LINE | STOCK_DISP_BUFFER_NO_BMP ;
 	
-	// �ܥå�����Хåե�������
+	// ボックスをバッファに溜める
 	StockDispBuffer( x, y, dispPrio, col, 0 );
 }
 
-// ��ʾ�Хåե��`����ܥå����ǩ`����ȡ����� *********************************/
+// 表示バッファ`からボックスデ`タを取り出す *********************************/
 void GetBoxDispBuffer( DISP_INFO *pDispInfo, int bmpNo )
 {
-	// �I��Υ��å�
+	// I域のセット
 	RECT rect;
-	int color; // ɫ
-	BOOL fill = FALSE; // �T��Ĥ֤��ե饰
+	int color; // 色
+	BOOL fill = FALSE; // Tりつぶしフラグ
 	int DispInfoX = pDispInfo->x;
 	int DispInfoY = pDispInfo->y;
 	
-	// ���ˤ�ȡ�����
+	// 座摔蛉・瓿訾
 	rect.right =	( LONG )( pDispInfo->x & 0xffff );
 	rect.bottom =	( LONG )( pDispInfo->y & 0xffff );
 	
 	//rect.left = 	( LONG )( ( pDispInfo->x >> 16 ) & 0xffff );
 	//rect.top = 		( LONG )( ( pDispInfo->y >> 16 ) & 0xffff );
 	
-	// ����饤�󥢥���֥�
+	// インラインアセンブラ
 	_asm{
-		// rect.left ��ȡ�����
-		mov		cl,16				// ���ե��������򥻥å�
+		// rect.left を取り出す
+		mov		cl,16				// シフト数１６をセット
 		mov		eax, [ DispInfoX ]
-		sar		eax, cl				// ���Ÿ��ҥ��ե�
+		sar		eax, cl				// 符号付右シフト
 		mov		[ rect.left ], eax
-		// rect.top ��ȡ�����
+		// rect.top を取り出す
 		mov		eax, [ DispInfoY ]
 		sar		eax, cl
 		mov		[ rect.top ], eax
 	}
 
 	
-	// �ܥå����ΤȤ�
+	// ボックスのとき
 	if( bmpNo & STOCK_DISP_BUFFER_BOX ){ 
-		color = bmpNo & 0xff; 			// ɫ�ǩ`����ȡ�����
-		DrawBox( &rect, color, 0 );	// �ܥå����軭
+		color = bmpNo & 0xff; 			// 色デ`タを取り出す
+		DrawBox( &rect, color, 0 );	// ボックス描画
 		
-	// �T��Ĥ֤��ΤȤ�
+	// Tりつぶしのとき
 	}else if( bmpNo & STOCK_DISP_BUFFER_BOX_FILL ){ 
-		color = color = bmpNo & 0xff;	// ɫָ��
-		DrawBox( &rect, color, 1 );	// �ܥå����軭
+		color = color = bmpNo & 0xff;	// 色指定
+		DrawBox( &rect, color, 1 );	// ボックス描画
 		
 	}else if( bmpNo & STOCK_DISP_BUFFER_LINE ){ 
-		color = color = bmpNo & 0xff;	// ɫָ��
-		DrawBox( &rect, color, 2 );	// �饤���軭
+		color = color = bmpNo & 0xff;	// 色指定
+		DrawBox( &rect, color, 2 );	// ライン描画
 	}
 }			
 
-// ���`�ȱ��^�v�� //////////////////////////////////////////////////////////////
+// ソ`ト比^v数 //////////////////////////////////////////////////////////////
 int SortComp( DISP_SORT *pDisp1, DISP_SORT *pDisp2 )
 {
-	// pDisp1 �α�ʾ���ȶȤη����󤭤��r������椨
+	// pDisp1 の表示先度の方が大きいr、入れ替え
 	if( pDisp1->dispPrio > pDisp2->dispPrio ){
 		return 1;
 	}
 	
-	// pDisp2 �α�ʾ���ȶȤη����󤭤��r�����Τޤ�
+	// pDisp2 の表示先度の方が大きいr、そのまま
 	if( pDisp1->dispPrio < pDisp2->dispPrio ){
 		return -1;
 	}
-	// �Ȥ����r�ϵ��h�����
-	// pDisp1 �η����礫�ä��r�����Τޤޣ��ΤϤ�����
+	// 等しいrは登hした
+	// pDisp1 の方が早かったr、そのまま（のはず？）
 	if( pDisp1->no > pDisp2->no ){
 		return -1;
 	}
-	// �ɤ�Ǥ�ʤ��r������椨���ΤϤ�����
+	// どれでもないr、入れ替え（のはず？）
 	return 1;
 }
 

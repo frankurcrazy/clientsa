@@ -26,45 +26,45 @@ extern void set_bc( void );
 extern void disp_kanji(ACTION *a0);
 
 int flash_pal_cnt;
-PALETTEENTRY	Palette2[256];	// �ѥ�åȘ�����
+PALETTEENTRY	Palette2[256];	// パレット造体
 
-// ���󥫥���ȥե饰
+// エンカウントフラグ
 BOOL EncountFlag = FALSE;
-// �ǥ奨��ե饰
+// デュエルフラグ
 BOOL DuelFlag = FALSE;
-// �إ�ןo���Εr
+// ヘルプoしのr
 BOOL NoHelpFlag = FALSE;
-// ���󥫥���ȥ��եե饰
+// エンカウントオフフラグ
 BOOL EncountOffFlag = FALSE;
 
-// һ���ä������ä��ե饰
+// 一人用か二人用かフラグ
 BOOL Battle1P2PFlag;
 
-// ��������ʾ������ɥ�
+// 不意打ち表示ウィンドウ
 ACTION* pActSurprisalWnd;
 ACTION* pActAudienceExitWnd;
 
-// ȫ������å��I��
+// 全绁隶Д氓I理
 extern int check_all_dead( void );
 
-/* ���L���� *********************************************************/
+/* 殛L地震 *********************************************************/
 void battle_quake( void )
 {
 	switch(quake_vct_no){
-	case 0:		//�I��o��
+	case 0:		//I理oし
 		break;
-	case 1:		//�����_ʼ
+	case 1:		//地震_始
 		quake_flg = 60;
 		quake_vct_no = 2;
 		break;
-	case 2:		//������
+	case 2:		//地震中
 		if(quake_flg >= 16){
 			piyo_point += 16;
 		} else {
 			piyo_point += quake_flg;
 		}
 		piyo_point &= 63;
-		if(!--quake_flg){		//����K�ˤʤ�
+		if(!--quake_flg){		//地震K了なら
 			quake_vct_no = 0;
 		}
 		break;
@@ -72,210 +72,210 @@ void battle_quake( void )
 }
 
 
-// ��������ʾ�I�� **************************************************************/
+// 不意打ち表示I理 **************************************************************/
 void SurprisalDisp( void ){
 	
-	// ����Ĥ����r���Ĥ��줿�r
+	// 不意ついたr、つかれたr
 	if( BattleBpFlag & BATTLE_BP_ENEMY_SURPRISAL || BattleBpFlag & BATTLE_BP_PLAYER_SURPRISAL ){
-		// ������ɥ��o���ä���
+		// ウィンドウoかったら
 		if( pActSurprisalWnd == NULL ){
-			// ������ɥ���ʾ����������
+			// ウィンドウ表示タスク作成
 			pActSurprisalWnd = MakeWindowDisp( 320 - 96, 240 - 48, 3, 2, NULL, 1 );
-			// ������ɥ��_����
+			// ウィンドウ_く音
 			play_se( 202, 320, 240 );
 		}
-		// ������ɥ����������äƤ�����
+		// ウィンドウ出来あがっていたら
 		if( pActSurprisalWnd->hp > 0 ){
-			// ���������Ĥ����r������Ĥ��줿�r��
+			// 长灰猡颏膜いr（不意つかれたr）
 			if( BattleBpFlag & BATTLE_BP_ENEMY_SURPRISAL ){
-				StockFontBuffer( pActSurprisalWnd->x + 38, pActSurprisalWnd->y + 40, FONT_PRIO_FRONT, 0, 	"�����Ĥ��줿", 0 );
+				StockFontBuffer( pActSurprisalWnd->x + 38, pActSurprisalWnd->y + 40, FONT_PRIO_FRONT, 0, 	"不意をつかれた", 0 );
 			}
-			// �ץ쥤��`�������Ĥ����r
+			// プレイヤ`が不意をついたr
 			if( BattleBpFlag & BATTLE_BP_PLAYER_SURPRISAL ){
-				StockFontBuffer( pActSurprisalWnd->x + 38, pActSurprisalWnd->y + 40, FONT_PRIO_FRONT, 0, 	" �����Ĥ��� ", 0 );
+				StockFontBuffer( pActSurprisalWnd->x + 38, pActSurprisalWnd->y + 40, FONT_PRIO_FRONT, 0, 	" 不意をついた ", 0 );
 			}
 		}
 	}
 }
 
-// �Хȥ�ץ����� ���֥ץ���������
+// バトルプロセス サブプロセス番号
 enum{
-	BATTLE_SUBPROC_INIT,				// �������ڻ�
-	BATTLE_SUBPROC_IN_PRODUCE,			// �����Хȥ륤���ݳ�
-	BATTLE_SUBPROC_RECEIVE_BC,			// �����£����Ŵ���
-	BATTLE_SUBPROC_CHAR_IN,				// �����ǈ��ݳ�
-	BATTLE_SUBPROC_CMD_INPUT,			// �������ޥ������
-	BATTLE_SUBPROC_RECEIVE_MOVIE,		// ������`�ө`���Ŵ���
-	BATTLE_SUBPROC_MOVIE,				// ������`�ө`�I��
-	BATTLE_SUBPROC_OUT_PRODUCE_INIT,	// �����K���ݳ����ڻ�
-	BATTLE_SUBPROC_OUT_PRODUCE,			// �����K���ݳ�
+	BATTLE_SUBPROC_INIT,				// ０：初期化
+	BATTLE_SUBPROC_IN_PRODUCE,			// １：バトルイン演出
+	BATTLE_SUBPROC_RECEIVE_BC,			// ２：ＢＣ受信待ち
+	BATTLE_SUBPROC_CHAR_IN,				// ３：登鲅莩
+	BATTLE_SUBPROC_CMD_INPUT,			// ４：コマンド入力
+	BATTLE_SUBPROC_RECEIVE_MOVIE,		// ５：ム`ビ`受信待ち
+	BATTLE_SUBPROC_MOVIE,				// ６：ム`ビ`I理
+	BATTLE_SUBPROC_OUT_PRODUCE_INIT,	// ７：K了演出初期化
+	BATTLE_SUBPROC_OUT_PRODUCE,			// ８：K了演出
 };
 	
 
 int xxx;
-/* �Хȥ�ץ������I�� ********************************************************************/
+/* バトルプロセスI理 ********************************************************************/
 void BattleProc( void )
 {
 	int i;
-	//static no = Rnd( 0, BATTLE_MAP_FILES - 1 );	// �����������Хȥ�ޥå�
-	s_timer++;	// �ե�`�ॿ���ީ`
+	//static no = Rnd( 0, BATTLE_MAP_FILES - 1 );	// 今だけランダムバトルマップ
+	s_timer++;	// フレ`ムタイマ`
 
 
 	xxx = 0;
 	
-	/* ���֥ץ��������ŤǷ�� */
+	/* サブプロセス番号で分岐 */
 	switch( SubProcNo ){
 	
-		case BATTLE_SUBPROC_INIT:				// ���ڻ�
+		case BATTLE_SUBPROC_INIT:				// 初期化
 		
-			// ���������Ĩ��
+			// アクション抹
 			DeathAllAction();
 			
 			slow_flg = 0;
 			action_inf = 0;
-			/* �ԙC ���������� */
+			/* 自C タスク作成 */
 			oft_test();
 			
-			// ��˥�`�v�B�γ��ڻ�
+			// メニュ`vBの初期化
 			InitMenu();
-			// �Хȥ��˥�`���ڻ�
+			// バトルメニュ`初期化
 			InitBattleMenu();
-			// ������������ɳ��ڻ�
+			// 不意打ちウィンド初期化
 			//DeathAction( pActSurprisalWnd );
 			pActSurprisalWnd = NULL;
 			pActAudienceExitWnd = NULL;
-			// �ץ��ǥ�`�����ڻ�
+			// プロデュ`ス初期化
 			ProduceInitFlag = TRUE;
-			/* ����å��v�B���ڻ� */
+			/* チャットvB初期化 */
 			//InitChat();
-			// �����ե��`����ȡ��
+			// 入力フォ`カス取得
 			GetKeyInputFocus( &MyChatBuffer );
 			
-			// �ݳ����������
-			// �Хåե����ڻ�
+			// 演出画像の作成
+			// バッファ初期化
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
-			// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ������� */
+			// バトルマップiみzみとバトルサ`フェスの画像作成 */
 			ReadBattleMap( BattleMapNo );
-			//MenuProc();				// ��˥�`�I��
-			//PaletteProc();			// �ѥ�åȄI��
-			ChatProc();				// ����åȄI��
-			ChatBufferToFontBuffer(); // ����åȥХåե��`��ե���ȥХåե�������
-			//ImeProc();				// �ɣͣ��v�B�I��
-			//SortDispBuffer(); 	// ��ʾ�Хåե����`��
-			// �Хå����`�ե������\�ǥ��ꥢ�`
+			//MenuProc();				// メニュ`I理
+			//PaletteProc();			// パレットI理
+			ChatProc();				// チャットI理
+			ChatBufferToFontBuffer(); // チャットバッファ`をフォントバッファに溜める
+			//ImeProc();				// ＩＭＥvBI理
+			//SortDispBuffer(); 	// 表示バッファソ`ト
+			// バックサ`フェスを\でクリア`
 			ClearBackSurface();	
-			// �£ͣФ�Хå����`�ե����˥��å�
+			// ＢＭＰをバックサ`フェスにセット
 			PutBmp();	
-			// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+			// バックサ`フェスからバトルサ`フェスへコピ`
 			lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-			// �Хåե����ڻ�
+			// バッファ初期化
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
-			//�̶������ǥ奨��ʤ�
+			//固定长钎濂ē毪胜
 			if(DuelFlag == TRUE || eventEnemyFlag == 1){
-				//�ܥ����L�£ǣ�����
+				//ボス殛LＢＧＭ再生
 				play_bgm( 6 );
 			} else {
-				//ͨ�����L�£ǣ�����
+				//通常殛LＢＧＭ再生
 				play_bgm( 5 );
 			}
-			// �F�ڤΕr�g��ӛ��
+			// F在のrgを
 			NowTime = GetTickCount();
-			// �Хå��Хåե��`�軭�������
+			// バックバッファ`描画方法涓
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
-			// �ݳ���
+			// 演出中
 			DrawProduce( PRODUCE_HAGARE_OCHI_IN );
 			
-			// ����o������
-			MenuProc();				// ��˥�`�I��
-			ImeProc();				// �ɣͣ��v�B�I��
+			// 点绀oくす
+			MenuProc();				// メニュ`I理
+			ImeProc();				// ＩＭＥvBI理
 			
-			// ��˥�`�ե饰�ϣ� 
+			// メニュ`フラグＯＮ 
 			battleMenuFlag2 = TRUE;
 			
-			// ���ʤ��ڥåȥ����å�
+			// いないペットチェック
 			for( i = 0 ; i < 5 ; i++ ){
-				// ���Ιڤ˥ڥåȤ����ʤ��r
+				// この冥衰讠氓趣い胜r
 				if( pet[ i ].useFlag == FALSE ){
-					// �Хȥ����
+					// バトルを解除
 					if( i == pc.battlePetNo ) pc.battlePetNo = -1;
-					// ��`��Εr
+					// メ`ルのr
 					if( i == pc.mailPetNo ) pc.mailPetNo = -1;
-					// �Ȥꤢ������܊�ˤ���
+					// とりあえず２にする
 					pc.selectPetNo[ i ] = FALSE;
 					
 				}
 #if 0
-				// �Хȥ�ΤȤ����ĥ�`��Εr���饰�Ǥʤ�Ȥ������룩
+				// バトルのときかつメ`ルのr（ラグでなるときがある）
 				if( pc.battlePetNo == i && pc.mailPetNo == i ){
-					// ��`��ʤ��ˤ���
+					// メ`ルなしにする
 					pc.mailPetNo = -1;
-					// �Ȥꤢ�������C�ˤ���
+					// とりあえず待Cにする
 					pc.selectPetNo[ i ] = TRUE;
 				}
 #endif
 			}
-			// �ѥ��`�����`��
+			// パラメ`タセ`ブ
 			saveUserSetting();
 			
-			// �ץ��������ťץ饹
+			// プロセス番号プラス
 			SubProcNo++;
 			break;
 			
-		case BATTLE_SUBPROC_IN_PRODUCE:			// �Хȥ륤���ݳ�
+		case BATTLE_SUBPROC_IN_PRODUCE:			// バトルイン演出
 		
-			// �ݳ���
+			// 演出中
 			if( DrawProduce( PRODUCE_HAGARE_OCHI_IN ) == TRUE ){
-				// �Хåե����ڻ�
+				// バッファ初期化
 				DispBuffer.DispCnt = 0;
 				FontCnt = 0;
-				// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ������� */
+				// バトルマップiみzみとバトルサ`フェスの画像作成 */
 				ReadBattleMap( BattleMapNo );
 				//no++;
 				//if( no >= BATTLE_MAP_FILES ) no = 0;
 				//no = Rnd( 0, BATTLE_MAP_FILES - 1 );
-				// �Хå����`�ե������\�ǥ��ꥢ�`
+				// バックサ`フェスを\でクリア`
 				ClearBackSurface();	
-				//SortDispBuffer(); 	// ��ʾ�Хåե����`��
-				// �£ͣФ�Хå����`�ե����˥��å�
+				//SortDispBuffer(); 	// 表示バッファソ`ト
+				// ＢＭＰをバックサ`フェスにセット
 				PutBmp();
-				// �Хȥ륵�`�ե�������ڻ�
+				// バトルサ`フェスを初期化
 				//ClearSurface( lpBattleSurface );
-				// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+				// バックサ`フェスからバトルサ`フェスへコピ`
 				lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-				// �Хåե����ڻ�
+				// バッファ初期化
 				DispBuffer.DispCnt = 0;
 				FontCnt = 0;
-				// �F�ڤΕr�g��ӛ��
+				// F在のrgを
 				NowTime = GetTickCount();
 				
-				// �Хå��Хåե��`�軭�������
+				// バックバッファ`描画方法涓
 				BackBufferDrawType = DRAW_BACK_BATTLE; 
 				
-				// �Хå��Хåե��`���褯
-				/* ����åȄI�� */
+				// バックバッファ`に描く
+				/* チャットI理 */
 				ChatProc();
-				// ����åȥХåե��`��ե���ȥХåե�������
+				// チャットバッファ`をフォントバッファに溜める
 				ChatBufferToFontBuffer(); 
-				// ���`�ܩ`�ɥ��`������I��
+				// キ`ボ`ドカ`ソル点I理
 				FlashKeyboardCursor();
-				// ��˥�`�I��
+				// メニュ`I理
 				MenuProc();
-				// �ɣͣ��v�B�I��
+				// ＩＭＥvBI理
 				ImeProc();
-				// �ѥ�åȄI��
+				// パレットI理
 				//PaletteProc();
 				
 				SubProcNo++;
 			}else{
-				MenuProc();	// ��˥�`�I��
-				ImeProc();	// �ɣͣ��v�B�I��
+				MenuProc();	// メニュ`I理
+				ImeProc();	// ＩＭＥvBI理
 			}
 		
 			break;
 			
-		case BATTLE_SUBPROC_RECEIVE_BC:			// �£����Ŵ���
+		case BATTLE_SUBPROC_RECEIVE_BC:			// ＢＣ受信待ち
 		
 #ifdef _DEBUG
 			if(offlineFlag == TRUE){
@@ -302,62 +302,62 @@ void BattleProc( void )
 				"13|beron|title|187BA|1|20|20|0|"
 				);
 
-	strcpy(BattleStatus,"BC|0|0|����犤�ʮ����||186F7|1F|B6|B6|5|F|���L�Υ����Ԥ�||18786|20|11D|11D|1|10|����||187B2|1D|F8|F8|1|");
-//	strcpy(BattleStatus,"BC|0|0|�����å�|Ŀ�˥��󥾵�|186DF|E|2A8|2BC|4|F|���å���||187B6|F|7D|7D|0|10|���å���||187B6|10|1|91|0|");
+	strcpy(BattleStatus,"BC|0|0|命のの十常寺||186F7|1F|B6|B6|5|F|疾Lのコズぴよ||18786|20|11D|11D|1|10|リンダ||187B2|1D|F8|F8|1|");
+//	strcpy(BattleStatus,"BC|0|0|サガット|目衰螗镜|186DF|E|2A8|2BC|4|F|ダックル||187B6|F|7D|7D|0|10|ダックル||187B6|10|1|91|0|");
 
-				// �£��O��
+				// ＢＣO定
 				set_bc();
 				SubProcNo++;
 				break;
 			}
 #endif
 			
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			FlashKeyboardCursor();
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();
-			// �r�g���I���ȥѥ�åȥ����󥸄I��
+			// rgI理とパレットチェンジI理
 			TimeZoneProc();
 			
-			// �Α�Εr
+			// 参椁r
 			if( BattleBpFlag & BATTLE_BP_JOIN ){
-				// һ�Х���ե�
-				strcpy( OneLineInfoStr,"���`��K�˴�����");
+				// 一行インフォ
+				strcpy( OneLineInfoStr,"タ`ンK了待ち。");
 			}
 				
-			// �����`����Խ��ϥ���������ߤ餻��
+			// ２タ`ンめ以降はアクション走らせる
 			if( EncountFlag == FALSE ){
-				// �Υ饹���`�������`��
+				// 违楗攻咯`スクロ`ル
 				if( !( s_timer & 7 ) ){
 					piyo_point++;
 					piyo_point &= 63;
 				}
-				/* ����������ߤ餻�� */
+				/* アクション走らせる */
 				RunAction();
-				// ��������ʾ�ǩ`����Хåե�������
+				// タスク表示デ`タをバッファに溜める
 				StockTaskDispBuffer();
 			}
 			
-			// ���`�Щ`�Ώ�����
+			// サ`バ`の答待ち
 #if 0
 			if( BattleStatusBak[ 0 ] != NULL ){
 				strcpy( BattleStatus, BattleStatusBak );
 				BattleStatusBak[ 0 ] = NULL;
-				// ���󥫥���ȥե饰���ڻ�
+				// エンカウントフラグ初期化
 				EncountFlag = FALSE;
-				// �£��O��
+				// ＢＣO定
 				set_bc();
-				// һ���ä������ä������å�
+				// 一人用か二人用かチェック
 				Battle1P2PFlag = CheckBattle1P2P();
 				SubProcNo++;
 
-				//�Q���`�ɤʤ�
+				//Q楗猢`ドなら
 //				if(xxx == 0 && BattleMyNo >= 20){
 //					BattleCmdBak[ 0 ] = NULL;
 //					xxx = 1;
@@ -366,23 +366,23 @@ void BattleProc( void )
 			if( BattleStatusReadPointer != BattleStatusWritePointer ){
 				strcpy( BattleStatus, BattleStatusBak[ BattleStatusReadPointer ] );
 				BattleStatusReadPointer = ( BattleStatusReadPointer + 1 ) & ( BATTLE_BUF_SIZE-1 );
-				// ���󥫥���ȥե饰���ڻ�
+				// エンカウントフラグ初期化
 				EncountFlag = FALSE;
-				// �£��O��
+				// ＢＣO定
 				set_bc();
-				// ���L�Ф���Ҏ�ڥåȥ����å�
+				// 殛L中の新讠氓去隶Д氓
 				CheckBattleNewPet();
-				// �Q���`�ɤǤʤ��r
+				// Q楗猢`ドでないr
 				if( BattleMyNo < 20 ){
-					// �ͣФ��O��
+					// ＭＰをO定
 					p_party[ BattleMyNo ]->mp = BattleMyMp;
 				}
 				
-				// һ���ä������ä������å�
+				// 一人用か二人用かチェック
 				Battle1P2PFlag = CheckBattle1P2P();
 				SubProcNo++;
 
-				//�Q���`�ɤʤ�
+				//Q楗猢`ドなら
 //				if(xxx == 0 && BattleMyNo >= 20){
 //					BattleCmdBak[ 0 ] = NULL;
 //					xxx = 1;
@@ -390,92 +390,92 @@ void BattleProc( void )
 #endif
 
 			}
-			// �Q��r���ҥ���å����줿�r
+			// Qrに右クリックされたr
 			//if( mouse.onceState & MOUSE_RIGHT_CRICK && BattleMyNo >= 20 ){
-				// �Q��K�˥ץ��ȥ����ͤ�
+				// Q榻K了プロトコル送る
 			//	lssproto_B_send( sockfd, "U" );
 			//}
-			// �Q��Εr��������ɥ��α�ʾ
+			// Q椁r、ウィンドウの表示
 			if( BattleMyNo >= 20 ){
-				// ������ɥ��o���ä���
+				// ウィンドウoかったら
 				if( pActAudienceExitWnd == NULL ){
-					// ������ɥ���ʾ����������
+					// ウィンドウ表示タスク作成
 					pActAudienceExitWnd = MakeWindowDisp( 444, 4, 3, 2, NULL, 1 );
-					// ������ɥ��_����
+					// ウィンドウ_く音
 					play_se( 202, 320, 240 );
 				}
 			}
 			
 			break;
 			
-		case BATTLE_SUBPROC_CHAR_IN:			// �ǈ��ݳ�
+		case BATTLE_SUBPROC_CHAR_IN:			// 登鲅莩
 			
-			// �Υ饹���`�������`��
+			// 违楗攻咯`スクロ`ル
 			if( !( s_timer & 7 ) ){
 				piyo_point++;
 				piyo_point &= 63;
 			}
-			// ��������ʾ�I��
+			// 不意打ち表示I理
 			SurprisalDisp();
 			
-			// ���ޥ�������g�ߥե饰�Υ����å�
+			// コマンド入力gみフラグのチェック
 			CheckBattleAnimFlag();
-			/* ����������ߤ餻�� */
+			/* アクション走らせる */
 			RunAction();
-			// ��������ʾ�ǩ`����Хåե�������
+			// タスク表示デ`タをバッファに溜める
 			StockTaskDispBuffer();
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			FlashKeyboardCursor();
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();
-			// �r�g���I���ȥѥ�åȥ����󥸄I��
+			// rgI理とパレットチェンジI理
 			TimeZoneProc();
 			
-			// �ǈ��K�ä���
+			// 登鼋Kったら
 			if( action_inf == 3 ){
 				action_inf = 0;
-				// ���L�Α�ե饰�ϣƣ�
+				// 殛L参楗榨楗埃希疲
 				BattleBpFlag &= ~BATTLE_BP_JOIN; 
-				// ȫ������å��I��
+				// 全绁隶Д氓I理
 				if( check_all_dead() == 1 ){
 					SubProcNo = BATTLE_SUBPROC_OUT_PRODUCE_INIT;
 					break;
 				}
-				// ������������ɥ����Ƥ�����
+				// 不意打ちウィンドウ出ていたら
 				if( pActSurprisalWnd != NULL ){
-					// ������ɥ�Ĩ��
+					// ウィンドウ抹
 					DeathAction( pActSurprisalWnd );
 					pActSurprisalWnd = NULL;
-					// �������ե饰���ڻ�
+					// 不意打ちフラグ初期化
 					BattleBpFlag &= ~BATTLE_BP_ENEMY_SURPRISAL; 
 					BattleBpFlag &= ~BATTLE_BP_PLAYER_SURPRISAL; 
 					
 				}
-				// �ΤΥץ�������
+				// 次のプロセスへ
 				SubProcNo++;
 			}
-			//���L�ѳ��ʤ�  ս�����ѵĻ�
+			//殛L脱出なら  战斗逃脱的话
 			if( action_inf == 2 ){		
-				SubProcNo = BATTLE_SUBPROC_OUT_PRODUCE_INIT;		//���L�K���ݳ���
+				SubProcNo = BATTLE_SUBPROC_OUT_PRODUCE_INIT;		//殛LK了演出へ
 				action_inf = 0;
-				// �Хȥ륳�ޥ�ɳ��ڻ�
+				// バトルコマンド初期化
 				BattleCmd[ 0 ] = NULL;
 			}
-			// �Q��r���ҥ���å����줿�r
+			// Qrに右クリックされたr
 			//if( mouse.onceState & MOUSE_RIGHT_CRICK && BattleMyNo >= 20 ){
-				// �Q��K�˥ץ��ȥ����ͤ�
+				// Q榻K了プロトコル送る
 			//	lssproto_B_send( sockfd, "U" );
 			//}
 			
 			break;
 			
-		case BATTLE_SUBPROC_CMD_INPUT:			// ���ޥ������
+		case BATTLE_SUBPROC_CMD_INPUT:			// コマンド入力
 		
 #ifdef _DEBUG
 			if(offlineFlag == TRUE){
@@ -483,44 +483,44 @@ void BattleProc( void )
 				break;
 			}
 #endif
-			// �Υ饹���`�������`��
+			// 违楗攻咯`スクロ`ル
 			if( !( s_timer & 7 ) ){
 				piyo_point++;
 				piyo_point &= 63;
 			}
 			
-			// �Хȥ��˥�`�I��  
+			// バトルメニュ`I理  
 			BattleMenuProc();
-			// ���ޥ�������g�ߥե饰�Υ����å�
+			// コマンド入力gみフラグのチェック
 			CheckBattleAnimFlag();
 			
-			/* ����������ߤ餻�� */
+			/* アクション走らせる */
 			RunAction();
-			// ��������ʾ�ǩ`����Хåե�������
+			// タスク表示デ`タをバッファに溜める
 			StockTaskDispBuffer();
 			
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			FlashKeyboardCursor();
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();
-			// �r�g���I���ȥѥ�åȥ����󥸄I��
+			// rgI理とパレットチェンジI理
 			TimeZoneProc();
 			
-			// �Q��r���ҥ���å����줿�r
+			// Qrに右クリックされたr
 			//if( mouse.onceState & MOUSE_RIGHT_CRICK && BattleMyNo >= 20 ){
-				// �Q��K�˥ץ��ȥ����ͤ�
+				// Q榻K了プロトコル送る
 			//	lssproto_B_send( sockfd, "U" );
 			//}
 			
 			break;
 			
-		case BATTLE_SUBPROC_RECEIVE_MOVIE:		// ��`�ө`���Ŵ���
+		case BATTLE_SUBPROC_RECEIVE_MOVIE:		// ム`ビ`受信待ち
 		
 #ifdef _DEBUG
 			if(offlineFlag == TRUE){
@@ -580,32 +580,32 @@ void BattleProc( void )
 			}
 #endif
 
-			// �Υ饹���`�������`��
+			// 违楗攻咯`スクロ`ル
 			if( !( s_timer & 7 ) ){
 				piyo_point++;
 				piyo_point &= 63;
 			}
-			// ���ޥ�������g�ߥե饰�Υ����å�
+			// コマンド入力gみフラグのチェック
 			CheckBattleAnimFlag();
-			/* ����������ߤ餻�� */
+			/* アクション走らせる */
 			RunAction();
-			// ��������ʾ�ǩ`����Хåե�������
+			// タスク表示デ`タをバッファに溜める
 			StockTaskDispBuffer();
 
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			FlashKeyboardCursor();
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();
-			// �r�g���I���ȥѥ�åȥ����󥸄I��
+			// rgI理とパレットチェンジI理
 			TimeZoneProc();
 			
-			// ���`�Щ`�Ώ�����
+			// サ`バ`の答待ち
 #if 0
 			if( BattleCmdBak[ 0 ] != NULL ){
 				strcpy( BattleCmd, BattleCmdBak );
@@ -621,46 +621,46 @@ void BattleProc( void )
 				SubProcNo++;
 			}
 #endif
-			// �����äΕr
+			// 二人用のr
 			if( Battle1P2PFlag == 2 ){
-				// һ�Х���ե�
-				strcpy( OneLineInfoStr,"���Υץ쥤��`������������");
+				// 一行インフォ
+				strcpy( OneLineInfoStr,"他のプレイヤ`の入力待ち。");
 			}
-			// �Q��Εr
+			// Q椁r
 			if( BattleMyNo >= 20 ){
-				// �����֥�`��
+				// 人数分ル`プ
 				for( i = 0 ; i < 20 ; i++ ){
-					// �;�����`���`��ʾ
+					// 耐久力メ`タ`表示
 					HpMeterDisp( i );
 				}
 			}else{
-				// ���¥���`�פΕr
+				// 右下グル`プのr
 				if( BattleMyNo < 10 ){
-					for( i  = 0 ; i < 10 ; i++ ) HpMeterDisp( i ); // �;�����`���`��ʾ
+					for( i  = 0 ; i < 10 ; i++ ) HpMeterDisp( i ); // 耐久力メ`タ`表示
 				}else 
-				// ���¥���`�פΕr
+				// 右下グル`プのr
 				if( BattleMyNo >= 10 ){ 
-					for( i = 10 ; i < 20 ; i++ ) HpMeterDisp( i ); // �;�����`���`��ʾ
+					for( i = 10 ; i < 20 ; i++ ) HpMeterDisp( i ); // 耐久力メ`タ`表示
 				}
 			}
 			
-			// �Q��r���ҥ���å����줿�r
+			// Qrに右クリックされたr
 			//if( mouse.onceState & MOUSE_RIGHT_CRICK && BattleMyNo >= 20 ){
-				// �Q��K�˥ץ��ȥ����ͤ�
+				// Q榻K了プロトコル送る
 			//	lssproto_B_send( sockfd, "U" );
 			//}
 			break;
 			
-		case BATTLE_SUBPROC_MOVIE:				// ��`�ө`�I��
+		case BATTLE_SUBPROC_MOVIE:				// ム`ビ`I理
 		
 #ifdef _DEBUG
-			// �����֥�`��
+			// 人数分ル`プ
 			//for( i = 0 ; i < 20 ; i++ ){
-				// �;�����`���`��ʾ
+				// 耐久力メ`タ`表示
 			//	HpMeterDisp( i );
 			//}
 			if(offlineFlag == TRUE){
-				if(joy_trg[0]&JOY_A){		//�ꥻ�åȤʤ�
+				if(joy_trg[0]&JOY_A){		//リセットなら
 					DeathAllAction();
 					SubProcNo = 0;
 					BattleCmd[0] = NULL;
@@ -668,146 +668,146 @@ void BattleProc( void )
 				}
 			}
 #endif
-			//�����`�Фʤ飨�����Εr��
+			//スロ`中なら（死亡のr）
 			if( slow_flg ){		
-				if( !( s_timer & 31 ) ){	// ���ե�`���һ��
-					piyo_point++;	// �饹���`�������`���M�ޤ���
-					piyo_point &= 63;	// ��ߥåȥ����å�
+				if( !( s_timer & 31 ) ){	// ８フレ`ムに一回
+					piyo_point++;	// ラスタ`スクロ`ルMませる
+					piyo_point &= 63;	// リミットチェック
 				}
-				if( s_timer & 3 ){		// ���ե�`���һ�أ������Ϥ�����ʣ�������
-					damage_dispx();		// �����`�ФΥ���`������ʾ
+				if( s_timer & 3 ){		// ４フレ`ムに一回（ここはいじるな！！！）
+					damage_dispx();		// スロ`中のダメ`ジ硎
 				}else{
-					RunAction();		/* ����������ߤ餻�� */
-					battle_quake();		//���L����
+					RunAction();		/* アクション走らせる */
+					battle_quake();		//殛L地震
 				}
-			} else { // �����`�Ǥʤ��r
+			} else { // スロ`でないr
 				if( !( s_timer & 7 ) ){	
 					piyo_point++;
 					piyo_point &= 63;
 				}
-				RunAction();		/* ����������ߤ餻�� */
-				battle_quake();		//���L����
+				RunAction();		/* アクション走らせる */
+				battle_quake();		//殛L地震
 			}
 			
-			//�����ե�å���ʤ�
-			if( flash_vct_no ) die_flash();	//�����ե�å���
+			//死亡フラッシュなら
+			if( flash_vct_no ) die_flash();	//死亡フラッシュ
 			
-			// ��������ʾ�ǩ`����Хåե�������
+			// タスク表示デ`タをバッファに溜める
 			StockTaskDispBuffer();
 
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			FlashKeyboardCursor();
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();
-			// �r�g���I���ȥѥ�åȥ����󥸄I��
+			// rgI理とパレットチェンジI理
 			TimeZoneProc();
-			//���`��K�ˤʤ�
+			//タ`ンK了なら
 			if( action_inf == 1 ){		
-				//if( BattleBpFlag & BATTLE_BP_JOIN ){	// �Α�Εr
+				//if( BattleBpFlag & BATTLE_BP_JOIN ){	// 参椁r
 				//	BattleBpFlag &= ~BATTLE_BP_JOIN;
-				//	SubProcNo = BATTLE_SUBPROC_CMD_INPUT;		//��˥�`�ˑ���
+				//	SubProcNo = BATTLE_SUBPROC_CMD_INPUT;		//メニュ`に
 				//}else{
-					SubProcNo = BATTLE_SUBPROC_RECEIVE_BC;		//�£äˑ���
-					BattleCliTurnNo++;							// ���饤����ȥ��`���M���
+					SubProcNo = BATTLE_SUBPROC_RECEIVE_BC;		//ＢＣに
+					BattleCliTurnNo++;							// クライアントタ`ンMめる
 				//}
 #ifdef _DEBUG
 				if(offlineFlag == TRUE){
-					SubProcNo = BATTLE_SUBPROC_RECEIVE_BC;		//��˥�`�ˑ���ʤ�
+					SubProcNo = BATTLE_SUBPROC_RECEIVE_BC;		//メニュ`に椁胜
 				}
 				
 #endif
 				action_inf = 0;
-				// �Хȥ륳�ޥ�ɳ��ڻ�
+				// バトルコマンド初期化
 				BattleCmd[ 0 ] = NULL;
-				// ��˥�`�ե饰�ϣ� 
+				// メニュ`フラグＯＮ 
 				battleMenuFlag2 = TRUE;
 			}
 			
-			//���L�ѳ��ʤ�
+			//殛L脱出なら
 			if( action_inf == 2 ){		
-				SubProcNo = BATTLE_SUBPROC_OUT_PRODUCE_INIT;		//���L�K���ݳ���
+				SubProcNo = BATTLE_SUBPROC_OUT_PRODUCE_INIT;		//殛LK了演出へ
 				action_inf = 0;
-				// �Хȥ륳�ޥ�ɳ��ڻ�
+				// バトルコマンド初期化
 				BattleCmd[ 0 ] = NULL;
 			}
 			
-			// �Q��r���ҥ���å����줿�r
+			// Qrに右クリックされたr
 			//if( mouse.onceState & MOUSE_RIGHT_CRICK && BattleMyNo >= 20 ){
-				// �Q��K�˥ץ��ȥ����ͤ�
+				// Q榻K了プロトコル送る
 			//	lssproto_B_send( sockfd, "U" );
 			//}
 			break;
 			
-		case BATTLE_SUBPROC_OUT_PRODUCE_INIT:	// �K���ݳ����ڻ�
+		case BATTLE_SUBPROC_OUT_PRODUCE_INIT:	// K了演出初期化
 			
-			//�£ǣͥե��`�ɥ�����
+			//ＢＧＭフェ`ドアウト
 			fade_out_bgm();
-			// �Хȥ륵�`�ե����λ������� 
+			// バトルサ`フェスの画像作成 
 			CopyBackBuffer();
-			// �Хå��Хåե��`�軭�������
+			// バックバッファ`描画方法涓
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			SubProcNo++;
 			break;
 			
-		case BATTLE_SUBPROC_OUT_PRODUCE:		// �K���ݳ�
+		case BATTLE_SUBPROC_OUT_PRODUCE:		// K了演出
 			
-			// �ݳ���
+			// 演出中
 			if( DrawProduce( PRODUCE_4WAY_OUT ) == TRUE ){
-				// �ץ�����������
+				// プロセスチェンジ
 				ChangeProc( PROC_GAME, 1 );
-				// ���������ȫĨ��
+				// アクション全抹
 				DeathAllAction();
-				// ���������Ʃ`�֥�Υ���������Ĩ��
+				// キャラ管理テ`ブルのアクションを抹消
 				clearPtActCharObj();
-				// �����ᤫ��Σá��ã��ץ��ȥ�����ܤ�������
+				// この後からのＣ、ＣＡプロトコルを受け付ける
 				encountNowFlag = 0;
-				// ���饤����Ȥ�����Υ�`�ө`��Ҋ�K��ä��Ȥ����ͤ롣
+				// クライアントが最後のム`ビ`をKわったときに送る。
 				lssproto_EO_send( sockfd, 0 );
-				//�ե��`��ɤΣ£ǣ�����
-//				play_bgm(map_bgm);		//�ե��`��ɣ£ǣ�����
+				//フィ`ルドのＢＧＭ再生
+//				play_bgm(map_bgm);		//フィ`ルドＢＧＭ再生
 			//	SubProcNo++;
-				// ���L�Y��������ɥ������r���Ӥ����r���������åȤΕr�����ʤ�
+				// 殛LY果ウィンドウ出すr（逃げたr、アルチメットのr出さない
 				if( battleResultMsg.useFlag >= 1 ){ 
-					BattleResultWndFlag = battleResultMsg.useFlag;	// ��˥�`�ե饰�ϣ�
-					battleResultMsg.useFlag = FALSE; // ������Υե饰���ڻ�
+					BattleResultWndFlag = battleResultMsg.useFlag;	// メニュ`フラグＯＮ
+					battleResultMsg.useFlag = FALSE; // 造体のフラグ初期化
 				}
 				return;
 			}
 			break;
 			
-		case 12:	// �ݳ�
+		case 12:	// 演出
 			break;
 	}
 	
-	// �ץ��ǥ�`���ФǤʤ��Ȥ�  �ݳ���û�е�ʱ��
+	// プロデュ`ス中でないとき  演出中没有的时候
 	if( BackBufferDrawType != DRAW_BACK_PRODUCE ){ 
-		// ���L���ƽK�ˤΕr
+		// 殛L制K了のr
 		if( BattleEscFlag == TRUE ){	
-			// �K�˥ץ�������
+			// K了プロセスへ
 			SubProcNo = BATTLE_SUBPROC_OUT_PRODUCE_INIT;
-			// �ե饰���ڻ�
+			// フラグ初期化
 			BattleEscFlag = FALSE;
 		}
-		// �Q��r���ҥ���å����줿�r
+		// Qrに右クリックされたr
 		if( mouse.onceState & MOUSE_RIGHT_CRICK && BattleMyNo >= 20 ){
-			// �Q��K�˥ץ��ȥ����ͤ�
+			// Q榻K了プロトコル送る
 			lssproto_B_send( sockfd, "U" );
 		}
-		// ������ɥ�����r
+		// ウィンドウあるr
 		if( pActAudienceExitWnd != NULL ){
-			// �Q��K�����ֱ�ʾ������ɥ������������äƤ�����
+			// Q榻K了文字表示ウィンドウが出来あがっていたら
 			if( pActAudienceExitWnd->hp > 0 ){
-				// ���֤��ʾ
-				StockFontBuffer( pActAudienceExitWnd->x + 30, pActAudienceExitWnd->y + 28, FONT_PRIO_FRONT, 0, 	"�ҥ���å���", 0 );
-				StockFontBuffer( pActAudienceExitWnd->x + 30, pActAudienceExitWnd->y + 52, FONT_PRIO_FRONT, 0, 	"�Q���K�ˤ��ޤ�", 0 );
-				//StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 28, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"���`���åȤ�", 0 );
-				//StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 52, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"�x�k�����¤���", 0 );
+				// 文字を表示
+				StockFontBuffer( pActAudienceExitWnd->x + 30, pActAudienceExitWnd->y + 28, FONT_PRIO_FRONT, 0, 	"右クリックで", 0 );
+				StockFontBuffer( pActAudienceExitWnd->x + 30, pActAudienceExitWnd->y + 52, FONT_PRIO_FRONT, 0, 	"Q椁蚪K了します", 0 );
+				//StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 28, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"タ`ゲットを", 0 );
+				//StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 52, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"xkして下さい", 0 );
 			}
 		}
 	}

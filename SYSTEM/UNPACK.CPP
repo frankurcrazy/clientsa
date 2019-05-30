@@ -1,5 +1,5 @@
 //
-// ¥Ç©`¥¿ˆR¿sÕ¹é_
+// ãƒ‡`ã‚¿Rså±•_
 //
 
 #include<stdio.h>
@@ -13,18 +13,18 @@
 #define BIT_REP_LARG	(unsigned char)0x10
 #define BIT_REP_LARG2	(unsigned char)0x20
 
-// ˆR¿s
-// ÒıÊı
-// 		buf    ... ˆR¿s¤¹¤ë¥Ç©`¥¿¤Ø¤Î¥İ¥¤¥ó¥¿  Ñ¹ËõÊı¾İµÄÖ¸Õë
-//		disBuf ... ˆR¿sáá¤Î¥Ç©`¥¿¤òÈë¤ì¤ë¥İ¥¤¥ó¥¿£¨NULL¤òÈë¤ì¤È¤±¤Ğ¥á¥â¥ê¤ò×Ô„Ó¤Ç´_±££©
-//Ñ¹ËõºóµÄÊı¾İ·ÅÈëÖ¸Õë£¨NULL·ÅÈë¾ÍÄÜÈÃÄÚ´æ×Ô¶¯È·±££©
+// Rs
+// å¼•æ•°
+// 		buf    ... Rsã™ã‚‹ãƒ‡`ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿  å‹ç¼©æ•°æ®çš„æŒ‡é’ˆ
+//		disBuf ... Rså¾Œã®ãƒ‡`ã‚¿ã‚’å…¥ã‚Œã‚‹ãƒã‚¤ãƒ³ã‚¿ï¼ˆNULLã‚’å…¥ã‚Œã¨ã‘ã°ãƒ¡ãƒ¢ãƒªã‚’è‡ªå©´è°´_ä¿ï¼‰
+//å‹ç¼©åçš„æ•°æ®æ”¾å…¥æŒ‡é’ˆï¼ˆNULLæ”¾å…¥å°±èƒ½è®©å†…å­˜è‡ªåŠ¨ç¡®ä¿ï¼‰
 
-//		width  ... »­Ïñ¤Î·ù  Í¼Ïñ¿í¶È
-//		height ... »­Ïñ¤Î¸ß¤µ Í¼ÏñµÄ¸ß¶È
-//		len    ... ˆR¿sáá¤Î¥µ¥¤¥º¤Ø¤Î¥İ¥¤¥ó¥¿  Ñ¹ËõºóµÄ³ß´çµÄÖ¸Õë
-//		cmpFlag ... 1 ¤ÇˆR¿s¡£0 ¤Ç·ÇˆR¿s¡£ 1Ñ¹Ëõ¡£0·ÇÑ¹Ëõ¡£
-// ‘ø¤ê‚ ·µ»ØÖµ
-// 		ˆR¿s¥Ç©`¥¿¤Ø¤Î¥İ¥¤¥ó¥¿¡£Ê§”¡¤Ï0  Ñ¹ËõÊı¾İµÄÖ¸Õë¡£Ê§°ÜÊÇ0
+//		width  ... ç”»åƒã®å¹…  å›¾åƒå®½åº¦
+//		height ... ç”»åƒã®é«˜ã• å›¾åƒçš„é«˜åº¦
+//		len    ... Rså¾Œã®ã‚µã‚¤ã‚ºã¸ã®ãƒã‚¤ãƒ³ã‚¿  å‹ç¼©åçš„å°ºå¯¸çš„æŒ‡é’ˆ
+//		cmpFlag ... 1 ã§Rsã€‚0 ã§éRsã€‚ 1å‹ç¼©ã€‚0éå‹ç¼©ã€‚
+//  è¿”å›å€¼
+// 		Rsãƒ‡`ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€‚å¤±ãƒ»0  å‹ç¼©æ•°æ®çš„æŒ‡é’ˆã€‚å¤±è´¥æ˜¯0
 unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 	unsigned int width, unsigned int height, unsigned int *len, int cmpFlag )
 {
@@ -40,8 +40,8 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 	unsigned int l, el;
 	int addWBuf;
 
-	// ¥á¥â¥ê¤ò¥Ø¥Ã¥À£«»­Ïñ¥µ¥¤¥º·Ö´_±£
-	//ÄÚ´æ+Í¼Ïñ´óĞ¡·ÖÈ·±£Í·
+	// ãƒ¡ãƒ¢ãƒªã‚’ãƒ˜ãƒƒãƒ€ï¼‹ç”»åƒã‚µã‚¤ã‚ºåˆ†_ä¿
+	//å†…å­˜+å›¾åƒå¤§å°åˆ†ç¡®ä¿å¤´
 	if( *disBuf == NULL )
 	{
 		if( (wBuf = (unsigned char *)malloc( width * height + sizeof( RD_HEADER ) )) == NULL )
@@ -64,7 +64,7 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 		flag = 0;
 	}
 
-	// ¥Ğ¥Ã¥Õ¥¡¤Î¥¨¥ó¥É¥¢¥É¥ì¥¹ »º³åµÄ½áÊøµØÖ·
+	// ãƒãƒƒãƒ•ã‚¡ã®ã‚¨ãƒ³ãƒ‰ã‚¢ãƒ‰ãƒ¬ã‚¹ ç¼“å†²çš„ç»“æŸåœ°å€
 	eBuf = buf + width * height;
 	ewBuf = wBuf + width * height + sizeof( RD_HEADER );
 
@@ -72,24 +72,24 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 	buf1 = buf;
 	while( cmpFlag )
 	{
-		// ½KÁË¥Á¥§¥Ã¥¯
+		// Käº†ãƒã‚§ãƒƒã‚¯
 		if( buf1 >= eBuf )
 		{
-			// Õi¤ßŞz¤ß¥Ç©`¥¿¤¬Ÿo¤¯¤Ê¤Ã¤¿
+			// iã¿zã¿ãƒ‡`ã‚¿ãŒoããªã£ãŸ
 			flag = 1;
 			break;
 		}
 		if( wBuf1 >= ewBuf )
 		{
-			// ˆR¿s¥Ç©`¥¿¥µ¥¤¥º¤¬Ôª¥Ç©`¥¿¥µ¥¤¥º¤ò³¬¤¨¤¿¤Î¤Ç½KÁË
+			// Rsãƒ‡`ã‚¿ã‚µã‚¤ã‚ºãŒå…ƒãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸã®ã§Käº†
 			flag = 0;
 			break;
 		}
 
-		// ¥¼¥í¤ÎˆR¿s£¨£²‚€ÒÔÉÏ¤Ê¤éˆR¿s£©
+		// ã‚¼ãƒ­ã®Rsï¼ˆï¼’ä»¥ä¸Šãªã‚‰Rsï¼‰
 		if( *buf1 == 0 && *(buf1+1) == 0 )
 		{
-			// ¤Ş¤º¤ÏˆR¿s‚€Êı¤òÊı¤¨¤ë
+			// ã¾ãšã¯Rsæ•°ã‚’æ•°ãˆã‚‹
 			idx = BIT_CMP | BIT_ZERO;
 			cnt = 2;
 			buf1 += 2;
@@ -102,31 +102,31 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 				buf1++;
 				cnt++;
 			}
-			// £°¤ÎßB¾A¤¬16‚€Î´œº¤Î•r
+			// ï¼ã®BAãŒ16æœªæ°¦r
 			if( cnt <= 0xf )
 			{
 				addWBuf = 0;
 			}
 			else
-			// 16‚€ÒÔÉÏ4096Î´œº¤Î•r
+			// 16ä»¥ä¸Š4096æœªæ°¦r
 			if( cnt <= 0xfff )
 			{
 				addWBuf = 1;
 			}
-			// 4096ÒÔÉÏ¤Î•r
+			// 4096ä»¥ä¸Šã®r
 			else
 			{
 				addWBuf = 2;
 			}
 
-			// ˆR¿s¥Ç©`¥¿¥µ¥¤¥º¤¬Ôª¥Ç©`¥¿¥µ¥¤¥º¤ò³¬¤¨¤¿¤Î¤Ç½KÁË
+			// Rsãƒ‡`ã‚¿ã‚µã‚¤ã‚ºãŒå…ƒãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸã®ã§Käº†
 			if( wBuf1+addWBuf >= ewBuf )
 			{
 				flag = 0;
 				break;
 			}
 
-			// ˆR¿s¥Ç©`¥¿¤ò•ø¤­Şz¤à
+			// Rsãƒ‡`ã‚¿ã‚’zã‚€
 			if( addWBuf == 0 )
 			{
 				idx |= (cnt & 0x0f);
@@ -151,7 +151,7 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 			}
 		}
 #if 1
-		// ¥¼¥íÒÔÍâ¤ÇˆR¿s£¨£³‚€ÒÔÉÏ¤Ê¤éˆR¿s£©
+		// ã‚¼ãƒ­ä»¥å¤–ã§Rsï¼ˆï¼“ä»¥ä¸Šãªã‚‰Rsï¼‰
 		if( *buf1 == *(buf1+1) && *buf1 == *(buf1+2) )
 		{
 			repData = *buf1;
@@ -168,31 +168,31 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 				cnt++;
 			}
 
-			// ßB¾A¥Ç©`¥¿¤¬16‚€Î´œº¤Î•r
+			// BAãƒ‡`ã‚¿ãŒ16æœªæ°¦r
 			if( cnt <= 0xf )
 			{
 				addWBuf = 1;
 			}
 			else
-			// 16‚€ÒÔÉÏ4096Î´œº¤Î•r
+			// 16ä»¥ä¸Š4096æœªæ°¦r
 			if( cnt <= 0xfff )
 			{
 				addWBuf = 2;
 			}
-			// 4096ÒÔÉÏ¤Î•r
+			// 4096ä»¥ä¸Šã®r
 			else
 			{
 				addWBuf = 3;
 			}
 
-			// ˆR¿s¥Ç©`¥¿¥µ¥¤¥º¤¬Ôª¥Ç©`¥¿¥µ¥¤¥º¤ò³¬¤¨¤¿¤Î¤Ç½KÁË
+			// Rsãƒ‡`ã‚¿ã‚µã‚¤ã‚ºãŒå…ƒãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸã®ã§Käº†
 			if( wBuf1+addWBuf >= ewBuf )
 			{
 				flag = 0;
 				break;
 			}
 
-			// ˆR¿s¥Ç©`¥¿¤ò•ø¤­Şz¤à
+			// Rsãƒ‡`ã‚¿ã‚’zã‚€
 			if( addWBuf == 1 )
 			{
 				idx |= (cnt & 0x0f);
@@ -221,29 +221,29 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 		}
 #endif
 
-		// ˆR¿sŸo¤·
-		// ×î³õ¤Ï¤É¤³¤Ş¤ÇˆR¿s¤·¤Ê¤¤¤«¤òÒŠ¤ë¤À¤±
+		// Rsoã—
+		// æœ€åˆã¯ã©ã“ã¾ã§Rsã—ãªã„ã‹ã‚’ã‚‹ã ã‘
 		idx = 0;
 		cnt2 = 0;
 		buf2 = buf1;
 		wBuf2 = wBuf1;
 		while( 1 )
 		{
-			// ½KÁË¥Á¥§¥Ã¥¯
-			if( buf2 >= eBuf		// Õi¤ßŞz¤à¥Ç©`¥¿¤¬Ÿo¤¤¤Î¤Ç½KÁË
-			 || cnt2 >= 0xfff )		// Ò»»Ø¤Ë’Q¤¨¤ë¥Ç©`¥¿éL¤ò³¬¤¨¤¿¤Î¤Ç´Î¤Ø
+			// Käº†ãƒã‚§ãƒƒã‚¯
+			if( buf2 >= eBuf		// iã¿zã‚€ãƒ‡`ã‚¿ãŒoã„ã®ã§Käº†
+			 || cnt2 >= 0xfff )		// ä¸€å›ã«Qãˆã‚‹ãƒ‡`ã‚¿Lã‚’è¶…ãˆãŸã®ã§æ¬¡ã¸
 			{
 				mode = 0;
 				break;
 			}
 			if( wBuf2 >= ewBuf )
 			{
-				// ˆR¿s¥Ç©`¥¿¥µ¥¤¥º¤¬Ôª¥Ç©`¥¿¥µ¥¤¥º¤ò³¬¤¨¤¿¤Î¤Ç½KÁË
+				// Rsãƒ‡`ã‚¿ã‚µã‚¤ã‚ºãŒå…ƒãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸã®ã§Käº†
 				mode = 1;
 				break;
 			}
-			// ¥Ç©`¥¿¤Î×îáá¤«¤é£´·¬Ä¿ÒÔÇ°¤Ê¤éˆR¿s¥Ç©`¥¿¤¬¤¢¤ë¤«´_ÕJ¤¹¤ë
-			// ¤½¤ìÒÔÍâ¤ÏŸoˆR¿s¤È¤·¤Æ’Q¤¦
+			// ãƒ‡`ã‚¿ã®æœ€å¾Œã‹ã‚‰ï¼”ç•ªç›®ä»¥å‰ãªã‚‰Rsãƒ‡`ã‚¿ãŒã‚ã‚‹ã‹_Jã™ã‚‹
+			// ãã‚Œä»¥å¤–ã¯oRsã¨ã—ã¦Qã†
 			if( buf2+2 < eBuf )
 			{
 				if( *buf2 == 0 && *(buf2+1) == 0 )
@@ -280,12 +280,12 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 		if( mode == 1
 		 || wBuf2+addWBuf >= ewBuf )
 		{
-			// ˆR¿s¥Ç©`¥¿¥µ¥¤¥º¤¬Ôª¥Ç©`¥¿¥µ¥¤¥º¤ò³¬¤¨¤¿¤Î¤Ç½KÁË
+			// Rsãƒ‡`ã‚¿ã‚µã‚¤ã‚ºãŒå…ƒãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸã®ã§Käº†
 			flag = 0;
 			break;
 		}
 
-		// ·ÇˆR¿s¥Ç©`¥¿¤ÎÊı¤¬¤ï¤«¤Ã¤¿¤Î¤ÇÜËÍ
+		// éRsãƒ‡`ã‚¿ã®æ•°ãŒã‚ã‹ã£ãŸã®ã§é€
 		if( addWBuf == 0 )
 		{
 			idx = (cnt2 & 0xf);
@@ -325,7 +325,7 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 		l = header->size;
 	}
 	else
-	// ˆR¿s¤»¤º¤Ë¥³¥Ô©`
+	// Rsã›ãšã«ã‚³ãƒ”`
 	{
 		header->compressFlag = 0;
 		header->size = (int)wBuf + width * height + sizeof( RD_HEADER );
@@ -342,15 +342,15 @@ unsigned char *encoder( unsigned char *buf, unsigned char **disBuf,
 }
 
 
-// Õ¹é_
-// ÒıÊı
-// 		buf    ... Õ¹é_¤¹¤ë¥Ç©`¥¿¤Ø¤Î¥İ¥¤¥ó¥¿ Õ¹¿ª¶ÔÊı¾İµÄÖ¸Õë
-//		disBuf ... Õ¹é_áá¤Î¥Ç©`¥¿¤òÈë¤ì¤ë¥İ¥¤¥ó¥¿ Õ¹¿ªºóµÄÊı¾İ·ÅÈëÖ¸Õë
-//		width  ... »­Ïñ¤Î·ù¤Ø¤Î¥İ¥¤¥ó¥¿ Í¼Ïñ¿í¶ÈµÄÖ¸Õë
-//		height ... »­Ïñ¤Î¸ß¤µ¤Ø¤Î¥İ¥¤¥ó¥¿ Í¼ÏñµÄ¸ß¶ÈµÄÖ¸Õë
-//		len    ... Õ¹é_¤¹¤ë¥Ç©`¥¿¥µ¥¤¥º¤Ø¤Î¥İ¥¤¥ó¥¿  Õ¹¿ªÊı¾İ´óĞ¡µÄÖ¸Õë
-// ‘ø¤ê‚   ·µ»ØÖµ/ /Õ¹¿ª¶ÔÊı¾İµÄÖ¸Õë¡£Ê§°ÜÊÇ0
-// 		Õ¹é_¥Ç©`¥¿¤Ø¤Î¥İ¥¤¥ó¥¿¡£Ê§”¡¤Ï0
+// å±•_
+// å¼•æ•°
+// 		buf    ... å±•_ã™ã‚‹ãƒ‡`ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿ å±•å¼€å¯¹æ•°æ®çš„æŒ‡é’ˆ
+//		disBuf ... å±•_å¾Œã®ãƒ‡`ã‚¿ã‚’å…¥ã‚Œã‚‹ãƒã‚¤ãƒ³ã‚¿ å±•å¼€åçš„æ•°æ®æ”¾å…¥æŒ‡é’ˆ
+//		width  ... ç”»åƒã®å¹…ã¸ã®ãƒã‚¤ãƒ³ã‚¿ å›¾åƒå®½åº¦çš„æŒ‡é’ˆ
+//		height ... ç”»åƒã®é«˜ã•ã¸ã®ãƒã‚¤ãƒ³ã‚¿ å›¾åƒçš„é«˜åº¦çš„æŒ‡é’ˆ
+//		len    ... å±•_ã™ã‚‹ãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã¸ã®ãƒã‚¤ãƒ³ã‚¿  å±•å¼€æ•°æ®å¤§å°çš„æŒ‡é’ˆ
+//    è¿”å›å€¼/ /å±•å¼€å¯¹æ•°æ®çš„æŒ‡é’ˆã€‚å¤±è´¥æ˜¯0
+// 		å±•_ãƒ‡`ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€‚å¤±ãƒ»0
 unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 	unsigned int *width1, unsigned int *height1, unsigned int *len )
 {
@@ -370,7 +370,7 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 
 	header = (RD_HEADER *)buf;
 
-	// ¥Õ¥©©`¥Ş¥Ã¥È¤Î¥Á¥§¥Ã¥¯ ¸ñÊ½µÄ¼ì²é
+	// ãƒ•ã‚©`ãƒãƒƒãƒˆã®ãƒã‚§ãƒƒã‚¯ æ ¼å¼çš„æ£€æŸ¥
 	if( header->id[0] != 'R' || header->id[1] != 'D' )
 	{
 		return NULL;
@@ -380,14 +380,14 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 	height = header->height;
 
 #if 0
-	// ¥á¥â¥ê¤ò»­Ïñ¥µ¥¤¥º·Ö´_±£
+	// ãƒ¡ãƒ¢ãƒªã‚’ç”»åƒã‚µã‚¤ã‚ºåˆ†_ä¿
 	if( (wBuf = (unsigned char *)malloc( width * height )) == NULL )
 	{
 		return NULL;
 	}
 #endif
 
-	// ˆR¿s¤µ¤ì¤Æ¤Ê¤±¤ì¤Ğ¥³¥Ô©`  ÎŞÑ¹ËõµÄ»°¸´ÖÆ
+	// Rsã•ã‚Œã¦ãªã‘ã‚Œã°ã‚³ãƒ”`  æ— å‹ç¼©çš„è¯å¤åˆ¶
 	if( header->compressFlag == 0 )
 	{
 		wBuf1 = wBuf;
@@ -402,7 +402,7 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 		return wBuf;
 	}
 
-	// ¥Ğ¥Ã¥Õ¥¡¤Î¥¨¥ó¥É¥¢¥É¥ì¥¹ »º³åµÄ½áÊøµØÖ·
+	// ãƒãƒƒãƒ•ã‚¡ã®ã‚¨ãƒ³ãƒ‰ã‚¢ãƒ‰ãƒ¬ã‚¹ ç¼“å†²çš„ç»“æŸåœ°å€
 	eBuf = buf + header->size;
 	ewBuf = wBuf + width * height;
 
@@ -411,20 +411,20 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 	while( buf1 < eBuf )
 	{
 		idx = *buf1++;
-		// ˆR¿s¤µ¤ì¤¤¤ë  ±»Ñ¹ËõµÄ
+		// Rsã•ã‚Œã„ã‚‹  è¢«å‹ç¼©çš„
 		if( (idx & BIT_CMP) != 0 )
 		{
-			// ¥¼¥íˆR¿s¤ÎˆöºÏ  ÎŞÑ¹Ëõ
+			// ã‚¼ãƒ­Rsã®é¾Š  æ— å‹ç¼©
 			if( (idx & BIT_ZERO) != 0 )
 			{
 				repData = 0;
 			}
 			else
-			// ¤½¤ÎËû¤ÎˆöºÏ  ÆäËûÇé¿ö
+			// ãã®ä»–ã®é¾Š  å…¶ä»–æƒ…å†µ
 			{
 				repData = *buf1++;
 			}
-			// 4096‚€ÒÔÉÏßB¾A¤Î•r  4096¸öÒÔÉÏÁ¬ĞøµÄÊ±ºò
+			// 4096ä»¥ä¸ŠBAã®r  4096ä¸ªä»¥ä¸Šè¿ç»­çš„æ—¶å€™
 			if( (idx & BIT_REP_LARG2) != 0 )
 			{
 				cnt = ((idx & 0x0f)<<16);
@@ -433,7 +433,7 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 				cnt |= *buf1++;
 			}
 			else
-			// 16‚€ÒÔÉÏßB¾A¤Î•r
+			// 16ä»¥ä¸ŠBAã®r
 			if( (idx & BIT_REP_LARG) != 0 )
 			{
 				cnt = ((idx & 0x0f)<<8);
@@ -447,9 +447,9 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 			wBuf1 += cnt;
 		}
 		else
-		// ˆR¿s¤µ¤ì¤Æ¤Ê¤¤  ²»±»Ñ¹Ëõ
+		// Rsã•ã‚Œã¦ãªã„  ä¸è¢«å‹ç¼©
 		{
-			// £±£¶‚€ÒÔÉÏßB¾A¤Î•r
+			// ï¼‘ï¼–ä»¥ä¸ŠBAã®r
 			if( (idx & BIT_REP_LARG) != 0 )
 			{
 				cnt = ((idx & 0x0f)<<8);
@@ -461,7 +461,7 @@ unsigned char *decoder( unsigned char *buf, unsigned char **disBuf,
 			}
 			if( cnt >= 0xfffff )
 			{
-				// ¤³¤³¤Ë¤­¤¿¤é¤É¤Ã¤«‰ä  À´ÕâÀïµÄ»°ÄÄÀïÆæ¹Ö
+				// ã“ã“ã«ããŸã‚‰ã©ã£ã‹  æ¥è¿™é‡Œçš„è¯å“ªé‡Œå¥‡æ€ª
 				return NULL;
 			}
 			for( l = 0; l < cnt; l++ )

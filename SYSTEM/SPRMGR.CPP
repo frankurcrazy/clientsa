@@ -5,188 +5,188 @@
 #include "loadrealbin.h"
 #include "loadsprbin.h"
 
-//#define SURACE_INFO_MAX 512 	// ���`�ե�������ե�������������
-//#define SURACE_INFO_MAX 1024 	// �ӿ���Ϣ�ṹ����������
-#define SURACE_INFO_MAX 2048 	// ���`�ե�������ե�������������
-//#define SURACE_INFO_MAX 4096 	// ���`�ե�������ե�������������
+//#define SURACE_INFO_MAX 512 	// サ`フェスインフォ造体の最大数
+//#define SURACE_INFO_MAX 1024 	// 接口信息结构体的最大数量
+#define SURACE_INFO_MAX 2048 	// サ`フェスインフォ造体の最大数
+//#define SURACE_INFO_MAX 4096 	// サ`フェスインフォ造体の最大数
 
-//�����SYSRAM�س̵ķֽ���
-#define VRAM_SYSRAM_POINT 0 	// VRAM ���`�ե����� SYSRAM ���`�ե����ξ�Ŀ
-//�����ϵ�BMPĨɱ������Ϊֹ������
-#define SURACE_BMP_DEATH_DATE 2 // ���`�ե����ϤΣ£ͣФ�Ĩ�����S�ɤ����ޤǤ�����
+//表面和SYSRAM回程的分界线
+#define VRAM_SYSRAM_POINT 0 	// VRAM サ`フェスと SYSRAM サ`フェスの境目
+//表面上的BMP抹杀被允许为止的天数
+#define SURACE_BMP_DEATH_DATE 2 // サ`フェス上のＢＭＰの抹S可されるまでの日数
 
-// ���ץ饤�ȥ���ե�
+// スプライトインフォ
 SPRITE_INFO SpriteInfo[ MAX_GRAPHICS ];
 
-// ���`�ե�������ե�
+// サ`フェスインフォ
 SURFACE_INFO SurfaceInfo[ SURACE_INFO_MAX ];
 
-// �Хȥ륵�`�ե����Υݥ���
+// バトルサ`フェスのポインタ
 LPDIRECTDRAWSURFACE lpBattleSurface; 	
 
-// ���`�ե�����ʹ�ä����ո�   ����ʹ�õ�����
+// サ`フェスを使用した日付   表面使用的日期
 UINT SurfaceDate = 3;
 
-// �F�ڤΥ��`�ե�������λ��
+// F在のサ`フェス仕魑恢
 int SurfaceSearchPoint;
 
 #ifdef _DEBUG		
-// �F��ʹ�äƤ��륵�`�ե��������������
+// F在使っているサ`フェスの数カウント
 int SurfaceUseCnt;
 
-// �F�ڱ�ʾ���Ƥ��륵�`�ե�������������� ������ʾ�Ļس̵���������
+// F在表示しているサ`フェスの数カウント 现在显示的回程的数量计数
 int SurfaceDispCnt;
 #endif
 
-// ���ɤ������`�ե��������������
+// 作成したサ`フェスの数カウント
 int SurfaceCnt;
 
-// VRAM �����ɤ������`�ե��������������
+// VRAM に作成したサ`フェスの数カウント
 int VramSurfaceCnt;
 
-// SYSTEMRAM �����ɤ������`�ե��������������
+// SYSTEMRAM に作成したサ`フェスの数カウント
 int SysramSurfaceCnt;
 
-// �ָ�`�ե������η�
+// 分割サ`フェイスの幅
 int SurfaceSizeX;
-// �ָ�`�ե������θߤ�
+// 分割サ`フェイスの高さ
 int SurfaceSizeY;
 
-/* �£ͣФ򥵩`�ե����ظ�굱��  �ѶԱ������ ***********************************************/
+/* ＢＭＰをサ`フェスへ割り当て  把对表面分配 ***********************************************/
 void AllocateBmpToSurface( int bmpNo )
 {
-	//int bmpWidth  = lpBmpInfo->bmiHeader.biWidth;	// �£ͣФκ᥵����
-	//int bmpHeight = lpBmpInfo->bmiHeader.biHeight; 	// �£ͣФοk������
+	//int bmpWidth  = lpBmpInfo->bmiHeader.biWidth;	// ＢＭＰの横サイズ
+	//int bmpHeight = lpBmpInfo->bmiHeader.biHeight; 	// ＢＭＰのkサイズ
 
-	int bmpWidth  = RealBinWidth;	// �£ͣФκ᥵����
-	int bmpHeight = RealBinHeight; 	// �£ͣФοk������
+	int bmpWidth  = RealBinWidth;	// ＢＭＰの横サイズ
+	int bmpHeight = RealBinHeight; 	// ＢＭＰのkサイズ
 	
-	int offsetX, offsetY; 			// �ͤ�£ͣФΥ��ե��åȥݥ����  ��BMP�������
-	int sizeX, sizeY;				// ܞ�ͤ��륵����
-	int surfaceCntX;				// ��Ҫ�ʥ��`�ե����κ�ö��
-	int surfaceCntY;				// ��Ҫ�ʥ��`�ե����κ�ö��
-	int totalSurface;				// ��Ҫ�ʥ��`�ե����ξt��
-	int totalSurfaceCnt = 0;		// �F�ڤδ_���������`�ե�����ö���� ��`�ץ����� ��
-	//���μ����˽���Ϊ�������λ�ü���
-	int	SurfaceSearchPointBak = SurfaceSearchPoint; // һ�ܗ���������K�ˤ��뤿�������λ�ä�ӛ��
-	int amariSizeX = FALSE;		// �����꤬���뤫�ե饰  �Ա߶���ת�۵�
-	int amariSizeY = FALSE;		// �k����꤬���뤫�ե饰
-	BOOL vramFullFlag = FALSE; 		// VRAM�����äѤ����ɤ���
-	SURFACE_INFO *prevSurfaceInfo; 	// ǰ�Υ��`�ե�������ե�������Υ��ɥ쥹
+	int offsetX, offsetY; 			// 送るＢＭＰのオフセットポイント  送BMP的坐标点
+	int sizeX, sizeY;				// 送するサイズ
+	int surfaceCntX;				// 必要なサ`フェスの横枚数
+	int surfaceCntY;				// 必要なサ`フェスの横枚数
+	int totalSurface;				// 必要なサ`フェスのt数
+	int totalSurfaceCnt = 0;		// F在の_保したサ`フェスの枚数（ ル`プカウンタ ）
+	//周游检索了结束为了最初的位置记忆
+	int	SurfaceSearchPointBak = SurfaceSearchPoint; // 一周仕鳏筏郡榻K了するため最初の位置を
+	int amariSizeX = FALSE;		// 横に余りがあるかフラグ  旁边多有转折点
+	int amariSizeY = FALSE;		// kに余りがあるかフラグ
+	BOOL vramFullFlag = FALSE; 		// VRAMがいっぱいかどうか
+	SURFACE_INFO *prevSurfaceInfo; 	// 前のサ`フェスインフォ造体のアドレス
 	
-	// �ͤ�£ͣФΥ��ե��åȥݥ����   ��BMP�������
+	// 送るＢＭＰのオフセットポイント   送BMP的坐标点
 	offsetX = 0; 
 	offsetY = bmpHeight;
 	
-	// ��Ҫ�ʥ��`�ե����κ�ö��Ӌ��
+	// 必要なサ`フェスの横枚数算
 	surfaceCntX = bmpWidth / SURFACE_WIDTH;
 	
-	// �����꤬���ä����˥�������ӛ��
+	// 横に余りがあったら半端サイズを
 	if( ( amariSizeX = bmpWidth % SURFACE_WIDTH ) ){ 
-		surfaceCntX++;		// �⤦�ҤȤı�Ҫ
+		surfaceCntX++;		// もうひとつ必要
 	}
 	
-	// ��Ҫ�ʥ��`�ե����οkö��Ӌ��
+	// 必要なサ`フェスのk枚数算
 	surfaceCntY = bmpHeight / SURFACE_HEIGHT;
 	
-	// �k����꤬���ä����˥�������ӛ��
+	// kに余りがあったら半端サイズを
 	if( ( amariSizeY = bmpHeight % SURFACE_HEIGHT ) ){ 
-		surfaceCntY++;		// �⤦�ҤȤı�Ҫ
+		surfaceCntY++;		// もうひとつ必要
 	}
-	// ��Ҫ�ʥ��`�ե����ξt��Ӌ��
+	// 必要なサ`フェスのt数算
 	totalSurface  = surfaceCntX * surfaceCntY;
 	
 #if 0
-	// ����򣴤ΥХ������ˤ���
+	// 横幅を４のバウンダリにする
 	if( ( lpBmpInfo->bmiHeader.biWidth & 3 ) ){
 		lpBmpInfo->bmiHeader.biWidth += 4 - lpBmpInfo->bmiHeader.biWidth & 3;
 	}
-#else	// Realbin �i���z��Ȥ�
-	// ����򣴤ΥХ������ˤ���
+#else	// Realbin iみzむとき
+	// 横幅を４のバウンダリにする
 	if( ( RealBinWidth & 3 ) ){
 		RealBinWidth += 4 - RealBinWidth & 3;
 	}
 #endif
 
-	// �դ��Ƥ��륵�`�ե�����̽��
-	// ���`�ե�������������`��
-	/// /�ӿڵı���Ѱ��/ /���������ѭ��
+	// 空いているサ`フェスを探す
+	// サ`フェスの数だけル`プ
+	/// /接口的表面寻找/ /表面的数量循环
 	while( 1 ){
-		// ʹ�äǤ���״�B�ʤ�  ��ʹ��״̬�Ļ�
+		// 使用できる状Bなら  可使用状态的话
 		if( SurfaceInfo[ SurfaceSearchPoint ].date < SurfaceDate - SURACE_BMP_DEATH_DATE ){
 #ifdef _DEBUG		
-			// �F��ʹ�äƤ��륵�`�ե��������������
+			// F在使っているサ`フェスの数カウント
 			SurfaceUseCnt++;
 #endif
-			// �ϕ�������r
+			// 上工r
 			if( SurfaceInfo[ SurfaceSearchPoint ].bmpNo != -1 ){
-				// ���`�ե�������ե�������Υ��ɥ쥹
+				// サ`フェスインフォ造体のアドレス
 				SURFACE_INFO *lpSurfaceInfo;
 				
-				// ���`�ե����ꥹ�Ȥ����^���ɥ쥹��ӛ��
+				// サ`フェスリストの先^アドレスを
 				lpSurfaceInfo = SpriteInfo[ SurfaceInfo[ SurfaceSearchPoint ].bmpNo ].lpSurfaceInfo;
 				
-				// ǰ�ˤ����£ͣФȥ��`�ե����Υ�󥯤�����
+				// 前にいたＢＭＰとサ`フェスのリンクを削除
 				SpriteInfo[ SurfaceInfo[ SurfaceSearchPoint ].bmpNo ].lpSurfaceInfo = NULL;
 				
-				// ���`�ե����ꥹ�Ȥγ��ڻ���`��
+				// サ`フェスリストの初期化ル`プ
 				for( ; lpSurfaceInfo != NULL;
 					lpSurfaceInfo = lpSurfaceInfo->pNext ){
 					
-					// �£ͣз��ų��ڻ�
+					// ＢＭＰ番号初期化
 					lpSurfaceInfo->bmpNo = -1;
 					
 #ifdef _DEBUG		
-					// �F��ʹ�äƤ��륵�`�ե��������ޥ��ʥ�
+					// F在使っているサ`フェスの数マイナス
 					SurfaceUseCnt--;
 #endif
 				}
 				
 			}
-			// ���`�ե����ꥹ�Ȥ����^���ɥ쥹��ӛ������Ȥ�
+			// サ`フェスリストの先^アドレスをするとき
 			if( SpriteInfo[ bmpNo ].lpSurfaceInfo == NULL ){
-				// ���ץ饤�ȥ���ե������^���ɥ쥹��ӛ������
+				// スプライトインフォに先^アドレスをする
 				SpriteInfo[ bmpNo ].lpSurfaceInfo = &SurfaceInfo[ SurfaceSearchPoint ];
 				
-			}else{ // �Ĥʤ���Ȥ�
+			}else{ // つなげるとき
 			
-				// ҙ���Ƥ�����ǰ�Υ��`�ե�������ե�������˥��ɥ쥹��̤���
+				// えておいた前のサ`フェスインフォ造体にアドレスを教える
 				prevSurfaceInfo->pNext = &SurfaceInfo[ SurfaceSearchPoint ];
 			}
 			
-			// �£ͣз��Ť�ӛ������
+			// ＢＭＰ番号をする
 			SurfaceInfo[ SurfaceSearchPoint ].bmpNo = bmpNo;
 			
-			// ���ե��å����ˤ�ҙ����
-			//���������������ɥåȥ�`�ɤΕr
-			//��ӡ�����320��240����/ /ģʽ��ʱ��
+			// オフセット座摔蛞える
+			//３２０＊２４０ドットモ`ドのr
+			//胶印坐标记320×240像素/ /模式的时候
 			if(ResoMode == 1){
 				SurfaceInfo[ SurfaceSearchPoint ].offsetX = offsetX / 2;
 				SurfaceInfo[ SurfaceSearchPoint ].offsetY = ( bmpHeight - offsetY ) / 2;
 			} else {
-				//���������������ɥåȥ�`������Εr
+				//３２０＊２４０ドットモ`ド以外のr
 				SurfaceInfo[ SurfaceSearchPoint ].offsetX = offsetX;
 				SurfaceInfo[ SurfaceSearchPoint ].offsetY = bmpHeight - offsetY;
 			}
 			
-			// �����꤬����Ȥ���ܞ�ͤ���ǰ�˥��`�ե������\�ǥ��ꥢ�`
+			// 横に余りがあるときは送する前にサ`フェスを\でクリア`
 			if( offsetX >= bmpWidth - SURFACE_WIDTH && amariSizeX ){
 				ClearSurface( SurfaceInfo[ SurfaceSearchPoint ].lpSurface );
-				// ��ꥵ����
+				// 余りサイズ
 				sizeX = amariSizeX;				
 			}else sizeX = SURFACE_WIDTH;
 			
-			// �k����꤬����Ȥ���ܞ�ͤ���ǰ�˥��`�ե������\�ǥ��ꥢ�`
+			// kに余りがあるときは送する前にサ`フェスを\でクリア`
 			if( offsetY - SURFACE_HEIGHT <= 0 && amariSizeY ){
-				// �Ȥ��\�ǥ��ꥢ�`����Ƥʤ��Ȥ�
+				// 先に\でクリア`されてないとき
 				if( sizeX != amariSizeX ){
 					ClearSurface( SurfaceInfo[ SurfaceSearchPoint ].lpSurface );
 				}
-				// ��ꥵ����
+				// 余りサイズ
 				sizeY = amariSizeY;
 			}else sizeY = SURFACE_HEIGHT;
 			
-			// �£ͣФ򥵩`�ե�����ܞ��
+			// ＢＭＰをサ`フェスへ送
 			DrawBitmapToSurface2( 	SurfaceInfo[ SurfaceSearchPoint ].lpSurface, 
 									offsetX, 
 									offsetY - 1, 
@@ -194,39 +194,39 @@ void AllocateBmpToSurface( int bmpNo )
 									sizeY,
 									lpBmpInfo );
 
-			// �F�ڤδ_���������`�ե�����ö���򥫥����
+			// F在の_保したサ`フェスの枚数をカウント
 			totalSurfaceCnt++;
 
-			// ���٤ƴ_�����K��ä���
+			// すべて_保しKわったら
 			if( totalSurfaceCnt >= totalSurface ){
-				//��pNext �ˣΣգ̣̤����ƽK��
+				//　pNext にＮＵＬＬを入れてK了
 				SurfaceInfo[ SurfaceSearchPoint ].pNext = NULL;
-				// ����λ�ä��M�ޤ���
+				// 仕魑恢盲蜻Mませる
 				SurfaceSearchPoint++;
 				
-#if 0			// VRAM����ʹ�åЩ`�����
+#if 0			// VRAMを先使用バ`ジョン
 
-				// VRAM�Υ��`�ե������������Ȥ�
+				// VRAMのサ`フェスを仕鳏工毪趣
 				if( vramFullFlag == FALSE ){
-					// ��ߥåȥ����å�
+					// リミットチェック
 					if( SurfaceSearchPoint >= VramSurfaceCnt ) SurfaceSearchPoint = 0;
 				}else{
-					// ����λ�ä����
+					// 仕魑恢盲
 					SurfaceSearchPoint = SurfaceSearchPointBak;
 				}
 				
-#else			// VRAM��SYSRAM��ͬ��٥��ʹ�åЩ`�����
+#else			// VRAMとSYSRAMを同レベルで使用バ`ジョン
 
-				// ��ߥåȥ����å�
+				// リミットチェック
 				if( SurfaceSearchPoint >= SurfaceCnt ) SurfaceSearchPoint = 0;
 #endif
 				break;
 				
 			}else{
-				// ��Υ��`�ե�������ե�������Υ��ɥ쥹��ҙ����
+				// 今のサ`フェスインフォ造体のアドレスをえる
 				prevSurfaceInfo = &SurfaceInfo[ SurfaceSearchPoint ];
 				
-				// �Ҷˤޤ��ͤä���
+				// 右端まで送ったら
 				if( offsetX >= bmpWidth - SURFACE_WIDTH ){ 
 					offsetX = 0;
 					offsetY -= SURFACE_HEIGHT;
@@ -235,245 +235,245 @@ void AllocateBmpToSurface( int bmpNo )
 				}
 			}
 		}
-		// ����λ�ä��M�ޤ���
+		// 仕魑恢盲蜻Mませる
 		SurfaceSearchPoint++;
 		
-#if 0	// VRAM����ʹ�åЩ`�����
+#if 0	// VRAMを先使用バ`ジョン
 
-		// VRAM�Υ��`�ե������������Ȥ�
+		// VRAMのサ`フェスを仕鳏工毪趣
 		if( vramFullFlag == FALSE ){
-			// VRAM���`�ե���������ޤǗ��������Ȥ�
+			// VRAMサ`フェスの最後まで仕鳏筏郡趣
 			if( SurfaceSearchPoint >= VramSurfaceCnt ) SurfaceSearchPoint = 0;
-			// һ�ܗ���������VRAM�˿դ��ʤ�״�B�Ǥ�������
+			// 一周仕鳏筏郡VRAMに空きなし状Bであきらめる
 			if( SurfaceSearchPoint == SurfaceSearchPointBak ){ 
-				//MessageBox( hWnd, "�֣ң��ͤ˿դ�������ޤ���", "�_�J", MB_OK );
-				// ����λ�ä�SYSTEM���`�ե��������ڤ���Ȥ������Ƅ�
+				//MessageBox( hWnd, "ＶＲＡＭに空きがありません。", "_J", MB_OK );
+				// 仕魑恢盲SYSTEMサ`フェスが存在するところへ移
 				SurfaceSearchPoint = VramSurfaceCnt + 1;
 				vramFullFlag = TRUE;
 			}
 		}
-		// SYSTEMRAM�Υ��`�ե������������Ȥ�
+		// SYSTEMRAMのサ`フェスを仕鳏工毪趣
 		if( vramFullFlag == TRUE ){
-			// ����ޤǗ���������
+			// 最後まで仕鳏筏郡
 			if( SurfaceSearchPoint >= SurfaceCnt ){ 
-				// ����λ�ä����
+				// 仕魑恢盲
 				SurfaceSearchPoint = SurfaceSearchPointBak;
-				//MessageBox( hWnd, "���`�ե�������Ǥ���", "�_�J", MB_OK );
+				//MessageBox( hWnd, "サ`フェス不足です。", "_J", MB_OK );
 				break;
 			}
 		}
 		
-#else	// VRAM��SYSRAM��ͬ��٥��ʹ�åЩ`�����
+#else	// VRAMとSYSRAMを同レベルで使用バ`ジョン
 		
-		// ����ޤǗ���������
+		// 最後まで仕鳏筏郡
 		if( SurfaceSearchPoint >= SurfaceCnt ){ 
-			// ����ˑ���
+			// 最初に
 			SurfaceSearchPoint = 0;
 		}
-		// һ�ܗ��������饵�`�ե����˿դ��ʤ�״�B�Ǥ�������
+		// 一周仕鳏筏郡楗旦`フェスに空きなし状Bであきらめる
 		if( SurfaceSearchPoint == SurfaceSearchPointBak ){ 
-			//MessageBox( hWnd, "���`�ե�������Ǥ���", "�_�J", MB_OK );
+			//MessageBox( hWnd, "サ`フェス不足です。", "_J", MB_OK );
 			break;
 		}
 	}
 #endif
 }
 
-/* ���ե�����`�󥵩`�ե��������� *********************************************/
+/* オフスクリ`ンサ`フェスの作成 *********************************************/
 BOOL InitOffScreenSurface( void )
 {
 	int i;
-	BOOL vramFullFlag = FALSE; // VRAM�����äѤ����ɤ��� �Ƿ��кܶ�
+	BOOL vramFullFlag = FALSE; // VRAMがいっぱいかどうか 是否有很多
 	
-	// ���`�ե������� ������ѵ�����ʾ����
+	// サ`フェスの数 表面的难到是显示器？
 	SurfaceCnt = 0;
-	// VRAM �����ɤ������`�ե�������
+	// VRAM に作成したサ`フェスの数
 	VramSurfaceCnt = 0;
-	// SYSTEMRAM �����ɤ������`�ե�������
+	// SYSTEMRAM に作成したサ`フェスの数
 	SysramSurfaceCnt = 0;
 	
-	// �Хȥ륵�`�ե���������
+	// バトルサ`フェスの作成
 	if( ( lpBattleSurface = CreateSurface( DEF_APPSIZEX, DEF_APPSIZEY, DEF_COLORKEY, DDSCAPS_VIDEOMEMORY )) == NULL ){
-		// �Хȥ륵�`�ե���������
+		// バトルサ`フェスの作成
 		if( ( lpBattleSurface = CreateSurface( DEF_APPSIZEX, DEF_APPSIZEY, DEF_COLORKEY, DDSCAPS_SYSTEMMEMORY )) == NULL ){
-			MessageBox( hWnd ,"�Хȥ륵�`�ե��������ɤ�ʧ�����ޤ�����" ,"�_�J",MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd ,"バトルサ`フェスの作成に失・筏蓼筏俊" ,"_J",MB_OK | MB_ICONSTOP );
 			return FALSE;
 		}
 	}
-	// SURACE_INFO_MAX �ޤǥ��`�ե���������   ���浽����*/
+	// SURACE_INFO_MAX までサ`フェスを作る   表面到制作*/
 	for( i = 0 ; i < SURACE_INFO_MAX ; i++ ){
 	
 #ifdef _DEBUG		
 #if VRAM_SYSRAM_POINT
-		// ������� �����å��� )  ֻ�����ڣ��ã����
+		// 今だけ（ チェック用 )  只是现在（用）检查
 		if( i == VRAM_SYSRAM_POINT ){
 			 vramFullFlag = TRUE;
 		}
 #endif
 #endif
 
-		// VRAM�˥��`�ե��������ɤǤ���Ȥ� �����������ɵ�ʱ��
+		// VRAMにサ`フェスを作成できるとき 表面上能作成的时候
 		if( vramFullFlag == FALSE ){
-			// DirectDraw�ä�BITMAP���{���뤿��Υ��`�ե��������� ��BITMAP���洢�ı�������
+			// DirectDraw用にBITMAPを格{するためのサ`フェスを作成 用BITMAP来存储的表面作成
 			if( ( SurfaceInfo[ i ].lpSurface = CreateSurface( SurfaceSizeX, SurfaceSizeY, DEF_COLORKEY, DDSCAPS_VIDEOMEMORY )) == NULL ){
-				//MessageBox( hWnd ,"�֣ң��ͥ��`�ե��������ɤ�ʧ�����ޤ�����" ,"�_�J",MB_OK | MB_ICONSTOP );
+				//MessageBox( hWnd ,"ＶＲＡＭサ`フェスの作成に失・筏蓼筏俊" ,"_J",MB_OK | MB_ICONSTOP );
 				vramFullFlag = TRUE;
 			}else{
-				// VRAM �����ɤ������`�ե��������������
+				// VRAM に作成したサ`フェスの数カウント
 				VramSurfaceCnt++;
 			}
 		}
 			
-		// SYSTEMRAM�˥��`�ե��������ɤ���Ȥ�  ������������ʱ��
+		// SYSTEMRAMにサ`フェスを作成するとき  表面上制作的时候
 		if( vramFullFlag == TRUE ){
 			if( ( SurfaceInfo[ i ].lpSurface = CreateSurface( SurfaceSizeX, SurfaceSizeY, DEF_COLORKEY, DDSCAPS_SYSTEMMEMORY )) == NULL ){
-				MessageBox( hWnd ,"�ӣ٣ӣң��ͥ��`�ե��������ɤ�ʧ�����ޤ�����" ,"�_�J",MB_OK | MB_ICONSTOP );
+				MessageBox( hWnd ,"ＳＹＳＲＡＭサ`フェスの作成に失・筏蓼筏俊" ,"_J",MB_OK | MB_ICONSTOP );
 				return FALSE;
 			}else{
-				// SYSTEMRAM �����ɤ������`�ե��������������
+				// SYSTEMRAM に作成したサ`フェスの数カウント
 				SysramSurfaceCnt++;
 			}
 		}
 	}
 	
-	// ���ɤ������`�ե���������ӛ��
+	// 作成したサ`フェスの数を
 	SurfaceCnt = i;
 	
-	/* ���`�ե�������ե�������γ��ڻ�  �س���Ϣ�ṹ�ĳ��ڻ�*/
+	/* サ`フェスインフォ造体の初期化  回程信息结构的初期化*/
 	InitSurfaceInfo();
-	/* ���ץ饤�ȥ���ե�������γ��ڻ� */
+	/* スプライトインフォ造体の初期化 */
 	InitSpriteInfo();
 		
 	
 	return TRUE;
 }
 
-/* ���`�ե�������ե�������γ��ڻ���**************************************/
+/* サ`フェスインフォ造体の初期化　**************************************/
 void InitSurfaceInfo( void )
 {
 	int i;
 	
 #ifdef _DEBUG		
-	// �F��ʹ�äƤ��륵�`�ե����������ڻ�
+	// F在使っているサ`フェスの数初期化
 	SurfaceUseCnt = 0;
 #endif
 	
-	// ���`�ե�������λ�ó��ڻ�
+	// サ`フェス仕魑恢贸跗诨
 	SurfaceSearchPoint = 0;
 	
-	// ���`�ե�����������`�� */
+	// サ`フェス数だけル`プ */
 	for( i = 0 ; i < SurfaceCnt ; i++ ){
 	
-		// ���`�ե�������ե�������γ��ڻ�
+		// サ`フェスインフォ造体の初期化
 		SurfaceInfo[ i ].bmpNo = -1;
 		SurfaceInfo[ i ].date = 0;
 		SurfaceInfo[ i ].pNext = NULL;
 	}
 }	
 
-/* �ӿ� �������ʼ�� ������γ��ڻ���**************************************/
+/* 接口 构造体初始化 造体の初期化　**************************************/
 void InitSpriteInfo( void )
 {
 	int i;
 	
-	// �£ͣФ���������`�� */
+	// ＢＭＰの数だけル`プ */
 	for( i = 0 ; i < MAX_GRAPHICS ; i++ ){
-		// VRAM �ˤ��ʤ����Ȥˤ���
+		// VRAM にいないことにする
 		SpriteInfo[ i ].lpSurfaceInfo = NULL;
 	}
 }	
 
-// �£ͣФ���`�ɤ��� ***��Ӳ�̼���******************************************************/
+// ＢＭＰをロ`ドする ***从硬盘加载******************************************************/
 BOOL LoadBmp( int bmpNo )
 {
-	// �֣ң��ͤˤ��ʤ��Ȥ��ϥϩ`�ɥǥ�����������`�ɤ���  û��Ӳ�̴���Ƶ����
+	// ＶＲＡＭにいないときはハ`ドディスクからロ`ドする  没有硬盘从视频卡？
 	if( SpriteInfo[ bmpNo ].lpSurfaceInfo == NULL )
 	{
-		// �£ͣз��Ť��饤��`���ǩ`���򷵤�( Realbin �����i���z�� )
+		// ＢＭＰ番号からイメ`ジデ`タを返す( Realbin からiみzむ )
 		if( realGetImage( 	bmpNo, 
 							( unsigned char **)&pRealBinBits, 
 							&RealBinWidth, 
 							&RealBinHeight ) == FALSE ){
 							
-			//MessageBox( hWnd, "����`���ǩ`�����i���z�ߤ�ʧ�����ޤ�����", "�_�J", MB_OK );
+			//MessageBox( hWnd, "イメ`ジデ`タのiみzみに失・筏蓼筏俊", "_J", MB_OK );
 			return FALSE;
 		}
-		// �£ͣФΥ�������ӛ��
+		// ＢＭＰのサイズを
 		SpriteInfo[ bmpNo ].width = RealBinWidth;
 		SpriteInfo[ bmpNo ].height = RealBinHeight;
-		// �£ͣФ򥵩`�ե����ظ�굱�� 
+		// ＢＭＰをサ`フェスへ割り当て 
 		AllocateBmpToSurface( bmpNo );
 	}
 	return TRUE;
 }
 
-// �£ͣФ���`�ɤ��루����ե��å����ŉ�Q�⤹�룩 **����ƽ�����任�� ��Ӳ��*************************/
+// ＢＭＰをロ`ドする（グラフィック番号Qもする） **人物平面号码变换的 从硬盘*************************/
 BOOL LoadBmp2( int bmpNo )
 {
-	// RIAL.BIN�����Ťˤ���
+	// RIAL.BIN　番号にする
 	realGetNo( bmpNo , (U4 *)&bmpNo );
-	// �֣ң��ͤˤ��ʤ��Ȥ��ϥϩ`�ɥǥ�����������`�ɤ���
+	// ＶＲＡＭにいないときはハ`ドディスクからロ`ドする
 	if( SpriteInfo[ bmpNo ].lpSurfaceInfo == NULL ){
-		// �£ͣз��Ť��饤��`���ǩ`���򷵤�( Realbin �����i���z�� )
-		//�ŵ�ͼ�����ݷ��أ�Realbin��ȡ����
+		// ＢＭＰ番号からイメ`ジデ`タを返す( Realbin からiみzむ )
+		//号的图像数据返回（Realbin读取）从
 		if( realGetImage( 	bmpNo, 
 							( unsigned char **)&pRealBinBits, 
 							&RealBinWidth, 
 							&RealBinHeight ) == FALSE ){
 							
-			//MessageBox( hWnd, "����`���ǩ`�����i���z�ߤ�ʧ�����ޤ�����", "�_�J", MB_OK );
+			//MessageBox( hWnd, "イメ`ジデ`タのiみzみに失・筏蓼筏俊", "_J", MB_OK );
 			return FALSE;
 		}
-		// �£ͣФΥ�������ӛ��
+		// ＢＭＰのサイズを
 		SpriteInfo[ bmpNo ].width = RealBinWidth;
 		SpriteInfo[ bmpNo ].height = RealBinHeight;
-		// �£ͣФ򥵩`�ե����ظ�굱�� 
+		// ＢＭＰをサ`フェスへ割り当て 
 		AllocateBmpToSurface( bmpNo );
 	}
 	return TRUE;
 }
 
 
-/* �ӥåȥޥåפ��i���z�� *****************************************************/
+/* ビットマップのiみzみ *****************************************************/
 void OpenBmp( void )
 {
 	int i;
    	char *fileName[]=
-	/* 0 */	  { "data\\spr\\��.bmp","data\\spr\\����.bmp","data\\spr\\������.bmp","data\\spr\\����.bmp","data\\spr\\������.bmp",
-	/* 5 */		"data\\spr\\������.bmp","data\\spr\\����.bmp","data\\spr\\����.bmp","data\\spr\\������.bmp","data\\spr\\����.bmp",
-	/*10 */		"data\\spr\\������.bmp","data\\spr\\����.bmp","data\\spr\\��.bmp","data\\spr\\��.bmp","data\\spr\\��.bmp",
-	/*15 */		"data\\spr\\�ͣ�.bmp","data\\spr\\�ף�.bmp","data\\spr\\�ӣ�.bmp","data\\spr\\�ͣ�.bmp","data\\spr\\�ף�.bmp",
-	/*20 */		"data\\spr\\�ӣ�.bmp","data\\spr\\���k��.bmp","data\\spr\\���k��.bmp","data\\spr\\���k��.bmp", "data\\spr\\�ԏ�.bmp",
-	/*25 */		"data\\spr\\�ԏ���.bmp","data\\spr\\����.bmp","data\\spr\\������.bmp","data\\spr\\��ɫ��.bmp","data\\spr\\��ɫ��.bmp",
-	/*30 */		"data\\spr\\�L�Έ�.bmp","data\\spr\\pl01.bmp","data\\spr\\�ե����.bmp","data\\spr\\st\\ken.bmp" };
+	/* 0 */	  { "data\\spr\\自.bmp","data\\spr\\常.bmp","data\\spr\\常保.bmp","data\\spr\\常.bmp","data\\spr\\常玻.bmp",
+	/* 5 */		"data\\spr\\常常.bmp","data\\spr\\常.bmp","data\\spr\\常.bmp","data\\spr\\常矗.bmp","data\\spr\\常.bmp",
+	/*10 */		"data\\spr\\常担.bmp","data\\spr\\消す.bmp","data\\spr\\Ｍ.bmp","data\\spr\\Ｗ.bmp","data\\spr\\Ｓ.bmp",
+	/*15 */		"data\\spr\\Ｍ２.bmp","data\\spr\\Ｗ２.bmp","data\\spr\\Ｓ２.bmp","data\\spr\\Ｍ３.bmp","data\\spr\\Ｗ３.bmp",
+	/*20 */		"data\\spr\\Ｓ３.bmp","data\\spr\\爆k１.bmp","data\\spr\\爆k２.bmp","data\\spr\\爆k３.bmp", "data\\spr\\自.bmp",
+	/*25 */		"data\\spr\\自.bmp","data\\spr\\.bmp","data\\spr\\.bmp","data\\spr\\黄色.bmp","data\\spr\\青色.bmp",
+	/*30 */		"data\\spr\\L.bmp","data\\spr\\pl01.bmp","data\\spr\\フォント.bmp","data\\spr\\st\\ken.bmp" };
 
-	//BITMAP�ե������չ�_���ӥ���`�_�� �ļ���չ����ȷ�����洢��
+	//BITMAPファイルの展_及びメモリ`_保 文件的展开，确保及存储器
 	//lpBmp[ 0 ] = LoadDirectDrawBitmap( fileName[ 0 ] ); 
-	//if( lpBmp[ 0 ] == NULL ) MessageBox( hWnd, "�£ͣФΥ��`�ץ��ʧ�����ޤ�����", "�_�J", MB_OK );
+	//if( lpBmp[ 0 ] == NULL ) MessageBox( hWnd, "ＢＭＰのオ`プンに失・筏蓼筏俊", "_J", MB_OK );
 	
 	//if( !WindowMode ){
-		// �����ƥ�ѥ�åȳ��ڻ�
+		// システムパレット初期化
 	//	InitPalette( lpBmp[ 0 ] );
 	//}
 	
-	// �����������`�ե��������� */
+	// 作れるだけサ`フェスを作る */
 	for( i = 0 ; i < SURACE_INFO_MAX ; i++ ){
 	
-		// ���`�ե�������ե�������γ��ڻ�
+		// サ`フェスインフォ造体の初期化
 		SurfaceInfo[ i ].bmpNo = -1;
 		SurfaceInfo[ i ].pNext = NULL;
 		
-		// DirectDraw�ä�BITMAP���{���뤿��Υ��`�ե���������
+		// DirectDraw用にBITMAPを格{するためのサ`フェスを作成
 		if( ( SurfaceInfo[ i ].lpSurface = CreateSurface( SURFACE_WIDTH, SURFACE_HEIGHT, DEF_COLORKEY, 0 )) == NULL ){
-			MessageBox( hWnd ,"���`�ե����γ��ڻ���ʧ�����ޤ�����" ,"�_�J",MB_OK | MB_ICONSTOP );
+			MessageBox( hWnd ,"サ`フェスの初期化に失・筏蓼筏俊" ,"_J",MB_OK | MB_ICONSTOP );
 			break;
 			//DestroyWindow( hWnd );
 		}
 		
-		// ���`�ե�������
+		// サ`フェスの数
 		SurfaceCnt++;
 		
-		// BITMAP�򥵩`�ե���(����[0,0])���}д
+		// BITMAPをサ`フェス(座[0,0])へ}写
 		//DrawBitmapToSurface( lpSurface[ i ], 0, 0 ,lpBmp[ 0 ] );
 		//SetRect( &Rect, 0, 0, lpBmp[ 0 ]->bmiHeader.biWidth, lpBmp[ 0 ]->bmiHeader.biHeight ); 
 	}

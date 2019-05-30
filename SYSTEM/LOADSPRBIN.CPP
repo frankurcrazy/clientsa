@@ -1,4 +1,4 @@
-#define sprVERSION	3				//SPR §Œ°°åùèÍ•–©`•∏•Á•Û
+#define sprVERSION	3				//SPR „ÅÆ„ÄÄ„Éê`„Ç∏„Éß„É≥
 #include 	"system.h"
 #include 	"loadsprbin.h"
 #include 	"anim_tbl.h"
@@ -17,7 +17,7 @@ SPRITEDATA SpriteData[mxSPRITE];
 
 
 //
-// •¢•À•·©`•∑•Á•Û•’•°•§•Î’i§ﬂﬁz§ﬂ
+// „Ç¢„Éã„É°`„Ç∑„Éß„É≥„Éï„Ç°„Ç§„É´i„Åøz„Åø
 //
 BOOL InitSprBinFileOpen( char *SPR_BIN, char *SPRADRN_BIN )
 {
@@ -78,8 +78,8 @@ BOOL InitSprBinFileOpen( char *SPR_BIN, char *SPRADRN_BIN )
 				fread( buf, 1, 12, fp1 );
 				ptBuf = buf;
 
-				SpriteData[i].ptAnimlist[j].dir = *ptBuf++;	// œÚ§≠
-				SpriteData[i].ptAnimlist[j].no = *ptBuf++;	// §…§Û§ •¢•À•·©`•∑•Á•Û§´§Ú§¢§È§Ô§π∑¨∫≈
+				SpriteData[i].ptAnimlist[j].dir = *ptBuf++;	// Âêë„Åç
+				SpriteData[i].ptAnimlist[j].no = *ptBuf++;	// „Å©„Çì„Å™„Ç¢„Éã„É°`„Ç∑„Éß„É≥„Åã„Çí„ÅÇ„Çâ„Çè„ÅôÁï™Âè∑
 				SpriteData[i].ptAnimlist[j].dtAnim = *ptBuf++;
 				SpriteData[i].ptAnimlist[j].dtAnim |= ((*ptBuf)<<16);
 				ptBuf++;
@@ -87,7 +87,7 @@ BOOL InitSprBinFileOpen( char *SPR_BIN, char *SPRADRN_BIN )
 				SpriteData[i].ptAnimlist[j].frameCnt |= ((*ptBuf)<<16);
 				ptBuf++;
 
-				//£±√∂§Œ±Ì æ∏Ó§Íﬁz§ﬂ ˝”ãÀ„
+				//ÔºëÊûö„ÅÆË°®Á§∫Ââ≤„Çäz„ÅøÊï∞ÁÆó
 				if( SpriteData[i].ptAnimlist[j].frameCnt )
 				{
 					SpriteData[i].ptAnimlist[j].dtAnim =

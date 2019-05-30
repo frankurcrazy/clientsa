@@ -1,6 +1,6 @@
-//½øÈëÓÎÏ·ÉèÖÃÏÈ¿´
-// ¿ªÊ¼ÓÎÏ·/ /µÇÂ¼
-//   µÇÂ¼£¬·şÎñÆ÷Ñ¡Ôñ¹ı³ÌÊ²Ã´ÄØ£¬Ö±ÖÁ£¨»ò±êÌâ£©
+//è¿›å…¥æ¸¸æˆè®¾ç½®å…ˆçœ‹
+// å¼€å§‹æ¸¸æˆ/ /ç™»å½•
+//   ç™»å½•ï¼ŒæœåŠ¡å™¨é€‰æ‹©è¿‡ç¨‹ä»€ä¹ˆå‘¢ï¼Œç›´è‡³ï¼ˆæˆ–æ ‡é¢˜ï¼‰
 //
 #include<string.h>
 
@@ -28,38 +28,38 @@
 
 #include"produce.h"
 
-#define SA_VERSION	"B"  //ÖØÒªĞŞ¸Ä#define SA_VERSION	"VER 1.27"  ×Ö·û´®0½áÎ²
-//#define _SA_VERSION 'B'  ·şÎñ¶ËÊÇÕâÑùµÄÒ»¸ö×Ö½Ú ÎŞ0½áÎ²
+#define SA_VERSION	"B"  //é‡è¦ä¿®æ”¹#define SA_VERSION	"VER 1.27"  å­—ç¬¦ä¸²0ç»“å°¾
+//#define _SA_VERSION 'B'  æœåŠ¡ç«¯æ˜¯è¿™æ ·çš„ä¸€ä¸ªå­—èŠ‚ æ— 0ç»“å°¾
 
 char selectServerName[][64] =
 {
-	"²âÊÔÒ»Ïß",
-	"²âÊÔ¶şÏß",
-	"²âÊÔÈıÏß",
-	"²âÊÔËÄÏß"
+	"æµ‹è¯•ä¸€çº¿",
+	"æµ‹è¯•äºŒçº¿",
+	"æµ‹è¯•ä¸‰çº¿",
+	"æµ‹è¯•å››çº¿"
 };
 
 char selectServerName2[][64] =
 {
-	"Ì«ê– [SUN]",
-	"ÔÂ[MOON]",
-	"Ì«ê– [SUN]",
+	"å¤ª [SUN]",
+	"æœˆ[MOON]",
+	"å¤ª [SUN]",
 
-	"ÔÂ[MOON]"
+	"æœˆ[MOON]"
 
 };
 
-BOOL logOutFlag = FALSE;//ÍË³ö±êÖ¾
+BOOL logOutFlag = FALSE;//é€€å‡ºæ ‡å¿—
 
 
 void initInputIdPassword( void );
 int inputIdPassword( BOOL );
 
-void initCommonMsgWin( void ); //³õÊ¼»¯Õı³£ÏûÏ¢ 
+void initCommonMsgWin( void ); //åˆå§‹åŒ–æ­£å¸¸æ¶ˆæ¯ 
 int commonMsgWin( char * );
 
 
-void initCertifyIdPassword( void );//ÑéÖ¤ÃÜ? 
+void initCertifyIdPassword( void );//éªŒè¯å¯†? 
 int certifyIdPassword( char *, char * );
 
 
@@ -81,29 +81,29 @@ int commonYesNoWindow( int, int );
 
 void initStrBuffer( STR_BUFFER *, int, int, int, int, int );
 
-void getStrSplit( char *, char *, int, int, int );//»ñÈ¡·µ»ØÏûÏ¢
+void getStrSplit( char *, char *, int, int, int );//è·å–è¿”å›æ¶ˆæ¯
 
 
-void initUserCertifyErrorMsgWin( void );//³õÊ¼»¯ÑéÖ¤´íÎóĞÅÏ¢
+void initUserCertifyErrorMsgWin( void );//åˆå§‹åŒ–éªŒè¯é”™è¯¯ä¿¡æ¯
 int userCertifyErrorMsgWin( void );
 
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ‚h‚cAƒpƒXƒ[ƒh“ü—Íˆ—
-/// /Éí·İÖ¤£¬ÃÜÂë´¦Àí..
+// hcApX[h
+/// /èº«ä»½è¯ï¼Œå¯†ç å¤„ç†..
 
-static STR_BUFFER idKey;					// ÓÃ»§IDÊäÈë»º³åÇø.bƒtƒ@
-static STR_BUFFER passwd;					// »º³åÇøµÄÃÜÂë.?
+static STR_BUFFER idKey;					// ç”¨æˆ·IDè¾“å…¥ç¼“å†²åŒº.bt@
+static STR_BUFFER passwd;					// ç¼“å†²åŒºçš„å¯†ç .?
 static STR_BUFFER *idPasswordFocus[] =
-	{ &idKey, &passwd };					// ƒtƒH[ƒJƒXØ‚è‘Ö‚¦‚æ‚¤ƒ[ƒNƒGƒŠƒA
+	{ &idKey, &passwd };					// tH[JX[NGA
 STR_BUFFER *idPasswordStr = &idKey;
 short idKeyReturn = 0;
-static int idPasswordGraId[] = { -2, -2 };	// Êó±êÃ¿·ùÍ¼Ïñ£¬²¢È·¶¨
-static int idPasswordFocusSw = 0;			// ÇĞ»»ÊäÈë½¹µã.,
-static short idKeyBoxX, idKeyBoxY;			// IDÏÔÊ¾×ø±êÊäÈë»º³åÇø.À•W
-static short passwdBoxX, passwdBoxY;		// »º³åÇøÏÔÊ¾×ø±êÃÜÂë.[ƒh‚Ì
+static int idPasswordGraId[] = { -2, -2 };	// é¼ æ ‡æ¯å¹…å›¾åƒï¼Œå¹¶ç¡®å®š
+static int idPasswordFocusSw = 0;			// åˆ‡æ¢è¾“å…¥ç„¦ç‚¹.,
+static short idKeyBoxX, idKeyBoxY;			// IDæ˜¾ç¤ºåæ ‡è¾“å…¥ç¼“å†²åŒº.W
+static short passwdBoxX, passwdBoxY;		// ç¼“å†²åŒºæ˜¾ç¤ºåæ ‡å¯†ç .[h
 
 
 #define NO_FIRST_ID_PASSWD					// 
@@ -117,7 +117,7 @@ void idPasswordProc( void )
 	int ret;
 	static char msg[256];
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( SubProcNo == 0 )
 	{
 		SubProcNo++;
@@ -125,10 +125,10 @@ void idPasswordProc( void )
 		idKeyReturn = 0;
 	}
 
-	// ÈëÁ¦„IÀí
+	// å…¥åŠ›Iç†
 	if( SubProcNo == 1 )
 	{
-		flag = TRUE;	// £É£Ä?¥Ñ¥¹¥ï©`¥ÉÈëÁ¦¿ÉÄÜ¥Õ¥é¥°  ÃÜÂëÊäÈë×ªÕÛµã£¿
+		flag = TRUE;	// ï¼©ï¼¤?ãƒ‘ã‚¹ãƒ¯`ãƒ‰å…¥åŠ›å¯èƒ½ãƒ•ãƒ©ã‚°  å¯†ç è¾“å…¥è½¬æŠ˜ç‚¹ï¼Ÿ
 	}
 
 	ret = inputIdPassword( flag );
@@ -136,9 +136,9 @@ void idPasswordProc( void )
 	if( ret == 1 )
 	{
 #ifdef NO_FIRST_ID_PASSWD
-		// ¥¿¥¤¥È¥ë»­Ãæ¤Ø
+		// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã¸
 		ChangeProc( PROC_TITLE_MENU );
-		// ÈëÁ¦¤µ¤ì¤¿ID,PASSWD¤ò¤È¤ê¤¢¤¨¤º¥Õ¥¡¥¤¥ë¤Ë±£´æ
+		// å…¥åŠ›ã•ã‚ŒãŸID,PASSWDã‚’ã¨ã‚Šã‚ãˆãšãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
 		setCdkey( idKey.buffer );
 		setPassword( passwd.buffer );
 		if( saveNowState() )
@@ -147,29 +147,29 @@ void idPasswordProc( void )
 #else
 		SubProcNo = 2;
 #endif
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ½KÁË¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿¤Î¤Ç½KÁË„IÀí
+	// Käº†ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã®ã§Käº†Iç†
 	if( ret == 2 )
 	{
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
-		// £×£É£Î£Ä£Ï£×£Ó¤Ë WM_CLOSE ¥á¥Ã¥»©`¥¸¤òËÍ¤é¤»¤ë
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
+		// ï¼·ï¼©ï¼®ï¼¤ï¼¯ï¼·ï¼³ã« WM_CLOSE ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‰ã›ã‚‹
 		PostMessage( hWnd, WM_CLOSE, 0, 0L );
 	}
 	else
-	// ID,PASSWORD¤¬¿Õ¤Î•r¤Î¥¨¥é©`¥á¥Ã¥»©`¥¸
+	// ID,PASSWORDãŒç©ºã®rã®ã‚¨ãƒ©`ãƒ¡ãƒƒã‚»`ã‚¸
 	if( ret < 0 )
 	{
 		SubProcNo = 100;
-		strcpy( msg, "ÇëÊäÈëÕË»§ÃÜÂë" );
+		strcpy( msg, "è¯·è¾“å…¥è´¦æˆ·å¯†ç " );
 	}
 
 
-	// £É£Ä?¥Ñ¥¹¥ï©`¥ÉÕJÔ^„IÀí  IDÃÜÂëÈÏÖ¤´¦Àí£¿
+	// ï¼©ï¼¤?ãƒ‘ã‚¹ãƒ¯`ãƒ‰J^Iç†  IDå¯†ç è®¤è¯å¤„ç†ï¼Ÿ
 	if( SubProcNo == 2 )
 	{
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		initCertifyIdPassword();
 		SubProcNo++;
 	}
@@ -177,13 +177,13 @@ void idPasswordProc( void )
 	{
 		ret = certifyIdPassword( idKey.buffer, passwd.buffer );
 
-		// ÕJÔ^ÍêÁË
+		// J^å®Œäº†
 		if( ret == 1 )
 		{
-			// ¥¿¥¤¥È¥ë»­Ãæ¤Ø  ±êÌâ»­ÃæÉÏ
+			// ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã¸  æ ‡é¢˜ç”»é¢ä¸Š
 			ChangeProc( PROC_TITLE_MENU );
-			// ÈëÁ¦¤µ¤ì¤¿ID,PASSWD¤ò¤È¤ê¤¢¤¨¤º¥Õ¥¡¥¤¥ë¤Ë±£´æ
-			//ÊäÈëµÄID£¬PASSWDÊ×ÏÈ±£´æµ½ÎÄ¼ş
+			// å…¥åŠ›ã•ã‚ŒãŸID,PASSWDã‚’ã¨ã‚Šã‚ãˆãšãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜
+			//è¾“å…¥çš„IDï¼ŒPASSWDé¦–å…ˆä¿å­˜åˆ°æ–‡ä»¶
 			setCdkey( idKey.buffer );
 			setPassword( passwd.buffer );
 			if( saveNowState() )
@@ -192,29 +192,29 @@ void idPasswordProc( void )
 			return;
 		}
 		else
-		// ¥Í¥Ã¥È¥ï©`¥¯¤ÎœÊ‚ä¤¬³öÀ´¤Æ¤¤¤Ê¤¤ ÍøÂçµÄ×¼±¸¡£
+		// ãƒãƒƒãƒˆãƒ¯`ã‚¯ã®æµƒéš¼æçš®ã„èƒœ ç½‘ç»œçš„å‡†å¤‡ã€‚
 		if( ret == -1 )
 		{
 			SubProcNo = 100;
 			strcpy( msg, NET_ERRMSG_SOCKLIBERROR );
 		}
 		else
-		// ¥µ©`¥Ğ¤È½Ó¾A¤Ç¤­¤Ê¤¤
+		// ã‚µ`ãƒã¨æ¥Aã§ããªã„
 		if( ret == -2 )
 		{
 			SubProcNo = 100;
 			strcpy( msg, NET_ERRMSG_NOTCONNECT );
 		}
 		else
-		// ¥¢¥«¥¦¥ó¥È¤¬Ÿo¤«¤Ã¤¿
+		// ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãŒoã‹ã£ãŸ
 		if( ret == -3 )
 		{
 			SubProcNo = 100;
-			strcpy( msg, "ID¤ÈPASSWORD¤ò¤â¤¦Ò»¶È´_ÕJ¤·¤Æ¤¯¤À¤µ¤¤¡£" );
+			strcpy( msg, "IDã¨PASSWORDã‚’ã‚‚ã†ä¸€åº¦_Jã—ã¦ãã ã•ã„ã€‚" );
 		}
 	}
 
-	// ¥¨¥é©`¥á¥Ã¥»©`¥¸
+	// ã‚¨ãƒ©`ãƒ¡ãƒƒã‚»`ã‚¸
 	if( SubProcNo == 100 )
 	{
 		initCommonMsgWin();
@@ -224,7 +224,7 @@ void idPasswordProc( void )
 	{
 		if( commonMsgWin( msg ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			SubProcNo = 1;
 		}
 	}
@@ -232,7 +232,7 @@ void idPasswordProc( void )
 
 
 
-// £É£Ä?¥Ñ¥¹¥ï©`¥ÉÈëÁ¦¥Ğ¥Ã¥Õ¥¡³õÆÚ»¯
+// ï¼©ï¼¤?ãƒ‘ã‚¹ãƒ¯`ãƒ‰å…¥åŠ›ãƒãƒƒãƒ•ã‚¡åˆæœŸåŒ–
 void initInputIdPassword( void )
 {
 	int i;
@@ -242,19 +242,19 @@ void initInputIdPassword( void )
 		idPasswordGraId[i] = -2;
 	}
 
-	// IDÈëÁ¦¥Ğ¥Ã¥Õ¥¡³õÆÚ»¯
+	// IDå…¥åŠ›ãƒãƒƒãƒ•ã‚¡åˆæœŸåŒ–
 	idKeyBoxX = 320;
 	idKeyBoxY = 183;
 	initStrBuffer( &idKey, idKeyBoxX, idKeyBoxY, 8, FONT_PAL_WHITE, FONT_PRIO_BACK );
-	// ¬FÔÚ¤Î£É£Ä¤òÕi¤ßŞz¤ß¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+	// Fåœ¨ã®ï¼©ï¼¤ã‚’iã¿zã¿ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 	getCdkey( idKey.buffer );
 	idKey.cnt = strlen( idKey.buffer );
 
-	// ¥Ñ¥¹¥ï©`¥ÉÈëÁ¦¥Ğ¥Ã¥Õ¥¡³õÆÚ»¯
+	// ãƒ‘ã‚¹ãƒ¯`ãƒ‰å…¥åŠ›ãƒãƒƒãƒ•ã‚¡åˆæœŸåŒ–
 	passwdBoxX = 320;
 	passwdBoxY = 214;
 	initStrBuffer( &passwd, passwdBoxX, passwdBoxY, 12, FONT_PAL_WHITE, FONT_PRIO_BACK );
-	// ¬FÔÚ¤Î¥Ñ¥¹¥ï©`¥É¤òÕi¤ßŞz¤ß¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+	// Fåœ¨ã®ãƒ‘ã‚¹ãƒ¯`ãƒ‰ã‚’iã¿zã¿ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 	getPassword( passwd.buffer );
 	passwd.cnt = strlen( passwd.buffer );
 	passwd.blindFlag = TRUE;
@@ -262,18 +262,18 @@ void initInputIdPassword( void )
 	//idPasswordFocus[0] = &idKey;
 	//idPasswordFocus[1] = &passwd;
 
-	// ¥Õ¥©©`¥«¥¹ÔO¶¨
+	// ãƒ•ã‚©`ã‚«ã‚¹Oå®š
 	idPasswordFocusSw = 0;
 	GetKeyInputFocus( idPasswordFocus[idPasswordFocusSw] );
 }
 
 
-// ÈëÁ¦„IÀí?»­Ãæ±íÊ¾
+// å…¥åŠ›Iç†?ç”»é¢è¡¨ç¤º
 //
-//  ‘ø¤ê‚£º	 0 ... ÈëÁ¦ÖĞ
-//				 1 ... ÈëÁ¦ÍêÁË
-//				 2 ... ½KÁË¥Ü¥¿¥ó
-//				-1 ... ÈëÁ¦™Ú¤¬¿Õ
+//  	 0 ... å…¥åŠ›ä¸­
+//				 1 ... å…¥åŠ›å®Œäº†
+//				 2 ... Käº†ãƒœã‚¿ãƒ³
+//				-1 ... å…¥åŠ›å†¥
 int inputIdPassword( BOOL flag )
 {
 	int id;
@@ -283,13 +283,13 @@ int inputIdPassword( BOOL flag )
 	int ret = 0;
 	int x1, y1, x2, y2, cx, cy;
 
-	// ¥°¥é¥Õ¥£¥Ã¥¯¤Îµ±¤¿¤êÅĞ¶¨
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®å½“ãŸã‚Šåˆ¤å®š
 	id = selGraId( idPasswordGraId, sizeof( idPasswordGraId )/sizeof( int ) );
 
-	// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+	// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 	if( id == 0 )
 	{
-		// CD¥­©`?¥Ñ¥¹¥ï©`¥É¤¬ÔO¶¨¤µ¤ì¤Æ¤¤¤ë¤«
+		// CDã‚­`?ãƒ‘ã‚¹ãƒ¯`ãƒ‰ãŒOå®šã•ã‚Œã¦ã„ã‚‹ã‹
 		if( strlen( idKey.buffer ) > 0 && strlen( passwd.buffer ) > 0 )
 		{
 			idKey.buffer[idKey.cnt] = '\0';
@@ -298,19 +298,19 @@ int inputIdPassword( BOOL flag )
 		}
 		else
 		{
-			// ÔO¶¨¤µ¤ì¤Æ¤¤¤Ê¤¤
+			// Oå®šã•ã‚Œã¦ã„ãªã„
 			ret = -1;
 		}
 	}
 	else
-	// ½KÁË¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+	// Käº†ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 	if( id == 1 )
 	{
 		ret = 2;
 	}
 
 
-	// ¥Ü¥¿¥óµÈ¤Îßx’k¿É?²»¿É¤ÎÔO¶¨
+	// ãƒœã‚¿ãƒ³ç­‰ã®xkå¯?ä¸å¯ã®Oå®š
 	if( flag )
 	{
 		selOkFlag = 2;
@@ -346,7 +346,7 @@ int inputIdPassword( BOOL flag )
 	}
 
 
-	// ÈëÁ¦¥Õ¥©©`¥«¥¹‰ä¸ü
+	// å…¥åŠ›ãƒ•ã‚©`ã‚«ã‚¹æ¶“
 	if( idKeyReturn )
 	{
 		id = 1;
@@ -368,7 +368,7 @@ int inputIdPassword( BOOL flag )
 
 	if( !flag )
 	{
-		// ¥Õ¥é¥°¤¬FALSE¤Ê¤éÈëÁ¦¤Ç¤­¤Ê¤¯¤¹¤ë
+		// ãƒ•ãƒ©ã‚°ãŒFALSEãªã‚‰å…¥åŠ›ã§ããªãã™ã‚‹
 		GetKeyInputFocus( NULL );
 		flag2 = TRUE;
 	}
@@ -384,7 +384,7 @@ int inputIdPassword( BOOL flag )
 	}
 
 
-	// £Ï£Ë
+	// ï¼¯ï¼«
 	cx = 317;
 	cy = 287;
 	x1 = cx - 50;
@@ -400,7 +400,7 @@ int inputIdPassword( BOOL flag )
 	{
 		idPasswordGraId[0] = -2;
 	}
-	// ½KÁË
+	// Käº†
 	cx = 359;
 	cy = 371;
 	x1 = cx - 50;
@@ -418,7 +418,7 @@ int inputIdPassword( BOOL flag )
 	}
 
 
-	// £Â£Ç±íÊ¾
+	// ï¼¢ï¼§è¡¨ç¤º
 	StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_TITLE_ID_PASS, 0 );
 
 	return ret;
@@ -427,10 +427,10 @@ int inputIdPassword( BOOL flag )
 
 
 
-// £É£Ä?¥Ñ¥¹¥ï©`¥ÉÕJÔ^„IÀí³õÆÚ»¯
+// ï¼©ï¼¤?ãƒ‘ã‚¹ãƒ¯`ãƒ‰J^Iç†åˆæœŸåŒ–
 
-static short certifyIdPasswordProcNo = 0;		// ÕJÔ^„IÀíßMĞĞ×´›r
-static short certifyIdPasswordServerIndex = 0;	// ÕJÔ^„IÀíÊ¹ÓÃ¥µ©`¥Ğ¥¤¥ó¥Ç¥Ã¥¯¥¹
+static short certifyIdPasswordProcNo = 0;		// J^Iç†Mè¡ŒçŠ¶r
+static short certifyIdPasswordServerIndex = 0;	// J^Iç†ä½¿ç”¨ã‚µ`ãƒã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
 void initCertifyIdPassword( void )
 {
@@ -438,29 +438,29 @@ void initCertifyIdPassword( void )
 }
 
 
-// £É£Ä?¥Ñ¥¹¥ï©`¥ÉÕJÔ^„IÀí
-//  ÒıÊı£º		id   ... £É£Ä
-//				pass ... ¥Ñ¥¹¥ï©`¥É
+// ï¼©ï¼¤?ãƒ‘ã‚¹ãƒ¯`ãƒ‰J^Iç†
+//  å¼•æ•°ï¼š		id   ... ï¼©ï¼¤
+//				pass ... ãƒ‘ã‚¹ãƒ¯`ãƒ‰
 //
-//  ‘ø¤ê‚£º	 0 ... „IÀíÖĞ
-//				 1 ... Õı¤·¤¤¤ÈÕJÔ^¤µ¤ì¤¿
-//				-1 ... ¥Í¥Ã¥È¥ï©`¥¯¤ÎœÊ‚ä¤¬³öÀ´¤Æ¤¤¤Ê¤¤
-//				-2 ... ¥µ©`¥Ğ¤Ë½Ó¾A¤Ç¤­¤Ê¤«¤Ã¤¿
-//				-3 ... ¥¢¥«¥¦¥ó¥È¤¬Ÿo¤«¤Ã¤¿
+//  	 0 ... Iç†ä¸­
+//				 1 ... æ­£ã—ã„ã¨J^ã•ã‚ŒãŸ
+//				-1 ... ãƒãƒƒãƒˆãƒ¯`ã‚¯ã®æµƒéš¼æçš®ã„èƒœ
+//				-2 ... ã‚µ`ãƒã«æ¥Aã§ããªã‹ã£ãŸ
+//				-3 ... ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãŒoã‹ã£ãŸ
 int certifyIdPassword( char *id, char *pass )
 {
 	static ACTION *ptActMenuWin = NULL;
 	static int x, y, w, h;
 	int ret = 0;
 	int ret2;
-	char msg[] = "ÕJÔ^ÖĞ";
+	char msg[] = "J^ä¸­";
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( certifyIdPasswordProcNo == 0 )
 	{
 		certifyIdPasswordProcNo = 1;
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = (strlen( msg )*8+63)/64;
 		if( w < 2 )
 			w = 2;
@@ -474,8 +474,8 @@ int certifyIdPassword( char *id, char *pass )
 		certifyIdPasswordServerIndex = 0;
 	}
 
-	// ÕJÔ^„IÀí
-	// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+	// J^Iç†
+	// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 	if( certifyIdPasswordProcNo == 1 )
 	{
 		cleanupNetwork();
@@ -485,14 +485,14 @@ int certifyIdPassword( char *id, char *pass )
 		}
 		else
 		{
-			// ¥Í¥Ã¥È¥ï©`¥¯¤ÎœÊ‚ä¤¬³öÀ´¤Æ¤¤¤Ê¤¤
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯ã®æµƒéš¼æçš®ã„èƒœ
 			ret = -1;
 		}
 	}
-	// ¥µ©`¥Ğ½Ó¾A
+	// ã‚µ`ãƒæ¥A
 	if( certifyIdPasswordProcNo == 2 )
 	{
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		selectServerIndex = certifyIdPasswordServerIndex;
 		strcpy( userId, id );
 		strcpy( userPassword, pass );
@@ -502,29 +502,29 @@ int certifyIdPassword( char *id, char *pass )
 	if( certifyIdPasswordProcNo == 3 )
 	{
 		ret2 = connectServer();
-		// ½Ó¾AÍêÁË
+		// æ¥Aå®Œäº†
 		if( ret2 == 1 )
 		{
 			certifyIdPasswordProcNo = 4;
 		}
 		else
-		// ¥¨¥é©`
+		// ã‚¨ãƒ©`
 		if( ret2 < 0 )
 		{
 			if( certifyIdPasswordServerIndex < getServerMax()-1 )
 			{
-				// ´Î¤Î¥µ©`¥Ğ¤ÇÔ‡¤·¤Æ¤ß¤ë
+				// æ¬¡ã®ã‚µ`ãƒã§ã—ã¦ã¿ã‚‹
 				certifyIdPasswordServerIndex++;
 				certifyIdPasswordProcNo = 1;
 			}
 			else
 			{
-				// I¥µ©`¥Ğ¤È¤â¤Ä¤Ê¤¬¤é¤Ê¤«¤Ã¤¿
+				// Iã‚µ`ãƒã¨ã‚‚ã¤ãªãŒã‚‰ãªã‹ã£ãŸ
 				ret = -2;
 			}
 		}
 	}
-	// ¥­¥ã¥é¥ê¥¹¥È¤òÈ¡¤ë
+	// ã‚­ãƒ£ãƒ©ãƒªã‚¹ãƒˆã‚’å–ã‚‹
 	if( certifyIdPasswordProcNo == 4 )
 	{
 		charListStart();
@@ -535,25 +535,25 @@ int certifyIdPassword( char *id, char *pass )
 		ret2 = charListProc();
 		if( ret2 == 1 )
 		{
-			// ¤³¤³¤Ş¤ÇÀ´¤¿¤éÕJÔ^ÍêÁË
+			// ã“ã“ã¾ã§æ¥ãŸã‚‰J^å®Œäº†
 			ret = 1;
 		}
 		else
-		// ¥¿¥¤¥à¥¢¥¦¥È
+		// ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
 		if( ret2 == -1 )
 		{
 			ret = -2;
 		}
 		else
-		// ¥­¥ã¥é¥ê¥¹¥È¤¬ÒŠ¤Ä¤«¤é¤Ê¤«¤Ã¤¿
-		// ID¤«PASSWORD¤¬égß`¤Ã¤Æ¤¤¤ë
+		// ã‚­ãƒ£ãƒ©ãƒªã‚¹ãƒˆãŒã¤ã‹ã‚‰ãªã‹ã£ãŸ
+		// IDã‹PASSWORDãŒg`ã£ã¦ã„ã‚‹
 		if( ret2 == -2 )
 		{
 			ret = -3;
 		}
 	}
 
-	// ½Y¹û¤¬¤ï¤«¤Ã¤¿¤é¥¦¥£¥ó¥É¥¦é]¤¸¤ë
+	// YæœãŒã‚ã‹ã£ãŸã‚‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹
 	if( ret != 0 )
 	{
 		if( ptActMenuWin )
@@ -565,7 +565,7 @@ int certifyIdPassword( char *id, char *pass )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -588,22 +588,22 @@ int certifyIdPassword( char *id, char *pass )
 
 
 
-// ˜ËœÊ¥á¥Ã¥»©`¥¸¥¦¥£¥ó¥É¥¦£¨£Ï£Ë¥Ü¥¿¥ó¤¢¤ê£©
+// åœ£å¹æ°“å“—`ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼ˆï¼¯ï¼«ãƒœã‚¿ãƒ³ã‚ã‚Šï¼‰
 // 
 static short commonMsgWinProcNo = 0;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initCommonMsgWin( void )
 {
 	commonMsgWinProcNo = 0;
 }
 
-// ˜ËœÊ¥á¥Ã¥»©`¥¸¥¦¥£¥ó¥É¥¦„IÀí
+// åœ£å¹æ°“å“—`ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦Iç†
 //
-//  ÒıÊı£º		msg ... ±íÊ¾¤¹¤ë¥á¥Ã¥»©`¥¸
+//  å¼•æ•°ï¼š		msg ... è¡¨ç¤ºã™ã‚‹ãƒ¡ãƒƒã‚»`ã‚¸
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... OK¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+//  	0 ... Iç†ä¸­
+//				1 ... OKãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 int commonMsgWin( char *msg )
 {
 	static int fontId[] = { -2 };
@@ -614,7 +614,7 @@ int commonMsgWin( char *msg )
 	int ret = 0;
 
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( commonMsgWinProcNo == 0 )
 	{
 		commonMsgWinProcNo = 1;
@@ -624,7 +624,7 @@ int commonMsgWin( char *msg )
 			fontId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = strlen( msg )*8/64+2;
 		//if( w < 2 )
 		//	w = 2;
@@ -637,18 +637,18 @@ int commonMsgWin( char *msg )
 	}
 
 
-	// ¥Õ¥©¥ó¥È¤Îßx’kÅĞ¶¨
+	// ãƒ•ã‚©ãƒ³ãƒˆã®xkåˆ¤å®š
 	id = selFontId( fontId, sizeof( fontId )/sizeof( int ) );
 
-	// £Ï£Ë
+	// ï¼¯ï¼«
 	if( id == 0 )
 	{
 		ret = 1;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
 
-	// ½Y¹û¤¬¤ï¤«¤Ã¤¿¤é¥¦¥£¥ó¥É¥¦é]¤¸¤ë
+	// YæœãŒã‚ã‹ã£ãŸã‚‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹
 	if( ret != 0 )
 	{
 		if( ptActMenuWin )
@@ -661,7 +661,7 @@ int commonMsgWin( char *msg )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -671,10 +671,10 @@ int commonMsgWin( char *msg )
 			xx = (w*64-len*8)/2;
 			StockFontBuffer( x+xx, y+30, FONT_PRIO_FRONT, FONT_PAL_WHITE, msg, 0 );
 
-			xx = (w*64-strlen( "£Ï£Ë" )*8)/2;
+			xx = (w*64-strlen( "ï¼¯ï¼«" )*8)/2;
 			fontId[0] =
 				StockFontBuffer( x+xx, y+56,
-					FONT_PRIO_FRONT, FONT_PAL_YELLOW, "£Ï£Ë", 2 );
+					FONT_PRIO_FRONT, FONT_PAL_YELLOW, "ï¼¯ï¼«", 2 );
 		}
 	}
 
@@ -688,12 +688,12 @@ int commonMsgWin( char *msg )
 
 
 
-// ÎÄ×ÖÈëÁ¦¥Ğ¥Ã¥Õ¥¡¤ò³õÆÚ»¯¤¹¤ë
-//  ÒıÊı:	STR_BUFFER *pt;	... ÎÄ×ÖÁĞ¥Ğ¥Ã¥Õ¥¡˜‹ÔìÌå¤Î¥İ¥¤¥ó¥¿
-//			int x, y;		... ±íÊ¾×ù˜Ë
-//			int len;		... ÈëÁ¦¥Ğ¥Ã¥Õ¥¡¤Î¥µ¥¤¥º
-//			int color;		... ±íÊ¾É«
-//			int prio;		... ±íÊ¾ƒÏÈ¶È
+// æ–‡å­—å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã‚’åˆæœŸåŒ–ã™ã‚‹
+//  å¼•æ•°:	STR_BUFFER *pt;	... æ–‡å­—åˆ—ãƒãƒƒãƒ•ã‚¡é€ ä½“ã®ãƒã‚¤ãƒ³ã‚¿
+//			int x, y;		... è¡¨ç¤ºåº§
+//			int len;		... å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
+//			int color;		... è¡¨ç¤ºè‰²
+//			int prio;		... è¡¨ç¤ºå…ˆåº¦
 void initStrBuffer( STR_BUFFER *pt, int x, int y, int len, int color, int prio )
 {
 	pt->x        = x;
@@ -704,16 +704,16 @@ void initStrBuffer( STR_BUFFER *pt, int x, int y, int len, int color, int prio )
 }
 
 
-// ¥°¥é¥Õ¥£¥Ã¥¯¤Îßx’kÅĞ¶¨
-//   ¥Ş¥¦¥¹¤Çßx’k¤µ¤ì×ó¥¯¥ê¥Ã¥¯¤µ¤ì¤¿·¬ºÅ¤ò·µ¤¹
-//  ÒıÊı:	int *id;	... ¥Á¥§¥Ã¥¯¤¹¤ë¥°¥é¥Õ¥£¥Ã¥¯£É£ÄÅäÁĞ
-//			int cnt;	... £É£Ä¤ÎÊı
-//  ‘ø¤ê‚:	-1			... ¤É¤ì¤Ë¤â¤¢¤¿¤Ã¤Æ¤Ê¤¤
+// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®xkåˆ¤å®š
+//   ãƒã‚¦ã‚¹ã§xkã•ã‚Œå·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸç•ªå·ã‚’è¿”ã™
+//  å¼•æ•°:	int *id;	... ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ï¼©ï¼¤é…åˆ—
+//			int cnt;	... ï¼©ï¼¤ã®æ•°
+//  :	-1			... ã©ã‚Œã«ã‚‚ã‚ãŸã£ã¦ãªã„
 int selGraId( int *id, int cnt )
 {
 	int i;
 
-	// ×ó¥¯¥ê¥Ã¥¯¤µ¤ì¤Æ¤Ê¤±¤ì¤Ğ½KÁË
+	// å·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚Œã¦ãªã‘ã‚Œã°Käº†
 	if( (mouse.onceState & MOUSE_LEFT_CRICK) == 0 )
 		return -1;
 
@@ -729,16 +729,16 @@ int selGraId( int *id, int cnt )
 }
 
 
-// ¥°¥é¥Õ¥£¥Ã¥¯¤Îßx’kÅĞ¶¨£¨¥ê¥Ô©`¥È¸¶¤­£©
-//   ¥Ş¥¦¥¹¤Çßx’k¤µ¤ì×ó¥¯¥ê¥Ã¥¯¤µ¤ì¤¿·¬ºÅ¤ò·µ¤¹
-//  ÒıÊı:	int *id;	... ¥Á¥§¥Ã¥¯¤¹¤ë¥°¥é¥Õ¥£¥Ã¥¯£É£ÄÅäÁĞ
-//			int cnt;	... £É£Ä¤ÎÊı
-//  ‘ø¤ê‚:	-1			... ¤É¤ì¤Ë¤â¤¢¤¿¤Ã¤Æ¤Ê¤¤
+// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®xkåˆ¤å®šï¼ˆãƒªãƒ”`ãƒˆä»˜ãï¼‰
+//   ãƒã‚¦ã‚¹ã§xkã•ã‚Œå·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸç•ªå·ã‚’è¿”ã™
+//  å¼•æ•°:	int *id;	... ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ï¼©ï¼¤é…åˆ—
+//			int cnt;	... ï¼©ï¼¤ã®æ•°
+//  :	-1			... ã©ã‚Œã«ã‚‚ã‚ãŸã£ã¦ãªã„
 int selRepGraId( int *id, int cnt )
 {
 	int i;
 
-	// ×ó¥¯¥ê¥Ã¥¯¤µ¤ì¤Æ¤Ê¤±¤ì¤Ğ½KÁË
+	// å·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚Œã¦ãªã‘ã‚Œã°Käº†
 	if( (mouse.autoState & MOUSE_LEFT_CRICK) == 0 )
 		return -1;
 
@@ -754,16 +754,16 @@ int selRepGraId( int *id, int cnt )
 }
 
 
-// ¥°¥é¥Õ¥£¥Ã¥¯¤Îßx’kÅĞ¶¨
-//   ¥Ş¥¦¥¹¤Çßx’k¤µ¤ì×ó¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤Æ¤¤¤ë·¬ºÅ¤ò·µ¤¹
-//  ÒıÊı:	int *id;	... ¥Á¥§¥Ã¥¯¤¹¤ë¥°¥é¥Õ¥£¥Ã¥¯£É£ÄÅäÁĞ
-//			int cnt;	... £É£Ä¤ÎÊı
-//  ‘ø¤ê‚:	-1			... ¤É¤ì¤Ë¤â¤¢¤¿¤Ã¤Æ¤Ê¤¤
+// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®xkåˆ¤å®š
+//   ãƒã‚¦ã‚¹ã§xkã•ã‚Œå·¦ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ç•ªå·ã‚’è¿”ã™
+//  å¼•æ•°:	int *id;	... ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ï¼©ï¼¤é…åˆ—
+//			int cnt;	... ï¼©ï¼¤ã®æ•°
+//  :	-1			... ã©ã‚Œã«ã‚‚ã‚ãŸã£ã¦ãªã„
 int pushGraId( int *id, int cnt )
 {
 	int i;
 
-	// ×ó¤¬Ñº¤µ¤ì¤Æ¤Ê¤±¤ì¤Ğ½KÁË
+	// å·¦ãŒæŠ¼ã•ã‚Œã¦ãªã‘ã‚Œã°Käº†
 	if( (mouse.state & MOUSE_LEFT_CRICK) == 0 )
 		return -1;
 
@@ -779,16 +779,16 @@ int pushGraId( int *id, int cnt )
 }
 
 
-// ¥Õ¥©¥ó¥È¤Îßx’kÅĞ¶¨
-//   ¥Ş¥¦¥¹¤Çßx’k¤µ¤ì×ó¥¯¥ê¥Ã¥¯¤µ¤ì¤¿·¬ºÅ¤ò·µ¤¹
-//  ÒıÊı:	int *id;	... ¥Á¥§¥Ã¥¯¤¹¤ë¥Õ¥©¥ó¥È£É£ÄÅäÁĞ
-//			int cnt;	... £É£Ä¤ÎÊı
-//  ‘ø¤ê‚:	-1			... ¤É¤ì¤Ë¤â¤¢¤¿¤Ã¤Æ¤Ê¤¤
+// ãƒ•ã‚©ãƒ³ãƒˆã®xkåˆ¤å®š
+//   ãƒã‚¦ã‚¹ã§xkã•ã‚Œå·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸç•ªå·ã‚’è¿”ã™
+//  å¼•æ•°:	int *id;	... ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒ•ã‚©ãƒ³ãƒˆï¼©ï¼¤é…åˆ—
+//			int cnt;	... ï¼©ï¼¤ã®æ•°
+//  :	-1			... ã©ã‚Œã«ã‚‚ã‚ãŸã£ã¦ãªã„
 int selFontId( int *id, int cnt )
 {
 	int i;
 
-	// ×ó¥¯¥ê¥Ã¥¯¤µ¤ì¤Æ¤Ê¤±¤ì¤Ğ½KÁË
+	// å·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚Œã¦ãªã‘ã‚Œã°Käº†
 	if( (mouse.onceState & MOUSE_LEFT_CRICK) == 0 )
 		return -1;
 
@@ -804,11 +804,11 @@ int selFontId( int *id, int cnt )
 }
 
 
-// ¥°¥é¥Õ¥£¥Ã¥¯¤Î¥Õ¥©©`¥«¥¹ÅĞ¶¨
-//   ¥Ş¥¦¥¹¥«©`¥½¥ë¤Î¤¢¤¿¤Ã¤Æ¤¤¤ë·¬ºÅ¤ò·µ¤¹
-//  ÒıÊı:	int *id;	... ¥Á¥§¥Ã¥¯¤¹¤ë¥°¥é¥Õ¥£¥Ã¥¯£É£ÄÅäÁĞ
-//			int cnt;	... £É£Ä¤ÎÊı
-//  ‘ø¤ê‚:	-1			... ¤É¤ì¤Ë¤â¤¢¤¿¤Ã¤Æ¤Ê¤¤
+// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®ãƒ•ã‚©`ã‚«ã‚¹åˆ¤å®š
+//   ãƒã‚¦ã‚¹ã‚«`ã‚½ãƒ«ã®ã‚ãŸã£ã¦ã„ã‚‹ç•ªå·ã‚’è¿”ã™
+//  å¼•æ•°:	int *id;	... ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ï¼©ï¼¤é…åˆ—
+//			int cnt;	... ï¼©ï¼¤ã®æ•°
+//  :	-1			... ã©ã‚Œã«ã‚‚ã‚ãŸã£ã¦ãªã„
 int focusGraId( int *id, int cnt )
 {
 	int i;
@@ -825,11 +825,11 @@ int focusGraId( int *id, int cnt )
 }
 
 
-// ¥Õ¥©¥ó¥È¤Î¥Õ¥©©`¥«¥¹ÅĞ¶¨
-//   ¥Ş¥¦¥¹¥«©`¥½¥ë¤Î¤¢¤¿¤Ã¤Æ¤¤¤ë·¬ºÅ¤ò·µ¤¹
-//  ÒıÊı:	int *id;	... ¥Á¥§¥Ã¥¯¤¹¤ë¥Õ¥©¥ó¥È£É£ÄÅäÁĞ
-//			int cnt;	... £É£Ä¤ÎÊı
-//  ‘ø¤ê‚:	-1			... ¤É¤ì¤Ë¤â¤¢¤¿¤Ã¤Æ¤Ê¤¤
+// ãƒ•ã‚©ãƒ³ãƒˆã®ãƒ•ã‚©`ã‚«ã‚¹åˆ¤å®š
+//   ãƒã‚¦ã‚¹ã‚«`ã‚½ãƒ«ã®ã‚ãŸã£ã¦ã„ã‚‹ç•ªå·ã‚’è¿”ã™
+//  å¼•æ•°:	int *id;	... ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒ•ã‚©ãƒ³ãƒˆï¼©ï¼¤é…åˆ—
+//			int cnt;	... ï¼©ï¼¤ã®æ•°
+//  :	-1			... ã©ã‚Œã«ã‚‚ã‚ãŸã£ã¦ãªã„
 int focusFontId( int *id, int cnt )
 {
 	int i;
@@ -848,20 +848,20 @@ int focusFontId( int *id, int cnt )
 
 
 
-// ¥æ©`¥¶ÕJÔ^Ê§”¡¥á¥Ã¥»©`¥¸¥¦¥£¥ó¥É¥¦
+// ãƒ¦`ã‚¶J^å¤±Ë‰å¹æ°“å“—`ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 // 
 static short userCertifyErrorMsgWinProcNo = 0;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initUserCertifyErrorMsgWin( void )
 {
 	userCertifyErrorMsgWinProcNo = 0;
 }
 
-// ¥æ©`¥¶ÕJÔ^Ê§”¡¥á¥Ã¥»©`¥¸¥¦¥£¥ó¥É¥¦„IÀí
+// ãƒ¦`ã‚¶J^å¤±Ë‰å¹æ°“å“—`ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦Iç†
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... OK¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+//  	0 ... Iç†ä¸­
+//				1 ... OKãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 int userCertifyErrorMsgWin( void )
 {
 	static int fontId[] = { -2 };
@@ -872,13 +872,13 @@ int userCertifyErrorMsgWin( void )
 	int ret = 0;
 	char *msg[] =
 	{
-		"¥æ©`¥¶©`ÕJÔ^¤ËÊ§”¡¤·¤Ş¤·¤¿¡£",
-		"¤´Æõ¼sÄÚÈİ¤Ê¤É¤ò´_ÕJ¤µ¤»¤Æ¤¤¤¿¤À¤­¤Ş¤¹¤Î¤Ç¡¢",
-		"¥²©`¥Ş©`¥º¥É¥ê©`¥à¥«¥¹¥¿¥Ş¥±¥¢(rian@gamersdream.ne.jp)",
-		"¤Ş¤Ç¤ª†–¤¤ºÏ¤ï¤»¤¯¤À¤µ¤¤¡£"
+		"ãƒ¦`ã‚¶`J^ã«å¤±ãƒ»ç­è“¼ç­ä¿Š",
+		"ã”å¥‘så†…å®¹ãªã©ã‚’_Jã•ã›ã¦ã„ãŸã ãã¾ã™ã®ã§ã€",
+		"ã‚²`ãƒ`ã‚ºãƒ‰ãƒª`ãƒ ã‚«ã‚¹ã‚¿ãƒã‚±ã‚¢(rian@gamersdream.ne.jp)",
+		"ã¾ã§ãŠã„åˆã‚ã›ãã ã•ã„ã€‚"
 	};
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( userCertifyErrorMsgWinProcNo == 0 )
 	{
 		userCertifyErrorMsgWinProcNo = 1;
@@ -888,7 +888,7 @@ int userCertifyErrorMsgWin( void )
 			fontId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 8;
 		h = 3;
 		x = (640-w*64)/2;
@@ -897,18 +897,18 @@ int userCertifyErrorMsgWin( void )
 	}
 
 
-	// ¥Õ¥©¥ó¥È¤Îßx’kÅĞ¶¨
+	// ãƒ•ã‚©ãƒ³ãƒˆã®xkåˆ¤å®š
 	id = selFontId( fontId, sizeof( fontId )/sizeof( int ) );
 
-	// £Ï£Ë
+	// ï¼¯ï¼«
 	if( id == 0 )
 	{
 		ret = 1;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
 
-	// ½Y¹û¤¬¤ï¤«¤Ã¤¿¤é¥¦¥£¥ó¥É¥¦é]¤¸¤ë
+	// YæœãŒã‚ã‹ã£ãŸã‚‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹
 	if( ret != 0 )
 	{
 		if( ptActMenuWin )
@@ -921,7 +921,7 @@ int userCertifyErrorMsgWin( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			StockFontBuffer( x+140, y+20, FONT_PRIO_FRONT, FONT_PAL_RED, msg[0], 0 );
@@ -931,7 +931,7 @@ int userCertifyErrorMsgWin( void )
 
 			fontId[0] =
 				StockFontBuffer( x+239, y+110,
-					FONT_PRIO_FRONT, FONT_PAL_YELLOW, "£Ï£Ë", 2 );
+					FONT_PRIO_FRONT, FONT_PAL_YELLOW, "ï¼¯ï¼«", 2 );
 		}
 	}
 
@@ -947,14 +947,14 @@ int userCertifyErrorMsgWin( void )
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ??ô¢???
+// ??ç°ª???
 //
 void titleProc( void )
 {
 	int ret;
 	static char msg[256];
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( SubProcNo == 0 )
 	{
 		char str[128];
@@ -966,11 +966,11 @@ void titleProc( void )
 		initSelectServer();
 	}
 
-	// ¥µ©`¥Ğßx’k„IÀí
+	// ã‚µ`ãƒxkIç†
 	if( SubProcNo == 1 )
 	{
 		ret = selectServer( 256, 270 );
-		// ¥µ©`¥Ğ›Q¶¨
+		// ã‚µ`ãƒQå®š
 		if( ret == 1 )
 		{
 			certifyIdPasswordServerIndex = selectServerIndex;
@@ -981,50 +981,50 @@ void titleProc( void )
 		else
 		if( ret == 2 )
 		{
-			// £×£É£Î£Ä£Ï£×£Ó¤Ë WM_CLOSE ¥á¥Ã¥»©`¥¸¤òËÍ¤é¤»¤ë
+			// ï¼·ï¼©ï¼®ï¼¤ï¼¯ï¼·ï¼³ã« WM_CLOSE ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‰ã›ã‚‹
 			PostMessage( hWnd, WM_CLOSE, 0, 0L );
 		}
 	}
 
-	// ¥²©`¥à¥µ©`¥Ğ¤Ø½Ó¾A
+	// ã‚²`ãƒ ã‚µ`ãƒã¸æ¥A
 	if( SubProcNo == 2 )
 	{
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		initConnecGameServer();
 		SubProcNo++;
 	}
 	if( SubProcNo == 3 )
 	{
-		// ½Ó¾A„IÀí
+		// æ¥AIç†
 		ret = connecGameServer();
-		// ½Ó¾AÍêÁË
+		// æ¥Aå®Œäº†
 		if( ret == 1 )
 		{
 			ChangeProc( PROC_CHAR_SELECT );
 //			return;
 		}
 		else
-		// ¥Í¥Ã¥È¥ï©`¥¯¤ÎœÊ‚ä¤¬³öÀ´¤Æ¤Ê¤¤
+		// ãƒãƒƒãƒˆãƒ¯`ã‚¯ã®æµƒéš¼æçš®èƒœ
 		if( ret == -1 )
 		{
 			SubProcNo = 100;
 			strcpy( msg, NET_ERRMSG_SOCKLIBERROR );
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 		}
 		else
-		// ¥µ©`¥Ğ¤Ë½Ó¾A¤Ç¤­¤Ê¤«¤Ã¤¿
+		// ã‚µ`ãƒã«æ¥Aã§ããªã‹ã£ãŸ
 		if( ret == -2 )
 		{
 			SubProcNo = 100;
 			strcpy( msg, NET_ERRMSG_NOTCONNECT );
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 		}
 	}
 
 
-	// ¥¨¥é©`¥á¥Ã¥»©`¥¸
+	// ã‚¨ãƒ©`ãƒ¡ãƒƒã‚»`ã‚¸
 	if( SubProcNo == 100 )
 	{
 		initCommonMsgWin();
@@ -1035,7 +1035,7 @@ void titleProc( void )
 		if( commonMsgWin( msg ) )
 		{
 			char str[128];
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			SubProcNo = 1;
 			sprintf( str, "%s %s", DEF_APPNAME, SA_VERSION );
 			SetWindowText( hWnd, str );
@@ -1043,18 +1043,18 @@ void titleProc( void )
 	}
 
 
-	// ¥¿¥¤¥È¥ë£Â£Ç±íÊ¾
+	// ã‚¿ã‚¤ãƒˆãƒ«ï¼¢ï¼§è¡¨ç¤º
 	StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_TITLE, 0 );
-	// ¥Ğ©`¥¸¥ç¥ó±íÊ¾
+	// ãƒ`ã‚¸ãƒ§ãƒ³è¡¨ç¤º
 	StockFontBuffer( 540, 424, FONT_PRIO_BACK, FONT_PAL_BLUE, SA_VERSION, 0 );
 }
 
 
-// ÏÔÊ¾·şÎñÆ÷Ñ¡ÔñÏßÂ·£¿
+// æ˜¾ç¤ºæœåŠ¡å™¨é€‰æ‹©çº¿è·¯ï¼Ÿ
 
 ACTION *ptActSelectServerWin = NULL;
 
-// ?ıÌ???
+// ????
 void initSelectServer( void )
 {
 	ptActSelectServerWin = NULL;
@@ -1062,9 +1062,9 @@ void initSelectServer( void )
 
 
 //
-//  Ñ¡Ôñ     	0 ... Ñ¡Ôñ
-//				1 ... È·¶¨
-//				2 ... ÍË³ö
+//  é€‰æ‹©     	0 ... é€‰æ‹©
+//				1 ... ç¡®å®š
+//				2 ... é€€å‡º
 int selectServer( int x, int y )
 {
 	static int fontId[] = { -2, -2, -2 };
@@ -1084,11 +1084,11 @@ int selectServer( int x, int y )
 
 	if( ptActSelectServerWin != NULL )
 	{
-		// ¥Õ¥©¥ó¥È¤Îßx’kÅĞ¶¨
+		// ãƒ•ã‚©ãƒ³ãƒˆã®xkåˆ¤å®š
 		id = selFontId( fontId, sizeof( fontId )/sizeof( int ) );
 
-		// ¥á¥Ë¥å©`£°¤¬Ñº¤µ¤ì¤¿
-		// ¥á¥Ë¥å©`£±¤¬Ñº¤µ¤ì¤¿
+		// ãƒ¡ãƒ‹ãƒ¥`ï¼ãŒæŠ¼ã•ã‚ŒãŸ
+		// ãƒ¡ãƒ‹ãƒ¥`ï¼‘ãŒæŠ¼ã•ã‚ŒãŸ
 //#ifdef _DEBUG
 #if 1
 		if( id == 0 || id == 1 )
@@ -1111,7 +1111,7 @@ int selectServer( int x, int y )
 
 			DeathAction( ptActSelectServerWin );
 			ptActSelectServerWin = NULL;
-			play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+			play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 			return 1;
 		}
 //#ifndef _DEBUG
@@ -1119,16 +1119,16 @@ int selectServer( int x, int y )
 		else
 		if( id == 1 )
 		{
-			play_se( 220, 320, 240 );	// £Î£ÇÒô
+			play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 		}
 #endif
 		else
-		// ½KÁË¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+		// Käº†ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 		if( id == 2 )
 		{
 			DeathAction( ptActSelectServerWin );
 			ptActSelectServerWin = NULL;
-			play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+			play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 			return 2;
 		}
 
@@ -1139,7 +1139,7 @@ int selectServer( int x, int y )
 					FONT_PRIO_FRONT, FONT_PAL_YELLOW, selectServerName[0], 2 );
 //#ifdef _DEBUG
 #if 1
-			//ÕâÀïÔö¼ÓÏßÂ·
+			//è¿™é‡Œå¢åŠ çº¿è·¯
 			fontId[1] =
 				StockFontBuffer( x+22, y+47,   //66
 					FONT_PRIO_FRONT, FONT_PAL_YELLOW, selectServerName[1], 2 );
@@ -1164,7 +1164,7 @@ int selectServer( int x, int y )
 
 			fontId[2] =
 				StockFontBuffer( x+22, y+104,
-					FONT_PRIO_FRONT, FONT_PAL_YELLOW, "½áÊøÓÎÏ·¡¡ ", 2 );
+					FONT_PRIO_FRONT, FONT_PAL_YELLOW, "ç»“æŸæ¸¸æˆã€€ ", 2 );
 		}
 	}
 
@@ -1175,7 +1175,7 @@ int selectServer( int x, int y )
 
 
 
-//  /³õÊ¼»¯·şÎñÆ÷Á¬½Ó¹ı³Ì/
+//  /åˆå§‹åŒ–æœåŠ¡å™¨è¿æ¥è¿‡ç¨‹/
 
 static short connecGameServerProcNo = 0;
 
@@ -1186,12 +1186,12 @@ void initConnecGameServer( void )
 
 
 
-// /´¦Àí·şÎñÆ÷Á¬½Ó
+// /å¤„ç†æœåŠ¡å™¨è¿æ¥
 //
-//  ·µ»Ø£º	     0 ... ¼ì²â
-//				 1 ... Íê³ÉÁ¬½Ó/ 
-//				-1 ... ÍøÂç´íÎó
-//				-2 ... ÎŞ·¨Á¬½Óµ½·şÎñÆ÷
+//  è¿”å›ï¼š	     0 ... æ£€æµ‹
+//				 1 ... å®Œæˆè¿æ¥/ 
+//				-1 ... ç½‘ç»œé”™è¯¯
+//				-2 ... æ— æ³•è¿æ¥åˆ°æœåŠ¡å™¨
 int connecGameServer( void )
 {
 	static ACTION *ptActMenuWin = NULL;
@@ -1200,14 +1200,14 @@ int connecGameServer( void )
 	int ret2;
 	static char msg[256];
 
-	// ³õÆÚ»¯  ?ıÌ???/ // /
+	// åˆæœŸåŒ–  ????/ // /
 	if( connecGameServerProcNo == 0 )
 	{
 		connecGameServerProcNo = 1;
 
-		sprintf( msg, "%sÁ¬½ÓÖĞ", selectServerName2[selectServerIndex] );
+		sprintf( msg, "%sè¿æ¥ä¸­", selectServerName2[selectServerIndex] );
 
-		// Á¬½Ó¿ò¼Ü´óĞ¡ÉèÖÃ
+		// è¿æ¥æ¡†æ¶å¤§å°è®¾ç½®
 		//w = (strlen( msg )*9+63)/64;
 		w = (strlen( msg )*9+63)/64+3;
 		if( w < 2 )
@@ -1220,7 +1220,7 @@ int connecGameServer( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// 	// ³õÊ¼»¯ÍøÂç
+	// 	// åˆå§‹åŒ–ç½‘ç»œ
 	if( connecGameServerProcNo == 1 )
 	{
 		cleanupNetwork();
@@ -1233,7 +1233,7 @@ int connecGameServer( void )
 			ret = -1;
 		}
 	}
-	// ³õÊ¼»¯·şÎñÆ÷Á¬½Ó
+	// åˆå§‹åŒ–æœåŠ¡å™¨è¿æ¥
 	if( connecGameServerProcNo == 2 )
 	{
 		initConnectServer();
@@ -1264,7 +1264,7 @@ int connecGameServer( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ÏÔÊ¾´°¿Ú
+		// æ˜¾ç¤ºçª—å£
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -1289,7 +1289,7 @@ int connecGameServer( void )
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ¥­¥ã¥éßx’k»­Ãæ£¨Ï÷³ı¤â³öÀ´¤ë£© ½ÇÉ«Ñ¡Ôñ»­Ãæ£¨É¾³ı½ÇÉ«Ò²¿ÉÒÔ£©
+// ã‚­ãƒ£ãƒ©xkç”»é¢ï¼ˆå‰Šé™¤ã‚‚å‡ºæ¥ã‚‹ï¼‰ è§’è‰²é€‰æ‹©ç”»é¢ï¼ˆåˆ é™¤è§’è‰²ä¹Ÿå¯ä»¥ï¼‰
 //
 void selectCharacterProc( void )
 {
@@ -1309,45 +1309,45 @@ void selectCharacterProc( void )
 	};
 	int x1, y1, x2, y2;
 
-	// ¥­¥ã¥é¥¯¥¿¥ê¥¹¥ÈÈ¡µÃ„IÀí³õÆÚ»¯  ½ÇÉ«ÁĞ±íÈ¡µÃ´¦Àí³õÊ¼»¯
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒªã‚¹ãƒˆå–å¾—Iç†åˆæœŸåŒ–  è§’è‰²åˆ—è¡¨å–å¾—å¤„ç†åˆå§‹åŒ–
 	if( SubProcNo == 0 )
 	{
 		SubProcNo++;
 
 		initDownloadCharList();
 	}
-	// ¥­¥ã¥é¥¯¥¿¥ê¥¹¥ÈÈ¡µÃ„IÀí  ½ÇÉ«ÁĞ±íÈ¡µÃ´¦Àí
+	// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒªã‚¹ãƒˆå–å¾—Iç†  è§’è‰²åˆ—è¡¨å–å¾—å¤„ç†
 	if( SubProcNo == 1 )
 	{
 		ret = downloadCharList();
 		if( ret == 1 )
 		{
-			// È¡µÃÍêÁË
+			// å–å¾—å®Œäº†
 			SubProcNo = 10;
 			play_bgm(2);
 		}
 		else
 		if( ret == -3 )
 		{
-			// ¥á¥ó¥Æ¥Ê¥ó¥¹ÖĞ Î¬»¤ÖĞ
+			// ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ä¸­ ç»´æŠ¤ä¸­
 			SubProcNo = 200;
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 		}
 		else
 		if( ret == -4 )
 		{
-			// ¥æ©`¥¶ÕJÔ^Ê§”¡
+			// ãƒ¦`ã‚¶J^å¤±
 			SubProcNo = 400;
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 		}
 		else
 		if( ret < 0 )
 		{
-			// ¥¨¥é©`°kÉú  ·¢Éú´íÎó
+			// ã‚¨ãƒ©`kç”Ÿ  å‘ç”Ÿé”™è¯¯
 			SubProcNo = 100;
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 		}
 	}
@@ -1365,17 +1365,17 @@ void selectCharacterProc( void )
 		btnUseFlag = 2;
 	}
 
-	// Ï÷³ı„IÀí³õÆÚ»¯
+	// å‰Šé™¤Iç†åˆæœŸåŒ–
 	if( SubProcNo == 20 )
 	{
 		ret = commonYesNoWindow( 320, 240 );
-		// ¤Ï¤¤ ÊÇ
+		// ã¯ã„ æ˜¯
 		if( ret == 1 )
 		{
 			SubProcNo++;
 		}
 		else
-		// ¤¤¤¤¤¨ ²»ÊÇ
+		// ã„ã„ãˆ ä¸æ˜¯
 		if( ret == 2 )
 		{
 			SubProcNo = 10;
@@ -1386,7 +1386,7 @@ void selectCharacterProc( void )
 		initDeleteCharacter();
 		SubProcNo++;
 	}
-	// Ï÷³ı„IÀí
+	// å‰Šé™¤Iç†
 	if( SubProcNo == 22 )
 	{
 		ret = deleteCharacter();
@@ -1408,7 +1408,7 @@ void selectCharacterProc( void )
 		}
 	}
 
-	// ¥¨¥é©`
+	// ã‚¨ãƒ©`
 	if( SubProcNo == 100 )
 	{
 		initCommonMsgWin();
@@ -1416,14 +1416,14 @@ void selectCharacterProc( void )
 	}
 	if( SubProcNo == 101 )
 	{
-		if( commonMsgWin( "½ÇÉ«ÁĞ±íµÄÈ¡µÃÊ§°Ü" ) )
+		if( commonMsgWin( "è§’è‰²åˆ—è¡¨çš„å–å¾—å¤±è´¥" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿  °´ÏÂÁË°´Å¥OK
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ  æŒ‰ä¸‹äº†æŒ‰é’®OK
 			ChangeProc( PROC_TITLE_MENU );
 		}
 	}
 
-	// ¥á¥ó¥Æ¥Ê¥ó¥¹ÖĞ¥¨¥é©`  Î¬»¤ÖĞ´íÎó
+	// ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ä¸­ã‚¨ãƒ©`  ç»´æŠ¤ä¸­é”™è¯¯
 	if( SubProcNo == 200 )
 	{
 		initCommonMsgWin();
@@ -1431,14 +1431,14 @@ void selectCharacterProc( void )
 	}
 	if( SubProcNo == 201 )
 	{
-		if( commonMsgWin( "·şÎñÆ÷Î¬»¤" ) )
+		if( commonMsgWin( "æœåŠ¡å™¨ç»´æŠ¤" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			ChangeProc( PROC_TITLE_MENU );
 		}
 	}
 
-	// ¥æ©`¥¶ÕJÔ^Ê§”¡„IÀí  ÓÃ»§ÈÏÖ¤Ê§°Ü´¦Àí
+	// ãƒ¦`ã‚¶J^å¤±Iç†  ç”¨æˆ·è®¤è¯å¤±è´¥å¤„ç†
 	if( SubProcNo == 400 )
 	{
 		initUserCertifyErrorMsgWin();
@@ -1448,12 +1448,12 @@ void selectCharacterProc( void )
 	{
 		if( userCertifyErrorMsgWin() )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			ChangeProc( PROC_TITLE_MENU );
 		}
 	}
 
-	// ¥­¥ã¥éÏ÷³ıÊ§”¡„IÀí  ÈËÎïÉ¾³ıÊ§°Ü´¦Àí
+	// ã‚­ãƒ£ãƒ©å‰Šé™¤å¤±Iç†  äººç‰©åˆ é™¤å¤±è´¥å¤„ç†
 	if( SubProcNo == 300 )
 	{
 		initCommonMsgWin();
@@ -1461,120 +1461,120 @@ void selectCharacterProc( void )
 	}
 	if( SubProcNo == 301 )
 	{
-		if( commonMsgWin( "ÈËÎïÉ¾³ıÊ§°Ü" ) )
+		if( commonMsgWin( "äººç‰©åˆ é™¤å¤±è´¥" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			SubProcNo = 10;
 		}
 	}
 
 
 	ret = selGraId( btnGraId, sizeof( btnGraId )/sizeof( int ) );
-	// ‘ø¤ê¥Ü¥¿¥óÑº¤·¤¿ ·µ»Ø°´Å¥¡£
+	// è¾šå €éªç¬±æ°¦ç­ è¿”å›æŒ‰é’®ã€‚
 	if( ret == 0 )
 	{
 		fade_out_bgm();
 
 		ChangeProc( PROC_TITLE_MENU );
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ĞÂÒ×÷³É¥Ü¥¿¥óÑº¤µ¤ì¤¿ ĞÂ½¨ÈËÎï°´Å¥°´ÏÂÁË
+	// æ–°é’ä¸§å €éªç¬±æ°¦ä¸¹æ¬· æ–°å»ºäººç‰©æŒ‰é’®æŒ‰ä¸‹äº†
 	if( 1 <= ret && ret <= 2 )
 	{
 		selectPcNo = ret - 1;
 		ChangeProc( PROC_CHAR_MAKE );
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ¥í¥°¥¤¥ó¥Ü¥¿¥óÑº¤µ¤ì¤¿   µÇÂ¼°´Å¥
+	// ãƒ­ã‚°ã‚¤ãƒ³ãƒœã‚¿ãƒ³æŠ¼ã•ã‚ŒãŸ   ç™»å½•æŒ‰é’®
 	if( 3 <= ret && ret <= 4 )
 	{
 		char name[CHAR_NAME_LEN+1];
 
-		// Ê¹ÓÃ¥­¥ã¥é›Q¶¨
+		// ä½¿ç”¨ã‚­ãƒ£ãƒ©Qå®š
 		strcpy( name, chartable[ret-3].name );
 		sjisStringToEucString( name );
 		strcpy( gamestate_login_charname, name );
 		selectPcNo = ret - 3;
 
-		// ³õÆÚ»¯•r¤Ëpc.faceGraNo¤ËÈë¤ì¤ë¤¿¤á
+		// åˆæœŸåŒ–rã«pc.faceGraNoã«å…¥ã‚Œã‚‹ãŸã‚
 		newCharacterFaceGraNo = chartable[selectPcNo].faceGraNo;
 		loginDp = chartable[selectPcNo].dp;
 
 		ChangeProc( PROC_CHAR_LOGIN_START );
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// Ï÷³ı¥Ü¥¿¥óÑº¤µ¤ì¤¿
+	// å‰Šé™¤ãƒœã‚¿ãƒ³æŠ¼ã•ã‚ŒãŸ
 	if( 5 <= ret && ret <= 6 )
 	{
 		char name[CHAR_NAME_LEN+1];
 
-		// Ï÷³ı¥­¥ã¥é›Q¶¨
+		// å‰Šé™¤ã‚­ãƒ£ãƒ©Qå®š
 		strcpy( name, chartable[ret-5].name );
 		sjisStringToEucString( name );
 		strcpy( gamestate_deletechar_charname, name );
 		selectPcNo = ret - 5;
 		SubProcNo = 20;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
 
 	if( SubProcNo >= 10 )
 	{
-		// ¥Ñ¥é¥á©`¥¿¤Î±íÊ¾
+		// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã®è¡¨ç¤º
 		for( i = 0; i < MAXCHARACTER; i++ )
 		{
 			if( existCharacterListEntry( i ) )
 			{
-				// î†»­Ïñ
+				// ç”»åƒ
 				StockDispBuffer( 168+i*304, 84, DISP_PRIO_CHAR, chartable[i].faceGraNo, 0 );
 
-				// ÃûÇ°  Ãû×ÖÏÔÊ¾´íÎó
+				// åå‰  åå­—æ˜¾ç¤ºé”™è¯¯
 				x = (144-strlen( chartable[i].name )*9)/2;
-				//ÖØµãÕâ¸öº¯Êı´¦ÀíÓĞÎÊÌâµ¼ÖÂÖĞÎÄÈ«²¿´íÎó
+				//é‡ç‚¹è¿™ä¸ªå‡½æ•°å¤„ç†æœ‰é—®é¢˜å¯¼è‡´ä¸­æ–‡å…¨éƒ¨é”™è¯¯
 			
 				StockFontBuffer( 93+i*304+x, 127,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, chartable[i].name, 0 );
 				
 
-				// ¥ì¥Ù¥ë
+				// ãƒ¬ãƒ™ãƒ«
 				sprintf( msg, "%3d", chartable[i].level );
 				StockFontBuffer( 104+i*304, 152,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// £Í£Á£Ø £È£Ğ
+				// ï¼­ï¼¡ï¼¸ ï¼¨ï¼°
 				sprintf( msg, "%3d", chartable[i].hp );
 				StockFontBuffer( 104+i*304, 174,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// ¹¥“ÄÁ¦
+				// æ”»ç‰§
 				sprintf( msg, "%3d", chartable[i].str );
 				StockFontBuffer( 104+i*304, 196,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// ·ÀÓùÁ¦
+				// é˜²å¾¡åŠ›
 				sprintf( msg, "%3d", chartable[i].def );
 				StockFontBuffer( 104+i*304, 218,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// Ãô½İÁ¦
+				// æ•æ·åŠ›
 				sprintf( msg, "%3d", chartable[i].agi );
 				StockFontBuffer( 104+i*304, 240,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// ÷ÈÁ¦
+				// é­…åŠ›
 				sprintf( msg, "%3d", chartable[i].app );
 				StockFontBuffer( 104+i*304, 262,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// £Ä£Ğ
+				// ï¼¤ï¼°
 				sprintf( msg, "%8d", chartable[i].dp );
 				StockFontBuffer( 188+i*304, 262,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// ÊôĞÔ¤Î¥á©`¥¿
+				// å±æ€§ã®ãƒ¡`ã‚¿
 				for( j = 0; j < 4; j++ )
 				{
 					if( chartable[i].attr[j] > 0 )
@@ -1589,20 +1589,20 @@ void selectCharacterProc( void )
 					}
 				}
 
-				// ¥í¥°¥¤¥ó»ØÊı
+				// ãƒ­ã‚°ã‚¤ãƒ³å›æ•°
 				login = chartable[i].login;
 				if( login >= 1000 )
-					login = 9999;	// ¥«¥¦¥ó¥¿©`¥¹¥È¥Ã¥×
+					login = 9999;	// ã‚«ã‚¦ãƒ³ã‚¿`ã‚¹ãƒˆãƒƒãƒ—
 				sprintf( msg, "%4d", login );
 				StockFontBuffer( 156+i*304, 284,
 					FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-				// ¥­¥ã¥é¤¤¤ë¤Ê¤é
-				// ¥í¥°¥¤¥ó¥Ü¥¿¥ó±íÊ¾
+				// ã‚­ãƒ£ãƒ©ã„ã‚‹ãªã‚‰
+				// ãƒ­ã‚°ã‚¤ãƒ³ãƒœã‚¿ãƒ³è¡¨ç¤º
 				btnGraId[3+i] =
 					StockDispBuffer( 100+i*304, 342,
 						DISP_PRIO_CHAR, CG_CHR_SEL_LOGIN_BTN, btnUseFlag );
-				// Ï÷³ı¥Ü¥¿¥ó±íÊ¾
+				// å‰Šé™¤ãƒœã‚¿ãƒ³è¡¨ç¤º
 				btnGraId[5+i] =
 					StockDispBuffer( 230+i*304, 342,
 						DISP_PRIO_CHAR, CG_CHR_SEL_DEL_BTN, btnUseFlag );
@@ -1610,56 +1610,56 @@ void selectCharacterProc( void )
 			else
 			if( SubProcNo < 100 || 300 <= SubProcNo )
 			{
-				// ¥­¥ã¥é¤¬¤¤¤Ê¤±¤ì¤ĞĞÂÒ¥Ü¥¿¥ó±íÊ¾
+				// ã‚­ãƒ£ãƒ©ãŒã„ãªã‘ã‚Œã°æ–°å €éªèŸŠç¡
 				btnGraId[1+i] =
 					StockDispBuffer( 160+i*304,
 						342, DISP_PRIO_CHAR, CG_CHR_SEL_NEW_BTN, btnUseFlag );
 			}
 		}
 
-		// ‘ø¤ë¥Ü¥¿¥ó
+		// æ¯³å €éª
 		btnGraId[0] =
 			StockDispBuffer( 320, 432, DISP_PRIO_CHAR, CG_CHR_SEL_BACK_BTN, btnUseFlag );
 	}
 
-	// £Â£Ç±íÊ¾
+	// ï¼¢ï¼§è¡¨ç¤º
 	StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_CHR_SEL_BG, 0 );
 
-	RunAction();			// ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë
-	StockTaskDispBuffer();	// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+	RunAction();			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹
+	StockTaskDispBuffer();	// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 }
 
 
 
-// ¥­¥ã¥é¥¯¥¿Ï÷³ı„IÀí
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿å‰Šé™¤Iç†
 
 static short deleteCharacterProcNo = 0;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initDeleteCharacter( void )
 {
 	deleteCharacterProcNo = 0;
 }
 
-// ¥á¥¤¥ó„IÀí
+// ãƒ¡ã‚¤ãƒ³Iç†
 //
-//  ‘ø¤ê‚£º	 0 ... Ï÷³ıÖĞ
-//				 1 ... Ï÷³ıÍêÁË
-//				-1 ... ¥¿¥¤¥à¥¢¥¦¥È
-//				-2 ... ¥¨¥é©`
+//  	 0 ... å‰Šé™¤ä¸­
+//				 1 ... å‰Šé™¤å®Œäº†
+//				-1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+//				-2 ... ã‚¨ãƒ©`
 int deleteCharacter( void )
 {
 	static ACTION *ptActMenuWin = NULL;
 	static int x, y, w, h;
 	int ret = 0;
-	static char msg[] = "¥­¥ã¥é¥¯¥¿©`Ï÷³ıÖĞ";
+	static char msg[] = "ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`å‰Šé™¤ä¸­";
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( deleteCharacterProcNo == 0 )
 	{
 		deleteCharacterProcNo = 1;
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = strlen( msg )*9/64+2;
 		h = (16+47)/48;
 		if( h < 2 )
@@ -1669,7 +1669,7 @@ int deleteCharacter( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// ¥­¥ã¥é¥ê¥¹¥ÈÈ¡µÃ
+	// ã‚­ãƒ£ãƒ©ãƒªã‚¹ãƒˆå–å¾—
 	if( deleteCharacterProcNo == 1 )
 	{
 		delCharStart();
@@ -1692,7 +1692,7 @@ int deleteCharacter( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -1710,24 +1710,24 @@ int deleteCharacter( void )
 
 
 
-// ¥­¥ã¥é¥¯¥¿¥ê¥¹¥ÈÈ¡µÃ„IÀí
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒªã‚¹ãƒˆå–å¾—Iç†
 
 static short downloadCharListProcNo = 0;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initDownloadCharList( void )
 {
 	downloadCharListProcNo = 0;
 }
 
-// ¥á¥¤¥ó„IÀí
+// ãƒ¡ã‚¤ãƒ³Iç†
 //
-//  ‘ø¤ê‚£º	 0 ... ÊÜĞÅÖĞ
-//				 1 ... ÊÜĞÅÍêÁË
-//				-1 ... ¥¿¥¤¥à¥¢¥¦¥È
-//				-2 ... ¥¨¥é©`
-//              -3 ... ¥µ©`¥Ğ¥á¥ó¥Æ¥Ê¥ó¥¹
-//              -4 ... ¥æ©`¥¶ÕJÔ^Ê§”¡
+//  	 0 ... å—ä¿¡ä¸­
+//				 1 ... å—ä¿¡å®Œäº†
+//				-1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+//				-2 ... ã‚¨ãƒ©`
+//              -3 ... ã‚µ`ãƒãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹
+//              -4 ... ãƒ¦`ã‚¶J^å¤±
 int downloadCharList( void )
 {
 	static ACTION *ptActMenuWin = NULL;
@@ -1735,14 +1735,14 @@ int downloadCharList( void )
 	int ret = 0;
 	static char msg[256];
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( downloadCharListProcNo == 0 )
 	{
 		downloadCharListProcNo = 1;
 
-		strcpy( msg, "¥­¥ã¥é¥¯¥¿©`¥ê¥¹¥ÈÈ¡µÃÖĞ" );
+		strcpy( msg, "ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ãƒªã‚¹ãƒˆå–å¾—ä¸­" );
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = strlen( msg )*8/64+2;
 		h = (16+47)/48;
 		if( h < 2 )
@@ -1752,7 +1752,7 @@ int downloadCharList( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// ¥­¥ã¥é¥ê¥¹¥ÈÈ¡µÃ
+	// ã‚­ãƒ£ãƒ©ãƒªã‚¹ãƒˆå–å¾—
 	if( downloadCharListProcNo == 1 )
 	{
 		charListStart();
@@ -1775,7 +1775,7 @@ int downloadCharList( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -1792,11 +1792,11 @@ int downloadCharList( void )
 }
 
 
-// ¤Ï¤¤¡¢¤¤¤¤¤¨¡¢ßx’k¥¦¥£¥ó¥É¥¦
+// ã¯ã„ã€ã„ã„ãˆã€xkã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... ¤Ï¤¤¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
-//				2 ... ¤¤¤¤¤¨¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+//  	0 ... Iç†ä¸­
+//				1 ... ã¯ã„ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
+//				2 ... ã„ã„ãˆãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 int commonYesNoWindow( int x, int y )
 {
 	int i;
@@ -1805,18 +1805,18 @@ int commonYesNoWindow( int x, int y )
 	static int btnGraId[] = { -2, -2 };
 
 	id = selGraId( btnGraId, sizeof( btnGraId )/sizeof( int ) );
-	// ¤Ï¤¤¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+	// ã¯ã„ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 	if( id == 0 )
 	{
 		ret = 1;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ¤¤¤¤¤¨¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+	// ã„ã„ãˆãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 	if( id == 1 )
 	{
 		ret = 2;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
 	btnGraId[0] = StockDispBuffer( x, y, DISP_PRIO_YES_NO_BTN, CG_COMMON_YES_BTN, 2 );
@@ -1838,10 +1838,10 @@ int commonYesNoWindow( int x, int y )
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ¥­¥ã¥é×÷³É
+// ã‚­ãƒ£ãƒ©ä½œæˆ
 //
 
-// ¥­¥ã¥é»­Ïñßx’kÓÃ
+// ã‚­ãƒ£ãƒ©ç”»åƒxkç”¨
 
 #define	MaxSelectChar  	12
 static ACTION *ptActSelChar[MaxSelectChar];
@@ -1891,30 +1891,30 @@ int selectGraHitArea[MaxSelectChar][4] =
 	{ -18, -78,  35,  90 },
 	{ -20, -76,  40,  90 }//
 };
-static int selCharColor[MaxSelectChar];	// ¥­¥ã¥é¤ÎÉ«
-static int selCharDir[MaxSelectChar];	// ¥­¥ã¥é¤ÎÏò¤­
+static int selCharColor[MaxSelectChar];	// ã‚­ãƒ£ãƒ©ã®è‰²
+static int selCharDir[MaxSelectChar];	// ã‚­ãƒ£ãƒ©ã®å‘ã
 static int selCharGraNoProcNo;
-static int nowSelCharGraNo;			// ¥­¥ã¥é¤Î·Nî
-static int nowSelCharMouthNo;		// ¥­¥ã¥é¤Î¿Ú¤ÎĞÎ
-static int nowSelCharEyeNo;			// ¥­¥ã¥é¤ÎÄ¿¤ÎĞÎ
-static int nowSelCharStatusPoint;	// ¥­¥ã¥é¤Î¥¹¥Æ©`¥¿¥¹¤Ë¸î¤êÕñ¤ì¤ë¥İ¥¤¥ó¥È
-static int nowSelCharStatus[4];		// ¥­¥ã¥é¤Î¥¹¥Æ©`¥¿¥¹(ÌåÁ¦¡¢ÍóÁ¦¡¢ÕÉ·ò¤µ¡¢ËØÔç¤µ)
-static int nowSelCharAttrPoint;		// ¥­¥ã¥é¤ÎÊôĞÔ¤Ë¸î¤êÕñ¤ì¤ë¥İ¥¤¥ó¥È
-static int nowSelCharAttr[4];		// ¥­¥ã¥é¤ÎÊôĞÔ(µØË®»ğïL)
+static int nowSelCharGraNo;			// ã‚­ãƒ£ãƒ©ã®N
+static int nowSelCharMouthNo;		// ã‚­ãƒ£ãƒ©ã®å£ã®å½¢
+static int nowSelCharEyeNo;			// ã‚­ãƒ£ãƒ©ã®ç›®ã®å½¢
+static int nowSelCharStatusPoint;	// ã‚­ãƒ£ãƒ©ã®ã‚¹ãƒ†`ã‚¿ã‚¹ã«å‰²ã‚ŠæŒ¯ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒˆ
+static int nowSelCharStatus[4];		// ã‚­ãƒ£ãƒ©ã®ã‚¹ãƒ†`ã‚¿ã‚¹(ä½“åŠ›ã€è…•åŠ›ã€ä¸ˆå¤«ã•ã€ç´ æ—©ã•)
+static int nowSelCharAttrPoint;		// ã‚­ãƒ£ãƒ©ã®å±æ€§ã«å‰²ã‚ŠæŒ¯ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒˆ
+static int nowSelCharAttr[4];		// ã‚­ãƒ£ãƒ©ã®å±æ€§(åœ°æ°´ç«L)
 
-// ¥­¥ã¥é¤ÎÉ«‰ä¸ü¥¦¥£¥ó¥É¥¦„IÀíÓÃ
+// ã‚­ãƒ£ãƒ©ã®è‰²æ¶“Î•ï¼…è—ä¸§Iç†ç”¨
 static int selCharGraColorWinProcNo;
 
-// ¥­¥ã¥é¥¯¥¿¤Î¥Ñ¥é¥á©`¥¿ÔO¶¨ÓÃ
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®ãƒ‘ãƒ©ãƒ¡`ã‚¿Oå®šç”¨
 static int editCharParamProcNo;
 static STR_BUFFER selCharName;
 static int selCharNameBoxX, selCharNameBoxY;
 
-// ³öÉíµØ¤Îßx’kÓÃ
+// å‡ºèº«åœ°ã®xkç”¨
 static int selHomeTownProcNo;
 static int nowSelHomeTownNo;
 
-// ĞÂ¥­¥ã¥é×÷³É„IÀíÓÃ
+// æ–°ã‚­ãƒ£ãƒ©ä½œæˆIç†ç”¨
 static int createCharProcNo;
 
 
@@ -1936,24 +1936,24 @@ int selHomeTown( void );
 
 
 
-// ¥­¥ã¥é×÷³É¥á¥¤¥ó„IÀí³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ä½œæˆãƒ¡ã‚¤ãƒ³Iç†åˆæœŸåŒ–
 void initMakeCharacter( void )
 {
 }
 
-// ¥­¥ã¥é×÷³É¥á¥¤¥ó„IÀí
+// ã‚­ãƒ£ãƒ©ä½œæˆãƒ¡ã‚¤ãƒ³Iç†
 void makeCharacterProc( void )
 {
 	int ret;
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( SubProcNo == 0 )
 	{
 		initMakeCharacter();
 		SubProcNo++;
 	}
 
-	// ¥­¥ã¥é»­Ïñßx’k¤Î³õÆÚ»¯
+	// ã‚­ãƒ£ãƒ©ç”»åƒxkã®åˆæœŸåŒ–
 	if( SubProcNo == 1 )
 	{
 		initSelCharGraNo();
@@ -1965,17 +1965,17 @@ void makeCharacterProc( void )
 		initSelCharGraNo2();
 		SubProcNo++;
 	}
-	// ¥­¥ã¥é»­Ïñßx’k„IÀí
+	// ã‚­ãƒ£ãƒ©ç”»åƒxkIç†
 	if( SubProcNo == 3 )
 	{
 		ret = selCharGraNo();
-		// ¥­¥ã¥éßx’k›Q¶¨
+		// ã‚­ãƒ£ãƒ©xkQå®š
 		if( ret == 1 )
 		{
 			SubProcNo = 10;
 		}
 		else
-		// ‘ø¤ë¥Ü¥¿¥óÑº¤µ¤ì¤¿
+		// æ¯³å €éªç¬±æ°¦ä¸¹æ¬·
 		if( ret == 2 )
 		{
 			ChangeProc( PROC_CHAR_SELECT, 10 );
@@ -1983,7 +1983,7 @@ void makeCharacterProc( void )
 		}
 	}
 
-	// ¥­¥ã¥é¤Î¥Ñ¥é¥á©`¥¿ÔO¶¨¤Î³õÆÚ»¯
+	// ã‚­ãƒ£ãƒ©ã®ãƒ‘ãƒ©ãƒ¡`ã‚¿Oå®šã®åˆæœŸåŒ–
 	if( SubProcNo == 10 && ret == 1 )
 	{
 		initEditCharParam();
@@ -2002,14 +2002,14 @@ void makeCharacterProc( void )
 		{
 			SubProcNo = 20;
 		}
-		// ¥­¥ã¥ó¥»¥ë
+		// ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 		if( ret == 2 )
 		{
 			SubProcNo = 2;
 		}
 	}
 
-	// ³öÉíµØ¤Îßx’k
+	// å‡ºèº«åœ°ã®xk
 	if( SubProcNo == 20 )
 	{
 		initSelHomeTown();
@@ -2018,11 +2018,11 @@ void makeCharacterProc( void )
 	if( SubProcNo == 21 )
 	{
 		ret = selHomeTown();
-		// ›Q¶¨
+		// Qå®š
 		if( ret == 1 )
 		{
 			SubProcNo = 30;
-			// ÒÔÇ°¤Î¥»©`¥Ö¥Ç©`¥¿¤ò³õÆÚ»¯
+			// ä»¥å‰ã®ã‚»`ãƒ–ãƒ‡`ã‚¿ã‚’åˆæœŸåŒ–
 			resetCharacterList( selectPcNo );
 			clearUserSetting( selectPcNo );
 			if( saveNowState() )
@@ -2030,14 +2030,14 @@ void makeCharacterProc( void )
 			}
 		}
 		else
-		// ¥­¥ã¥ó¥»¥ë
+		// ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 		if( ret == 2 )
 		{
 			SubProcNo = 11;
 		}
 	}
 
-	// ¥­¥ã¥é×÷³É¥×¥í¥È¥³¥ë¤òËÍĞÅ
+	// ã‚­ãƒ£ãƒ©ä½œæˆãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’é€ä¿¡
 	if( SubProcNo == 30 )
 	{
 		initCreateChar();
@@ -2058,10 +2058,10 @@ void makeCharacterProc( void )
 		{
 			SubProcNo = 100;
 		}
-		selHomeTown();	// »­Ãæ×÷¤ë¤¿¤á
+		selHomeTown();	// ç”»é¢ä½œã‚‹ãŸã‚
 	}
 
-	// ¥¨¥é©`
+	// ã‚¨ãƒ©`
 	if( SubProcNo == 100 )
 	{
 		initCommonMsgWin();
@@ -2070,42 +2070,42 @@ void makeCharacterProc( void )
 	if( SubProcNo == 101 )
 	{
 		//_asm{int 3}
-		if( commonMsgWin( "ÈËÎïÉú³ÉÊ§°Ü»¹ÊÇ³É¹¦£¿" ) )
+		if( commonMsgWin( "äººç‰©ç”Ÿæˆå¤±è´¥è¿˜æ˜¯æˆåŠŸï¼Ÿ" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿ OK°´Å¥°´ÏÂÁË
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ OKæŒ‰é’®æŒ‰ä¸‹äº†
 			ChangeProc( PROC_CHAR_SELECT, 10 );
 			//return;
 		}
-		selHomeTown();	// »­Ãæ×÷¤ë¤¿¤á  ÎªÁËÖÆ×÷»­Ãæ
+		selHomeTown();	// ç”»é¢ä½œã‚‹ãŸã‚  ä¸ºäº†åˆ¶ä½œç”»é¢
 	}
 
-	RunAction();			// ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë  ¶¯×÷ÔËĞĞ
-	//ÏÔÊ¾Êı¾İÈÎÎñ»º³åĞî
-	StockTaskDispBuffer();	// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+	RunAction();			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹  åŠ¨ä½œè¿è¡Œ
+	//æ˜¾ç¤ºæ•°æ®ä»»åŠ¡ç¼“å†²è“„
+	StockTaskDispBuffer();	// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 }
 
 
 
 
-// ¥­¥ã¥é»­Ïñßx’k¤Î³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ç”»åƒxkã®åˆæœŸåŒ–
 void initSelCharGraNo( void )
 {
 	int i;
 
 	selCharGraNoProcNo = 0;
 
-	// ¥­¥ã¥é»­Ïñßx’k¤Î³õÆÚ»¯
-	nowSelCharGraNo = -1;	// ·Çßx’k×´‘B¤Ï-1
+	// ã‚­ãƒ£ãƒ©ç”»åƒxkã®åˆæœŸåŒ–
+	nowSelCharGraNo = -1;	// éxkçŠ¶Bã¯-1
 	nowSelCharMouthNo = 0;
 	nowSelCharEyeNo = 0;
 
 	for( i = 0; i < MaxSelectChar; i++ )
 	{
-		selCharColor[i] = 0;	// ¥­¥ã¥é¤ÎÉ«
-		selCharDir[i] = 0;		// ¥­¥ã¥é¤ÎÏò¤­
+		selCharColor[i] = 0;	// ã‚­ãƒ£ãƒ©ã®è‰²
+		selCharDir[i] = 0;		// ã‚­ãƒ£ãƒ©ã®å‘ã
 	}
 
-	// ¥­¥ã¥é¤Î¥¢¥¯¥·¥ç¥ó×÷³É
+	// ã‚­ãƒ£ãƒ©ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 	for( i = 0; i < MaxSelectChar; i++ )
 	{
 		if( selectGraNoTbl[i] < 0 )
@@ -2128,8 +2128,8 @@ void initSelCharGraNo( void )
 
 }
 
-// ¥­¥ã¥é»­Ïñßx’k¤Î³õÆÚ»¯
-// £¨Ç°¤Î„IÀí¤«¤é‘ø¤Ã¤Æ¤­¤¿¤È¤­¤Î³õÆÚ»¯¡£¥Ñ¥é¥á©`¥¿¤ò²Ğ¤·¤Æ¤ª¤¯¤¿¤á£©
+// ã‚­ãƒ£ãƒ©ç”»åƒxkã®åˆæœŸåŒ–
+// ï¼ˆå‰ã®Iç†ã‹ã‚‰ç›²çš®éƒ¡è¶£çº¬è·—è¯¨ï¼…é´æ¥—å²`ã‚¿ã‚’æ®‹ã—ã¦ãŠããŸã‚ï¼‰
 void initSelCharGraNo2( void )
 {
 	int i;
@@ -2138,10 +2138,10 @@ void initSelCharGraNo2( void )
 	nowSelCharMouthNo = 0;
 	nowSelCharEyeNo = 0;
 
-	// ¥­¥ã¥é»­Ïñßx’k¤Î³õÆÚ»¯
-	nowSelCharGraNo = -1;	// ·Çßx’k×´‘B¤Ï-1
+	// ã‚­ãƒ£ãƒ©ç”»åƒxkã®åˆæœŸåŒ–
+	nowSelCharGraNo = -1;	// éxkçŠ¶Bã¯-1
 
-	// ¥­¥ã¥é¤Î¥¢¥¯¥·¥ç¥ó×÷³É
+	// ã‚­ãƒ£ãƒ©ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 	for( i = 0; i < MaxSelectChar; i++ )
 	{
 		if( selectGraNoTbl[i] < 0 )
@@ -2163,11 +2163,11 @@ void initSelCharGraNo2( void )
 	}
 }
 
-// ¥­¥ã¥é»­Ïñßx’k„IÀí
+// ã‚­ãƒ£ãƒ©ç”»åƒxkIç†
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... ›Q¶¨
-//				2 ... ¥­¥ã¥ó¥»¥ë
+//  	0 ... Iç†ä¸­
+//				1 ... Qå®š
+//				2 ... ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 int selCharGraNo( void )
 {
 	int i;
@@ -2177,7 +2177,7 @@ int selCharGraNo( void )
 	int id;
 	static int selCharCanselGraId[] = { -2 };
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( selCharGraNoProcNo == 0 )
 	{
 		for( i = 0; i < sizeof( selCharCanselGraId )/sizeof( int ); i++ )
@@ -2187,7 +2187,7 @@ int selCharGraNo( void )
 		selCharGraNoProcNo++;
 	}
 
-	// ¥­¥ã¥éßx’k
+	// ã‚­ãƒ£ãƒ©xk
 	if( selCharGraNoProcNo == 1 )
 	{
 		for( i = 0; i < MaxSelectChar; i++ )
@@ -2203,10 +2203,10 @@ int selCharGraNo( void )
 					ptActSelChar[i]->anim_no = ANIM_WALK;
 					if( mouse.onceState & MOUSE_LEFT_CRICK )
 					{
-						// ¥­¥ã¥é¤¬ßx’k¤µ¤ì¤¿
+						// ã‚­ãƒ£ãƒ©ãŒxkã•ã‚ŒãŸ
 						selCharGraNoProcNo = 2;
 						nowSelCharGraNo = i;
-						play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+						play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 					}
 				}
 				else
@@ -2217,7 +2217,7 @@ int selCharGraNo( void )
 		}
 	}
 
-	// ¥«¥é©`ßx’k¥á¥Ë¥å©`
+	// ã‚«ãƒ©`xkãƒ¡ãƒ‹ãƒ¥`
 	if( selCharGraNoProcNo == 2 )
 	{
 		initSelCharGraColorWin();
@@ -2226,13 +2226,13 @@ int selCharGraNo( void )
 	if( selCharGraNoProcNo == 3 )
 	{
 		ret2 = selCharGraColorWin();
-		// ›Q¶¨
+		// Qå®š
 		if( ret2 == 1 )
 		{
 			ret = 1;
 		}
 		else
-		// ¥­¥ã¥ó¥»¥ë¤µ¤ì¤¿
+		// ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã•ã‚ŒãŸ
 		if( ret2 == 2 )
 		{
 			selCharGraNoProcNo = 1;
@@ -2240,16 +2240,16 @@ int selCharGraNo( void )
 		}
 	}
 
-	// ¥°¥é¥Õ¥£¥Ã¥¯¤Îµ±¤¿¤êÅĞ¶¨
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®å½“ãŸã‚Šåˆ¤å®š
 	id = selGraId( selCharCanselGraId, sizeof( selCharCanselGraId )/sizeof( int ) );
-	// ‘ø¤ë¥Ü¥¿¥ó
+	// æ¯³å €éª
 	if( id == 0 )
 	{
 		ret = 2;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
-	// ¥­¥ã¥é¤Î¥¢¥¯¥·¥ç¥óÏû¤¹
+	// ã‚­ãƒ£ãƒ©ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ¶ˆã™
 	if( ret != 0 )
 	{
 		for( i = 0; i < MaxSelectChar; i++ )
@@ -2263,7 +2263,7 @@ int selCharGraNo( void )
 	}
 
 
-	// ¥­¥ã¥é¤Î±íÊ¾
+	// ã‚­ãƒ£ãƒ©ã®è¡¨ç¤º
 	for( i = 0; i < MaxSelectChar; i++ )
 	{
 		if( ptActSelChar[i] != NULL )
@@ -2290,27 +2290,27 @@ int selCharGraNo( void )
 		if( id == 0 )
 		{
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"Ç°¤Î»­Ãæ¤Ë‘ø¤ê¤Ş¤¹¡£", 0 );
+				"å‰ã®ç”»é¢ã«è¾˜è“¼åŸ‚", 0 );
 		}
 		else
 		{
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"¥­¥ã¥é¥¯¥¿©`¤òßx’k¤·¤Æ¤¯¤À¤µ¤¤¡£", 0 );
+				"ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ã‚’xkã—ã¦ãã ã•ã„ã€‚", 0 );
 		}
 
-		// ¥­¥ã¥éßx’k¤Ë‘ø¤ë
+		// ã‚­ãƒ£ãƒ©xkã«
 		selCharCanselGraId[0] =
 			StockDispBuffer( 64, 400, DISP_PRIO_BG, CG_CHR_MAKE_BACK_BTN, 2 );
 	}
 
 	if( ret == 0 )
 	{
-		// £Â£Ç±íÊ¾
+		// ï¼¢ï¼§è¡¨ç¤º
 		StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_CHR_MAKE_SEL_BG, 0 );
 	}
 
-	RunAction();			// ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë
-	StockTaskDispBuffer();	// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+	RunAction();			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹
+	StockTaskDispBuffer();	// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 
 	return ret;
 }
@@ -2318,17 +2318,17 @@ int selCharGraNo( void )
 
 
 
-// ¥­¥ã¥é¤ÎÉ«‰ä¸ü¥¦¥£¥ó¥É¥¦„IÀí³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ã®è‰²æ¶“Î•ï¼…è—ä¸§Iç†åˆæœŸåŒ–
 void initSelCharGraColorWin( void )
 {
 	selCharGraColorWinProcNo = 0;
 }
 
-// ¥­¥ã¥é¤ÎÉ«‰ä¸ü¥¦¥£¥ó¥É¥¦„IÀí³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ã®è‰²æ¶“Î•ï¼…è—ä¸§Iç†åˆæœŸåŒ–
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... OK¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
-//				2 ... ¥­¥ã¥ó¥»¥ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+//  	0 ... Iç†ä¸­
+//				1 ... OKãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
+//				2 ... ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 int selCharGraColorWin( void )
 {
 	static int fontId[] = { -2, -2, -2, -2 };
@@ -2339,13 +2339,13 @@ int selCharGraColorWin( void )
 	int ret = 0;
 	char msg[][16] =
 	{
-		"ÈËÎïÈ·¶¨ ",
-		"ĞÎÏóÑ¡Ôñ",
-		"·½Ïò²é¿´ ",
-		"ÖØÑ¡ÈËÎï"
+		"äººç‰©ç¡®å®š ",
+		"å½¢è±¡é€‰æ‹©",
+		"æ–¹å‘æŸ¥çœ‹ ",
+		"é‡é€‰äººç‰©"
 	};
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( selCharGraColorWinProcNo == 0 )
 	{
 		selCharGraColorWinProcNo = 1;
@@ -2355,7 +2355,7 @@ int selCharGraColorWin( void )
 			fontId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 2;
 		h = 3;
 		x = 496;
@@ -2363,42 +2363,42 @@ int selCharGraColorWin( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// ¥Õ¥©¥ó¥È¤Îßx’kÅĞ¶¨
+	// ãƒ•ã‚©ãƒ³ãƒˆã®xkåˆ¤å®š
 	id = selFontId( fontId, sizeof( fontId )/sizeof( int ) );
 
-	// ›Q¶¨
+	// Qå®š
 	if( id == 0 )
 	{
 		ret = 1;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ¥«¥é©`ßx’k
+	// ã‚«ãƒ©`xk
 	if( id == 1 )
 	{
 		selCharColor[nowSelCharGraNo]++;
 		if( selCharColor[nowSelCharGraNo] > 3 )
 			selCharColor[nowSelCharGraNo] = 0;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ·½Ïò¥Ü¥¿¥ó
+	// æ–¹å‘ãƒœã‚¿ãƒ³
 	if( id == 2 )
 	{
 		selCharDir[nowSelCharGraNo]++;
 		if( selCharDir[nowSelCharGraNo] > 7 )
 			selCharDir[nowSelCharGraNo] = 0;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	else
-	// ¥­¥ã¥ó¥»¥ë
+	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 	if( id == 3 )
 	{
 		ret = 2;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
-	// ½Y¹û¤¬¤ï¤«¤Ã¤¿¤é¥¦¥£¥ó¥É¥¦é]¤¸¤ë
+	// YæœãŒã‚ã‹ã£ãŸã‚‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹
 	if( ret != 0 )
 	{
 		if( ptActMenuWin )
@@ -2409,40 +2409,40 @@ int selCharGraColorWin( void )
 	}
 
 
-	// ¥«©`¥½¥ë¤Î¤¢¤¿¤Ã¤Æ¤¤¤ë¥á¥Ë¥å©`
+	// ã‚«`ã‚½ãƒ«ã®ã‚ãŸã£ã¦ã„ã‚‹ãƒ¡ãƒ‹ãƒ¥`
 	id = focusFontId( fontId, sizeof( fontId )/sizeof( int ) );
 
-	// ›Q¶¨
+	// Qå®š
 	if( id == 0 )
 	{
 		StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-			"ßx’k¤·¤¿¥­¥ã¥é¥¯¥¿©`¤Ë›Q¶¨¤·¤Ş¤¹¡£", 0 );
+			"xkã—ãŸã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ã«Qå®šã—ã¾ã™ã€‚", 0 );
 	}
 	else
-	// ¥«¥é©`ßx’k
+	// ã‚«ãƒ©`xk
 	if( id == 1 )
 	{
 		StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-			"¥­¥ã¥é¥¯¥¿©`¤ÎÉ«¤ò‰ä¸ü¤·¤Ş¤¹¡£", 0 );
+			"ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ã®è‰²ã‚’æ¶“ç­è“¼åŸ‚", 0 );
 	}
 	else
-	// ·½Ïò¥Ü¥¿¥ó
+	// æ–¹å‘ãƒœã‚¿ãƒ³
 	if( id == 2 )
 	{
 		StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-			"¥­¥ã¥é¥¯¥¿©`¤òËû¤ÎÏò¤­¤Ë‰ä¸ü¤·¤Ş¤¹¡£", 0 );
+			"ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ã‚’ä»–ã®å‘ãã«æ¶“ç­è“¼åŸ‚", 0 );
 	}
 	else
-	// ¥­¥ã¥ó¥»¥ë
+	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 	if( id == 3 )
 	{
 		StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-			"¥­¥ã¥é¥¯¥¿©`ßx’k¤Ë‘ø¤ê¤Ş¤¹¡£", 0 );
+			"ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`xkã«è¾˜è“¼åŸ‚", 0 );
 	}
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			for( i = 0; i < sizeof( fontId )/sizeof( int ); i++ )
@@ -2460,13 +2460,13 @@ int selCharGraColorWin( void )
 
 
 
-// ¥­¥ã¥é¥¯¥¿¤Î¥Ñ¥é¥á©`¥¿ÔO¶¨³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®ãƒ‘ãƒ©ãƒ¡`ã‚¿Oå®šåˆæœŸåŒ–
 void initEditCharParam( void )
 {
 	editCharParamProcNo = 0;
 
 
-	// ÃûÇ°ÈëÁ¦„IÀí¤Î³õÆÚ»¯
+	// åå‰å…¥åŠ›Iç†ã®åˆæœŸåŒ–
 	selCharNameBoxX = 104;
 	selCharNameBoxY = 102;
 	initStrBuffer( &selCharName, selCharNameBoxX, selCharNameBoxY,
@@ -2475,25 +2475,25 @@ void initEditCharParam( void )
 	selCharName.cnt = 0;
 	GetKeyInputFocus( &selCharName );
 
-	// ÄÜÁ¦¥İ¥¤¥ó¥ÈÕñ¤ê·Ö¤±„IÀí¤Î³õÆÚ»¯
-	nowSelCharStatusPoint = 20;		// ¥­¥ã¥é¤Î¥¹¥Æ©`¥¿¥¹¤Ë¸î¤êÕñ¤ì¤ë¥İ¥¤¥ó¥È
-	nowSelCharStatus[0]   =  0;		// ¥­¥ã¥é¤ÎÌåÁ¦
-	nowSelCharStatus[1]   =  0;		// ¥­¥ã¥é¤ÎÍóÁ¦
-	nowSelCharStatus[2]   =  0;		// ¥­¥ã¥é¤ÎÕÉ·ò¤µ
-	nowSelCharStatus[3]   =  0;		// ¥­¥ã¥é¤ÎËØÔç¤µ
-	nowSelCharAttrPoint   = 10;		// ¥­¥ã¥é¤ÎÊôĞÔ¤Ë¸î¤êÕñ¤ì¤ë¥İ¥¤¥ó¥È
-	nowSelCharAttr[0]     =  0;		// ¥­¥ã¥é¤ÎµØÊôĞÔ
-	nowSelCharAttr[1]     =  0;		// ¥­¥ã¥é¤ÎË®ÊôĞÔ
-	nowSelCharAttr[2]     =  0;		// ¥­¥ã¥é¤Î»ğÊôĞÔ
-	nowSelCharAttr[3]     =  0;		// ¥­¥ã¥é¤ÎïLÊôĞÔ
+	// èƒ½åŠ›ãƒã‚¤ãƒ³ãƒˆæŒ¯ã‚Šåˆ†ã‘Iç†ã®åˆæœŸåŒ–
+	nowSelCharStatusPoint = 20;		// ã‚­ãƒ£ãƒ©ã®ã‚¹ãƒ†`ã‚¿ã‚¹ã«å‰²ã‚ŠæŒ¯ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒˆ
+	nowSelCharStatus[0]   =  0;		// ã‚­ãƒ£ãƒ©ã®ä½“åŠ›
+	nowSelCharStatus[1]   =  0;		// ã‚­ãƒ£ãƒ©ã®è…•åŠ›
+	nowSelCharStatus[2]   =  0;		// ã‚­ãƒ£ãƒ©ã®ä¸ˆå¤«ã•
+	nowSelCharStatus[3]   =  0;		// ã‚­ãƒ£ãƒ©ã®ç´ æ—©ã•
+	nowSelCharAttrPoint   = 10;		// ã‚­ãƒ£ãƒ©ã®å±æ€§ã«å‰²ã‚ŠæŒ¯ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒˆ
+	nowSelCharAttr[0]     =  0;		// ã‚­ãƒ£ãƒ©ã®åœ°å±æ€§
+	nowSelCharAttr[1]     =  0;		// ã‚­ãƒ£ãƒ©ã®æ°´å±æ€§
+	nowSelCharAttr[2]     =  0;		// ã‚­ãƒ£ãƒ©ã®ç«å±æ€§
+	nowSelCharAttr[3]     =  0;		// ã‚­ãƒ£ãƒ©ã®Lå±æ€§
 }
 
-// ¥­¥ã¥é¥¯¥¿¤Î¥Ñ¥é¥á©`¥¿ÔO¶¨³õÆÚ»¯£²
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®ãƒ‘ãƒ©ãƒ¡`ã‚¿Oå®šåˆæœŸåŒ–ï¼’
 void initEditCharParam2( void )
 {
 	editCharParamProcNo = 0;
 
-	// ÃûÇ°ÈëÁ¦„IÀí¤Î³õÆÚ»¯
+	// åå‰å…¥åŠ›Iç†ã®åˆæœŸåŒ–
 	selCharNameBoxX = 104;
 	selCharNameBoxY = 102;
 	initStrBuffer( &selCharName, selCharNameBoxX, selCharNameBoxY,
@@ -2501,11 +2501,11 @@ void initEditCharParam2( void )
 	GetKeyInputFocus( &selCharName );
 }
 
-// ¥­¥ã¥é¥¯¥¿¤Î¥Ñ¥é¥á©`¥¿ÔO¶¨
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®ãƒ‘ãƒ©ãƒ¡`ã‚¿Oå®š
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... ›Q¶¨
-//				2 ... ¥­¥ã¥ó¥»¥ë
+//  	0 ... Iç†ä¸­
+//				1 ... Qå®š
+//				2 ... ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 int editCharParam( void )
 {
 	int ret = 0;
@@ -2550,7 +2550,7 @@ int editCharParam( void )
 
 	GetKeyInputFocus( NULL );
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( editCharParamProcNo == 0 )
 	{
 		for( i = 0; i < sizeof( graId )/sizeof( int ); i++ )
@@ -2560,7 +2560,7 @@ int editCharParam( void )
 		editCharParamProcNo++;
 	}
 
-	// ¥Ñ¥é¥á©`¥¿ÔO¶¨„IÀí
+	// ãƒ‘ãƒ©ãƒ¡`ã‚¿Oå®šIç†
 	id = -1;
 	id3 = -1;
 	if( editCharParamProcNo == 1 )
@@ -2568,53 +2568,53 @@ int editCharParam( void )
 		selUseFlag = 2;
 		GetKeyInputFocus( &selCharName );
 
-		// ¥°¥é¥Õ¥£¥Ã¥¯¤Îµ±¤¿¤êÅĞ¶¨
+		// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®å½“ãŸã‚Šåˆ¤å®š
 		//id = selGraId( graId, sizeof( graId )/sizeof( int ) );
 		id = selRepGraId( graId, sizeof( graId )/sizeof( int ) );
 		id3 = pushGraId( graId, sizeof( graId )/sizeof( int ) );
 
 
-		// ›Q¶¨
+		// Qå®š
 		if( id == 0 )
 		{
-			// ÃûÇ°¤¬ÈëÁ¦¤µ¤ì¤Æ¤Ê¤¤
+			// åå‰ãŒå…¥åŠ›ã•ã‚Œã¦ãªã„
 			if( selCharName.cnt <= 0 )
 			{
 				editCharParamProcNo = 100;
 			}
 			else
-			// ¥¹¥Æ©`¥¿¥¹¤ÎÕñ¤ê·Ö¤±¥İ¥¤¥ó¥È¤¬²Ğ¤Ã¤Æ¤ë
+			// ã‚¹ãƒ†`ã‚¿ã‚¹ã®æŒ¯ã‚Šåˆ†ã‘ãƒã‚¤ãƒ³ãƒˆãŒæ®‹ã£ã¦ã‚‹
 			if( nowSelCharStatusPoint > 0 )
 			{
 				editCharParamProcNo = 104;
 			}
 			else
-			// ÊôĞÔ¤ÎÕñ¤ê·Ö¤±¥İ¥¤¥ó¥È¤¬²Ğ¤Ã¤Æ¤ë
+			// å±æ€§ã®æŒ¯ã‚Šåˆ†ã‘ãƒã‚¤ãƒ³ãƒˆãŒæ®‹ã£ã¦ã‚‹
 			if( nowSelCharAttrPoint > 0 )
 			{
 				editCharParamProcNo = 106;
 			}
 			else
-			// Í¬¤¸¥­¥ã¥éÃû¤¬¤¤¤ë
+			// åŒã˜ã‚­ãƒ£ãƒ©åãŒã„ã‚‹
 			{
 				strcpy( newCharacterName, selCharName.buffer );
 				newCharacterName[selCharName.cnt] = '\0';
 
 				if( cmpNameCharacterList( selCharName.buffer ) )
 				{
-					// Í¬¤¸ÃûÇ°¤¬¤¢¤ë¤Î¤Ç¥À¥á
+					// åŒã˜åå‰ãŒã‚ã‚‹ã®ã§ãƒ€ãƒ¡
 					editCharParamProcNo = 102;
 				}
 				else
-				// ¿Õ°×ÎÄ×Ö¤¬º¬¤Ş¤ì¤Æ¤¤¤ëÃûÇ°¤Ï¥À¥á
+				// ç©ºç™½æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã‚‹åå‰ã¯ãƒ€ãƒ¡
 				if( strstr( newCharacterName, " " ) != NULL
-				 || strstr( newCharacterName, "¡¡" ) != NULL )
+				 || strstr( newCharacterName, "ã€€" ) != NULL )
 				{
 					editCharParamProcNo = 108;
 				}
 				else
 				{
-					// ›Q¶¨
+					// Qå®š
 					ret = 1;
 					sjisStringToEucString( newCharacterName );
 					newCharacterGraNo =
@@ -2632,60 +2632,60 @@ int editCharParam( void )
 					newCharacterFire  = nowSelCharAttr[2];
 					newCharacterWind  = nowSelCharAttr[3];
 					loginDp = 0;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
 		else
-		// ‘ø¤ë
+		// 
 		if( id == 1 )
 		{
 			ret = 2;
-			play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+			play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 		}
 		else
-		// ¥¹¥Æ©`¥¿¥¹¥Ñ¥é¥á©`¥¿Õñ¤ê·Ö¤±
+		// ã‚¹ãƒ†`ã‚¿ã‚¹ãƒ‘ãƒ©ãƒ¡`ã‚¿æŒ¯ã‚Šåˆ†ã‘
 		if( 2 <= id && id <= 9 )
 		{
 			id2 = id - 2;
-			// ¥Ñ¥é¥á©`¥¿¤òœp¤é¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’pã‚‰ã™
 			if( (id2 % 2) == 0 )
 			{
 				if( nowSelCharStatus[id2/2] > 0 )
 				{
 					nowSelCharStatus[id2/2]--;
 					nowSelCharStatusPoint++;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 			else
-			// ¥Ñ¥é¥á©`¥¿¤ò‰ˆ¤ä¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’ã‚„ã™
 			{
 				if( nowSelCharStatusPoint > 0 )
 				{
 					nowSelCharStatus[id2/2]++;
 					nowSelCharStatusPoint--;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
 		else
-		// ÊôĞÔ¤ÎÕñ¤ê·Ö¤±
+		// å±æ€§ã®æŒ¯ã‚Šåˆ†ã‘
 		if( 10 <= id && id <= 17 )
 		{
 			id2 = id - 10;
-			// ¥Ñ¥é¥á©`¥¿¤òœp¤é¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’pã‚‰ã™
 			if( (id2 % 2) == 0 )
 			{
 				if( nowSelCharAttr[id2/2] > 0 )
 				{
 					nowSelCharAttr[id2/2]--;
 					nowSelCharAttrPoint++;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 			else
-			// ¥Ñ¥é¥á©`¥¿¤ò‰ˆ¤ä¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’ã‚„ã™
 			{
 				int no, no2;
 
@@ -2705,13 +2705,13 @@ int editCharParam( void )
 					{
 						nowSelCharAttr[no]++;
 						nowSelCharAttrPoint--;
-						play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+						play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 					}
 					else
-					// Õñ¤ê·Ö¤±¥İ¥¤¥ó¥È¤¬£°¤Ç‰ˆ¤ä¤¹¥Ü¥¿¥ó¤òÑº¤·¤¿¤é¤Û¤«¤Î¤È¤³¤í¤«¤é
-					// ³Ö¤Ã¤Æ¤¯¤ë
+					// æŒ¯ã‚Šåˆ†ã‘ãƒã‚¤ãƒ³ãƒˆãŒï¼ã§ã‚„ã™ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰ã»ã‹ã®ã¨ã“ã‚ã‹ã‚‰
+					// æŒã£ã¦ãã‚‹
 					{
-						// ¬FÔÚÑº¤µ¤ì¤¿¥Ü¥¿¥óÒÔÍâ¤Ë¥Ñ¥é¥á©`¥¿¤¬Õñ¤ê·Ö¤±¤é¤ì¤Æ¤¤¤ë¤È¤³¤í¤òÌ½¤¹
+						// Fåœ¨æŠ¼ã•ã‚ŒãŸãƒœã‚¿ãƒ³ä»¥å¤–ã«ãƒ‘ãƒ©ãƒ¡`ã‚¿ãŒæŒ¯ã‚Šåˆ†ã‘ã‚‰ã‚Œã¦ã„ã‚‹ã¨ã“ã‚ã‚’æ¢ã™
 						for( i = 0; i < 4; i++ )
 						{
 							if( i != no && nowSelCharAttr[i] > 0 )
@@ -2723,7 +2723,7 @@ int editCharParam( void )
 						{
 							nowSelCharAttr[no]++;
 							nowSelCharAttr[i]--;
-							play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+							play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 						}
 					}
 				}
@@ -2732,7 +2732,7 @@ int editCharParam( void )
 		else
 		if( id == 18 || id == 19 )
 		{
-			// ¥Ñ¥é¥á©`¥¿¤òœp¤é¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’pã‚‰ã™
 			if( id == 18 )
 			{
 				if( nowSelCharEyeNo > 0 )
@@ -2745,7 +2745,7 @@ int editCharParam( void )
 				}
 			}
 			else
-			// ¥Ñ¥é¥á©`¥¿¤ò‰ˆ¤ä¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’ã‚„ã™
 			{
 				if( nowSelCharEyeNo < 4 )
 				{
@@ -2756,12 +2756,12 @@ int editCharParam( void )
 					nowSelCharEyeNo = 0;
 				}
 			}
-			play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+			play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 		}
 		else
 		if( id == 20 || id == 21 )
 		{
-			// ¥Ñ¥é¥á©`¥¿¤òœp¤é¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’pã‚‰ã™
 			if( id == 20 )
 			{
 				if( nowSelCharMouthNo > 0 )
@@ -2774,7 +2774,7 @@ int editCharParam( void )
 				}
 			}
 			else
-			// ¥Ñ¥é¥á©`¥¿¤ò‰ˆ¤ä¤¹
+			// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’ã‚„ã™
 			{
 				if( nowSelCharMouthNo < 4 )
 				{
@@ -2785,103 +2785,103 @@ int editCharParam( void )
 					nowSelCharMouthNo = 0;
 				}
 			}
-			play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+			play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 		}
 	}
 
 
-	// ¥¨¥é©`¥á¥Ã¥»©`¥¸
-	// ÃûÇ°ÈëÁ¦¤¬¤Ş¤À
+	// ã‚¨ãƒ©`ãƒ¡ãƒƒã‚»`ã‚¸
+	// åå‰å…¥åŠ›ãŒã¾ã 
 	if( editCharParamProcNo == 100 )
 	{
 		initCommonMsgWin();
 		editCharParamProcNo++;
-		play_se( 220, 320, 240 );	// £Î£ÇÒô
+		play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 	}
 	if( editCharParamProcNo == 101 )
 	{
-		if( commonMsgWin( "ÃûÇ°¤¬ÈëÁ¦¤µ¤ì¤Æ¤¤¤Ş¤»¤ó£¡" ) )
+		if( commonMsgWin( "åå‰ãŒå…¥åŠ›ã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			editCharParamProcNo = 1;
 		}
 	}
-	// Í¬Ò»¥­¥ã¥éÃû
+	// åŒä¸€ã‚­ãƒ£ãƒ©å
 	if( editCharParamProcNo == 102 )
 	{
 		initCommonMsgWin();
 		editCharParamProcNo++;
-		play_se( 220, 320, 240 );	// £Î£ÇÒô
+		play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 	}
 	if( editCharParamProcNo == 103 )
 	{
-		if( commonMsgWin( "Í¬¤¸ÃûÇ°¤Î¥­¥ã¥é¥¯¥¿©`¤¬¤¹¤Ç¤Ë¤¤¤Ş¤¹£¡" ) )
+		if( commonMsgWin( "åŒã˜åå‰ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ãŒã™ã§ã«ã„ã¾ã™ï¼" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			editCharParamProcNo = 1;
 		}
 	}
-	// ¥¹¥Æ©`¥¿¥¹¤ÎÕñ¤ê·Ö¤±¥İ¥¤¥ó¥È¤¬²Ğ¤Ã¤Æ¤ë
+	// ã‚¹ãƒ†`ã‚¿ã‚¹ã®æŒ¯ã‚Šåˆ†ã‘ãƒã‚¤ãƒ³ãƒˆãŒæ®‹ã£ã¦ã‚‹
 	if( editCharParamProcNo == 104 )
 	{
 		initCommonMsgWin();
 		editCharParamProcNo++;
-		play_se( 220, 320, 240 );	// £Î£ÇÒô
+		play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 	}
 	if( editCharParamProcNo == 105 )
 	{
-		if( commonMsgWin( "¥¹¥Æ©`¥¿¥¹¤ËÈ«¤Æ¤Î¥İ¥¤¥ó¥È¤òÕñ¤ê·Ö¤±¤Æ¤¯¤À¤µ¤¤£¡" ) )
+		if( commonMsgWin( "ã‚¹ãƒ†`ã‚¿ã‚¹ã«å…¨ã¦ã®ãƒã‚¤ãƒ³ãƒˆã‚’æŒ¯ã‚Šåˆ†ã‘ã¦ãã ã•ã„ï¼" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			editCharParamProcNo = 1;
 		}
 	}
-	// ÊôĞÔ¤ÎÕñ¤ê·Ö¤±¥İ¥¤¥ó¥È¤¬²Ğ¤Ã¤Æ¤ë
+	// å±æ€§ã®æŒ¯ã‚Šåˆ†ã‘ãƒã‚¤ãƒ³ãƒˆãŒæ®‹ã£ã¦ã‚‹
 	if( editCharParamProcNo == 106 )
 	{
 		initCommonMsgWin();
 		editCharParamProcNo++;
-		play_se( 220, 320, 240 );	// £Î£ÇÒô
+		play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 	}
 	if( editCharParamProcNo == 107 )
 	{
-		if( commonMsgWin( "ÊôĞÔ¤ËÈ«¤Æ¤Î¥İ¥¤¥ó¥È¤òÕñ¤ê·Ö¤±¤Æ¤¯¤À¤µ¤¤£¡" ) )
+		if( commonMsgWin( "å±æ€§ã«å…¨ã¦ã®ãƒã‚¤ãƒ³ãƒˆã‚’æŒ¯ã‚Šåˆ†ã‘ã¦ãã ã•ã„ï¼" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			editCharParamProcNo = 1;
 		}
 	}
-	// ÃûÇ°¤¬¿Õ°×ÎÄ×Ö
+	// åå‰ãŒç©ºç™½æ–‡å­—
 	if( editCharParamProcNo == 108 )
 	{
 		initCommonMsgWin();
 		editCharParamProcNo++;
-		play_se( 220, 320, 240 );	// £Î£ÇÒô
+		play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 	}
 	if( editCharParamProcNo == 109 )
 	{
-		if( commonMsgWin( "¿Õ°×ÎÄ×Ö¤¬º¬¤Ş¤ì¤ëÃûÇ°¤ÏÊ¹¤¨¤Ş¤»¤ó£¡" ) )
+		if( commonMsgWin( "ç©ºç™½æ–‡å­—ãŒå«ã¾ã‚Œã‚‹åå‰ã¯ä½¿ãˆã¾ã›ã‚“ï¼" ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
 			editCharParamProcNo = 1;
 		}
 	}
 
 
-	// ÕhÃ÷
+	// hæ˜
 	if( editCharParamProcNo == 1 )
 	{
 		id = focusGraId( graId, sizeof( graId )/sizeof( int ) );
 		if( id == 0 )
 		{
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"ÔO¶¨¤·¤¿¥­¥ã¥é¥¯¥¿©`¤Ë›Q¶¨¤·¤Ş¤¹¡£", 0 );
+				"Oå®šã—ãŸã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ã«Qå®šã—ã¾ã™ã€‚", 0 );
 		}
 		else
 		if( id == 1 )
 		{
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"Ç°¤Î»­Ãæ¤Ë‘ø¤ê¤Ş¤¹¡£", 0 );
+				"å‰ã®ç”»é¢ã«è¾˜è“¼åŸ‚", 0 );
 		}
 		else
 		if( 2 <= id && id <= 9 )
@@ -2891,25 +2891,25 @@ int editCharParam( void )
 			if( id == 0 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"Ö÷¤Ë¡¢ÄÍ¾ÃÁ¦¤Ë¤«¤«¤ï¤ê¤Ş¤¹¡£", 0 );
+					"ä¸»ã«ã€è€ä¹…åŠ›ã«ã‹ã‹ã‚ã‚Šã¾ã™ã€‚", 0 );
 			}
 			else
 			if( id == 1 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"Ö÷¤Ë¡¢¹¥“Ä•r¤ËÏàÊÖ¤ËÓë¤¨¤ë¥À¥á©`¥¸¤Ë¤«¤«¤ï¤ê¤Ş¤¹¡£", 0 );
+					"ä¸»ã«ã€æ”»rã«ç›¸æ‰‹ã«ä¸ãˆã‚‹ãƒ€ãƒ¡`ã‚¸ã«ã‹ã‹ã‚ã‚Šã¾ã™ã€‚", 0 );
 			}
 			else
 			if( id == 2 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"Ö÷¤Ë¡¢ÏàÊÖ¤«¤éÊÜ¤±¤ë¥À¥á©`¥¸¤ò·À¤°¤Î¤Ë¤«¤«¤ï¤ê¤Ş¤¹¡£", 0 );
+					"ä¸»ã«ã€ç›¸æ‰‹ã‹ã‚‰å—ã‘ã‚‹ãƒ€ãƒ¡`ã‚¸ã‚’é˜²ãã®ã«ã‹ã‹ã‚ã‚Šã¾ã™ã€‚", 0 );
 			}
 			else
 			if( id == 3 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"Ö÷¤Ë¡¢‘éêL•r¤ÎĞĞ„Ó¤Îí˜·¬¤Ë¤«¤«¤ï¤ê¤Ş¤¹¡£", 0 );
+					"ä¸»ã«ã€æ®›Lrã®è¡Œå©´é›¾ç•ªã«ã‹ã‹ã‚ã‚Šã¾ã™ã€‚", 0 );
 			}
 		}
 		else
@@ -2920,25 +2920,25 @@ int editCharParam( void )
 			if( id == 0 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"µØÊôĞÔ¡£Ë®ÊôĞÔ¤ÎÏàÊÖ¤ËŒ¤·‘éêL¤ÇÓĞÀû¤Ç¤¹¡£", 0 );
+					"åœ°å±æ€§ã€‚æ°´å±æ€§ã®ç›¸æ‰‹ã«ã—æ®›Lã§æœ‰åˆ©ã§ã™ã€‚", 0 );
 			}
 			else
 			if( id == 1 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"Ë®ÊôĞÔ¡£»ğÊôĞÔ¤ÎÏàÊÖ¤ËŒ¤·‘éêL¤ÇÓĞÀû¤Ç¤¹¡£", 0 );
+					"æ°´å±æ€§ã€‚ç«å±æ€§ã®ç›¸æ‰‹ã«ã—æ®›Lã§æœ‰åˆ©ã§ã™ã€‚", 0 );
 			}
 			else
 			if( id == 2 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"»ğÊôĞÔ¡£ïLÊôĞÔ¤ÎÏàÊÖ¤ËŒ¤·‘éêL¤ÇÓĞÀû¤Ç¤¹¡£", 0 );
+					"ç«å±æ€§ã€‚Lå±æ€§ã®ç›¸æ‰‹ã«ã—æ®›Lã§æœ‰åˆ©ã§ã™ã€‚", 0 );
 			}
 			else
 			if( id == 3 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"ïLÊôĞÔ¡£µØÊôĞÔ¤ÎÏàÊÖ¤ËŒ¤·‘éêL¤ÇÓĞÀû¤Ç¤¹¡£", 0 );
+					"Lå±æ€§ã€‚åœ°å±æ€§ã®ç›¸æ‰‹ã«ã—æ®›Lã§æœ‰åˆ©ã§ã™ã€‚", 0 );
 			}
 		}
 		else
@@ -2947,24 +2947,24 @@ int editCharParam( void )
 			if( nowSelCharGraNo != 0 && nowSelCharGraNo != 6 )
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"Ä¿¤ÎĞÎ¤ò‰ä¸ü¤·¤Ş¤¹¡£", 0 );
+					"ç›®ã®å½¢ã‚’æ¶“ç­è“¼åŸ‚", 0 );
 			}
 			else
 			{
 				StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-					"±Ç¤ÎĞÎ¤ò‰ä¸ü¤·¤Ş¤¹¡£", 0 );
+					"é¼»ã®å½¢ã‚’æ¶“ç­è“¼åŸ‚", 0 );
 			}
 		}
 		else
 		if( id == 20 || id == 21 )
 		{
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"¿Ú¤ÎĞÎ¤ò‰ä¸ü¤·¤Ş¤¹¡£", 0 );
+				"å£ã®å½¢ã‚’æ¶“ç­è“¼åŸ‚", 0 );
 		}
 		else
 		{
 			StockFontBuffer( 8, 460, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"ÃûÇ°¡¢î†¡¢¥¹¥Æ©`¥¿¥¹¡¢ÊôĞÔ¤òÔO¶¨¤·¤Æ¤¯¤À¤µ¤¤¡£", 0 );
+				"åå‰ã€ã€ã‚¹ãƒ†`ã‚¿ã‚¹ã€å±æ€§ã‚’Oå®šã—ã¦ãã ã•ã„ã€‚", 0 );
 		}
 	}
 
@@ -2972,17 +2972,17 @@ int editCharParam( void )
 
 	StockFontBuffer2( &selCharName );
 
-	// î†¥°¥é¥Õ¥£¥Ã¥¯
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
 	StockDispBuffer( 93, 172, DISP_PRIO_BG,
 		CG_CHR_MAKE_FACE+nowSelCharGraNo*100+selCharColor[nowSelCharGraNo]*25
 		+nowSelCharEyeNo*5+nowSelCharMouthNo,
 			0 );
 
-	// ¥­¥ã¥é¤Î¥¹¥Æ©`¥¿¥¹¤Ë¸î¤êÕñ¤ì¤ë¥İ¥¤¥ó¥È
+	// ã‚­ãƒ£ãƒ©ã®ã‚¹ãƒ†`ã‚¿ã‚¹ã«å‰²ã‚ŠæŒ¯ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒˆ
 	sprintf( msg, "%3d", nowSelCharStatusPoint );
 	StockFontBuffer( 161, 224, FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
-	// ¥­¥ã¥é¤Î¥¹¥Æ©`¥¿¥¹
+	// ã‚­ãƒ£ãƒ©ã®ã‚¹ãƒ†`ã‚¿ã‚¹
 	for( i = 0; i < 4; i++ )
 	{
 		sprintf( msg, "%3d", nowSelCharStatus[i] );
@@ -2991,12 +2991,12 @@ int editCharParam( void )
 	}
 
 
-	// ¥­¥ã¥é¤ÎÊôĞÔ¤Ë¸î¤êÕñ¤ì¤ë¥İ¥¤¥ó¥È
+	// ã‚­ãƒ£ãƒ©ã®å±æ€§ã«å‰²ã‚ŠæŒ¯ã‚Œã‚‹ãƒã‚¤ãƒ³ãƒˆ
 	sprintf( msg, "%3d", nowSelCharAttrPoint );
 	StockFontBuffer( 350, 224, FONT_PRIO_BACK, FONT_PAL_WHITE, msg, 0 );
 
 
-	// ÊôĞÔ¤Î¥á©`¥¿
+	// å±æ€§ã®ãƒ¡`ã‚¿
 	for( i = 0; i < 4; i ++ )
 	{
 		if( nowSelCharAttr[i] > 0 )
@@ -3012,9 +3012,9 @@ int editCharParam( void )
 	}
 
 
-	// ¥­¥ã¥é×÷³É½KÁË
+	// ã‚­ãƒ£ãƒ©ä½œæˆKäº†
 	graId[0] = StockDispBuffer(  96, 410, DISP_PRIO_CHAR, CG_CHR_MAKE_OK_BTN, selUseFlag );
-	// ¥­¥ã¥éßx’k¤Ø‘ø¤ë
+	// ã‚­ãƒ£ãƒ©xkã¸
 	graId[1] = StockDispBuffer( 192, 410, DISP_PRIO_CHAR, CG_CHR_MAKE_BACK_BTN, selUseFlag );
 
 	for( i = 0; i < 4; i++ )
@@ -3033,11 +3033,11 @@ int editCharParam( void )
 				btn2 = 1;
 			}
 		}
-		// < ¥Ü¥¿¥ó
+		// < ãƒœã‚¿ãƒ³
 		graId[i*2+2] = StockDispBuffer( statusLocate[i][0]+51, statusLocate[i][1]+8,
 						DISP_PRIO_CHAR, upDownBtnGraNo[0][btn1], selUseFlag );
 
-		// > ¥Ü¥¿¥ó
+		// > ãƒœã‚¿ãƒ³
 		graId[i*2+3] = StockDispBuffer( statusLocate[i][0]+87, statusLocate[i][1]+8,
 						DISP_PRIO_CHAR, upDownBtnGraNo[1][btn2], selUseFlag );
 	}
@@ -3064,11 +3064,11 @@ int editCharParam( void )
 				}
 			}
 
-			// < ¥Ü¥¿¥ó
+			// < ãƒœã‚¿ãƒ³
 			graId[i*2+10] = StockDispBuffer( attrLocate[i][0]+101, attrLocate[i][1]+5,
 							DISP_PRIO_CHAR, upDownBtnGraNo[0][btn1], selUseFlag );
 
-			// > ¥Ü¥¿¥ó
+			// > ãƒœã‚¿ãƒ³
 			graId[i*2+11] = StockDispBuffer( attrLocate[i][0]+137, attrLocate[i][1]+5,
 							DISP_PRIO_CHAR, upDownBtnGraNo[1][btn2], selUseFlag );
 		}
@@ -3096,11 +3096,11 @@ int editCharParam( void )
 			}
 		}
 
-		// < ¥Ü¥¿¥ó
+		// < ãƒœã‚¿ãƒ³
 		graId[i*2+18] =
 			StockDispBuffer( 156, 172+i*24,
 				DISP_PRIO_CHAR, upDownBtnGraNo[0][btn1], selUseFlag );
-		// > ¥Ü¥¿¥ó
+		// > ãƒœã‚¿ãƒ³
 		graId[i*2+19] =
 			StockDispBuffer( 260, 172+i*24,
 				DISP_PRIO_CHAR, upDownBtnGraNo[1][btn2], selUseFlag );
@@ -3115,13 +3115,13 @@ int editCharParam( void )
 		StockDispBuffer( 320, 240, DISP_PRIO_CHAR, CG_CHR_MAKE_NOSE_SEL, 0 );
 	}
 
-	// £Â£Ç±íÊ¾
+	// ï¼¢ï¼§è¡¨ç¤º
 	StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_CHR_MAKE_BG, 0 );
 
-	RunAction();			// ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë
-	StockTaskDispBuffer();	// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
-	FlashKeyboardCursor();	// ¥­©`¥Ü©`¥É¥«©`¥½¥ëµãœç„IÀí
-	ImeProc();				// £É£Í£ÅévßB„IÀí
+	RunAction();			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹
+	StockTaskDispBuffer();	// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
+	FlashKeyboardCursor();	// ã‚­`ãƒœ`ãƒ‰ã‚«`ã‚½ãƒ«ç‚¹Iç†
+	ImeProc();				// ï¼©ï¼­ï¼¥vBIç†
 
 	return ret;
 }
@@ -3129,8 +3129,8 @@ int editCharParam( void )
 
 
 
-// ³öÉíµØ¤Îßx’k
-// ³õÆÚ»¯
+// å‡ºèº«åœ°ã®xk
+// åˆæœŸåŒ–
 void initSelHomeTown( void )
 {
 	selHomeTownProcNo = 0;
@@ -3138,12 +3138,12 @@ void initSelHomeTown( void )
 }
 
 
-// ³öÉíµØ¤Îßx’k„IÀí
+// å‡ºèº«åœ°ã®xkIç†
 //
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... ›Q¶¨
-//				2 ... ¥­¥ã¥ó¥»¥ë
-//³öÉúµØµÄÑ¡Ôñ´¦Àí/ // /·µ»ØÖµ£º0...´¦ÀíÖĞ/ /1...¾ö¶¨/ /2...È¡Ïû
+//  	0 ... Iç†ä¸­
+//				1 ... Qå®š
+//				2 ... ã‚­ãƒ£ãƒ³ã‚»ãƒ«
+//å‡ºç”Ÿåœ°çš„é€‰æ‹©å¤„ç†/ // /è¿”å›å€¼ï¼š0...å¤„ç†ä¸­/ /1...å†³å®š/ /2...å–æ¶ˆ
 int selHomeTown( void )
 {
 	static int btnId[] = { -2, -2, -2, -2, -2 };
@@ -3153,15 +3153,15 @@ int selHomeTown( void )
 	int ret2;
 	char *homeTownName[] =
 	{
-		"¥µ¥à¥®¥ë¤Î´å",
-		"¥Ş¥ê¥Ê¥¹¤Î´å",
-		"¥¸¥ã¥¸¥ã¤Î´å",
-		"¥«¥ë¥¿©`¥Ê¤Î´å"
+		"ã‚µãƒ ã‚®ãƒ«ã®æ‘",
+		"ãƒãƒªãƒŠã‚¹ã®æ‘",
+		"ã‚¸ãƒ£ã‚¸ãƒ£ã®æ‘",
+		"ã‚«ãƒ«ã‚¿`ãƒŠã®æ‘"
 	};
 	int selUseFlag = 0;
 	int i;
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( selHomeTownProcNo == 0 )
 	{
 		for( i = 0; i < sizeof( btnId )/sizeof( int ); i++ )
@@ -3171,24 +3171,24 @@ int selHomeTown( void )
 		selHomeTownProcNo++;
 	}
 
-	// ³öÉíµØßx’kÖĞ
+	// å‡ºèº«åœ°xkä¸­
 	if( selHomeTownProcNo == 1 )
 	{
 		selUseFlag = 2;
 	}
 
-	// ›Q¶¨´_ÕJ„IÀí
+	// Qå®š_JIç†
 	if( selHomeTownProcNo == 10 )
 	{
 		ret2 = commonYesNoWindow( 320, 240 );
-		// ¤Ï¤¤
+		// ã¯ã„
 		if( ret2 == 1 )
 		{
 			ret = 1;
-			selHomeTownProcNo = 11;	// ¥À¥ß©`
+			selHomeTownProcNo = 11;	// ãƒ€ãƒŸ`
 		}
 		else
-		// ¤¤¤¤¤¨
+		// ã„ã„ãˆ
 		if( ret2 == 2 )
 		{
 			selHomeTownProcNo = 1;
@@ -3196,25 +3196,25 @@ int selHomeTown( void )
 	}
 
 	id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
-	// ¥­¥ã¥ó¥»¥ë
+	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 	if( id == 0 )
 	{
 		ret = 2;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 	if( 1 <= id && id <= 4 )
 	{
 		nowSelHomeTownNo = id - 1;
 		newCharacterHomeTown = nowSelHomeTownNo;
 		selHomeTownProcNo = 10;
-		play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+		play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 	}
 
 	if( selHomeTownProcNo == 1 )
 	{
 		id = focusGraId( btnId, sizeof( btnId )/sizeof( int ) );
 	}
-	// ¥µ¥à¥®¥ë¤Î´å¤ÎÕhÃ÷
+	// ã‚µãƒ ã‚®ãƒ«ã®æ‘ã®hæ˜
 #if 1
 	if( id == 1 )
 #else
@@ -3224,14 +3224,14 @@ int selHomeTown( void )
 		StockFontBuffer( 444, 96,
 			FONT_PRIO_BACK, FONT_PAL_YELLOW, homeTownName[0], 0 );
 		StockFontBuffer( 386, 156,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¥µ¥¤¥Ê¥¹¤Î–|¤Ë¤¢¤ë´å¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "ã‚µã‚¤ãƒŠã‚¹ã®|ã«ã‚ã‚‹æ‘ã€‚", 0 );
 		StockFontBuffer( 386, 176,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "ËÄ¤Ä¤Î´å¤ÎÖĞ¤Ç¤â´ó¤­¤¯¡¢", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "å››ã¤ã®æ‘ã®ä¸­ã§ã‚‚å¤§ããã€", 0 );
 		StockFontBuffer( 386, 196,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¤­¤ì¤¤¤ËÕû¤Ã¤Æ¤¤¤ë´å¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "ãã‚Œã„ã«æ•´ã£ã¦ã„ã‚‹æ‘ã€‚", 0 );
 	}
 	else
-	// ¥Ş¥ê¥Ê¥¹¤Î´å¤ÎÕhÃ÷
+	// ãƒãƒªãƒŠã‚¹ã®æ‘ã®hæ˜
 #if 1
 	if( id == 2 )
 #else
@@ -3241,47 +3241,47 @@ int selHomeTown( void )
 		StockFontBuffer( 444, 96,
 			FONT_PRIO_BACK, FONT_PAL_YELLOW, homeTownName[1], 0 );
 		StockFontBuffer( 390, 166,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¥µ¥¤¥Ê¥¹¤ÎÎ÷¤Ë¤¢¤ë", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "ã‚µã‚¤ãƒŠã‚¹ã®è¥¿ã«ã‚ã‚‹", 0 );
 		StockFontBuffer( 390, 186,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¤­¤ì¤¤¤ÊäºŞx¤ËÃæ¤·¤¿´å¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "ãã‚Œã„ãªæµœxã«é¢ã—ãŸæ‘ã€‚", 0 );
 	}
 	else
-	// ¥¸¥ã¥¸¥ã¤Î´å¤ÎÕhÃ÷
+	// ã‚¸ãƒ£ã‚¸ãƒ£ã®æ‘ã®hæ˜
 	if( id == 3 )
 	{
 		StockFontBuffer( 444, 96,
 			FONT_PRIO_BACK, FONT_PAL_YELLOW, homeTownName[2], 0 );
 		StockFontBuffer( 390, 156,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¥¸¥ã¥ë¥¬¤Î–|¤Ë¤¢¤ê¡¢", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "ã‚¸ãƒ£ãƒ«ã‚¬ã®|ã«ã‚ã‚Šã€", 0 );
 		StockFontBuffer( 390, 176,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "ËÄ·½¤òÉ­¤Ë‡ì¤Ş¤ì¤¿", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "å››æ–¹ã‚’æ£®ã«æ¬·è“¼æ¬·", 0 );
 		StockFontBuffer( 390, 196,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¾vØN¤«¤Ê´å¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "vNã‹ãªæ‘ã€‚", 0 );
 	}
 	else
-	// ¥«¥ë¥¿©`¥Ê¤Î´å¤ÎÕhÃ÷
+	// ã‚«ãƒ«ã‚¿`ãƒŠã®æ‘ã®hæ˜
 	if( id == 4 )
 	{
 		StockFontBuffer( 444, 96,
 			FONT_PRIO_BACK, FONT_PAL_YELLOW, homeTownName[3], 0 );
 		StockFontBuffer( 390, 156,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "¥¸¥ã¥ë¥¬¤ÎÎ÷¤Ë¤¢¤ë´å¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "ã‚¸ãƒ£ãƒ«ã‚¬ã®è¥¿ã«ã‚ã‚‹æ‘ã€‚", 0 );
 		StockFontBuffer( 390, 176,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "´å¤Ï¤¤¤¯¤Ä¤â¤ÎĞ¡¤µ¤Ê", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "æ‘ã¯ã„ãã¤ã‚‚ã®å°ã•ãª", 0 );
 		StockFontBuffer( 390, 196,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "u¤ÎÉÏ¤Ë´æÔÚ¤¹¤ë¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "uã®ä¸Šã«å­˜åœ¨ã™ã‚‹ã€‚", 0 );
 	}
 	else
-	// ¥­¥ã¥ó¥»¥ë¥Ü¥¿¥ó¤ÎÕhÃ÷
+	// ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³ã®hæ˜
 	if( id == 0 )
 	{
 		StockFontBuffer( 390, 176,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "Ç°¤Î»­Ãæ¤Ë‘ø¤ê¤Ş¤¹¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "å‰ã®ç”»é¢ã«è¾˜è“¼åŸ‚", 0 );
 	}
 	else
 	{
 		StockFontBuffer( 390, 176,
-			FONT_PRIO_BACK, FONT_PAL_BLUE, "³öÉíµØ¤òßx’k¤·¤Æ¤¯¤À¤µ¤¤¡£", 0 );
+			FONT_PRIO_BACK, FONT_PAL_BLUE, "å‡ºèº«åœ°ã‚’xkã—ã¦ãã ã•ã„ã€‚", 0 );
 	}
 
 
@@ -3292,7 +3292,7 @@ int selHomeTown( void )
 	btnId[3] = StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_CHR_MAKE_HOME_NAME2, selUseFlag );
 	btnId[4] = StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_CHR_MAKE_HOME_NAME3, selUseFlag );
 
-	// £Â£Ç±íÊ¾
+	// ï¼¢ï¼§è¡¨ç¤º
 	StockDispBuffer( 320, 240, DISP_PRIO_BG, CG_CHR_MAKE_SEL2_BG, 0 );
 
 	return ret;
@@ -3301,32 +3301,32 @@ int selHomeTown( void )
 
 
 
-// ĞÂ¥­¥ã¥é×÷³É„IÀí
-// ³õÆÚ»¯
+// æ–°ã‚­ãƒ£ãƒ©ä½œæˆIç†
+// åˆæœŸåŒ–
 void initCreateChar( void )
 {
 	createCharProcNo = 0;
 }
 
 
-// ¥­¥ã¥é×÷³É„IÀí
-//  ‘ø¤ê‚£º	0 ... „IÀíÖĞ
-//				1 ... ÍêÁË
-//				2 ... Ê§”¡
+// ã‚­ãƒ£ãƒ©ä½œæˆIç†
+//  	0 ... Iç†ä¸­
+//				1 ... å®Œäº†
+//				2 ... å¤±
 int createChar( void )
 {
 	static ACTION *ptActMenuWin = NULL;
 	static int x, y, w, h;
 	int ret = 0;
 	int ret2;
-	char msg[] = "¥­¥ã¥é¥¯¥¿©`×÷³ÉÖĞ";
+	char msg[] = "ã‚­ãƒ£ãƒ©ã‚¯ã‚¿`ä½œæˆä¸­";
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( createCharProcNo == 0 )
 	{
 		createCharProcNo++;
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = (strlen( msg )*9+63)/64;
 		if( w < 2 )
 			w = 2;
@@ -3336,7 +3336,7 @@ int createChar( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// ĞÂ¥­¥ã¥é×÷³Éé_Ê¼
+	// æ–°ã‚­ãƒ£ãƒ©ä½œæˆ_å§‹
 	if( createCharProcNo == 1 )
 	{
 		createNewCharStart();
@@ -3345,13 +3345,13 @@ int createChar( void )
 	if( createCharProcNo == 2 )
 	{
 		ret2 = createNewCharProc();
-		// ÍêÁË
+		// å®Œäº†
 		if( ret2 == 1 )
 		{
 			ret = 1;
 		}
 		else
-		// Ê§”¡
+		// å¤±
 		if( ret2 < 0 )
 		{
 			ret = 2;
@@ -3359,7 +3359,7 @@ int createChar( void )
 	}
 
 
-	// ½Y¹û¤¬¤ï¤«¤Ã¤¿¤é¥¦¥£¥ó¥É¥¦é]¤¸¤ë
+	// YæœãŒã‚ã‹ã£ãŸã‚‰ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹
 	if( ret != 0 )
 	{
 		if( ptActMenuWin )
@@ -3371,7 +3371,7 @@ int createChar( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -3392,7 +3392,7 @@ int createChar( void )
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ¥­¥ã¥é¥í¥°¥¤¥ó
+// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¤ãƒ³
 //
 
 void initCharLogin( void );
@@ -3405,7 +3405,7 @@ void characterLoginProc( void )
 
 	if( SubProcNo == 0 )
 	{
-		// ¥í¥°¥¤¥ó„IÀí³õÆÚ»¯
+		// ãƒ­ã‚°ã‚¤ãƒ³Iç†åˆæœŸåŒ–
 		initCharLogin();
 		SubProcNo++;
 	}
@@ -3413,30 +3413,30 @@ void characterLoginProc( void )
 
 	if( SubProcNo == 1 )
 	{
-		// ¥í¥°¥¤¥ó„IÀí
+		// ãƒ­ã‚°ã‚¤ãƒ³Iç†
 		ret = charLogin();
-		// ¥í¥°¥¤¥ó³É¹¦
+		// ãƒ­ã‚°ã‚¤ãƒ³æˆåŠŸ
 		if( ret == 1 )
 		{
 			ChangeProc( PROC_GAME );
 		}
 		else
-		// ¥¿¥¤¥à¥¢¥¦¥È
+		// ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
 		if( ret == -1 )
 		{
 			SubProcNo = 100;
 			strcpy( msg, NET_ERRMSG_LOGINTIMEOUT );
 		}
 		else
-		// ¥í¥°¥¤¥óÊ§”¡
+		// ãƒ­ã‚°ã‚¤ãƒ³å¤±
 		if( ret == -2 )
 		{
 			SubProcNo = 100;
-			strcpy( msg, "¥í¥°¥¤¥ó„IÀí¤ËÊ§”¡¤·¤Ş¤·¤¿¡£" );
+			strcpy( msg, "ãƒ­ã‚°ã‚¤ãƒ³Iç†ã«å¤±ãƒ»ç­è“¼ç­ä¿Š" );
 		}
 	}
 
-	// ¥¨¥é©`±íÊ¾
+	// ã‚¨ãƒ©`è¡¨ç¤º
 	if( SubProcNo == 100 )
 	{
 		initCommonMsgWin();
@@ -3446,44 +3446,44 @@ void characterLoginProc( void )
 	{
 		if( commonMsgWin( msg ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
-			ChangeProc( PROC_TITLE_MENU );	// ¥¿¥¤¥È¥ë¤Ø
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
+			ChangeProc( PROC_TITLE_MENU );	// ã‚¿ã‚¤ãƒˆãƒ«ã¸
 		}
 	}
 
 
-	RunAction();			// ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë
-	StockTaskDispBuffer();	// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+	RunAction();			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹
+	StockTaskDispBuffer();	// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 }
 
 
 static short charLoginProcNo = 0;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initCharLogin( void )
 {
 	charLoginProcNo = 0;
 }
 
-// ¥á¥¤¥ó„IÀí
+// ãƒ¡ã‚¤ãƒ³Iç†
 //
-//  ‘ø¤ê‚£º	 0 ... ¥í¥°¥¤¥óÖĞ
-//				 1 ... ¥í¥°¥¤¥óÍêÁË
-//				-1 ... ¥¿¥¤¥à¥¢¥¦¥È
-//				-2 ... ¥¨¥é©`
+//  	 0 ... ãƒ­ã‚°ã‚¤ãƒ³ä¸­
+//				 1 ... ãƒ­ã‚°ã‚¤ãƒ³å®Œäº†
+//				-1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+//				-2 ... ã‚¨ãƒ©`
 int charLogin( void )
 {
 	static ACTION *ptActMenuWin = NULL;
 	static int x, y, w, h;
 	int ret = 0;
-	static char msg[] = "¥í¥°¥¤¥óÖĞ";
+	static char msg[] = "ãƒ­ã‚°ã‚¤ãƒ³ä¸­";
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( charLoginProcNo == 0 )
 	{
 		charLoginProcNo = 1;
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = strlen( msg )*9/64+2;
 		h = (16+47)/48;
 		if( h < 2 )
@@ -3493,7 +3493,7 @@ int charLogin( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// ¥­¥ã¥é¥í¥°¥¤¥óé_Ê¼
+	// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¤ãƒ³_å§‹
 	if( charLoginProcNo == 1 )
 	{
 		charLoginStart();
@@ -3516,7 +3516,7 @@ int charLogin( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -3540,7 +3540,7 @@ static int produce_vct_no = 0;
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ¥­¥ã¥é¥í¥°¥¢¥¦¥È
+// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ
 //
 
 void initCharLogout( void );
@@ -3555,22 +3555,22 @@ void characterLogoutProc( void )
 	{
 		logOutFlag = TRUE;
 
-		if(!produce_logout()){		//Ñİ³öÖĞ¤Ê¤é
+		if(!produce_logout()){		//æ¼”å‡ºä¸­ãªã‚‰
 			return;
 		}
-		//£Ö£Ã£Ô·¬ºÅ¥¯¥ê¥¢
+		//ï¼¶ï¼£ï¼´ç•ªå·ã‚¯ãƒªã‚¢
 		produce_vct_no = 0;
 
-		// PC¥ê¥»¥Ã¥È
+		// PCãƒªã‚»ãƒƒãƒˆ
 		resetPc();
 
-		// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¥ê¥»¥Ã¥È
+		// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ãƒªã‚»ãƒƒãƒˆ
 		initCharObj();
 
-		// ¥¢¥¯¥·¥ç¥óÄ¨š¢
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æŠ¹
 		DeathAllAction();
 
-		// £Â£Ç£Í¥¹¥È¥Ã¥×
+		// ï¼¢ï¼§ï¼­ã‚¹ãƒˆãƒƒãƒ—
 //		fade_out_bgm();
 
 #ifdef _DEBUG
@@ -3580,7 +3580,7 @@ void characterLogoutProc( void )
 		}
 		else
 		{
-			// £×£É£Î£Ä£Ï£×£Ó¤Ë WM_CLOSE ¥á¥Ã¥»©`¥¸¤òËÍ¤é¤»¤ë
+			// ï¼·ï¼©ï¼®ï¼¤ï¼¯ï¼·ï¼³ã« WM_CLOSE ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‰ã›ã‚‹
 			PostMessage( hWnd, WM_CLOSE, 0, 0L );
 		}
 #else
@@ -3597,36 +3597,36 @@ void characterLogoutProc( void )
 	if( SubProcNo == 2 )
 	{
 		ret = charLogout();
-		// ¥í¥°¥¢¥¦¥ÈÍêÁË
+		// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆå®Œäº†
 		if( ret == 1 )
 		{
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
-			// ¥¢¥¯¥·¥ç¥óÄ¨š¢
+			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æŠ¹
 			DeathAllAction();
 			ChangeProc( PROC_TITLE_MENU );
 		}
 		else
-		// ¥¿¥¤¥à¥¢¥¦¥È
+		// ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
 		if( ret == -1 )
 		{
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 			SubProcNo = 100;
 			strcpy( msg, NET_ERRMSG_LOGOUTTIMEOUT );
 		}
 		else
-		// ¥¨¥é©`
+		// ã‚¨ãƒ©`
 		if( ret == -2 )
 		{
-			// ¥Í¥Ã¥È¥ï©`¥¯³õÆÚ»¯
+			// ãƒãƒƒãƒˆãƒ¯`ã‚¯åˆæœŸåŒ–
 			cleanupNetwork();
 			SubProcNo = 100;
-			strcpy( msg, "¥í¥°¥¢¥¦¥È„IÀí¤ËÊ§”¡¤·¤Ş¤·¤¿¡£" );
+			strcpy( msg, "ãƒ­ã‚°ã‚¢ã‚¦ãƒˆIç†ã«å¤±ãƒ»ç­è“¼ç­ä¿Š" );
 		}
 	}
 
-	// ¥¨¥é©`±íÊ¾
+	// ã‚¨ãƒ©`è¡¨ç¤º
 	if( SubProcNo == 100 )
 	{
 		initCommonMsgWin();
@@ -3636,44 +3636,44 @@ void characterLogoutProc( void )
 	{
 		if( commonMsgWin( msg ) )
 		{
-			// £Ï£Ë¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤¿
-			ChangeProc( PROC_TITLE_MENU );	// ¥¿¥¤¥È¥ë¤Ø
+			// ï¼¯ï¼«ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸ
+			ChangeProc( PROC_TITLE_MENU );	// ã‚¿ã‚¤ãƒˆãƒ«ã¸
 		}
 	}
 
-	RunAction();			// ¥¢¥¯¥·¥ç¥ó×ß¤é¤»¤ë
-	StockTaskDispBuffer();	// ¥¿¥¹¥¯±íÊ¾¥Ç©`¥¿¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë
+	RunAction();			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³èµ°ã‚‰ã›ã‚‹
+	StockTaskDispBuffer();	// ã‚¿ã‚¹ã‚¯è¡¨ç¤ºãƒ‡`ã‚¿ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹
 }
 
 
 static int charLogoutProcNo;
 
-// ¥í¥°¥¢¥¦¥È„IÀí³õÆÚ»¯
+// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆIç†åˆæœŸåŒ–
 void initCharLogout( void )
 {
 	charLogoutProcNo = 0;
 }
 
 
-// ¥í¥°¥¢¥¦¥È„IÀí
-//  ‘ø¤ê‚£º	 0 ... ¥í¥°¥¢¥¦¥ÈÖĞ
-//				 1 ... ¥í¥°¥¤¥¢¥¦¥ÈÍêÁË
-//				-1 ... ¥¿¥¤¥à¥¢¥¦¥È
-//				-2 ... ¥¨¥é©`
-/// /ÍË³ö´¦Àí/ /·µ»ØÖµ£º0...ÍË³öÖĞ/ /1...ÂŞgui³ö¾ÖÍê±Ï/ / - 1...³¬Ê±...´íÎó/ / - 2
+// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆIç†
+//  	 0 ... ãƒ­ã‚°ã‚¢ã‚¦ãƒˆä¸­
+//				 1 ... ãƒ­ã‚°ã‚¤ã‚¢ã‚¦ãƒˆå®Œäº†
+//				-1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+//				-2 ... ã‚¨ãƒ©`
+/// /é€€å‡ºå¤„ç†/ /è¿”å›å€¼ï¼š0...é€€å‡ºä¸­/ /1...ç½—guiå‡ºå±€å®Œæ¯•/ / - 1...è¶…æ—¶...é”™è¯¯/ / - 2
 int charLogout( void )
 {
 	static ACTION *ptActMenuWin = NULL;
 	static int x, y, w, h;
 	int ret = 0;
-	static char msg[] = "ÕıÔÚÍË³öing....";
+	static char msg[] = "æ­£åœ¨é€€å‡ºing....";
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( charLogoutProcNo == 0 )
 	{
 		charLogoutProcNo = 1;
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = strlen( msg )*9/64+2;
 		h = (16+47)/48;
 		if( h < 2 )
@@ -3683,7 +3683,7 @@ int charLogout( void )
 		ptActMenuWin = MakeWindowDisp( x, y, w, h, NULL, 1 );
 	}
 
-	// ¥­¥ã¥é¥í¥°¥¤¥óé_Ê¼
+	// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¤ãƒ³_å§‹
 	if( charLogoutProcNo == 1 )
 	{
 		charLogoutStart();
@@ -3706,7 +3706,7 @@ int charLogout( void )
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥¦¥£¥ó¥É¥¦±íÊ¾
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤º
 		if( ptActMenuWin->hp >= 1 )
 		{
 			int len;
@@ -3727,32 +3727,32 @@ int charLogout( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥µ©`¥Ğ¥ê¥¯¥¨¥¹¥ÈšøÓÃ¥¦¥£¥ó¥É¥¦
+// ã‚µ`ãƒãƒªã‚¯ã‚¨ã‚¹ãƒˆæ°“Î•ï¼…è—ä¸§
 //
-//   ¥á¥Ã¥»©`¥¸:	°ë½Ç40ÎÄ×Ö ¡Á 8ĞĞ
+//   ãƒ¡ãƒƒã‚»`ã‚¸:	åŠè§’40æ–‡å­— Ã— 8è¡Œ
 //
-// ¥Ñ¥é¥á©`¥¿¤À¤±È¡¤ê¤À¤·ŒgëH¤ÏopenServerWindowProc¤Ç„IÀí¤¹¤ë
-/// /·şÎñÆ÷ÒªÇóÍ¨ÓÃ´°¿Ú/ /:°ë½ÇÎÄ×ÖĞÅÏ¢/ /40¡Á8ĞĞ/ /Ö»È¡
-//²ÎÊı¡£Êµ¼ÊÉÏopenServerWindowProc´¦Àí
-int windowTypeWN = -1;	// ¥¦¥£¥ó¥É¥¦¥¿¥¤¥×  -1¤ÇÎ´Ê¹ÓÃ
-int buttonTypeWN = 0;	// ¥Ü¥¿¥ó¥¿¥¤¥×(¥Ó¥Ã¥ÈÇéˆó)
-int indexWN;			// ¥·©`¥±¥ó¥¹·¬ºÅ
-int idWN;				// ¥­¥ã¥é¤Î£É£Ä
-char msgWN[25][70];		// ±íÊ¾¥á¥Ã¥»©`¥¸µÈ
-int msgWNLen;			// ±íÊ¾¥á¥Ã¥»©`¥¸¤Î£±ĞĞ¤ÎéL¤µ
-int msgWN_W;			// ¥á¥Ã¥»©`¥¸¥¦¥£¥ó¥É¥¦¤Î·ù
-int msgWN_H;			// ¥á¥Ã¥»©`¥¸¥¦¥£¥ó¥É¥¦¤Î¸ß¤µ
+// ãƒ‘ãƒ©ãƒ¡`ã‚¿ã ã‘å–ã‚Šã ã—gHã¯openServerWindowProcã§Iç†ã™ã‚‹
+/// /æœåŠ¡å™¨è¦æ±‚é€šç”¨çª—å£/ /:åŠè§’æ–‡å­—ä¿¡æ¯/ /40Ã—8è¡Œ/ /åªå–
+//å‚æ•°ã€‚å®é™…ä¸ŠopenServerWindowProcå¤„ç†
+int windowTypeWN = -1;	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒ—  -1ã§æœªä½¿ç”¨
+int buttonTypeWN = 0;	// ãƒœã‚¿ãƒ³ã‚¿ã‚¤ãƒ—(ãƒ“ãƒƒãƒˆæƒ…)
+int indexWN;			// ã‚·`ã‚±ãƒ³ã‚¹ç•ªå·
+int idWN;				// ã‚­ãƒ£ãƒ©ã®ï¼©ï¼¤
+char msgWN[25][70];		// è¡¨ç¤ºãƒ¡ãƒƒã‚»`ã‚¸ç­‰
+int msgWNLen;			// è¡¨ç¤ºãƒ¡ãƒƒã‚»`ã‚¸ã®ï¼‘è¡Œã®Lã•
+int msgWN_W;			// ãƒ¡ãƒƒã‚»`ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¹…
+int msgWN_H;			// ãƒ¡ãƒƒã‚»`ã‚¸ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®é«˜ã•
 ACTION *ptActMenuWin = NULL;
-int selStartLine;		// ßx’kÖ«¥¦¥£¥ó¥É¥¦¤ÇºÎĞĞÄ¿¤«¤é¤òßx’kÖ«¤Ë¤¹¤ë¤«
-int wnOpenX, wnOpenY;	// šøÓÃ¥¦¥£¥ó¥É¥¦¤Î¤òé_¤¤¤¿¤È¤­¤Î¥­¥ã¥é×ù˜Ë
-short wnCloseFlag = 0;	// šøÓÃ¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë¥Õ¥é¥°
+int selStartLine;		// xkè‚¢ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§ä½•è¡Œç›®ã‹ã‚‰ã‚’xkè‚¢ã«ã™ã‚‹ã‹
+int wnOpenX, wnOpenY;	// æ°“Î•ï¼…è—ä¸§Î”éŸ¦èœ·_ã„ãŸã¨ãã®ã‚­ãƒ£ãƒ©åº§
+short wnCloseFlag = 0;	// æ°“Î•ï¼…è—ä¸§Î”èœ·]ã˜ã‚‹ãƒ•ãƒ©ã‚°
 
 
-#define MAX_SHOP_ITEM	8	// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦¤Ë±íÊ¾¤Ç¤­¤ë¥¢¥¤¥Æ¥àÊı
-#define MAX_SHOP_PAGE	4	// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦¤Ë±íÊ¾¤Ç¤­¤ë¥Ú©`¥¸Êı
-short shopWindowMode;		// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦¤Î¥â©`¥É£¨0...Øœ‰Ó¥â©`¥É,1...ÙIÈ¡¥â©`¥É£©
-char shopWindow1Title[27];	// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£±¥¿¥¤¥È¥ë
-char shopWindow1Msg[27];	// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£±¥á¥Ã¥»©`¥¸
+#define MAX_SHOP_ITEM	8	// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤ºã§ãã‚‹ã‚¢ã‚¤ãƒ†ãƒ æ•°
+#define MAX_SHOP_PAGE	4	// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤ºã§ãã‚‹ãƒš`ã‚¸æ•°
+short shopWindowMode;		// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒ¢`ãƒ‰ï¼ˆ0...é¹°çŒ¢`ãƒ‰,1...Iå–ãƒ¢`ãƒ‰ï¼‰
+char shopWindow1Title[27];	// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼‘ã‚¿ã‚¤ãƒˆãƒ«
+char shopWindow1Msg[27];	// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼‘ãƒ¡ãƒƒã‚»`ã‚¸
 
 typedef struct
 {
@@ -3765,32 +3765,32 @@ typedef struct
 	char info[3][29];
 } ITEM_SHOP;
 
-int menuIndexWN;									// ¥·©`¥±¥ó¥¹·¬ºÅ(¥á¥Ë¥å©`¤Î¥·©`¥±¥ó¥¹·¬ºÅ)
-char shopWindow2Msg[2][45];							// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£²¥á¥Ã¥»©`¥¸
-short shopWondow2Page, shopWondow2MaxPage;			// ¬FÔÚ¥Ú©`¥¸¤È×î´ó¥Ú©`¥¸
-ITEM_SHOP sealItem[MAX_SHOP_ITEM*MAX_SHOP_PAGE];	// Øœ‰Ó¥¢¥¤¥Æ¥à
-short selShopItemNo;								// ßx’k¤·¤¿¥¢¥¤¥Æ¥à
+int menuIndexWN;									// ã‚·`ã‚±ãƒ³ã‚¹ç•ªå·(ãƒ¡ãƒ‹ãƒ¥`ã®ã‚·`ã‚±ãƒ³ã‚¹ç•ªå·)
+char shopWindow2Msg[2][45];							// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼’ãƒ¡ãƒƒã‚»`ã‚¸
+short shopWondow2Page, shopWondow2MaxPage;			// Fåœ¨ãƒš`ã‚¸ã¨æœ€å¤§ãƒš`ã‚¸
+ITEM_SHOP sealItem[MAX_SHOP_ITEM*MAX_SHOP_PAGE];	// é¹°ã…åŒ¹
+short selShopItemNo;								// xkã—ãŸã‚¢ã‚¤ãƒ†ãƒ 
 
 char shopWindow3Msg[41];
 short sealItemCnt;
 
-char shopWindow4Msg[2][39];							// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£´¥á¥Ã¥»©`¥¸
-char shopWindow5Msg[2][39];							// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£µ¥á¥Ã¥»©`¥¸
-char shopWindow6Msg[2][39];							// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£¶¥á¥Ã¥»©`¥¸
+char shopWindow4Msg[2][39];							// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼”ãƒ¡ãƒƒã‚»`ã‚¸
+char shopWindow5Msg[2][39];							// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼•ãƒ¡ãƒƒã‚»`ã‚¸
+char shopWindow6Msg[2][39];							// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼–ãƒ¡ãƒƒã‚»`ã‚¸
 
 short nowUserItemCnt;
-char shopWindow7Msg[2][39];							// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£·¥á¥Ã¥»©`¥¸
-char shopWindow8Msg[2][39];							// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£¸¥á¥Ã¥»©`¥¸
+char shopWindow7Msg[2][39];							// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼—ãƒ¡ãƒƒã‚»`ã‚¸
+char shopWindow8Msg[2][39];							// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼˜ãƒ¡ãƒƒã‚»`ã‚¸
 
 
 
-ITEM_SHOP userItem[MAX_SHOP_ITEM*MAX_SHOP_PAGE];	// ¥æ©`¥¶¤¬³Ö¤Ã¤Æ¤¤¤ë¥¢¥¤¥Æ¥à
+ITEM_SHOP userItem[MAX_SHOP_ITEM*MAX_SHOP_PAGE];	// ãƒ¦`ã‚¶ãŒæŒã£ã¦ã„ã‚‹ã‚¢ã‚¤ãƒ†ãƒ 
 
-short buyOffFlag;									// ÙIÈ¡ŒŸéT¤«£¿
+short buyOffFlag;									// Iå–Tã‹ï¼Ÿ
 
 
-#define MAX_SKILL_SHOP_SKILL	8					// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦¤Ë±íÊ¾¤Ç¤­¤ë¥¹¥­¥ëÊı
-#define MAX_SKILL_SHOP_PAGE		2					// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦¤Î¥Ú©`¥¸Êı
+#define MAX_SKILL_SHOP_SKILL	8					// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤ºã§ãã‚‹ã‚¹ã‚­ãƒ«æ•°
+#define MAX_SKILL_SHOP_PAGE		2					// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒš`ã‚¸æ•°
 typedef struct
 {
 	int price;
@@ -3821,7 +3821,7 @@ void serverWindowType6( void );
 
 
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initOpenServerWindow( void )
 {
 	windowTypeWN = -1;
@@ -3844,59 +3844,59 @@ void openServerWindow( int windowtype, int buttontype, int index, int id, char *
 
 		buyOffFlag = 0;
 
-		// ¥Ç©`¥¿¤Î½âÎö
+		// ãƒ‡`ã‚¿ã®è§£æ
 		if( windowTypeWN == WINDOW_MESSAGETYPE_MESSAGE
 		 || windowTypeWN == WINDOW_MESSAGETYPE_MESSAGEANDLINEINPUT )
 		{
-			// ³õÆÚ»¯
-			// ¥á¥Ã¥»©`¥¸¤Î¤ß
-			// ¥á¥Ã¥»©`¥¸£¦£±ĞĞÈëÁ¦
+			// åˆæœŸåŒ–
+			// ãƒ¡ãƒƒã‚»`ã‚¸ã®ã¿
+			// ãƒ¡ãƒƒã‚»`ã‚¸ï¼†ï¼‘è¡Œå…¥åŠ›
 			initServerWindowType0( data );
 		}
 		else
 		if( windowTypeWN == WINDOW_MESSAGETYPE_SELECT )
 		{
-			// ßx’k
+			// xk
 			initServerWindowType1( data );
 		}
 		else
 		if( windowTypeWN == WINDOW_MESSAGETYPE_ITEMSHOPMENU )
 		{
-			// ¥·¥ç¥Ã¥×ŒŸÓÃ¥¦¥£¥ó¥É¥¦
+			// ã‚·ãƒ§ãƒƒãƒ—ç”¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			initServerWindowType2( data );
 		}
 		else
 		if( windowTypeWN == WINDOW_MWSSAGETYPE_ITEMSHOPMAIN )
 		{
-			// ¥·¥ç¥Ã¥×ŒŸÓÃ¥¦¥£¥ó¥É¥¦
+			// ã‚·ãƒ§ãƒƒãƒ—ç”¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			initServerWindowType3( data );
 		}
 		else
-		// ÙIÈ¡ŒŸéT¥¦¥£¥ó¥É¥¦
+		// Iå–Tã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 		if( windowTypeWN == WINDOW_MESSAGETYPE_LIMITITEMSHOPMAIN )
 		{
-			// ¥·¥ç¥Ã¥×ŒŸÓÃ¥¦¥£¥ó¥É¥¦
+			// ã‚·ãƒ§ãƒƒãƒ—ç”¨ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			initServerWindowType3( data );
 			buyOffFlag = 1;
 		}
 		else
-		// ¥Ú¥Ã¥È¤Î¼¼Îİ¤µ¤ó¥¦¥£¥ó¥É¥¦
+		// ãƒšãƒƒãƒˆã®æŠ€å±‹ã•ã‚“ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 		if( windowTypeWN == WINDOW_MESSAGETYPE_PETSKILLSHOP )
 		{
 			initServerWindowType5( data );
 		}
 		else
-		// ’÷Ê¾°å¤È¤«´ó¤­¤¤¥¦¥£¥ó¥É¥¦
+		// é­‡æ™¯æ¾¶è¶£è­ã…Î•ï¼…è—ä¸§
 		if( windowTypeWN == WINDOW_MESSAGETYPE_WIDEMESSAGE
 		 || windowTypeWN == WINDOW_MESSAGETYPE_WIDEMESSAGEANDLINEINPUT )
 		{
-			// ³õÆÚ»¯
-			// ¥á¥Ã¥»©`¥¸¤Î¤ß
-			// ¥á¥Ã¥»©`¥¸£¦£±ĞĞÈëÁ¦
+			// åˆæœŸåŒ–
+			// ãƒ¡ãƒƒã‚»`ã‚¸ã®ã¿
+			// ãƒ¡ãƒƒã‚»`ã‚¸ï¼†ï¼‘è¡Œå…¥åŠ›
 			initServerWindowType4( data );
 		}
 
-		// Ëû¤Î¥¦¥£¥ó¥É¥¦¤¬³ö¤Æ¤¿¤éÏû¤¹
+		// ä»–ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒå‡ºã¦ãŸã‚‰æ¶ˆã™
 		if( CheckMenuFlag() )
 		{
 			InitMenu2();
@@ -3911,9 +3911,9 @@ void openServerWindow( int windowtype, int buttontype, int index, int id, char *
 
 
 
-// ¥¿¥¤¥×£°¥¦¥£¥ó¥É¥¦
-// ¥á¥Ã¥»©`¥¸¤Î¤ß£¨È«½Ç£²£°ÎÄ×Ö¡Á£¸ĞĞ£©
-// ¥á¥Ã¥»©`¥¸£¨È«½Ç£²£°ÎÄ×Ö¡Á£·ĞĞ£©£¦£±ĞĞÈëÁ¦
+// ã‚¿ã‚¤ãƒ—ï¼ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+// ãƒ¡ãƒƒã‚»`ã‚¸ã®ã¿ï¼ˆå…¨è§’ï¼’ï¼æ–‡å­—Ã—ï¼˜è¡Œï¼‰
+// ãƒ¡ãƒƒã‚»`ã‚¸ï¼ˆå…¨è§’ï¼’ï¼æ–‡å­—Ã—ï¼—è¡Œï¼‰ï¼†ï¼‘è¡Œå…¥åŠ›
 void serverWindowType0( int mode )
 {
 	static int winX, winY;
@@ -3927,10 +3927,10 @@ void serverWindowType0( int mode )
 	{
 		" O  K ",
 		"CANCEL",
-		"¤Ï  ¤¤",
-		"¤¤¤¤¤¨",
-		"‘ø  ¤ë",
-		"´Î  ¤Ø"
+		"ã¯  ã„",
+		"ã„ã„ãˆ",
+		"  ã‚‹",
+		"æ¬¡  ã¸"
 	};
 	int id;
 	int i, j;
@@ -3969,7 +3969,7 @@ void serverWindowType0( int mode )
 					break;
 			}
 		}
-		// ¥Ü¥¿¥ó¤¬¤¢¤Ã¤¿¤é±íÊ¾×ù˜Ë¤òÇó¤á¤ë
+		// ãƒœã‚¿ãƒ³ãŒã‚ã£ãŸã‚‰è¡¨ç¤ºåº§æ‘”èš¯è­å¹›
 		if( btnCnt > 0 )
 		{
 			int w;
@@ -3982,7 +3982,7 @@ void serverWindowType0( int mode )
 			}
 		}
 
-		// ¥â©`¥É£°£¨¥á¥Ã¥»©`¥¸±íÊ¾¤Î¤ß£©
+		// ãƒ¢`ãƒ‰ï¼ï¼ˆãƒ¡ãƒƒã‚»`ã‚¸è¡¨ç¤ºã®ã¿ï¼‰
 		if( mode == 0 )
 		{
 			msgLine = totalMsgLine - 1;
@@ -4001,16 +4001,16 @@ void serverWindowType0( int mode )
 			GetKeyInputFocus( &input );
 		}
 
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥Õ¥©¥ó¥È¤Îßx’kÅĞ¶¨
+		// ãƒ•ã‚©ãƒ³ãƒˆã®xkåˆ¤å®š
 		id = selFontId( fontId, sizeof( fontId )/sizeof( int ) );
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || ((joy_trg[ 0 ] & JOY_ESC) && ImeBufferBak2 == NULL)
 		 || actBtn == 1
@@ -4023,7 +4023,7 @@ void serverWindowType0( int mode )
 			wnCloseFlag = 0;
 		}
 
-		// £Ï£Ë
+		// ï¼¯ï¼«
 		if( 0 <= id && id < 6 )
 		{
 			char msg[256];
@@ -4074,7 +4074,7 @@ void serverWindowType0( int mode )
 					}
 				}
 			}
-			// ÈëÁ¦™Ú¤Î±íÊ¾
+			// å…¥åŠ›å†¥ä¼ªç¡
 			if( mode == 1 )
 			{
 				StockFontBuffer2( &input );
@@ -4084,8 +4084,8 @@ void serverWindowType0( int mode )
 }
 
 
-// ¥¿¥¤¥×£±¥¦¥£¥ó¥É¥¦
-// ¥¿¥¤¥È¥ë¡¢ßx’kÖ«£¨È«½Ç£²£°ÎÄ×Ö¡Á£¸ĞĞ£©
+// ã‚¿ã‚¤ãƒ—ï¼‘ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+// ã‚¿ã‚¤ãƒˆãƒ«ã€xkè‚¢ï¼ˆå…¨è§’ï¼’ï¼æ–‡å­—Ã—ï¼˜è¡Œï¼‰
 void serverWindowType1( void )
 {
 	static int winX, winY;
@@ -4098,10 +4098,10 @@ void serverWindowType1( void )
 	{
 		" O  K ",
 		"CANCEL",
-		"¤Ï  ¤¤",
-		"¤¤¤¤¤¨",
-		"‘ø  ¤ë",
-		"´Î  ¤Ø"
+		"ã¯  ã„",
+		"ã„ã„ãˆ",
+		"  ã‚‹",
+		"æ¬¡  ã¸"
 	};
 	int id, id2;
 	int i, j;
@@ -4133,7 +4133,7 @@ void serverWindowType1( void )
 					break;
 			}
 		}
-		// ¥Ü¥¿¥ó¤¬¤¢¤Ã¤¿¤é±íÊ¾×ù˜Ë¤òÇó¤á¤ë
+		// ãƒœã‚¿ãƒ³ãŒã‚ã£ãŸã‚‰è¡¨ç¤ºåº§æ‘”èš¯è­å¹›
 		if( btnCnt > 0 )
 		{
 			int w;
@@ -4147,21 +4147,21 @@ void serverWindowType1( void )
 
 		msgLine = 8;
 
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+		// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 		id = selFontId( btnId, sizeof( btnId )/sizeof( int ) );
 
 		id2 = -1;
-		if( ptActMenuWin->hp >= 1 )	// ¥¦¥£¥ó¥É¥¦³ö¤ë¤Ş¤Çßx’k–˜³ö¤µ¤Ê¤¤
+		if( ptActMenuWin->hp >= 1 )	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å‡ºã‚‹ã¾ã§xkå‡ºã•ãªã„
 		{
 			for( i = selStartLine; i <  msgLine; i++ )
 			{
-				// ÎÄ×ÖÁĞŸo¤¤¤È¤³¤í¤Ë¤Ï–˜³ö¤µ¤Ê¤¤
+				// æ–‡å­—åˆ—oã„ã¨ã“ã‚ã«ã¯å‡ºã•ãªã„
 				if( strlen( msgWN[i] ) > 0 )
 				{
 					x1 = winX+41;
@@ -4179,7 +4179,7 @@ void serverWindowType1( void )
 			}
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -4259,8 +4259,8 @@ void serverWindowType1( void )
 }
 
 
-// ¥¿¥¤¥×£²¥¦¥£¥ó¥É¥¦
-// ¥Ú¥Ã¥Èßx’k
+// ã‚¿ã‚¤ãƒ—ï¼’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+// ãƒšãƒƒãƒˆxk
 void serverWindowType2( void )
 {
 	static int winX, winY;
@@ -4272,10 +4272,10 @@ void serverWindowType2( void )
 	{
 		" O  K ",
 		"CANCEL",
-		"¤Ï  ¤¤",
-		"¤¤¤¤¤¨",
-		"‘ø  ¤ë",
-		"´Î  ¤Ø"
+		"ã¯  ã„",
+		"ã„ã„ãˆ",
+		"  ã‚‹",
+		"æ¬¡  ã¸"
 	};
 	int id, id2;
 	int i, j;
@@ -4308,7 +4308,7 @@ void serverWindowType2( void )
 					break;
 			}
 		}
-		// ¥Ü¥¿¥ó¤¬¤¢¤Ã¤¿¤é±íÊ¾×ù˜Ë¤òÇó¤á¤ë
+		// ãƒœã‚¿ãƒ³ãŒã‚ã£ãŸã‚‰è¡¨ç¤ºåº§æ‘”èš¯è­å¹›
 		if( btnCnt > 0 )
 		{
 			int w;
@@ -4320,23 +4320,23 @@ void serverWindowType2( void )
 			}
 		}
 
-		strcpy( msgWN[0], "£½£½£½¡¡¥Ú¥Ã¥È¤òßx’k¤·¤Æ¤¯¤À¤µ¤¤¡¡£½£½£½" );
+		strcpy( msgWN[0], "ï¼ï¼ï¼ã€€ãƒšãƒƒãƒˆã‚’xkã—ã¦ãã ã•ã„ã€€ï¼ï¼ï¼" );
 
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+		// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 		id = selFontId( btnId, sizeof( btnId )/sizeof( int ) );
 
 		id2 = -1;
-		if( ptActMenuWin->hp >= 1 )	// ¥¦¥£¥ó¥É¥¦³ö¤ë¤Ş¤Çßx’k–˜³ö¤µ¤Ê¤¤
+		if( ptActMenuWin->hp >= 1 )	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å‡ºã‚‹ã¾ã§xkå‡ºã•ãªã„
 		{
 			for( i = 1, j = 1; i <= MAX_PET; i++ )
 			{
-				// ÎÄ×ÖÁĞŸo¤¤¤È¤³¤í¤Ë¤Ï–˜³ö¤µ¤Ê¤¤
+				// æ–‡å­—åˆ—oã„ã¨ã“ã‚ã«ã¯å‡ºã•ãªã„
 				if(pet[i-1].useFlag != 0 )
 				{
 					x1 = winX+41;
@@ -4355,7 +4355,7 @@ void serverWindowType2( void )
 			}
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -4456,8 +4456,8 @@ void serverWindowType2( void )
 }
 
 
-// ¥¿¥¤¥×£³¥¦¥£¥ó¥É¥¦
-// ÖÙégßx’k
+// ã‚¿ã‚¤ãƒ—ï¼“ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+// ä»²gxk
 void serverWindowType3( void )
 {
 	static int winX, winY;
@@ -4469,10 +4469,10 @@ void serverWindowType3( void )
 	{
 		" O  K ",
 		"CANCEL",
-		"¤Ï  ¤¤",
-		"¤¤¤¤¤¨",
-		"‘ø  ¤ë",
-		"´Î  ¤Ø"
+		"ã¯  ã„",
+		"ã„ã„ãˆ",
+		"  ã‚‹",
+		"æ¬¡  ã¸"
 	};
 	int id, id2;
 	int i, j;
@@ -4505,7 +4505,7 @@ void serverWindowType3( void )
 					break;
 			}
 		}
-		// ¥Ü¥¿¥ó¤¬¤¢¤Ã¤¿¤é±íÊ¾×ù˜Ë¤òÇó¤á¤ë
+		// ãƒœã‚¿ãƒ³ãŒã‚ã£ãŸã‚‰è¡¨ç¤ºåº§æ‘”èš¯è­å¹›
 		if( btnCnt > 0 )
 		{
 			int w;
@@ -4517,23 +4517,23 @@ void serverWindowType3( void )
 			}
 		}
 
-		strcpy( msgWN[0], "£½£½£½¡¡ÖÙég¤òßx’k¤·¤Æ¤¯¤À¤µ¤¤¡¡£½£½£½" );
+		strcpy( msgWN[0], "ï¼ï¼ï¼ã€€ä»²gã‚’xkã—ã¦ãã ã•ã„ã€€ï¼ï¼ï¼" );
 
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+		// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 		id = selFontId( btnId, sizeof( btnId )/sizeof( int ) );
 
 		id2 = -1;
-		if( ptActMenuWin->hp >= 1 )	// ¥¦¥£¥ó¥É¥¦³ö¤ë¤Ş¤Çßx’k–˜³ö¤µ¤Ê¤¤
+		if( ptActMenuWin->hp >= 1 )	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å‡ºã‚‹ã¾ã§xkå‡ºã•ãªã„
 		{
 			for( i = 1; i <= MAX_PARTY; i++ )
 			{
-				// ÎÄ×ÖÁĞŸo¤¤¤È¤³¤í¤Ë¤Ï–˜³ö¤µ¤Ê¤¤
+				// æ–‡å­—åˆ—oã„ã¨ã“ã‚ã«ã¯å‡ºã•ãªã„
 				if( partyModeFlag == 0 && i == 1 )
 				{
 					strcpy( msgWN[1], pc.name );
@@ -4565,7 +4565,7 @@ void serverWindowType3( void )
 			}
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -4655,8 +4655,8 @@ void serverWindowType3( void )
 }
 
 
-// ¥¿¥¤¥×£´¥¦¥£¥ó¥É¥¦
-// ¥Ú¥Ã¥È£¦ÖÙégßx’k
+// ã‚¿ã‚¤ãƒ—ï¼”ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
+// ãƒšãƒƒãƒˆï¼†ä»²gxk
 void serverWindowType4( void )
 {
 	static int winX, winY;
@@ -4668,10 +4668,10 @@ void serverWindowType4( void )
 	{
 		" O  K ",
 		"CANCEL",
-		"¤Ï  ¤¤",
-		"¤¤¤¤¤¨",
-		"‘ø  ¤ë",
-		"´Î  ¤Ø"
+		"ã¯  ã„",
+		"ã„ã„ãˆ",
+		"  ã‚‹",
+		"æ¬¡  ã¸"
 	};
 	int id, id2;
 	int i, j;
@@ -4704,7 +4704,7 @@ void serverWindowType4( void )
 					break;
 			}
 		}
-		// ¥Ü¥¿¥ó¤¬¤¢¤Ã¤¿¤é±íÊ¾×ù˜Ë¤òÇó¤á¤ë
+		// ãƒœã‚¿ãƒ³ãŒã‚ã£ãŸã‚‰è¡¨ç¤ºåº§æ‘”èš¯è­å¹›
 		if( btnCnt > 0 )
 		{
 			int w;
@@ -4716,23 +4716,23 @@ void serverWindowType4( void )
 			}
 		}
 
-		strcpy( msgWN[0], "£½¡¡¥Ú¥Ã¥È¤«ÖÙég¤òßx’k¤·¤Æ¤¯¤À¤µ¤¤¡¡£½" );
+		strcpy( msgWN[0], "ï¼ã€€ãƒšãƒƒãƒˆã‹ä»²gã‚’xkã—ã¦ãã ã•ã„ã€€ï¼" );
 
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 
 
 	if( ptActMenuWin != NULL )
 	{
-		// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+		// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 		id = selFontId( btnId, sizeof( btnId )/sizeof( int ) );
 
 		id2 = -1;
-		if( ptActMenuWin->hp >= 1 )	// ¥¦¥£¥ó¥É¥¦³ö¤ë¤Ş¤Çßx’k–˜³ö¤µ¤Ê¤¤
+		if( ptActMenuWin->hp >= 1 )	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦å‡ºã‚‹ã¾ã§xkå‡ºã•ãªã„
 		{
 			for( i = 1; i <= MAX_PET; i++ )
 			{
-				// ÎÄ×ÖÁĞŸo¤¤¤È¤³¤í¤Ë¤Ï–˜³ö¤µ¤Ê¤¤
+				// æ–‡å­—åˆ—oã„ã¨ã“ã‚ã«ã¯å‡ºã•ãªã„
 				if(pet[i-1].useFlag != 0 )
 				{
 					x1 = winX+41;
@@ -4752,7 +4752,7 @@ void serverWindowType4( void )
 
 		for( i = 1; i <= MAX_PARTY; i++ )
 		{
-			// ÎÄ×ÖÁĞŸo¤¤¤È¤³¤í¤Ë¤Ï–˜³ö¤µ¤Ê¤¤
+			// æ–‡å­—åˆ—oã„ã¨ã“ã‚ã«ã¯å‡ºã•ãªã„
 			if( partyModeFlag == 0 && i == 1 )
 			{
 				strcpy( msgWN[1], pc.name );
@@ -4783,7 +4783,7 @@ void serverWindowType4( void )
 			}
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -4832,7 +4832,7 @@ void serverWindowType4( void )
 			StockFontBuffer( winX+62, winY+21,
 				FONT_PRIO_FRONT, FONT_PAL_WHITE, msgWN[0], 0 );
 
-			// ¥Ú¥Ã¥È±íÊ¾
+			// ãƒšãƒƒãƒˆè¡¨ç¤º
 			for( i = 1; i <= MAX_PET; i++ )
 			{
 				len = strlen( pet[i-1].name );
@@ -4853,7 +4853,7 @@ void serverWindowType4( void )
 				}
 			}
 
-			// ¥Ñ©`¥Æ¥£±íÊ¾
+			// ãƒ‘`ãƒ†ã‚£è¡¨ç¤º
 			for( i = 1; i <= MAX_PARTY; i++ )
 			{
 				if( partyModeFlag == 0 && i == 1 )
@@ -4897,7 +4897,7 @@ void serverWindowType4( void )
 
 
 
-// ¥¿¥¤¥×£µ¥¦¥£¥ó¥É¥¦
+// ã‚¿ã‚¤ãƒ—ï¼•ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 
 void initShopWindow1( void );
 int shopWindow1( void );
@@ -4917,35 +4917,35 @@ void initShopWindow8( void );
 int shopWindow8( void );
 
 
-// ¥·¥ç¥Ã¥×ŒŸÓÃ„IÀí
+// ã‚·ãƒ§ãƒƒãƒ—ç”¨Iç†
 void serverWindowType5( void )
 {
 	int ret;
 
-	// µê¥á¥Ë¥å©`
+	// åº—ãƒ¡ãƒ‹ãƒ¥`
 	if( shopWindowProcNo == 0 )
 	{
 		initShopWindow1();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 1 )
 	{
 		ret = shopWindow1();
 	}
 
-	// µê¥á¥¤¥ó
+	// åº—ãƒ¡ã‚¤ãƒ³
 	if( shopWindowProcNo == 15 )
 	{
 		initShopWindow2();
 		shopWindowProcNo = 11;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 10 )
 	{
 		int i, j;
 
-		// Ëù³Ö¥¢¥¤¥Æ¥àÊıÓ‹Ëã
+		// æ‰€æŒã‚¢ã‚¤ãƒ†ãƒ æ•°ç®—
 		for( i = 5, j= 0; i < MAX_ITEM; i++ )
 		{
 			if( pc.item[i].useFlag == 0 )
@@ -4955,12 +4955,12 @@ void serverWindowType5( void )
 	
 		initShopWindow2();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 11 )
 	{
 		ret = shopWindow2();
-		// ‘ø¤ë¤¬Ñº¤µ¤ì¤¿¤éµê¥á¥Ë¥å©`¤Ë‘ø¤ë
+		// æ¯ªæ°¦ä¸¹æ¬·éƒ¡æ¦ˆè¾šå¹è¡°æ¿ `ã«
 		if( ret == 1 )
 		{
 #if 0
@@ -4992,12 +4992,12 @@ void serverWindowType5( void )
 		}
 	}
 
-	// ¥¢¥¤¥Æ¥à¥ì¥Ù¥ë´_ÕJ
+	// ã‚¢ã‚¤ãƒ†ãƒ ãƒ¬ãƒ™ãƒ«_J
 	if( shopWindowProcNo == 20 )
 	{
 		initShopWindow4();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 21 )
 	{
@@ -5013,12 +5013,12 @@ void serverWindowType5( void )
 		}
 	}
 
-	// ¥¢¥¤¥Æ¥à‚€ÊıÈëÁ¦
+	// ã‚¢ã‚¤ãƒ†ãƒ æ•°å…¥åŠ›
 	if( shopWindowProcNo == 30 )
 	{
 		initShopWindow3();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 31 )
 	{
@@ -5034,12 +5034,12 @@ void serverWindowType5( void )
 		}
 	}
 
-	// ÙI¤Ã¤Æ¤¤¤¤¤«´_ÕJ
+	// Iã£ã¦ã„ã„ã‹_J
 	if( shopWindowProcNo == 40 )
 	{
 		initShopWindow5();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 41 )
 	{
@@ -5065,12 +5065,12 @@ void serverWindowType5( void )
 		}
 	}
 
-	// ¥¢¥¤¥Æ¥àÒ»±­
+	// ã‚¢ã‚¤ãƒ†ãƒ ä¸€æ¯
 	if( shopWindowProcNo == 50 )
 	{
 		initShopWindow6();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 51 )
 	{
@@ -5082,12 +5082,12 @@ void serverWindowType5( void )
 	}
 
 
-	// ÙI¤¤È¡¤ê¥â©`¥É
+	// Iã„å–ã‚Šãƒ¢`ãƒ‰
 	if( shopWindowProcNo == 100 )
 	{
 		initShopWindow7();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 101 )
 	{
@@ -5122,12 +5122,12 @@ void serverWindowType5( void )
 		}
 	}
 
-	// ‰Ó¤Ã¤Æ¤â¤¤¤¤¤«´_ÕJ
+	// å©´ç›²çš®çŒ¡ã„ã„_J
 	if( shopWindowProcNo == 110 )
 	{
 		initShopWindow5();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 111 )
 	{
@@ -5141,13 +5141,13 @@ void serverWindowType5( void )
 			makeSendString( data, msg, sizeof( msg )-1 );
 			lssproto_WN_send( sockfd, nowGx, nowGy, indexWN, idWN, 0, msg ) ;
 #endif
-			// ‰Ó¤Ã¤¿¥¢¥¤¥Æ¥à¤òí—Ä¿¤«¤éÏû¤¹
+			// å©´ç›²éªã…åŒ¹å•¶è½ç›®ã‹ã‚‰æ¶ˆã™
 			userItem[selShopItemNo].name[0] = '\0';
-			// ‰Ó¤Ã¤¿¥¢¥¤¥Æ¥à¤Î‚¶Î·Ö¤òØ”²¼¤ËÈë¤ì¤ë
+			// å©´ç›²éªã…åŒ¹å•¶ç•è¯èœ‡å¸ƒã«å…¥ã‚Œã‚‹
 			pc.gold += userItem[selShopItemNo].price;
 			shopWindowProcNo = 100;
 #if 1
-			// ¿Õ¤¤¤Æ¤ë¿Õ°×™Ú¤òÔ‘¤á¤ë
+			// ç©ºã„ã¦ã‚‹ç©ºç™½å†¥è›Ÿã‚ã‚‹
 			int i, j, k;
 			for( i = 0; i < MAX_SHOP_ITEM*MAX_SHOP_PAGE-1; i++ )
 			{
@@ -5197,12 +5197,12 @@ void serverWindowType5( void )
 		}
 	}
 
-	// Ëù³Ö½ğ¤¬Ò»±­¤Ë¤Ê¤ë¤è
+	// æ‰€æŒé‡‘ãŒä¸€æ¯ã«ãªã‚‹ã‚ˆ
 	if( shopWindowProcNo == 120 )
 	{
 		initShopWindow8();
 		shopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( shopWindowProcNo == 121 )
 	{
@@ -5215,22 +5215,22 @@ void serverWindowType5( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£±
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼‘
 
 short shopWindow1ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow1( void )
 {
 	shopWindow1ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ÙI¤¦
-//           2 ... ‰Ó¤ë
-//           3 ... ³ö¤ë
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... Iã†
+//           2 ... å©´
+//           3 ... å‡ºã‚‹
 int shopWindow1( void )
 {
 	static int x, y, w, h;
@@ -5246,7 +5246,7 @@ int shopWindow1( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 4;
 		h = 3;
 		x = (640-w*64)/2;
@@ -5262,12 +5262,12 @@ int shopWindow1( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			ret = id + 1;
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -5276,7 +5276,7 @@ int shopWindow1( void )
 		 || wnCloseFlag == 1 )
 		{
 			id = 100;
-			ret = 3;	// ½K¤ï¤ê
+			ret = 3;	// Kã‚ã‚Š
 			wnCloseFlag = 0;
 		}
 
@@ -5295,7 +5295,7 @@ int shopWindow1( void )
 		{
 			if( ret == 3 )
 			{
-				play_se( 203, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é]¤¸¤ëÒô
+				play_se( 203, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹éŸ³
 			}
 			DeathAction( ptActMenuWin );
 			ptActMenuWin = NULL;
@@ -5328,23 +5328,23 @@ int shopWindow1( void )
 
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£²
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼’
 
 short shopWindow2ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow2( void )
 {
 	shopWindow2ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ‘ø¤ë
-//           2 ... ›Q¶¨
-//           3 ... ¥ì¥Ù¥ë×ã¤ê¤Ê¤¤¥¢¥¤¥Æ¥à¤À¤±¤É›Q¶¨
-//           4 ... ¥¢¥¤¥Æ¥àÒ»±­
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... 
+//           2 ... Qå®š
+//           3 ... ãƒ¬ãƒ™ãƒ«è¶³ã‚Šãªã„ã‚¢ã‚¤ãƒ†ãƒ ã ã‘ã©Qå®š
+//           4 ... ã‚¢ã‚¤ãƒ†ãƒ ä¸€æ¯
 int shopWindow2( void )
 {
 	static int x, y, w, h;
@@ -5370,7 +5370,7 @@ int shopWindow2( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 432;
 		h = 428;
 		x = (640-w)/2;
@@ -5390,7 +5390,7 @@ int shopWindow2( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			//id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			id = selRepGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			pushId = pushGraId( btnId, sizeof( btnId )/sizeof( int ) );
@@ -5408,7 +5408,7 @@ int shopWindow2( void )
 					{
 						if( mouse.onceState & MOUSE_LEFT_CRICK )
 						{
-							// Ëù³Ö½ğ¤¬×ã¤ê¤Ê¤¤¤â¤Î¤Ïßx¤Ù¤Ê¤¤
+							// æ‰€æŒé‡‘ãŒè¶³ã‚Šãªã„ã‚‚ã®ã¯xã¹ãªã„
 							if( sealItem[j+i].price <= pc.gold
 							 && sealItem[j+i].sealFlag == 0 )
 							{
@@ -5416,7 +5416,7 @@ int shopWindow2( void )
 							}
 							else
 							{
-								play_se( 220, 320, 240 );	// £Î£ÇÒô
+								play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 							}
 						}
 						focusId = j+i;
@@ -5426,7 +5426,7 @@ int shopWindow2( void )
 		}
 
 
-		// Ç°¥Ú©`¥¸¥Ü¥¿¥ó
+		// å‰ãƒš`ã‚¸ãƒœã‚¿ãƒ³
 		if( joy_con[0] & JOY_A )
 		{
 			pushId = 0;
@@ -5443,7 +5443,7 @@ int shopWindow2( void )
 				if( shopWondow2Page > 0 )
 				{
 					shopWondow2Page--;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -5451,7 +5451,7 @@ int shopWindow2( void )
 		{
 			prevBtn = 0;
 		}
-		// ´Î¥Ú©`¥¸¥Ü¥¿¥ó
+		// æ¬¡ãƒš`ã‚¸ãƒœã‚¿ãƒ³
 		if( joy_con[0] & JOY_B )
 		{
 			pushId = 1;
@@ -5468,7 +5468,7 @@ int shopWindow2( void )
 				if( shopWondow2Page+1 < shopWondow2MaxPage )
 				{
 					shopWondow2Page++;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -5478,7 +5478,7 @@ int shopWindow2( void )
 		}
 
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -5490,11 +5490,11 @@ int shopWindow2( void )
 			wnCloseFlag = 0;
 		}
 
-		// id = 0, id = 1 ¤Ï¥Ú©`¥¸¥Ü¥¿¥ó¤Ê¤Î¤Ç½K¤ï¤é¤Ê¤¤
+		// id = 0, id = 1 ã¯ãƒš`ã‚¸ãƒœã‚¿ãƒ³ãªã®ã§Kã‚ã‚‰ãªã„
 		if( id >= 2
 		 || selId >= 0 )
 		{
-			// ‘ø¤ë¥Ü¥¿¥ó
+			// æ¯³å €éª
 			if( id == 2 )
 			{
 				ret = 1;
@@ -5536,11 +5536,11 @@ int shopWindow2( void )
 		{
 			int xx;
 
-			// ¥·¥ç¥Ã¥×¥¿¥¤¥È¥ë
+			// ã‚·ãƒ§ãƒƒãƒ—ã‚¿ã‚¤ãƒˆãƒ«
 			xx = (w-strlen( shopWindow1Title )/2*17)/2;
 			StockFontBuffer( x+xx, y+18, FONT_PRIO_FRONT, FONT_PAL_WHITE, shopWindow1Title, 0 );
 
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow2Msg )/sizeof( shopWindow2Msg[0] ); i++ )
 			{
 				if( shopWindow2Msg[0] != '\0' )
@@ -5551,63 +5551,63 @@ int shopWindow2( void )
 			}
 
 
-			// Ëù³Ö½ğ
-			sprintf( tmsg, "Ëù³Ö½ğ  %8d£Ó", pc.gold );
+			// æ‰€æŒé‡‘
+			sprintf( tmsg, "æ‰€æŒé‡‘  %8dï¼³", pc.gold );
 			StockFontBuffer( x+244, y+84, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
-			// ¥Ú©`¥¸ÇĞ¤êÌæ¤¨
+			// ãƒš`ã‚¸åˆ‡ã‚Šæ›¿ãˆ
 			btnId[0] = StockDispBuffer( x +32, y+100, DISP_PRIO_IME3, prevBtnGraNo[prevBtn], 2 );
 			btnId[1] = StockDispBuffer( x+200, y+100, DISP_PRIO_IME3, nextBtnGraNo[nextBtn], 2 );
-			sprintf( tmsg, "%2d/%2d ¥Ú©`¥¸", shopWondow2Page+1, shopWondow2MaxPage );
+			sprintf( tmsg, "%2d/%2d ãƒš`ã‚¸", shopWondow2Page+1, shopWondow2MaxPage );
 			StockFontBuffer( x +66, y+92, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
 			j = shopWondow2Page*MAX_SHOP_ITEM;
 			for( i = 0; i < MAX_SHOP_ITEM; i++ )
 			{
-				// ¥Ç©`¥¿¤¬Ÿo¤±¤ì¤Ğ¥¹¥­¥Ã¥×
+				// ãƒ‡`ã‚¿ãŒoã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 				if( strlen( sealItem[j+i].name ) == 0 )
 					continue;
 
-				// ¥Ç¥Õ¥©¥ë¥È¡¢°×
+				// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€ç™½
 				color = itemColor[0];
-				// ¥ì¥Ù¥ë¤¬×ã¤ê¤Ê¤¤•r¤Ï¡¢³à
+				// ãƒ¬ãƒ™ãƒ«ãŒè¶³ã‚Šãªã„rã¯ã€èµ¤
 				if( sealItem[j+i].level > pc.level )
 					color = itemColor[2];
-				// ‰Ó¤é¤Ê¤¤¥Õ¥é¥°¤¬¤¿¤Ã¤Æ¤¿¤é¡¢»Ò
+				// å©´æ¤èƒœã…æ¦¨æ¥—æŒ¨éƒ¡ç›²çš®éƒ¡æ¤¤â’’
 				if( sealItem[j+i].sealFlag )
 					color = itemColor[1];
-				// ¤ª½ğ¤¬Ÿo¤¤•r¤â¡¢»Ò
+				// ãŠé‡‘ãŒoã„rã‚‚ã€ç°
 				if( sealItem[j+i].price > pc.gold )
 				{
 					color = itemColor[1];
 				}
 
-				// ¥¢¥¤¥Æ¥àÃû
+				// ã‚¢ã‚¤ãƒ†ãƒ å
 				StockFontBuffer( x+34, y+118+i*21,
 					FONT_PRIO_FRONT, color, sealItem[j+i].name, 0 );
-				// ½ğî~
-				sprintf( tmsg, "%8d£Ó", sealItem[j+i].price );
+				// é‡‘~
+				sprintf( tmsg, "%8dï¼³", sealItem[j+i].price );
 				StockFontBuffer( x+312, y+118+i*21,
 					FONT_PRIO_FRONT, color, tmsg, 0 );
 			}
 
 			if( focusId >= 0 )
 			{
-				// ¥¢¥¤¥Æ¥à»­Ïñ
+				// ã‚¢ã‚¤ãƒ†ãƒ ç”»åƒ
 				StockDispBuffer( x+64, y+350, DISP_PRIO_IME3, sealItem[focusId].graNo, 0 );
 
 				for( i = 0; i < sizeof( sealItem[0].info )/sizeof( sealItem[0].info[0] ); i++ )
 				{
-					// ÕhÃ÷
+					// hæ˜
 					StockFontBuffer( x+120, y+308+i*20, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 						sealItem[focusId].info[i], 0 );
 				}
 			}
 
-			// ‘ø¤ë¥Ü¥¿¥ó
+			// æ¯³å €éª
 			btnId[2] = StockDispBuffer( x+216, y+402, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 
-			// ¥¦¥£¥ó¥É¥¦
+			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			StockDispBuffer( x+w/2, y+h/2, DISP_PRIO_MENU, CG_ITEMSHOP_WIN, 1 );
 		}
 	}
@@ -5616,22 +5616,22 @@ int shopWindow2( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£³
-//   ¤Ş¤È¤áÙI¤¤¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼“
+//   ã¾ã¨ã‚Iã„ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 
 short shopWindow3ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow3( void )
 {
 	shopWindow3ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ›Q¶¨
-//           2 ... ‘ø¤ë
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... Qå®š
+//           2 ... 
 int shopWindow3( void )
 {
 	static int x, y, w, h;
@@ -5652,7 +5652,7 @@ int shopWindow3( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 440;
 		h = 160;
 		x = (640-w)/2;
@@ -5668,13 +5668,13 @@ int shopWindow3( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			//id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			id = selRepGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			pushId = pushGraId( btnId, sizeof( btnId )/sizeof( int ) );
 		}
 
-		// ¥À¥¦¥ó¥Ü¥¿¥ó
+		// ãƒ€ã‚¦ãƒ³ãƒœã‚¿ãƒ³
 		if( joy_con[0] & JOY_A )
 		{
 			pushId = 0;
@@ -5691,7 +5691,7 @@ int shopWindow3( void )
 				if( sealItemCnt > 1 )
 				{
 					sealItemCnt--;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -5699,7 +5699,7 @@ int shopWindow3( void )
 		{
 			downBtn = 0;
 		}
-		// ¥¢¥Ã¥×¥Ü¥¿¥ó
+		// ã‚¢ãƒƒãƒ—ãƒœã‚¿ãƒ³
 		if( joy_con[0] & JOY_B )
 		{
 			pushId = 1;
@@ -5717,7 +5717,7 @@ int shopWindow3( void )
 				 && sealItem[selShopItemNo].price*(sealItemCnt+1) <= pc.gold )
 				{
 					sealItemCnt++;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -5726,7 +5726,7 @@ int shopWindow3( void )
 			upBtn = 0;
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -5776,17 +5776,17 @@ int shopWindow3( void )
 			StockFontBuffer( x+16, y+52, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 				sealItem[selShopItemNo].name, 0 );
 
-			sprintf( tmsg, "%2d‚€", sealItemCnt );
+			sprintf( tmsg, "%2d", sealItemCnt );
 			StockFontBuffer( x+300, y+52, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
 
-			sprintf( tmsg, "%8d£Ó x %2d = %8d£Ó",
+			sprintf( tmsg, "%8dï¼³ x %2d = %8dï¼³",
 				sealItem[selShopItemNo].price,
 				sealItemCnt, sealItem[selShopItemNo].price*sealItemCnt );
 			StockFontBuffer( x+146, y+82, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 				tmsg, 0 );
 
-			sprintf( tmsg, "Ëù³Ö½ğ %8d£Ó", pc.gold );
+			sprintf( tmsg, "æ‰€æŒé‡‘ %8dï¼³", pc.gold );
 			StockFontBuffer( x+248, y+120, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
 			btnId[0] = StockDispBuffer( x+364, y+60, DISP_PRIO_IME3, downBtnGraNo[downBtn], 2 );
@@ -5795,7 +5795,7 @@ int shopWindow3( void )
 			btnId[2] = StockDispBuffer( x +64, y+120, DISP_PRIO_IME3, CG_OK_BTN, 2 );
 			btnId[3] = StockDispBuffer( x+164, y+120, DISP_PRIO_IME3, CG_CANCEL_BTN, 2 );
 
-			// ¥¦¥£¥ó¥É¥¦
+			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			StockDispBuffer( x+w/2, y+h/2, DISP_PRIO_MENU, CG_ITEMSHOP_KOSU_WIN, 1 );
 		}
 	}
@@ -5804,21 +5804,21 @@ int shopWindow3( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£´
-//   ¥ì¥Ù¥ë×ã¤ê¤Ê¤¤¾¯¸æ¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼”
+//   ãƒ¬ãƒ™ãƒ«è¶³ã‚Šãªã„è­¦å‘Šã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short shopWindow4ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow4( void )
 {
 	shopWindow4ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ¤Ï¤¤
-//           2 ... ¤¤¤¤¤¨
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... ã¯ã„
+//           2 ... ã„ã„ãˆ
 int shopWindow4( void )
 {
 	static int x, y, w, h;
@@ -5834,7 +5834,7 @@ int shopWindow4( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 6;
 		h = 2;
 		x = (640-w*64)/2;
@@ -5850,11 +5850,11 @@ int shopWindow4( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -5896,7 +5896,7 @@ int shopWindow4( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow4Msg )/sizeof( shopWindow4Msg[0] ); i++ )
 			{
 				if( shopWindow4Msg[0] != '\0' )
@@ -5915,21 +5915,21 @@ int shopWindow4( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£µ
-//   ×î½K´_ÕJ¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼•
+//   æœ€K_Jã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short shopWindow5ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow5( void )
 {
 	shopWindow5ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ¤Ï¤¤
-//           2 ... ¤¤¤¤¤¨
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... ã¯ã„
+//           2 ... ã„ã„ãˆ
 int shopWindow5( void )
 {
 	static int x, y, w, h;
@@ -5945,7 +5945,7 @@ int shopWindow5( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 6;
 		h = 2;
 		x = (640-w*64)/2;
@@ -5961,11 +5961,11 @@ int shopWindow5( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -6008,7 +6008,7 @@ int shopWindow5( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow5Msg )/sizeof( shopWindow5Msg[0] ); i++ )
 			{
 				if( shopWindow5Msg[0] != '\0' )
@@ -6027,20 +6027,20 @@ int shopWindow5( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£¶
-//   ¥¢¥¤¥Æ¥à¤¬Ò»±­¤Ç¤¹¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼–
+//   ã‚¢ã‚¤ãƒ†ãƒ ãŒä¸€æ¯ã§ã™ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short shopWindow6ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow6( void )
 {
 	shopWindow6ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ¤Ï¤¤
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... ã¯ã„
 int shopWindow6( void )
 {
 	static int x, y, w, h;
@@ -6056,7 +6056,7 @@ int shopWindow6( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 6;
 		h = 2;
 		x = (640-w*64)/2;
@@ -6072,11 +6072,11 @@ int shopWindow6( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -6113,7 +6113,7 @@ int shopWindow6( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow6Msg )/sizeof( shopWindow6Msg[0] ); i++ )
 			{
 				if( shopWindow6Msg[0] != '\0' )
@@ -6131,22 +6131,22 @@ int shopWindow6( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£·
-//   ÙIÈ¡¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼—
+//   Iå–ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short shopWindow7ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow7( void )
 {
 	shopWindow7ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ‘ø¤ë
-//           2 ... ›Q¶¨
-//           3 ... ¤ª½ğÒ»±­
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... 
+//           2 ... Qå®š
+//           3 ... ãŠé‡‘ä¸€æ¯
 int shopWindow7( void )
 {
 	static int x, y, w, h;
@@ -6172,7 +6172,7 @@ int shopWindow7( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 432;
 		h = 428;
 		x = (640-w)/2;
@@ -6192,7 +6192,7 @@ int shopWindow7( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			//id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			id = selRepGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			pushId = pushGraId( btnId, sizeof( btnId )/sizeof( int ) );
@@ -6222,7 +6222,7 @@ int shopWindow7( void )
 		}
 
 
-		// Ç°¥Ú©`¥¸¥Ü¥¿¥ó
+		// å‰ãƒš`ã‚¸ãƒœã‚¿ãƒ³
 		if( joy_con[0] & JOY_A )
 		{
 			pushId = 0;
@@ -6239,7 +6239,7 @@ int shopWindow7( void )
 				if( shopWondow2Page > 0 )
 				{
 					shopWondow2Page--;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -6247,7 +6247,7 @@ int shopWindow7( void )
 		{
 			prevBtn = 0;
 		}
-		// ´Î¥Ú©`¥¸¥Ü¥¿¥ó
+		// æ¬¡ãƒš`ã‚¸ãƒœã‚¿ãƒ³
 		if( joy_con[0] & JOY_B )
 		{
 			pushId = 1;
@@ -6264,7 +6264,7 @@ int shopWindow7( void )
 				if( shopWondow2Page+1 < shopWondow2MaxPage )
 				{
 					shopWondow2Page++;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -6274,7 +6274,7 @@ int shopWindow7( void )
 		}
 
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -6286,11 +6286,11 @@ int shopWindow7( void )
 			wnCloseFlag = 0;
 		}
 
-		// id = 0, id = 1 ¤Ï¥Ú©`¥¸¥Ü¥¿¥ó¤Ê¤Î¤Ç½K¤ï¤é¤Ê¤¤
+		// id = 0, id = 1 ã¯ãƒš`ã‚¸ãƒœã‚¿ãƒ³ãªã®ã§Kã‚ã‚‰ãªã„
 		if( id >= 2
 		 || selId >= 0 )
 		{
-			// ‘ø¤ë¥Ü¥¿¥ó
+			// æ¯³å €éª
 			if( id == 2 )
 			{
 				ret = 1;
@@ -6328,11 +6328,11 @@ int shopWindow7( void )
 		{
 			int xx;
 
-			// ¥·¥ç¥Ã¥×¥¿¥¤¥È¥ë
+			// ã‚·ãƒ§ãƒƒãƒ—ã‚¿ã‚¤ãƒˆãƒ«
 			xx = (w-strlen( shopWindow1Title )/2*17)/2;
 			StockFontBuffer( x+xx, y+18, FONT_PRIO_FRONT, FONT_PAL_WHITE, shopWindow1Title, 0 );
 
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow7Msg )/sizeof( shopWindow7Msg[0] ); i++ )
 			{
 				if( shopWindow7Msg[0] != '\0' )
@@ -6343,52 +6343,52 @@ int shopWindow7( void )
 			}
 
 
-			// Ëù³Ö½ğ
-			sprintf( tmsg, "Ëù³Ö½ğ  %8d£Ó", pc.gold );
+			// æ‰€æŒé‡‘
+			sprintf( tmsg, "æ‰€æŒé‡‘  %8dï¼³", pc.gold );
 			StockFontBuffer( x+244, y+84, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
-			// ¥Ú©`¥¸ÇĞ¤êÌæ¤¨
+			// ãƒš`ã‚¸åˆ‡ã‚Šæ›¿ãˆ
 			btnId[0] = StockDispBuffer( x +32, y+100, DISP_PRIO_IME3, prevBtnGraNo[prevBtn], 2 );
 			btnId[1] = StockDispBuffer( x+200, y+100, DISP_PRIO_IME3, nextBtnGraNo[nextBtn], 2 );
-			sprintf( tmsg, "%2d/%2d ¥Ú©`¥¸", shopWondow2Page+1, shopWondow2MaxPage );
+			sprintf( tmsg, "%2d/%2d ãƒš`ã‚¸", shopWondow2Page+1, shopWondow2MaxPage );
 			StockFontBuffer( x +66, y+92, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
 			j = shopWondow2Page*MAX_SHOP_ITEM;
 			for( i = 0; i < MAX_SHOP_ITEM; i++ )
 			{
-				// ¥Ç©`¥¿¤¬Ÿo¤±¤ì¤Ğ¥¹¥­¥Ã¥×
+				// ãƒ‡`ã‚¿ãŒoã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 				if( strlen( userItem[j+i].name ) == 0 )
 					continue;
 
-				// ¥Ç¥Õ¥©¥ë¥È¡¢°×
+				// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€ç™½
 				color = itemColor[0];
-				// ‰Ó¤é¤Ê¤¤¥Õ¥é¥°¤¬¤¿¤Ã¤Æ¤¿¤é¡¢»Ò
+				// å©´æ¤èƒœã…æ¦¨æ¥—æŒ¨éƒ¡ç›²çš®éƒ¡æ¤¤â’’
 				if( userItem[j+i].sealFlag )
 					color = itemColor[1];
 
-				// ¥¢¥¤¥Æ¥àÃû
+				// ã‚¢ã‚¤ãƒ†ãƒ å
 				StockFontBuffer( x+34, y+118+i*21,
 					FONT_PRIO_FRONT, color, userItem[j+i].name, 0 );
-				// ½ğî~
-				sprintf( tmsg, "%8d£Ó", userItem[j+i].price );
+				// é‡‘~
+				sprintf( tmsg, "%8dï¼³", userItem[j+i].price );
 				StockFontBuffer( x+312, y+118+i*21,
 					FONT_PRIO_FRONT, color, tmsg, 0 );
 			}
 
 			if( focusId >= 0 )
 			{
-				// ¥¢¥¤¥Æ¥à»­Ïñ
+				// ã‚¢ã‚¤ãƒ†ãƒ ç”»åƒ
 				StockDispBuffer( x+64, y+350, DISP_PRIO_IME3, userItem[focusId].graNo, 0 );
 
 				for( i = 0; i < sizeof( userItem[0].info )/sizeof( userItem[0].info[0] ); i++ )
 				{
-					// ÕhÃ÷
+					// hæ˜
 					StockFontBuffer( x+120, y+308+i*20, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 						userItem[focusId].info[i], 0 );
 				}
 			}
 
-			// ‘ø¤ë¥Ü¥¿¥ó
+			// æ¯³å €éª
 			if( buyOffFlag == 0 )
 			{
 				btnId[2] = StockDispBuffer( x+216, y+402, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
@@ -6398,7 +6398,7 @@ int shopWindow7( void )
 				btnId[2] = StockDispBuffer( x+216, y+402, DISP_PRIO_IME3, CG_EXIT_BTN, 2 );
 			}
 
-			// ¥¦¥£¥ó¥É¥¦
+			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			StockDispBuffer( x+w/2, y+h/2, DISP_PRIO_MENU, CG_ITEMSHOP_WIN, 1 );
 		}
 	}
@@ -6407,20 +6407,20 @@ int shopWindow7( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£¸
-//   Ëù³Ö½ğ¤¬Ò»±­¤Ë¤Ê¤ê¤Ş¤¹¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼˜
+//   æ‰€æŒé‡‘ãŒä¸€æ¯ã«ãªã‚Šã¾ã™ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short shopWindow8ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initShopWindow8( void )
 {
 	shopWindow8ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ¤Ï¤¤
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... ã¯ã„
 int shopWindow8( void )
 {
 	static int x, y, w, h;
@@ -6436,7 +6436,7 @@ int shopWindow8( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 6;
 		h = 2;
 		x = (640-w*64)/2;
@@ -6452,11 +6452,11 @@ int shopWindow8( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -6493,7 +6493,7 @@ int shopWindow8( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow8Msg )/sizeof( shopWindow8Msg[0] ); i++ )
 			{
 				if( shopWindow8Msg[0] != '\0' )
@@ -6513,7 +6513,7 @@ int shopWindow8( void )
 
 
 
-// ¥Ú¥Ã¥È¥¹¥­¥ë¥·¥ç¥Ã¥×ŒŸÓÃ„IÀí
+// ãƒšãƒƒãƒˆã‚¹ã‚­ãƒ«ã‚·ãƒ§ãƒƒãƒ—ç”¨Iç†
 
 void initSkillShopWindow1( void );
 int skillShopWindow1( void );
@@ -6528,12 +6528,12 @@ void serverWindowType6( void )
 {
 	int ret;
 
-	// µê¥á¥Ë¥å©`
+	// åº—ãƒ¡ãƒ‹ãƒ¥`
 	if( skillShopWindowProcNo == 0 )
 	{
 		initSkillShopWindow1();
 		skillShopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( skillShopWindowProcNo == 1 )
 	{
@@ -6544,17 +6544,17 @@ void serverWindowType6( void )
 		}
 	}
 
-	// ¥Ú¥Ã¥Èßx’k
+	// ãƒšãƒƒãƒˆxk
 	if( skillShopWindowProcNo == 10 )
 	{
 		initSkillShopWindow2();
 		skillShopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( skillShopWindowProcNo == 11 )
 	{
 		ret = skillShopWindow2();
-		// ‘ø¤ë
+		// 
 		if( ret == 1 )
 		{
 			skillShopWindowProcNo = 0;
@@ -6566,12 +6566,12 @@ void serverWindowType6( void )
 		}
 	}
 
-	// ¥¹¥í¥Ã¥Èßx’k
+	// ã‚¹ãƒ­ãƒƒãƒˆxk
 	if( skillShopWindowProcNo == 20 )
 	{
 		initSkillShopWindow3();
 		skillShopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( skillShopWindowProcNo == 21 )
 	{
@@ -6587,12 +6587,12 @@ void serverWindowType6( void )
 		}
 	}
 
-	// ´_ÕJ¥¦¥£¥ó¥É¥¦
+	// _Jã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	if( skillShopWindowProcNo == 30 )
 	{
 		initSkillShopWindow4();
 		skillShopWindowProcNo++;
-		play_se( 202, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é_¤¯Òô
+		play_se( 202, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ãéŸ³
 	}
 	if( skillShopWindowProcNo == 31 )
 	{
@@ -6623,18 +6623,18 @@ void serverWindowType6( void )
 }
 
 
-// ¥Ú¥Ã¥È¥¹¥­¥ë¥á¥¤¥ó¥¦¥£¥ó¥É¥¦
+// ãƒšãƒƒãƒˆã‚¹ã‚­ãƒ«ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short skillShopWindow1ProcNo;
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initSkillShopWindow1( void )
 {
 	skillShopWindow1ProcNo = 0;
 }
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ³ö¤ë
-//           2 ... ›Q¶¨
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... å‡ºã‚‹
+//           2 ... Qå®š
 int skillShopWindow1( void )
 {
 	static int x, y, w, h;
@@ -6660,7 +6660,7 @@ int skillShopWindow1( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 432;
 		h = 428;
 		x = (640-w)/2;
@@ -6680,7 +6680,7 @@ int skillShopWindow1( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			//id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			id = selRepGraId( btnId, sizeof( btnId )/sizeof( int ) );
 			pushId = pushGraId( btnId, sizeof( btnId )/sizeof( int ) );
@@ -6699,14 +6699,14 @@ int skillShopWindow1( void )
 					{
 						if( mouse.onceState & MOUSE_LEFT_CRICK )
 						{
-							// Ëù³Ö½ğ¤¬×ã¤ê¤Ê¤¤¤â¤Î¤Ïßx¤Ù¤Ê¤¤
+							// æ‰€æŒé‡‘ãŒè¶³ã‚Šãªã„ã‚‚ã®ã¯xã¹ãªã„
 							if( sealSkill[j+i].price <= pc.gold )
 							{
 								selId = j+i;
 							}
 							else
 							{
-								play_se( 220, 320, 240 );	// £Î£ÇÒô
+								play_se( 220, 320, 240 );	// ï¼®ï¼§éŸ³
 							}
 						}
 						focusId = j+i;
@@ -6716,7 +6716,7 @@ int skillShopWindow1( void )
 		}
 
 
-		// Ç°¥Ú©`¥¸¥Ü¥¿¥ó
+		// å‰ãƒš`ã‚¸ãƒœã‚¿ãƒ³
 		if( pushId == 0 )
 		{
 			prevBtn = 1;
@@ -6725,7 +6725,7 @@ int skillShopWindow1( void )
 				if( shopWondow2Page > 0 )
 				{
 					shopWondow2Page--;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -6733,7 +6733,7 @@ int skillShopWindow1( void )
 		{
 			prevBtn = 0;
 		}
-		// ´Î¥Ú©`¥¸¥Ü¥¿¥ó
+		// æ¬¡ãƒš`ã‚¸ãƒœã‚¿ãƒ³
 		if( pushId == 1 )
 		{
 			nextBtn = 1;
@@ -6742,7 +6742,7 @@ int skillShopWindow1( void )
 				if( shopWondow2Page+1 < shopWondow2MaxPage )
 				{
 					shopWondow2Page++;
-					play_se( 217, 320, 240 );	// ¥¯¥ê¥Ã¥¯Òô
+					play_se( 217, 320, 240 );	// ã‚¯ãƒªãƒƒã‚¯éŸ³
 				}
 			}
 		}
@@ -6752,7 +6752,7 @@ int skillShopWindow1( void )
 		}
 
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -6764,15 +6764,15 @@ int skillShopWindow1( void )
 			wnCloseFlag = 0;
 		}
 
-		// id = 0, id = 1 ¤Ï¥Ú©`¥¸¥Ü¥¿¥ó¤Ê¤Î¤Ç½K¤ï¤é¤Ê¤¤
+		// id = 0, id = 1 ã¯ãƒš`ã‚¸ãƒœã‚¿ãƒ³ãªã®ã§Kã‚ã‚‰ãªã„
 		if( id >= 2
 		 || selId >= 0 )
 		{
-			// ³ö¤ë¥Ü¥¿¥ó
+			// å‡ºã‚‹ãƒœã‚¿ãƒ³
 			if( id == 2 )
 			{
 				ret = 1;
-				play_se( 203, 320, 240 );	// ¥¦¥£¥ó¥É¥¦é]¤¸¤ëÒô
+				play_se( 203, 320, 240 );	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦]ã˜ã‚‹éŸ³
 			}
 			else
 			if( id == 100 )
@@ -6799,11 +6799,11 @@ int skillShopWindow1( void )
 		{
 			int xx;
 
-			// ¥·¥ç¥Ã¥×¥¿¥¤¥È¥ë
+			// ã‚·ãƒ§ãƒƒãƒ—ã‚¿ã‚¤ãƒˆãƒ«
 			xx = (w-strlen( shopWindow1Title )/2*17)/2;
 			StockFontBuffer( x+xx, y+18, FONT_PRIO_FRONT, FONT_PAL_WHITE, shopWindow1Title, 0 );
 
-			// ¥·¥ç¥Ã¥×¥á¥Ã¥»©`¥¸
+			// ã‚·ãƒ§ãƒƒãƒ—ãƒ¡ãƒƒã‚»`ã‚¸
 			for( i = 0; i < sizeof( shopWindow2Msg )/sizeof( shopWindow2Msg[0] ); i++ )
 			{
 				if( shopWindow2Msg[0] != '\0' )
@@ -6814,36 +6814,36 @@ int skillShopWindow1( void )
 			}
 
 
-			// Ëù³Ö½ğ
-			sprintf( tmsg, "Ëù³Ö½ğ  %8d£Ó", pc.gold );
+			// æ‰€æŒé‡‘
+			sprintf( tmsg, "æ‰€æŒé‡‘  %8dï¼³", pc.gold );
 			StockFontBuffer( x+244, y+84, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
-			// ¥Ú©`¥¸ÇĞ¤êÌæ¤¨
+			// ãƒš`ã‚¸åˆ‡ã‚Šæ›¿ãˆ
 			btnId[0] = StockDispBuffer( x +32, y+100, DISP_PRIO_IME3, prevBtnGraNo[prevBtn], 2 );
 			btnId[1] = StockDispBuffer( x+200, y+100, DISP_PRIO_IME3, nextBtnGraNo[nextBtn], 2 );
-			sprintf( tmsg, "%2d/%2d ¥Ú©`¥¸", shopWondow2Page+1, shopWondow2MaxPage );
+			sprintf( tmsg, "%2d/%2d ãƒš`ã‚¸", shopWondow2Page+1, shopWondow2MaxPage );
 			StockFontBuffer( x +66, y+92, FONT_PRIO_FRONT, FONT_PAL_WHITE, tmsg, 0 );
 
 			j = shopWondow2Page*MAX_SKILL_SHOP_SKILL;
 			for( i = 0; i < MAX_SKILL_SHOP_SKILL; i++ )
 			{
-				// ¥Ç©`¥¿¤¬Ÿo¤±¤ì¤Ğ¥¹¥­¥Ã¥×
+				// ãƒ‡`ã‚¿ãŒoã‘ã‚Œã°ã‚¹ã‚­ãƒƒãƒ—
 				if( strlen( sealSkill[j+i].name ) == 0 )
 					continue;
 
-				// ¥Ç¥Õ¥©¥ë¥È¡¢°×
+				// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€ç™½
 				color = itemColor[0];
-				// ¤ª½ğ¤¬Ÿo¤¤•r¤â¡¢»Ò
+				// ãŠé‡‘ãŒoã„rã‚‚ã€ç°
 				if( sealSkill[j+i].price > pc.gold )
 				{
 					color = itemColor[1];
 				}
 
-				// ¥¢¥¤¥Æ¥àÃû
+				// ã‚¢ã‚¤ãƒ†ãƒ å
 				StockFontBuffer( x+34, y+118+i*21,
 					FONT_PRIO_FRONT, color, sealSkill[j+i].name, 0 );
-				// ½ğî~
-				sprintf( tmsg, "%8d£Ó", sealSkill[j+i].price );
+				// é‡‘~
+				sprintf( tmsg, "%8dï¼³", sealSkill[j+i].price );
 				StockFontBuffer( x+312, y+118+i*21,
 					FONT_PRIO_FRONT, color, tmsg, 0 );
 			}
@@ -6852,16 +6852,16 @@ int skillShopWindow1( void )
 			{
 				for( i = 0; i < sizeof( sealSkill[0].info )/sizeof( sealSkill[0].info[0] ); i++ )
 				{
-					// ÕhÃ÷
+					// hæ˜
 					StockFontBuffer( x+27, y+308+i*20, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 						sealSkill[focusId].info[i], 0 );
 				}
 			}
 
-			// ³ö¤ë¥Ü¥¿¥ó
+			// å‡ºã‚‹ãƒœã‚¿ãƒ³
 			btnId[2] = StockDispBuffer( x+216, y+402, DISP_PRIO_IME3, CG_EXIT_BTN, 2 );
 
-			// ¥¦¥£¥ó¥É¥¦
+			// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 			StockDispBuffer( x+w/2, y+h/2, DISP_PRIO_MENU, CG_SKILLSHOP_WIN, 1 );
 		}
 	}
@@ -6870,18 +6870,18 @@ int skillShopWindow1( void )
 }
 
 
-// ¥Ú¥Ã¥È¥¹¥­¥ëÎİ¡¡¥Ú¥Ã¥Èßx’k¥¦¥£¥ó¥É¥¦
+// ãƒšãƒƒãƒˆã‚¹ã‚­ãƒ«å±‹ã€€ãƒšãƒƒãƒˆxkã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short skillShopWindow2ProcNo;
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initSkillShopWindow2( void )
 {
 	skillShopWindow2ProcNo = 0;
 }
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ‘ø¤ë
-//           2 ... ›Q¶¨
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... 
+//           2 ... Qå®š
 int skillShopWindow2( void )
 {
 	static int x, y, w, h;
@@ -6899,7 +6899,7 @@ int skillShopWindow2( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 7;
 		h = 5;
 		x = (640-w*64)/2;
@@ -6914,12 +6914,12 @@ int skillShopWindow2( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 
 			for( i = 0, j = 0; i < MAX_PET; i++ )
 			{
-				// ÎÄ×ÖÁĞŸo¤¤¤È¤³¤í¤Ë¤Ï–˜³ö¤µ¤Ê¤¤
+				// æ–‡å­—åˆ—oã„ã¨ã“ã‚ã«ã¯å‡ºã•ãªã„
 				if( pet[i].useFlag != 0 )
 				{
 					x1 = x+41;
@@ -6938,7 +6938,7 @@ int skillShopWindow2( void )
 			}
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -6952,7 +6952,7 @@ int skillShopWindow2( void )
 
 		if( id >= 0 )
 		{
-			// ‘ø¤ë¥Ü¥¿¥ó
+			// æ¯³å €éª
 			if( id == 0 )
 			{
 				ret = 1;
@@ -6980,7 +6980,7 @@ int skillShopWindow2( void )
 		if( ptActMenuWin->hp >= 1 )
 		{
 			StockFontBuffer( x+145, y+25,
-				FONT_PRIO_FRONT, FONT_PAL_WHITE, "Õl¤ËÒ™¤¨¤µ¤»¤Ş¤¹¤«£¿", 0 );
+				FONT_PRIO_FRONT, FONT_PAL_WHITE, "lã«ãˆã•ã›ã¾ã™ã‹ï¼Ÿ", 0 );
 			for( i = 0, j = 0; i < MAX_PET; i++ )
 			{
 				if( pet[i].useFlag != 0 )
@@ -7022,18 +7022,18 @@ int skillShopWindow2( void )
 }
 
 
-// ¥Ú¥Ã¥È¥¹¥­¥ëÎİ¡¡¥¹¥í¥Ã¥Èßx’k¥¦¥£¥ó¥É¥¦
+// ãƒšãƒƒãƒˆã‚¹ã‚­ãƒ«å±‹ã€€ã‚¹ãƒ­ãƒƒãƒˆxkã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short skillShopWindow3ProcNo;
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initSkillShopWindow3( void )
 {
 	skillShopWindow3ProcNo = 0;
 }
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ‘ø¤ë
-//           2 ... ›Q¶¨
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... 
+//           2 ... Qå®š
 int skillShopWindow3( void )
 {
 	static int x, y, w, h;
@@ -7051,7 +7051,7 @@ int skillShopWindow3( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 5;
 		h = 6;
 		x = (640-w*64)/2;
@@ -7066,7 +7066,7 @@ int skillShopWindow3( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 
 			for( i = 0; i < MAX_SKILL && i < pet[selShopSkillPetNo-1].maxSkill; i++ )
@@ -7085,7 +7085,7 @@ int skillShopWindow3( void )
 			}
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -7099,7 +7099,7 @@ int skillShopWindow3( void )
 
 		if( id >= 0 )
 		{
-			// ‘ø¤ë¥Ü¥¿¥ó
+			// æ¯³å €éª
 			if( id == 0 )
 			{
 				ret = 1;
@@ -7127,10 +7127,10 @@ int skillShopWindow3( void )
 		if( ptActMenuWin->hp >= 1 )
 		{
 			StockFontBuffer( x+75, y+33,
-				FONT_PRIO_FRONT, FONT_PAL_WHITE, "¤É¤ÎÎ»ÖÃ¤Ë¤·¤Ş¤¹¤«£¿", 0 );
+				FONT_PRIO_FRONT, FONT_PAL_WHITE, "ã©ã®ä½ç½®ã«ã—ã¾ã™ã‹ï¼Ÿ", 0 );
 			for( i = 0; i < MAX_SKILL && i < pet[selShopSkillPetNo-1].maxSkill; i++ )
 			{
-				sprintf( skillName, "¼¼ %d: ", i+1 );
+				sprintf( skillName, "æŠ€ %d: ", i+1 );
 				if( petSkill[selShopSkillPetNo-1][i].useFlag != 0 )
 				{
 					strcat( skillName, petSkill[selShopSkillPetNo-1][i].name );
@@ -7146,21 +7146,21 @@ int skillShopWindow3( void )
 }
 
 
-// ¥·¥ç¥Ã¥×¥¦¥£¥ó¥É¥¦£µ
-//   ×î½K´_ÕJ¥¦¥£¥ó¥É¥¦
+// ã‚·ãƒ§ãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼•
+//   æœ€K_Jã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 short skillShopWindow4ProcNo;
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initSkillShopWindow4( void )
 {
 	skillShopWindow4ProcNo = 0;
 }
 
 
-// ¥á¥¤¥ó
-//   ‘ø¤ê‚£º0 ... „IÀíÖĞ
-//           1 ... ¤Ï¤¤
-//           2 ... ¤¤¤¤¤¨
+// ãƒ¡ã‚¤ãƒ³
+//   0 ... Iç†ä¸­
+//           1 ... ã¯ã„
+//           2 ... ã„ã„ãˆ
 int skillShopWindow4( void )
 {
 	static int x, y, w, h;
@@ -7177,7 +7177,7 @@ int skillShopWindow4( void )
 			btnId[i] = -2;
 		}
 
-		// ¥¦¥£¥ó¥É¥¦×÷³É
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ä½œæˆ
 		w = 8;
 		h = 2;
 		x = (640-w*64)/2;
@@ -7195,7 +7195,7 @@ int skillShopWindow4( void )
 			strcpy( name, pet[selShopSkillPetNo-1].name );
 		}
 
-		sprintf( msg1, "[%s]¤Ë[%s]¤ò", name,
+		sprintf( msg1, "[%s]ã«[%s]ã‚’", name,
 			sealSkill[selShopSkillNo].name );
 
 		skillShopWindow4ProcNo++;
@@ -7207,11 +7207,11 @@ int skillShopWindow4( void )
 		id = -1;
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ¥Ü¥¿¥ó¤Îßx’kÅĞ¶¨
+			// ãƒœã‚¿ãƒ³ã®xkåˆ¤å®š
 			id = selGraId( btnId, sizeof( btnId )/sizeof( int ) );
 		}
 
-		// Ëû¤Î¥á¥Ë¥å©`¤¬³ö¤ë¤Î¤Ç¤³¤Ã¤Á¤Î¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+		// ä»–ã®ãƒ¡ãƒ‹ãƒ¥`ãŒå‡ºã‚‹ã®ã§ã“ã£ã¡ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 		if( CheckMenuFlag()
 		 || joy_trg[ 0 ] & JOY_ESC
 		 || actBtn == 1
@@ -7254,11 +7254,11 @@ int skillShopWindow4( void )
 
 		if( ptActMenuWin->hp >= 1 )
 		{
-			// ´_ÕJ¥á¥Ã¥»©`¥¸
+			// _Jãƒ¡ãƒƒã‚»`ã‚¸
 			StockFontBuffer( x+20, y+20+0*20, FONT_PRIO_FRONT, FONT_PAL_WHITE,
 				msg1, 0 );
 			StockFontBuffer( x+20, y+20+1*20, FONT_PRIO_FRONT, FONT_PAL_WHITE,
-				"Ò™¤¨¤µ¤»¤Ş¤¹¤«£¿", 0 );
+				"ãˆã•ã›ã¾ã™ã‹ï¼Ÿ", 0 );
 
 			btnId[0] = StockDispBuffer( x+w*64/3, y+72, DISP_PRIO_IME3, CG_YES_BTN, 2 );
 			btnId[1] = StockDispBuffer( x+w*64/3*2, y+72, DISP_PRIO_IME3, CG_NO_BTN, 2 );
@@ -7275,35 +7275,35 @@ int skillShopWindow4( void )
 
 
 
-// ¥í¥°¥¢¥¦¥ÈÑİ³ö
+// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆæ¼”å‡º
 int produce_logout()
 {
 	switch(produce_vct_no){
 	case 0:
-		// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É 
+		// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ 
 		CopyBackBuffer();
-		// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`Ãè»­·½·¨‰ä¸ü
+		// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`æç”»æ–¹æ³•æ¶“
 		BackBufferDrawType = DRAW_BACK_PRODUCE; 
-		// £Â£Ç£Í¥Õ¥§©`¥É¥¢¥¦¥Èé_Ê¼
+		// ï¼¢ï¼§ï¼­ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆ_å§‹
 		fade_out_bgm();
-		// ¬FÔÚ¤Î•rég¤òÓ›‘›
+		// Fåœ¨ã®rgã‚’
 		NowTime = GetTickCount();
 		produce_vct_no++;
-		// ¥á¥Ë¥å©`³õÆÚ»¯
+		// ãƒ¡ãƒ‹ãƒ¥`åˆæœŸåŒ–
 		InitMenu();
 		break;
 	case 1:
-		// Ñİ³öÖĞ
+		// æ¼”å‡ºä¸­
 		if( DrawProduce( PRODUCE_BRAN_SMALL ) == TRUE ){
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
-			// ¥Ç¥Õ¥©¥ë¥È¥Ñ¥ì¥Ã¥È¤Ë‘ø¤¹
+			// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ãƒ¬ãƒƒãƒˆã«
 			PaletteChange( DEF_PAL, 0 );
-			return 1;		//Ñİ³ö½KÁË
+			return 1;		//æ¼”å‡ºKäº†
 		}
-//		MenuProc();	// ¥á¥Ë¥å©`„IÀí
-//		ImeProc();	// £É£Í£ÅévßB„IÀí
+//		MenuProc();	// ãƒ¡ãƒ‹ãƒ¥`Iç†
+//		ImeProc();	// ï¼©ï¼­ï¼¥vBIç†
 		break;
 	}
-	return 0;		//Ñİ³öÖĞ
+	return 0;		//æ¼”å‡ºä¸­
 }
 

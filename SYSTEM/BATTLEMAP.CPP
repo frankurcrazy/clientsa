@@ -5,18 +5,18 @@
 #include "ime_sa.h"
 #include "battleMap.h"
 
-// ¥Ğ¥È¥ë¥Ş¥Ã¥×¤Î¥µ¥¤¥º
+// ãƒãƒˆãƒ«ãƒãƒƒãƒ—ã®ã‚µã‚¤ã‚º
 #define BATTLE_MAP_SIZE 400
 
-// ¬FÔÚ¤Î¥Ğ¥È¥ë¥Ş¥Ã¥×·¬ºÅ
+// Fåœ¨ã®ãƒãƒˆãƒ«ãƒãƒƒãƒ—ç•ªå·
 int BattleMapNo = 0;
 
-// ¥Ğ¥È¥ë¥Ş¥Ã¥× ¥Õ¥¡¥¤¥ëÃû
+// ãƒãƒˆãƒ«ãƒãƒƒãƒ— ãƒ•ã‚¡ã‚¤ãƒ«å
 char *BattleMapFile[] = {	
 	#include "battleMapName.h"
 };
 						
-// ¥Ğ¥È¥ë¥Ş¥Ã¥×Õi¤ßŞz¤ß¤È¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É ***************************/
+// ãƒãƒˆãƒ«ãƒãƒƒãƒ—iã¿zã¿ã¨ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ ***************************/
 BOOL ReadBattleMap( int no )
 {
 	char msg[ 256 ];
@@ -27,61 +27,61 @@ BOOL ReadBattleMap( int no )
 	int i, j, x = 0, y = 0, posX, posY;
 	unsigned short c1, c2;
 	
-	// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+	// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 	if( no >= BATTLE_MAP_FILES ) no = 0;
 	
-	// ¥Ğ¥È¥ë¥Ş¥Ã¥×·¬ºÅÓ›‘›
+	// ãƒãƒˆãƒ«ãƒãƒƒãƒ—ç•ªå·
 	BattleMapNo = no;
 	
-	// ¥Ğ¥È¥ë¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë¥ª©`¥×¥ó
+	// ãƒãƒˆãƒ«ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã‚ª`ãƒ—ãƒ³
 	if( ( fp = fopen( BattleMapFile[ no ], "rb" ) ) == NULL )
 	{
-		sprintf( msg, "%s ¤ÎÕi¤ßŞz¤ß¤ËÊ§”¡¤·¤Ş¤·¤¿¡£", BattleMapFile[ no ] );
-		MessageBox( hWnd, msg, "¥Ğ¥È¥ë¥Ş¥Ã¥×¥¨¥é©`", MB_OK | MB_ICONSTOP );
+		sprintf( msg, "%s ã®iã¿zã¿ã«å¤±ãƒ»ç­è“¼ç­ä¿Š", BattleMapFile[ no ] );
+		MessageBox( hWnd, msg, "ãƒãƒˆãƒ«ãƒãƒƒãƒ—ã‚¨ãƒ©`", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 	
-	// ¥Ø¥Ã¥À©`¤ÎÕi¤ßŞz¤ß
+	// ãƒ˜ãƒƒãƒ€`ã®iã¿zã¿
 	fread( header, sizeof( char ), 4, fp );
 	header[ 4 ] = '\0';
 	
-	// ¥Ø¥Ã¥À©`¥Á¥§¥Ã¥¯
+	// ãƒ˜ãƒƒãƒ€`ãƒã‚§ãƒƒã‚¯
 	if( !( strstr( header, "SAB" )) )
 	{
-		MessageBox( hWnd, "SAB ¥Õ¥¡¥¤¥ë¤Ç¤Ï¤¢¤ê¤Ş¤»¤ó¡£", "¥Ğ¥È¥ë¥Ş¥Ã¥×¥¨¥é©`", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "SAB ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚", "ãƒãƒˆãƒ«ãƒãƒƒãƒ—ã‚¨ãƒ©`", MB_OK | MB_ICONSTOP );
 	}
 	
-	// ¥İ¥¤¥ó¥¿ßM¤Ş¤»¤ë£¨ ¥Ø¥Ã¥Àïw¤Ğ¤· £©
+	// ãƒã‚¤ãƒ³ã‚¿Mã¾ã›ã‚‹ï¼ˆ ãƒ˜ãƒƒãƒ€wã°ã— ï¼‰
 	//fseek( fp, 4, SEEK_SET );
 	
-	// ¥¿¥¤¥ë¥Ç©`¥¿¤ÎÕi¤ßŞz¤ß
+	// ã‚¿ã‚¤ãƒ«ãƒ‡`ã‚¿ã®iã¿zã¿
 	//fread( tile, sizeof( short ), BATTLE_MAP_SIZE, fp );
 	
 	//fread( tile, 1, 800, fp );
 	
-	// Õi¤ßŞz¤ß¥ë©`¥×
+	// iã¿zã¿ãƒ«`ãƒ—
 	for( i = 0 ; i < BATTLE_MAP_SIZE ; i++ )
 	{
-		// £±¥Ğ¥¤¥È¤º¤ÄÕi¤ßŞz¤à£¨ ¥Ç©`¥¿˜‹Ôì¤¬Äæ¤Î¤¿¤á £©
+		// ï¼‘ãƒã‚¤ãƒˆãšã¤iã¿zã‚€ï¼ˆ ãƒ‡`ã‚¿é€ ãŒé€†ã®ãŸã‚ ï¼‰
 		c1 = fgetc( fp );
 		c2 = fgetc( fp );
 		
-		// £²¥Ğ¥¤¥È¤Ë¤¹¤ë
+		// ï¼’ãƒã‚¤ãƒˆã«ã™ã‚‹
 		tile[ i ] = ( c1 << 8 ) | c2;
 	}
-	// ¥Õ¥¡¥¤¥ëé]¤¸¤ë
+	// ãƒ•ã‚¡ã‚¤ãƒ«]ã˜ã‚‹
 	fclose( fp );
 	
-	// Î»ÖÃÔO¶¨
+	// ä½ç½®Oå®š
 	posX = 32 * ( -9 );
 	posY = 24 * 10;
 	
-	// ¥¿¥¤¥ë·Ö¥ë©`¥×
+	// ã‚¿ã‚¤ãƒ«åˆ†ãƒ«`ãƒ—
 	for( i = 0 ; i < 20 ; i++ ){
 		x = 0;
 		y = 0;
 		for( j = 0 ; j < 20 ; j++ ){
-			// £Â£Í£Ğ±íÊ¾¥Ğ¥Ã¥Õ¥¡¤Ë¤¿¤á¤ë
+			// ï¼¢ï¼­ï¼°è¡¨ç¤ºãƒãƒƒãƒ•ã‚¡ã«ãŸã‚ã‚‹
 			StockDispBuffer( posX + x, posY + y, DISP_PRIO_TILE, tile[ cnt++ ], 0 );
 			
 			x += 32;
@@ -93,7 +93,7 @@ BOOL ReadBattleMap( int no )
 	return TRUE;
 }	
 	
-// ¥Ğ¥È¥ë¥Ş¥Ã¥×Ãè»­ ***********************************************************/
+// ãƒãƒˆãƒ«ãƒãƒƒãƒ—æç”» ***********************************************************/
 #define	RASTER_CLEARANCE	8
 int piyo_tbl[]={
 	0,1,2,3,4,5,6,7,8,9,10,10,11,11,11,12,
@@ -109,7 +109,7 @@ void DrawBattleMap( void )
 	int d0,d1,d6,d7;
 	short bx , by;
 
-	if(BattleMapNo >= 148 && BattleMapNo <= 150){		//¥é¥¹¥¿©`¥¹¥¯¥í©`¥ë¤Ê¤é
+	if(BattleMapNo >= 148 && BattleMapNo <= 150){		//ãƒ©ã‚¹ã‚¿`ã‚¹ã‚¯ãƒ­`ãƒ«ãªã‚‰
 		d1 = 1;
 	} else {
 		d1 = 0;
@@ -125,56 +125,56 @@ void DrawBattleMap( void )
 		short x0, y0;
 		long w, h;
 
-		// ÜËÍîIÓò¤Î¥»¥Ã¥È
+		// é€IåŸŸã®ã‚»ãƒƒãƒˆ
 		x0 = bx;
 		y0 = by;
 		w = rect.right - rect.left;
 		h = rect.bottom - rect.top;
 
-		// ¥¯¥ê¥Ã¥Ô¥ó¥°„IÀí
-		//   £¨¤Á¤Ê¤ß¤Ë RECT ¤ÎÓÒÏÂ×ù˜Ë¤Î¥É¥Ã¥È¤Ï±íÊ¾¤µ¤ì¤Ê¤¤£©
+		// ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°Iç†
+		//   ï¼ˆã¡ãªã¿ã« RECT ã®å³ä¸‹åº§æ‘”è¿ä¸§æ°“è¶£åª³ç¡å…¢ä¸¹æ¬·èƒœãƒ
 
-		// È«¤¯±íÊ¾¤¹¤ë²¿·Ö¤¬Ÿo¤±¤ì¤Ğ‘ø¤ë
+		// å…¨ãè¡¨ç¤ºã™ã‚‹éƒ¨åˆ†ãŒoã‘ã‚Œã°
 		if( bx >= lpDraw->xSize || bx + w <= 0 || by >= lpDraw->ySize || by + h <= 0 ){
 			return;
 		}
 		
-		// ×ó¶Ë¤Î¥Á¥§¥Ã¥¯
+		// å·¦ç«¯ã®ãƒã‚§ãƒƒã‚¯
 		if( bx < 0 ){
 			rect.left -= bx;
 			x0 = 0;
 		}
-		// ÓÒ¶Ë¤Î¥Á¥§¥Ã¥¯
+		// å³ç«¯ã®ãƒã‚§ãƒƒã‚¯
 		if( bx + w > lpDraw->xSize ){
 			rect.right -= bx + w - lpDraw->xSize;
 		}
-		// ÉÏ¶Ë¤Î¥Á¥§¥Ã¥¯
+		// ä¸Šç«¯ã®ãƒã‚§ãƒƒã‚¯
 		if( by < 0 ){
 			rect.top -= by;
 			y0 = 0;
 		}
-		// ÏÂ¶Ë¤Î¥Á¥§¥Ã¥¯
+		// ä¸‹ç«¯ã®ãƒã‚§ãƒƒã‚¯
 		if( by + h > lpDraw->ySize ){
 			rect.bottom -= by + h - lpDraw->ySize;
 		}
 		
 #ifdef _DEBUG		
-		// ¬FÔÚ±íÊ¾¤·¤Æ¤¤¤ë¥µ©`¥Õ¥§¥¹¤ÎÊı¥«¥¦¥ó¥È
+		// Fåœ¨è¡¨ç¤ºã—ã¦ã„ã‚‹ã‚µ`ãƒ•ã‚§ã‚¹ã®æ•°ã‚«ã‚¦ãƒ³ãƒˆ
 		SurfaceDispCnt++;
 #endif
 		
-		// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤Ø¸ßËÙÜËÍ
+		// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã¸é«˜é€Ÿé€
 		lpDraw->lpBACKBUFFER->BltFast( x0, y0, lpBattleSurface, &rect, DDBLTFAST_WAIT );
 		break;
 
 	case 1:
 		d6 = 0;
-		rect.left = 0;		//×ó¶Ë
-		rect.right = 640;		//ÓÒ¶Ë
+		rect.left = 0;		//å·¦ç«¯
+		rect.right = 640;		//å³ç«¯
 		for(d7=0; d7<480; d7+=RASTER_CLEARANCE){
-			rect.top = d7 + piyo_tbl[(d6+piyo_point) & 63] + 12;		//ÉÏ¶Ë
-			rect.bottom = rect.top + RASTER_CLEARANCE;		//ÏÂ¶Ë
-			// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤Ø¸ßËÙÜËÍ
+			rect.top = d7 + piyo_tbl[(d6+piyo_point) & 63] + 12;		//ä¸Šç«¯
+			rect.bottom = rect.top + RASTER_CLEARANCE;		//ä¸‹ç«¯
+			// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã¸é«˜é€Ÿé€
 			lpDraw->lpBACKBUFFER->BltFast( 0, d7, lpBattleSurface, &rect, DDBLTFAST_WAIT );
 			d6++;
 		}
@@ -183,19 +183,19 @@ void DrawBattleMap( void )
 	case 2:
 		d6 = 0;
 		for(d7=0; d7<480; d7+=RASTER_CLEARANCE/2){
-			rect.top = d7;		//ÉÏ¶Ë
-			rect.bottom = rect.top + RASTER_CLEARANCE;		//ÏÂ¶Ë
+			rect.top = d7;		//ä¸Šç«¯
+			rect.bottom = rect.top + RASTER_CLEARANCE;		//ä¸‹ç«¯
 
-			d0 = piyo_tbl[(d6+piyo_point) & 63];		//×ó¶Ë
-			if(d0 < 0){		//¥Ş¥¤¥Ê¥¹¤Ê¤é
+			d0 = piyo_tbl[(d6+piyo_point) & 63];		//å·¦ç«¯
+			if(d0 < 0){		//ãƒã‚¤ãƒŠã‚¹ãªã‚‰
 				rect.left = 0 - d0;
-				rect.right = 640 + d0;		//ÓÒ¶Ë
+				rect.right = 640 + d0;		//å³ç«¯
 				d0 = 0;
 			} else {
 				rect.left = 0;
-				rect.right = 640 - d0;		//ÓÒ¶Ë
+				rect.right = 640 - d0;		//å³ç«¯
 			}
-			// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤Ø¸ßËÙÜËÍ
+			// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã¸é«˜é€Ÿé€
 			lpDraw->lpBACKBUFFER->BltFast( d0, d7, lpBattleSurface, &rect, DDBLTFAST_WAIT );
 			d6++;
 		}

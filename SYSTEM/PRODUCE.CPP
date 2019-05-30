@@ -6,17 +6,17 @@
 #include "produce.h"
 #include "anim_tbl.h"
 
-// Ñİ³ö·¬ºÅ
+// æ¼”å‡ºç•ªå·
 int ProduceNo = 0;
-// Ñİ³ö³õÆÚ»¯¥Õ¥é¥°
+// æ¼”å‡ºåˆæœŸåŒ–ãƒ•ãƒ©ã‚°
 int ProduceInitFlag = TRUE;
 
-// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É **************************************************/
+// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ **************************************************/
 void CopyBackBuffer( void )
 {
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤«¤é¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Ø¥³¥Ô©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‹ã‚‰ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã¸ã‚³ãƒ”`
 	lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-	// Ñİ³ö·¬ºÅ¥é¥ó¥À¥à£¨Å¼Êı¤Î¤ß£©
+	// æ¼”å‡ºç•ªå·ãƒ©ãƒ³ãƒ€ãƒ ï¼ˆå¶æ•°ã®ã¿ï¼‰
 	ProduceNo = Rnd( 0, PRODUCE_END - 1 ) & 0xfffffffe;
 	//ProduceNo += 2;
 	//if( ProduceNo >= PRODUCE_END ) ProduceNo = 0;
@@ -24,7 +24,7 @@ void CopyBackBuffer( void )
 }	
 
 
-// ¼ÓËÙÒÆ„Ó *******************************************************************/
+// åŠ é€Ÿç§» *******************************************************************/
 BOOL ProduceAccele( int mode )
 {
 	RECT rect = { 0, 0, DEF_APPSIZEX, DEF_APPSIZEY };
@@ -32,75 +32,75 @@ BOOL ProduceAccele( int mode )
 	static float x = 0, y = 0; 
 	static float a = 0;
 	
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		x = 0; y = 0;a = 0;
 	}
 	
-	// ÒÆ„Ó·½Ïò¤Ç·Öáª
+	// ç§»è‡ƒè¾ƒé¢æ¬ è½´
 	switch( mode ){
 	
-	case 0:	// ÉÏ¼ÓËÙÒÆ„Ó
-		y -= a;	// ÒÆ„Ó
-		// ¼ÓËÙ¶È¥×¥é¥¹
+	case 0:	// ä¸ŠåŠ é€Ÿç§»
+		y -= a;	// ç§»
+		// åŠ é€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a += 0.3F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( y <= -480 ) endFlag = TRUE;
 		break;
 		
-	case 1:	// ÏÂ¼ÓËÙÒÆ„Ó
-		y += a;	// ÒÆ„Ó
-		// ¼ÓËÙ¶È¥×¥é¥¹
+	case 1:	// ä¸‹åŠ é€Ÿç§»
+		y += a;	// ç§»
+		// åŠ é€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a += 0.3F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( y >= 480 ) endFlag = TRUE;
 		break;
 		
-	case 2:	// ×ó¼ÓËÙÒÆ„Ó
-		x -= a;	// ÒÆ„Ó
-		// ¼ÓËÙ¶È¥×¥é¥¹
+	case 2:	// å·¦åŠ é€Ÿç§»
+		x -= a;	// ç§»
+		// åŠ é€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a += 0.4F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( x <= -640 ) endFlag = TRUE;
 		break;
 		
-	case 3:	// ÓÒ¼ÓËÙÒÆ„Ó
-		x += a;	// ÒÆ„Ó
-		// ¼ÓËÙ¶È¥×¥é¥¹
+	case 3:	// å³åŠ é€Ÿç§»
+		x += a;	// ç§»
+		// åŠ é€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a += 0.4F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( x >= 640 ) endFlag = TRUE;
 		break;
 	}
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
-	// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+	// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 	DrawSurfaceFast2( (int)x, (int)y, &rect, lpBattleSurface );
 	
 	
-	// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É
+	// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ
 	//CopyBackBuffer();
 	if( endFlag == TRUE ){
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		x = 0;
 		y = 0; 
 		a = 0;
 		
-		// ¥²©`¥à¤Î×´‘B‰ä¸ü
+		// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 		if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 		else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
 
-		// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢
+		// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢
 		//ClearSurface( lpBattleSurface );
-		// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+		// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 		//ClearBackSurface();	
 		return TRUE;
 	}
 	return FALSE;
 }	
 	
-// œpËÙÒÆ„Ó *******************************************************************/
+// pé€Ÿç§» *******************************************************************/
 BOOL ProduceBrake( int mode )
 {
 	RECT rect = { 0, 0, DEF_APPSIZEX, DEF_APPSIZEY };
@@ -108,16 +108,16 @@ BOOL ProduceBrake( int mode )
 	static float x = 0, y = 0; 
 	static float a;
 	
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		endFlag = -1;
 	}
 	
-	// ÒÆ„Ó·½Ïò¤Ç·Öáª
+	// ç§»è‡ƒè¾ƒé¢æ¬ è½´
 	switch( mode ){
 	
-	case 0:	// ÉÏœpËÙÒÆ„Ó
+	case 0:	// ä¸Špé€Ÿç§»
 		if( endFlag == -1 ){
 			x = 0;
 			//y = 480;
@@ -125,14 +125,14 @@ BOOL ProduceBrake( int mode )
 			a = 17.4F;
 			endFlag = FALSE;
 		}
-		y -= a;	// ÒÆ„Ó
-		// œpËÙ¶È¥×¥é¥¹
+		y -= a;	// ç§»
+		// pé€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a -= 0.3F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( a <= 0 ) endFlag = TRUE;
 		break;
 		
-	case 1:	// ÏÂœpËÙÒÆ„Ó
+	case 1:	// ä¸‹pé€Ÿç§»
 		if( endFlag == -1 ){
 			x = 0;
 			//y = -480;
@@ -140,14 +140,14 @@ BOOL ProduceBrake( int mode )
 			a = 17.4F;
 			endFlag = FALSE;
 		}
-		y += a;	// ÒÆ„Ó
-		// œpËÙ¶È¥×¥é¥¹
+		y += a;	// ç§»
+		// pé€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a -= 0.3F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( a <= 0 ) endFlag = TRUE;
 		break;
 		
-	case 2:	// ×óœpËÙÒÆ„Ó
+	case 2:	// å·¦pé€Ÿç§»
 		if( endFlag == -1 ){
 			//x = 640;
 			x = 661;
@@ -155,14 +155,14 @@ BOOL ProduceBrake( int mode )
 			a = 22.8F;
 			endFlag = FALSE;
 		}
-		x -= a;	// ÒÆ„Ó
-		// œpËÙ¶È¥×¥é¥¹
+		x -= a;	// ç§»
+		// pé€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a -= 0.4F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( a <= 0 ) endFlag = TRUE;
 		break;
 		
-	case 3:	// ÓÒœpËÙÒÆ„Ó
+	case 3:	// å³pé€Ÿç§»
 		if( endFlag == -1 ){
 			//x = -640;
 			x = -661;
@@ -170,38 +170,38 @@ BOOL ProduceBrake( int mode )
 			a = 22.8F;
 			endFlag = FALSE;
 		}
-		x += a;	// ÒÆ„Ó
-		// œpËÙ¶È¥×¥é¥¹
+		x += a;	// ç§»
+		// pé€Ÿåº¦ãƒ—ãƒ©ã‚¹
 		a -= 0.4F; 
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( a <= 0 ) endFlag = TRUE;
 		break;
 	}
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
-	// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+	// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 	DrawSurfaceFast2( (int)x, (int)y, &rect, lpBattleSurface );
 	
-	// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É
+	// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ
 	//CopyBackBuffer();
 	if( endFlag == TRUE ){
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		
-		// ¥²©`¥à¤Î×´‘B‰ä¸ü
+		// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 		if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 		else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-		// ¥Õ¥é¥°³õÆÚ»¯
+		// ãƒ•ãƒ©ã‚°åˆæœŸåŒ–
 		endFlag = -1;
-		// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢
+		// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢
 		//ClearSurface( lpBattleSurface );
-		// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+		// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 		//ClearBackSurface();	
 		return TRUE;
 	}
 	return FALSE;
 }
 	
-// £´·½ÏòÒÆ„Ó ******************************************************************/
+// ï¼”æ–¹å‘ç§» ******************************************************************/
 BOOL Produce4Way( int mode )
 {
 	RECT rect[ 4 ] = {	{ 0, 0, 320, 240 }, { 320, 0, 640, 240 },
@@ -210,16 +210,16 @@ BOOL Produce4Way( int mode )
 	static int x[ 4 ], y[ 4 ]; 
 	int d = 4,i;
 	
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		endFlag = -1;
 	}
 	
-	// ÒÆ„Ó·½Ïò¤Ç·Öáª
+	// ç§»è‡ƒè¾ƒé¢æ¬ è½´
 	switch( mode ){
 	
-	case 0:	// »­ÃæÍâ¤Ø
+	case 0:	// ç”»é¢å¤–ã¸
 		if( endFlag == -1 ){
 			x[ 0 ] = 0;
 			y[ 0 ] = 0;
@@ -231,7 +231,7 @@ BOOL Produce4Way( int mode )
 			y[ 3 ] = 240;
 			endFlag = FALSE;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		x[ 0 ] -= d;
 		y[ 0 ] -= d;
 		x[ 1 ] += d;
@@ -240,11 +240,11 @@ BOOL Produce4Way( int mode )
 		y[ 2 ] += d;
 		x[ 3 ] += d;
 		y[ 3 ] += d;
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( x[ 0 ] <= -320 ) endFlag = TRUE;
 		break;
 		
-	case 1:	// »­ÃæÄÚ¤Ø
+	case 1:	// ç”»é¢å†…ã¸
 		if( endFlag == -1 ){
 			x[ 0 ] = -280;
 			y[ 0 ] = -280;
@@ -256,7 +256,7 @@ BOOL Produce4Way( int mode )
 			y[ 3 ] = 240 + 280;
 			endFlag = FALSE;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		x[ 0 ] += d;
 		y[ 0 ] += d;
 		x[ 1 ] -= d;
@@ -265,47 +265,47 @@ BOOL Produce4Way( int mode )
 		y[ 2 ] -= d;
 		x[ 3 ] -= d;
 		y[ 3 ] -= d;
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( x[ 0 ] >= 0 ) endFlag = TRUE;
 		break;
 	}
 	
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
 	for( i = 0 ; i < 4 ; i++ ){
-		//£³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+		//ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 		if(ResoMode == 1){
 			rect[i].top >>= 1;
 			rect[i].left >>= 1;
 			rect[i].right >>= 1;
 			rect[i].bottom >>= 1;
-			// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+			// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 			DrawSurfaceFast2( x[ i ] / 2, y[ i ] / 2, &rect[ i ], lpBattleSurface );
 		} else {
-			// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+			// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 			DrawSurfaceFast2( x[ i ], y[ i ], &rect[ i ], lpBattleSurface );
 		}
 	}
-	// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É
+	// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ
 	//CopyBackBuffer();
 	if( endFlag == TRUE ){
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		
-		// ¥²©`¥à¤Î×´‘B‰ä¸ü
+		// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 		if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 		else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-		// ¥Õ¥é¥°³õÆÚ»¯
+		// ãƒ•ãƒ©ã‚°åˆæœŸåŒ–
 		endFlag = -1;
-		// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢
+		// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢
 		//ClearSurface( lpBattleSurface );
-		// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+		// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 		//ClearBackSurface();	
 		return TRUE;
 	}
 	return FALSE;
 }	
 
-// ¤Ï¤¬¤ì¤ë ****************************************************************/
+// ã¯ãŒã‚Œã‚‹ ****************************************************************/
 BOOL ProduceHagare( int mode )
 {
 	RECT rect;
@@ -317,17 +317,17 @@ BOOL ProduceHagare( int mode )
 	int rnd = Rnd( 0, 63 );
 	int no = 0;
 	
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		endFlag = -1;
 	}
 	
-	// ÒÆ„Ó·½Ïò¤Ç·Öáª
+	// ç§»è‡ƒè¾ƒé¢æ¬ è½´
 	switch( mode ){
 	
-	case 0:	// Ïû¤¨¤ë
-		// ³õÆÚ»¯
+	case 0:	// æ¶ˆãˆã‚‹
+		// åˆæœŸåŒ–
 		if( endFlag == -1 ){
 			for( i = 0 ; i < 8 ; i++ ){
 				for( j = 0 ; j < 8 ; j++ ){
@@ -348,15 +348,15 @@ BOOL ProduceHagare( int mode )
 		while( flag[ rnd ] == FALSE ){
 			rnd = Rnd( 0, 63 );
 		}
-		// ¥é¥ó¥À¥àÏû¤·
+		// ãƒ©ãƒ³ãƒ€ãƒ æ¶ˆã—
 		flag[ rnd ] = FALSE;
 		cnt++;
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( cnt >= 64 ) endFlag = TRUE;
 		break;
 		
-	case 1:	// ³ö¬F¤¹¤ë
-		// ³õÆÚ»¯
+	case 1:	// å‡ºFã™ã‚‹
+		// åˆæœŸåŒ–
 		if( endFlag == -1 ){
 			for( i = 0 ; i < 8 ; i++ ){
 				for( j = 0 ; j < 8 ; j++ ){
@@ -377,15 +377,15 @@ BOOL ProduceHagare( int mode )
 		while( flag[ rnd ] == TRUE ){
 			rnd = Rnd( 0, 63 );
 		}
-		// ¥é¥ó¥À¥à³ö¬F
+		// ãƒ©ãƒ³ãƒ€ãƒ å‡ºF
 		flag[ rnd ] = TRUE;
 		cnt++;
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( cnt >= 64 ) endFlag = TRUE;
 		break;
 		
-	case 2:	// Ïû¤¨¤ë£¨Âä¤Á¤ë£©
-		// ³õÆÚ»¯
+	case 2:	// æ¶ˆãˆã‚‹ï¼ˆè½ã¡ã‚‹ï¼‰
+		// åˆæœŸåŒ–
 		if( endFlag == -1 ){
 			for( i = 0 ; i < 8 ; i++ ){
 				for( j = 0 ; j < 8 ; j++ ){
@@ -404,16 +404,16 @@ BOOL ProduceHagare( int mode )
 			cnt = 0;
 			cnt2 = 0;
 		}
-		// Âä¤È¤¹¤ä¤Ä¥é¥ó¥À¥à
+		// è½ã¨ã™ã‚„ã¤ãƒ©ãƒ³ãƒ€ãƒ 
 		if( cnt2 < 64 ){
 			while( flag[ rnd ] <= 1 ){
 				rnd = Rnd( 0, 63 );
 			}
-			// ¥é¥ó¥À¥àÂä¤È¤·
+			// ãƒ©ãƒ³ãƒ€ãƒ è½ã¨ã—
 			flag[ rnd ] = 1;
 			cnt2++;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		for( i = 0 ; i < 64 ; i++ ){
 			if( flag[ i ] == 1 ){
 				a[ i ]++;
@@ -424,12 +424,12 @@ BOOL ProduceHagare( int mode )
 				}
 			}
 		}
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( cnt >= 64 ) endFlag = TRUE;
 		break;
 		
-	case 3:	// ³ö¬F£¨Âä¤Á¤ë£©
-		// ³õÆÚ»¯
+	case 3:	// å‡ºFï¼ˆè½ã¡ã‚‹ï¼‰
+		// åˆæœŸåŒ–
 		if( endFlag == -1 ){
 			for( i = 0 ; i < 8 ; i++ ){
 				for( j = 0 ; j < 8 ; j++ ){
@@ -448,16 +448,16 @@ BOOL ProduceHagare( int mode )
 			cnt = 0;
 			cnt2 = 0;
 		}
-		// Âä¤È¤¹¤ä¤Ä¥é¥ó¥À¥à
+		// è½ã¨ã™ã‚„ã¤ãƒ©ãƒ³ãƒ€ãƒ 
 		if( cnt2 < 64 ){
 			while( flag[ rnd ] >= 1 ){
 				rnd = Rnd( 0, 63 );
 			}
-			// ¥é¥ó¥À¥àÂä¤È¤·
+			// ãƒ©ãƒ³ãƒ€ãƒ è½ã¨ã—
 			flag[ rnd ] = 1;
 			cnt2++;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		for( i = 0 ; i < 64 ; i++ ){
 			if( flag[ i ] == 1 ){
 				a[ i ]++;
@@ -469,13 +469,13 @@ BOOL ProduceHagare( int mode )
 				}
 			}
 		}
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( cnt >= 64 ) endFlag = TRUE;
 		break;
 		
 	}
 	
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
 	for( i = 0 ; i < 64 ; i++ ){
 		if( flag[ i ] == 2 ){
@@ -483,16 +483,16 @@ BOOL ProduceHagare( int mode )
 			rect.top = posY[ i ];
 			rect.right = posX[ i ] + 80;
 			rect.bottom = posY[ i ] + 60;
-			//£³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+			//ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 			if(ResoMode == 1){
 				rect.top >>= 1;
 				rect.left >>= 1;
 				rect.right >>= 1;
 				rect.bottom >>= 1;
-				// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+				// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 				DrawSurfaceFast2( x[ i ] / 2, y[ i ] / 2, &rect, lpBattleSurface );
 			} else {
-				// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+				// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 				DrawSurfaceFast2( x[ i ], y[ i ], &rect, lpBattleSurface );
 			}
 		}
@@ -503,33 +503,33 @@ BOOL ProduceHagare( int mode )
 			rect.top = posY[ i ];
 			rect.right = posX[ i ] + 80;
 			rect.bottom = posY[ i ] + 60;
-			//£³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+			//ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 			if(ResoMode == 1){
 				rect.top >>= 1;
 				rect.left >>= 1;
 				rect.right >>= 1;
 				rect.bottom >>= 1;
-				// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+				// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 				DrawSurfaceFast2( x[ i ] / 2, y[ i ] / 2, &rect, lpBattleSurface );
 			} else {
-				// ¥Ğ¥Ã¥¯¥Ğ¥Ã¥Õ¥¡©`¤Ë¸ßËÙÜËÍ£¨¾ØĞÎÖ¸¶¨£©
+				// ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡`ã«é«˜é€Ÿé€ï¼ˆçŸ©å½¢æŒ‡å®šï¼‰
 				DrawSurfaceFast2( x[ i ], y[ i ], &rect, lpBattleSurface );
 			}
 		}
 	}
-	// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤Î»­Ïñ×÷³É
+	// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã®ç”»åƒä½œæˆ
 	//CopyBackBuffer();
 	if( endFlag == TRUE ){
-		// ³õÆÚ»¯
+		// åˆæœŸåŒ–
 		
-		// ¥²©`¥à¤Î×´‘B‰ä¸ü
+		// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 		if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 		else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-		// ¥Õ¥é¥°³õÆÚ»¯
+		// ãƒ•ãƒ©ã‚°åˆæœŸåŒ–
 		endFlag = -1;
-		// ¥Ğ¥È¥ë¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢
+		// ãƒãƒˆãƒ«ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢
 		//ClearSurface( lpBattleSurface );
-		// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+		// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 		//ClearBackSurface();	
 		return TRUE;
 	}
@@ -542,21 +542,21 @@ static int bran_cnt;
 static int pos_tbl[(480/BRAN_SIZE_Y)*(640/BRAN_SIZE_X)*2];
 static int bran_flg = 0;
 //static int bran_flg = 0;
-// ¥Õ¥¹¥Ş ******************************************************************/
+// ãƒ•ã‚¹ãƒ ******************************************************************/
 BOOL Produce_bran_small(int ang)
 {
 	RECT rect;
 	int d0,d6,d7;
 	int *a0;
 	
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		bran_flg = 0;
 	}
 	
-	if(bran_flg == 0){		//×î³õ¤Ê¤é
-		bran_flg = 1;		//¥Æ©`¥Ö¥ë×÷³É
+	if(bran_flg == 0){		//æœ€åˆãªã‚‰
+		bran_flg = 1;		//ãƒ†`ãƒ–ãƒ«ä½œæˆ
 		d0 = 0;
 		for(d7=-240 + BRAN_SIZE_Y/2; d7<240 + BRAN_SIZE_Y/2; d7+=BRAN_SIZE_Y){
 			for(d6=-320 + BRAN_SIZE_X/2; d6<320 + BRAN_SIZE_X/2; d6+=BRAN_SIZE_X){
@@ -570,13 +570,13 @@ BOOL Produce_bran_small(int ang)
 			bran_cnt = 0;
 		}
 	}
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
 
 	a0 = pos_tbl + (480/BRAN_SIZE_Y)*(640/BRAN_SIZE_X)*2 - 2;
 	for(d7=480-BRAN_SIZE_Y; d7>=0; d7-=BRAN_SIZE_Y){
 		for(d6=640-BRAN_SIZE_X; d6>=0; d6-=BRAN_SIZE_X){
-			//£³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+			//ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 			if(ResoMode == 1){
 				rect.left = d6/2;
 				rect.right = (d6+BRAN_SIZE_X)/2;
@@ -591,7 +591,7 @@ BOOL Produce_bran_small(int ang)
 #if 0
 			DrawSurfaceFast2( *a0*bran_cnt/64+320, *(a0+1)*bran_cnt/64+240, &rect, lpBattleSurface );
 #else
-			//£³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+			//ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 			if(ResoMode == 1){
 				lpDraw->lpBACKBUFFER->BltFast( (*a0*bran_cnt/64+320 - BRAN_SIZE_X/2)/2, (*(a0+1)*bran_cnt/64+240 - BRAN_SIZE_Y/2)/2, lpBattleSurface, &rect, DDBLTFAST_WAIT );
 			} else {
@@ -607,7 +607,7 @@ BOOL Produce_bran_small(int ang)
 	if(ang < 0){
 //		if(!bran_cnt){
 		if(bran_cnt < 0){
-			// ¥²©`¥à¤Î×´‘B‰ä¸ü
+			// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 			if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 			else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
 			bran_flg = 0;
@@ -616,7 +616,7 @@ BOOL Produce_bran_small(int ang)
 	} else {
 //		if(bran_cnt == 64){
 		if(bran_cnt > 64){
-			// ¥²©`¥à¤Î×´‘B‰ä¸ü
+			// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 			if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 			else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
 			bran_flg = 0;
@@ -628,27 +628,27 @@ BOOL Produce_bran_small(int ang)
 
 #define BREAK_UP 8
 //static int break_up_cnt = 480;
-// ÕÛ¤ê¤¿¤¿¤ßÉÏ ******************************************************************/
+// æŠ˜ã‚ŠãŸãŸã¿ä¸Š ******************************************************************/
 BOOL Produce_break_up(int ang)
 {
 	RECT rect = { 0, 0, 640, 0 };
 	int d7;
 
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		bran_flg = 0;
 	}
 	
-	if(bran_flg == 0){		//×î³õ¤Ê¤é
-		bran_flg = 1;		//‰äÊı³õÆÚ»¯
+	if(bran_flg == 0){		//æœ€åˆãªã‚‰
+		bran_flg = 1;		//æ¶«è·—è¯¨
 		if(ang < 0){
 			bran_cnt = 480;
 		} else {
 			bran_cnt = 0;
 		}
 	}
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
 
 	for(d7=0; d7<bran_cnt; d7++){
@@ -661,47 +661,47 @@ BOOL Produce_break_up(int ang)
 		bran_cnt -= BREAK_UP;
 //		if(bran_cnt == 0){
 		if(bran_cnt < 0){
-			// ¥²©`¥à¤Î×´‘B‰ä¸ü
+			// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 			if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 			else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-			bran_flg = 0;		//‰äÊı³õÆÚ»¯
+			bran_flg = 0;		//æ¶«è·—è¯¨
 			return TRUE;
 		}
 	} else {
 		bran_cnt += BREAK_UP;
 //		if(bran_cnt == 480){
 		if(bran_cnt > 480){
-			// ¥²©`¥à¤Î×´‘B‰ä¸ü
+			// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 			if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 			else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-			bran_flg = 0;		//‰äÊı³õÆÚ»¯
+			bran_flg = 0;		//æ¶«è·—è¯¨
 			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-// ÕÛ¤ê¤¿¤¿¤ßÏÂ ******************************************************************/
+// æŠ˜ã‚ŠãŸãŸã¿ä¸‹ ******************************************************************/
 BOOL Produce_break_up2(int ang)
 {
 	RECT rect = { 0, 0, 640, 0 };
 	int d7;
 
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		bran_flg = 0;
 	}
 	
-	if(bran_flg == 0){		//×î³õ¤Ê¤é
-		bran_flg = 1;		//‰äÊı³õÆÚ»¯
+	if(bran_flg == 0){		//æœ€åˆãªã‚‰
+		bran_flg = 1;		//æ¶«è·—è¯¨
 		if(ang < 0){
 			bran_cnt = 480;
 		} else {
 			bran_cnt = 0;
 		}
 	}
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
 
 	for(d7=0; d7<bran_cnt; d7++){
@@ -714,20 +714,20 @@ BOOL Produce_break_up2(int ang)
 		bran_cnt -= BREAK_UP;
 //		if(bran_cnt == 0){
 		if(bran_cnt < 0){
-			// ¥²©`¥à¤Î×´‘B‰ä¸ü
+			// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 			if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 			else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-			bran_flg = 0;		//‰äÊı³õÆÚ»¯
+			bran_flg = 0;		//æ¶«è·—è¯¨
 			return TRUE;
 		}
 	} else {
 		bran_cnt += BREAK_UP;
 //		if(bran_cnt == 480){
 		if(bran_cnt > 480){
-			// ¥²©`¥à¤Î×´‘B‰ä¸ü
+			// ã‚²`ãƒ ã®çŠ¶Bæ¶“
 			if( GameState == GAME_FIELD_TO_ENCOUNT ) GameState = GAME_ENCOUNT_TO_BATTLE; 
 			else if( GameState == GAME_ENCOUNT_TO_BATTLE ) GameState = GAME_BATTLE; 
-			bran_flg = 0;		//‰äÊı³õÆÚ»¯
+			bran_flg = 0;		//æ¶«è·—è¯¨
 			return TRUE;
 		}
 	}
@@ -736,7 +736,7 @@ BOOL Produce_break_up2(int ang)
 
 
 
-// ÖĞÑëˆR¿s ******************************************************************/
+// ä¸­å¤®Rs ******************************************************************/
 BOOL ProduceCenterPress( int mode )
 {
 	static int line;
@@ -745,7 +745,7 @@ BOOL ProduceCenterPress( int mode )
 	int h = 240;
 	int spd = 8;
 
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( ProduceInitFlag == TRUE )
 	{
 		ProduceInitFlag = FALSE;
@@ -764,7 +764,7 @@ BOOL ProduceCenterPress( int mode )
 	}
 
 
-	// ¥Ğ¥Ã¥¯¥µ©`¥Õ¥§¥¹¤òü\¤Ç¥¯¥ê¥¢©`
+	// ãƒãƒƒã‚¯ã‚µ`ãƒ•ã‚§ã‚¹ã‚’\ã§ã‚¯ãƒªã‚¢`
 	ClearBackSurface();	
 
 	rect1.left  = 0;
@@ -811,98 +811,98 @@ BOOL ProduceCenterPress( int mode )
 
 
 
-// Ñİ³öÃè»­ ********************************************************************/
+// æ¼”å‡ºæç”» ********************************************************************/
 BOOL DrawProduce( int no )
 {
 #ifdef _DEBUG		
-	// ¥İ©`¥º
+	// ãƒ`ã‚º
 	if( joy_con[ 0 ] & JOY_UP ){ 
-		// •rég¤ÎßW¤ìÍü¤ì¤µ¤»¤ë
+		// rgã®Wã‚Œå¿˜ã‚Œã•ã›ã‚‹
 		NowTime = GetTickCount();
 		return FALSE;
 	}
 #endif
 	
-	// Ñİ³ö·¬ºÅ¤Ç·Öáª
+	// æ¼”å‡ºç•ªå·ã§åˆ†å²
 	switch( no ){
 	
-	// Ì«Ìï¥×¥í¥Ç¥å©`¥¹
-	// ¼ÓËÙÒÆ„Ó
-	case PRODUCE_UP_ACCELE:		// ÉÏ¼ÓËÙÒÆ„Ó
+	// å¤ªç”°ãƒ—ãƒ­ãƒ‡ãƒ¥`ã‚¹
+	// åŠ é€Ÿç§»
+	case PRODUCE_UP_ACCELE:		// ä¸ŠåŠ é€Ÿç§»
 		return ProduceAccele( 0 );
 		
-	case PRODUCE_DOWN_ACCELE:	// ÏÂ¼ÓËÙÒÆ„Ó
+	case PRODUCE_DOWN_ACCELE:	// ä¸‹åŠ é€Ÿç§»
 		return ProduceAccele( 1 );
 		
-	case PRODUCE_LEFT_ACCELE:	// ×ó¼ÓËÙÒÆ„Ó
+	case PRODUCE_LEFT_ACCELE:	// å·¦åŠ é€Ÿç§»
 		return ProduceAccele( 2 );
 		
-	case PRODUCE_RIGHT_ACCELE:	// ÓÒ¼ÓËÙÒÆ„Ó
+	case PRODUCE_RIGHT_ACCELE:	// å³åŠ é€Ÿç§»
 		return ProduceAccele( 3 );
 		
-	// œpËÙÒÆ„Ó
-	case PRODUCE_UP_BRAKE:		// ÉÏœpËÙÒÆ„Ó
+	// pé€Ÿç§»
+	case PRODUCE_UP_BRAKE:		// ä¸Špé€Ÿç§»
 		return ProduceBrake( 0 );
 		
-	case PRODUCE_DOWN_BRAKE:	// ÏÂœpËÙÒÆ„Ó
+	case PRODUCE_DOWN_BRAKE:	// ä¸‹pé€Ÿç§»
 		return ProduceBrake( 1 );
 		
-	case PRODUCE_LEFT_BRAKE:	// ×óœpËÙÒÆ„Ó
+	case PRODUCE_LEFT_BRAKE:	// å·¦pé€Ÿç§»
 		return ProduceBrake( 2 );
 		
-	case PRODUCE_RIGHT_BRAKE:	// ÓÒœpËÙÒÆ„Ó
+	case PRODUCE_RIGHT_BRAKE:	// å³pé€Ÿç§»
 		return ProduceBrake( 3 );
 		
-	case PRODUCE_4WAY_OUT:		// ËÄ·½ÏòÒÆ„Ó»­ÃæÍâ¤Ø
+	case PRODUCE_4WAY_OUT:		// å››æ–¹å‘ç§»è¸Šå«±çŒ¡
 		return Produce4Way( 0 );
 		
-	case PRODUCE_4WAY_IN:		// ËÄ·½ÏòÒÆ„Ó»­ÃæÄÚ¤Ø
+	case PRODUCE_4WAY_IN:		// å››æ–¹å‘ç§»è¸Šå©ºå†¥
 		return Produce4Way( 1 );
 		
-	case PRODUCE_HAGARE_OUT:	// ¤Ï¤¬¤ì„IÀí£¨Ïû¤¨¤ë£©
+	case PRODUCE_HAGARE_OUT:	// ã¯ãŒã‚ŒIç†ï¼ˆæ¶ˆãˆã‚‹ï¼‰
 		return ProduceHagare( 0 );
 		
-	case PRODUCE_HAGARE_IN:		// ¤Ï¤¬¤ì„IÀí£¨³ö¬F¤¹¤ë£©
+	case PRODUCE_HAGARE_IN:		// ã¯ãŒã‚ŒIç†ï¼ˆå‡ºFã™ã‚‹ï¼‰
 		return ProduceHagare( 1 );
 		
-	case PRODUCE_HAGARE_OCHI_OUT:	// ¤Ï¤¬¤ìÂä¤Á£¨Ïû¤¨¤ë£©
+	case PRODUCE_HAGARE_OCHI_OUT:	// ã¯ãŒã‚Œè½ã¡ï¼ˆæ¶ˆãˆã‚‹ï¼‰
 		return ProduceHagare( 2 );
 		
-	case PRODUCE_HAGARE_OCHI_IN:	// ¤Ï¤¬¤ìÂä¤Á£¨³ö¬F¤¹¤ë£©
+	case PRODUCE_HAGARE_OCHI_IN:	// ã¯ãŒã‚Œè½ã¡ï¼ˆå‡ºFã™ã‚‹ï¼‰
 		return ProduceHagare( 3 );
 		
-	//£Ï£Æ£Ô¥×¥í¥Ç¥å©`¥µ©`
-	case PRODUCE_BRAN_SMALL:	// ¥Õ¥¹¥Ş¿sĞ¡
+	//ï¼¯ï¼¦ï¼´ãƒ—ãƒ­ãƒ‡ãƒ¥`ã‚µ`
+	case PRODUCE_BRAN_SMALL:	// ãƒ•ã‚¹ãƒså°
 		return Produce_bran_small(-1);
 
-	case PRODUCE_BRAN_BIG:		// ¥Õ¥¹¥Ş’ˆ´ó
+	case PRODUCE_BRAN_BIG:		// ãƒ•ã‚¹ãƒå¤§
 		return Produce_bran_small(1);
 
-	case PRODUCE_BREAK_UP1:		//ÕÛ¤ê¤¿¤¿¤ßÉÏ¥¢¥¦¥È
+	case PRODUCE_BREAK_UP1:		//æŠ˜ã‚ŠãŸãŸã¿ä¸Šã‚¢ã‚¦ãƒˆ
 		return Produce_break_up(-1);
 
-	case PRODUCE_BREAK_UP2:		//ÕÛ¤ê¤¿¤¿¤ßÉÏ¥¤¥ó
+	case PRODUCE_BREAK_UP2:		//æŠ˜ã‚ŠãŸãŸã¿ä¸Šã‚¤ãƒ³
 		return Produce_break_up(1);
 
-	case PRODUCE_BREAK_UP3:		//ÕÛ¤ê¤¿¤¿¤ßÉÏ¥¢¥¦¥È
+	case PRODUCE_BREAK_UP3:		//æŠ˜ã‚ŠãŸãŸã¿ä¸Šã‚¢ã‚¦ãƒˆ
 		return Produce_break_up(-1);
 
-	case PRODUCE_BREAK_UP4:		//ÕÛ¤ê¤¿¤¿¤ßÏÂ¥¤¥ó
+	case PRODUCE_BREAK_UP4:		//æŠ˜ã‚ŠãŸãŸã¿ä¸‹ã‚¤ãƒ³
 		return Produce_break_up2(1);
 
-	case PRODUCE_BREAK_UP5:		//ÕÛ¤ê¤¿¤¿¤ßÏÂ¥¢¥¦¥È
+	case PRODUCE_BREAK_UP5:		//æŠ˜ã‚ŠãŸãŸã¿ä¸‹ã‚¢ã‚¦ãƒˆ
 		return Produce_break_up2(-1);
 
-	case PRODUCE_BREAK_UP6:		//ÕÛ¤ê¤¿¤¿¤ßÏÂ¥¤¥ó
+	case PRODUCE_BREAK_UP6:		//æŠ˜ã‚ŠãŸãŸã¿ä¸‹ã‚¤ãƒ³
 		return Produce_break_up2(1);
 
-	case PRODUCE_BREAK_UP7:		//ÕÛ¤ê¤¿¤¿¤ßÏÂ¥¢¥¦¥È
+	case PRODUCE_BREAK_UP7:		//æŠ˜ã‚ŠãŸãŸã¿ä¸‹ã‚¢ã‚¦ãƒˆ
 		return Produce_break_up2(-1);
 
-	case PRODUCE_BREAK_UP8:		//ÕÛ¤ê¤¿¤¿¤ßÉÏ¥¤¥ó
+	case PRODUCE_BREAK_UP8:		//æŠ˜ã‚ŠãŸãŸã¿ä¸Šã‚¤ãƒ³
 		return Produce_break_up(1);
 
-	// dwaf¥×¥í¥Ç¥å©`¥¹
+	// dwafãƒ—ãƒ­ãƒ‡ãƒ¥`ã‚¹
 	case PRODUCE_CENTER_PRESSIN:
 		return ProduceCenterPress( 0 );
 	case PRODUCE_CENTER_PRESSOUT:
@@ -912,7 +912,7 @@ BOOL DrawProduce( int no )
 	return TRUE;
 }
 
-// ¥¿¥¤¥È¥ëÑİ³ö
+// ã‚¿ã‚¤ãƒˆãƒ«æ¼”å‡º
 void TitleProduce( void )
 {
 	static float x[ 10 ], y[ 10 ], a[ 10 ];
@@ -922,22 +922,22 @@ void TitleProduce( void )
 	int i,bmpNo;
 	
 #ifdef _DEBUG		
-	// ¥İ©`¥º
+	// ãƒ`ã‚º
 	if( joy_con[ 0 ] & JOY_UP ){ 
-		// •rég¤ÎßW¤ìÍü¤ì¤µ¤»¤ë
+		// rgã®Wã‚Œå¿˜ã‚Œã•ã›ã‚‹
 		NowTime = GetTickCount();
 		return;
 	}
 #endif
 	//if( time++ < 30 ) return;
 	
-	// ³õÆÚ»¯¤¹¤ë•r
+	// åˆæœŸåŒ–ã™ã‚‹r
 	if( ProduceInitFlag == TRUE ){
 		ProduceInitFlag = FALSE;
 		flag = 0;
 	}
 	
-	// ³õÆÚ»¯
+	// åˆæœŸåŒ–
 	if( flag == 0 ){
 		for( i = 0 ; i < 8 ; i++ ){
 			x[ i ] = 320;
@@ -950,7 +950,7 @@ void TitleProduce( void )
 			time = 0;
 			
 		}
-		// Éç¥í¥´¤È¥É¥ê©`¥à
+		// ç¤¾ãƒ­ã‚´ã¨ãƒ‰ãƒª`ãƒ 
 		x[ 9 ] = -319;
 		y[ 9 ] = 410;
 		a[ 9 ] = 25.5;
@@ -958,23 +958,23 @@ void TitleProduce( void )
 		y[ 8 ] = 444;
 		a[ 8 ] = 25.5;
 		
-		// £Â£Í£Ğ¤ò¥í©`¥É¤¹¤ë
+		// ï¼¢ï¼­ï¼°ã‚’ãƒ­`ãƒ‰ã™ã‚‹
 		for( bmpNo = CG_TITLE_NAME_S ; bmpNo <= CG_TITLE_DREAM_LOGO ; bmpNo++ ){
 			LoadBmp2( bmpNo );
 		}
-		// •rég¤ÎßW¤ìÍü¤ì¤µ¤»¤ë
+		// rgã®Wã‚Œå¿˜ã‚Œã•ã›ã‚‹
 		NowTime = GetTickCount();
 		
 		flag = 1;
 	}
-	// •rég´ı¤Á
+	// rgå¾…ã¡
 	if( flag == 1 ){
 		//time++;
 		//if( time >= 120 ) 
 		flag = 2;
 	}
 	
-	// Éç¥í¥´ÒÆ„Ó
+	// ç¤¾ãƒ­ã‚´ç§»
 	if( flag == 2 ){
 		a[ 8 ] -= 0.5;
 		x[ 8 ] -= a[ 8 ];
@@ -983,7 +983,7 @@ void TitleProduce( void )
 			x[ 8 ] = 320;
 			flag = 3;
 		}
-		// ¥É¥ê©`¥àÒÆ„Ó
+		// ãƒ‰ãƒª`ãƒ ç§»
 		a[ 9 ] -= 0.5;
 		x[ 9 ] += a[ 9 ];
 		//if( x[ 9 ] >= 320 ){
@@ -994,7 +994,7 @@ void TitleProduce( void )
 		
 	}
 	
-	// ×ó¤«¤éÂä¤È¤¹
+	// å·¦ã‹ã‚‰è½ã¨ã™
 	if( cnt < 8 && flag == 3 ){
 		if( cnt2 % 4 == 0 ){
 			fall[ cnt ] = 1;
@@ -1003,7 +1003,7 @@ void TitleProduce( void )
 		cnt2++;
 	}
 	
-	// ÒÆ„Ó
+	// ç§»
 	if( flag == 3 ){
 		for( i = 0 ; i < 8 ; i++ ){
 			if( fall[ i ] >= 1 && fall[ i ] <= 3 ){
@@ -1023,12 +1023,12 @@ void TitleProduce( void )
 		}
 	}
 	
-	// Éç¥í¥´?¥É¥ê©`¥à±íÊ¾
+	// ç¤¾ãƒ­ã‚´?ãƒ‰ãƒª`ãƒ è¡¨ç¤º
 	StockDispBuffer( ( int )x[ 8 ], ( int )y[ 8 ], DISP_PRIO_CHAR, CG_TITLE_JSS_LOGO, 0 );
 	StockDispBuffer( ( int )x[ 9 ], ( int )y[ 9 ], DISP_PRIO_CHAR, CG_TITLE_DREAM_LOGO, 0 );
 	
 	if( cnt3 < 8 ){
-		// ±íÊ¾
+		// è¡¨ç¤º
 		for( i = 0 ; i < 8 ; i++ ){
 			StockDispBuffer( ( int )x[ i ], ( int )y[ i ], DISP_PRIO_CHAR, CG_TITLE_NAME_S + i, 0 );
 		}
@@ -1044,7 +1044,7 @@ void TitleProduce( void )
 	}
 	else StockDispBuffer( ( int )x[ 0 ], ( int )y[ 0 ], DISP_PRIO_CHAR, CG_TITLE_NAME, 0 );
 	
-	// ³õÆÚ»¯¥­©`
+	// åˆæœŸåŒ–ã‚­`
 	//if( joy_trg[ 0 ] & JOY_HOME ) flag = 0;
 }
 

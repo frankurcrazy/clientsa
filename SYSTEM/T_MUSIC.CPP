@@ -6,9 +6,9 @@
 //#include "system.h"
 //#include "../oft/vg410.h"
 
-extern double NowTime;	// ¬FÔÚ¤Î?égÓ›‘›
+extern double NowTime;	// Fåœ¨ã®?g
 
-/*ºÍÒô¥Ç¥£?¥¤£±????*/
+/*å’ŒéŸ³ãƒ‡ã‚£?ã‚¤ï¼‘????*/
 #define DEBUG_ON	1
 #define THREAD_ON	1
 #define MODE98		0
@@ -35,7 +35,7 @@ typedef struct{
 
 #define	MAX_ENV		20
 typedef struct{
-	int voice_address;	//¥Ü¥¤¥¹¤Îˆö?£¨£­£±¤Ï¥Ü¥¤¥¹¤Ê¤·£©
+	int voice_address;	//ãƒœã‚¤ã‚¹ã®?ï¼ˆï¼ï¼‘ã¯ãƒœã‚¤ã‚¹ãªã—ï¼‰
 	int tone;
 	int count;
 	int distance;
@@ -76,7 +76,7 @@ int thread_flg=0;
 int dsound_flg=0;
 
 /*-------------------------------------------
-	Íâ?‰ä?
+	å¤–??
 --------------------------------------------*/
 LPDIRECTSOUND pDSound = NULL;
 LPDIRECTSOUNDBUFFER pDSPrimary = NULL;
@@ -108,20 +108,20 @@ static int map_bgm_vct_no = 0;
 int map_bgm_no = 0;
 
 /*-------------------------------------------
-	Wave?¥½©`¥¹¤ÎÕi¤ß?¤ß
+	Wave?ã‚½`ã‚¹ã®iã¿?ã¿
 --------------------------------------------*/
 BOOL LoadWave(
-			  LPCTSTR lpName,	// Wave¥Ç©`¥¿Ãû
-			  WAVEFORMATEX* (&pWaveHeader),	// WAVEFORMATEX˜‹ÔìÌå¤Ø¤Î¥İ¥¤?¥¿
-			  BYTE* (&pbWaveData),	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Ø¤Î¥İ¥¤?¥¿
-			  DWORD &cbWaveSize)	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Î¥µ¥¤¥º
+			  LPCTSTR lpName,	// Waveãƒ‡`ã‚¿å
+			  WAVEFORMATEX* (&pWaveHeader),	// WAVEFORMATEXé€ ä½“ã¸ã®ãƒã‚¤?ã‚¿
+			  BYTE* (&pbWaveData),	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã¸ã®ãƒã‚¤?ã‚¿
+			  DWORD &cbWaveSize)	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã®ã‚µã‚¤ã‚º
 {
-	pWaveHeader = NULL;	// WAVEFORMATEX˜‹ÔìÌå¤Ø¤Î¥İ¥¤?¥¿
-	pbWaveData = NULL;	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Ø¤Î¥İ¥¤?¥¿
-	cbWaveSize = 0;	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Î¥µ¥¤¥º
-	const char c_szWAV[] = "WAVE";	// ?¥½©`¥¹ÄÚ¤Ç¤ÎWave¥Õ¥¡¥¤?¤ÎĞÎÊ½¤Ï£¬"WAVE"¤È¤¹¤ë
+	pWaveHeader = NULL;	// WAVEFORMATEXé€ ä½“ã¸ã®ãƒã‚¤?ã‚¿
+	pbWaveData = NULL;	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã¸ã®ãƒã‚¤?ã‚¿
+	cbWaveSize = 0;	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã®ã‚µã‚¤ã‚º
+	const char c_szWAV[] = "WAVE";	// ?ã‚½`ã‚¹å†…ã§ã®Waveãƒ•ã‚¡ã‚¤?ã®å½¢å¼ã¯ï¼Œ"WAVE"ã¨ã™ã‚‹
 
-	// ?¥½©`¥¹¤«¤é¥Õ¥¡¥¤??¥Ç©`¥¿¤òÕi¤ß?¤à
+	// ?ã‚½`ã‚¹ã‹ã‚‰ãƒ•ã‚¡ã‚¤??ãƒ‡`ã‚¿ã‚’iã¿?ã‚€
 	HRSRC hResInfo = FindResource(NULL, lpName, c_szWAV);
 	if(hResInfo == NULL)
 	    return FALSE;
@@ -132,7 +132,7 @@ BOOL LoadWave(
 	if(pvRes == NULL)
 	    return FALSE;
 
-	// Õi¤ß?¤ó¤À?¥½©`¥¹?¥Ç©`¥¿¤ò½âÎö¤·£¬±ØÒª¤Ê¥Ç©`¥¿¤Ë¥¢¥¯¥»¥¹¤Ç¤­¤ë¥İ¥¤?¥¿¤òÈ¡µÃ¤¹¤ë
+	// iã¿?ã‚“ã ?ã‚½`ã‚¹?ãƒ‡`ã‚¿ã‚’è§£æã—ï¼Œå¿…è¦ãªãƒ‡`ã‚¿ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ãƒã‚¤?ã‚¿ã‚’å–å¾—ã™ã‚‹
 	DWORD *pdw = (DWORD *)pvRes;
 	DWORD *pdwEnd;
 	DWORD dwRiff = *pdw++;
@@ -140,9 +140,9 @@ BOOL LoadWave(
 	DWORD dwType = *pdw++;
 
 	if (dwRiff != mmioFOURCC('R', 'I', 'F', 'F'))
-	    return FALSE;      // ¤³¤Î¥Õ¥¡¥¤?¤ÏRIFF¥Õ¥¡¥¤?¤Ç¤Ï¤Ê¤¤£®
+	    return FALSE;      // ã“ã®ãƒ•ã‚¡ã‚¤?ã¯RIFFãƒ•ã‚¡ã‚¤?ã§ã¯ãªã„ï¼
 	if (dwType != mmioFOURCC('W', 'A', 'V', 'E'))
-	    return FALSE;      // ¤³¤Î¥Õ¥¡¥¤?¤ÏWaveĞÎÊ½¥Õ¥¡¥¤?¤Ç¤Ï¤Ê¤¤
+	    return FALSE;      // ã“ã®ãƒ•ã‚¡ã‚¤?ã¯Waveå½¢å¼ãƒ•ã‚¡ã‚¤?ã§ã¯ãªã„
 	pdwEnd = (DWORD *)((BYTE *)pdw + dwLength-4);
 
 	while (pdw < pdwEnd)
@@ -156,7 +156,7 @@ BOOL LoadWave(
 	        if (pWaveHeader == NULL)
 	        {
 	            if (dwLength < sizeof(WAVEFORMAT))
-	                return FALSE;      // ¤³¤Î¥Õ¥¡¥¤?¤ÏÕı¤·¤¤WaveĞÎÊ½¥Õ¥¡¥¤?¤Ç¤Ï¤Ê¤¤
+	                return FALSE;      // ã“ã®ãƒ•ã‚¡ã‚¤?ã¯æ­£ã—ã„Waveå½¢å¼ãƒ•ã‚¡ã‚¤?ã§ã¯ãªã„
 	            pWaveHeader = (WAVEFORMATEX *)pdw;
 	        }
 	        break;
@@ -173,37 +173,37 @@ BOOL LoadWave(
 	    pdw = (DWORD *)((BYTE *)pdw + ((dwLength+1)&~1));
 	}
 	if(pdwEnd <= pdw)
-	    return FALSE;	// ¤³¤Î¥Õ¥¡¥¤?¤ÏÕı¤·¤¤WaveĞÎÊ½¥Õ¥¡¥¤?¤Ç¤Ï¤Ê¤¤
+	    return FALSE;	// ã“ã®ãƒ•ã‚¡ã‚¤?ã¯æ­£ã—ã„Waveå½¢å¼ãƒ•ã‚¡ã‚¤?ã§ã¯ãªã„
 
-	// Wave¥Ç©`¥¿È¡µÃ³É¹¦
+	// Waveãƒ‡`ã‚¿å–å¾—æˆåŠŸ
 
 	return TRUE;
 }
 
 /*-------------------------------------------
-	?¥½©`¥¹¤òÔª¤Ë¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	?ã‚½`ã‚¹ã‚’å…ƒã«ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 --------------------------------------------*/
 BOOL CreateSoundData(LPCSTR pName, LPDIRECTSOUNDBUFFER &pDSData)
 {
-	// ?¥½©`¥¹¤«¤éWave¥Ç©`¥¿¤òÕi¤ß?¤à
-	WAVEFORMATEX *pWaveHeader = NULL;	// WAVEFORMATEX˜‹ÔìÌå¤Ø¤Î¥İ¥¤?¥¿
-	BYTE *pbWaveData = NULL;	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Ø¤Î¥İ¥¤?¥¿
-	DWORD cbWaveSize = 0;	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Î¥µ¥¤¥º
+	// ?ã‚½`ã‚¹ã‹ã‚‰Waveãƒ‡`ã‚¿ã‚’iã¿?ã‚€
+	WAVEFORMATEX *pWaveHeader = NULL;	// WAVEFORMATEXé€ ä½“ã¸ã®ãƒã‚¤?ã‚¿
+	BYTE *pbWaveData = NULL;	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã¸ã®ãƒã‚¤?ã‚¿
+	DWORD cbWaveSize = 0;	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã®ã‚µã‚¤ã‚º
 	if(!LoadWave(pName, pWaveHeader, pbWaveData, cbWaveSize))
 	{
 #ifdef _DEBUG
-	    MessageBox(hWnd, "Wave¥Ç©`¥¿¤ÎÕi¤ß?¤ß¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "Waveãƒ‡`ã‚¿ã®iã¿?ã¿ã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	// ¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ò×÷³É¤¹¤ë
+	// ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆã™ã‚‹
 	DSBUFFERDESC dsbdesc; 
 	HRESULT hr; 
-	// DSBUFFERDESC˜‹ÔìÌå¤òÔO¶¨
+	// DSBUFFERDESCé€ ä½“ã‚’Oå®š
 	ZeroMemory(&dsbdesc, sizeof(DSBUFFERDESC));
 	dsbdesc.dwSize = sizeof(DSBUFFERDESC); 
-	// ¥¹¥¿¥Æ¥£¥Ã¥¯?¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯?ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 #if ACTIVE
 	dsbdesc.dwFlags = DSBCAPS_STATIC | /*DSBCAPS_CTRLDEFAULT | */DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_GLOBALFOCUS; 
 #else
@@ -211,49 +211,49 @@ BOOL CreateSoundData(LPCSTR pName, LPDIRECTSOUNDBUFFER &pDSData)
 #endif
 	dsbdesc.dwBufferBytes = cbWaveSize;
 	dsbdesc.lpwfxFormat = pWaveHeader;
-	// ¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	// ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 	hr = pDSound->CreateSoundBuffer(&dsbdesc, &pDSData, NULL); 
 	if(DS_OK != hr) { 
-	    // ¥Ğ¥Ã¥Õ¥¡¤Î×÷³É¤ËÊ§”¡
+	    // ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±
 		return FALSE;
 	} 
 
-	// ¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ËWave¥Ç©`¥¿¤ò?¤­?¤à
-	LPVOID lpvPtr1; 	// ×î?¤Î¥Ö?¥Ã¥¯¤Î¥İ¥¤?¥¿
-	DWORD dwBytes1; 	// ×î?¤Î¥Ö?¥Ã¥¯¤Î¥µ¥¤¥º
-	LPVOID lpvPtr2; 	// £²·¬Ä¿¤Î¥Ö?¥Ã¥¯¤Î¥İ¥¤?¥¿
-	DWORD dwBytes2; 	// £²·¬Ä¿¤Î¥Ö?¥Ã¥¯¤Î¥µ¥¤¥º
+	// ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã«Waveãƒ‡`ã‚¿ã‚’?ã?ã‚€
+	LPVOID lpvPtr1; 	// æœ€?ã®ãƒ–?ãƒƒã‚¯ã®ãƒã‚¤?ã‚¿
+	DWORD dwBytes1; 	// æœ€?ã®ãƒ–?ãƒƒã‚¯ã®ã‚µã‚¤ã‚º
+	LPVOID lpvPtr2; 	// ï¼’ç•ªç›®ã®ãƒ–?ãƒƒã‚¯ã®ãƒã‚¤?ã‚¿
+	DWORD dwBytes2; 	// ï¼’ç•ªç›®ã®ãƒ–?ãƒƒã‚¯ã®ã‚µã‚¤ã‚º
 
 	hr = pDSData->Lock(0, cbWaveSize, &lpvPtr1, &dwBytes1, &lpvPtr2, &dwBytes2, 0); 
 
-	// DSERR_BUFFERLOST¤¬·µ¤µ¤ì¤¿ˆö?£¬Restore?¥½¥Ã¥É¤òÊ¹¤Ã¤Æ¥Ğ¥Ã¥Õ¥¡¤ò?Ôª¤¹¤ë
+	// DSERR_BUFFERLOSTãŒè¿”ã•ã‚ŒãŸ?ï¼ŒRestore?ã‚½ãƒƒãƒ‰ã‚’ä½¿ã£ã¦ãƒãƒƒãƒ•ã‚¡ã‚’?å…ƒã™ã‚‹
 	if(DSERR_BUFFERLOST == hr) { 
 	    pDSData->Restore(); 
 	    hr = pDSData->Lock(0, cbWaveSize, &lpvPtr1, &dwBytes1, &lpvPtr2, &dwBytes2, 0); 
 	} 
 	if(DS_OK == hr) { 
-	    // ?¥Ã¥¯³É¹¦
+	    // ?ãƒƒã‚¯æˆåŠŸ
 
-	    // ¤³¤³¤Ç£¬¥Ğ¥Ã¥Õ¥¡¤Ë?¤­?¤à
-		// ¥Ğ¥Ã¥Õ¥¡¤Ë¥Ç©`¥¿¤ò¥³¥Ô©`¤¹¤ë
+	    // ã“ã“ã§ï¼Œãƒãƒƒãƒ•ã‚¡ã«?ã?ã‚€
+		// ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡`ã‚¿ã‚’ã‚³ãƒ”`ã™ã‚‹
 		CopyMemory(lpvPtr1, pbWaveData, dwBytes1);
 		if ( 0 != dwBytes2 )
 		    CopyMemory(lpvPtr2, pbWaveData + dwBytes1, dwBytes2);
 
-	   // ?¤­?¤ß¤¬½K¤ï¤Ã¤¿¤é¤¹¤°¤ËUnlock¤¹¤ë£®
+	   // ?ã?ã¿ãŒKã‚ã£ãŸã‚‰ã™ãã«Unlockã™ã‚‹ï¼
 	    hr = pDSData->Unlock(lpvPtr1, dwBytes1, lpvPtr2, dwBytes2); 
 	}
 
 	return TRUE;
 }
 
-// £×£Á£Ö£Å¥Ø¥Ã¥ÀÇéˆóÕi¤ß?¤ß
+// ï¼·ï¼¡ï¼¶ï¼¥ãƒ˜ãƒƒãƒ€æƒ…ç¬³iã¿?ã¿
 //
-// Òı¡¡?£º	hmmio     ... ¥Õ¥¡¥¤?¥ª©`¥×?¥Ï?¥É?
-//			pWfmtx    ... ¥Ø¥Ã¥ÀÇéˆó¸ñ¼{îIÓò¥İ¥¤?¥¿
-//			pDataSize ... ¥Ç©`¥¿¥µ¥¤¥º
-// ‘ø¤ê‚£º	TRUE  ... Õı³£½KÁË
-//			FALSE ... Ê§”¡
+// å¼•ã€€?ï¼š	hmmio     ... ãƒ•ã‚¡ã‚¤?ã‚ª`ãƒ—?ãƒ?ãƒ‰?
+//			pWfmtx    ... ãƒ˜ãƒƒãƒ€æƒ…èŸ¾çª¦{IåŸŸãƒã‚¤?ã‚¿
+//			pDataSize ... ãƒ‡`ã‚¿ã‚µã‚¤ã‚º
+// 	TRUE  ... æ­£å¸¸Käº†
+//			FALSE ... å¤±
 static BOOL WaveFormatRead( HMMIO hmmio, WAVEFORMATEX *pWfmtx, DWORD *pDataSize )
 {
 	MMCKINFO parent, child;
@@ -265,41 +265,41 @@ static BOOL WaveFormatRead( HMMIO hmmio, WAVEFORMATEX *pWfmtx, DWORD *pDataSize 
 	parent.dwFlags = 0;
 	child = parent;
 
-	//WAVE¥Á??¥¯¤òÌ½¤¹
+	//WAVEãƒ??ã‚¯ã‚’æ¢ã™
 	parent.fccType = mmioFOURCC('W','A','V','E');
 	if ( (int)mmioDescend(hmmio,&parent,NULL,MMIO_FINDRIFF) ){
-//		ERRPRINT("WAVE¥Á??¥¯¤òÌ½¤¹");
+//		ERRPRINT("WAVEãƒ??ã‚¯ã‚’æ¢ã™");
 		return FALSE;
 	}
 
-	//fmt¥Á??¥¯¤ËÈë¤ë
+	//fmtãƒ??ã‚¯ã«å…¥ã‚‹
 	child.ckid = mmioFOURCC('f', 'm', 't', ' ');
 	if ( mmioDescend( hmmio , &child , &parent , MMIO_FINDCHUNK ) ){
-//		ERRPRINT("fmt¥Á??¥¯¤ËÈë¤ë");
+//		ERRPRINT("fmtãƒ??ã‚¯ã«å…¥ã‚‹");
 		return FALSE;
 	}
 
-	//¥Õ¥©©`¥Ş¥Ã¥È¥Ç©`¥¿¤ÎÈ¡µÃ
+	//ãƒ•ã‚©`ãƒãƒƒãƒˆãƒ‡`ã‚¿ã®å–å¾—
 	if (mmioRead( hmmio , (char *)pWfmtx , sizeof(WAVEFORMATEX) ) != sizeof(WAVEFORMATEX) ){
-//		ERRPRINT("¥Õ¥©©`¥Ş¥Ã¥È¥Ç©`¥¿¤ÎÈ¡µÃ");
+//		ERRPRINT("ãƒ•ã‚©`ãƒãƒƒãƒˆãƒ‡`ã‚¿ã®å–å¾—");
 		return FALSE;
 	}
 
-	//£Ğ£Ã£Í¥Õ¥©©`¥Ş¥Ã¥È¤«¤É¤¦¤«¤Î¥Á¥§¥Ã¥¯
+	//ï¼°ï¼£ï¼­ãƒ•ã‚©`ãƒãƒƒãƒˆã‹ã©ã†ã‹ã®ãƒã‚§ãƒƒã‚¯
 	if (pWfmtx->wFormatTag != WAVE_FORMAT_PCM ){
-//		ERRPRINT("£Ğ£Ã£Í¥Õ¥©©`¥Ş¥Ã¥È¤Ç¤Ï?¤ê¤Ş¤»¤ó");
+//		ERRPRINT("ï¼°ï¼£ï¼­ãƒ•ã‚©`ãƒãƒƒãƒˆã§ã¯?ã‚Šã¾ã›ã‚“");
 		return FALSE;
 	}
-	//???¥Á??¥¯¤«¤é’i¤±¤ë
+	//???ãƒ??ã‚¯ã‹ã‚‰iã‘ã‚‹
 	if (mmioAscend( hmmio , &child , 0 )){
-//		ERRPRINT("???¥Á??¥¯¤«¤é’i¤±¤ë");
+//		ERRPRINT("???ãƒ??ã‚¯ã‹ã‚‰iã‘ã‚‹");
 		return FALSE;
 	}
 	
-	//data¥Á??¥¯¤ËÈë¤ë
+	//dataãƒ??ã‚¯ã«å…¥ã‚‹
 	child.ckid = mmioFOURCC( 'd' , 'a' , 't' , 'a' );
 	if ( mmioDescend( hmmio , &child , &parent , MMIO_FINDCHUNK ) ){
-//		ERRPRINT("data¥Á??¥¯¤ËÈë¤ë");
+//		ERRPRINT("dataãƒ??ã‚¯ã«å…¥ã‚‹");
 		return FALSE;
 	}
 
@@ -311,25 +311,25 @@ static BOOL WaveFormatRead( HMMIO hmmio, WAVEFORMATEX *pWfmtx, DWORD *pDataSize 
 static BYTE	*pDSbuffData;
 
 //
-// £×£Á£Ö£Å¥Ç©`¥¿Õi¤ß?¤ß
+// ï¼·ï¼¡ï¼¶ï¼¥ãƒ‡`ã‚¿iã¿?ã¿
 //
-// Òı¡¡?£º	hmmio     ... ¥Õ¥¡¥¤?¥ª©`¥×?¥Ï?¥É?
-//			pDataSize ... Õi¤ß?¤à¥Ç©`¥¿¥µ¥¤¥º
+// å¼•ã€€?ï¼š	hmmio     ... ãƒ•ã‚¡ã‚¤?ã‚ª`ãƒ—?ãƒ?ãƒ‰?
+//			pDataSize ... iã¿?ã‚€ãƒ‡`ã‚¿ã‚µã‚¤ã‚º
 //			pData     ... DirectSoundBuffer
-// ‘ø¤ê‚£º	TRUE  ... Õı³£½KÁË
-//			FALSE ... Ê§”¡
+// 	TRUE  ... æ­£å¸¸Käº†
+//			FALSE ... å¤±
 static BOOL WaveDataRead( HMMIO hmmio , DWORD *pDataSize, LPDIRECTSOUNDBUFFER pData )
 {
 //	BYTE	*pDSbuffData;
 
-	//¥µ©`¥Õ¥§©`¥¹¤ò?¥Ã¥¯
+	//ã‚µ`ãƒ•ã‚§`ã‚¹ã‚’?ãƒƒã‚¯
 	if( pData->Lock(0 , *pDataSize , (LPVOID*)&pDSbuffData , pDataSize , NULL , 0, 0 ) != DS_OK )
 		return FALSE;
 
-	//¤½¤³¤Ë¥Ç©`¥¿¤òÁ÷¤·?¤à
+	//ãã“ã«ãƒ‡`ã‚¿ã‚’æµã—?ã‚€
 	*pDataSize = (DWORD)mmioRead(hmmio , (char*)pDSbuffData , *pDataSize);
 
-	//?¥Ã¥¯½â?
+	//?ãƒƒã‚¯è§£?
     if( pData->Unlock( pDSbuffData , *pDataSize , NULL , 0 ) != DS_OK )
 		return FALSE;
 
@@ -338,18 +338,18 @@ static BOOL WaveDataRead( HMMIO hmmio , DWORD *pDataSize, LPDIRECTSOUNDBUFFER pD
 
 
 //
-// ¥»¥«?¥À?¥Ğ¥Ã¥Õ¥¡¤ÎÈ¡µÃ
+// ã‚»ã‚«?ãƒ€?ãƒãƒƒãƒ•ã‚¡ã®å–å¾—
 //
-// Òı¡¡?£º	pWfmtx ... ¥Ğ¥Ã¥Õ¥¡¤Î¥Õ¥©©`¥Ş¥Ã¥È
-//			DataSize ... ¥Ğ¥Ã¥Õ¥¡¤Î¥µ¥¤¥º
-//			ppData ... È¡µÃ¤·¤¿¥»¥«?¥À?¥Ğ¥Ã¥Õ¥¡¤Î¥İ¥¤?¥¿
-// ‘ø¤ê‚£º	TRUE  ... Õı³£½KÁË
-//			FALSE ... Ê§”¡
+// å¼•ã€€?ï¼š	pWfmtx ... ãƒãƒƒãƒ•ã‚¡ã®ãƒ•ã‚©`ãƒãƒƒãƒˆ
+//			DataSize ... ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
+//			ppData ... å–å¾—ã—ãŸã‚»ã‚«?ãƒ€?ãƒãƒƒãƒ•ã‚¡ã®ãƒã‚¤?ã‚¿
+// 	TRUE  ... æ­£å¸¸Käº†
+//			FALSE ... å¤±
 static BOOL dwSoundInit( WAVEFORMATEX *pWfmtx, DWORD DataSize, LPDIRECTSOUNDBUFFER *ppData )
 {
 	DSBUFFERDESC  dsbufferdesc;
 
-	//¥µ¥¦?¥É¥µ©`¥Õ¥§©`¥¹¤òÆğ¤³¤¹
+	//ã‚µã‚¦?ãƒ‰ã‚µ`ãƒ•ã‚§`ã‚¹ã‚’èµ·ã“ã™
 	memset( &dsbufferdesc , 0  , sizeof( DSBUFFERDESC ) );
 	dsbufferdesc.dwSize = sizeof( DSBUFFERDESC );
 //	dsbufferdesc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_CTRLDEFAULT | DSBCAPS_GETCURRENTPOSITION2; 
@@ -370,10 +370,10 @@ int f_get(FILE *fp);
 int get_num(FILE *fp);
 int num_check(FILE *fp);
 
-// ¥Õ¥¡¥¤?¤ÎÃûÇ°¡¢??¤ÎÎÄ??
+// ãƒ•ã‚¡ã‚¤?ã®åå‰ã€??ã®æ–‡??
 #define mxSTR	200
 /*-------------------------------------------
-	DirectSound ?ÆÚ»¯
+	DirectSound ?æœŸåŒ–
 --------------------------------------------*/
 int InitDSound(void)
 {
@@ -392,69 +392,69 @@ int InitDSound(void)
 	if(ret != DS_OK)
 	{
 #ifdef _DEBUG
-	    MessageBox(hWnd, "DirectSound¥ª¥Ö¥¸¥§¥¯¥È¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "DirectSoundã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	//¤³¤³¤Ç…fÕ{?¥Ù?¤òÔO¶¨
+	//ã“ã“ã§f{?ãƒ™?ã‚’Oå®š
 //	ret = pDSound->SetCooperativeLevel(hWnd, DSSCL_NORMAL);
 	ret = pDSound->SetCooperativeLevel(hWnd, DSSCL_PRIORITY);
 	if(ret != DS_OK)
 	{
-	    // …fÕ{?¥Ù?¤ÎÔO¶¨¤ËÊ§”¡
+	    // f{?ãƒ™?ã®Oå®šã«å¤±
 		RELEASE(pDSound);
 #ifdef _DEBUG
-	    MessageBox(hWnd, "…fÕ{?¥Ù?¤ÎÔO¶¨¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "f{?ãƒ™?ã®Oå®šã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	// ¥¹¥Ô©`¥«¤ÎÔO¶¨
+	// ã‚¹ãƒ”`ã‚«ã®Oå®š
 	pDSound ->SetSpeakerConfig(DSSPEAKER_COMBINED(DSSPEAKER_STEREO, DSSPEAKER_GEOMETRY_WIDE));
 
-	// ¥×?¥¤¥Ş??¥Ğ¥Ã¥Õ¥¡¤Î×÷³É
-	// DSBUFFERDESC˜‹ÔìÌå¤òÔO¶¨
+	// ãƒ—?ã‚¤ãƒ??ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
+	// DSBUFFERDESCé€ ä½“ã‚’Oå®š
 	DSBUFFERDESC dsbdesc; 
 	ZeroMemory(&dsbdesc, sizeof(DSBUFFERDESC));
 	dsbdesc.dwSize = sizeof(DSBUFFERDESC); 
-	// ¥×?¥¤¥Ş??¥Ğ¥Ã¥Õ¥¡¤òÖ¸¶¨
+	// ãƒ—?ã‚¤ãƒ??ãƒãƒƒãƒ•ã‚¡ã‚’æŒ‡å®š
 //	dsbdesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_CTRLPAN | DSBCAPS_PRIMARYBUFFER; 
 	dsbdesc.dwFlags = DSBCAPS_PRIMARYBUFFER; 
 	dsbdesc.dwBufferBytes = 0;
 	dsbdesc.lpwfxFormat = NULL;
 
-	// ¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	// ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 	ret = pDSound->CreateSoundBuffer(&dsbdesc, &pDSPrimary, NULL); 
 	if(ret != DS_OK) { 
-	    // ¥Ğ¥Ã¥Õ¥¡¤Î×÷³É¤ËÊ§”¡
+	    // ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±
 #ifdef _DEBUG
-	    MessageBox(hWnd, "¥×?¥¤¥Ş??¥Ğ¥Ã¥Õ¥¡¤ÎÒôĞ§×÷³É¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "ãƒ—?ã‚¤ãƒ??ãƒãƒƒãƒ•ã‚¡ã®éŸ³æ•ˆä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	// ¥×?¥¤¥Ş??¥Ğ¥Ã¥Õ¥¡¤ÎWave¥Õ¥©©`¥Ş¥Ã¥È¤òÔO¶¨
-	// ¡¡¡¡¡¡ƒÏÈ…fÕ{?¥Ù?ÒÔÉÏ¤Î…fÕ{?¥Ù?¤¬ÔO¶¨¤µ¤ì¤Æ¤¤¤ë±ØÒª¤¬?¤ê¤Ş¤¹£®
+	// ãƒ—?ã‚¤ãƒ??ãƒãƒƒãƒ•ã‚¡ã®Waveãƒ•ã‚©`ãƒãƒƒãƒˆã‚’Oå®š
+	// ã€€ã€€ã€€å…ˆf{?ãƒ™?ä»¥ä¸Šã®f{?ãƒ™?ãŒOå®šã•ã‚Œã¦ã„ã‚‹å¿…è¦ãŒ?ã‚Šã¾ã™ï¼
 	WAVEFORMATEX pcmwf; 
 	ZeroMemory(&pcmwf, sizeof(WAVEFORMATEX)); 
 	pcmwf.wFormatTag = WAVE_FORMAT_PCM; 
-	pcmwf.nChannels = 2;		// £²¥Á??¥Í?£¨¥¹¥Æ?¥ª£©
-//	pcmwf.nSamplesPerSec = 44100;	// ¥µ?¥×??¥°??©`¥È¡¡44.1kHz
-	pcmwf.nSamplesPerSec = 22050;	// ¥µ?¥×??¥°??©`¥È¡¡22.05kHz
+	pcmwf.nChannels = 2;		// ï¼’ãƒ??ãƒ?ï¼ˆã‚¹ãƒ†?ã‚ªï¼‰
+//	pcmwf.nSamplesPerSec = 44100;	// ã‚µ?ãƒ—??ã‚°??`ãƒˆã€€44.1kHz
+	pcmwf.nSamplesPerSec = 22050;	// ã‚µ?ãƒ—??ã‚°??`ãƒˆã€€22.05kHz
 	pcmwf.nBlockAlign = 4;
 	pcmwf.nAvgBytesPerSec = pcmwf.nSamplesPerSec * pcmwf.nBlockAlign; 
-	pcmwf.wBitsPerSample = 16;		// 16¥Ó¥Ã¥È
+	pcmwf.wBitsPerSample = 16;		// 16ãƒ“ãƒƒãƒˆ
 	ret = pDSPrimary->SetFormat(&pcmwf);
 	if(ret != DS_OK){
 #ifdef _DEBUG
-	    MessageBox(hWnd, "¥×?¥¤¥Ş??¥Ğ¥Ã¥Õ¥¡¤Î¥Õ¥©©`¥Ş¥Ã¥ÈÔO¶¨¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "ãƒ—?ã‚¤ãƒ??ãƒãƒƒãƒ•ã‚¡ã®ãƒ•ã‚©`ãƒãƒƒãƒˆOå®šã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
 #if 0
-	// ?¥½©`¥¹¤òÔª¤Ë¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ò×÷³É¤¹¤ë
+	// ?ã‚½`ã‚¹ã‚’å…ƒã«ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆã™ã‚‹
 	for(d7=0;d7<TONE_MAX;d7++){
 		BOOL f;
 		f = CreateSoundData(MAKEINTRESOURCE(101+d7), pDSData_tone[d7]);
@@ -464,36 +464,36 @@ int InitDSound(void)
 			RELEASE(pDSPrimary);
 			RELEASE(pDSound);
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡ÒôĞ§¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡éŸ³æ•ˆã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 			return FALSE;
 		}
 	}
 #else
-	HMMIO hmmio;			//¥Õ¥¡¥¤?¥Ï?¥É?
-    WAVEFORMATEX	Wfmtx;			//WAVE¥Õ¥¡¥¤?¤Î¥Õ¥©©`¥Ş¥Ã¥È¥Ç©`¥¿
-	DWORD			DataSize;		//¥Ğ¥Ã¥Õ¥¡©`¤Î¥µ¥¤¥º
-	DWORD			WaveSize;		//Wave¥Õ¥¡¥¤?¤Î¥µ¥¤¥º
+	HMMIO hmmio;			//ãƒ•ã‚¡ã‚¤?ãƒ?ãƒ‰?
+    WAVEFORMATEX	Wfmtx;			//WAVEãƒ•ã‚¡ã‚¤?ã®ãƒ•ã‚©`ãƒãƒƒãƒˆãƒ‡`ã‚¿
+	DWORD			DataSize;		//ãƒãƒƒãƒ•ã‚¡`ã®ã‚µã‚¤ã‚º
+	DWORD			WaveSize;		//Waveãƒ•ã‚¡ã‚¤?ã®ã‚µã‚¤ã‚º
 	//FILE			*fp;
 	int program_no = 0;
 //	int program_set_flg = 0;
 	char fname[mxSTR];
 
-	hmmio = (HMMIO)-1;		//????¥¯?©`¥º?
+	hmmio = (HMMIO)-1;		//????ã‚¯?`ã‚º?
 	tone_max_buf = 0;
 
-#if 0		//¥Æ¥­¥¹¥È¥Õ¥¡¥¤?Õi¤ß?¤ß¥Ğ©`¥¸??///////////////////////////////
-	fp = fopen( "data\\sndcnf.h", "r" );	//£Ğ£Ã£Í¶¨Áx¥Õ¥¡¥¤?¥ª©`¥×?
+#if 0		//ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤?iã¿?ã¿ãƒ`ã‚¸??///////////////////////////////
+	fp = fopen( "data\\sndcnf.h", "r" );	//ï¼°ï¼£ï¼­å®šxãƒ•ã‚¡ã‚¤?ã‚ª`ãƒ—?
 	if( fp == NULL ){
 		RELEASE(pDSPrimary);
 		RELEASE(pDSound);
 #ifdef _DEBUG
-		MessageBox(hWnd, "ÒôÉ«ÔO¶¨¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡", "Error", MB_OK);
+		MessageBox(hWnd, "éŸ³è‰²Oå®šãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	for(d7=0;d7<TONE_MAX;d7++){		//ÒôÉ«¥Æ©`¥Ö??ÆÚ»¯
+	for(d7=0;d7<TONE_MAX;d7++){		//éŸ³è‰²ãƒ†`ãƒ–??æœŸåŒ–
 		tone_tbl[d7].voice_place = -1;
 		tone_tbl[ tone ].play_time = 0;
 		tone_tbl[ tone ].play_loop = 0;
@@ -502,142 +502,142 @@ int InitDSound(void)
 	while(1){
 		d0 = f_get( fp );
 		if(d0 >= 0x80 && d0 <=0x9f){
-			fseek(fp,1,SEEK_CUR);		//h?¥¹¥­¥Ã¥×
+			fseek(fp,1,SEEK_CUR);		//h?ã‚¹ã‚­ãƒƒãƒ—
 			continue;
 		}
 		if(d0 >= 0xe0){
-			fseek(fp,1,SEEK_CUR);		//h?¥¹¥­¥Ã¥×
+			fseek(fp,1,SEEK_CUR);		//h?ã‚¹ã‚­ãƒƒãƒ—
 			continue;
 		}
-		if(d0 == '{'){		//ÏÈî^¤Ş¤Ç¥¹¥­¥Ã¥×
+		if(d0 == '{'){		//å…ˆ^ã¾ã§ã‚¹ã‚­ãƒƒãƒ—
 			break;
 		}
 	}
-	//??????????¡¡ÒôÉ«¶¨Áx¥Õ¥¡¥¤?½âÎö¡¡??????????
+	//??????????ã€€éŸ³è‰²å®šxãƒ•ã‚¡ã‚¤?è§£æã€€??????????
 	while(1){
-		d0 = f_get( fp );		//£±¥Ğ¥¤¥ÈÈ¡¤ê³ö¤·
-		if(d0 == EOF || tone_max_buf == TONE_MAX){		//½KÁË¤Ê¤é
+		d0 = f_get( fp );		//ï¼‘ãƒã‚¤ãƒˆå–ã‚Šå‡ºã—
+		if(d0 == EOF || tone_max_buf == TONE_MAX){		//Käº†ãªã‚‰
 			fclose( fp );
 			goto InitDSound_ok;
 		}
-		if( d0 == '\n' ){		//¸ÄĞĞ¤Ê¤é
+		if( d0 == '\n' ){		//æ”¹è¡Œãªã‚‰
 			continue;
 		}
 
-		if( d0 == '/' ){		//¥³??¥È¤Ê¤é
-			while(1){			//¤½¤¦¤Ê¤é¥¹¥­¥Ã¥×
+		if( d0 == '/' ){		//ã‚³??ãƒˆãªã‚‰
+			while(1){			//ãã†ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 				d0 = f_get( fp );
 				if(d0 == '\n' || d0 == EOF )
 					break;
 			}
-			continue;			//¤½¤¦¤Ê¤é¤ä¤êÖ±¤·
+			continue;			//ãã†ãªã‚‰ã‚„ã‚Šç›´ã—
 		}
 
-		fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+		fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 		while(1){
 			d0 = f_get( fp );
 			if(d0 >= 0x80 && d0 <=0x9f){
-				fseek(fp,1,SEEK_CUR);		//h?¥¹¥­¥Ã¥×
+				fseek(fp,1,SEEK_CUR);		//h?ã‚¹ã‚­ãƒƒãƒ—
 				continue;
 			}
 			if(d0 >= 0xe0){
-				fseek(fp,1,SEEK_CUR);		//h?¥¹¥­¥Ã¥×
+				fseek(fp,1,SEEK_CUR);		//h?ã‚¹ã‚­ãƒƒãƒ—
 				continue;
 			}
-			if(d0 == '{'){		//ÏÈî^¤Ş¤Ç¥¹¥­¥Ã¥×
+			if(d0 == '{'){		//å…ˆ^ã¾ã§ã‚¹ã‚­ãƒƒãƒ—
 				break;
 			}
 		}
-//		if(d0 == '{'){		//ÒôÉ«·¬?¤Ê¤é
-			if(f_get( fp ) == '-'){		//½KÁË¤Ê¤é
+//		if(d0 == '{'){		//éŸ³è‰²ç•ª?ãªã‚‰
+			if(f_get( fp ) == '-'){		//Käº†ãªã‚‰
 				fclose( fp );
 				goto InitDSound_ok;
 			}
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-			if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+			if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
 				goto InitDSound_err2;
 			}
-			program_no = get_num( fp );		//?‚Õi¤ß?¤ß
-			if(program_no > TONE_MAX){		//¥Ş¥Ã¥¯¥¹ÒÔÉÏ¤Ê¤é
-				goto InitDSound_err2;	//¥¨?©`
+			program_no = get_num( fp );		//?iã¿?ã¿
+			if(program_no > TONE_MAX){		//ãƒãƒƒã‚¯ã‚¹ä»¥ä¸Šãªã‚‰
+				goto InitDSound_err2;	//ã‚¨?`
 			}
 //			program_set_flg = 1;
 //		} else {
-//			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+//			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 //		}
 
-//		if(program_set_flg){		//¥»¥Ã¥È¤¹¤ë¤Ê¤é
-			tone_tbl[ program_no ].voice_place = tone_max_buf;		//ÒôÉ«¥»¥Ã¥ÈÏÈ±£´æ
+//		if(program_set_flg){		//ã‚»ãƒƒãƒˆã™ã‚‹ãªã‚‰
+			tone_tbl[ program_no ].voice_place = tone_max_buf;		//éŸ³è‰²ã‚»ãƒƒãƒˆå…ˆä¿å­˜
 //			program_set_flg = 0;
 //		}
-//		d0 = f_get( fp );		//¥Õ¥¡¥¤?Ãû¤ÎÏÈî^¤Ø
-//		fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-		while(f_get( fp ) != '"');		//¥Õ¥¡¥¤?Ãû¤ÎÏÈî^¤Ø
+//		d0 = f_get( fp );		//ãƒ•ã‚¡ã‚¤?åã®å…ˆ^ã¸
+//		fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+		while(f_get( fp ) != '"');		//ãƒ•ã‚¡ã‚¤?åã®å…ˆ^ã¸
 		d7=0;
-		while(1){		//¥Õ¥¡¥¤?Ãû¥³¥Ô©`
-			d0 = fgetc( fp );		//£±¥Ğ¥¤¥ÈÈ¡¤ê³ö¤·
-			if( d0 == EOF )			//£Å£Ï£Æ¤«
+		while(1){		//ãƒ•ã‚¡ã‚¤?åã‚³ãƒ”`
+			d0 = fgetc( fp );		//ï¼‘ãƒã‚¤ãƒˆå–ã‚Šå‡ºã—
+			if( d0 == EOF )			//ï¼¥ï¼¯ï¼¦ã‹
 				break;
-			if( d0 == '\t' )		//¥¿¥Ö¤«
+			if( d0 == '\t' )		//ã‚¿ãƒ–ã‹
 				break;
-			if( d0 == 0x20 )		//¥¹¥Ú©`¥¹¤«
+			if( d0 == 0x20 )		//ã‚¹ãƒš`ã‚¹ã‹
 				break;
-			if( d0 == '\n' )		//¸ÄĞĞ¤«
+			if( d0 == '\n' )		//æ”¹è¡Œã‹
 				break;
-			if( d0 == ',' )		//¥»¥Ñ?©`¥¿¤«
+			if( d0 == ',' )		//ã‚»ãƒ‘?`ã‚¿ã‹
 				break;
-			if( d0 == '"' )		//¥»¥Ñ?©`¥¿¤«
+			if( d0 == '"' )		//ã‚»ãƒ‘?`ã‚¿ã‹
 				break;
 			fname[d7++] = d0;
 		}
-		fname[d7++] = 0;		//½KÁË¥³©`¥É
+		fname[d7++] = 0;		//Käº†ã‚³`ãƒ‰
 
-		while(f_get( fp ) != ',');		//¥Ü??©`?¤ÎÏÈî^¤Ø
-		if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+		while(f_get( fp ) != ',');		//ãƒœ??`?ã®å…ˆ^ã¸
+		if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
 			goto InitDSound_err2;
 		}
 
-		d0 = get_num( fp );		//¥Ü??©`?‚Õi¤ß?¤ß
-		if(d0 > 10){		//£±£±ÒÔÉÏ¤Ê¤é
+		d0 = get_num( fp );		//ãƒœ??`?iã¿?ã¿
+		if(d0 > 10){		//ï¼‘ï¼‘ä»¥ä¸Šãªã‚‰
 			goto InitDSound_err2;
 		}
-		tone_tbl[ program_no ].voice_volume = d0;		//ÒôÉ«¥Ü??©`?±£´æ
+		tone_tbl[ program_no ].voice_volume = d0;		//éŸ³è‰²ãƒœ??`?ä¿å­˜
 
-		//£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?
+		//ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?
 		if( (hmmio = mmioOpen(fname, NULL, MMIO_READ | MMIO_ALLOCBUF )) == NULL){
 #ifdef _DEBUG
-			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
-		//¥¢¥È?¥Ó?©`¥È¤Î?©`¥É
+		//ã‚¢ãƒˆ?ãƒ“?`ãƒˆã®?`ãƒ‰
 		if( WaveFormatRead( hmmio , &Wfmtx , &WaveSize ) == FALSE ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥¢¥È?¥Ó?©`¥È¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚¢ãƒˆ?ãƒ“?`ãƒˆã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
 		DataSize = WaveSize;
-		//¥µ¥¦?¥É¥µ©`¥Õ¥§©`¥¹¤òÆğ¤³¤¹
+		//ã‚µã‚¦?ãƒ‰ã‚µ`ãƒ•ã‚§`ã‚¹ã‚’èµ·ã“ã™
 		if( dwSoundInit( &Wfmtx, DataSize, &pDSData_tone[tone_max_buf] ) == FALSE ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡³õÊ¼»¯¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡åˆå§‹åŒ–ã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
-		//¥Ç©`¥¿¤Î?©`¥É
+		//ãƒ‡`ã‚¿ã®?`ãƒ‰
 		if( WaveDataRead( hmmio, &DataSize, pDSData_tone[tone_max_buf] ) == FALSE  ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
 		mmioClose( hmmio , 0 );
-		hmmio = (HMMIO)-1;		//????¥¯?©`¥º?
-		tone_max_buf++;		//ÒôÉ«¥»¥Ã¥ÈÏÈ¸üĞÂ
+		hmmio = (HMMIO)-1;		//????ã‚¯?`ã‚º?
+		tone_max_buf++;		//éŸ³è‰²ã‚»ãƒƒãƒˆå…ˆæ›´æ–°
 	}
 
-InitDSound_err:		//¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¥¨?©`
+InitDSound_err:		//ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚¨?`
 	fclose( fp );
 	mmioClose( hmmio , 0 );
 	for(d7=0;d7<tone_max_buf;d7++)
@@ -646,13 +646,13 @@ InitDSound_err:		//¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¥¨?©`
 	RELEASE(pDSound);
 	return FALSE;
 
-InitDSound_err2:	//¶¨Áx¥Õ¥¡¥¤?¥¨?©`
+InitDSound_err2:	//å®šxãƒ•ã‚¡ã‚¤?ã‚¨?`
 	fclose( fp );
-	if(hmmio != (HMMIO)-1){		//£È£Í£Í£É£Ï¥ª©`¥×??¤Ê¤é
+	if(hmmio != (HMMIO)-1){		//ï¼¨ï¼­ï¼­ï¼©ï¼¯ã‚ª`ãƒ—??ãªã‚‰
 		mmioClose( hmmio , 0 );
 	}
 #ifdef _DEBUG
-	MessageBox(hWnd, "ÒôÉ«ÔO¶¨¥Õ¥¡¥¤?¥¨?©`", "Error", MB_OK);
+	MessageBox(hWnd, "éŸ³è‰²Oå®šãƒ•ã‚¡ã‚¤?ã‚¨?`", "Error", MB_OK);
 #endif
 	for(d7=0;d7<tone_max_buf;d7++)
 		RELEASE(pDSData_tone[d7]);
@@ -660,8 +660,8 @@ InitDSound_err2:	//¶¨Áx¥Õ¥¡¥¤?¥¨?©`
 	RELEASE(pDSound);
 	return FALSE;
 
-InitDSound_ok:		//Õı³£½KÁË
-#else		//¥¤?¥¯?©`¥É¥Ğ©`¥¸??///////////////////////////////////////////
+InitDSound_ok:		//æ­£å¸¸Käº†
+#else		//ã‚¤?ã‚¯?`ãƒ‰ãƒ`ã‚¸??///////////////////////////////////////////
 	typedef struct
 	{
 		short no;
@@ -672,61 +672,61 @@ InitDSound_ok:		//Õı³£½KÁË
 	} SNDCONFIG;
 	#include "sndcnf.h"
 
-	for(d7=0;d7<TONE_MAX;d7++){		//ÒôÉ«¥Æ©`¥Ö??ÆÚ»¯
+	for(d7=0;d7<TONE_MAX;d7++){		//éŸ³è‰²ãƒ†`ãƒ–??æœŸåŒ–
 		tone_tbl[d7].voice_place = -1;
 	}
 
-	//??????????¡¡ÒôÉ«¶¨Áx¥Ø¥Ã¥À©`½âÎö¡¡??????????
-	int d1 = 0;		//SNDCONFIG¥«¥¦?¥¿©`?ÆÚ»¯
+	//??????????ã€€éŸ³è‰²å®šxãƒ˜ãƒƒãƒ€`è§£æã€€??????????
+	int d1 = 0;		//SNDCONFIGã‚«ã‚¦?ã‚¿`?æœŸåŒ–
 	while(1){
-		if(sndconfig[ d1 ].no == -1){		//½KÁË¤Ê¤é
+		if(sndconfig[ d1 ].no == -1){		//Käº†ãªã‚‰
 			goto InitDSound_ok;
 		}
-		program_no = sndconfig[ d1 ].no;		//ÒôÉ«·¬?¥»¥Ã¥È
-		if(program_no > TONE_MAX){		//¥Ş¥Ã¥¯¥¹ÒÔÉÏ¤Ê¤é
-			goto InitDSound_err2;	//¥¨?©`
+		program_no = sndconfig[ d1 ].no;		//éŸ³è‰²ç•ª?ã‚»ãƒƒãƒˆ
+		if(program_no > TONE_MAX){		//ãƒãƒƒã‚¯ã‚¹ä»¥ä¸Šãªã‚‰
+			goto InitDSound_err2;	//ã‚¨?`
 		}
-		tone_tbl[ program_no ].voice_place = tone_max_buf;		//ÒôÉ«¥»¥Ã¥ÈÏÈ±£´æ
-		//ÃûÇ°¤ÎÈ¡µÃ
+		tone_tbl[ program_no ].voice_place = tone_max_buf;		//éŸ³è‰²ã‚»ãƒƒãƒˆå…ˆä¿å­˜
+		//åå‰ã®å–å¾—
 		strcpy( fname, sndconfig[ d1 ].name );
 
-		if(sndconfig[ d1 ].vol < 0){		//¥Ü??©`?¤¬¥Ş¥¤¥Ê¥¹¤Ê¤é
+		if(sndconfig[ d1 ].vol < 0){		//ãƒœ??`?ãŒãƒã‚¤ãƒŠã‚¹ãªã‚‰
 			goto InitDSound_err2;
 		}
-		tone_tbl[ program_no ].voice_volume = sndconfig[ d1 ].vol;		//ÒôÉ«¥Ü??©`?±£´æ
+		tone_tbl[ program_no ].voice_volume = sndconfig[ d1 ].vol;		//éŸ³è‰²ãƒœ??`?ä¿å­˜
 
-		if(sndconfig[ d1 ].note > 60){		//¥Î©`¥È·¬?¥¨?©`¤Ê¤é
+		if(sndconfig[ d1 ].note > 60){		//ãƒ`ãƒˆç•ª?ã‚¨?`ãªã‚‰
 			goto InitDSound_err2;
 		}
-		if(sndconfig[ d1 ].note){		//¥Î©`¥È·¬?±£´æ
+		if(sndconfig[ d1 ].note){		//ãƒ`ãƒˆç•ª?ä¿å­˜
 			tone_tbl[ program_no ].voice_note = sndconfig[ d1 ].note;
 		} else {
 			tone_tbl[ program_no ].voice_note = 0;
 		}
-		//?©`¥×¥Õ?¥°¥»¥Ã¥È
+		//?`ãƒ—ãƒ•?ã‚°ã‚»ãƒƒãƒˆ
 		tone_tbl[ program_no ].voice_loop = sndconfig[ d1 ].loop_flg;
 
-		//¥µ?¥×??¥°?©`¥ÈÈ¡¤ê³ö¤·
+		//ã‚µ?ãƒ—??ã‚°?`ãƒˆå–ã‚Šå‡ºã—
 		int d2;
 		FILE *fp;
 		fp = fopen( fname, "rb" );
 		if( fp == NULL ){
 #ifdef _DEBUG
-//			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡", "Error", MB_OK);
+//			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±", "Error", MB_OK);
 #endif
 //			return FALSE;
-			d1++;		//SNDCONFIG¥«¥¦?¥¿©`¸üĞÂ
+			d1++;		//SNDCONFIGã‚«ã‚¦?ã‚¿`æ›´æ–°
 			continue;
 		}
-		d2 = 8;						//¡¯£Ò£É£Æ£Æ¡¯£¸¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 4;					//¡¯£×£Á£Ö£Å¡¯£´¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 4;					//¡¯???¡¡¡¯£´¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 8;					//£¸¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		fseek(fp,d2,SEEK_CUR);		//¥Õ¥¡¥¤?¥İ¥¤?¥¿©`ÒÆ„Ó
-		d2 = fgetc(fp);				//¥µ?¥×??¥°?©`¥ÈÈ¡¤ê³ö¤·
-		d2 |= fgetc(fp) << 8;		//¥µ?¥×??¥°?©`¥ÈÈ¡¤ê³ö¤·
-		d2 |= fgetc(fp) << 16;		//¥µ?¥×??¥°?©`¥ÈÈ¡¤ê³ö¤·
-		d2 |= fgetc(fp) << 24;		//¥µ?¥×??¥°?©`¥ÈÈ¡¤ê³ö¤·
+		d2 = 8;						//â€™ï¼²ï¼©ï¼¦ï¼¦â€™ï¼˜ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 4;					//â€™ï¼·ï¼¡ï¼¶ï¼¥â€™ï¼”ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 4;					//â€™???ã€€â€™ï¼”ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 8;					//ï¼˜ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		fseek(fp,d2,SEEK_CUR);		//ãƒ•ã‚¡ã‚¤?ãƒã‚¤?ã‚¿`ç§»
+		d2 = fgetc(fp);				//ã‚µ?ãƒ—??ã‚°?`ãƒˆå–ã‚Šå‡ºã—
+		d2 |= fgetc(fp) << 8;		//ã‚µ?ãƒ—??ã‚°?`ãƒˆå–ã‚Šå‡ºã—
+		d2 |= fgetc(fp) << 16;		//ã‚µ?ãƒ—??ã‚°?`ãƒˆå–ã‚Šå‡ºã—
+		d2 |= fgetc(fp) << 24;		//ã‚µ?ãƒ—??ã‚°?`ãƒˆå–ã‚Šå‡ºã—
 		switch(d2){
 			case 11025:
 				tone_tbl[ program_no ].voice_rate = 25;
@@ -740,42 +740,42 @@ InitDSound_ok:		//Õı³£½KÁË
 		}
 		fclose(fp);
 
-		//£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?
+		//ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?
 		if( (hmmio = mmioOpen(fname, NULL, MMIO_READ | MMIO_ALLOCBUF )) == NULL){
 #ifdef _DEBUG
-			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
-		//¥¢¥È?¥Ó?©`¥È¤Î?©`¥É
+		//ã‚¢ãƒˆ?ãƒ“?`ãƒˆã®?`ãƒ‰
 		if( WaveFormatRead( hmmio , &Wfmtx , &WaveSize ) == FALSE ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥¢¥È?¥Ó?©`¥È¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚¢ãƒˆ?ãƒ“?`ãƒˆã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
 		DataSize = WaveSize;
-		//¥µ¥¦?¥É¥µ©`¥Õ¥§©`¥¹¤òÆğ¤³¤¹
+		//ã‚µã‚¦?ãƒ‰ã‚µ`ãƒ•ã‚§`ã‚¹ã‚’èµ·ã“ã™
 		if( dwSoundInit( &Wfmtx, DataSize, &pDSData_tone[tone_max_buf] ) == FALSE ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡³õÊ¼»¯¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡åˆå§‹åŒ–ã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
-		//¥Ç©`¥¿¤Î?©`¥É
+		//ãƒ‡`ã‚¿ã®?`ãƒ‰
 		if( WaveDataRead( hmmio, &DataSize, pDSData_tone[tone_max_buf] ) == FALSE  ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 			goto InitDSound_err;
 		}
 		mmioClose( hmmio , 0 );
-		hmmio = (HMMIO)-1;		//????¥¯?©`¥º?
-		d1++;		//SNDCONFIG¥«¥¦?¥¿©`¸üĞÂ
-		tone_max_buf++;		//ÒôÉ«¥»¥Ã¥ÈÏÈ¸üĞÂ
+		hmmio = (HMMIO)-1;		//????ã‚¯?`ã‚º?
+		d1++;		//SNDCONFIGã‚«ã‚¦?ã‚¿`æ›´æ–°
+		tone_max_buf++;		//éŸ³è‰²ã‚»ãƒƒãƒˆå…ˆæ›´æ–°
 	}
 
-InitDSound_err:		//¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¥¨?©`
+InitDSound_err:		//ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚¨?`
 	mmioClose( hmmio , 0 );
 	for(d7=0;d7<tone_max_buf;d7++)
 		RELEASE(pDSData_tone[d7]);
@@ -783,12 +783,12 @@ InitDSound_err:		//¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¥¨?©`
 	RELEASE(pDSound);
 	return FALSE;
 
-InitDSound_err2:	//¶¨Áx¥Õ¥¡¥¤?¥¨?©`
-	if(hmmio != (HMMIO)-1){		//£È£Í£Í£É£Ï¥ª©`¥×??¤Ê¤é
+InitDSound_err2:	//å®šxãƒ•ã‚¡ã‚¤?ã‚¨?`
+	if(hmmio != (HMMIO)-1){		//ï¼¨ï¼­ï¼­ï¼©ï¼¯ã‚ª`ãƒ—??ãªã‚‰
 		mmioClose( hmmio , 0 );
 	}
 #ifdef _DEBUG
-	MessageBox(hWnd, "ÒôÉ«ÔO¶¨¥Õ¥¡¥¤?¥¨?©`", "Error", MB_OK);
+	MessageBox(hWnd, "éŸ³è‰²Oå®šãƒ•ã‚¡ã‚¤?ã‚¨?`", "Error", MB_OK);
 #endif
 	for(d7=0;d7<tone_max_buf;d7++)
 		RELEASE(pDSData_tone[d7]);
@@ -796,13 +796,13 @@ InitDSound_err2:	//¶¨Áx¥Õ¥¡¥¤?¥¨?©`
 	RELEASE(pDSound);
 	return FALSE;
 
-InitDSound_ok:		//Õı³£½KÁË
+InitDSound_ok:		//æ­£å¸¸Käº†
 #endif
 #endif
 
 
 
-	// ¥Ü¥¤¥¹?·ÖÒôÉ«·¬?£°¤òÑ}Ñu¤¹¤ë
+	// ãƒœã‚¤ã‚¹?åˆ†éŸ³è‰²ç•ª?ï¼ã‚’}uã™ã‚‹
 	for(d7=0;d7<VOICE_MAX;d7++){
 		if( pDSound->DuplicateSoundBuffer(pDSData_tone[0],&pDSData[d7]) != DS_OK ){
 			for(d7=0;d7<tone_max_buf;d7++)
@@ -812,23 +812,23 @@ InitDSound_ok:		//Õı³£½KÁË
 			RELEASE(pDSPrimary);
 			RELEASE(pDSound);
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ÎÑ}Ñu¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®}uã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 		}
 	}
 
-	// ¥Ü??©`?¤Ê¤É¤Î‚¤òÈ¡µÃ¤¹¤ë
+	// ãƒœ??`?ãªã©ã®è›‰ã€‰ç›²å·¥
 	pDSPrimary->GetVolume(&primaryVolume);
 //	for(d7=0;d7<TONE_MAX;d7++)
 //		pDSData[d7]->GetVolume(&dataVolume[d7]);
 
-	// ¥Ñ?¥İ¥Ã¥È
+	// ãƒ‘?ãƒãƒƒãƒˆ
 	pDSPrimary->GetPan(&primaryPan);
 //	for(d7=0;d7<TONE_MAX;d7++)
 //		pDSData[d7]->GetPan(&dataPan[d7]);
 
-	// ÖÜ²¨?
+	// å‘¨æ³¢?
 	pDSPrimary->GetFrequency((DWORD*)&primaryFrequency);
 //	for(d7=0;d7<TONE_MAX;d7++)
 //		pDSData[d7]->GetFrequency((DWORD*)&dataFrequency[d7]);
@@ -843,13 +843,13 @@ static int thread_stop_flg = 0;
 static LPDIRECTSOUNDNOTIFY pDSNotify = NULL;
 static char stream_flg = 0;
 /*-------------------------------------------
-	¥¹?¥Ã¥ÉÍ£Ö¹??
+	ã‚¹?ãƒƒãƒ‰åœæ­¢??
 --------------------------------------------*/
 void stop_thread(void)
 {
-	//¥¹?¥Ã¥ÉÍ£Ö¹¤Ê¤é
+	//ã‚¹?ãƒƒãƒ‰åœæ­¢ãªã‚‰
 	if(thread_stop_flg){
-		//£Â£Ç£ÍÍ£Ö¹
+		//ï¼¢ï¼§ï¼­åœæ­¢
 		pDSData_tone[ TONE_MAX ]->Stop();
 //		pDSData_stream->Stop();
 		while(1){
@@ -860,53 +860,53 @@ void stop_thread(void)
 		exit_thread_flg = 0;
 		RELEASE(pDSData_stream);
 	}
-	//¥»?¥«¥À?¥Ğ¥Ã¥Õ¥¡é_·Å
+	//ã‚»?ã‚«ãƒ€?ãƒãƒƒãƒ•ã‚¡_æ”¾
 	RELEASE(pDSData_tone[TONE_MAX]);
 }
 
 /*-------------------------------------------
-	£Â£Ç£ÍÍ£Ö¹??
+	ï¼¢ï¼§ï¼­åœæ­¢??
 --------------------------------------------*/
 void stop_bgm(void)
 {
-	//¥¹?¥Ã¥ÉÍ£Ö¹¤Ê¤é
+	//ã‚¹?ãƒƒãƒ‰åœæ­¢ãªã‚‰
 	if(thread_stop_flg){
-		//¥¹?¥Ã¥ÉÍ£Ö¹¤Ø
+		//ã‚¹?ãƒƒãƒ‰åœæ­¢ã¸
 		stop_thread();
 	} else {
-		//¥»?¥«¥À?¥Ğ¥Ã¥Õ¥¡é_·Å
+		//ã‚»?ã‚«ãƒ€?ãƒãƒƒãƒ•ã‚¡_æ”¾
 		RELEASE(pDSData_tone[TONE_MAX]);
 	}
-	//¥Õ¥§©`¥É¥Õ?¥°¥¯?¥¢
+	//ãƒ•ã‚§`ãƒ‰ãƒ•?ã‚°ã‚¯?ã‚¢
 	t_music_fade_flg = 0;
-	//ÔÙÉú?¥Õ?¥°¥¯?¥¢
+	//å†ç”Ÿ?ãƒ•?ã‚°ã‚¯?ã‚¢
 	t_music_playing_flg = 0;
-	//£Â£Ç£Í‰ä¸ü¥Á¥§¥Ã¥¯·¬?¥¯?¥¢
+	//ï¼¢ï¼§ï¼­æ¶“éš¶Ğ”æ°“?ã‚¯?ã‚¢
 	map_bgm_vct_no = 0;
 	 map_bgm_no = t_music_bgm_no;
 }
 
 /*-------------------------------------------
-	£Â£Ç£Í¥Õ¥§©`¥É??
+	ï¼¢ï¼§ï¼­ãƒ•ã‚§`ãƒ‰??
 --------------------------------------------*/
 void fade_out_bgm(void)
 {
-	//¥Õ¥§©`¥É¥¢¥¦¥Èé_Ê¼
+	//ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆ_å§‹
 	t_music_fade_flg = 1;
-	//¬FÔÚ¤ÎÒôÁ¿±£´æ
+	//Fåœ¨ã®éŸ³é‡ä¿å­˜
 	t_music_fade_vol = bgm_tbl[t_music_bgm_no].volume * t_music_bgm_volume / 15;
 }
 
 /*-------------------------------------------
-	½KÁË¤Î??
+	Käº†ã®??
 --------------------------------------------*/
 int EndApp(void)
 {
 	int d7;
-	//¥¹?¥Ã¥ÉÍ£Ö¹¤Ø
+	//ã‚¹?ãƒƒãƒ‰åœæ­¢ã¸
 	stop_thread();
 	RELEASE(pDSData_tone[TONE_MAX]);
-	//é_·Å¤¹¤ë¤Ê¤é
+	//_æ”¾ã™ã‚‹ãªã‚‰
 	if(stream_flg == 1){
 		RELEASE(pDSNotify);
 	}
@@ -998,39 +998,39 @@ typedef enum {
 } err_number;
 
 static char *err_msg[]={
-	"¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡",
-	"¥¹¥Æ¥Ã¥×¥¿¥¤?¥¨?©`",
-	"¥È?¥Ã¥¯Ö¸¶¨¥¨?©`",
-	"£Ì¥³¥Ş?¥É¥¨?©`",
-	"£Ô¥³¥Ş?¥É¥¨?©`",
-	"£Ö¥³¥Ş?¥É¥¨?©`",
-	"?£Ö¥³¥Ş?¥É¥¨?©`",
-	"?£Ğ¥³¥Ş?¥É¥¨?©`",
-	"?£Æ¥³¥Ş?¥É¥¨?©`",
-	"?¥³¥Ş?¥É¥¨?©`",
-	"¥«¥Ã¥³¥³¥Ş?¥É¥¨?©`",
-	"£Í£Í£Ì¥¨?©`",
-	"?£Ä¥³¥Ş?¥É¥¨?©`",
-	"ÖÜ²¨?¥ª©`¥Ğ©`¥¨?©`",
-	"?×à¥È?¥Ã¥¯Ö¸¶¨¥¨?©`",
-	"ÀR¤ê·µ¤·¥³¥Ş?¥É¥¨?©`",
-	"ÀR¤ê·µ¤·¤Î?¤¬?¤¤¤Ş¤»¤ó",
-	"¥ß?©`¥È¥È?¥Ã¥¯Ö¸¶¨¥¨?©`",
-	"?£×¥³¥Ş?¥É¥¨?©`",
-	"¥Æ?¥İ¥³¥Ş?¥É¥¨?©`",
-	"£Ñ¥³¥Ş?¥É¥¨?©`",
-	"?£Ë¥³¥Ş?¥É¥¨?©`",
-	"ºÍÒô¥¨?©`",
-	"£Ï¥³¥Ş?¥É¥¨?©`",
-	"?£È¥³¥Ş?¥É¥¨?©`",
-	"?£Í¥³¥Ş?¥É¥¨?©`",
-	"?£Ó¥³¥Ş?¥É¥¨?©`",
+	"ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±",
+	"ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚¨?`",
+	"ãƒˆ?ãƒƒã‚¯æŒ‡å®šã‚¨?`",
+	"ï¼¬ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"ï¼´ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"ï¼¶ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼¶ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼°ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼¦ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"ã‚«ãƒƒã‚³ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"ï¼­ï¼­ï¼¬ã‚¨?`",
+	"?ï¼¤ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"å‘¨æ³¢?ã‚ª`ãƒ`ã‚¨?`",
+	"?å¥ãƒˆ?ãƒƒã‚¯æŒ‡å®šã‚¨?`",
+	"Rã‚Šè¿”ã—ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"Rã‚Šè¿”ã—ã®?ãŒ?ã„ã¾ã›ã‚“",
+	"ãƒŸ?`ãƒˆãƒˆ?ãƒƒã‚¯æŒ‡å®šã‚¨?`",
+	"?ï¼·ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"ãƒ†?ãƒã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"ï¼±ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼«ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"å’ŒéŸ³ã‚¨?`",
+	"ï¼¯ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼¨ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼­ã‚³ãƒ?ãƒ‰ã‚¨?`",
+	"?ï¼³ã‚³ãƒ?ãƒ‰ã‚¨?`",
 };
 //c c+ d d+ e f f+ g g+ a a+ b
 //0 1  2 3  4 5 6  7 8  9 10 11
 static int note_change_tbl[]={9,11,0,2,4,5,7};
 static int freq_tbl[]={
-	(int)(44100.0 / 261.63 * 277.18 / 32.0),	//b (o-1) 0	£¨Î´Ê¹ÓÃ£©
+	(int)(44100.0 / 261.63 * 277.18 / 32.0),	//b (o-1) 0	ï¼ˆæœªä½¿ç”¨ï¼‰
 	2756,										//c (o0) 1
 	(int)(44100.0 / 261.63 * 277.18 / 16.0),	//c+
 	(int)(44100.0 / 261.63 * 293.67 / 16.0),	//d	
@@ -1093,7 +1093,7 @@ static int freq_tbl[]={
 	(int)(44100.0 / 261.63 * 493.88),		//b
 	88200,									//b+ (o5) 61
 	(int)(44100.0 / 261.63 * 277.18 * 2.0),	//c+
-	(int)(44100.0 / 261.63 * 293.67 * 2.0),	//d		£¨ÒÔÏÂÎ´Ê¹ÓÃ£©63
+	(int)(44100.0 / 261.63 * 293.67 * 2.0),	//d		ï¼ˆä»¥ä¸‹æœªä½¿ç”¨ï¼‰63
 	(int)(44100.0 / 261.63 * 311.13 * 2.0),	//d+
 	(int)(44100.0 / 261.63 * 329.63 * 2.0),	//e
 	(int)(44100.0 / 261.63 * 349.23 * 2.0),	//f
@@ -1110,123 +1110,123 @@ static int detune_tbl[12*5+5];
 
 int get_num(FILE *fp);
 /*-------------------------------------------
-	£±¥Ğ¥¤¥ÈÕi¤ß?¤ß??
+	ï¼‘ãƒã‚¤ãƒˆiã¿?ã¿??
 --------------------------------------------*/
 int f_get(FILE *fp)
 {
 	int d0;
 	while(1){
-		d0 = fgetc( fp );		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
+		d0 = fgetc( fp );		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
 		if( d0 == EOF )
 			return d0;
-		if( d0 == '\t' )		//¥¿¥Ö¤«
+		if( d0 == '\t' )		//ã‚¿ãƒ–ã‹
 			continue;
-		if( d0 != 0x20 )		//¥¹¥Ú©`¥¹¤«
+		if( d0 != 0x20 )		//ã‚¹ãƒš`ã‚¹ã‹
 			break;
 	}
-	if(d0 >= 'A' && d0 <= 'Z')		//´óÎÄ?¡úĞ¡ÎÄ?‰ä“Q
+	if(d0 >= 'A' && d0 <= 'Z')		//å¤§æ–‡?â†’å°æ–‡?Q
 		d0+=0x20;					//
 	return d0;
 }
 
 /*-------------------------------------------
-	?‚Õi¤ß?¤ß??
+	?iã¿?ã¿??
 --------------------------------------------*/
 int get_num(FILE *fp)
 {
 	int d0,d1;
 	while(1){
-		d0 = f_get( fp );		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
+		d0 = f_get( fp );		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
 		if( d0 == EOF )
 			return d0;
-		if( d0 >= '0' && d0<= '9' )		//??¤«
-			break;						//¤½¤¦¤Ê¤é?¤Ø
+		if( d0 >= '0' && d0<= '9' )		//??ã‹
+			break;						//ãã†ãªã‚‰?ã¸
 	}
-	d1=d0-'0';		//£±¥Ğ¥¤¥ÈÄ¿
+	d1=d0-'0';		//ï¼‘ãƒã‚¤ãƒˆç›®
 
 	while(1){
-		d0 = fgetc( fp );		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
+		d0 = fgetc( fp );		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
 		if( d0 == EOF )
 			break;
-		if( d0 < '0' || d0> '9' )		//??¤«
-			break;						//¤½¤¦¤Ç¤Ê¤±¤ì¤Ğ?¤Ø
-		d1*=10;		//£²¥Ğ¥¤¥ÈÄ¿ÒÔ½µ
+		if( d0 < '0' || d0> '9' )		//??ã‹
+			break;						//ãã†ã§ãªã‘ã‚Œã°?ã¸
+		d1*=10;		//ï¼’ãƒã‚¤ãƒˆç›®ä»¥é™
 		d1+=d0-'0';	//
 	}
-	fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+	fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 	return d1;
 }
 /*-------------------------------------------
-	?‚Õi¤ß?¤ß??£²£¨¥Ş¥¤¥Ê¥¹º¬¤à£©
+	?iã¿?ã¿??ï¼’ï¼ˆãƒã‚¤ãƒŠã‚¹å«ã‚€ï¼‰
 --------------------------------------------*/
 int get_num2(FILE *fp)
 {
 	int d0,d1,d2=1;
-	d0 = f_get( fp );		//£±¥Ğ¥¤¥ÈÈ¡¤ê³ö¤·
-	if(d0=='-')		//¥Ş¥¤¥Ê¥¹¤Ê¤é
+	d0 = f_get( fp );		//ï¼‘ãƒã‚¤ãƒˆå–ã‚Šå‡ºã—
+	if(d0=='-')		//ãƒã‚¤ãƒŠã‚¹ãªã‚‰
 		d2=-1;
 	else
-		fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+		fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 
 	while(1){
-		d0 = fgetc( fp );		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
+		d0 = fgetc( fp );		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
 		if( d0 == EOF )
 			return d0;
-		if( d0 >= '0' && d0<= '9' )		//??¤«
-			break;						//¤½¤¦¤Ê¤é?¤Ø
+		if( d0 >= '0' && d0<= '9' )		//??ã‹
+			break;						//ãã†ãªã‚‰?ã¸
 	}
-	d1=d0-'0';		//£±¥Ğ¥¤¥ÈÄ¿
+	d1=d0-'0';		//ï¼‘ãƒã‚¤ãƒˆç›®
 
 	while(1){
-		d0 = fgetc( fp );		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
+		d0 = fgetc( fp );		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
 		if( d0 == EOF )
 			break;
-		if( d0 < '0' || d0> '9' )		//??¤«
-			break;						//¤½¤¦¤Ç¤Ê¤±¤ì¤Ğ?¤Ø
-		d1*=10;		//£²¥Ğ¥¤¥ÈÄ¿ÒÔ½µ
+		if( d0 < '0' || d0> '9' )		//??ã‹
+			break;						//ãã†ã§ãªã‘ã‚Œã°?ã¸
+		d1*=10;		//ï¼’ãƒã‚¤ãƒˆç›®ä»¥é™
 		d1+=d0-'0';	//
 	}
-	fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+	fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 	return d1*d2;
 }
 /*-------------------------------------------
-	??¥Á¥§¥Ã¥¯??£²£¨¥Ş¥¤¥Ê¥¹º¬¤à£©
+	??ãƒã‚§ãƒƒã‚¯??ï¼’ï¼ˆãƒã‚¤ãƒŠã‚¹å«ã‚€ï¼‰
 --------------------------------------------*/
 int num_check2(FILE *fp)
 {
 	int d0;
-	d0 = f_get( fp );		//£±¥Ğ¥¤¥ÈÈ¡¤ê³ö¤·
-	if(d0=='-'){			//¥Ş¥¤¥Ê¥¹¤Ê¤é
-		d0 = fgetc( fp );		//¤µ¤é¤Ë£±¥Ğ¥¤¥ÈÈ¡¤ê³ö¤·
-		fseek(fp,-2,SEEK_CUR);		//£²¥Ğ¥¤¥È‘ø¤¹
-		if( d0 >= '0' && d0<= '9' )		//??¤«
-			return 1;		//¤Ï¤¤
+	d0 = f_get( fp );		//ï¼‘ãƒã‚¤ãƒˆå–ã‚Šå‡ºã—
+	if(d0=='-'){			//ãƒã‚¤ãƒŠã‚¹ãªã‚‰
+		d0 = fgetc( fp );		//ã•ã‚‰ã«ï¼‘ãƒã‚¤ãƒˆå–ã‚Šå‡ºã—
+		fseek(fp,-2,SEEK_CUR);		//ï¼’ãƒã‚¤ãƒˆ
+		if( d0 >= '0' && d0<= '9' )		//??ã‹
+			return 1;		//ã¯ã„
 		else
-			return 0;		//¤¤¤¤¤¨
+			return 0;		//ã„ã„ãˆ
 	} else {
-		fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-		if( d0 >= '0' && d0<= '9' )		//??¤«
-			return 1;		//¤Ï¤¤
+		fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+		if( d0 >= '0' && d0<= '9' )		//??ã‹
+			return 1;		//ã¯ã„
 		else
-			return 0;		//¤¤¤¤¤¨
+			return 0;		//ã„ã„ãˆ
 	}
 }
 
 /*-------------------------------------------
-	??¥Á¥§¥Ã¥¯??
+	??ãƒã‚§ãƒƒã‚¯??
 --------------------------------------------*/
 int num_check(FILE *fp)
 {
 	int d0;
-	d0 = f_get( fp );		//£±¥Ğ¥¤¥ÈÈ¡¤ê³ö¤·
-	fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-	if( d0 >= '0' && d0<= '9' )		//??¤«
-		return 1;		//¤Ï¤¤
+	d0 = f_get( fp );		//ï¼‘ãƒã‚¤ãƒˆå–ã‚Šå‡ºã—
+	fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+	if( d0 >= '0' && d0<= '9' )		//??ã‹
+		return 1;		//ã¯ã„
 	else
-		return 0;		//¤¤¤¤¤¨
+		return 0;		//ã„ã„ãˆ
 }
 /*-------------------------------------------
-	¥¹¥Æ¥Ã¥×¥¿¥¤?Õi¤ß?¤ß??
+	ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?iã¿?ã¿??
 --------------------------------------------*/
 int get_step(FILE *fp,int ch)
 {
@@ -1234,47 +1234,47 @@ int get_step(FILE *fp,int ch)
 	total = 0;
 	futen = 0;
 	while(1){
-		d0 = f_get( fp );		//£Í£Í£ÌÈ¡¤ê³ö¤·
-		if( d0 >= '0' && d0<= '9' ){		//??¤Ê¤é
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+		d0 = f_get( fp );		//ï¼­ï¼­ï¼¬å–ã‚Šå‡ºã—
+		if( d0 >= '0' && d0<= '9' ){		//??ãªã‚‰
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 			d0 = get_num( fp );
 			if(d0 > 192)
 				return -1;
 			futen = 192 / d0;
 			total += futen;
-		} else if(d0 == '.'){		//¸¶µã¤Ê¤é
-			if(!total){		//¥È©`¥¿?ÔO¶¨¤Ş¤À¤Ê¤é
-				total = step_def[ch];		//¸¶µã?ÆÚ¥»¥Ã¥È
+		} else if(d0 == '.'){		//ä»˜ç‚¹ãªã‚‰
+			if(!total){		//ãƒˆ`ã‚¿?Oå®šã¾ã ãªã‚‰
+				total = step_def[ch];		//ä»˜ç‚¹?æœŸã‚»ãƒƒãƒˆ
 				futen = step_def[ch];		//
 			}
 			futen /= 2;
 			total += futen;
-		} else if(d0 == '^'){		//£¹£¸Ê½¥¿¥¤¤Ê¤é
-			d0 = f_get( fp );		//£Í£Í£ÌÈ¡¤ê³ö¤·
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-			if(d0 == '*'){		//½~ŒÒôéL¤Ê¤é
+		} else if(d0 == '^'){		//ï¼™ï¼˜å¼ã‚¿ã‚¤ãªã‚‰
+			d0 = f_get( fp );		//ï¼­ï¼­ï¼¬å–ã‚Šå‡ºã—
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+			if(d0 == '*'){		//~éŸ³Lãªã‚‰
 				continue;
 			}
-			if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
-				return -1;		//¥¨?©`
+			if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
+				return -1;		//ã‚¨?`
 			}
 			d0 = get_num( fp );
 			if(d0 > 192)
 				return -1;
-			if(!total){		//¥È©`¥¿?ÔO¶¨¤Ş¤À¤Ê¤é
-				total = step_def[ch];		//¸¶µã?ÆÚ¥»¥Ã¥È
+			if(!total){		//ãƒˆ`ã‚¿?Oå®šã¾ã ãªã‚‰
+				total = step_def[ch];		//ä»˜ç‚¹?æœŸã‚»ãƒƒãƒˆ
 			}
 			futen = 192 / d0;
 			total += futen;
-		} else if(d0 == '*'){		//½~ŒÒôéL¤Ê¤é
-			if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
-				return -1;		//¥¨?©`
+		} else if(d0 == '*'){		//~éŸ³Lãªã‚‰
+			if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
+				return -1;		//ã‚¨?`
 			}
 			futen = get_num( fp );
 			total += futen;
 		} else {
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-			if(total)		//¥È©`¥¿?ÔO¶¨œg¤ß¤Ê¤é
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+			if(total)		//ãƒˆ`ã‚¿?Oå®šgã¿ãªã‚‰
 				break;
 			futen = step_def[ch];
 			total = futen;
@@ -1283,7 +1283,7 @@ int get_step(FILE *fp,int ch)
 	return total;
 }
 /*-------------------------------------------
-	£Í£Í£ÌÕi¤ß?¤ß?½âÎö??
+	ï¼­ï¼­ï¼¬iã¿?ã¿?è§£æ??
 --------------------------------------------*/
 int music_read( void )
 {
@@ -1316,99 +1316,99 @@ int music_read( void )
 	}
 	o_tempo=0;
 
-	//??????????¡¡½âÎöé_Ê¼¡¡??????????
+	//??????????ã€€è§£æ_å§‹ã€€??????????
 
 	while(1){
 
-		//??????????¡¡¥È?¥Ã¥¯·¬?ÔO¶¨¡¡??????????
+		//??????????ã€€ãƒˆ?ãƒƒã‚¯ç•ª?Oå®šã€€??????????
 
 		err_line++;
 
-		if((d0 = f_get( fp )) == EOF)		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
-			break;		//¥Õ¥¡¥¤?¤Î½K¶Ë¤À
-		if( d0 == '\n' )		//¸ÄĞĞ¤«
-			continue;			//¤½¤¦¤Ê¤é¤ä¤êÖ±¤·
-		if( d0 == '/' ){		//¥³??¥È¤«
-			while(1){			//¤½¤¦¤Ê¤é¥¹¥­¥Ã¥×
+		if((d0 = f_get( fp )) == EOF)		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
+			break;		//ãƒ•ã‚¡ã‚¤?ã®Kç«¯ã 
+		if( d0 == '\n' )		//æ”¹è¡Œã‹
+			continue;			//ãã†ãªã‚‰ã‚„ã‚Šç›´ã—
+		if( d0 == '/' ){		//ã‚³??ãƒˆã‹
+			while(1){			//ãã†ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 				d0 = f_get( fp );
 				if(d0 == '\n' || d0 == EOF )
 					break;
 			}
-			continue;			//¤½¤¦¤Ê¤é¤ä¤êÖ±¤·
+			continue;			//ãã†ãªã‚‰ã‚„ã‚Šç›´ã—
 		}
-		if( d0 != '(' ){		//¥È?¥Ã¥¯é_Ê¼¤«
+		if( d0 != '(' ){		//ãƒˆ?ãƒƒã‚¯_å§‹ã‹
 			err_flg=M_TRACK_ERR;
 			goto music_read_999;
 		}
-		if((d0 = f_get( fp )) == EOF)		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
-			break;		//¥Õ¥¡¥¤?¤Î½K¶Ë¤À
-		if( d0 == 'p' ){		//?×à¥È?¥Ã¥¯Ö¸¶¨¤«
-			if((d0 = f_get( fp )) == EOF){		//È«¥È?¥Ã¥¯?×à¤«
+		if((d0 = f_get( fp )) == EOF)		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
+			break;		//ãƒ•ã‚¡ã‚¤?ã®Kç«¯ã 
+		if( d0 == 'p' ){		//?å¥ãƒˆ?ãƒƒã‚¯æŒ‡å®šã‹
+			if((d0 = f_get( fp )) == EOF){		//å…¨ãƒˆ?ãƒƒã‚¯?å¥ã‹
 				err_flg=M_PLAY_ERR;
 				goto music_read_999;
 
 			}
-			if( d0 == ')'){		//¤Ï¤¤
-				err_line--;		//¤Ş¤À¾A¤­¤¬?¤ë¤«¤â¤·¤ì¤Ê¤¤
+			if( d0 == ')'){		//ã¯ã„
+				err_line--;		//ã¾ã AããŒ?ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
 				continue;
 			}
 
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-			for(d7=0;d7<TRACK_MAX;d7++)		//?×à¥È?¥Ã¥¯?ÆÚ»¯
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+			for(d7=0;d7<TRACK_MAX;d7++)		//?å¥ãƒˆ?ãƒƒã‚¯?æœŸåŒ–
 				play_track_flg[ d7 ] = 0;	//
 
 			while(1){
-				if((d0 = fgetc( fp )) == EOF){		//½KÁË¤«
+				if((d0 = fgetc( fp )) == EOF){		//Käº†ã‹
 					err_flg=M_PLAY_ERR;
 					goto music_read_999;
 				}
-				if( d0 == ')')			//¤Ï¤¤
+				if( d0 == ')')			//ã¯ã„
 					break;
 
-				if( d0 >= '0' && d0<= '9' ){		//??¤«
-					fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				if( d0 >= '0' && d0<= '9' ){		//??ã‹
+					fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 					d0 = get_num( fp );
 					if(d0 < 1 || d0 > TRACK_MAX){
 						err_flg=M_PLAY_ERR;
 						goto music_read_999;
 					}
-					play_track_flg[ d0-1 ] = 1;	//?×à¥È?¥Ã¥¯¥»¥Ã¥È
+					play_track_flg[ d0-1 ] = 1;	//?å¥ãƒˆ?ãƒƒã‚¯ã‚»ãƒƒãƒˆ
 				}
 			}
-			err_line--;		//¤Ş¤À¾A¤­¤¬?¤ë¤«¤â¤·¤ì¤Ê¤¤
+			err_line--;		//ã¾ã AããŒ?ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
 			continue;
 		}
 
-		if( d0 == 's' ){		//¥ß?©`¥È¥È?¥Ã¥¯Ö¸¶¨¤«
+		if( d0 == 's' ){		//ãƒŸ?`ãƒˆãƒˆ?ãƒƒã‚¯æŒ‡å®šã‹
 			while(1){
-				if((d0 = fgetc( fp )) == EOF){		//½KÁË¤«
+				if((d0 = fgetc( fp )) == EOF){		//Käº†ã‹
 					err_flg=M_MUTE_ERR;
 					goto music_read_999;
 				}
-				if( d0 == ')')			//¤Ï¤¤
+				if( d0 == ')')			//ã¯ã„
 					break;
 
-				if( d0 >= '0' && d0<= '9' ){		//??¤«
-					fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				if( d0 >= '0' && d0<= '9' ){		//??ã‹
+					fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 					d0 = get_num( fp );
 					if(d0 < 1 || d0 > TRACK_MAX){
 						err_flg=M_MUTE_ERR;
 						goto music_read_999;
 					}
-					play_track_flg[ d0-1 ] = 0;	//¥ß?©`¥È¥È?¥Ã¥¯¥»¥Ã¥È
+					play_track_flg[ d0-1 ] = 0;	//ãƒŸ?`ãƒˆãƒˆ?ãƒƒã‚¯ã‚»ãƒƒãƒˆ
 				}
 			}
-			err_line--;		//¤Ş¤À¾A¤­¤¬?¤ë¤«¤â¤·¤ì¤Ê¤¤
+			err_line--;		//ã¾ã AããŒ?ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
 			continue;
 		}
 
-		if( d0 == 'o' ){		//¥Æ?¥İÖ¸¶¨¤«
-			if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+		if( d0 == 'o' ){		//ãƒ†?ãƒæŒ‡å®šã‹
+			if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
 				err_flg=M_TOCOMMAND_ERR;
 				goto music_read_999;
 			}
-			o_tempo = get_num( fp );		//¥Æ?¥İÈ¡¤ê³ö¤·
-			if((d0 = fgetc( fp )) == EOF){		//½KÁË¤«
+			o_tempo = get_num( fp );		//ãƒ†?ãƒå–ã‚Šå‡ºã—
+			if((d0 = fgetc( fp )) == EOF){		//Käº†ã‹
 				err_flg=M_TOCOMMAND_ERR;
 				goto music_read_999;
 			}
@@ -1416,25 +1416,25 @@ int music_read( void )
 				err_flg=M_TOCOMMAND_ERR;
 				goto music_read_999;
 			}
-			err_line--;		//¤Ş¤À¾A¤­¤¬?¤ë¤«¤â¤·¤ì¤Ê¤¤
+			err_line--;		//ã¾ã AããŒ?ã‚‹ã‹ã‚‚ã—ã‚Œãªã„
 			continue;
 		}
 
-		if( d0 != 't' ){		//¥È?¥Ã¥¯é_Ê¼
+		if( d0 != 't' ){		//ãƒˆ?ãƒƒã‚¯_å§‹
 			err_flg=M_TRACK_ERR;
 			goto music_read_999;
 		}
-		if((d0 = f_get( fp )) == EOF)		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
-			break;		//¥Õ¥¡¥¤?¤Î½K¶Ë¤À
-		if( d0 < '0' || d0> '9' ){		//¥È?¥Ã¥¯é_Ê¼
+		if((d0 = f_get( fp )) == EOF)		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
+			break;		//ãƒ•ã‚¡ã‚¤?ã®Kç«¯ã 
+		if( d0 < '0' || d0> '9' ){		//ãƒˆ?ãƒƒã‚¯_å§‹
 			err_flg=M_TRACK_ERR;
 			goto music_read_999;
 		}
-		fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+		fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 		ch = get_num( fp );
-		if((d0 = f_get( fp )) == EOF)		//¥È?¥Ã¥¯·¬?È¡¤ê³ö¤·
-			break;		//¥Õ¥¡¥¤?¤Î½K¶Ë¤À
-		if( d0 != ')' ){		//¥È?¥Ã¥¯é_Ê¼
+		if((d0 = f_get( fp )) == EOF)		//ãƒˆ?ãƒƒã‚¯ç•ª?å–ã‚Šå‡ºã—
+			break;		//ãƒ•ã‚¡ã‚¤?ã®Kç«¯ã 
+		if( d0 != ')' ){		//ãƒˆ?ãƒƒã‚¯_å§‹
 			err_flg=M_TRACK_ERR;
 			goto music_read_999;
 		}
@@ -1444,11 +1444,11 @@ int music_read( void )
 			goto music_read_999;
 		}
 
-		ch--;		//¥È?¥Ã¥¯?¶¨
+		ch--;		//ãƒˆ?ãƒƒã‚¯?å®š
 		play_track_flg[ ch ] = 1;	//
 
-		if(o_tempo!=0 && ch_p[ch]==0){		//¥Æ?¥İÖ¸¶¨¤¬?¤Ã¤¿¤é
-			step[ch][ch_p[ch]++] = MUSIC_TEMPO;		//È«¥È?¥Ã¥¯¤Ë¥Æ?¥İ¥»¥Ã¥È
+		if(o_tempo!=0 && ch_p[ch]==0){		//ãƒ†?ãƒæŒ‡å®šãŒ?ã£ãŸã‚‰
+			step[ch][ch_p[ch]++] = MUSIC_TEMPO;		//å…¨ãƒˆ?ãƒƒã‚¯ã«ãƒ†?ãƒã‚»ãƒƒãƒˆ
 #if MODE98
 			step[ch][ch_p[ch]++] = (int)((float)120 / (float)o_tempo * (float)12600)*2;
 #else
@@ -1456,136 +1456,136 @@ int music_read( void )
 #endif
 		}
 
-		//??????????¡¡¥È?¥Ã¥¯¥Ç©`¥¿ÔO¶¨¡¡??????????
+		//??????????ã€€ãƒˆ?ãƒƒã‚¯ãƒ‡`ã‚¿Oå®šã€€??????????
 
 music_read_100:
-		if((d0 = f_get( fp )) == EOF)		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
-			break;		//¥Õ¥¡¥¤?¤Î½K¶Ë¤À
+		if((d0 = f_get( fp )) == EOF)		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
+			break;		//ãƒ•ã‚¡ã‚¤?ã®Kç«¯ã 
 		switch(d0){
-		case '\n':		//¸ÄĞĞ
+		case '\n':		//æ”¹è¡Œ
 			break;
-		case '/':		//¥³??¥È¤«
-			while(1){			//¤½¤¦¤Ê¤é¥¹¥­¥Ã¥×
+		case '/':		//ã‚³??ãƒˆã‹
+			while(1){			//ãã†ãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 				d0 = f_get( fp );
 				if(d0 == '\n' || d0 == EOF )
 					break;
 			}
 			break;
-		case '\'':		//ºÍÒô¤Ê¤é
+		case '\'':		//å’ŒéŸ³ãªã‚‰
 			int waon_step,waon_note[8+1],waon_cnt,octave,waon_delay_point;
 			waon_step = waon_cnt = 0;
 			octave = ch_oct[ch];
 
 			while(1){
-				d0 = f_get( fp );		//£Í£Í£ÌÈ¡¤ê³ö¤·
-				if( d0 >= '0' && d0<= '9' ){		//¤¤¤­¤Ê¤ê??¤Ê¤é
-					err_flg=M_WAON_ERR;				//¥¨?©`
+				d0 = f_get( fp );		//ï¼­ï¼­ï¼¬å–ã‚Šå‡ºã—
+				if( d0 >= '0' && d0<= '9' ){		//ã„ããªã‚Š??ãªã‚‰
+					err_flg=M_WAON_ERR;				//ã‚¨?`
 					goto music_read_999;
 				}
-				if(d0 =='<'){		//¥ª¥¯¥¿©`¥ÖÉÏ¤Ê¤é
+				if(d0 =='<'){		//ã‚ªã‚¯ã‚¿`ãƒ–ä¸Šãªã‚‰
 					octave++;
 					continue;
 				}
-				if(d0 =='>'){		//¥ª¥¯¥¿©`¥ÖÏÂ¤Ê¤é
+				if(d0 =='>'){		//ã‚ªã‚¯ã‚¿`ãƒ–ä¸‹ãªã‚‰
 					octave--;
-					if(octave < 0){		//¥ª¥¯¥¿©`¥Ö£°¤Ê¤é
-						err_flg=M_NOTE_ERR;		//¥¨?©`
+					if(octave < 0){		//ã‚ªã‚¯ã‚¿`ãƒ–ï¼ãªã‚‰
+						err_flg=M_NOTE_ERR;		//ã‚¨?`
 						goto music_read_999;	//
 					}
 					continue;
 				}
-				if(d0 =='\''){		//ºÍÒô½KÁË¤Ê¤é
+				if(d0 =='\''){		//å’ŒéŸ³Käº†ãªã‚‰
 					break;
 				}
 				switch(d0){
-				case 'c':		//ÒôëA
-				case 'd':		//ÒôëA
-				case 'e':		//ÒôëA
-				case 'f':		//ÒôëA
-				case 'g':		//ÒôëA
-				case 'a':		//ÒôëA
-				case 'b':		//ÒôëA
+				case 'c':		//éŸ³A
+				case 'd':		//éŸ³A
+				case 'e':		//éŸ³A
+				case 'f':		//éŸ³A
+				case 'g':		//éŸ³A
+				case 'a':		//éŸ³A
+				case 'b':		//éŸ³A
 					d0-='a';
 					d1 = note_change_tbl[d0];
-					d0 = f_get( fp );		//¥·?©`¥×¤«
+					d0 = f_get( fp );		//ã‚·?`ãƒ—ã‹
 					if(d0 == '+')
 						d1++;
 					else if(d0 == '-')
 						d1--;
-					else fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+					else fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 
-					d0 = octave * 12 + d1 +1;	//¥Î©`¥È·¬?¥ª©`¥Ğ©`¤Ê¤é
+					d0 = octave * 12 + d1 +1;	//ãƒ`ãƒˆç•ª?ã‚ª`ãƒ`ãªã‚‰
 					if(d0 < 1 || d0 > 62){		//
-						err_flg=M_NOTE_ERR;		//¥¨?©`
+						err_flg=M_NOTE_ERR;		//ã‚¨?`
 						goto music_read_999;	//
 					}
-					waon_note[ waon_cnt++ ] = d0;	//¥Î©`¥È·¬?¥»¥Ã¥È
+					waon_note[ waon_cnt++ ] = d0;	//ãƒ`ãƒˆç•ª?ã‚»ãƒƒãƒˆ
 
-					d0 = f_get( fp );		//£Í£Í£ÌÈ¡¤ê³ö¤·
-					fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-					if( d0 < '0' || d0> '9' ){		//??¤Ç¤Ê¤±¤ì¤Ğ
-						if( d0 != '*' ){		//?¤Ç¤â¤Ê¤±¤ì¤Ğ??¤Ê¤é
+					d0 = f_get( fp );		//ï¼­ï¼­ï¼¬å–ã‚Šå‡ºã—
+					fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+					if( d0 < '0' || d0> '9' ){		//??ã§ãªã‘ã‚Œã°
+						if( d0 != '*' ){		//?ã§ã‚‚ãªã‘ã‚Œã°??ãªã‚‰
 							break;
 						}
 					}
-					waon_step = get_step( fp, ch );		//¥¹¥Æ¥Ã¥×¥¿¥¤?È¡¤ê³ö¤·
-					if(waon_step == -1){		//¥¨?©`¤Ê¤é
-						err_flg=M_WAON_ERR;				//¥¨?©`
+					waon_step = get_step( fp, ch );		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?å–ã‚Šå‡ºã—
+					if(waon_step == -1){		//ã‚¨?`ãªã‚‰
+						err_flg=M_WAON_ERR;				//ã‚¨?`
 						goto music_read_999;
 					}
 					break;
 				default:
-					err_flg=M_WAON_ERR;				//¥¨?©`
+					err_flg=M_WAON_ERR;				//ã‚¨?`
 					goto music_read_999;
 				}
 			}
-			if(waon_cnt > 8 || waon_cnt == 0){		//ºÍÒô¥ª©`¥Ğ©`¤Ê¤é
-				err_flg=M_WAON_ERR;				//¥¨?©`
+			if(waon_cnt > 8 || waon_cnt == 0){		//å’ŒéŸ³ã‚ª`ãƒ`ãªã‚‰
+				err_flg=M_WAON_ERR;				//ã‚¨?`
 				goto music_read_999;
 			}
 
-			if(num_check( fp )){		//??¤Ê¤é
-				waon_step = get_num( fp );		//¥¹¥Æ¥Ã¥×¥¿¥¤?¥»¥Ã¥È
+			if(num_check( fp )){		//??ãªã‚‰
+				waon_step = get_num( fp );		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			}
-			step[ch][ch_p[ch]++] = MUSIC_WAON;		//ºÍÒô¥»¥Ã¥È
-			step[ch][ch_p[ch]++] = waon_cnt;		//ºÍÒô?¥»¥Ã¥È
-			waon_delay_point = ch_p[ch];		//ºÍÒô¥Ç¥£?¥¤¥İ¥¤?¥È±£´æ
-			ch_p[ch]++;		//áá¤ÇÔO¶¨¤¹¤ë
+			step[ch][ch_p[ch]++] = MUSIC_WAON;		//å’ŒéŸ³ã‚»ãƒƒãƒˆ
+			step[ch][ch_p[ch]++] = waon_cnt;		//å’ŒéŸ³?ã‚»ãƒƒãƒˆ
+			waon_delay_point = ch_p[ch];		//å’ŒéŸ³ãƒ‡ã‚£?ã‚¤ãƒã‚¤?ãƒˆä¿å­˜
+			ch_p[ch]++;		//å¾Œã§Oå®šã™ã‚‹
 
 			for(d7=0;d7<waon_cnt;d7++){
-				step[ch][ch_p[ch]++] = waon_note[d7];		//¥Î©`¥È·¬?¥»¥Ã¥È
+				step[ch][ch_p[ch]++] = waon_note[d7];		//ãƒ`ãƒˆç•ª?ã‚»ãƒƒãƒˆ
 			}
-			if(waon_step){		//¥¹¥Æ¥Ã¥×¥¿¥¤?¤ÎÖ¸¶¨¤¬?¤Ã¤¿¤é
-				d0 = waon_step;		//¥¹¥Æ¥Ã¥×¥¿¥¤?¥»¥Ã¥È
+			if(waon_step){		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã®æŒ‡å®šãŒ?ã£ãŸã‚‰
+				d0 = waon_step;		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			} else {
-				d0 = step_def[ch];	//¥¹¥Æ¥Ã¥×¥¿¥¤?¥»¥Ã¥È
+				d0 = step_def[ch];	//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			}
-			step[ch][ch_p[ch]++] = d0;		//¥¹¥Æ¥Ã¥×¥¿¥¤?¥»¥Ã¥È
-			d1 = f_get( fp );		//¥¿¥¤¤Ê¤é
+			step[ch][ch_p[ch]++] = d0;		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
+			d1 = f_get( fp );		//ã‚¿ã‚¤ãªã‚‰
 			if(d1 == '&'){
-				step[ch][ch_p[ch]++] = -1;	//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
+				step[ch][ch_p[ch]++] = -1;	//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			} else {
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-				step[ch][ch_p[ch]++] = d0 * q_com[ch] / 8;	//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+				step[ch][ch_p[ch]++] = d0 * q_com[ch] / 8;	//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			}
 
-			d0 = f_get( fp );		//¥Ç¥£?¥¤Ö¸¶¨?¤ë¤Ê¤é
+			d0 = f_get( fp );		//ãƒ‡ã‚£?ã‚¤æŒ‡å®š?ã‚‹ãªã‚‰
 			if(d0 == ','){
-				if(num_check( fp )){		//??¤Ê¤é
-					waon_delay[ch] = get_num( fp );		//¥Ç¥£?¥¤‚È¡¤ê¤À¤·
-				} else {		//??¤Ç¤Ê¤±¤ì¤Ğ
-					err_flg=M_WAON_ERR;				//¥¨?©`
+				if(num_check( fp )){		//??ãªã‚‰
+					waon_delay[ch] = get_num( fp );		//ãƒ‡ã‚£?ã‚¤ãƒ»è¾˜å¤
+				} else {		//??ã§ãªã‘ã‚Œã°
+					err_flg=M_WAON_ERR;				//ã‚¨?`
 					goto music_read_999;
 				}
-			} else {		//¥Ç¥£?¥¤Ö¸¶¨¤Ê¤¤¤Ê¤é
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+			} else {		//ãƒ‡ã‚£?ã‚¤æŒ‡å®šãªã„ãªã‚‰
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 			}
-			step[ch][waon_delay_point] = waon_delay[ch];		//¥Ç¥£?¥¤¥»¥Ã¥È
+			step[ch][waon_delay_point] = waon_delay[ch];		//ãƒ‡ã‚£?ã‚¤ã‚»ãƒƒãƒˆ
 			goto music_read_100;
-		case 'l':		//ÒôéL¤«
-			d0 = f_get( fp );		//?¤Ï?‚¤«
-			if( d0 >= '0' && d0<= '9' ){		//??¤«
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+		case 'l':		//éŸ³Lã‹
+			d0 = f_get( fp );		//?ã¯?
+			if( d0 >= '0' && d0<= '9' ){		//??ã‹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				d0 = 192 / get_num( fp );
 				if(d0 > 192 || d0 == 0){
 					err_flg=M_LCOMMAND_ERR;
@@ -1594,86 +1594,86 @@ music_read_100:
 				step_def[ ch ] = d0;
 				goto music_read_100;
 			}
-			if( d0 != '*' ){		//½~ŒÒôéL¤«
+			if( d0 != '*' ){		//~éŸ³Lã‹
 				err_flg=M_LCOMMAND_ERR;
 				goto music_read_999;
 			}
-			d0 = f_get( fp );		//?¤Ï?‚¤«
-			if( d0 >= '0' && d0<= '9' ){		//??¤«
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+			d0 = f_get( fp );		//?ã¯?
+			if( d0 >= '0' && d0<= '9' ){		//??ã‹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				step_def[ ch ] = get_num( fp );
 				goto music_read_100;
 			}
 			err_flg=M_LCOMMAND_ERR;
 			goto music_read_999;
-		case 'r':		//Ğİ?
+		case 'r':		//ä¼‘?
 			step[ch][ch_p[ch]++]=MUSIC_R;
-			d0 = get_step( fp, ch );		//¥¹¥Æ¥Ã¥×¥¿¥¤?È¡¤ê³ö¤·
-			if(d0 == -1){		//¥¨?©`¤«
-				err_flg=M_STEP_ERR;		//¤½¤¦¤Ê¤é?¤Ø
+			d0 = get_step( fp, ch );		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?å–ã‚Šå‡ºã—
+			if(d0 == -1){		//ã‚¨?`ã‹
+				err_flg=M_STEP_ERR;		//ãã†ãªã‚‰?ã¸
 				goto music_read_999;
 			}
-			step[ch][ch_p[ch]++] = d0;		//¥¹¥Æ¥Ã¥×¥¿¥¤?¥»¥Ã¥È
-			d1 = f_get( fp );		//¥¿¥¤¤Ê¤é
+			step[ch][ch_p[ch]++] = d0;		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
+			d1 = f_get( fp );		//ã‚¿ã‚¤ãªã‚‰
 			if(d1 == '&'){
-				step[ch][ch_p[ch]++] = -1;	//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
+				step[ch][ch_p[ch]++] = -1;	//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			} else {
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-				step[ch][ch_p[ch]++] = d0 * q_com[ch] / 8;	//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+				step[ch][ch_p[ch]++] = d0 * q_com[ch] / 8;	//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			}
 			goto music_read_100;
-		case 'o':		//¥ª¥¯¥¿©`¥ÖÖ¸¶¨¤«
-			if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
-				err_flg=M_OCOMMAND_ERR;		//¥¨?©`
+		case 'o':		//ã‚ªã‚¯ã‚¿`ãƒ–æŒ‡å®šã‹
+			if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
+				err_flg=M_OCOMMAND_ERR;		//ã‚¨?`
 				goto music_read_999;
 			}
 			ch_oct[ch] = get_num( fp );
-			if(ch_oct[ch]<0 || ch_oct[ch]>5){		//¹ ‡ìÍâ¤Ê¤é
-				err_flg=M_OCOMMAND_ERR;		//¥¨?©`
+			if(ch_oct[ch]<0 || ch_oct[ch]>5){		//ç„±çŒ¡èƒœ
+				err_flg=M_OCOMMAND_ERR;		//ã‚¨?`
 				goto music_read_999;
 			}
 			goto music_read_100;
-		case '<':		//¥ª¥¯¥¿©`¥ÖÉÏ¤«
+		case '<':		//ã‚ªã‚¯ã‚¿`ãƒ–ä¸Šã‹
 			ch_oct[ch]++;
 			goto music_read_100;
-		case '>':		//¥ª¥¯¥¿©`¥ÖÏÂ¤«
+		case '>':		//ã‚ªã‚¯ã‚¿`ãƒ–ä¸‹ã‹
 			ch_oct[ch]--;
-			if(ch_oct[ch] < 0){		//¥ª¥¯¥¿©`¥Ö£°¤Ê¤é
-				err_flg=M_NOTE_ERR;		//¥¨?©`
+			if(ch_oct[ch] < 0){		//ã‚ªã‚¯ã‚¿`ãƒ–ï¼ãªã‚‰
+				err_flg=M_NOTE_ERR;		//ã‚¨?`
 				goto music_read_999;	//
 			}
 			goto music_read_100;
-		case 'q':		//¥²©`¥È¥¿¥¤?¤«
-				if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+		case 'q':		//ã‚²`ãƒˆã‚¿ã‚¤?ã‹
+				if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
 						err_flg=M_QCOMMAND_ERR;
 						goto music_read_999;
 				}
-				q_com[ch] = get_num( fp );		//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
-				if(q_com[ch] > 8 || q_com[ch] == 0){		//¹ ‡ìÍâ¤Ê¤é
+				q_com[ch] = get_num( fp );		//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
+				if(q_com[ch] > 8 || q_com[ch] == 0){		//ç„±çŒ¡èƒœ
 					err_flg=M_QCOMMAND_ERR;
 					goto music_read_999;
 				}
 			goto music_read_100;
-		case 'c':		//ÒôëA
-		case 'd':		//ÒôëA
-		case 'e':		//ÒôëA
-		case 'f':		//ÒôëA
-		case 'g':		//ÒôëA
-		case 'a':		//ÒôëA
-		case 'b':		//ÒôëA
+		case 'c':		//éŸ³A
+		case 'd':		//éŸ³A
+		case 'e':		//éŸ³A
+		case 'f':		//éŸ³A
+		case 'g':		//éŸ³A
+		case 'a':		//éŸ³A
+		case 'b':		//éŸ³A
 //			if(ch >= 6){
 				d0-='a';
 				d1 = note_change_tbl[d0];
-				d0 = f_get( fp );		//¥·?©`¥×¤«
+				d0 = f_get( fp );		//ã‚·?`ãƒ—ã‹
 				if(d0 == '+')
 					d1++;
 				else if(d0 == '-')
 					d1--;
-				else fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				else fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 
-				if(ch_oct[ch] >= 5){			//¥Î©`¥È·¬?¥ª©`¥Ğ©`¤«
+				if(ch_oct[ch] >= 5){			//ãƒ`ãƒˆç•ª?ã‚ª`ãƒ`ã‹
 					if(d1 >= 2){			//
-						err_flg=M_NOTE_ERR;	//¤Ï¤¤
+						err_flg=M_NOTE_ERR;	//ã¯ã„
 						goto music_read_999;	//
 					}
 				}
@@ -1690,34 +1690,34 @@ music_read_100:
 					d1 /= d0;
 				}
 #endif
-				d0 = ch_oct[ch] * 12 + d1 + 1;	//¥Î©`¥È·¬?¥ª©`¥Ğ©`¤Ê¤é
+				d0 = ch_oct[ch] * 12 + d1 + 1;	//ãƒ`ãƒˆç•ª?ã‚ª`ãƒ`ãªã‚‰
 				if(d0 < 1 || d0 > 62){			//
-					err_flg=M_NOTE_ERR;			//¥¨?©`
+					err_flg=M_NOTE_ERR;			//ã‚¨?`
 					goto music_read_999;		//
 				}
-				step[ch][ch_p[ch]++] = d0;	//¥Î©`¥È·¬?¥»¥Ã¥È
+				step[ch][ch_p[ch]++] = d0;	//ãƒ`ãƒˆç•ª?ã‚»ãƒƒãƒˆ
 //			}
-			d0 = get_step( fp, ch );		//¥¹¥Æ¥Ã¥×¥¿¥¤?È¡¤ê³ö¤·
-			if(d0 == -1){		//¥¨?©`¤«
-				err_flg=M_STEP_ERR;		//¤½¤¦¤Ê¤é?¤Ø
+			d0 = get_step( fp, ch );		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?å–ã‚Šå‡ºã—
+			if(d0 == -1){		//ã‚¨?`ã‹
+				err_flg=M_STEP_ERR;		//ãã†ãªã‚‰?ã¸
 				goto music_read_999;
 			}
-			step[ch][ch_p[ch]++] = d0;		//¥¹¥Æ¥Ã¥×¥¿¥¤?¥»¥Ã¥È
-			d1 = f_get( fp );		//¥¿¥¤¤Ê¤é
+			step[ch][ch_p[ch]++] = d0;		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
+			d1 = f_get( fp );		//ã‚¿ã‚¤ãªã‚‰
 			if(d1 == '&'){
-				step[ch][ch_p[ch]++] = -1;	//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
+				step[ch][ch_p[ch]++] = -1;	//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			} else {
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-				step[ch][ch_p[ch]++] = d0 * q_com[ch] / 8;	//¥²©`¥È¥¿¥¤?¥»¥Ã¥È
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+				step[ch][ch_p[ch]++] = d0 * q_com[ch] / 8;	//ã‚²`ãƒˆã‚¿ã‚¤?ã‚»ãƒƒãƒˆ
 			}
 			goto music_read_100;
-		case 't':		//¥Æ?¥İ
-			d0 = f_get( fp );		//¥Æ?¥İÈ¡¤ê³ö¤·
-			if( d0 < '0' || d0> '9' ){		//??¤«
+		case 't':		//ãƒ†?ãƒ
+			d0 = f_get( fp );		//ãƒ†?ãƒå–ã‚Šå‡ºã—
+			if( d0 < '0' || d0> '9' ){		//??ã‹
 				err_flg=M_TCOMMAND_ERR;
 				goto music_read_999;
 			}
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 			d0 = get_num( fp );
 			step[ch][ch_p[ch]++] = MUSIC_TEMPO;
 #if MODE98
@@ -1726,15 +1726,15 @@ music_read_100:
 			step[ch][ch_p[ch]++] = (int)((float)120 / (float)d0 * (float)12600);
 #endif
 			goto music_read_100;
-		case 'v':		//¥Ü??©`?
-			d0 = f_get( fp );		//ÒôÁ¿È¡¤ê³ö¤·
-			if( d0 < '0' || d0> '9' ){		//??¤«
+		case 'v':		//ãƒœ??`?
+			d0 = f_get( fp );		//éŸ³é‡å–ã‚Šå‡ºã—
+			if( d0 < '0' || d0> '9' ){		//??ã‹
 				err_flg=M_VCOMMAND_ERR;
 				goto music_read_999;
 			}
-			fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+			fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 			d0 = get_num( fp );
-			if(d0>15){		//ÒôÁ¿¥ª©`¥Ğ©`¤«
+			if(d0>15){		//éŸ³é‡ã‚ª`ãƒ`ã‹
 				err_flg=M_VCOMMAND_ERR;
 				goto music_read_999;
 			}
@@ -1752,26 +1752,26 @@ music_read_100:
 				step[ch][ch_p[ch]++] = -10000;
 			}
 			goto music_read_100;
-		case '@':		//?¥³¥Ş?¥É
-			d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+		case '@':		//?ã‚³ãƒ?ãƒ‰
+			d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 
-			if( d0 >= '0' && d0<= '9' ){		//??¤«
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
-				step[ch][ch_p[ch]++] = MUSIC_NEIRO_NO;		//ÒôÉ«·¬?¥»¥Ã¥È
+			if( d0 >= '0' && d0<= '9' ){		//??ã‹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
+				step[ch][ch_p[ch]++] = MUSIC_NEIRO_NO;		//éŸ³è‰²ç•ª?ã‚»ãƒƒãƒˆ
 				step[ch][ch_p[ch]++] = get_num( fp ) - 1;
 				goto music_read_100;
 			}
 
 			switch(d0){
-			case 'v':		//¥Ü??©`?
-				d0 = f_get( fp );		//ÒôÁ¿È¡¤ê³ö¤·
-				if( d0 < '0' || d0> '9' ){		//??¤«
+			case 'v':		//ãƒœ??`?
+				d0 = f_get( fp );		//éŸ³é‡å–ã‚Šå‡ºã—
+				if( d0 < '0' || d0> '9' ){		//??ã‹
 					err_flg=M_V2COMMAND_ERR;
 					goto music_read_999;
 				}
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				d0 = get_num( fp );
-				if(d0>127){		//ÒôÁ¿¥ª©`¥Ğ©`¤«
+				if(d0>127){		//éŸ³é‡ã‚ª`ãƒ`ã‹
 					err_flg=M_V2COMMAND_ERR;
 					goto music_read_999;
 				}
@@ -1797,8 +1797,8 @@ music_read_100:
 
 #endif
 				goto music_read_100;
-			case 'h':		//?£È
-				if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+			case 'h':		//?ï¼¨
+				if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
 					err_flg=M_H2COMMAND_ERR;
 					goto music_read_999;
 				}
@@ -1806,21 +1806,21 @@ music_read_100:
 				step[ch][ch_p[ch]++] = MUSIC_LFO_H;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 'm':		//?£Í
-				if(!num_check( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+			case 'm':		//?ï¼­
+				if(!num_check( fp )){		//??ã§ãªã‘ã‚Œã°
 					err_flg=M_M2COMMAND_ERR;
 					goto music_read_999;
 				}
 				d0 = get_num( fp );
-				if(d0 > 127){		//¹ ‡ìÍâ¤Ê¤é
+				if(d0 > 127){		//ç„±çŒ¡èƒœ
 					err_flg=M_M2COMMAND_ERR;
 					goto music_read_999;
 				}
 				step[ch][ch_p[ch]++] = MUSIC_LFO_M;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 's':		//?£Ó
-				if(!num_check2( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+			case 's':		//?ï¼³
+				if(!num_check2( fp )){		//??ã§ãªã‘ã‚Œã°
 					err_flg=M_S2COMMAND_ERR;
 					goto music_read_999;
 				}
@@ -1828,23 +1828,23 @@ music_read_100:
 				step[ch][ch_p[ch]++] = MUSIC_LFO_S;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 'p':		//¥Ñ?¥İ¥Ã¥È
-				d0 = f_get( fp );		//ÒÆ„ÓÁ¿È¡¤ê³ö¤·
-				if( d0 < '0' || d0 > '9' ){		//??¤«
+			case 'p':		//ãƒ‘?ãƒãƒƒãƒˆ
+				d0 = f_get( fp );		//ç§»æ¿å’³ãƒ»ç“¿è¨¾
+				if( d0 < '0' || d0 > '9' ){		//??ã‹
 					err_flg=M_P2COMMAND_ERR;
 					goto music_read_999;
 				}
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				d0 = get_num( fp );
-				if( d0 > 127 ){		//¹ ‡ì¥ª©`¥Ğ©`¤«
+				if( d0 > 127 ){		//æ¬¹`ãƒ`ã‹
 					err_flg=M_P2COMMAND_ERR;
 					goto music_read_999;
 				}
 				step[ch][ch_p[ch]++]=MUSIC_PAN;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 'f':		//ÖÜ²¨?
-				if(!num_check2( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+			case 'f':		//å‘¨æ³¢?
+				if(!num_check2( fp )){		//??ã§ãªã‘ã‚Œã°
 					err_flg=M_F2COMMAND_ERR;
 					goto music_read_999;
 				}
@@ -1852,37 +1852,37 @@ music_read_100:
 				step[ch][ch_p[ch]++] = MUSIC_FREQ;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 'k':		//ÖÜ²¨?¤º¤é¤·
-				if(!num_check2( fp )){		//??¤Ç¤Ê¤±¤ì¤Ğ
+			case 'k':		//å‘¨æ³¢?ãšã‚‰ã—
+				if(!num_check2( fp )){		//??ã§ãªã‘ã‚Œã°
 					err_flg=M_K2COMMAND_ERR;
 					goto music_read_999;
 				}
 				d0 = get_num2( fp );
-				if(d0 > 64 || d0 < -64){		//¹ ‡ìÍâ¤Ê¤é
+				if(d0 > 64 || d0 < -64){		//ç„±çŒ¡èƒœ
 					err_flg=M_K2COMMAND_ERR;
 					goto music_read_999;
 				}
 				step[ch][ch_p[ch]++] = MUSIC_DETUNE;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 'd':		//¥À?¥Ñ©`¥Ø¥À?
-				d0 = f_get( fp );		//¥À?¥Ñ©`¥Ø¥À?
-				if( d0 < '0' || d0> '9' ){		//??¤«
+			case 'd':		//ãƒ€?ãƒ‘`ãƒ˜ãƒ€?
+				d0 = f_get( fp );		//ãƒ€?ãƒ‘`ãƒ˜ãƒ€?
+				if( d0 < '0' || d0> '9' ){		//??ã‹
 					err_flg=M_D2COMMAND_ERR;
 					goto music_read_999;
 				}
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				d0 = get_num( fp );
 				step[ch][ch_p[ch]++] = MUSIC_PEDAL;
 				step[ch][ch_p[ch]++] = d0;
 				goto music_read_100;
-			case 'w':		//??©`¥¹?©`¥È
-				d0 = f_get( fp );		//??©`¥¹?©`¥È
-				if( d0 < '0' || d0> '9' ){		//??¤«
+			case 'w':		//??`ã‚¹?`ãƒˆ
+				d0 = f_get( fp );		//??`ã‚¹?`ãƒˆ
+				if( d0 < '0' || d0> '9' ){		//??ã‹
 					err_flg=M_W2COMMAND_ERR;
 					goto music_read_999;
 				}
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				d0 = get_num( fp );
 				step[ch][ch_p[ch]++] = MUSIC_WAVE;
 				step[ch][ch_p[ch]++] = d0;
@@ -1891,26 +1891,26 @@ music_read_100:
 				err_flg=M_2COMMAND_ERR;
 				goto music_read_999;
 			}
-		case '[':		//¥«¥Ã¥³¥³¥Ş?¥É
-			d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+		case '[':		//ã‚«ãƒƒã‚³ã‚³ãƒ?ãƒ‰
+			d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 			switch(d0){
 			case 'l':
-				d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+				d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 				if(d0 != 'o'){
 					err_flg=M_KAKKO_ERR;
 					goto music_read_999;
 				}
-				d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+				d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 				if(d0 != 'o'){
 					err_flg=M_KAKKO_ERR;
 					goto music_read_999;
 				}
-				d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+				d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 				if(d0 != 'p'){
 					err_flg=M_KAKKO_ERR;
 					goto music_read_999;
 				}
-				d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+				d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 				if(d0 != ']'){
 					err_flg=M_KAKKO_ERR;
 					goto music_read_999;
@@ -1918,62 +1918,62 @@ music_read_100:
 				step[ch][ch_p[ch]++]=MUSIC_LOOP;
 				step[ch][ch_p[ch]++]=do_p[ch];
 				goto music_read_100;
-			case 'd':		//?©`¥×Î»ÖÃ
-				d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+			case 'd':		//?`ãƒ—ä½ç½®
+				d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 				if(d0 != 'o'){
 					err_flg=M_KAKKO_ERR;
 					goto music_read_999;
 				}
-				d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+				d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 				if(d0 != ']'){
 					err_flg=M_KAKKO_ERR;
 					goto music_read_999;
 				}
-				do_p[ch]=ch_p[ch];		//‘ø¤êÏÈ¥»¥Ã¥È
+				do_p[ch]=ch_p[ch];		//æ™—å»äº’æ°“
 				goto music_read_100;
 			default:
 					err_flg=M_KAKKO_ERR;
 				goto music_read_999;
 			}
-		case '|':		//ÀR¤ê·µ¤·¥³¥Ş?¥É
-			d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
-			if(d0 == ':'){		//ÀR¤ê·µ¤·é_Ê¼¤«
-				ch_kuri_lv[ch]++;		//ëAŒÓ?¥Ù?¥¢¥Ã¥×
-				if(ch_kuri_lv[ch] == 8){		//ÀR¤ê·µ¤·¤·¤¹¤®¤«
+		case '|':		//Rã‚Šè¿”ã—ã‚³ãƒ?ãƒ‰
+			d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
+			if(d0 == ':'){		//Rã‚Šè¿”ã—_å§‹ã‹
+				ch_kuri_lv[ch]++;		//A?ãƒ™?ã‚¢ãƒƒãƒ—
+				if(ch_kuri_lv[ch] == 8){		//Rã‚Šè¿”ã—ã—ã™ãã‹
 					err_flg=M_KURI_ERR;
 					goto music_read_999;
 				}
 				step[ch][ch_p[ch]++] = MUSIC_KURI_START;
-				if(num_check( fp )){		//??¤«
+				if(num_check( fp )){		//??ã‹
 					step[ch][ch_p[ch]++] = get_num( fp );
 				} else {
 					step[ch][ch_p[ch]++] = 2;
 				}
 				ch_ret[ch_kuri_lv[ch]][ ch ] = ch_p[ch];
 			} else {
-				fseek(fp,-1,SEEK_CUR);		//£±¥Ğ¥¤¥È‘ø¤¹
+				fseek(fp,-1,SEEK_CUR);		//ï¼‘ãƒã‚¤ãƒˆ
 				step[ch][ch_p[ch]++]=MUSIC_KURI_SKIP;
 				ch_skip[ch_kuri_lv[ch]][ ch ] = ch_p[ch];
 				ch_p[ch]++;
 			}
 			goto music_read_100;
 
-		case ':':		//ÀR¤ê·µ¤·½KÁË¥³¥Ş?¥É
-			d0 = f_get( fp );		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
-			if(d0 != '|'){		//ÀR¤ê·µ¤·½KÁË¤«
+		case ':':		//Rã‚Šè¿”ã—Käº†ã‚³ãƒ?ãƒ‰
+			d0 = f_get( fp );		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
+			if(d0 != '|'){		//Rã‚Šè¿”ã—Käº†ã‹
 				err_flg=M_KURI_ERR;
 				goto music_read_999;
 			}
 			step[ch][ch_p[ch]++] = MUSIC_KURI_RET;
-			step[ch][ch_p[ch]++] = ch_ret[ch_kuri_lv[ch]][ ch ];		//é_Ê¼ˆö?
+			step[ch][ch_p[ch]++] = ch_ret[ch_kuri_lv[ch]][ ch ];		//_å§‹?
 			if(ch_skip[ch_kuri_lv[ch]][ ch ] >= 0){
-				step[ch][ch_skip[ch_kuri_lv[ch]][ ch ]] = ch_p[ch];	//ÍÑ³öˆö?
+				step[ch][ch_skip[ch_kuri_lv[ch]][ ch ]] = ch_p[ch];	//è„±å‡º?
 				ch_skip[ch_kuri_lv[ch]][ ch ] = -1;
 			}
-			ch_kuri_lv[ch]--;		//ëAŒÓ?¥Ù?¥À¥¦?
+			ch_kuri_lv[ch]--;		//A?ãƒ™?ãƒ€ã‚¦?
 			goto music_read_100;
 
-		default:		//£Í£Í£Ì¥¨?©`
+		default:		//ï¼­ï¼­ï¼¬ã‚¨?`
 			err_flg=M_MML_ERR;
 			goto music_read_999;
 		}
@@ -1986,7 +1986,7 @@ music_read_100:
 music_read_999:
 	fclose( fp );
 	if(err_flg){
-		sprintf( moji ,"%d ĞĞÄ¿ %s" ,err_line ,err_msg[err_flg] );
+		sprintf( moji ,"%d è¡Œç›® %s" ,err_line ,err_msg[err_flg] );
 #ifdef _DEBUG
 		MessageBox(hWnd, moji, "Error", MB_OK);
 #endif
@@ -1994,7 +1994,7 @@ music_read_999:
 		for(d7=0;d7<TRACK_MAX;d7++){
 			if(ch_kuri_lv[d7]!=-1){
 				err_flg=M_KURISU_ERR;
-				sprintf( moji ,"¥È?¥Ã¥¯ %d %s" ,d7+1 ,err_msg[err_flg] );
+				sprintf( moji ,"ãƒˆ?ãƒƒã‚¯ %d %s" ,d7+1 ,err_msg[err_flg] );
 #ifdef _DEBUG
 				MessageBox(hWnd, moji, "Error", MB_OK);
 #endif
@@ -2005,14 +2005,14 @@ music_read_999:
 	return err_flg;
 }
 /*-------------------------------------------
-	¥É?¥¤¥Ğ©`?ÆÚ»¯??
+	ãƒ‰?ã‚¤ãƒ`?æœŸåŒ–??
 --------------------------------------------*/
 void music_init( void )
 {
 	int d7,d5;
 	for(d7=0;d7<VOICE_MAX;d7++){
 		voice[ d7 ].name = 0;
-		voice[ d7 ].tone_no = -1;		//¥¿¥¹¥¯?¤Î¥×?¥»¥Ã¥ÈÒôÉ«·¬?
+		voice[ d7 ].tone_no = -1;		//ã‚¿ã‚¹ã‚¯?ã®ãƒ—?ã‚»ãƒƒãƒˆéŸ³è‰²ç•ª?
 		voice[ d7 ].loop_flg = 0;
 	}
 	for(d7=0;d7<TRACK_MAX;d7++){
@@ -2021,13 +2021,13 @@ void music_init( void )
 		step_point[ d7 ] = 0;
 		play_flg[ d7 ] = 1;
 		play_kuri_lv[ d7 ] = -1;
-		dataToneNo[ d7 ] = 0;		//¥È?¥Ã¥¯?¤Î¥×?¥»¥Ã¥ÈÒôÉ«·¬?
+		dataToneNo[ d7 ] = 0;		//ãƒˆ?ãƒƒã‚¯?ã®ãƒ—?ã‚»ãƒƒãƒˆéŸ³è‰²ç•ª?
 		dataVolume[ d7 ] = 0;
 		dataPan[ d7 ] = 0;
 		dataFrequency[ d7 ] = 0;
 		tie_flg[ d7 ] = 0;
 		for(d5=0;d5<8;d5++){
-			play_use_task[ d7 ][ d5 ] = -1;		//Ê¹ÓÃ¥¿¥¹¥¯·¬??ÆÚ»¯
+			play_use_task[ d7 ][ d5 ] = -1;		//ä½¿ç”¨ã‚¿ã‚¹ã‚¯ç•ª??æœŸåŒ–
 		}
 		play_use_task_cnt[ d7 ] = 0;
 		play_detune[ d7 ] = 0;
@@ -2035,7 +2035,7 @@ void music_init( void )
 		play_lfo_m[ d7 ] = 0;
 		play_lfo_s[ d7 ] = 0;
 	}
-	//­h¾³Òô?ÆÚ»¯
+	//hå¢ƒéŸ³?æœŸåŒ–
 	for(d7=0;d7<MAX_ENV;d7++){
 		env_tbl[d7].voice_address = -1;
 		env_tbl[d7].count = 0;
@@ -2077,9 +2077,9 @@ void music_init( void )
 #endif	///////////////////////////////////////////////////
 
 #define PAN_POINT	5000
-	//¥Ñ?¥Æ©`¥Ö?×÷³É
+	//ãƒ‘?ãƒ†`ãƒ–?ä½œæˆ
 	int y;
-	double d6;		//×ó
+	double d6;		//å·¦
 	for(d7=64,d6=127;d6>=0;d6--){
 		if(!((int)d6&1))
 			continue;
@@ -2099,7 +2099,7 @@ void music_init( void )
 	d6=panpot_tbl[0]=-10000;
 	d6=panpot_tbl[127]=10000;
 
-	//¥Ü??©`?¥Æ©`¥Ö?×÷³É
+	//ãƒœ??`?ãƒ†`ãƒ–?ä½œæˆ
 	for(d6=127;d6>=0;d6--){
 		y=(int)(LOG(100,127)*10000) - (int)(LOG(100,d6)*10000);
 		if(y>10000)
@@ -2107,14 +2107,14 @@ void music_init( void )
 		volume_tbl[(int)d6]=-y;
 	}
 
-	//¥Ç¥Á?©`?¥Æ©`¥Ö?×÷³É
+	//ãƒ‡ãƒ?`?ãƒ†`ãƒ–?ä½œæˆ
 	for(d7=0;d7<12*5+5;d7++){
 		detune_tbl[d7]=freq_tbl[d7+1]-freq_tbl[d7];
 	}
 }
 
 /*-------------------------------------------
-	ÔÙÉú?¶Ï??
+	å†ç”Ÿ?æ–­??
 --------------------------------------------*/
 void play_stop( void )
 {
@@ -2128,7 +2128,7 @@ void play_stop( void )
 }
 void stop_voice(int ch);
 /*-------------------------------------------
-	ÔÙÉúé_Ê¼??
+	å†ç”Ÿ_å§‹??
 --------------------------------------------*/
 void play_start( void )
 {
@@ -2137,40 +2137,40 @@ void play_start( void )
 		pDSData[d7]->Stop();
 		pDSData[d7]->SetCurrentPosition(0);
 	}
-	music_init();		//¥É?¥¤¥Ğ©`?ÆÚ»¯
+	music_init();		//ãƒ‰?ã‚¤ãƒ`?æœŸåŒ–
 }
 
-//??????????¡¡£Ì£Æ£Ï??¡¡??????????
+//??????????ã€€ï¼¬ï¼¦ï¼¯??ã€€??????????
 void voice_lfo( int a0 )
 {
 	long d0;
-	if(!voice[ a0 ].lfo_m){		//£Ì£Æ£ÏŸo¤·¤Ê¤é
+	if(!voice[ a0 ].lfo_m){		//ï¼¬ï¼¦ï¼¯oã—ãªã‚‰
 		return;
 	}
-	if(!voice[ a0 ].lfo_s){		//£Ì£Æ£ÏŸo¤·¤Ê¤é
+	if(!voice[ a0 ].lfo_s){		//ï¼¬ï¼¦ï¼¯oã—ãªã‚‰
 		return;
 	}
-	if(voice[ a0 ].lfo_h){			//£Ì£Æ£Ïé_Ê¼¤Ç¤Ê¤±¤ì¤Ğ
+	if(voice[ a0 ].lfo_h){			//ï¼¬ï¼¦ï¼¯_å§‹ã§ãªã‘ã‚Œã°
 		voice[ a0 ].lfo_h--;
 		return;
 	}
 
-	voice[ a0 ].lfo_s_cnt += voice[ a0 ].lfo_s_ang;		//½ñ»Ø¤Î£Ì£Æ£ÏÁ¿
+	voice[ a0 ].lfo_s_cnt += voice[ a0 ].lfo_s_ang;		//ä»Šå›ã®ï¼¬ï¼¦ï¼¯é‡
 
-//	if(voice[ a0 ].lfo_s_ang >= 0){		//·½Ïò¤¬¥×?¥¹¤Ê¤é
-	if(voice[ a0 ].lfo_s_cnt >= 0){		//·½Ïò¤¬¥×?¥¹¤Ê¤é
+//	if(voice[ a0 ].lfo_s_ang >= 0){		//æ–¹å‘ãŒãƒ—?ã‚¹ãªã‚‰
+	if(voice[ a0 ].lfo_s_cnt >= 0){		//æ–¹å‘ãŒãƒ—?ã‚¹ãªã‚‰
 		d0 = detune_tbl[ voice[ a0 ].note_no ] * voice[ a0 ].lfo_m / 128 * voice[ a0 ].lfo_s_cnt / abs(voice[ a0 ].lfo_s);
 	} else {
 		d0 = detune_tbl[ voice[ a0 ].note_no-1 ] * voice[ a0 ].lfo_m / 128 * voice[ a0 ].lfo_s_cnt / abs(voice[ a0 ].lfo_s);
 	}
-	pDSData[ a0 ]->SetFrequency((DWORD)(voice[ a0 ].freq + d0));			// ÖÜ²¨?¥»¥Ã¥È
+	pDSData[ a0 ]->SetFrequency((DWORD)(voice[ a0 ].freq + d0));			// å‘¨æ³¢?ã‚»ãƒƒãƒˆ
 
-	if(abs(voice[ a0 ].lfo_s_cnt) == abs(voice[ a0 ].lfo_s)){		//ÕÛ¤ê·µ¤·¤Ê¤é
+	if(abs(voice[ a0 ].lfo_s_cnt) == abs(voice[ a0 ].lfo_s)){		//æŠ˜ã‚Šè¿”ã—ãªã‚‰
 		voice[ a0 ].lfo_s_ang *= -1;
 	}
 }
 
-//??????????¡¡¥Ü¥¤¥¹?¥¤?¡¡??????????
+//??????????ã€€ãƒœã‚¤ã‚¹?ã‚¤?ã€€??????????
 #define VOICE_KEY_ON		1
 #define VOICE_NORMAL		2
 #define VOICE_TIE_SET		10
@@ -2183,88 +2183,88 @@ void voice_action( int a0 )
 	DWORD	Status = 0;
 
 	switch(voice[ a0 ].name){
-	case VOICE_KEY_ON:		//Í¨³£¥­©`¥ª?
-		if(voice[ a0 ].delay_cnt){		//¥­©`¥ª?¤Ï¤Ş¤À¤Ê¤é
+	case VOICE_KEY_ON:		//é€šå¸¸ã‚­`ã‚ª?
+		if(voice[ a0 ].delay_cnt){		//ã‚­`ã‚ª?ã¯ã¾ã ãªã‚‰
 			voice[ a0 ].delay_cnt--;
 			return;
 		}
-		pDSData[ a0 ]->SetVolume(volume_tbl[ voice[ a0 ].volume ]);		// ¥Ü??©`?¥»¥Ã¥È
-		pDSData[ a0 ]->SetFrequency((DWORD)voice[ a0 ].freq);			// ÖÜ²¨?¥»¥Ã¥È
-		pDSData[ a0 ]->SetPan(panpot_tbl[ voice[ a0 ].pan ]);			// ¥Ñ?¥İ¥Ã¥È¥»¥Ã¥È
-		pDSData[ a0 ]->Play(0, 0, voice[ a0 ].loop_flg);				//¥­©`¥ª?
+		pDSData[ a0 ]->SetVolume(volume_tbl[ voice[ a0 ].volume ]);		// ãƒœ??`?ã‚»ãƒƒãƒˆ
+		pDSData[ a0 ]->SetFrequency((DWORD)voice[ a0 ].freq);			// å‘¨æ³¢?ã‚»ãƒƒãƒˆ
+		pDSData[ a0 ]->SetPan(panpot_tbl[ voice[ a0 ].pan ]);			// ãƒ‘?ãƒãƒƒãƒˆã‚»ãƒƒãƒˆ
+		pDSData[ a0 ]->Play(0, 0, voice[ a0 ].loop_flg);				//ã‚­`ã‚ª?
 		voice[ a0 ].name = VOICE_NORMAL;
-		voice_lfo( a0 );		//£Ì£Æ£Ï??¤Ø
+		voice_lfo( a0 );		//ï¼¬ï¼¦ï¼¯??ã¸
 		break;
-	case VOICE_NORMAL:		//Í¨³£¥­©`¥ª??
-		voice_lfo( a0 );		//£Ì£Æ£Ï??¤Ø
+	case VOICE_NORMAL:		//é€šå¸¸ã‚­`ã‚ª??
+		voice_lfo( a0 );		//ï¼¬ï¼¦ï¼¯??ã¸
 		break;
-	case VOICE_TIE_SET:		//¥¿¥¤ÓÃÔÙ¥»¥Ã¥È
-		pDSData[ a0 ]->SetVolume(volume_tbl[ voice[ a0 ].volume ]);		// ¥Ü??©`?¥»¥Ã¥È
-		pDSData[ a0 ]->SetFrequency((DWORD)voice[ a0 ].freq);		// ÖÜ²¨?¥»¥Ã¥È
-		pDSData[ a0 ]->SetPan(panpot_tbl[ voice[ a0 ].pan ]);			// ¥Ñ?¥İ¥Ã¥È¥»¥Ã¥È
+	case VOICE_TIE_SET:		//ã‚¿ã‚¤ç”¨å†ã‚»ãƒƒãƒˆ
+		pDSData[ a0 ]->SetVolume(volume_tbl[ voice[ a0 ].volume ]);		// ãƒœ??`?ã‚»ãƒƒãƒˆ
+		pDSData[ a0 ]->SetFrequency((DWORD)voice[ a0 ].freq);		// å‘¨æ³¢?ã‚»ãƒƒãƒˆ
+		pDSData[ a0 ]->SetPan(panpot_tbl[ voice[ a0 ].pan ]);			// ãƒ‘?ãƒãƒƒãƒˆã‚»ãƒƒãƒˆ
 		voice[ a0 ].name = VOICE_NORMAL;
 		break;
-	case VOICE_KEY_OFF:		//Í¨³£¥­©`¥ª¥Õ
+	case VOICE_KEY_OFF:		//é€šå¸¸ã‚­`ã‚ªãƒ•
 //		if( pDSData[ a0 ]->GetStatus( &Status ) == DS_OK ){
-///		pDSData[ a0 ]->GetStatus( &Status );		//¥Ü¥¤¥¹¥¹¥Æ©`¥¿¥¹È¡¤ê³ö¤·
-///		if( Status & DSBSTATUS_PLAYING || Status & DSBSTATUS_LOOPING ){		//ÔÙÉú?¤Ê¤é
-			if(voice[ a0 ].volume){		//¥Ü??©`?£°ÒÔÍâ¤Ê¤é
-				voice[ a0 ].release_cnt++;		//¥Ü??©`?‰ä¸ü¤Î?ég¤«
+///		pDSData[ a0 ]->GetStatus( &Status );		//ãƒœã‚¤ã‚¹ã‚¹ãƒ†`ã‚¿ã‚¹å–ã‚Šå‡ºã—
+///		if( Status & DSBSTATUS_PLAYING || Status & DSBSTATUS_LOOPING ){		//å†ç”Ÿ?ãªã‚‰
+			if(voice[ a0 ].volume){		//ãƒœ??`?ï¼ä»¥å¤–ãªã‚‰
+				voice[ a0 ].release_cnt++;		//ãƒœ??`?æ¶“?gã‹
 				if(voice[ a0 ].release_spd != voice[ a0 ].release_cnt){
-					voice_lfo( a0 );		//£Ì£Æ£Ï??¤Ø
-					break;		//¤½¤¦¤Ç¤Ê¤±¤ì¤Ğ’i¤±¤ë
+					voice_lfo( a0 );		//ï¼¬ï¼¦ï¼¯??ã¸
+					break;		//ãã†ã§ãªã‘ã‚Œã°iã‘ã‚‹
 				}
-				voice[ a0 ].release_cnt = 0;		//¥Ü??©`?‰ä¸ü¤À
-				voice[ a0 ].volume--;		//¥Ü??©`?ÏÂ¤²¤ë
-//				if(voice[ a0 ].volume < 0){		//¥Ü??©`?£°Ô½¤·¤¿¤é
-//					voice[ a0 ].volume=0;		//¥Ü??©`?£°¤Ë¤¹¤ë
+				voice[ a0 ].release_cnt = 0;		//ãƒœ??`?æ¶“
+				voice[ a0 ].volume--;		//ãƒœ??`?ä¸‹ã’ã‚‹
+//				if(voice[ a0 ].volume < 0){		//ãƒœ??`?ï¼è¶Šã—ãŸã‚‰
+//					voice[ a0 ].volume=0;		//ãƒœ??`?ï¼ã«ã™ã‚‹
 //				}
-				pDSData[ a0 ]->SetVolume(volume_tbl[ voice[ a0 ].volume ]);		// ¥Ü??©`?‰ä¸ü
-				voice_lfo( a0 );		//£Ì£Æ£Ï??¤Ø
-				break;		//¤½¤¦¤Ê¤é’i¤±¤ë
+				pDSData[ a0 ]->SetVolume(volume_tbl[ voice[ a0 ].volume ]);		// ãƒœ??`?æ¶“
+				voice_lfo( a0 );		//ï¼¬ï¼¦ï¼¯??ã¸
+				break;		//ãã†ãªã‚‰iã‘ã‚‹
 			}
 ///		}
-		pDSData[ a0 ]->Stop();							//¥­©`¥ª¥Õ
+		pDSData[ a0 ]->Stop();							//ã‚­`ã‚ªãƒ•
 		pDSData[ a0 ]->SetCurrentPosition(0);			//
-		voice[ a0 ].name = VOICE_KEY_OFF_WAIT;			//Ïû¤µ¤ì¤ë¤Ş¤Ç´ı¤Ä
+		voice[ a0 ].name = VOICE_KEY_OFF_WAIT;			//æ¶ˆã•ã‚Œã‚‹ã¾ã§å¾…ã¤
 //		play_use_task[ voice[ a0 ].track_no	] = -1;		//
 		break;
 #if !VOICE_KILL_ON
-	case VOICE_KEY_OFF_FAST:		//ËÙ¹¥¥­©`¥ª¥Õ
-		pDSData[ a0 ]->Stop();					//¥­©`¥ª¥Õ
+	case VOICE_KEY_OFF_FAST:		//é€Ÿæ”»ã‚­`ã‚ªãƒ•
+		pDSData[ a0 ]->Stop();					//ã‚­`ã‚ªãƒ•
 		pDSData[ a0 ]->SetCurrentPosition(0);			//
 		voice[ a0 ].name = 0;					//
 		break;
 #endif
 	}
 }
-//??????????¡¡¥Ü¥¤¥¹¥Ñ??©`¥¿¥»¥Ã¥È¡¡??????????
+//??????????ã€€ãƒœã‚¤ã‚¹ãƒ‘??`ã‚¿ã‚»ãƒƒãƒˆã€€??????????
 void set_voice_param( int task_no, long note, int delay, int lfo_flg)
 {
-	voice[ task_no ].volume = dataVolume[ch];			// ¥Ü??©`?¥»¥Ã¥È
-//	voice[ task_no ].freq = freq + dataFrequency[ch];	// ÖÜ²¨?¥»¥Ã¥È
-	// ÖÜ²¨?¥»¥Ã¥È
-	if(play_detune[ch]>0){		//¥Ç¥Á?©`?¤¬¥×?¥¹¤Ê¤é
+	voice[ task_no ].volume = dataVolume[ch];			// ãƒœ??`?ã‚»ãƒƒãƒˆ
+//	voice[ task_no ].freq = freq + dataFrequency[ch];	// å‘¨æ³¢?ã‚»ãƒƒãƒˆ
+	// å‘¨æ³¢?ã‚»ãƒƒãƒˆ
+	if(play_detune[ch]>0){		//ãƒ‡ãƒ?`?ãŒãƒ—?ã‚¹ãªã‚‰
 		voice[ task_no ].freq = freq_tbl[ note ] + detune_tbl[ note ]*play_detune[ch]/64 + dataFrequency[ch];
-	} else if(play_detune[ch]<0){		//¥Ç¥Á?©`?¤¬¥Ş¥¤¥Ê¥¹¤Ê¤é
+	} else if(play_detune[ch]<0){		//ãƒ‡ãƒ?`?ãŒãƒã‚¤ãƒŠã‚¹ãªã‚‰
 		voice[ task_no ].freq = freq_tbl[ note ] + detune_tbl[ note-1 ]*play_detune[ch]/64 + dataFrequency[ch];
-	} else {					//¥Ç¥Á?©`?Ö¸¶¨¤¬¤Ê¤¤¤Ê¤é
+	} else {					//ãƒ‡ãƒ?`?æŒ‡å®šãŒãªã„ãªã‚‰
 		voice[ task_no ].freq = freq_tbl[ note ] + dataFrequency[ch];
 	}
-	voice[ task_no ].note_no = note;				// ¥Î©`¥È·¬?¥»¥Ã¥È
-	voice[ task_no ].pan = dataPan[ch];				// ¥Ñ?¥İ¥Ã¥È¥»¥Ã¥È
-	voice[ task_no ].release_spd = wave[ch];		// ¥¨?¥Ù?©`¥×¥»¥Ã¥È
+	voice[ task_no ].note_no = note;				// ãƒ`ãƒˆç•ª?ã‚»ãƒƒãƒˆ
+	voice[ task_no ].pan = dataPan[ch];				// ãƒ‘?ãƒãƒƒãƒˆã‚»ãƒƒãƒˆ
+	voice[ task_no ].release_spd = wave[ch];		// ã‚¨?ãƒ™?`ãƒ—ã‚»ãƒƒãƒˆ
 	voice[ task_no ].release_cnt = 0;				//
-	if(voice[ task_no ].tone_no == 12-1){				//?©`¥×ÒôÉ«¤Ê¤é
+	if(voice[ task_no ].tone_no == 12-1){				//?`ãƒ—éŸ³è‰²ãªã‚‰
 		voice[ task_no ].loop_flg = DSBPLAY_LOOPING;	//
 	} else {
 		voice[ task_no ].loop_flg = 0;					//
 	}
-	if(delay >= 0){								//ºÍÒô¥Ç¥£?¥¤¥»¥Ã¥È¤¹¤ë¤Ê¤é
+	if(delay >= 0){								//å’ŒéŸ³ãƒ‡ã‚£?ã‚¤ã‚»ãƒƒãƒˆã™ã‚‹ãªã‚‰
 		voice[ task_no ].delay_cnt = delay;		//
 	}
-	if(lfo_flg){		//£Ì£Æ£Ï¥»¥Ã¥È¤¹¤ë¤Ê¤é
-		voice[ task_no ].lfo_h = play_lfo_h[ ch ];					//£Ì£Æ£Ï¥»¥Ã¥È
+	if(lfo_flg){		//ï¼¬ï¼¦ï¼¯ã‚»ãƒƒãƒˆã™ã‚‹ãªã‚‰
+		voice[ task_no ].lfo_h = play_lfo_h[ ch ];					//ï¼¬ï¼¦ï¼¯ã‚»ãƒƒãƒˆ
 		voice[ task_no ].lfo_m = play_lfo_m[ ch ];					//
 		if((voice[ task_no ].lfo_s = play_lfo_s[ ch ]) >= 0){		//
 			voice[ task_no ].lfo_s_ang = 1;							//
@@ -2275,105 +2275,105 @@ void set_voice_param( int task_no, long note, int delay, int lfo_flg)
 	}
 }
 
-//??????????¡¡¥Ü¥¤¥¹¥­©`¥ª?¡¡??????????
+//??????????ã€€ãƒœã‚¤ã‚¹ã‚­`ã‚ª?ã€€??????????
 static voice_seek_point=0;
 int	set_tone( int tone, long note, int use_task_cnt, int delay)
 {
 	int d7,d1=0;
 
-	for(d7=0;d7<VOICE_MAX;d7++){		//¿Õ¤¤¤Æ¥¿¥¹¥¯¤òÌ½¤¹
-//		if( voice[ d7 ].name == 0){		//¤³¤ì¤«
-		if( voice[ voice_seek_point ].name == 0){		//¤³¤ì¤«
-			d1=1;										//¤½¤¦¤Ê¤é?¤Ø
+	for(d7=0;d7<VOICE_MAX;d7++){		//ç©ºã„ã¦ã‚¿ã‚¹ã‚¯ã‚’æ¢ã™
+//		if( voice[ d7 ].name == 0){		//ã“ã‚Œã‹
+		if( voice[ voice_seek_point ].name == 0){		//ã“ã‚Œã‹
+			d1=1;										//ãã†ãªã‚‰?ã¸
 			break;
 		}
 		voice_seek_point++;
 		voice_seek_point&=VOICE_MAX-1;
 	}
-	if(!d1){		//¿Õ¤¤¤Æ¤Ê¤«¤Ã¤¿¤«
+	if(!d1){		//ç©ºã„ã¦ãªã‹ã£ãŸã‹
 #ifdef _DEBUG
-		MessageBox(hWnd, "¥Ñ©`¥ÈÇĞ¤ì", "Error", MB_OK);		//¤½¤¦¤Ê¤é’i¤±¤ë
+		MessageBox(hWnd, "ãƒ‘`ãƒˆåˆ‡ã‚Œ", "Error", MB_OK);		//ãã†ãªã‚‰iã‘ã‚‹
 #endif
-		play_use_task[ch][use_task_cnt]=-1;		//Ê¹ÓÃ¥¿¥¹¥¯¤Ê¤·
+		play_use_task[ch][use_task_cnt]=-1;		//ä½¿ç”¨ã‚¿ã‚¹ã‚¯ãªã—
 		return -1;
 	}
 	d7 = voice_seek_point;
 
-	play_use_task[ch][use_task_cnt]=d7;		//Ê¹ÓÃ¥¿¥¹¥¯·¬?±£´æ
+	play_use_task[ch][use_task_cnt]=d7;		//ä½¿ç”¨ã‚¿ã‚¹ã‚¯ç•ª?ä¿å­˜
 
-	voice[ d7 ].name = VOICE_KEY_ON;			//Í¨³£ÔÙÉú??¤Ø
+	voice[ d7 ].name = VOICE_KEY_ON;			//é€šå¸¸å†ç”Ÿ??ã¸
 
-	if(voice[ d7 ].tone_no == tone)		//Í¬¤¸ÒôÉ«·¬?¤«
-		goto set_tone_500;				//¤½¤¦¤Ê¤é?¤Ø
+	if(voice[ d7 ].tone_no == tone)		//åŒã˜éŸ³è‰²ç•ª?ã‹
+		goto set_tone_500;				//ãã†ãªã‚‰?ã¸
 
-	voice[ d7 ].tone_no = tone;		//ÒôÉ«·¬?±£´æ
+	voice[ d7 ].tone_no = tone;		//éŸ³è‰²ç•ª?ä¿å­˜
 
 	RELEASE(pDSData[d7]);
 
-	if( pDSound->DuplicateSoundBuffer(pDSData_tone[tone],&pDSData[d7]) != DS_OK ){		//ÒôÉ«¥³¥Ô©`
+	if( pDSound->DuplicateSoundBuffer(pDSData_tone[tone],&pDSData[d7]) != DS_OK ){		//éŸ³è‰²ã‚³ãƒ”`
 #ifdef _DEBUG
-		MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ÎÑ}Ñu¤ËÊ§”¡", "Error", MB_OK);
+		MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®}uã«å¤±", "Error", MB_OK);
 #endif
-		play_use_task[ch][use_task_cnt]=-1;		//Ê¹ÓÃ¥¿¥¹¥¯¤Ê¤·
+		play_use_task[ch][use_task_cnt]=-1;		//ä½¿ç”¨ã‚¿ã‚¹ã‚¯ãªã—
 		return -1;
 	}
 
 set_tone_500:
-	set_voice_param( d7, note, delay, 1 );		//¥Ü¥¤¥¹¥Ñ??©`¥¿¥»¥Ã¥È
+	set_voice_param( d7, note, delay, 1 );		//ãƒœã‚¤ã‚¹ãƒ‘??`ã‚¿ã‚»ãƒƒãƒˆ
 
 	return 0;
 }
 
-//??????????¡¡ËÙ¹¥¥­©`¥ª¥Õ¡¡??????????
+//??????????ã€€é€Ÿæ”»ã‚­`ã‚ªãƒ•ã€€??????????
 void stop_voice(void)
 {
 	for(int cnt=0;cnt<play_use_task_cnt[ch];cnt++){
-		if(play_use_task[ch][cnt]!=-1){					//¥¿¥¹¥¯Ê¹ÓÃ?¤«
+		if(play_use_task[ch][cnt]!=-1){					//ã‚¿ã‚¹ã‚¯ä½¿ç”¨?ã‹
 #if VOICE_KILL_ON
 			voice_kill_buf[voice_kill_point++]=play_use_task[ch][cnt];
 #else
-			voice[ play_use_task[ch][cnt] ].name = VOICE_KEY_OFF_FAST;		//¤½¤¦¤Ê¤éËÙ¹¥¥­©`¥ª¥Õ
+			voice[ play_use_task[ch][cnt] ].name = VOICE_KEY_OFF_FAST;		//ãã†ãªã‚‰é€Ÿæ”»ã‚­`ã‚ªãƒ•
 #endif
-			play_use_task[ch][cnt]=-1;					//¥¿¥¹¥¯Î´Ê¹ÓÃ
+			play_use_task[ch][cnt]=-1;					//ã‚¿ã‚¹ã‚¯æœªä½¿ç”¨
 		}
 	}
 }
 
-//??????????¡¡¥É?¥¤¥Ğ©`?¥¤?¡¡??????????
+//??????????ã€€ãƒ‰?ã‚¤ãƒ`?ã‚¤?ã€€??????????
 void gate(void)
 {
 	int next_command;
 	DWORD	Status = 0;
-	if(!play_flg[ ch ])		//Í£Ö¹?¤«
-		return;				//¤½¤¦¤Ê¤é’i¤±¤ë
+	if(!play_flg[ ch ])		//åœæ­¢?ã‹
+		return;				//ãã†ãªã‚‰iã‘ã‚‹
 
-	gate_time[ch]--;		//¥²©`¥È¥¿¥¤?¸üĞÂ
-	if(!gate_time[ch]){		//¥­©`¥ª¥Õ¤Ê¤é
-		if( !d_pedal[ch] ){		//¥­©`¥ª¥Õ¤¹¤ë¤Ê¤é
-			if( !wave[ch] ){	//??©`¥¹£°¤Ê¤é
-				stop_voice();		//¤¹¤°¤Ë¥­©`¥ª¥Õ
+	gate_time[ch]--;		//ã‚²`ãƒˆã‚¿ã‚¤?æ›´æ–°
+	if(!gate_time[ch]){		//ã‚­`ã‚ªãƒ•ãªã‚‰
+		if( !d_pedal[ch] ){		//ã‚­`ã‚ªãƒ•ã™ã‚‹ãªã‚‰
+			if( !wave[ch] ){	//??`ã‚¹ï¼ãªã‚‰
+				stop_voice();		//ã™ãã«ã‚­`ã‚ªãƒ•
 			} else {
 				for(int cnt=0;cnt<play_use_task_cnt[ch];cnt++){
-					if(play_use_task[ch][cnt]!=-1){					//¥¿¥¹¥¯Ê¹ÓÃ?¤«
-						voice[ play_use_task[ch][cnt] ].name = VOICE_KEY_OFF;	//¤½¤¦¤Ê¤é¥­©`¥ª¥Õ
+					if(play_use_task[ch][cnt]!=-1){					//ã‚¿ã‚¹ã‚¯ä½¿ç”¨?ã‹
+						voice[ play_use_task[ch][cnt] ].name = VOICE_KEY_OFF;	//ãã†ãªã‚‰ã‚­`ã‚ªãƒ•
 					}
 				}
 			}
 		}
 	}
 
-	step_time[ch]--;			//¥­©`¥ª?¤«
+	step_time[ch]--;			//ã‚­`ã‚ª?ã‹
 	if(step_time[ch]>0){		//
-		return;				//¤½¤¦¤Ç¤Ê¤±¤ì¤Ğ’i¤±¤ë
+		return;				//ãã†ã§ãªã‘ã‚Œã°iã‘ã‚‹
 	} else {
-		if(!tie_flg[ch]){		//¥¿¥¤¤Ç¤Ê¤±¤ì¤Ğ
-			if( !d_pedal[ch] ){		//¥­©`¥ª¥Õ¤¹¤ë¤Ê¤é
-				if( !wave[ch] ){	//??©`¥¹£°¤Ê¤é
-					stop_voice();		//¤¹¤°¤Ë¥­©`¥ª¥Õ
+		if(!tie_flg[ch]){		//ã‚¿ã‚¤ã§ãªã‘ã‚Œã°
+			if( !d_pedal[ch] ){		//ã‚­`ã‚ªãƒ•ã™ã‚‹ãªã‚‰
+				if( !wave[ch] ){	//??`ã‚¹ï¼ãªã‚‰
+					stop_voice();		//ã™ãã«ã‚­`ã‚ªãƒ•
 				} else {
 					for(int cnt=0;cnt<play_use_task_cnt[ch];cnt++){
-						if(play_use_task[ch][cnt]!=-1){					//¥¿¥¹¥¯Ê¹ÓÃ?¤«
-							voice[ play_use_task[ch][cnt] ].name = VOICE_KEY_OFF;	//¤½¤¦¤Ê¤é¥­©`¥ª¥Õ
+						if(play_use_task[ch][cnt]!=-1){					//ã‚¿ã‚¹ã‚¯ä½¿ç”¨?ã‹
+							voice[ play_use_task[ch][cnt] ].name = VOICE_KEY_OFF;	//ãã†ãªã‚‰ã‚­`ã‚ªãƒ•
 						}
 					}
 				}
@@ -2381,164 +2381,164 @@ void gate(void)
 		}
 
 gate_100:
-		next_command = step[ch][step_point[ch]++];		//¥³¥Ş?¥ÉÈ¡¤ê³ö¤·
+		next_command = step[ch][step_point[ch]++];		//ã‚³ãƒ?ãƒ‰å–ã‚Šå‡ºã—
 
-		if(next_command >= 0){		//¥Î©`¥È·¬?¤Ê¤é
-			if(play_use_task_cnt[ch]!=1 && tie_flg[ch]==1){		//ºÍÒô¤ÎÊ¹ÓÃ?¤¬ß`¤¦¤Ê¤é
-				tie_flg[ch]=0;		//¥¿¥¤?Ö¹
+		if(next_command >= 0){		//ãƒ`ãƒˆç•ª?ãªã‚‰
+			if(play_use_task_cnt[ch]!=1 && tie_flg[ch]==1){		//å’ŒéŸ³ã®ä½¿ç”¨?ãŒ`ã†ãªã‚‰
+				tie_flg[ch]=0;		//ã‚¿ã‚¤?æ­¢
 			}
-			if(!tie_flg[ch]){		//¥¿¥¤¤Ç¤Ê¤±¤ì¤Ğ
-				stop_voice();		//Ê¹ÓÃ?¤Î¥Ü¥¤¥¹Í£Ö¹
-				set_tone( dataToneNo[ch], next_command, 0, 0);	//…gÒô¥­©`¥ª?
-				note_old[ch][0] = next_command;		//½ñ»Ø¤Î¥Î©`¥È·¬?±£´æ
+			if(!tie_flg[ch]){		//ã‚¿ã‚¤ã§ãªã‘ã‚Œã°
+				stop_voice();		//ä½¿ç”¨?ã®ãƒœã‚¤ã‚¹åœæ­¢
+				set_tone( dataToneNo[ch], next_command, 0, 0);	//géŸ³ã‚­`ã‚ª?
+				note_old[ch][0] = next_command;		//ä»Šå›ã®ãƒ`ãƒˆç•ª?ä¿å­˜
 			} else {
 				for(int cnt=0;cnt<play_use_task_cnt[ch];cnt++){
-					//¥¿¥¤ÓÃÔÙ¥»¥Ã¥È
+					//ã‚¿ã‚¤ç”¨å†ã‚»ãƒƒãƒˆ
 					voice[ play_use_task[ch][cnt] ].name = VOICE_TIE_SET;
-					//¥Ü¥¤¥¹¥Ñ??©`¥¿¥»¥Ã¥È
+					//ãƒœã‚¤ã‚¹ãƒ‘??`ã‚¿ã‚»ãƒƒãƒˆ
 					set_voice_param( play_use_task[ch][cnt], next_command, -1, 0 );
-					note_old[ch][cnt] = next_command;		//½ñ»Ø¤Î¥Î©`¥È·¬?±£´æ
+					note_old[ch][cnt] = next_command;		//ä»Šå›ã®ãƒ`ãƒˆç•ª?ä¿å­˜
 				}
 			}
-			step_time[ch] = step[ch][step_point[ch]++];		//¥¹¥Æ¥Ã¥×¥¿¥¤?
-			gate_time[ch] = step[ch][step_point[ch]++];		//¥²©`¥È¥¿¥¤?
-			if(gate_time[ch]==-1){		//¥¿¥¤¤Ê¤é
+			step_time[ch] = step[ch][step_point[ch]++];		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?
+			gate_time[ch] = step[ch][step_point[ch]++];		//ã‚²`ãƒˆã‚¿ã‚¤?
+			if(gate_time[ch]==-1){		//ã‚¿ã‚¤ãªã‚‰
 				tie_flg[ch]=1;
 			} else {
 				tie_flg[ch]=0;
 			}
-			play_use_task_cnt[ch] = 1;		//°kÒô?¥»¥Ã¥È
+			play_use_task_cnt[ch] = 1;		//kéŸ³?ã‚»ãƒƒãƒˆ
 			return;
 		}
-		if(next_command==MUSIC_WAON){		//ºÍÒô¤Ê¤é
+		if(next_command==MUSIC_WAON){		//å’ŒéŸ³ãªã‚‰
 			int waon_cnt,waon_delay,waon_delay_total=0;
-			waon_cnt = step[ch][step_point[ch]++];		//ºÍÒô?È¡¤ê³ö¤·
-			waon_delay = step[ch][step_point[ch]++];		//ºÍÒô¥Ç¥£?¥¤È¡¤ê³ö¤·
-			if(waon_cnt != play_use_task_cnt[ch] && tie_flg[ch]==1){		//ºÍÒô¤ÎÊ¹ÓÃ?¤¬ß`¤¦¤Ê¤é
-				tie_flg[ch]=0;		//¥¿¥¤?Ö¹
+			waon_cnt = step[ch][step_point[ch]++];		//å’ŒéŸ³?å–ã‚Šå‡ºã—
+			waon_delay = step[ch][step_point[ch]++];		//å’ŒéŸ³ãƒ‡ã‚£?ã‚¤å–ã‚Šå‡ºã—
+			if(waon_cnt != play_use_task_cnt[ch] && tie_flg[ch]==1){		//å’ŒéŸ³ã®ä½¿ç”¨?ãŒ`ã†ãªã‚‰
+				tie_flg[ch]=0;		//ã‚¿ã‚¤?æ­¢
 			}
-			if(!tie_flg[ch]){		//¥¿¥¤¤Ç¤Ê¤±¤ì¤Ğ
-				stop_voice();		//Ê¹ÓÃ?¤Î¥Ü¥¤¥¹Í£Ö¹
+			if(!tie_flg[ch]){		//ã‚¿ã‚¤ã§ãªã‘ã‚Œã°
+				stop_voice();		//ä½¿ç”¨?ã®ãƒœã‚¤ã‚¹åœæ­¢
 				for(int cnt=0;cnt<waon_cnt;cnt++){
-					//ºÍÒô¥­©`¥ª?
+					//å’ŒéŸ³ã‚­`ã‚ª?
 					set_tone( dataToneNo[ch], step[ch][step_point[ch]], cnt, waon_delay_total);
-					note_old[ch][cnt] = step[ch][step_point[ch]++];		//½ñ»Ø¤Î¥Î©`¥È·¬?±£´æ
+					note_old[ch][cnt] = step[ch][step_point[ch]++];		//ä»Šå›ã®ãƒ`ãƒˆç•ª?ä¿å­˜
 					waon_delay_total += waon_delay;
 				}
 			} else {
 				for(int cnt=0;cnt<play_use_task_cnt[ch];cnt++){
-					//¥¿¥¤ÓÃÔÙ¥»¥Ã¥È
+					//ã‚¿ã‚¤ç”¨å†ã‚»ãƒƒãƒˆ
 					voice[ play_use_task[ch][cnt] ].name = VOICE_TIE_SET;
-					//¥Ü¥¤¥¹¥Ñ??©`¥¿¥»¥Ã¥È
+					//ãƒœã‚¤ã‚¹ãƒ‘??`ã‚¿ã‚»ãƒƒãƒˆ
 					set_voice_param( play_use_task[ch][cnt], step[ch][step_point[ch]], -1, 0 );
-					note_old[ch][cnt] = step[ch][step_point[ch]++];		//½ñ»Ø¤Î¥Î©`¥È·¬?±£´æ
+					note_old[ch][cnt] = step[ch][step_point[ch]++];		//ä»Šå›ã®ãƒ`ãƒˆç•ª?ä¿å­˜
 				}
 			}
-			step_time[ch] = step[ch][step_point[ch]++];		//¥¹¥Æ¥Ã¥×¥¿¥¤?
-			gate_time[ch] = step[ch][step_point[ch]++];		//¥²©`¥È¥¿¥¤?
-			if(gate_time[ch]==-1){		//¥¿¥¤¤Ê¤é
+			step_time[ch] = step[ch][step_point[ch]++];		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?
+			gate_time[ch] = step[ch][step_point[ch]++];		//ã‚²`ãƒˆã‚¿ã‚¤?
+			if(gate_time[ch]==-1){		//ã‚¿ã‚¤ãªã‚‰
 				tie_flg[ch]=1;
 			} else {
 				tie_flg[ch]=0;
 			}
-			play_use_task_cnt[ch] = waon_cnt;		//°kÒô?¥»¥Ã¥È
+			play_use_task_cnt[ch] = waon_cnt;		//kéŸ³?ã‚»ãƒƒãƒˆ
 			return;
 		}
-		if(next_command==MUSIC_TEMPO){		//¥Æ?¥İ¤«
+		if(next_command==MUSIC_TEMPO){		//ãƒ†?ãƒã‹
 			tempo.LowPart = step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_NEIRO_NO){		//ÒôÉ«ÇĞ¤êÌæ¤¨¤«
+		if(next_command==MUSIC_NEIRO_NO){		//éŸ³è‰²åˆ‡ã‚Šæ›¿ãˆã‹
 //			change_neiro( ch, step[ch][step_point[ch]++] );
 			dataToneNo[ch] = step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_LOOP){		//?©`¥×¤«
+		if(next_command==MUSIC_LOOP){		//?`ãƒ—ã‹
 			step_point[ch] = step[ch][step_point[ch]];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_KURI_START){		//ÀR¤ê·µ¤·é_Ê¼¤«
-			play_kuri_lv[ch]++;		//ëAŒÓ?¥Ù?¥¢¥Ã¥×
+		if(next_command==MUSIC_KURI_START){		//Rã‚Šè¿”ã—_å§‹ã‹
+			play_kuri_lv[ch]++;		//A?ãƒ™?ã‚¢ãƒƒãƒ—
 			play_kuri_num[play_kuri_lv[ch]][ch] = step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_KURI_SKIP){		//ÀR¤ê·µ¤·ÍÑ³ö¤«
+		if(next_command==MUSIC_KURI_SKIP){		//Rã‚Šè¿”ã—è„±å‡ºã‹
 			if(play_kuri_num[play_kuri_lv[ch]][ch] == 1){
 				step_point[ch] = step[ch][step_point[ch]];
-				play_kuri_lv[ch]--;		//ëAŒÓ?¥Ù?¥À¥¦?
+				play_kuri_lv[ch]--;		//A?ãƒ™?ãƒ€ã‚¦?
 			} else {
 				step_point[ch]++;
 			}
 			goto gate_100;
 		}
-		if(next_command==MUSIC_KURI_RET){		//ÀR¤ê·µ¤·½KÁË¤«
+		if(next_command==MUSIC_KURI_RET){		//Rã‚Šè¿”ã—Käº†ã‹
 			play_kuri_num[play_kuri_lv[ch]][ch]--;
 			if(play_kuri_num[play_kuri_lv[ch]][ch] > 0){
 				step_point[ch] = step[ch][step_point[ch]];
 			} else {
 				step_point[ch]++;
-				play_kuri_lv[ch]--;		//ëAŒÓ?¥Ù?¥À¥¦?
+				play_kuri_lv[ch]--;		//A?ãƒ™?ãƒ€ã‚¦?
 			}
 			goto gate_100;
 		}
-		if(next_command==MUSIC_R){		//£Ò¤«
-			if(tie_flg[ch]){		//¥¿¥¤¤Ê¤é
+		if(next_command==MUSIC_R){		//ï¼²ã‹
+			if(tie_flg[ch]){		//ã‚¿ã‚¤ãªã‚‰
 				for(int cnt=0;cnt<play_use_task_cnt[ch];cnt++){
-					//¥¿¥¤ÓÃÔÙ¥»¥Ã¥È
+					//ã‚¿ã‚¤ç”¨å†ã‚»ãƒƒãƒˆ
 					voice[ play_use_task[ch][cnt] ].name = VOICE_TIE_SET;
-					//¥Ü¥¤¥¹¥Ñ??©`¥¿¥»¥Ã¥È
+					//ãƒœã‚¤ã‚¹ãƒ‘??`ã‚¿ã‚»ãƒƒãƒˆ
 					set_voice_param( play_use_task[ch][cnt], note_old[ch][cnt], -1, 0 );
 				}
 			}
-			step_time[ch] = step[ch][step_point[ch]++];		//¥¹¥Æ¥Ã¥×¥¿¥¤?
-			gate_time[ch] = step[ch][step_point[ch]++];		//¥²©`¥È¥¿¥¤?
-			if(gate_time[ch]==-1){		//¥¿¥¤¤Ê¤é
+			step_time[ch] = step[ch][step_point[ch]++];		//ã‚¹ãƒ†ãƒƒãƒ—ã‚¿ã‚¤?
+			gate_time[ch] = step[ch][step_point[ch]++];		//ã‚²`ãƒˆã‚¿ã‚¤?
+			if(gate_time[ch]==-1){		//ã‚¿ã‚¤ãªã‚‰
 				tie_flg[ch]=1;
 			} else {
 				tie_flg[ch]=0;
 			}
 			return;
 		}
-		if(next_command==MUSIC_LFO_H){		//£Ì£Æ£Ï£ß£È¤«
+		if(next_command==MUSIC_LFO_H){		//ï¼¬ï¼¦ï¼¯ï¼¿ï¼¨ã‹
 			play_lfo_h[ch]=step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_LFO_M){		//£Ì£Æ£Ï£ß£Í¤«
+		if(next_command==MUSIC_LFO_M){		//ï¼¬ï¼¦ï¼¯ï¼¿ï¼­ã‹
 			play_lfo_m[ch]=step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_LFO_S){		//£Ì£Æ£Ï£ß£Ó¤«
+		if(next_command==MUSIC_LFO_S){		//ï¼¬ï¼¦ï¼¯ï¼¿ï¼³ã‹
 			play_lfo_s[ch]=step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_PEDAL){		//¥À?¥Ñ©`¥Ø¥À?¤«
+		if(next_command==MUSIC_PEDAL){		//ãƒ€?ãƒ‘`ãƒ˜ãƒ€?ã‹
 			d_pedal[ch]=step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_WAVE){		//¥¨?¥Ù?©`¥×¤«
+		if(next_command==MUSIC_WAVE){		//ã‚¨?ãƒ™?`ãƒ—ã‹
 			wave[ch]=step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_VOL){		//£Ö£Ï£Ì¤«
+		if(next_command==MUSIC_VOL){		//ï¼¶ï¼¯ï¼¬ã‹
 			dataVolume[ch]=step[ch][step_point[ch]++];
 //			pDSData[play_use_task[ch]]->SetVolume(dataVolume[ch]);
 			goto gate_100;
 		}
-		if(next_command==MUSIC_DETUNE){		//¥Ç¥Á?©`?¤«
+		if(next_command==MUSIC_DETUNE){		//ãƒ‡ãƒ?`?ã‹
 			play_detune[ch] = step[ch][step_point[ch]++];
 			goto gate_100;
 		}
-		if(next_command==MUSIC_FREQ){		//ÖÜ²¨?¤«
+		if(next_command==MUSIC_FREQ){		//å‘¨æ³¢?ã‹
 			dataFrequency[ch]=step[ch][step_point[ch]++];
 //			pDSData[play_use_task[ch]]->SetFrequency((DWORD)dataFrequency[ch]);
 			goto gate_100;
 		}
-		if(next_command==MUSIC_PAN){		//¥Ñ?¥İ¥Ã¥È¤«
+		if(next_command==MUSIC_PAN){		//ãƒ‘?ãƒãƒƒãƒˆã‹
 			dataPan[ch]=step[ch][step_point[ch]++];
 //			pDSData[play_use_task[ch]]->SetPan(dataPan[ch]);
 			goto gate_100;
 		}
-		if(next_command==MUSIC_END){		//½KÁË¤«
+		if(next_command==MUSIC_END){		//Käº†ã‹
 			play_flg[ ch ] = 0;
 			return;
 		}
@@ -2553,7 +2553,7 @@ void music( void )
 #if THREAD_ON
 	while(!thread_flg){
 #if CLASS_UP
-		Sleep(1);		//ÔÙÉú?
+		Sleep(1);		//å†ç”Ÿ?
 #endif
 #endif
 		LARGE_INTEGER d0;
@@ -2579,8 +2579,8 @@ void music( void )
 		if(!pause_flg){
 #if VOICE_KILL_ON
 			for( d7 = 0 ; d7 < voice_kill_point ; d7++ ){
-				voice[ voice_kill_buf[ d7 ] ].name = 0;			//¤Ş¤º¥¿¥¹¥¯?š¢
-				pDSData[ voice_kill_buf[ d7 ] ]->Stop();		//¥­©`¥ª¥Õ
+				voice[ voice_kill_buf[ d7 ] ].name = 0;			//ã¾ãšã‚¿ã‚¹ã‚¯?
+				pDSData[ voice_kill_buf[ d7 ] ]->Stop();		//ã‚­`ã‚ªãƒ•
 				pDSData[ voice_kill_buf[ d7 ] ]->SetCurrentPosition(0);	//
 			}
 			voice_kill_point=0;
@@ -2597,7 +2597,7 @@ void music( void )
 		} else {
 
 #if CLASS_UP
-			Sleep(8);		//¥İ©`¥º?
+			Sleep(8);		//ãƒ`ã‚º?
 #endif
 			QueryPerformanceCounter( &d_cnt );
 		}
@@ -2606,13 +2606,13 @@ void music( void )
 
 #if CLASS_UP
 #if MODE98
-	if( tempo.LowPart > 10080*2 )		//¥Æ?¥İ£±£µ£°Î´?¤Ê¤é
+	if( tempo.LowPart > 10080*2 )		//ãƒ†?ãƒï¼‘ï¼•ï¼æœª?ãªã‚‰
 #else
-	if( tempo.LowPart > 10080 )		//¥Æ?¥İ£±£µ£°Î´?¤Ê¤é
+	if( tempo.LowPart > 10080 )		//ãƒ†?ãƒï¼‘ï¼•ï¼æœª?ãªã‚‰
 #endif
-		Sleep(2);		//ÔÙÉú?
+		Sleep(2);		//å†ç”Ÿ?
 	else
-		Sleep(1);		//ÔÙÉú?
+		Sleep(1);		//å†ç”Ÿ?
 #endif
 
 #endif		//--------------
@@ -2627,11 +2627,11 @@ void music( void )
 }
 
 /*--------------------------------------------
-	£Ô£ß£Í£Õ£Ó£É£Ã?ÆÚ»¯
+	ï¼´ï¼¿ï¼­ï¼µï¼³ï¼©ï¼£?æœŸåŒ–
 ---------------------------------------------*/
 int t_music_init()
 {
-	if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//£Ó£È£É£Æ£Ô¤ò?¤·¤Ê¤¬¤é¤Ê¤é
+	if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//ï¼³ï¼¨ï¼©ï¼¦ï¼´ã‚’?ã—ãªãŒã‚‰ãªã‚‰
 		dsound_flg = -1;
 		return FALSE;
 	}
@@ -2642,7 +2642,7 @@ int t_music_init()
 		return FALSE;
 	}
 
-	music_init();		//¥É?¥¤¥Ğ©`?ÆÚ»¯
+	music_init();		//ãƒ‰?ã‚¤ãƒ`?æœŸåŒ–
 
 #if 0	////////////////////////////////////////////////////
 
@@ -2674,18 +2674,18 @@ int t_music_init()
 #endif	/////////////////////////////////////////////////////
 
 //	play_se(240, 320, 240);
-	//¥¿¥¤¥È?£Â£Ç£ÍÔÙÉúé_Ê¼
+	//ã‚¿ã‚¤ãƒˆ?ï¼¢ï¼§ï¼­å†ç”Ÿ_å§‹
 //	play_bgm(1);
 
 	return TRUE;
 }
 
 /*--------------------------------------------
-	£Ô£ß£Í£Õ£Ó£É£Ã½KÁË
+	ï¼´ï¼¿ï¼­ï¼µï¼³ï¼©ï¼£Käº†
 ---------------------------------------------*/
 void t_music_end()
 {
-	//£Ä£Ó£Ï£Õ£Î£Ä®³£¤Ê¤é
+	//ï¼¤ï¼³ï¼¯ï¼µï¼®ï¼¤å¸¸ãªã‚‰
 	if(dsound_flg == -1)
 		return;
 #if THREAD_ON
@@ -2697,96 +2697,96 @@ void t_music_end()
 
 
 #if 0
-//??????????¡¡„¿¹ûÒôÔÙÉú¡¡??????????
+//??????????ã€€æŠ—ç²¼å•??????????
 //static voice_seek_point=0;
 int play_se(int tone, int x, int y)
 {
 	int distance;
-	//£Ä£Ó£Ï£Õ£Î£Ä®³£¤Ê¤é
+	//ï¼¤ï¼³ï¼¯ï¼µï¼®ï¼¤å¸¸ãªã‚‰
 	if(dsound_flg == -1){
 		return -1;
 	}
 
-	if(tone > TONE_MAX){		//¥Ş¥Ã¥¯¥¹ÒÔÉÏ¤Ê¤é
+	if(tone > TONE_MAX){		//ãƒãƒƒã‚¯ã‚¹ä»¥ä¸Šãªã‚‰
 		return -1;
 	}
 
-	if(tone_tbl[ tone ].voice_place == -1){		//Î´¶¨ÁxÒôÉ«¤Ê¤é
+	if(tone_tbl[ tone ].voice_place == -1){		//æœªå®šxéŸ³è‰²ãªã‚‰
 		return -1;
 	}
 
-	if(tone_tbl[ tone ].play_time){		//¼È¤ËÔÙÉú?¤Ê¤é
+	if(tone_tbl[ tone ].play_time){		//æ—¢ã«å†ç”Ÿ?ãªã‚‰
 		return 0;
 	}
 
-	if(voice[ voice_seek_point ].tone_no != tone){		//Í¬¤¸ÒôÉ«·¬?¤Ç¤Ê¤±¤ì¤Ğ
-		voice[ voice_seek_point ].tone_no = tone;		//ÒôÉ«·¬?±£´æ
-		RELEASE(pDSData[voice_seek_point]);		//é_·Å
-		//ÒôÉ«¥³¥Ô©`
+	if(voice[ voice_seek_point ].tone_no != tone){		//åŒã˜éŸ³è‰²ç•ª?ã§ãªã‘ã‚Œã°
+		voice[ voice_seek_point ].tone_no = tone;		//éŸ³è‰²ç•ª?ä¿å­˜
+		RELEASE(pDSData[voice_seek_point]);		//_æ”¾
+		//éŸ³è‰²ã‚³ãƒ”`
 		if( pDSound->DuplicateSoundBuffer(pDSData_tone[tone_tbl[ tone ].voice_place],&pDSData[voice_seek_point]) != DS_OK ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ÎÑ}Ñu¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®}uã«å¤±", "Error", MB_OK);
 #endif
 			return -1;
 		}
 	}
 
-	if(stereo_flg == T_MUSIC_MONO){		//?¥Î??¤Ê¤é
+	if(stereo_flg == T_MUSIC_MONO){		//?ãƒ??ãªã‚‰
 		distance = 127 * tone_tbl[ tone ].voice_volume / 10;
 		x = 64;
-	} else {		//¥¹¥Æ?¥ª¤Ê¤é
-		distance = abs(y - 240);		//?ĞÄ¤«¤é¤Î£Ù×ù˜Ë¤Î?ëx
-		y = abs(x - 320);		//?ĞÄ¤«¤é¤Î£Ø×ù˜Ë¤Î?ëx
-		if(distance < y)		//?¤¤·½’ñÓÃ
+	} else {		//ã‚¹ãƒ†?ã‚ªãªã‚‰
+		distance = abs(y - 240);		//?å¿ƒã‹ã‚‰ã®ï¼¹åº§æ‘”?x
+		y = abs(x - 320);		//?å¿ƒã‹ã‚‰ã®ï¼¸åº§æ‘”?x
+		if(distance < y)		//?ã„æ–¹è£¼
 			distance = y;		//
 
-		distance = distance << 4;		//¥Ü??©`?‚¤Ë‰ä“Q
+		distance = distance << 4;		//ãƒœ??`?Q
 		distance /= 0x5a;				//
 
-		if(distance >= 127)		//¹ ‡ìÍâ¤Ê¤é
-			return 0;			//øQ¤é¤µ¤Ê¤¤
+		if(distance >= 127)		//ç„±çŒ¡èƒœ
+			return 0;			//Qã‚‰ã•ãªã„
 
-		x /= 5;			//¥Ñ?¥İ¥Ã¥È‚¤Ë‰ä“Q
+		x /= 5;			//ãƒ‘?ãƒãƒƒãƒˆQ
 		if(x < 0)		//
 			x = 0;		//
 		if(x > 127)		//
 			x = 127;	//
 
-		distance = (127 - distance) * tone_tbl[ tone ].voice_volume / 10;		//ÒôÉ«¥Ü??©`?¼ÓËã
+		distance = (127 - distance) * tone_tbl[ tone ].voice_volume / 10;		//éŸ³è‰²ãƒœ??`?åŠ ç®—
 	}
 
-	pDSData[ voice_seek_point ]->SetVolume(volume_tbl[ distance ]);		// ¥Ü??©`?¥»¥Ã¥È
-	pDSData[ voice_seek_point ]->SetPan(panpot_tbl[ x ]);			// ¥Ñ?¥İ¥Ã¥È¥»¥Ã¥È
-	pDSData[ voice_seek_point ]->Play(0, 0, 0);						//¥­©`¥ª?
+	pDSData[ voice_seek_point ]->SetVolume(volume_tbl[ distance ]);		// ãƒœ??`?ã‚»ãƒƒãƒˆ
+	pDSData[ voice_seek_point ]->SetPan(panpot_tbl[ x ]);			// ãƒ‘?ãƒãƒƒãƒˆã‚»ãƒƒãƒˆ
+	pDSData[ voice_seek_point ]->Play(0, 0, 0);						//ã‚­`ã‚ª?
 
-	voice_seek_point = voice_seek_point++;		//¥İ¥¤?¥¿©`¸üĞÂ
+	voice_seek_point = voice_seek_point++;		//ãƒã‚¤?ã‚¿`æ›´æ–°
 	voice_seek_point&=VOICE_MAX-1;				//
-	tone_tbl[ tone ].play_time = 8;		//ÔÙÉú??ég¥»¥Ã¥È
+	tone_tbl[ tone ].play_time = 8;		//å†ç”Ÿ??gã‚»ãƒƒãƒˆ
 
 	return 0;
 }
 
 #else
 
-//¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡¡Ê§”¡×÷¡¡¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı¡ı
-HANDLE hEvent[3];	// ¥¤¥Ù?¥È?¥Ï?¥É?
-HANDLE  hThreadHandle;	// ×÷¤é¤ì¤¿¥¹?¥Ã¥É¤Î¥Ï?¥É?
-DWORD dwThreadID;	// ×÷¤é¤ì¤¿¥¹?¥Ã¥É¤Î£É£Ä
+//â†“â†“â†“â†“â†“â†“â†“â†“â†“â†“â†“â†“â†“â†“â†“ã€€å¤±âˆ½é³Œã€€
+HANDLE hEvent[3];	// ã‚¤ãƒ™?ãƒˆ?ãƒ?ãƒ‰?
+HANDLE  hThreadHandle;	// ä½œã‚‰ã‚ŒãŸã‚¹?ãƒƒãƒ‰ã®ãƒ?ãƒ‰?
+DWORD dwThreadID;	// ä½œã‚‰ã‚ŒãŸã‚¹?ãƒƒãƒ‰ã®ï¼©ï¼¤
 /*-------------------------------------------
-	¥¹¥È?©`¥ß?¥°?¥Ğ¥Ã¥Õ¥¡ÔÙÉúÓÃ¥¹?¥Ã¥Éév?
+	ã‚¹ãƒˆ?`ãƒŸ?ã‚°?ãƒãƒƒãƒ•ã‚¡å†ç”Ÿç”¨ã‚¹?ãƒƒãƒ‰v?
 --------------------------------------------*/
-// ¥¹?¥Ã¥É¤¬ŒgĞĞ¤¹¤ëév?¤Ë¶É¤¹˜‹ÔìÌå¤ÎĞÎÊ½
+// ã‚¹?ãƒƒãƒ‰ãŒgè¡Œã™ã‚‹v?ã«æ¸¡ã™é€ ä½“ã®å½¢å¼
 struct SoundData {
-    LPDIRECTSOUNDBUFFER pDSBuffer;	// ¥¹¥È?©`?ĞÎÊ½¤Î¥µ¥¦?¥É?¥Ğ¥Ã¥Õ¥¡
-    HANDLE *phEvent;	// ÔÙÉú¥«©`¥½?¤¬Í¨ÖªÎ»ÖÃ¤Ë?¤¿¤È¤­¤Î¥¤¥Ù?¥È?¥Ï?¥É?¤ÎÅäÁĞ¤Ø¤Î¥İ¥¤?¥¿
-    DWORD dwEventNum;	// ¥¤¥Ù?¥È¤Î?
-    DWORD dwStopEventNum;	// ÔÙÉúÍ£Ö¹?¤Î¥¤¥Ù?¥È¤Î¥Ï?¥É?¤Î¥¤?¥Ç¥Ã¥¯¥¹
-    LPBYTE lpWaveData;	// ÔÙÉú¤¹¤ë¥µ¥¦?¥É?¥Ç©`¥¿
-    DWORD dwWaveSize;	// ÔÙÉú¤¹¤ë¥µ¥¦?¥É?¥Ç©`¥¿¤Î¥µ¥¤¥º
-    DWORD dwBlock_size;	// ¥µ¥¦?¥É?¥Ç©`¥¿¤Î£±¥Ö?¥Ã¥¯¤Î´ó¤­¤µ
+    LPDIRECTSOUNDBUFFER pDSBuffer;	// ã‚¹ãƒˆ?`?å½¢å¼ã®ã‚µã‚¦?ãƒ‰?ãƒãƒƒãƒ•ã‚¡
+    HANDLE *phEvent;	// å†ç”Ÿã‚«`ã‚½?ãŒé€šçŸ¥ä½ç½®ã«?ãŸã¨ãã®ã‚¤ãƒ™?ãƒˆ?ãƒ?ãƒ‰?ã®é…åˆ—ã¸ã®ãƒã‚¤?ã‚¿
+    DWORD dwEventNum;	// ã‚¤ãƒ™?ãƒˆã®?
+    DWORD dwStopEventNum;	// å†ç”Ÿåœæ­¢?ã®ã‚¤ãƒ™?ãƒˆã®ãƒ?ãƒ‰?ã®ã‚¤?ãƒ‡ãƒƒã‚¯ã‚¹
+    LPBYTE lpWaveData;	// å†ç”Ÿã™ã‚‹ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿
+    DWORD dwWaveSize;	// å†ç”Ÿã™ã‚‹ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã®ã‚µã‚¤ã‚º
+    DWORD dwBlock_size;	// ã‚µã‚¦?ãƒ‰?ãƒ‡`ã‚¿ã®ï¼‘ãƒ–?ãƒƒã‚¯ã®å¤§ãã•
 } sd;
 
-// ¥Ç©`¥¿¤Î¥³¥Ô©`év?
+// ãƒ‡`ã‚¿ã®ã‚³ãƒ”`v?
 void Block_Copy(LPDIRECTSOUNDBUFFER lpBuffer,
     DWORD blockadd, DWORD blocksize,
     LPBYTE lpWave, LONG &waveAdd, LONG waveSize)
@@ -2795,7 +2795,7 @@ void Block_Copy(LPDIRECTSOUNDBUFFER lpBuffer,
     DWORD blockSize1, blockSize2;
 	LONG ws = waveSize - waveAdd;
 
-    // ¥Ğ¥Ã¥Õ¥¡¤ò?¥Ã¥¯
+    // ãƒãƒƒãƒ•ã‚¡ã‚’?ãƒƒã‚¯
     HRESULT hr = lpBuffer->Lock(blockadd, blocksize, (LPVOID*)&lpBlockAdd1, &blockSize1, (LPVOID*)&lpBlockAdd2, &blockSize2, 0);
     if(hr == DS_OK)
     {
@@ -2836,38 +2836,38 @@ static LONG wave_address = 0;
 static LONG buffer_address = 0;
 volatile static int thread_start_flg = 0;
 
-// ¥¹?¥Ã¥É¤¬ŒgĞĞ¤¹¤ëév?
+// ã‚¹?ãƒƒãƒ‰ãŒgè¡Œã™ã‚‹v?
 DWORD WINAPI MyThreadFunc(LPVOID param)
 {
 	LONG waveAdd = 0;
-    // ¥Ğ¥Ã¥Õ¥¡¤Î×î?¤Î¥Ö?¥Ã¥¯¤Ë¥Ç©`¥¿¤ò?¤­?¤à£®
+    // ãƒãƒƒãƒ•ã‚¡ã®æœ€?ã®ãƒ–?ãƒƒã‚¯ã«ãƒ‡`ã‚¿ã‚’?ã?ã‚€ï¼
     Block_Copy(sd.pDSBuffer, 0, sd.dwBlock_size, sd.lpWaveData, waveAdd, sd.dwWaveSize);
 	thread_start_flg = 1;
-    // ¥Ç©`¥¿¤ò?¤­?¤àŸoÏŞ?©`¥×¤ËÈë¤ë£®
+    // ãƒ‡`ã‚¿ã‚’?ã?ã‚€oé™?`ãƒ—ã«å…¥ã‚‹ï¼
     while(TRUE)
     {
-        // DirectSoundBuffer¤«¤é¤Î¥¤¥Ù?¥È¤ò´ı¤Ä
+        // DirectSoundBufferã‹ã‚‰ã®ã‚¤ãƒ™?ãƒˆã‚’å¾…ã¤
         DWORD i = WaitForMultipleObjects(sd.dwEventNum, sd.phEvent, FALSE, INFINITE);
-        // ¥¤¥Ù?¥È¤¬¤­¤¿¤é£¬¤³¤ì¤«¤éÔÙÉú¤µ¤ì¤ë¥Ö?¥Ã¥¯¤Î?¤Î¥Ö?¥Ã¥¯¤Ë?¤­?¤à
+        // ã‚¤ãƒ™?ãƒˆãŒããŸã‚‰ï¼Œã“ã‚Œã‹ã‚‰å†ç”Ÿã•ã‚Œã‚‹ãƒ–?ãƒƒã‚¯ã®?ã®ãƒ–?ãƒƒã‚¯ã«?ã?ã‚€
 		wave_count++;
         switch(i)
         {
             case WAIT_OBJECT_0 + 1:
-                // £±·¬Ä¿¤Î¥Ö?¥Ã¥¯¤Ë?¤­?¤à
+                // ï¼‘ç•ªç›®ã®ãƒ–?ãƒƒã‚¯ã«?ã?ã‚€
 				buffer_address = 0; wave_address = waveAdd;
                 Block_Copy(sd.pDSBuffer, 0, sd.dwBlock_size, sd.lpWaveData, waveAdd, sd.dwWaveSize);
                 break;
             case WAIT_OBJECT_0:
-                // £²·¬Ä¿¤Î¥Ö?¥Ã¥¯¤Ë?¤­?¤à
+                // ï¼’ç•ªç›®ã®ãƒ–?ãƒƒã‚¯ã«?ã?ã‚€
 				buffer_address = sd.dwBlock_size; wave_address = waveAdd;
                 Block_Copy(sd.pDSBuffer, sd.dwBlock_size, sd.dwBlock_size, sd.lpWaveData, waveAdd, sd.dwWaveSize);
                 break;
             case WAIT_OBJECT_0 + 2:
-                 // ÔÙÉú½KÁË?¤Ë£¬¥¹?¥Ã¥É¤ò½KÁË¤¹¤ë
+                 // å†ç”ŸKäº†?ã«ï¼Œã‚¹?ãƒƒãƒ‰ã‚’Käº†ã™ã‚‹
 				exit_thread_flg = 1;
 				ExitThread(TRUE);
             default:
-                 // ÔÙÉú½KÁË?¤Ë£¬¥¹?¥Ã¥É¤ò½KÁË¤¹¤ë
+                 // å†ç”ŸKäº†?ã«ï¼Œã‚¹?ãƒƒãƒ‰ã‚’Käº†ã™ã‚‹
 				exit_thread_flg = 1;
 				ExitThread(TRUE);
         }
@@ -2877,26 +2877,26 @@ DWORD WINAPI MyThreadFunc(LPVOID param)
 }
 
 //
-// ¥»¥«?¥À?¥Ğ¥Ã¥Õ¥¡¤ÎÈ¡µÃ
+// ã‚»ã‚«?ãƒ€?ãƒãƒƒãƒ•ã‚¡ã®å–å¾—
 //
-// Òı¡¡?£º	pWfmtx ... ¥Ğ¥Ã¥Õ¥¡¤Î¥Õ¥©©`¥Ş¥Ã¥È
-//			DataSize ... ¥Ğ¥Ã¥Õ¥¡¤Î¥µ¥¤¥º
-//			ppData ... È¡µÃ¤·¤¿¥»¥«?¥À?¥Ğ¥Ã¥Õ¥¡¤Î¥İ¥¤?¥¿
-// ‘ø¤ê‚£º	TRUE  ... Õı³£½KÁË
-//			FALSE ... Ê§”¡
+// å¼•ã€€?ï¼š	pWfmtx ... ãƒãƒƒãƒ•ã‚¡ã®ãƒ•ã‚©`ãƒãƒƒãƒˆ
+//			DataSize ... ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
+//			ppData ... å–å¾—ã—ãŸã‚»ã‚«?ãƒ€?ãƒãƒƒãƒ•ã‚¡ã®ãƒã‚¤?ã‚¿
+// 	TRUE  ... æ­£å¸¸Käº†
+//			FALSE ... å¤±
 static BOOL dwSoundInit2( WAVEFORMATEX *pWfmtx, DWORD DataSize, LPDIRECTSOUNDBUFFER *ppData, HMMIO hmmio )
 {
-	// ¥¹¥È?©`¥ß?¥°?¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	// ã‚¹ãƒˆ?`ãƒŸ?ã‚°?ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 	WAVEFORMATEX pcmwf = *pWfmtx;
 	DSBUFFERDESC  dsbufferdesc;
 	HRESULT ret;
 
-	//é_·Å¤¹¤ë¤Ê¤é
+	//_æ”¾ã™ã‚‹ãªã‚‰
 	if(stream_flg == 1){
 		RELEASE(pDSNotify);
 		stream_flg = 0;
 	}
-	//¥µ¥¦?¥É¥µ©`¥Õ¥§©`¥¹¤òÆğ¤³¤¹
+	//ã‚µã‚¦?ãƒ‰ã‚µ`ãƒ•ã‚§`ã‚¹ã‚’èµ·ã“ã™
 	memset( &dsbufferdesc , 0  , sizeof( DSBUFFERDESC ) );
 	dsbufferdesc.dwSize = sizeof( DSBUFFERDESC );
 	dsbufferdesc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY /*| DSBCAPS_CTRLDEFAULT */| DSBCAPS_GETCURRENTPOSITION2; 
@@ -2905,24 +2905,24 @@ static BOOL dwSoundInit2( WAVEFORMATEX *pWfmtx, DWORD DataSize, LPDIRECTSOUNDBUF
     dsbufferdesc.lpwfxFormat   = pWfmtx;
     if ( pDSound->CreateSoundBuffer( &dsbufferdesc , ppData , NULL ) != DS_OK ){
 #ifdef _DEBUG
-	    MessageBox(hWnd, "¥»¥«?¥É?¥Ğ¥Ã¥Õ¥¡¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "ã‚»ã‚«?ãƒ‰?ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
 
-	//£×£Á£Ö£Å¥Ç©`¥¿?©`¥É
+	//ï¼·ï¼¡ï¼¶ï¼¥ãƒ‡`ã‚¿?`ãƒ‰
 	if( WaveDataRead( hmmio, &DataSize, pDSData_stream ) == FALSE  ){
 #ifdef _DEBUG
-		MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+		MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	// ¥¹¥È?©`¥ß?¥°?¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	// ã‚¹ãƒˆ?`ãƒŸ?ã‚°?ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 //	WAVEFORMATEX pcmwf = *pWaveHeader;
 	DSBUFFERDESC dsbdesc; 
-	// DSBUFFERDESC˜‹ÔìÌå¤òÔO¶¨
+	// DSBUFFERDESCé€ ä½“ã‚’Oå®š
 	ZeroMemory(&dsbdesc, sizeof(DSBUFFERDESC));
 	dsbdesc.dwSize = sizeof(DSBUFFERDESC); 
 #if ACTIVE
@@ -2930,21 +2930,21 @@ static BOOL dwSoundInit2( WAVEFORMATEX *pWfmtx, DWORD DataSize, LPDIRECTSOUNDBUF
 #else
 	dsbdesc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY /*| DSBCAPS_CTRLDEFAULT */| DSBCAPS_GETCURRENTPOSITION2; 
 #endif
-	// ÉÏ¤ÇÔO¶¨¤·¤¿Wave¥Õ¥©©`¥Ş¥Ã¥È¤ò?¤Ä£²Ãë¤Î¥Ğ¥Ã¥Õ¥¡¤ò×÷¤ë
+	// ä¸Šã§Oå®šã—ãŸWaveãƒ•ã‚©`ãƒãƒƒãƒˆã‚’?ã¤ï¼’ç§’ã®ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 	dsbdesc.dwBufferBytes = 2 * pcmwf.nAvgBytesPerSec; 
 	dsbdesc.lpwfxFormat = &pcmwf; 
 	ret = pDSound->CreateSoundBuffer(&dsbdesc, &pDSData_tone[ TONE_MAX ], NULL); 
 	if(ret != DS_OK) { 
-	    // ¥Ğ¥Ã¥Õ¥¡¤Î×÷³É¤ËÊ§”¡
+	    // ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±
 //		RELEASE(pDSound);
 		RELEASE(pDSData_stream);
 #ifdef _DEBUG
-	    MessageBox(hWnd, "¥»¥«?¥É?¥Ğ¥Ã¥Õ¥¡pDSData_stream¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "ã‚»ã‚«?ãƒ‰?ãƒãƒƒãƒ•ã‚¡pDSData_streamã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	// DirectSoundNotify¥ª¥Ö¥¸¥§¥¯¥È¤ò×÷³É¤¹¤ë
+	// DirectSoundNotifyã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
 	ret = pDSData_tone[ TONE_MAX ]->QueryInterface(IID_IDirectSoundNotify, (LPVOID*)&pDSNotify);
 	if(ret != DS_OK)
 	{
@@ -2952,71 +2952,71 @@ static BOOL dwSoundInit2( WAVEFORMATEX *pWfmtx, DWORD DataSize, LPDIRECTSOUNDBUF
 		RELEASE(pDSData_stream);
 		RELEASE(pDSData_tone[ TONE_MAX ]);
 #ifdef _DEBUG
-	    MessageBox(hWnd, "DirectSoundNotify¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "DirectSoundNotifyã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
-		//¡¡×÷³É¤ËÊ§”¡
+		//ã€€ä½œæˆã«å¤±
 	}
 
-	// ¥¤¥Ù?¥È?¥ª¥Ö¥¸¥§¥¯¥È¤Î×÷³É
+	// ã‚¤ãƒ™?ãƒˆ?ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	hEvent[0] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	hEvent[1] = CreateEvent(NULL, FALSE, FALSE, NULL);
 	hEvent[2] = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	// DirectSoundNotify¥ª¥Ö¥¸¥§¥¯¥È¤òÔO¶¨¤¹¤ë
-	// ˜‹ÔìÌå¤ò?ÆÚ»¯
+	// DirectSoundNotifyã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’Oå®šã™ã‚‹
+	// é€ ä½“ã‚’?æœŸåŒ–
 	DSBPOSITIONNOTIFY  pn[3];
-	pn[0].dwOffset = 0;	// £°ÃëÄ¿
+	pn[0].dwOffset = 0;	// ï¼ç§’ç›®
 	pn[0].hEventNotify = hEvent[0];
-	pn[1].dwOffset = 1 * pcmwf.nAvgBytesPerSec;	// £±ÃëÄ¿
+	pn[1].dwOffset = 1 * pcmwf.nAvgBytesPerSec;	// ï¼‘ç§’ç›®
 	pn[1].hEventNotify = hEvent[1];
-	pn[2].dwOffset = DSBPN_OFFSETSTOP;	// ÔÙÉúÍ£Ö¹
-	pn[2].hEventNotify = hEvent[2];	// £²¤ÄÄ¿¤Î¥¤¥Ù?¥È?¥Ï?¥É?¤òÍ£Ö¹?¤Î¥Ï?¥É?¤È¤·¤ÆÊ¹¤¦
+	pn[2].dwOffset = DSBPN_OFFSETSTOP;	// å†ç”Ÿåœæ­¢
+	pn[2].hEventNotify = hEvent[2];	// ï¼’ã¤ç›®ã®ã‚¤ãƒ™?ãƒˆ?ãƒ?ãƒ‰?ã‚’åœæ­¢?ã®ãƒ?ãƒ‰?ã¨ã—ã¦ä½¿ã†
 
-	// Í£Ö¹Î»ÖÃÔO¶¨
+	// åœæ­¢ä½ç½®Oå®š
 	HRESULT hr;
 	hr = pDSNotify->SetNotificationPositions(3, pn);
 	if(hr != DS_OK)
 	{
-	    // ÔO¶¨Ê§”¡
+	    // Oå®šå¤±
 		RELEASE(pDSNotify);
 //		RELEASE(pDSound);
 		RELEASE(pDSData_stream);
 		RELEASE(pDSData_tone[ TONE_MAX ]);
 #ifdef _DEBUG
-	    MessageBox(hWnd, "DirectSoundNotify¤ÎÔO¶¨¤ËÊ§”¡", "Error", MB_OK);
+	    MessageBox(hWnd, "DirectSoundNotifyã®Oå®šã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 
-	stream_flg = 1;		//×÷³É¥Õ?¥°¥»¥Ã¥È
+	stream_flg = 1;		//ä½œæˆãƒ•?ã‚°ã‚»ãƒƒãƒˆ
 
-	// ¥¹?¥Ã¥É¥¹¥¿©`¥È¥Õ?¥°¥¯?¥¢
+	// ã‚¹?ãƒƒãƒ‰ã‚¹ã‚¿`ãƒˆãƒ•?ã‚°ã‚¯?ã‚¢
 	thread_start_flg = 0;
 
-	// ÔÙÉúÓÃ¥¹?¥Ã¥É¤ò×÷¤ë
-	sd.pDSBuffer = pDSData_tone[ TONE_MAX ];	// ¥¹¥È?©`¥ß?¥°ÔÙÉú¤¹¤ëDirectSoundBuffer¥ª¥Ö¥¸¥§¥¯¥È
-	sd.phEvent = hEvent;	// 4.4.¤Ç×÷¤Ã¤¿¥¤¥Ù?¥È?¥Ï?¥É?¤ÎÅäÁĞ
-	sd.dwEventNum = 3;	// ¥¤¥Ù?¥È?¥Ï?¥É?¤Ï£³¤Ä
-	sd.dwStopEventNum = 2;	// £³¤ÄÄ¿¤Î¥¤¥Ù?¥È?¥Ï?¥É?¤¬Í£Ö¹ÓÃ¥¤¥Ù?¥È
-	sd.lpWaveData = pDSbuffData;	// ÔÙÉú¤¹¤ëWave¥Ç©`¥¿¤Î¥İ¥¤?¥¿¤òÔO¶¨£»
-	sd.dwWaveSize = DataSize;	// ÔÙÉú¤¹¤ëWave¥Ç©`¥¿¤Î´ó¤­¤µ¤òÔO¶¨£»
-	sd.dwBlock_size = pcmwf.nAvgBytesPerSec;	// 44.1kHz£¬£±£¶¥Ó¥Ã¥È?¥¹¥Æ?¥ª
+	// å†ç”Ÿç”¨ã‚¹?ãƒƒãƒ‰ã‚’ä½œã‚‹
+	sd.pDSBuffer = pDSData_tone[ TONE_MAX ];	// ã‚¹ãƒˆ?`ãƒŸ?ã‚°å†ç”Ÿã™ã‚‹DirectSoundBufferã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	sd.phEvent = hEvent;	// 4.4.ã§ä½œã£ãŸã‚¤ãƒ™?ãƒˆ?ãƒ?ãƒ‰?ã®é…åˆ—
+	sd.dwEventNum = 3;	// ã‚¤ãƒ™?ãƒˆ?ãƒ?ãƒ‰?ã¯ï¼“ã¤
+	sd.dwStopEventNum = 2;	// ï¼“ã¤ç›®ã®ã‚¤ãƒ™?ãƒˆ?ãƒ?ãƒ‰?ãŒåœæ­¢ç”¨ã‚¤ãƒ™?ãƒˆ
+	sd.lpWaveData = pDSbuffData;	// å†ç”Ÿã™ã‚‹Waveãƒ‡`ã‚¿ã®ãƒã‚¤?ã‚¿ã‚’Oå®šï¼›
+	sd.dwWaveSize = DataSize;	// å†ç”Ÿã™ã‚‹Waveãƒ‡`ã‚¿ã®å¤§ãã•ã‚’Oå®šï¼›
+	sd.dwBlock_size = pcmwf.nAvgBytesPerSec;	// 44.1kHzï¼Œï¼‘ï¼–ãƒ“ãƒƒãƒˆ?ã‚¹ãƒ†?ã‚ª
 
-	// ¥¹?¥Ã¥É¤ò×÷¤ë¥³©`¥É
+	// ã‚¹?ãƒƒãƒ‰ã‚’ä½œã‚‹ã‚³`ãƒ‰
 	hThreadHandle = CreateThread(NULL, 0, MyThreadFunc, &sd, 0, &dwThreadID);
 	if(hThreadHandle == NULL)
 	{
 #ifdef _DEBUG
-	    // ¥¹?¥Ã¥É¤ÎÉú³É¤ËÊ§”¡
+	    // ã‚¹?ãƒƒãƒ‰ã®ç”Ÿæˆã«å¤±
 #ifdef _DEBUG
-	    MessageBox(hWnd, "¥¹?¥Ã¥É¤ÎÉú³É¤ËÊ§”¡¤·¤Ş¤·¤¿¡¢?¼±¥ª¥Õ¥È¤Ş¤ÇßB?ÏÂ¤µ¤¤¡£", "Error", MB_OK);
+	    MessageBox(hWnd, "ã‚¹?ãƒƒãƒ‰ã®ç”Ÿæˆã«å¤±ãƒ»ç­è“¼ç­ä¿Š?æ€¥ã‚ªãƒ•ãƒˆã¾ã§B?ä¸‹ã•ã„ã€‚", "Error", MB_OK);
 #endif
 #endif
 		return FALSE;
 	}
 
-	// ¥¹?¥Ã¥É¥¹¥¿©`¥È¤Ş¤Ç´ı¤Ä
+	// ã‚¹?ãƒƒãƒ‰ã‚¹ã‚¿`ãƒˆã¾ã§å¾…ã¤
 	while(1){
 		if(thread_start_flg)
 			break;
@@ -3027,61 +3027,61 @@ static BOOL dwSoundInit2( WAVEFORMATEX *pWfmtx, DWORD DataSize, LPDIRECTSOUNDBUF
 //	pDSData_tone[ TONE_MAX ]->Play(0, 0, DSBPLAY_LOOPING);
 	return TRUE;
 }
-//¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡¡Ê§”¡×÷¡¡¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü¡ü
+//â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘â†‘ã€€å¤±âˆ½é³Œã€€
 
 int t_music_bgm_no = -1;
 char t_music_bgm_pitch[16]={
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 };
 
-//??????????¡¡£Â£Ç£ÍÔÙÉú¡¡??????????
+//??????????ã€€ï¼¢ï¼§ï¼­å†ç”Ÿã€€??????????
 #define	BGM_AUTO_LOOP	1
 T_MUSIC_BGM bgm_tbl[] = {
-#if 0		//£Ó£Ã°æ
-	{"data\\bgm\\sabgm_s0.wav",		110,0,0},			//00	¥µ¥¯¥»¥¹
-	{"data\\scheme\\title.wav",		120,0,0},			//01	¥¿¥¤¥È?
-	{"data\\scheme\\select.wav",	120,2,0},			//02	¥­??ßx’k£¨ÏÈî^£©
-	{"data\\scheme\\tomorrow.wav",	120,2,0},			//03	î®£±£¨Í¾?£©
-	{"data\\scheme\\tomorrow.wav",	120,2,0},			//04	¥Î¥Î
-	{"data\\scheme\\battle1.wav",	120,2,0},			//05	‘éêL£±£¨Í¾?£©
-//	{"data\\scheme\\battle2.wav",	120,2,0},			//06	‘éêL£²£¨ÏÈî^£©
-	{"data\\scheme\\mukasi.wav",	120,2,0},			//06	‘éêL£²£¨Í¾?£©
-	{"data\\scheme\\perpetual.wav",	120,2,0},			//07	¶´¿ß£±£¨Í¾?£©
-	{"data\\scheme\\haha.wav",		120,2,0},			//08	¶´¿ß£²£¨ÏÈî^£©
-	{"data\\scheme\\perpetual.wav",	120,2,0},			//09	¶´¿ß£±£¨Í¾?£©
-	{"data\\scheme\\just.wav",		120,2,0},			//10	¥Õ¥£©`?¥É£¨Í¾?£©
-	{"data\\scheme\\just.wav",		120,2,0},			//11	¥Î¥Î
+#if 0		//ï¼³ï¼£ç‰ˆ
+	{"data\\bgm\\sabgm_s0.wav",		110,0,0},			//00	ã‚µã‚¯ã‚»ã‚¹
+	{"data\\scheme\\title.wav",		120,0,0},			//01	ã‚¿ã‚¤ãƒˆ?
+	{"data\\scheme\\select.wav",	120,2,0},			//02	ã‚­??xkï¼ˆå…ˆ^ï¼‰
+	{"data\\scheme\\tomorrow.wav",	120,2,0},			//03	ç”ºï¼‘ï¼ˆé€”?ï¼‰
+	{"data\\scheme\\tomorrow.wav",	120,2,0},			//04	ãƒãƒ
+	{"data\\scheme\\battle1.wav",	120,2,0},			//05	æ®›Lï¼‘ï¼ˆé€”?ï¼‰
+//	{"data\\scheme\\battle2.wav",	120,2,0},			//06	æ®›Lï¼’ï¼ˆå…ˆ^ï¼‰
+	{"data\\scheme\\mukasi.wav",	120,2,0},			//06	æ®›Lï¼’ï¼ˆé€”?ï¼‰
+	{"data\\scheme\\perpetual.wav",	120,2,0},			//07	æ´çªŸï¼‘ï¼ˆé€”?ï¼‰
+	{"data\\scheme\\haha.wav",		120,2,0},			//08	æ´çªŸï¼’ï¼ˆå…ˆ^ï¼‰
+	{"data\\scheme\\perpetual.wav",	120,2,0},			//09	æ´çªŸï¼‘ï¼ˆé€”?ï¼‰
+	{"data\\scheme\\just.wav",		120,2,0},			//10	ãƒ•ã‚£`?ãƒ‰ï¼ˆé€”?ï¼‰
+	{"data\\scheme\\just.wav",		120,2,0},			//11	ãƒãƒ
 #else
-#if 0		//¦Â°æ
-	{"data\\bgm\\sabgm_s0.wav",	110,0,0},			//00	¥µ¥¯¥»¥¹
-	{"data\\bgm\\sabgm_s1.wav",	120,0,0},			//01	¥¿¥¤¥È?
-//	{"data\\bgm\\sabgm_s2.wav",	124,2,0},			//02	¥­??ßx’k£¨Í¾?£©
-	{"data\\bgm\\sabgm_s3.wav",	115,1,0},			//02	¥­??ßx’k£²£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_t1.wav",	127,2,0},			//03	¥·?¥¦î®£²£¨Í¾?£©
-	{"data\\bgm\\sabgm_t0.wav",	95,2,0},			//04	î®£±£¨Í¾?£©
-	{"data\\bgm\\sabgm_b0.wav",	122,1,0},			//05	¥·?¥¦‘éêL£±£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_b1.wav",	122,1,0},			//06	¥·?¥¦‘éêL£±£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_d0.wav",	120,1,0},			//07	?¥ß¥µ¶´¿ß£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_d1.wav",	120,1,0},			//08	?¥ß¥µ¶´¿ß£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_d2.wav",	120,1,0},			//09	?¥ß¥µ¶´¿ß£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_f0.wav",	127,2,0},			//10	¥·?¥¦¥Õ¥£©`?¥É£±£¨Í¾?£©
-	{"data\\bgm\\sabgm_f1.wav",	127,2,0},			//11	¥·?¥¦¥Õ¥£©`?¥É£±£¨Í¾?£©
-#else		//¥Ş¥¹¥¿©`°æ
-	{"data\\bgm\\sabgm_s0.wav",	110,0,0},			//00	¥µ¥¯¥»¥¹
-	{"data\\bgm\\sabgm_s1.wav",	120,0,0},			//01	¥¿¥¤¥È?
-	{"data\\bgm\\sabgm_s1.wav",	105,2,0},			//02	¥­??ßx’k£¨Í¾?£©
-	{"data\\bgm\\sabgm_t1.wav",	127,2,0},			//03	¥·?¥¦î®£²£¨Í¾?£©
-	{"data\\bgm\\sabgm_t0.wav",	95,2,0},			//04	î®£±£¨Í¾?£©
+#if 0		//Î²ç‰ˆ
+	{"data\\bgm\\sabgm_s0.wav",	110,0,0},			//00	ã‚µã‚¯ã‚»ã‚¹
+	{"data\\bgm\\sabgm_s1.wav",	120,0,0},			//01	ã‚¿ã‚¤ãƒˆ?
+//	{"data\\bgm\\sabgm_s2.wav",	124,2,0},			//02	ã‚­??xkï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_s3.wav",	115,1,0},			//02	ã‚­??xkï¼’ï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_t1.wav",	127,2,0},			//03	ã‚·?ã‚¦ç”ºï¼’ï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_t0.wav",	95,2,0},			//04	ç”ºï¼‘ï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_b0.wav",	122,1,0},			//05	ã‚·?ã‚¦æ®›Lï¼‘ï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_b1.wav",	122,1,0},			//06	ã‚·?ã‚¦æ®›Lï¼‘ï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_d0.wav",	120,1,0},			//07	?ãƒŸã‚µæ´çªŸï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_d1.wav",	120,1,0},			//08	?ãƒŸã‚µæ´çªŸï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_d2.wav",	120,1,0},			//09	?ãƒŸã‚µæ´çªŸï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_f0.wav",	127,2,0},			//10	ã‚·?ã‚¦ãƒ•ã‚£`?ãƒ‰ï¼‘ï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_f1.wav",	127,2,0},			//11	ã‚·?ã‚¦ãƒ•ã‚£`?ãƒ‰ï¼‘ï¼ˆé€”?ï¼‰
+#else		//ãƒã‚¹ã‚¿`ç‰ˆ
+	{"data\\bgm\\sabgm_s0.wav",	110,0,0},			//00	ã‚µã‚¯ã‚»ã‚¹
+	{"data\\bgm\\sabgm_s1.wav",	120,0,0},			//01	ã‚¿ã‚¤ãƒˆ?
+	{"data\\bgm\\sabgm_s1.wav",	105,2,0},			//02	ã‚­??xkï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_t1.wav",	127,2,0},			//03	ã‚·?ã‚¦ç”ºï¼’ï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_t0.wav",	95,2,0},			//04	ç”ºï¼‘ï¼ˆé€”?ï¼‰
 
-	{"data\\bgm\\sabgm_b0.wav",	122,1,0},			//05	¥·?¥¦‘éêL£±£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_b1.wav",	122,2,0},			//06	¥·?¥¦‘éêL£±£¨Í¾?£©
+	{"data\\bgm\\sabgm_b0.wav",	122,1,0},			//05	ã‚·?ã‚¦æ®›Lï¼‘ï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_b1.wav",	122,2,0},			//06	ã‚·?ã‚¦æ®›Lï¼‘ï¼ˆé€”?ï¼‰
 
-	{"data\\bgm\\sabgm_d0.wav",	120,1,0},			//07	?¥ß¥µ¶´¿ß£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_d1.wav",	105,1,0},			//08	šøÓÃ¶´¿ß£±£¨ÏÈî^£©
-	{"data\\bgm\\sabgm_d2.wav",	100,2,0},			//09	šøÓÃ¶´¿ß£²£¨Í¾?£©
+	{"data\\bgm\\sabgm_d0.wav",	120,1,0},			//07	?ãƒŸã‚µæ´çªŸï¼ˆå…ˆ^ï¼‰
+	{"data\\bgm\\sabgm_d1.wav",	105,1,0},			//08	æšçº¯æ’¸ä¿ã„é˜®^ï¼‰
+	{"data\\bgm\\sabgm_d2.wav",	100,2,0},			//09	æšçº¯æ’¸ç»ã„?ï¼‰
 
-	{"data\\bgm\\sabgm_f0.wav",	127,2,0},			//10	¥µ¥¤¥Ê¥¹£¨Í¾?£©
-	{"data\\bgm\\sabgm_f1.wav",	100,2,0},			//11	¥¸??¥¬£¨Í¾?£©
+	{"data\\bgm\\sabgm_f0.wav",	127,2,0},			//10	ã‚µã‚¤ãƒŠã‚¹ï¼ˆé€”?ï¼‰
+	{"data\\bgm\\sabgm_f1.wav",	100,2,0},			//11	ã‚¸??ã‚¬ï¼ˆé€”?ï¼‰
 #endif
 #endif
 };
@@ -3089,14 +3089,14 @@ T_MUSIC_BGM bgm_tbl[] = {
 int play_bgm(int bgm_no)
 {
 //	_asm{int 3}
-	HMMIO hmmio;			//¥Õ¥¡¥¤?¥Ï?¥É?
-    WAVEFORMATEX	Wfmtx;			//WAVE¥Õ¥¡¥¤?¤Î¥Õ¥©©`¥Ş¥Ã¥È¥Ç©`¥¿
-	DWORD			DataSize;		//¥Ğ¥Ã¥Õ¥¡©`¤Î¥µ¥¤¥º
-	DWORD			WaveSize;		//Wave¥Õ¥¡¥¤?¤Î¥µ¥¤¥º
+	HMMIO hmmio;			//ãƒ•ã‚¡ã‚¤?ãƒ?ãƒ‰?
+    WAVEFORMATEX	Wfmtx;			//WAVEãƒ•ã‚¡ã‚¤?ã®ãƒ•ã‚©`ãƒãƒƒãƒˆãƒ‡`ã‚¿
+	DWORD			DataSize;		//ãƒãƒƒãƒ•ã‚¡`ã®ã‚µã‚¤ã‚º
+	DWORD			WaveSize;		//Waveãƒ•ã‚¡ã‚¤?ã®ã‚µã‚¤ã‚º
 
 //	bgm_no = 0;
 
-	//¥Õ¥§©`¥É¥Õ?¥°¥¯?¥¢
+	//ãƒ•ã‚§`ãƒ‰ãƒ•?ã‚°ã‚¯?ã‚¢
 	t_music_fade_flg = 0;
 
 	if(dsound_flg == -1)
@@ -3105,64 +3105,64 @@ int play_bgm(int bgm_no)
 	if(bgm_no > 12)
 		return -1;
 
-	//×î?¤ÎÒ»»ØÄ¿¤Ç¤Ê¤±¤ì¤Ğ
+	//æœ€?ã®ä¸€å›ç›®ã§ãªã‘ã‚Œã°
 	if(t_music_bgm_no != -1){
-		//¥¹?¥Ã¥ÉÍ£Ö¹¤Ø
+		//ã‚¹?ãƒƒãƒ‰åœæ­¢ã¸
 		stop_thread();
 	}
 
-	//£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?
+	//ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?
 //	if( (hmmio = mmioOpen(fname[bgm_no], NULL, MMIO_READ | MMIO_ALLOCBUF )) == NULL){
 	if( (hmmio = mmioOpen(bgm_tbl[bgm_no].fname, NULL, MMIO_READ | MMIO_ALLOCBUF )) == NULL){
 #ifdef _DEBUG
-//		MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡", "Error", MB_OK);
+//		MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
-	//¥¢¥È?¥Ó?©`¥È¤Î?©`¥É
+	//ã‚¢ãƒˆ?ãƒ“?`ãƒˆã®?`ãƒ‰
 	if( WaveFormatRead( hmmio , &Wfmtx , &WaveSize ) == FALSE ){
 #ifdef _DEBUG
-		MessageBox(hWnd, "¥¢¥È?¥Ó?©`¥È¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+		MessageBox(hWnd, "ã‚¢ãƒˆ?ãƒ“?`ãƒˆã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 		return FALSE;
 	}
 	DataSize = WaveSize;
-	//¥µ¥¦?¥É¥µ©`¥Õ¥§©`¥¹¤òÆğ¤³¤¹
-	if(bgm_tbl[bgm_no].loop_flg == 2){		//Í¾??©`¥×¤Ê¤é
-		thread_stop_flg = 1;		//¥Õ?¥°¥ª?
-		//£Â£Ç£ÍÇéˆó¥»¥Ã¥È
+	//ã‚µã‚¦?ãƒ‰ã‚µ`ãƒ•ã‚§`ã‚¹ã‚’èµ·ã“ã™
+	if(bgm_tbl[bgm_no].loop_flg == 2){		//é€”??`ãƒ—ãªã‚‰
+		thread_stop_flg = 1;		//ãƒ•?ã‚°ã‚ª?
+		//ï¼¢ï¼§ï¼­æƒ…è—äº’æ°“
 #if BGM_AUTO_LOOP
 		FILE *fp;
 		int d0,d1,d2;
 		fp = fopen( bgm_tbl[bgm_no].fname, "rb" );
 		if( fp == NULL ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î¥ª©`¥×?¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®ã‚ª`ãƒ—?ã«å¤±", "Error", MB_OK);
 #endif
 			return FALSE;
 		}
-		d2 = 8;							//¡¯£Ò£É£Æ£Æ¡¯£¸¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 4;						//¡¯£×£Á£Ö£Å¡¯£´¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 4;						//¡¯???¡¡¡¯£´¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 16;						//£±£¶¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		fseek(fp,d2,SEEK_CUR);			//¥Õ¥¡¥¤?¥İ¥¤?¥¿©`ÒÆ„Ó
-		d0 = fgetc(fp);					//²¨ĞÎ¥Ç©`¥¿¤Î×îĞ¡¥Ö?¥Ã¥¯È¡¤ê³ö¤·
+		d2 = 8;							//â€™ï¼²ï¼©ï¼¦ï¼¦â€™ï¼˜ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 4;						//â€™ï¼·ï¼¡ï¼¶ï¼¥â€™ï¼”ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 4;						//â€™???ã€€â€™ï¼”ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 16;						//ï¼‘ï¼–ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		fseek(fp,d2,SEEK_CUR);			//ãƒ•ã‚¡ã‚¤?ãƒã‚¤?ã‚¿`ç§»
+		d0 = fgetc(fp);					//æ³¢å½¢ãƒ‡`ã‚¿ã®æœ€å°ãƒ–?ãƒƒã‚¯å–ã‚Šå‡ºã—
 		d0 |= fgetc(fp) << 8;			//
-		d2 = 2;							//£²¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		d2 += 12+DataSize;				//¡¯£Ä£Á£Ô£Á¡¯¥Á??¥¯¡¡£«¡¡¥Ç©`¥¿¥µ¥¤¥º¥¹¥­¥Ã¥×
-		if(DataSize&1){					//¥µ¥¤¥º¤¬Ææ?¤Ê¤é
-			d2++;						//£±¥Ğ¥¤¥È¼ÓËã
+		d2 = 2;							//ï¼’ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		d2 += 12+DataSize;				//â€™ï¼¤ï¼¡ï¼´ï¼¡â€™ãƒ??ã‚¯ã€€ï¼‹ã€€ãƒ‡`ã‚¿ã‚µã‚¤ã‚ºã‚¹ã‚­ãƒƒãƒ—
+		if(DataSize&1){					//ã‚µã‚¤ã‚ºãŒå¥‡?ãªã‚‰
+			d2++;						//ï¼‘ãƒã‚¤ãƒˆåŠ ç®—
 		}
-		d2 += 12*4;						//²Ğ¤ê£´£¸¥Ğ¥¤¥È¥¹¥­¥Ã¥×
-		fseek(fp,d2,SEEK_CUR);			//¥Õ¥¡¥¤?¥İ¥¤?¥¿©`ÒÆ„Ó
+		d2 += 12*4;						//æ®‹ã‚Šï¼”ï¼˜ãƒã‚¤ãƒˆã‚¹ã‚­ãƒƒãƒ—
+		fseek(fp,d2,SEEK_CUR);			//ãƒ•ã‚¡ã‚¤?ãƒã‚¤?ã‚¿`ç§»
 
-		//?©`¥×é_Ê¼Î»ÖÃ
-		d1 = fgetc(fp);					//?©`¥×é_Ê¼¥İ¥¤?¥ÈÈ¡¤ê³ö¤·
+		//?`ãƒ—_å§‹ä½ç½®
+		d1 = fgetc(fp);					//?`ãƒ—_å§‹ãƒã‚¤?ãƒˆå–ã‚Šå‡ºã—
 		d1 |= fgetc(fp) << 8;			//
 		d1 |= fgetc(fp) << 16;			//
 		d1 |= fgetc(fp) << 24;			//
-		thread_loop_start = d1 * d0;	//?©`¥×Î»ÖÃ¥»¥Ã¥È
-		//?©`¥×½KÁËÎ»ÖÃ
+		thread_loop_start = d1 * d0;	//?`ãƒ—ä½ç½®ã‚»ãƒƒãƒˆ
+		//?`ãƒ—Käº†ä½ç½®
 		d1 = fgetc(fp);
 		d1 |= fgetc(fp) << 8;
 		d1 |= fgetc(fp) << 16;
@@ -3178,86 +3178,86 @@ int play_bgm(int bgm_no)
 //		if( dwSoundInit2( &Wfmtx, DataSize, &pDSData_tone[TONE_MAX], hmmio ) == FALSE ){
 		if( dwSoundInit2( &Wfmtx, DataSize, &pDSData_stream, hmmio ) == FALSE ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "dwSoundInit2¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "dwSoundInit2ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 			return FALSE;
 		}
 #if BGM_AUTO_LOOP
-		sd.dwWaveSize = d1 * d0;		//?©`¥×½KÁËÎ»ÖÃ¥»¥Ã¥È£¨¤â¤·¤«¤·¤¿¤é¤¤¤é¤ó¤«¤â£©
+		sd.dwWaveSize = d1 * d0;		//?`ãƒ—Käº†ä½ç½®ã‚»ãƒƒãƒˆï¼ˆã‚‚ã—ã‹ã—ãŸã‚‰ã„ã‚‰ã‚“ã‹ã‚‚ï¼‰
 #endif
 	} else {
-		thread_stop_flg = 0;		//¥Õ?¥°¥ª¥Õ
+		thread_stop_flg = 0;		//ãƒ•?ã‚°ã‚ªãƒ•
 		if( dwSoundInit( &Wfmtx, DataSize, &pDSData_tone[TONE_MAX] ) == FALSE ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤Î×÷³É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆã«å¤±", "Error", MB_OK);
 #endif
 			return FALSE;
 		}
-		//¥Ç©`¥¿¤Î?©`¥É
+		//ãƒ‡`ã‚¿ã®?`ãƒ‰
 		if( WaveDataRead( hmmio, &DataSize, pDSData_tone[TONE_MAX] ) == FALSE  ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "£×£Á£Ö¥Õ¥¡¥¤?¤Î?©`¥É¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ï¼·ï¼¡ï¼¶ãƒ•ã‚¡ã‚¤?ã®?`ãƒ‰ã«å¤±", "Error", MB_OK);
 #endif
 			return FALSE;
 		}
 	}
 	mmioClose( hmmio , 0 );
 
-	//¥Ô¥Ã¥Á¥»¥Ã¥È
+	//ãƒ”ãƒƒãƒã‚»ãƒƒãƒˆ
 	pDSData_tone[ TONE_MAX ]->SetFrequency((DWORD)freq_tbl[36+1+t_music_bgm_pitch[bgm_no]]);
-	//ÒôÁ¿¥»¥Ã¥È
-	pDSData_tone[ TONE_MAX ]->SetVolume(volume_tbl[ bgm_tbl[bgm_no].volume * t_music_bgm_volume / 15 ]);		// ¥Ü??©`?¥»¥Ã¥È
+	//éŸ³é‡ã‚»ãƒƒãƒˆ
+	pDSData_tone[ TONE_MAX ]->SetVolume(volume_tbl[ bgm_tbl[bgm_no].volume * t_music_bgm_volume / 15 ]);		// ãƒœ??`?ã‚»ãƒƒãƒˆ
 
-	//£Â£Ç£ÍÔÙÉúé_Ê¼
-	if(bgm_tbl[bgm_no].loop_flg){		//?©`¥×¤Ê¤é
+	//ï¼¢ï¼§ï¼­å†ç”Ÿ_å§‹
+	if(bgm_tbl[bgm_no].loop_flg){		//?`ãƒ—ãªã‚‰
 		pDSData_tone[ TONE_MAX ]->Play(0, 0, DSBPLAY_LOOPING);
 	} else {
 		pDSData_tone[ TONE_MAX ]->Play(0, 0, 0);
 	}
 
-	//ÔÙÉú?£Â£Ç£Í·¬?±£´æ
+	//å†ç”Ÿ?ï¼¢ï¼§ï¼­ç•ª?ä¿å­˜
 	t_music_bgm_no = bgm_no;
 
-	// ¬FÔÚ¤Î?ég¤òÓ›‘›
+	// Fåœ¨ã®?gã‚’
 	NowTime = GetTickCount();
 
-	//ÔÙÉú?¥Õ?¥°¥»¥Ã¥È
+	//å†ç”Ÿ?ãƒ•?ã‚°ã‚»ãƒƒãƒˆ
 	t_music_playing_flg = 1;
 
-	//ÔÙÉú?£Â£Ç£Í·¬?±£´æ
+	//å†ç”Ÿ?ï¼¢ï¼§ï¼­ç•ª?ä¿å­˜
 //	map_bgm_no = t_music_bgm_no;
 
 	return TRUE;
 }
 
-//??????????¡¡£Â£Ç£ÍÒôÁ¿¥»¥Ã¥È¡¡??????????
+//??????????ã€€ï¼¢ï¼§ï¼­éŸ³é‡ã‚»ãƒƒãƒˆã€€??????????
 void bgm_volume_change(void)
 {
 	if(dsound_flg == -1)
 		return;
 
-	if(t_music_bgm_volume > 15){		//¹ ‡ìÍâ¤Ê¤é
+	if(t_music_bgm_volume > 15){		//ç„±çŒ¡èƒœ
 		t_music_bgm_volume = 15;
 	}
-	if(t_music_bgm_volume < 0){		//¹ ‡ìÍâ¤Ê¤é
+	if(t_music_bgm_volume < 0){		//ç„±çŒ¡èƒœ
 		t_music_bgm_volume = 0;
 	}
-	//ÒôÁ¿¥»¥Ã¥È
-	pDSData_tone[ TONE_MAX ]->SetVolume(volume_tbl[ bgm_tbl[t_music_bgm_no].volume * t_music_bgm_volume / 15 ]);		// ¥Ü??©`?¥»¥Ã¥È
+	//éŸ³é‡ã‚»ãƒƒãƒˆ
+	pDSData_tone[ TONE_MAX ]->SetVolume(volume_tbl[ bgm_tbl[t_music_bgm_no].volume * t_music_bgm_volume / 15 ]);		// ãƒœ??`?ã‚»ãƒƒãƒˆ
 }
 
-//??????????¡¡£Â£Ç£Í¥Ô¥Ã¥Á¥»¥Ã¥È¡¡??????????
+//??????????ã€€ï¼¢ï¼§ï¼­ãƒ”ãƒƒãƒã‚»ãƒƒãƒˆã€€??????????
 void set_gbm_pitch(void)
 {
 	if(dsound_flg == -1)
 		return;
 
-	//¥Ô¥Ã¥Á¥»¥Ã¥È
+	//ãƒ”ãƒƒãƒã‚»ãƒƒãƒˆ
 	pDSData_tone[ TONE_MAX ]->SetFrequency((DWORD)freq_tbl[36+1+t_music_bgm_pitch[t_music_bgm_no]]);
 }
 
 int t_music_se_no = -1;
-//??????????¡¡„¿¹ûÒôÔÙÉú¡¡??????????
+//??????????ã€€æŠ—ç²¼å•??????????
 //static voice_seek_point=0;
 int play_se(int tone, int x, int y)
 {
@@ -3267,94 +3267,94 @@ int play_se(int tone, int x, int y)
 	if(dsound_flg == -1)
 		return -1;
 
-	if(tone > TONE_MAX){		//¥Ş¥Ã¥¯¥¹ÒÔÉÏ¤Ê¤é
+	if(tone > TONE_MAX){		//ãƒãƒƒã‚¯ã‚¹ä»¥ä¸Šãªã‚‰
 		return -1;
 	}
 
-	if(tone_tbl[ tone ].voice_place == -1){		//Î´¶¨ÁxÒôÉ«¤Ê¤é
+	if(tone_tbl[ tone ].voice_place == -1){		//æœªå®šxéŸ³è‰²ãªã‚‰
 		return -1;
 	}
 
-	if(tone_tbl[ tone ].play_time){		//¼È¤ËÔÙÉú?¤Ê¤é
+	if(tone_tbl[ tone ].play_time){		//æ—¢ã«å†ç”Ÿ?ãªã‚‰
 		return 0;
 	}
 
-	if(voice[ voice_seek_point ].tone_no != tone){		//Í¬¤¸ÒôÉ«·¬?¤Ç¤Ê¤±¤ì¤Ğ
-		voice[ voice_seek_point ].tone_no = tone;		//ÒôÉ«·¬?±£´æ
-		RELEASE(pDSData[voice_seek_point]);		//é_·Å
-		//ÒôÉ«¥³¥Ô©`
+	if(voice[ voice_seek_point ].tone_no != tone){		//åŒã˜éŸ³è‰²ç•ª?ã§ãªã‘ã‚Œã°
+		voice[ voice_seek_point ].tone_no = tone;		//éŸ³è‰²ç•ª?ä¿å­˜
+		RELEASE(pDSData[voice_seek_point]);		//_æ”¾
+		//éŸ³è‰²ã‚³ãƒ”`
 		if( pDSound->DuplicateSoundBuffer(pDSData_tone[tone_tbl[ tone ].voice_place],&pDSData[voice_seek_point]) != DS_OK ){
 #ifdef _DEBUG
-			MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ÎÑ}Ñu¤ËÊ§”¡", "Error", MB_OK);
+			MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®}uã«å¤±", "Error", MB_OK);
 #endif
 			return -1;
 		}
 	} else {
-		pDSData[voice_seek_point]->SetCurrentPosition(0);	//ÔÙÉú¥«©`¥½??¥»¥Ã¥È
+		pDSData[voice_seek_point]->SetCurrentPosition(0);	//å†ç”Ÿã‚«`ã‚½??ã‚»ãƒƒãƒˆ
 	}
 #if 0
-	total_level = abs(y - 240);		//?ĞÄ¤«¤é¤Î£Ù×ù˜Ë¤Î?ëx
-	y = abs(x - 320) >> 1;		//?ĞÄ¤«¤é¤Î£Ø×ù˜Ë¤Î?ëx
-	if(total_level < y)		//?¤¤·½’ñÓÃ
+	total_level = abs(y - 240);		//?å¿ƒã‹ã‚‰ã®ï¼¹åº§æ‘”?x
+	y = abs(x - 320) >> 1;		//?å¿ƒã‹ã‚‰ã®ï¼¸åº§æ‘”?x
+	if(total_level < y)		//?ã„æ–¹è£¼
 		total_level = y;		//
 
-	total_level = total_level << 4;		//¥Ü??©`?‚¤Ë‰ä“Q
+	total_level = total_level << 4;		//ãƒœ??`?Q
 	total_level /= 0x5a;				//
 
-	if(total_level >= 127)		//¹ ‡ìÍâ¤Ê¤é
-		return 0;			//øQ¤é¤µ¤Ê¤¤
+	if(total_level >= 127)		//ç„±çŒ¡èƒœ
+		return 0;			//Qã‚‰ã•ãªã„
 
 	total_level = 127 - total_level;				//
 
 #endif
 
-	if(stereo_flg == T_MUSIC_MONO){		//?¥Î??¤Ê¤é
+	if(stereo_flg == T_MUSIC_MONO){		//?ãƒ??ãªã‚‰
 		x = 64;
 	} else {
-		x /= 5;			//¥Ñ?¥İ¥Ã¥È‚¤Ë‰ä“Q
+		x /= 5;			//ãƒ‘?ãƒãƒƒãƒˆQ
 		if(x < 0)		//
 			x = 0;		//
 		if(x > 127)		//
 			x = 127;	//
 	}
 
-	//ÒôÉ«¥Ü??©`?
+	//éŸ³è‰²ãƒœ??`?
 	total_level = 127 * tone_tbl[ tone ].voice_volume / 127;
 //	total_level = total_level * tone_tbl[ tone ].voice_volume / 127;
 
-	//¥Ş¥¹¥¿©`¥Ü??©`?
+	//ãƒã‚¹ã‚¿`ãƒœ??`?
 	total_level = total_level * t_music_se_volume / 15;
 
-	pDSData[ voice_seek_point ]->SetVolume(volume_tbl[ total_level ]);		// ¥Ü??©`?¥»¥Ã¥È
-	pDSData[ voice_seek_point ]->SetPan(panpot_tbl[ x ]);			// ¥Ñ?¥İ¥Ã¥È¥»¥Ã¥È
-	if(tone_tbl[ tone ].voice_note){		//¥Î©`¥È·¬?Ö¸¶¨¤Ê¤é
+	pDSData[ voice_seek_point ]->SetVolume(volume_tbl[ total_level ]);		// ãƒœ??`?ã‚»ãƒƒãƒˆ
+	pDSData[ voice_seek_point ]->SetPan(panpot_tbl[ x ]);			// ãƒ‘?ãƒãƒƒãƒˆã‚»ãƒƒãƒˆ
+	if(tone_tbl[ tone ].voice_note){		//ãƒ`ãƒˆç•ª?æŒ‡å®šãªã‚‰
 		pDSData[ voice_seek_point ]->SetFrequency((DWORD)freq_tbl[tone_tbl[ tone ].voice_note + tone_tbl[ tone ].voice_rate]);
 	}
 
 #if 0
-	if(tone_tbl[ tone ].voice_loop == 0 ){		//?©`¥×Ÿo¤·¤Ê¤é
-		pDSData[ voice_seek_point ]->Play(0, 0, 0);			//¥­©`¥ª?
+	if(tone_tbl[ tone ].voice_loop == 0 ){		//?`ãƒ—oã—ãªã‚‰
+		pDSData[ voice_seek_point ]->Play(0, 0, 0);			//ã‚­`ã‚ª?
 	} else {
-		voice[ voice_seek_point ].loop_flg = 1;		//?©`¥×ÔÙÉú
-		pDSData[ voice_seek_point ]->Play(0, 0, DSBPLAY_LOOPING);		//¥­©`¥ª?
+		voice[ voice_seek_point ].loop_flg = 1;		//?`ãƒ—å†ç”Ÿ
+		pDSData[ voice_seek_point ]->Play(0, 0, DSBPLAY_LOOPING);		//ã‚­`ã‚ª?
 	}
 #else
-	pDSData[ voice_seek_point ]->Play(0, 0, 0);			//¥­©`¥ª?
+	pDSData[ voice_seek_point ]->Play(0, 0, 0);			//ã‚­`ã‚ª?
 #endif
 	while(1){
-		voice_seek_point++;		//¥İ¥¤?¥¿©`¸üĞÂ
+		voice_seek_point++;		//ãƒã‚¤?ã‚¿`æ›´æ–°
 		voice_seek_point&=VOICE_MAX-1;				//
-		if(voice[ voice_seek_point ].loop_flg == 0){		//?©`¥×ÔÙÉú?¤Ç¤Ê¤±¤ì¤Ğ
+		if(voice[ voice_seek_point ].loop_flg == 0){		//?`ãƒ—å†ç”Ÿ?ã§ãªã‘ã‚Œã°
 			break;
 		}
 	}
-	tone_tbl[ tone ].play_time = 5;		//ÔÙÉú??ég¥»¥Ã¥È
+	tone_tbl[ tone ].play_time = 5;		//å†ç”Ÿ??gã‚»ãƒƒãƒˆ
 
 	return 0;
 }
 #endif
 
-//??????????¡¡­h¾³ÒôÔÙÉú¡¡??????????
+//??????????ã€€hå¢ƒéŸ³å†ç”Ÿã€€??????????
 //int play_environment_tone(int tone, int distance, int voice_address, int panpot, int new_flg)
 int play_environment_tone(int tbl_no, int new_flg)
 {
@@ -3365,149 +3365,149 @@ int play_environment_tone(int tbl_no, int new_flg)
 	if(dsound_flg == -1)
 		return -1;
 
-	if(env_tbl[tbl_no].tone > TONE_MAX){		//¥Ş¥Ã¥¯¥¹ÒÔÉÏ¤Ê¤é
+	if(env_tbl[tbl_no].tone > TONE_MAX){		//ãƒãƒƒã‚¯ã‚¹ä»¥ä¸Šãªã‚‰
 		return -1;
 	}
 
-	if(tone_tbl[ env_tbl[tbl_no].tone ].voice_place == -1){		//Î´¶¨ÁxÒôÉ«¤Ê¤é
+	if(tone_tbl[ env_tbl[tbl_no].tone ].voice_place == -1){		//æœªå®šxéŸ³è‰²ãªã‚‰
 		return -1;
 	}
 
-//	if(tone_tbl[ env_tbl[tbl_no].tone ].play_time){		//¼È¤ËÔÙÉú?¤Ê¤é
+//	if(tone_tbl[ env_tbl[tbl_no].tone ].play_time){		//æ—¢ã«å†ç”Ÿ?ãªã‚‰
 //		return 0;
 //	}
 
-	env_tbl[tbl_no].distance = env_tbl[tbl_no].distance << 4;		//¥Ü??©`?‚¤Ë‰ä“Q
+	env_tbl[tbl_no].distance = env_tbl[tbl_no].distance << 4;		//ãƒœ??`?Q
 	env_tbl[tbl_no].distance /= 0x6a;				//
 
-//	if(env_tbl[tbl_no].distance >= 127)				//¹ ‡ìÍâ¤Ê¤é
-//		return 0;					//øQ¤é¤µ¤Ê¤¤
+//	if(env_tbl[tbl_no].distance >= 127)				//ç„±çŒ¡èƒœ
+//		return 0;					//Qã‚‰ã•ãªã„
 
-	if(env_tbl[tbl_no].distance >= 127)				//¹ ‡ìÍâ¤Ê¤é
-		env_tbl[tbl_no].distance = 127;					//øQ¤é¤µ¤Ê¤¤
+	if(env_tbl[tbl_no].distance >= 127)				//ç„±çŒ¡èƒœ
+		env_tbl[tbl_no].distance = 127;					//Qã‚‰ã•ãªã„
 
-	if(new_flg){		//ĞÂÒ¤Ê¤é
-		if(voice[ env_tbl[tbl_no].voice_address ].tone_no != env_tbl[tbl_no].tone){		//Í¬¤¸ÒôÉ«·¬?¤Ç¤Ê¤±¤ì¤Ğ
-			voice[ env_tbl[tbl_no].voice_address ].tone_no = env_tbl[tbl_no].tone;		//ÒôÉ«·¬?±£´æ
-			RELEASE(pDSData[env_tbl[tbl_no].voice_address]);		//é_·Å
-			//ÒôÉ«¥³¥Ô©`
+	if(new_flg){		//æ–°èƒœ
+		if(voice[ env_tbl[tbl_no].voice_address ].tone_no != env_tbl[tbl_no].tone){		//åŒã˜éŸ³è‰²ç•ª?ã§ãªã‘ã‚Œã°
+			voice[ env_tbl[tbl_no].voice_address ].tone_no = env_tbl[tbl_no].tone;		//éŸ³è‰²ç•ª?ä¿å­˜
+			RELEASE(pDSData[env_tbl[tbl_no].voice_address]);		//_æ”¾
+			//éŸ³è‰²ã‚³ãƒ”`
 			if( pDSound->DuplicateSoundBuffer(pDSData_tone[tone_tbl[ env_tbl[tbl_no].tone ].voice_place],&pDSData[env_tbl[tbl_no].voice_address]) != DS_OK ){
 #ifdef _DEBUG
-				MessageBox(hWnd, "¥»¥«?¥À??¥Ğ¥Ã¥Õ¥¡¤ÎÑ}Ñu¤ËÊ§”¡", "Error", MB_OK);
+				MessageBox(hWnd, "ã‚»ã‚«?ãƒ€??ãƒãƒƒãƒ•ã‚¡ã®}uã«å¤±", "Error", MB_OK);
 #endif
 				return -1;
 			}
 		}
 	}
 
-	//ÒôÉ«¥Ü??©`?
+	//éŸ³è‰²ãƒœ??`?
 //	total_level = (127 - env_tbl[tbl_no].volume) * tone_tbl[ env_tbl[tbl_no].tone ].voice_volume / 127;
 
-	//¥Ş¥¹¥¿©`¥Ü??©`?
+	//ãƒã‚¹ã‚¿`ãƒœ??`?
 //	total_level = total_level * t_music_se_volume / 15;
 
-	//¥Ü??©`?¤¬‰ä¤ï¤Ã¤¿¤Ê¤é
+	//ãƒœ??`?ãŒæµƒé“¯ç›²éƒ¡èƒœ
 	if(env_tbl[tbl_no].volume != env_tbl[tbl_no].volume_old){
-		// ¥Ü??©`?¥»¥Ã¥È
+		// ãƒœ??`?ã‚»ãƒƒãƒˆ
 		pDSData[ env_tbl[tbl_no].voice_address ]->SetVolume(volume_tbl[ env_tbl[tbl_no].volume ]);
 		env_tbl[tbl_no].volume_old = env_tbl[tbl_no].volume;
 	}
 
-	//¥Ñ?¥İ¥Ã¥È¤¬‰ä¤ï¤Ã¤¿¤Ê¤é
+	//ãƒ‘?ãƒãƒƒãƒˆãŒæµƒé“¯ç›²éƒ¡èƒœ
 	if(env_tbl[tbl_no].panpot != env_tbl[tbl_no].panpot_old){
-		// ¥Ñ?¥İ¥Ã¥È¥»¥Ã¥È
+		// ãƒ‘?ãƒãƒƒãƒˆã‚»ãƒƒãƒˆ
 		pDSData[ env_tbl[tbl_no].voice_address ]->SetPan(panpot_tbl[ env_tbl[tbl_no].panpot ]);
 		env_tbl[tbl_no].panpot_old = env_tbl[tbl_no].panpot;
 	}
 
-	//¥Î©`¥È·¬?Ö¸¶¨¤Ê¤é
+	//ãƒ`ãƒˆç•ª?æŒ‡å®šãªã‚‰
 	if(tone_tbl[ env_tbl[tbl_no].tone ].voice_note){
 		pDSData[ env_tbl[tbl_no].voice_address ]->SetFrequency((DWORD)freq_tbl[tone_tbl[ env_tbl[tbl_no].tone ].voice_note + tone_tbl[ env_tbl[tbl_no].tone ].voice_rate]);
 	}
 
-	if(new_flg){		//ĞÂÒ¤Ê¤é
+	if(new_flg){		//æ–°èƒœ
 		pDSData[ env_tbl[tbl_no].voice_address ]->SetCurrentPosition(0);	//
-		if(tone_tbl[ env_tbl[tbl_no].tone ].voice_loop == 0 ){		//?©`¥×Ÿo¤·¤Ê¤é
-			pDSData[ env_tbl[tbl_no].voice_address ]->Play(0, 0, 0);			//¥­©`¥ª?
+		if(tone_tbl[ env_tbl[tbl_no].tone ].voice_loop == 0 ){		//?`ãƒ—oã—ãªã‚‰
+			pDSData[ env_tbl[tbl_no].voice_address ]->Play(0, 0, 0);			//ã‚­`ã‚ª?
 		} else {
-			voice[ env_tbl[tbl_no].voice_address ].loop_flg = 1;		//?©`¥×ÔÙÉú
-			pDSData[ env_tbl[tbl_no].voice_address ]->Play(0, 0, DSBPLAY_LOOPING);		//¥­©`¥ª?
+			voice[ env_tbl[tbl_no].voice_address ].loop_flg = 1;		//?`ãƒ—å†ç”Ÿ
+			pDSData[ env_tbl[tbl_no].voice_address ]->Play(0, 0, DSBPLAY_LOOPING);		//ã‚­`ã‚ª?
 		}
 
 		while(1){
-			voice_seek_point++;		//¥İ¥¤?¥¿©`¸üĞÂ
+			voice_seek_point++;		//ãƒã‚¤?ã‚¿`æ›´æ–°
 			voice_seek_point&=VOICE_MAX-1;				//
-			if(voice[ voice_seek_point ].loop_flg == 0){		//?©`¥×ÔÙÉú?¤Ç¤Ê¤±¤ì¤Ğ
+			if(voice[ voice_seek_point ].loop_flg == 0){		//?`ãƒ—å†ç”Ÿ?ã§ãªã‘ã‚Œã°
 				break;
 			}
 		}
 	}
-//	tone_tbl[ env_tbl[tbl_no].tone ].play_time = 8;		//ÔÙÉú??ég¥»¥Ã¥È
+//	tone_tbl[ env_tbl[tbl_no].tone ].play_time = 8;		//å†ç”Ÿ??gã‚»ãƒƒãƒˆ
 
 	return 0;
 }
 
-//??????????¡¡¥Ş¥Ã¥×£Â£Ç£Í¥Á¥§¥Ã¥¯¡¡??????????
+//??????????ã€€ãƒãƒƒãƒ—ï¼¢ï¼§ï¼­ãƒã‚§ãƒƒã‚¯ã€€??????????
 void play_map_bgm_check(void)
 {
 	switch(map_bgm_vct_no){
-	case 0:		//£Â£Ç£Í‰ä¸ü¥Á¥§¥Ã¥¯
+	case 0:		//ï¼¢ï¼§ï¼­æ¶“éš¶Ğ”æ°“
 		if(draw_map_bgm_flg){
-			if(t_music_bgm_no != map_bgm_no){		//£Â£Ç£Í‰ä¸ü¤Ê¤é
-				map_bgm_vct_no++;		//¥Õ¥§©`¥É¥¢¥¦¥Èé_Ê¼¤Ø
+			if(t_music_bgm_no != map_bgm_no){		//ï¼¢ï¼§ï¼­æ¶“èƒœ
+				map_bgm_vct_no++;		//ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆ_å§‹ã¸
 			}
 		}
 		draw_map_bgm_flg = 0;
 		break;
 
-	case 1:		//£Â£Ç£Í¥Õ¥§©`¥É¥¢¥¦¥Èé_Ê¼
+	case 1:		//ï¼¢ï¼§ï¼­ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆ_å§‹
 		fade_out_bgm();
-		map_bgm_vct_no++;		//¥Õ¥§©`¥É¥¢¥¦¥È½KÁË´ı¤Á¤Ø
+		map_bgm_vct_no++;		//ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆKäº†å¾…ã¡ã¸
 		break;
 
-	case 2:		//£Â£Ç£Í¥Õ¥§©`¥É¥¢¥¦¥È½KÁË´ı¤Á
-		if(t_music_fade_flg == 0){		//¥Õ¥§©`¥É¥¢¥¦¥È½KÁË¤Ê¤é
-			map_bgm_vct_no++;		//£Â£Ç£ÍÔÙÉú¤Ø
+	case 2:		//ï¼¢ï¼§ï¼­ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆKäº†å¾…ã¡
+		if(t_music_fade_flg == 0){		//ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆKäº†ãªã‚‰
+			map_bgm_vct_no++;		//ï¼¢ï¼§ï¼­å†ç”Ÿã¸
 		}
 		break;
 
-	case 3:		//£Â£Ç£ÍÔÙÉú
-		play_bgm(map_bgm_no);		//£Â£Ç£ÍÔÙÉú
-		map_bgm_vct_no = 0;		//£Â£Ç£Í‰ä¸ü¥Á¥§¥Ã¥¯¤Ø
+	case 3:		//ï¼¢ï¼§ï¼­å†ç”Ÿ
+		play_bgm(map_bgm_no);		//ï¼¢ï¼§ï¼­å†ç”Ÿ
+		map_bgm_vct_no = 0;		//ï¼¢ï¼§ï¼­æ¶“éš¶Ğ”æ°“
 		break;
 	}
 }
-//??????????¡¡¥Ş¥Ã¥×£Â£Ç£ÍÔÙÉú¡¡??????????
+//??????????ã€€ãƒãƒƒãƒ—ï¼¢ï¼§ï¼­å†ç”Ÿã€€??????????
 int play_map_bgm(int tone)
 {
 	switch(tone){
-	//¥Õ¥£©`?¥É
-	case 40:	//î®£¨´ó£©
+	//ãƒ•ã‚£`?ãƒ‰
+	case 40:	//ç”ºï¼ˆå¤§ï¼‰
 		map_bgm_no = 4;
 		break;
-	case 41:	//î®£¨Ğ¡£©
+	case 41:	//ç”ºï¼ˆå°ï¼‰
 		map_bgm_no = 3;
 		break;
-	case 42:	//¶´¿ß£±
+	case 42:	//æ´çªŸï¼‘
 		map_bgm_no = 7;
 		break;
-	case 43:	//¶´¿ß£²
+	case 43:	//æ´çªŸï¼’
 		map_bgm_no = 8;
 		break;
-	case 44:	//¶´¿ß£³
+	case 44:	//æ´çªŸï¼“
 		map_bgm_no = 9;
 		break;
-	case 45:	//¥Õ¥£©`?¥É
+	case 45:	//ãƒ•ã‚£`?ãƒ‰
 		map_bgm_no = 10;
 		break;
-	case 46:	//¥Õ¥£©`?¥É£¨¥¸??¥°?£©
+	case 46:	//ãƒ•ã‚£`?ãƒ‰ï¼ˆã‚¸??ã‚°?ï¼‰
 		map_bgm_no = 11;
 		break;
 	}
 	return 0;
 }
 
-//??????????¡¡­h¾³ÒôÔÙÉú¡¡??????????
+//??????????ã€€hå¢ƒéŸ³å†ç”Ÿã€€??????????
 int play_environment(int tone, int x, int y)
 {
 	int d0,d1,distance,volume;
@@ -3516,27 +3516,27 @@ int play_environment(int tone, int x, int y)
 
 //	tone = 157;
 
-	if(tone < 20 || tone > 37){		//‰ä¤Ê?‚¤Ê¤é
-		return 0;					//øQ¤é¤µ¤Ê¤¤
+	if(tone < 20 || tone > 37){		//æµƒ?èƒœ
+		return 0;					//Qã‚‰ã•ãªã„
 	}
 
 	switch(tone){
-	case 28:		//¤¹¤º¤á
-		if(SaTimeZoneNo != LS_MORNING){		//³¯¤Ç¤Ê¤±¤ì¤Ğ
-			return 0;						//øQ¤é¤µ¤Ê¤¤
+	case 28:		//ã™ãšã‚
+		if(SaTimeZoneNo != LS_MORNING){		//æœã§ãªã‘ã‚Œã°
+			return 0;						//Qã‚‰ã•ãªã„
 		}
 		break;
 	case 29:		//?
-		if(SaTimeZoneNo != LS_NIGHT){		//Ò¹¤Ç¤Ê¤±¤ì¤Ğ
-			return 0;					//øQ¤é¤µ¤Ê¤¤
+		if(SaTimeZoneNo != LS_NIGHT){		//å¤œã§ãªã‘ã‚Œã°
+			return 0;					//Qã‚‰ã•ãªã„
 		}
 		break;
-	case 37:		//É­¤ÎøB
-		if(SaTimeZoneNo == LS_MORNING){		//³¯¤Ê¤é
-			return 0;						//øQ¤é¤µ¤Ê¤¤
+	case 37:		//æ£®ã®B
+		if(SaTimeZoneNo == LS_MORNING){		//æœãªã‚‰
+			return 0;						//Qã‚‰ã•ãªã„
 		}
-		if(SaTimeZoneNo == LS_NIGHT){		//Ò¹¤Ê¤é
-			tone = 29;					//?¤Ë‰ä¸ü
+		if(SaTimeZoneNo == LS_NIGHT){		//å¤œãªã‚‰
+			tone = 29;					//?ã«æ¶“
 			break;
 		}
 		break;
@@ -3552,33 +3552,33 @@ int play_environment(int tone, int x, int y)
 
 	distance = (int)sqrt( (double)(dx*dx+dy*dy) );
 
-	volume = distance << 4;		//¥Ü??©`?‚¤Ë‰ä“Q
+	volume = distance << 4;		//ãƒœ??`?Q
 	volume /= 0x6a;				//
 
-	if(volume >= 127)				//¹ ‡ìÍâ¤Ê¤é
-		return 0;					//øQ¤é¤µ¤Ê¤¤
+	if(volume >= 127)				//ç„±çŒ¡èƒœ
+		return 0;					//Qã‚‰ã•ãªã„
 
 	d0 = tone - 20;
 	tone = 151 + d0;
-	if(env_tbl[d0].count == 0){		//ĞÂÒ¤Ê¤é
-		//?ëx´úÈë
+	if(env_tbl[d0].count == 0){		//æ–°èƒœ
+		//?xä»£å…¥
 		env_tbl[d0].distance = distance;
 		volume = (127 - volume) * tone_tbl[ tone ].voice_volume / 127;
 		env_tbl[d0].volume = volume * t_music_se_volume / 15;
-		d1 = 1;		//’ñÓÃ¥Õ?¥°¥»¥Ã¥È
-		if(env_tbl[d0].voice_address == -1){		//ĞÂÒ¤Ê¤é
+		d1 = 1;		//è£¼æ°“?ã‚°ã‚»ãƒƒãƒˆ
+		if(env_tbl[d0].voice_address == -1){		//æ–°èƒœ
 			env_tbl[d0].tone = tone;
 		}
 	} else {
-		//½ü¤¤·½¤Î?ëx´úÈë
+		//è¿‘ã„æ–¹ã®?xä»£å…¥
 		if(env_tbl[d0].distance > distance){
 			env_tbl[d0].distance = distance;
 			volume = (127 - volume) * tone_tbl[ tone ].voice_volume / 127;
 			env_tbl[d0].volume = volume * t_music_se_volume / 15;
-			d1 = 1;		//’ñÓÃ¥Õ?¥°¥»¥Ã¥È
+			d1 = 1;		//è£¼æ°“?ã‚°ã‚»ãƒƒãƒˆ
 		}
 	}
-	//’ñÓÃ¤Ê¤é
+	//è£¼ç›²èƒœ
 	if(d1){
 		env_tbl[d0].side = x;
 	}
@@ -3586,20 +3586,20 @@ int play_environment(int tone, int x, int y)
 	return 0;
 }
 
-//??????????¡¡­h¾³Òô¥Á¥§¥Ã¥¯¡¡??????????
+//??????????ã€€hå¢ƒéŸ³ãƒã‚§ãƒƒã‚¯ã€€??????????
 void play_environment_check(void)
 {
 	int d0,d1,d3,d7;
 	for(d7=0; d7<MAX_ENV; d7++){
-		if(env_tbl[d7].count == 0){		//ÒôŸo¤·¤Ê¤é
-			if(env_tbl[d7].voice_address != -1){		//Ïû¤¹¤Ê¤é
-				pDSData[ env_tbl[d7].voice_address ]->Stop();		//¥­©`¥ª¥Õ
-				voice[ env_tbl[d7].voice_address ].loop_flg = 0;		//?©`¥×ÔÙÉú½KÁË
+		if(env_tbl[d7].count == 0){		//éŸ³oã—ãªã‚‰
+			if(env_tbl[d7].voice_address != -1){		//æ¶ˆã™ãªã‚‰
+				pDSData[ env_tbl[d7].voice_address ]->Stop();		//ã‚­`ã‚ªãƒ•
+				voice[ env_tbl[d7].voice_address ].loop_flg = 0;		//?`ãƒ—å†ç”ŸKäº†
 				env_tbl[d7].voice_address = -1;
 			}
 			continue;
 		}
-		if(env_tbl[d7].voice_address == -1){		//ĞÂÒ¤Ê¤é
+		if(env_tbl[d7].voice_address == -1){		//æ–°èƒœ
 			env_tbl[d7].voice_address = voice_seek_point;
 			env_tbl[d7].volume_old = -1;
 			env_tbl[d7].panpot_old = -1;
@@ -3608,17 +3608,17 @@ void play_environment_check(void)
 			d0 = 0;
 		}
 
-		if(stereo_flg == T_MUSIC_MONO){		//?¥Î??¤Ê¤é
+		if(stereo_flg == T_MUSIC_MONO){		//?ãƒ??ãªã‚‰
 			env_tbl[d7].panpot = d1 = 64;
 		} else {
-			d1 = env_tbl[d7].side / 5;			//¥Ñ?¥İ¥Ã¥È‚¤Ë‰ä“Q
+			d1 = env_tbl[d7].side / 5;			//ãƒ‘?ãƒãƒƒãƒˆQ
 			if(d1 < 0)			//
 				d1 = 0;			//
 			if(d1 > 127)		//
 				d1 = 127;		//
 		}
 
-		if(d0){		//ĞÂÒ¤Ê¤é
+		if(d0){		//æ–°èƒœ
 			env_tbl[d7].panpot = d1;
 		} else {
 			d3 = d1 - env_tbl[d7].panpot;
@@ -3626,34 +3626,34 @@ void play_environment_check(void)
 				d3 = 2;
 			if(d3 < -2)
 				d3 = -2;
-			//¥Ñ?¥İ¥Ã¥ÈÔO¶¨
+			//ãƒ‘?ãƒãƒƒãƒˆOå®š
 			env_tbl[d7].panpot += d3;
 		}
 //		play_environment_tone(env_tbl[d7].tone, env_tbl[d7].distance, env_tbl[d7].voice_address, env_tbl[d7].panpot, d0);
 		play_environment_tone(d7, d0);
 
-		env_tbl[d7].count = 0;		//¥«¥¦?¥¿©`¥¯?¥¢
+		env_tbl[d7].count = 0;		//ã‚«ã‚¦?ã‚¿`ã‚¯?ã‚¢
 	}
 }
 
-//??????????¡¡£Â£Ç£Í¥Õ¥§©`¥É¥Á¥§¥Ã¥¯¡¡??????????
+//??????????ã€€ï¼¢ï¼§ï¼­ãƒ•ã‚§`ãƒ‰ãƒã‚§ãƒƒã‚¯ã€€??????????
 void bgm_fade_check(void)
 {
-	//ÔÙÉú?¤Ç¤Ê¤±¤ì¤Ğ
+	//å†ç”Ÿ?ã§ãªã‘ã‚Œã°
 	if(t_music_playing_flg == 0){
 		t_music_fade_flg = 0;
 		return;
 	}
-	//¥Õ¥§©`¥É¥¢¥¦¥È¤Ç¤Ê¤±¤ì¤Ğ
+	//ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆã§ãªã‘ã‚Œã°
 	if(!t_music_fade_flg){
 		return;
 	}
-	//¥Õ¥§©`¥É¥¢¥¦¥È½KÁË¤Ê¤é
+	//ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆKäº†ãªã‚‰
 	if(!t_music_fade_vol){
 		stop_bgm();
 		t_music_bgm_no = -1;
 	} else {
-		// ¥Ü??©`?ÏÂ¤²¤ë
+		// ãƒœ??`?ä¸‹ã’ã‚‹
 		pDSData_tone[ TONE_MAX ]->SetVolume(volume_tbl[ --t_music_fade_vol ]);
 	}
 }
@@ -3661,7 +3661,7 @@ void bgm_fade_check(void)
 //static int test_h = 320;
 //static int test_v = 140;
 
-//??????????¡¡„¿¹ûÒô¥Á¥§¥Ã¥¯¡¡??????????
+//??????????ã€€æŠ—ç±éš¶Ğ”æ°“??????????
 void check_se_loop(void){
 	int d7;
 
@@ -3680,18 +3680,18 @@ void check_se_loop(void){
 #endif
 
 	for(d7=0; d7<TONE_MAX ;d7++){
-		if(tone_tbl[ d7 ].play_time){		//ÔÙÉú?ég¸üĞÂ
+		if(tone_tbl[ d7 ].play_time){		//å†ç”Ÿ?gæ›´æ–°
 			tone_tbl[ d7 ].play_time--;
 		}
 	}
 
-	//­h¾³Òô¥Á¥§¥Ã¥¯
+	//hå¢ƒéŸ³ãƒã‚§ãƒƒã‚¯
 	play_environment_check();
 
-	//¥Ş¥Ã¥×£Â£Ç£Í¥Á¥§¥Ã¥¯
+	//ãƒãƒƒãƒ—ï¼¢ï¼§ï¼­ãƒã‚§ãƒƒã‚¯
 	play_map_bgm_check();
 
-	//£Â£Ç£Í¥Õ¥§©`¥É¥¢¥¦¥È¥Á¥§¥Ã¥¯¤Ø
+	//ï¼¢ï¼§ï¼­ãƒ•ã‚§`ãƒ‰ã‚¢ã‚¦ãƒˆãƒã‚§ãƒƒã‚¯ã¸
 	bgm_fade_check();
 }
 
@@ -3720,31 +3720,31 @@ static MCIERROR       dwRes = {0};
 static int cdda_flg;
 static int cdda_check_cnt = -1;
 /////////////////////////////////////////////////////////////////////
-//  CD-DA¥È?¥Ã¥¯ n¤ò?×à¤¹¤ë
-//     ³É¹¦¤¹¤ì¤Ğ true¤ò·µ¤¹¡£
-//     Ê§”¡¤¹¤ì¤Ğ ?¥Ã¥»©`¥¸¥Ü¥Ã¥¯¥¹¤ò³ö¤·¤Æ false¤ò·µ¤¹¡£
+//  CD-DAãƒˆ?ãƒƒã‚¯ nã‚’?å¥ã™ã‚‹
+//     æˆåŠŸã™ã‚Œã° trueã‚’è¿”ã™ã€‚
+//     å¤±ãƒ»å·¥æ¬· ?ãƒƒã‚»`ã‚¸ãƒœãƒƒã‚¯ã‚¹ã‚’å‡ºã—ã¦ falseã‚’è¿”ã™ã€‚
 bool cdda_open(int n)
 {
 	cdda_flg = 0;
-// ¥È?¥Ã¥¯?¤Ï 2ÒÔÉÏ¤Ç?¤ë¤Ï¤º¤À
+// ãƒˆ?ãƒƒã‚¯?ã¯ 2ä»¥ä¸Šã§?ã‚‹ã¯ãšã 
     _ASSERT( n > 1);
 
 //    MCI_OPEN_PARMS open  = {0};
 //  MCIERROR       dwRes = {0};
 
-// ¥Ç¥Ğ¥¤¥¹¤òé_¤¯
+// ãƒ‡ãƒã‚¤ã‚¹ã‚’_ã
     open.lpstrDeviceType  = "cdaudio";
     dwRes = mciSendCommand( 0, MCI_OPEN, MCI_OPEN_TYPE, (DWORD)&open);
     if ( dwRes)
     {
 #ifdef _DEBUG
-//		MessageBox(hWnd, "£Ã£Ä£­£Ä£Á¤Î¥ª©`¥×?¤ËÊ§”¡", "´_ÕJ", MB_OK);
+//		MessageBox(hWnd, "ï¼£ï¼¤ï¼ï¼¤ï¼¡ã®ã‚ª`ãƒ—?ã«å¤±", "_J", MB_OK);
 #endif
 		cdda_flg = 1;
         return FALSE;
     }
 
-// ?ég¥Õ¥©©`¥Ş¥Ã¥È¤ò¥È?¥Ã¥¯Ö¸¶¨¤Ë¤¹¤ë
+// ?gãƒ•ã‚©`ãƒãƒƒãƒˆã‚’ãƒˆ?ãƒƒã‚¯æŒ‡å®šã«ã™ã‚‹
     MCI_SET_PARMS set;
     set.dwTimeFormat = MCI_FORMAT_TMSF;
     dwRes = mciSendCommand( open.wDeviceID, MCI_SET, 
@@ -3752,7 +3752,7 @@ bool cdda_open(int n)
     if ( dwRes)
     {
 #ifdef _DEBUG
-//		MessageBox(hWnd, "£Ã£Ä£­£Ä£Á¤Î¥ª©`¥×?¤ËÊ§”¡", "´_ÕJ", MB_OK);
+//		MessageBox(hWnd, "ï¼£ï¼¤ï¼ï¼¤ï¼¡ã®ã‚ª`ãƒ—?ã«å¤±", "_J", MB_OK);
 #endif
 		cdda_flg = 1;
         return FALSE;
@@ -3760,12 +3760,12 @@ bool cdda_open(int n)
 	return TRUE;
 }
 /*--------------------------------------------
-			£Ã£Ä£ß£Ä£Á¥¹¥¿©`¥È
+			ï¼£ï¼¤ï¼¿ï¼¤ï¼¡ã‚¹ã‚¿`ãƒˆ
 ---------------------------------------------*/
 bool cdda_start(int n)
 {
-// ÔÙÉú¤¹¤ë
-    // ¥È?¥Ã¥¯ n¤ò?×à
+// å†ç”Ÿã™ã‚‹
+    // ãƒˆ?ãƒƒã‚¯ nã‚’?å¥
     MCI_PLAY_PARMS play;
     play.dwFrom = MCI_MAKE_TMSF( n,0,0,0);
     play.dwTo   = MCI_MAKE_TMSF( n+1,0,0,0);
@@ -3775,57 +3775,57 @@ bool cdda_start(int n)
     if ( dwRes)
     {
 #ifdef _DEBUG
-//		MessageBox(hWnd, "¥²©`?£Ã£Ä¤ò¥»¥Ã¥È¤·¤ÆÏÂ¤µ¤¤", "´_ÕJ", MB_OK);
+//		MessageBox(hWnd, "ã‚²`?ï¼£ï¼¤ã‚’ã‚»ãƒƒãƒˆã—ã¦ä¸‹ã•ã„", "_J", MB_OK);
 #endif
-		cdda_flg = 2;		//£Ã£Ä£Ä£Á¥¹¥¿©`¥ÈÊ§”¡
+		cdda_flg = 2;		//ï¼£ï¼¤ï¼¤ï¼¡ã‚¹ã‚¿`ãƒˆå¤±
         return FALSE;
     }
 	return TRUE;
 }
 /*--------------------------------------------
-			£Ã£Ä£ß£Ä£ÁÍ£Ö¹
+			ï¼£ï¼¤ï¼¿ï¼¤ï¼¡åœæ­¢
 ---------------------------------------------*/
 bool cdda_stop(void)
 {
-	if(cdda_flg == 1)		//£Ã£Ä£­£Ò£Ï£Í¤Ê¤¤¤Ê¤é
+	if(cdda_flg == 1)		//ï¼£ï¼¤ï¼ï¼²ï¼¯ï¼­ãªã„ãªã‚‰
 		return TRUE;
 
 	mciSendCommand(open.wDeviceID, MCI_STOP, 0, NULL);
 
-// ¥Ç¥Ğ¥¤¥¹¤òé]¤¸¤ë
+// ãƒ‡ãƒã‚¤ã‚¹ã‚’]ã˜ã‚‹
     dwRes = mciSendCommand( open.wDeviceID, MCI_CLOSE, 0, (DWORD)NULL);
     if ( dwRes)
     {
 #ifdef _DEBUG
-//	    MessageBox(hWnd, "¥²©`?£Ã£Ä¤ò¥»¥Ã¥È¤·¤ÆÏÂ¤µ¤¤", "´_ÕJ", MB_OK);
+//	    MessageBox(hWnd, "ã‚²`?ï¼£ï¼¤ã‚’ã‚»ãƒƒãƒˆã—ã¦ä¸‹ã•ã„", "_J", MB_OK);
 #endif
         return FALSE;
     }
 	return TRUE;
 }
 /*--------------------------------------------
-			£Ã£Ä£ß£Ä£ÁÔÙÉú
+			ï¼£ï¼¤ï¼¿ï¼¤ï¼¡å†ç”Ÿ
 ---------------------------------------------*/
 extern	double NowTime;
 
 bool cdda_play(int n)
 {
-	check_se_loop();		//„¿¹ûÒô¥Á¥§¥Ã¥¯¤Ø
+	check_se_loop();		//æŠ—ç±éš¶Ğ”æ°“
 
-		cdda_flg = 1;		//£Ã£Ä£­£Ò£Ï£Í¤Ê¤¤¤Ê¤é
+		cdda_flg = 1;		//ï¼£ï¼¤ï¼ï¼²ï¼¯ï¼­ãªã„ãªã‚‰
 		return TRUE;
 
 
 
-	if(cdda_flg == 1)		//£Ã£Ä£­£Ò£Ï£Í¤Ê¤¤¤Ê¤é
+	if(cdda_flg == 1)		//ï¼£ï¼¤ï¼ï¼²ï¼¯ï¼­ãªã„ãªã‚‰
 		return TRUE;
 
-	if(cdda_no != n ){		//Çú¤¬‰ä¤ï¤Ã¤¿¤é
-		cdda_flg = 0;		//¥Õ?¥°¥¯?¥¢
+	if(cdda_no != n ){		//æ›²ãŒæµƒé“¯ç›²éƒ¡
+		cdda_flg = 0;		//ãƒ•?ã‚°ã‚¯?ã‚¢
 		cdda_check_cnt = -1;
 	}
 
-	if(cdda_flg)		//¥¨?©`?¤Ê¤é
+	if(cdda_flg)		//ã‚¨?`?ãªã‚‰
 		return TRUE;
 
 	cdda_check_cnt++;
@@ -3833,31 +3833,31 @@ bool cdda_play(int n)
 	if(cdda_check_cnt)
 		return TRUE;
 
-	if(cdda_no == n ){		//ÔÙÉú?¤Ê¤é
+	if(cdda_no == n ){		//å†ç”Ÿ?ãªã‚‰
 		MCI_STATUS_PARMS mcisp;	mcisp.dwItem = MCI_STATUS_MODE;
-		if(mciSendCommand(open.wDeviceID, MCI_STATUS, MCI_STATUS_ITEM, (DWORD)&mcisp)){		//®³£¤Ê¤é
+		if(mciSendCommand(open.wDeviceID, MCI_STATUS, MCI_STATUS_ITEM, (DWORD)&mcisp)){		//å¸¸ãªã‚‰
 #ifdef _DEBUG
-//		    MessageBox(hWnd, "¥²©`?£Ã£Ä¤ò¥»¥Ã¥È¤·¤ÆÏÂ¤µ¤¤", "´_ÕJ", MB_OK);
+//		    MessageBox(hWnd, "ã‚²`?ï¼£ï¼¤ã‚’ã‚»ãƒƒãƒˆã—ã¦ä¸‹ã•ã„", "_J", MB_OK);
 #endif
-			cdda_flg = 3;		//£Ã£Ä£Ä£Á¥¹¥Æ©`¥¿¥¹®³£
+			cdda_flg = 3;		//ï¼£ï¼¤ï¼¤ï¼¡ã‚¹ãƒ†`ã‚¿ã‚¹å¸¸
 			return FALSE;
 		}
-		if(mcisp.dwReturn == MCI_MODE_PLAY){		//ÔÙÉú?¤Ê¤é
+		if(mcisp.dwReturn == MCI_MODE_PLAY){		//å†ç”Ÿ?ãªã‚‰
 			return TRUE;
-		} else {		//Ö¹¤Ş¤Ã¤¿¤Ê¤é
+		} else {		//æ­¢ã¾ã£ãŸãªã‚‰
 //			cdda_start( n );
 			cdda_no = Rnd( 11, 34 );
 			cdda_start( cdda_no );
-			// ?ég¤ÎßW¤ìÍü¤ì¤µ¤»¤ë
+			// ?gã®Wã‚Œå¿˜ã‚Œã•ã›ã‚‹
 			NowTime = GetTickCount();
 			return TRUE;
 		}
 	} else {
-		cdda_no = n;		//ÔÙÉú¤¹¤ë
+		cdda_no = n;		//å†ç”Ÿã™ã‚‹
 		cdda_stop();
 		cdda_open( n );
 		cdda_start( n );
-		// ?ég¤ÎßW¤ìÍü¤ì¤µ¤»¤ë
+		// ?gã®Wã‚Œå¿˜ã‚Œã•ã›ã‚‹
 		NowTime = GetTickCount();
 	}
 	return TRUE;

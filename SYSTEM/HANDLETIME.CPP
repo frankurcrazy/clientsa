@@ -5,41 +5,41 @@
 #include "handletime.h"
 
 //#ifdef _DEBUG
-//(180)�루���֣���1��
+//(180)秒（３分）で1日
 //#define LSTIME_SECONDS_PER_DAY 180
 //#else
-//(750X12)�루���r�g�룩��1��
-#define LSTIME_SECONDS_PER_DAY 5400 /* LSTIMEһ�դ֤�άF�g������ */
+//(750X12)秒（１rg半）で1日
+#define LSTIME_SECONDS_PER_DAY 5400 /* LSTIME一日ぶんのFgの秒数 */
 //#endif
 /*
-  LSTIME_SECONDS_PER_DAY ��䤨��ȡ��r�g���M�߾ߺϤ�䤨�뤳�Ȥ��Ǥ��롣
+  LSTIME_SECONDS_PER_DAY を浃à毪取rgのMみ具合を浃à毪长趣扦搿
 
-  ��            LS�r�g��һ�դ�����άF�g�Εr�g��
-  9000 (�˜�)   2.5 [hour]
+              LSrgで一日あたりのFgのrg数
+  9000 ()   2.5 [hour]
   900           0.25[hour] = 15[min]
   90            0.025[hour] = 1.5[min] = 90[sec]
   9             9[sec]
 
 */
 
-#define LSTIME_HOURS_PER_DAY 1024 /* LSTIMEһ�դ֤��LSTIME�Εr�g�� */
-#define LSTIME_DAYS_PER_YEAR 100 /* LSTIMEһ��֤��LSTIME������ */
+#define LSTIME_HOURS_PER_DAY 1024 /* LSTIME一日ぶんのLSTIMEのrg数 */
+#define LSTIME_DAYS_PER_YEAR 100 /* LSTIME一年ぶんのLSTIMEの日数 */
 
 
-// ���ȩ`�󥨥����r�g
+// スト`ンエイジrg
 LSTIME SaTime;
 long serverTime;
 long clientTime;
-int SaTimeZoneNo;	// �F�ڤΕr�g��
-BOOL TimeZonePalChangeFlag; // �r�g���ǥѥ�åȥ����󥸤���ե饰
+int SaTimeZoneNo;	// F在のrg
+BOOL TimeZonePalChangeFlag; // rgでパレットチェンジするフラグ
 #if 0
 /*------------------------------------------------------------
- * һ��`�פ�һ�غ��Ф�ơ��r�g���M��롣
- * ����
- *  �ʤ�
- * ���ꂎ
- *  �ɹ�    TRUE(1)
- *  ʧ��    FALSE(0)
+ * 一ル`プに一回呼ばれて、rgをMめる。
+ * 引数
+ *  なし
+ * 返り
+ *  成功    TRUE(1)
+ *  失    FALSE(0)
  ------------------------------------------------------------*/
 BOOL setNewTime( void )
 {
@@ -51,55 +51,55 @@ BOOL setNewTime( void )
 #endif
 
 /*******************************************************************
-��Ԫ���ˤ�����byHiO 1998/12/4 18:37
+今元旦にした。byHiO 1998/12/4 18:37
 *******************************************************************/
 static long era = (long)912766409 + 5400;
-									/* SA�Ξ�ˤ��餷�� */
-									/* LSԪ����x����Ƥ��ȩ`��������
-                                    ���饤����Ȥ�ͬ������ʤ��Ȥ��ᡣ*/
+									/* SAの椁摔氦椁筏 */
+									/* LS元年を定xするてきと`な数
+                                    クライアントと同じじゃないとだめ。*/
 
 /*******************************************************************
-	�ޥ���r�g����LS�r�g�ˤ���
-	long t : time�ǳ���
-	LSTIME *lstime : LSTIME������ؤΥݥ���
+	マシンrgからLSrgにする
+	long t : timeで出る
+	LSTIME *lstime : LSTIME造体へのポインタ
 *******************************************************************/
 void RealTimeToSATime( LSTIME *lstime )
 {
-	long lsseconds; /* LSԪ�꤫������� */
-    long lsdays; /* LSԪ�꤫������� */
+	long lsseconds; /* LS元年からの秒数 */
+    long lsdays; /* LS元年からの日数 */
 
-	lsseconds = time( NULL ) + serverTime - clientTime - era; /* LSԪ�꤫������� */
+	lsseconds = time( NULL ) + serverTime - clientTime - era; /* LS元年からの秒数 */
 
-    /* Ԫ�꤫���������1�굱��������Ǹ��ȡ���ˤʤ� */
+    /* 元年からの秒数を1年当りの秒数で割ると、年になる */
 	lstime->year = (int)( lsseconds/(LSTIME_SECONDS_PER_DAY*LSTIME_DAYS_PER_YEAR) );
 
-    lsdays = lsseconds/LSTIME_SECONDS_PER_DAY;/* �ޤ�Ԫ�꤫���������Ӌ�㤷�� */
-	lstime->day  = lsdays % LSTIME_DAYS_PER_YEAR;/* �굱����������Ǹ�ä����ޤ꤬��*/
+    lsdays = lsseconds/LSTIME_SECONDS_PER_DAY;/* まず元年からの日数を算して */
+	lstime->day  = lsdays % LSTIME_DAYS_PER_YEAR;/* 年当たりの日数で割ったあまりが日*/
 
 
-    /*(750*12)���1��*/
+    /*(750*12)秒で1日*/
     lstime->hour = (int)(lsseconds % LSTIME_SECONDS_PER_DAY )
-/* �����ޤǤǡ�һ�դ�ʼ�ޤäƤ�����뤿�ä����� */
+/* ここまでで、一日が始まってから何秒たったか。 */
         * LSTIME_HOURS_PER_DAY / LSTIME_SECONDS_PER_DAY;
-    /* һ�դ�����������Ǹ�äƤ���һ�դ�����Εr�g���򤫤���ȬF�ںΕr
-     �ʤΤ����狼�롣*/
+    /* 一日あたりの秒数で割ってから一日あたりのrg数をかけるとF在何r
+     なのかがわかる。*/
 
 	return;
 }
 
 /*******************************************************************
-	LS�r�g����ޥ���r�g�ˤ���
-	LSTIME *lstime : LSTIME������ؤΥݥ���
-	long *t : �g�r�g�ؤΥݥ���
+	LSrgからマシンrgにする
+	LSTIME *lstime : LSTIME造体へのポインタ
+	long *t : grgへのポインタ
 *******************************************************************/
 void LSTimeToRealTime( LSTIME *lstime, long *t)
 {
 	*t=(long)(
-        ( lstime->hour*LSTIME_DAYS_PER_YEAR+lstime->day) /* �r�g */
+        ( lstime->hour*LSTIME_DAYS_PER_YEAR+lstime->day) /* rg */
                *LSTIME_HOURS_PER_DAY
 
         +     lstime->year)
-        /*�����v���ϤФ��äƤ���褦��Ҋ���롣nakamura      */
+        /*このv数はばぐっているようにえる。nakamura      */
 
 
         *450;
@@ -107,9 +107,9 @@ void LSTimeToRealTime( LSTIME *lstime, long *t)
 }
 
 /*******************************************************************
-	LS�r�g�ǽ�Εr�g���֤�ä�
-	���ꂎ int : ҹ0����1����2��ҹ3
-	LSTIME *lstime : LSTIME������ؤΥݥ���
+	LSrgで今のrg区分を得る
+	 int : 夜0、朝1、昼2、夜3
+	LSTIME *lstime : LSTIME造体へのポインタ
 *******************************************************************/
 LSTIME_SECTION getLSTime (LSTIME *lstime)
 {
@@ -126,19 +126,19 @@ LSTIME_SECTION getLSTime (LSTIME *lstime)
 		return LS_NOON;
 }
 
-// �r�g���I���ȥѥ�åȥ����󥸄I�� ***********************************/
+// rgI理とパレットチェンジI理 ***********************************/
 void TimeZoneProc( void )
 {
 	int	timeZoneNo;
 	
-	//�ӣ��r�g�ǽ�Εr�g���֤�ä�
+	//ＳＡrgで今のrg区分を得る
 	timeZoneNo = getLSTime ( &SaTime );
-	// �r�g�������ä��r
+	// rgが浃铯盲r
 	if( SaTimeZoneNo != timeZoneNo ){
-		SaTimeZoneNo = timeZoneNo;	// �r�g������
-		// �r�g���ǥѥ�åȥ����󥸤���r
+		SaTimeZoneNo = timeZoneNo;	// rg更新
+		// rgでパレットチェンジするr
 		if( TimeZonePalChangeFlag == TRUE ){
-			PaletteChange( SaTimeZoneNo, PAL_CHANGE_TIME );// �ѥ�åȥ�����
+			PaletteChange( SaTimeZoneNo, PAL_CHANGE_TIME );// パレットチェンジ
 		}
 	}
 }

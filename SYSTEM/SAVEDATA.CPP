@@ -12,26 +12,26 @@
 
 
 
-// ¥»©`¥Ö¥Ç©`¥¿ //
+// ã‚»`ãƒ–ãƒ‡`ã‚¿ //
 //
-// ˜‹Ôì¤È¥µ¥¤¥º
-// 		SAVEDATA_VER		¥»©`¥Ö¥Ç©`¥¿¤Î¥Ğ©`¥¸??(4 byte)
-// 		CDKEY				CD¥­©`(12 byte)
-// 		PASSWORD			¥Ñ¥¹?©`¥É(12 byte)
-// 		BA_SEL_PEN			‘éêL?¤ÎÈë¤ìÌæ¤¨¤Çßx’k¤Ç¤­¤ë¥Ú¥Ã¥È¤È
-//               			‘éêL¤Ë²Î¼Ó¤¹¤ë¥Ú¥Ã¥È¤ÎÔO¶¨
-// 							Bit 0 ... ‘éêL?¤ËÈë¤ìÌæ¤¨¿ÉÄÜ
-// 							Bit 1 ... ‘éêL¤Ë²Î¼Ó¤µ¤»¤ë
-//							Bit 2 ... ?©`?ß\¤ó¤Ç¤ë
-// 		STEREO_FLAG_SIZE	¥¹¥Æ?¥ª??¥Î??¤ÎÇĞ¤êÌæ¤¨
-// 		SE_VOL				£Ó£Å¥Ü??©`?
-// 		BGM_VOL				£Â£Ç£Í¥Ü??©`?
-// 		BGM_PITCH			£Â£Ç£Í¤Î¥Ô¥Ã¥Á‰ä¸ü
-// 		CHAT_COLOR			¥Á?¥Ã¥ÈÎÄ?É«
-// 		CHAT_LINE			¥Á?¥Ã¥ÈĞĞ?
-//		CHAT_AREA_SIZE		¥Á?¥Ã¥È¤ÎÂ„¤³¤¨¤ë¹ ‡ì
+// é€ ã¨ã‚µã‚¤ã‚º
+// 		SAVEDATA_VER		ã‚»`ãƒ–ãƒ‡`ã‚¿ã®ãƒ`ã‚¸??(4 byte)
+// 		CDKEY				CDã‚­`(12 byte)
+// 		PASSWORD			ãƒ‘ã‚¹?`ãƒ‰(12 byte)
+// 		BA_SEL_PEN			æ®›L?ã®å…¥ã‚Œæ›¿ãˆã§xkã§ãã‚‹ãƒšãƒƒãƒˆã¨
+//               			æ®›Lã«å‚åŠ ã™ã‚‹ãƒšãƒƒãƒˆã®Oå®š
+// 							Bit 0 ... æ®›L?ã«å…¥ã‚Œæ›¿ãˆå¯èƒ½
+// 							Bit 1 ... æ®›Lã«å‚åŠ ã•ã›ã‚‹
+//							Bit 2 ... ?`?\ã‚“ã§ã‚‹
+// 		STEREO_FLAG_SIZE	ã‚¹ãƒ†?ã‚ª??ãƒ??ã®åˆ‡ã‚Šæ›¿ãˆ
+// 		SE_VOL				ï¼³ï¼¥ãƒœ??`?
+// 		BGM_VOL				ï¼¢ï¼§ï¼­ãƒœ??`?
+// 		BGM_PITCH			ï¼¢ï¼§ï¼­ã®ãƒ”ãƒƒãƒæ¶“
+// 		CHAT_COLOR			ãƒ?ãƒƒãƒˆæ–‡?è‰²
+// 		CHAT_LINE			ãƒ?ãƒƒãƒˆè¡Œ?
+//		CHAT_AREA_SIZE		ãƒ?ãƒƒãƒˆã®ã“ãˆã‚‹
 
-// ¥µ¥¤¥º
+// ã‚µã‚¤ã‚º
 enum
 {
 	SAVEDATA_VER_SIZE	= 2,
@@ -48,7 +48,7 @@ enum
 	CHAT_LINE_SIZE		= 1,
 	CHAT_AREA_SIZE		= 1
 };
-// ˜‹Ôì
+// é€ 
 enum
 {
 	SAVEDATA_VER		= 0,					
@@ -70,7 +70,7 @@ enum
 
 static unsigned char savedatabuf[SAVEDATA_SIZE];
 
-// ¥»©`¥Ö¥Ç©`¥¿¥Ğ©`¥¸??
+// ã‚»`ãƒ–ãƒ‡`ã‚¿ãƒ`ã‚¸??
 //   0x0001 ...  26+1 byte
 //   0x0002 ...  87+1 byte
 //   0x0003 ...  57+1 byte
@@ -78,26 +78,26 @@ static unsigned char savedatabuf[SAVEDATA_SIZE];
 //   0x0005 ... 127+1 byte
 #define SAVEDATA_VERSION	0x0005
 
-// ¥»©`¥Ö¥Õ¥¡¥¤?Ãû
+// ã‚»`ãƒ–ãƒ•ã‚¡ã‚¤?å
 #define SAVEFILE_NAME	"data\\savedata.dat"
 
-// ¥¨?©`¥³©`¥É
+// ã‚¨?`ã‚³`ãƒ‰
 unsigned char savedataErrorCode;
-// loadNowState¥¨?©`¥³©`¥É
-//  1 ... ¥»©`¥Ö¥Õ¥¡¥¤?¤¬×÷³É¤Ç¤­¤Ê¤¤¡£
-//  2 ... ¥»©`¥Ö¥Õ¥¡¥¤?¤¬é_¤±¤Ê¤¤¡£
-//  3 ... ¥»©`¥Ö¥Ç©`¥¿¤ÎÕi¤ß?¤ß¤ËÊ§”¡¡£
-//  4 ... ¥»©`¥Ö¥Ç©`¥¿¤Î¥µ¥¤¥º¤¬ß`¤¦¡££¨‰²¤ì¤Æ¤ë£©
-//  5 ... ¥»©`¥Ö¥Ç©`¥¿¤Î¥Ğ©`¥¸??ß`¤¤¡£
+// loadNowStateã‚¨?`ã‚³`ãƒ‰
+//  1 ... ã‚»`ãƒ–ãƒ•ã‚¡ã‚¤?ãŒä½œæˆã§ããªã„ã€‚
+//  2 ... ã‚»`ãƒ–ãƒ•ã‚¡ã‚¤?ãŒ_ã‘ãªã„ã€‚
+//  3 ... ã‚»`ãƒ–ãƒ‡`ã‚¿ã®iã¿?ã¿ã«å¤±ã€€
+//  4 ... ã‚»`ãƒ–ãƒ‡`ã‚¿ã®ã‚µã‚¤ã‚ºãŒ`ã†ã€‚ï¼ˆè æ¬·çš®è€„
+//  5 ... ã‚»`ãƒ–ãƒ‡`ã‚¿ã®ãƒ`ã‚¸??`ã„ã€‚
 
 
 BOOL createSaveFile( void );
 
 
-// ¥»©`¥Ö¥Ç©`¥¿¥Õ¥¡¥¤? ///////////////////////////////////////////////////
+// ã‚»`ãƒ–ãƒ‡`ã‚¿ãƒ•ã‚¡ã‚¤? ///////////////////////////////////////////////////
 
 //
-// ?©`¥¶ÔO¶¨±£´æ
+// ?`ã‚¶Oå®šä¿å­˜
 //
 BOOL saveUserSetting( void )
 {
@@ -110,7 +110,7 @@ BOOL saveUserSetting( void )
 
 
 //
-// ?©`¥¶ÔO¶¨Õi¤ß?¤ß
+// ?`ã‚¶Oå®šiã¿?ã¿
 //
 BOOL loadUserSetting( void )
 {
@@ -126,7 +126,7 @@ BOOL loadUserSetting( void )
 }
 
 //
-// ¥»©`¥Ö¥Ç©`¥¿±£´æ
+// ã‚»`ãƒ–ãƒ‡`ã‚¿ä¿å­˜
 //
 BOOL saveNowState( void )
 {
@@ -141,11 +141,11 @@ BOOL saveNowState( void )
 		tmpsavedatabuf[i] = savedatabuf[i];
 	}
 
-	// ¥»©`¥Ö¥Ç©`¥¿¤Î°µ?»¯
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿ã®æš—?åŒ–
 	jEncode( (char *)tmpsavedatabuf, SAVEDATA_SIZE, 0,
 		writebuffer, &writebufferlen, sizeof( writebuffer ) );
 
-	// ¥»©`¥Ö¥Ç©`¥¿±£´æ
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿ä¿å­˜
 	if( (fp = fopen( SAVEFILE_NAME, "wb+" )) == NULL )
 	{
 		return FALSE;
@@ -162,7 +162,7 @@ BOOL saveNowState( void )
 
 
 //
-// ¥»©`¥Ö¥Ç©`¥¿Õi¤ß?¤ß£¨Æğ„Ó?¤Ë1¶È¤À¤±£©
+// ã‚»`ãƒ–ãƒ‡`ã‚¿iã¿?ã¿ï¼ˆèµ·?ã«1åº¦ã ã‘ï¼‰
 //
 BOOL loadNowState( void )
 {
@@ -173,30 +173,30 @@ BOOL loadNowState( void )
 
 	savedataErrorCode = 0;
 
-	// ¥»©`¥Ö¥Õ¥¡¥¤?¤òé_¤¯
+	// ã‚»`ãƒ–ãƒ•ã‚¡ã‚¤?ã‚’_ã
 	if( (fp = fopen( SAVEFILE_NAME, "rb+" )) == NULL )
 	{
-		// é_¤±¤Ê¤¤?¤Ï¥Õ¥¡¥¤?¤¬Ÿo¤¤¤È¤ß¤Ê¤·ĞÂÒ¤Ç×÷³É¤¹¤ë¡£
+		// _ã‘ãªã„?ã¯ãƒ•ã‚¡ã‚¤?ãŒoã„ã¨ã¿ãªã—æ–°äº²é’å—“å·¥æ¿
 		if( createSaveFile() == FALSE )
 		{
 			savedataErrorCode = 1;
 			return FALSE;
 		}
 
-		// ¸Ä¤á¤Æ¥»©`¥Ö¥Õ¥¡¥¤?¤òé_¤¯
+		// æ”¹ã‚ã¦ã‚»`ãƒ–ãƒ•ã‚¡ã‚¤?ã‚’_ã
 		if( (fp = fopen( SAVEFILE_NAME, "rb+" ))==NULL )
 		{
-			// ×÷¤Ã¤¿¥Õ¥¡¥¤?¤¬é_¤±¤Ê¤¤
+			// ä½œã£ãŸãƒ•ã‚¡ã‚¤?ãŒ_ã‘ãªã„
 			savedataErrorCode = 2;
 			return FALSE;
 		}
 	}
 
-	// ¥»©`¥Ö¥Ç©`¥¿Õi¤ß?¤ß
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿iã¿?ã¿
 	readbufferlen = fread( readbuffer, 1, sizeof( readbuffer ), fp );
 	if( ferror( fp ) )
 	{
-		// Õi¤ß?¤ß¥¨?©`
+		// iã¿?ã¿ã‚¨?`
 		savedataErrorCode = 3;
 		fclose( fp );
 		return FALSE;
@@ -206,7 +206,7 @@ BOOL loadNowState( void )
 	jDecode( readbuffer, readbufferlen, 0, (char *)savedatabuf, &tmpsavedatalen );
 
 #if 1
-	// ?¥Ğ©`¥¸??¤Î¥»©`¥Ö¥Õ¥¡¥¤?¤ò½ñ¤Î¤â¤Î¤Ë‰ä“Q¤¹¤ë
+	// ?ãƒ`ã‚¸??ã®ã‚»`ãƒ–ãƒ•ã‚¡ã‚¤?ã‚’ä»Šã®ã‚‚ã®ã«Qã™ã‚‹
 	if( tmpsavedatalen == 57
 	 && *((unsigned short *)savedatabuf+SAVEDATA_VER) == 0x0004 )
 	{
@@ -219,15 +219,15 @@ BOOL loadNowState( void )
 
 	if( tmpsavedatalen != SAVEDATA_SIZE )
 	{
-		// ¥Ç©`¥¿¥µ¥¤¥º¤¬¤Á¤¬¤¦
+		// ãƒ‡`ã‚¿ã‚µã‚¤ã‚ºãŒã¡ãŒã†
 		savedataErrorCode = 4;
 		return FALSE;
 	}
 
-	// ¥»©`¥Ö¥Ç©`¥¿¥Ğ©`¥¸??¤Î¥Á¥§¥Ã¥¯
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿ãƒ`ã‚¸??ã®ãƒã‚§ãƒƒã‚¯
 	if( *((unsigned short *)savedatabuf+SAVEDATA_VER) != SAVEDATA_VERSION )
 	{
-		// ¥Ğ©`¥¸??ß`¤¤
+		// ãƒ`ã‚¸??`ã„
 		savedataErrorCode = 5;
 		return FALSE;
 	}
@@ -237,7 +237,7 @@ BOOL loadNowState( void )
 
 
 
-// ĞÂÒ¥»©`¥Ö¥Õ¥¡¥¤?×÷³É
+// æ–°å“—`ãƒ–ãƒ•ã‚¡ã‚¤?ä½œæˆ
 BOOL createSaveFile( void )
 {
 	FILE *fp;
@@ -245,13 +245,13 @@ BOOL createSaveFile( void )
 	int writebufferlen;
 	int i;
 
-	// ¥»©`¥Ö¥Ç©`¥¿¥Ğ¥Ã¥Õ¥¡¥¯?¥¢
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿ãƒãƒƒãƒ•ã‚¡ã‚¯?ã‚¢
 	memset( savedatabuf, 0, SAVEDATA_SIZE );
 
-	// ¥»©`¥Ö¥Ç©`¥¿¥Ğ©`¥¸??¤òÈë¤ì¤Æ¤ª¤¯
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿ãƒ`ã‚¸??ã‚’å…¥ã‚Œã¦ãŠã
 	*((unsigned short *)savedatabuf+SAVEDATA_VER) = SAVEDATA_VERSION;
 
-	// ?ÆÚ‚¤ÎÔO¶¨
+	// ?æœŸå§Oå®š
 	savedatabuf[STEREO_FLAG]	= (unsigned char)stereo_flg;
 	savedatabuf[SE_VOL]			= (unsigned char)t_music_se_volume;
 	savedatabuf[BGM_VOL]		= (unsigned char)t_music_bgm_volume;
@@ -262,7 +262,7 @@ BOOL createSaveFile( void )
 	savedatabuf[CHAT_AREA]		= DEF_VOICE;
 
 
-	// ¥»©`¥Ö¥Ç©`¥¿¤Î°µ?»¯
+	// ã‚»`ãƒ–ãƒ‡`ã‚¿ã®æš—?åŒ–
 	jEncode( (char *)savedatabuf, SAVEDATA_SIZE, 0,
 		writebuffer, &writebufferlen, sizeof( writebuffer ) );
 
@@ -284,7 +284,7 @@ BOOL createSaveFile( void )
 
 // CDKEY //////////////////////////////////////////////////////////////////
 
-// CDKEY¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤ËÖÃ¤¯
+// CDKEYã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«ç½®ã
 void setCdkey( char *cdkey )
 {
 	int i;
@@ -301,7 +301,7 @@ void setCdkey( char *cdkey )
 }
 
 
-// CDKEY¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
+// CDKEYã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
 char *getCdkey( char *cdkey )
 {
 	int i;
@@ -315,16 +315,16 @@ char *getCdkey( char *cdkey )
 		if( cdkey[i] == '\0' )
 			break;
 	}
-	cdkey[i] = '\0';	// Äî¤Î¤¿¤á¤¿¤À¤· cdkey¥Ğ¥Ã¥Õ¥¡¤ÏCDKEY_SIZE+1¥Ğ¥¤¥È±ØÒª
+	cdkey[i] = '\0';	// å¿µã®ãŸã‚ãŸã ã— cdkeyãƒãƒƒãƒ•ã‚¡ã¯CDKEY_SIZE+1ãƒã‚¤ãƒˆå¿…è¦
 
 	return cdkey;
 }
 
 
 
-// ¥Ñ¥¹?©`¥É /////////////////////////////////////////////////////////////
+// ãƒ‘ã‚¹?`ãƒ‰ /////////////////////////////////////////////////////////////
 
-// ¥Ñ¥¹?©`¥É¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤ËÈë¤ì¤ë
+// ãƒ‘ã‚¹?`ãƒ‰ã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«å…¥ã‚Œã‚‹
 void setPassword( char *pass )
 {
 	int i;
@@ -341,7 +341,7 @@ void setPassword( char *pass )
 }
 
 
-// ¥Ñ¥¹?©`¥É¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
+// ãƒ‘ã‚¹?`ãƒ‰ã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
 char *getPassword( char *pass )
 {
 	int i;
@@ -355,15 +355,15 @@ char *getPassword( char *pass )
 		if( pass[i] == '\0' )
 			break;
 	}
-	pass[i] = '\0';	//  Äî¤Î¤¿¤á¤¿¤À¤·pass¥Ğ¥Ã¥Õ¥¡¤ÏPASSWORD_SIZE+1¥Ğ¥¤¥È±ØÒª
+	pass[i] = '\0';	//  å¿µã®ãŸã‚ãŸã ã—passãƒãƒƒãƒ•ã‚¡ã¯PASSWORD_SIZE+1ãƒã‚¤ãƒˆå¿…è¦
 
 	return pass;
 }
 
 
-// ?©`¥¶ÔO¶¨ /////////////////////////////////////////////////////////////
+// ?`ã‚¶Oå®š /////////////////////////////////////////////////////////////
 
-// ?©`¥¶ÔO¶¨¤ò±£´æ¥Ğ¥Ã¥Õ¥¡¤ËÈë¤ì¤ë
+// ?`ã‚¶Oå®šã‚’ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã«å…¥ã‚Œã‚‹
 void setUserSetting( int no )
 {
 	int i;
@@ -371,8 +371,8 @@ void setUserSetting( int no )
 	if( no < 0 || MAXCHARACTER <= no )
 		return;
 
-	// ‘éêL²Î¼Ó¥Ú¥Ã¥È¥Õ?¥°
-	// ‘éêL²Î¼Óßx’k¥Ú¥Ã¥È¥Õ?¥°
+	// æ®›Lå‚åŠ ãƒšãƒƒãƒˆãƒ•?ã‚°
+	// æ®›Lå‚åŠ xkãƒšãƒƒãƒˆãƒ•?ã‚°
 	for( i = 0; i < MAX_PET; i++ )
 	{
 		if( pc.selectPetNo[i] != 0 )
@@ -383,13 +383,13 @@ void setUserSetting( int no )
 		{
 			savedatabuf[BA_SEL_PEN+MAX_PET*no+i] = 0x00;
 		}
-#if 0	// ¥µ©`¥Ğ¤ËÇéˆó¤¬?¤ë¤Î¤Ç¥»©`¥Ö¤·¤Ê¤¤
+#if 0	// ã‚µ`ãƒã«æƒ…è­?ã‚‹ã®ã§ã‚»`ãƒ–ã—ãªã„
 		if( i == pc.battlePetNo )
 		{
 			savedatabuf[BA_SEL_PEN+MAX_PET*no+i] |= 0x02;
 		}
 #endif
-		// ?©`?½ì¤±¤Æ¤ë¥Õ?¥°
+		// ?`?å±Šã‘ã¦ã‚‹ãƒ•?ã‚°
 		if( i == pc.mailPetNo )
 		{
 			savedatabuf[BA_SEL_PEN+MAX_PET*no+i] |= 0x04;
@@ -398,7 +398,7 @@ void setUserSetting( int no )
 }
 
 
-// ?©`¥¶ÔO¶¨¤ò±£´æ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
+// ?`ã‚¶Oå®šã‚’ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
 void getUserSetting( int no )
 {
 	int i;
@@ -406,8 +406,8 @@ void getUserSetting( int no )
 	if( no < 0 || MAXCHARACTER <= no )
 		return;
 
-	// ‘éêL²Î¼Ó¥Ú¥Ã¥È¥Õ?¥°
-	// ‘éêL²Î¼Óßx’k¥Ú¥Ã¥È¥Õ?¥°
+	// æ®›Lå‚åŠ ãƒšãƒƒãƒˆãƒ•?ã‚°
+	// æ®›Lå‚åŠ xkãƒšãƒƒãƒˆãƒ•?ã‚°
 	pc.battlePetNo = -1;
 	for( i = 0; i < MAX_PET; i++ )
 	{
@@ -419,13 +419,13 @@ void getUserSetting( int no )
 		{
 			pc.selectPetNo[i] = 0;
 		}
-#if 0	// ¥µ©`¥Ğ¤ËÇéˆó¤¬?¤ë¤Î¤Ç¥»©`¥Ö¤·¤Ê¤¤
+#if 0	// ã‚µ`ãƒã«æƒ…è­?ã‚‹ã®ã§ã‚»`ãƒ–ã—ãªã„
 		if( (savedatabuf[BA_SEL_PEN+MAX_PET*no+i] & 0x02) )
 		{
 			pc.battlePetNo = i;
 		}
 #endif
-		// ?©`?½ì¤±¤Æ¤ë
+		// ?`?å±Šã‘ã¦ã‚‹
 		if( (savedatabuf[BA_SEL_PEN+MAX_PET*no+i] & 0x04) )
 		{
 			pc.mailPetNo = i;
@@ -434,7 +434,7 @@ void getUserSetting( int no )
 }
 
 
-// ?©`¥¶ÔO¶¨¤ò¥¯?¥¢¤·¤Æ±£´æ¥Ğ¥Ã¥Õ¥¡¤ËÈë¤ì¤ë
+// ?`ã‚¶Oå®šã‚’ã‚¯?ã‚¢ã—ã¦ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã«å…¥ã‚Œã‚‹
 void clearUserSetting( int no )
 {
 	int i;
@@ -444,8 +444,8 @@ void clearUserSetting( int no )
 
 	pc.battlePetNo = -1;
 
-	// ‘éêL²Î¼Ó¥Ú¥Ã¥È¥Õ?¥°
-	// ‘éêL²Î¼Óßx’k¥Ú¥Ã¥È¥Õ?¥°
+	// æ®›Lå‚åŠ ãƒšãƒƒãƒˆãƒ•?ã‚°
+	// æ®›Lå‚åŠ xkãƒšãƒƒãƒˆãƒ•?ã‚°
 	for( i = 0; i < MAX_PET; i++ )
 	{
 		savedatabuf[BA_SEL_PEN+MAX_PET*no+i] = 0x00;
@@ -453,48 +453,48 @@ void clearUserSetting( int no )
 }
 
 
-// ¥µ¥¦?¥É¥ª¥×¥·??ÔO¶¨¤ò±£´æ¥Ğ¥Ã¥Õ¥¡¤ËÈë¤ì¤ë
+// ã‚µã‚¦?ãƒ‰ã‚ªãƒ—ã‚·??Oå®šã‚’ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã«å…¥ã‚Œã‚‹
 void setUserSoundOption( void )
 {
 	int i;
 
-	savedatabuf[STEREO_FLAG]	= (unsigned char)stereo_flg;		// ¥¹¥Æ?¥ªÇĞ¤êÌæ¤¨¥Õ?¥°
-	savedatabuf[SE_VOL]			= (unsigned char)t_music_se_volume;	// SE¥Ü??©`?
-	savedatabuf[BGM_VOL]		= (unsigned char)t_music_bgm_volume;// BGM¥Ü??©`?
-	for( i = 0; i < 16; i++ )										// BGM¥Ô¥Ã¥Á
+	savedatabuf[STEREO_FLAG]	= (unsigned char)stereo_flg;		// ã‚¹ãƒ†?ã‚ªåˆ‡ã‚Šæ›¿ãˆãƒ•?ã‚°
+	savedatabuf[SE_VOL]			= (unsigned char)t_music_se_volume;	// SEãƒœ??`?
+	savedatabuf[BGM_VOL]		= (unsigned char)t_music_bgm_volume;// BGMãƒœ??`?
+	for( i = 0; i < 16; i++ )										// BGMãƒ”ãƒƒãƒ
 		savedatabuf[BGM_PITCH+i] = t_music_bgm_pitch[i];
 }
 
 
-// ¥µ¥¦?¥É¥ª¥×¥·??ÔO¶¨¤ò±£´æ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
+// ã‚µã‚¦?ãƒ‰ã‚ªãƒ—ã‚·??Oå®šã‚’ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
 void getUserSoundOption( void )
 {
 	int i;
 
-	stereo_flg			= (int)savedatabuf[STEREO_FLAG];	// ¥¹¥Æ?¥ªÇĞ¤êÌæ¤¨¥Õ?¥°
-	t_music_se_volume	= (int)savedatabuf[SE_VOL];			// SE¥Ü??©`?
-	t_music_bgm_volume	= (int)savedatabuf[BGM_VOL];		// BGM¥Ü??©`?
-	for( i = 0; i < 16; i++ )								// BGM¥Ô¥Ã¥Á
+	stereo_flg			= (int)savedatabuf[STEREO_FLAG];	// ã‚¹ãƒ†?ã‚ªåˆ‡ã‚Šæ›¿ãˆãƒ•?ã‚°
+	t_music_se_volume	= (int)savedatabuf[SE_VOL];			// SEãƒœ??`?
+	t_music_bgm_volume	= (int)savedatabuf[BGM_VOL];		// BGMãƒœ??`?
+	for( i = 0; i < 16; i++ )								// BGMãƒ”ãƒƒãƒ
 		t_music_bgm_pitch[i] = savedatabuf[BGM_PITCH+i];
 }
 
 
-// ¥Á?¥Ã¥È¥ª¥×¥·??ÔO¶¨¤ò±£´æ¥Ğ¥Ã¥Õ¥¡¤ËÈë¤ì¤ë
+// ãƒ?ãƒƒãƒˆã‚ªãƒ—ã‚·??Oå®šã‚’ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã«å…¥ã‚Œã‚‹
 void setUserChatOption( void )
 {
-	savedatabuf[CHAT_COLOR]		= MyChatBuffer.color;				// ¥Á?¥Ã¥ÈÎÄ?É«
-	savedatabuf[CHAT_LINE]		= (unsigned char)NowMaxChatLine;	// ¥Á?¥Ã¥ÈĞĞ?
-	savedatabuf[CHAT_AREA]		= NowMaxVoice;						// ¥Á?¥Ã¥È¹ ‡ì
+	savedatabuf[CHAT_COLOR]		= MyChatBuffer.color;				// ãƒ?ãƒƒãƒˆæ–‡?è‰²
+	savedatabuf[CHAT_LINE]		= (unsigned char)NowMaxChatLine;	// ãƒ?ãƒƒãƒˆè¡Œ?
+	savedatabuf[CHAT_AREA]		= NowMaxVoice;						// ãƒ?ãƒƒãƒˆ
 }
 
 
-// ¥Á?¥Ã¥È¥ª¥×¥·??ÔO¶¨¤ò±£´æ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
-//chi£¿¥Ã¥È¥ª¥×¥·??Éè¶¨±£´æ»º³åÈ¡
+// ãƒ?ãƒƒãƒˆã‚ªãƒ—ã‚·??Oå®šã‚’ä¿å­˜ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
+//chiï¼Ÿãƒƒãƒˆã‚ªãƒ—ã‚·??è®¾å®šä¿å­˜ç¼“å†²å–
 void getUserChatOption( void )
 {
-	MyChatBuffer.color	= savedatabuf[CHAT_COLOR];			// ¥Á?¥Ã¥ÈÎÄ?É«  ÁÄÌìÑÕÉ«
-	NowMaxChatLine		= (int)savedatabuf[CHAT_LINE];		// ¥Á?¥Ã¥ÈĞĞ?  ĞĞ 
-	NowMaxVoice			= savedatabuf[CHAT_AREA];			// ¥Á?¥Ã¥È¹ ‡ì ·¶Î§
+	MyChatBuffer.color	= savedatabuf[CHAT_COLOR];			// ãƒ?ãƒƒãƒˆæ–‡?è‰²  èŠå¤©é¢œè‰²
+	NowMaxChatLine		= (int)savedatabuf[CHAT_LINE];		// ãƒ?ãƒƒãƒˆè¡Œ?  è¡Œ 
+	NowMaxVoice			= savedatabuf[CHAT_AREA];			// ãƒ?ãƒƒãƒˆ èŒƒå›´
 }
 
 
@@ -523,17 +523,17 @@ static int savecharrecord = 0;
 
 /*******************************************************
 
-   ¥Ñ¥¹?©`¥É¹Ü?
+   ãƒ‘ã‚¹?`ãƒ‰ç®¡?
 
-  ±£´æ¤¹¤ë¡¢¤è¤ß¤³¤à
+  ä¿å­˜ã™ã‚‹ã€ã‚ˆã¿ã“ã‚€
 
 
 *******************************************************/
 /*
-  ¥Ñ¥¹?©`¥É±£´æ
+  ãƒ‘ã‚¹?`ãƒ‰ä¿å­˜
 
-  char *cdkey : CD key.  NULL¥İ¥¤?¥¿¤À¤Ã¤¿¤éCD¥­©`¤Ï±£´æ¤·¤Ê¤¤
-  char *passwd : ¥Ñ¥¹?©`¥É   NULL¥İ¥¤?¥¿¤À¤Ã¤¿¤é¥Ñ¥¹?©`¥É¤Ï±£´æ¤·¤Ê¤¤
+  char *cdkey : CD key.  NULLãƒã‚¤?ã‚¿ã ã£ãŸã‚‰CDã‚­`ã¯ä¿å­˜ã—ãªã„
+  char *passwd : ãƒ‘ã‚¹?`ãƒ‰   NULLãƒã‚¤?ã‚¿ã ã£ãŸã‚‰ãƒ‘ã‚¹?`ãƒ‰ã¯ä¿å­˜ã—ãªã„
   return value:
   0 OK
   <0 Error
@@ -552,10 +552,10 @@ int savePasswdFile( char *cdkey , char *passwd )
 
 /*
   
-    char *cdkey : cd key output  NULL ¥İ¥¤?¥¿¤À¤Ã¤¿¤éºÎ¤â¤·¤Ê¤¤
+    char *cdkey : cd key output  NULL ãƒã‚¤?ã‚¿ã ã£ãŸã‚‰ä½•ã‚‚ã—ãªã„
     int cmaxlen : cdkey maxlen
-    char *passwd : ³öÁ¦¡£       NULL ¥İ¥¤?¥¿¤À¤Ã¤¿¤éºÎ¤â¤·¤Ê¤¤
-    int pmaxlen : ¤Ê¤¬¤µpasswd  
+    char *passwd : å‡ºåŠ›ã€‚       NULL ãƒã‚¤?ã‚¿ã ã£ãŸã‚‰ä½•ã‚‚ã—ãªã„
+    int pmaxlen : ãªãŒã•passwd  
 
   return value:0 OK
   <0 Error
@@ -572,10 +572,10 @@ int loadPasswdFile( char *cdkey , int cmaxlen , char *passwd ,int pmaxlen)
 
 
 /*********************************************************
-	¥¢¥É?¥¹¥Ö¥Ã¥¯?¥Ã¥»©`¥¸¥Õ¥¡¥¤?
+	ã‚¢ãƒ‰?ã‚¹ãƒ–ãƒƒã‚¯?ãƒƒã‚»`ã‚¸ãƒ•ã‚¡ã‚¤?
 *********************************************************/
 /*
-	¥¤?¥Ç¥Ã¥¯¥¹Ö¸¶¨¤Ç?¥Ã¥»©`¥¸¤ò±íÊ¾¤¹¤ë
+	ã‚¤?ãƒ‡ãƒƒã‚¯ã‚¹æŒ‡å®šã§?ãƒƒã‚»`ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹
 */
 void checkRecvMes(int aindex)
 {
@@ -624,7 +624,7 @@ void checkRecvMes(int aindex)
 }
 
 /*
-	¥¤?¥Ç¥Ã¥¯¥¹Ö¸¶¨¤Ç?¥Ã¥»©`¥¸Ò»?Ï÷?
+	ã‚¤?ãƒ‡ãƒƒã‚¯ã‚¹æŒ‡å®šã§?ãƒƒã‚»`ã‚¸ä¸€?å‰Š?
 */
 void deleteMes(int aindex)
 {
@@ -670,7 +670,7 @@ void deleteMes(int aindex)
 
 
 /*
-	¥­??Ö¸¶¨¤Ç?¥Ã¥»©`¥¸Ò»?Ï÷?
+	ã‚­??æŒ‡å®šã§?ãƒƒã‚»`ã‚¸ä¸€?å‰Š?
 */
 void deleteAllMes(int charindex)
 {
@@ -703,7 +703,7 @@ void deleteAllMes(int charindex)
 	rename("data\\recvmes.bak","data\\recvmes.bin");
 }
 /*
-	ÊÜ¤±È¡¤Ã¤¿?¥Ã¥»©`¥¸¤ò±£´æ
+	å—ã‘å–ã£ãŸ?ãƒƒã‚»`ã‚¸ã‚’ä¿å­˜
 */
 void saveRecvMes(int aindex, char *msg, int color)
 {
@@ -718,7 +718,7 @@ void saveRecvMes(int aindex, char *msg, int color)
 }
 
 /*
-	?¥°¥¤??¤Ë¤½¤Î¥­??¤¬?¥Ã¥»©`¥¸¤òÊÜ¤±¤È¤Ã¤Æ¤ë¤«¤É¤¦¤«Öª¤ë
+	?ã‚°ã‚¤??ã«ãã®ã‚­??ãŒ?ãƒƒã‚»`ã‚¸ã‚’å—ã‘ã¨ã£ã¦ã‚‹ã‹ã©ã†ã‹çŸ¥ã‚‹
 */
 void checkRecvdMes(void)
 {
@@ -743,19 +743,19 @@ void checkRecvdMes(void)
 	fclose (fp);
 }
 /*********************************************************
-	×´‘B±£´æ
-	±£´æ¤¹¤ë¤â¤Î¤Ï
+	çŠ¶Bä¿å­˜
+	ä¿å­˜ã™ã‚‹ã‚‚ã®ã¯
 
-  ¥Ñ¥¹?©`¥É¤ÈCDKEY¤¬1½M£¨°ë½Ç12£«°ë½Ç12¥Ğ¥¤¥È¤È¤¹¤ë)
-  ÒÔÏÂ¤Î¤â¤Î¤ò8½M
-	¥¢¥¯¥·??¥Ü¥¿?·Nî(12¥Ğ¥¤¥È)
-	¥¢¥¯¥·??¥Ü¥¿?¥¤?¥Ç¥Ã¥¯¥¹£¨24¥Ğ¥¤¥È£©
-	¥Á?¥Ã¥È±íÊ¾ĞĞ?(1¥Ğ¥¤¥È)
-	¥Á?¥Ã¥È¥«?©`(1¥Ğ¥¤¥È)
-	?·¨¤ò½M¤ß¤¿¤Æ¤¿¤³¤È¤¬?¤ë¤«£¨200¥Ğ¥¤¥È£©
-	ÃûÇ°£¨12¥Ğ¥¤¥È£©
+  ãƒ‘ã‚¹?`ãƒ‰ã¨CDKEYãŒ1Mï¼ˆåŠè§’12ï¼‹åŠè§’12ãƒã‚¤ãƒˆã¨ã™ã‚‹)
+  ä»¥ä¸‹ã®ã‚‚ã®ã‚’8M
+	ã‚¢ã‚¯ã‚·??ãƒœã‚¿?N(12ãƒã‚¤ãƒˆ)
+	ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã‚¤?ãƒ‡ãƒƒã‚¯ã‚¹ï¼ˆ24ãƒã‚¤ãƒˆï¼‰
+	ãƒ?ãƒƒãƒˆè¡¨ç¤ºè¡Œ?(1ãƒã‚¤ãƒˆ)
+	ãƒ?ãƒƒãƒˆã‚«?`(1ãƒã‚¤ãƒˆ)
+	?æ³•ã‚’Mã¿ãŸã¦ãŸã“ã¨ãŒ?ã‚‹ã‹ï¼ˆ200ãƒã‚¤ãƒˆï¼‰
+	åå‰ï¼ˆ12ãƒã‚¤ãƒˆï¼‰
 
-  ¤Ç¡¢ÅäÁĞ¤Î
+  ã§ã€é…åˆ—ã®
 	cdkey		0
 	password	12
 	actionkind	24+300*i
@@ -766,18 +766,18 @@ void checkRecvdMes(void)
 	name		262+300*i
 	actionbuttonposition 323+300*i
 
-  ¤ò¤¤¤¸¤ë¤Ã¤Æ¤«¤ó¤¸¡£
+  ã‚’ã„ã˜ã‚‹ã£ã¦ã‹ã‚“ã˜ã€‚
 
-  ¤½¤ó¤Ç¡¢¥¨?¥³©`¥É¤·¤Æ¡¢¤½¤ìÈ«?¥Õ¥¡¥¤?¤Ë±£´æ¡£
+  ãã‚“ã§ã€ã‚¨?ã‚³`ãƒ‰ã—ã¦ã€ãã‚Œå…¨?ãƒ•ã‚¡ã‚¤?ã«ä¿å­˜ã€‚
 *********************************************************/
 /***********************
-	?¤­?¤ßÏµ
+	?ã?ã¿ç³»
 ***********************/
 /*
-	¥¢¥¯¥·??¥Ü¥¿?¤Î×´‘B¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤Ë
-	int i : ºÎ·¬Ä¿¤Î¥¢¥¯¥·??¥Ü¥¿?¤«
-	int *kind : ºÎ¤Î·Nî¤«
-	int *index : ºÎ·¬Ä¿¤Î¤â¤Î¤«
+	ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã®çŠ¶Bã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«
+	int i : ä½•ç•ªç›®ã®ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã‹
+	int *kind : ä½•ã®Nã‹
+	int *index : ä½•ç•ªç›®ã®ã‚‚ã®ã‹
 */
 void setActionbutton(int i, int kind, int index)
 {
@@ -786,8 +786,8 @@ void setActionbutton(int i, int kind, int index)
 	savedatabuf[36+i*2  +savecharrecord*300] = (index+1) % 256;
 }
 /*
-	¥¢¥¯¥·??¥Ü¥¿?¥«©`¥½?¤ÎÎ»ÖÃ¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤Ë
-	int i : ºÎ·¬Ä¿¤Ë¥«©`¥½?¤¬?¤ë¤«
+	ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã‚«`ã‚½?ã®ä½ç½®ã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«
+	int i : ä½•ç•ªç›®ã«ã‚«`ã‚½?ãŒ?ã‚‹ã‹
 */
 void setActionbuttonCursorPos(int i)
 {
@@ -795,7 +795,7 @@ void setActionbuttonCursorPos(int i)
 }
 
 /*
-	¥Á?¥Ã¥È¤Î×´‘B¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤Ë
+	ãƒ?ãƒƒãƒˆã®çŠ¶Bã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«
 */
 void setChatState(unsigned char line, unsigned char color)
 {
@@ -803,14 +803,14 @@ void setChatState(unsigned char line, unsigned char color)
 	savedatabuf[61+savecharrecord*300]=(char)color;
 }
 /*
-	?·¨½M¤ß¤¿¤Æ×´›r¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤Ë
+	?æ³•Mã¿ãŸã¦çŠ¶rã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«
 */
 void setMagicPad(int i)
 {
 	savedatabuf[62+i+savecharrecord*300]=1;
 }
 /*
-	ÃûÇ°±£´æ
+	åå‰ä¿å­˜
 */
 void setName( char *name)
 {
@@ -822,13 +822,13 @@ void setName( char *name)
 	sjisStringToEucString(name);
 }
 /***********************
-	Õi¤ß¤³¤ßÏµ
+	iã¿ã“ã¿ç³»
 ***********************/
 /*
-	¥¢¥¯¥·??¥Ü¥¿?¤Î×´‘B¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
-	int i : ºÎ·¬Ä¿¤Î¥¢¥¯¥·??¥Ü¥¿?¤«
-	int *kind : ºÎ¤Î·Nî¤«
-	int *index : ºÎ·¬Ä¿¤Î¤â¤Î¤«
+	ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã®çŠ¶Bã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
+	int i : ä½•ç•ªç›®ã®ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã‹
+	int *kind : ä½•ã®Nã‹
+	int *index : ä½•ç•ªç›®ã®ã‚‚ã®ã‹
 */
 void getActionbutton(int i, int *kind, int *index)
 {
@@ -836,17 +836,17 @@ void getActionbutton(int i, int *kind, int *index)
 	*index = savedatabuf[36+i*2+1+savecharrecord*300]*256+savedatabuf[36+i*2+savecharrecord*300]-1;
 }
 /*
-	¥¢¥¯¥·??¥Ü¥¿?¥«©`¥½?¤ÎÎ»ÖÃ¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤Ë
-	‘ø¤ê‚¡¡£º¡¡int  ¥¤?¥Ç¥Ã¥¯¥¹
+	ã‚¢ã‚¯ã‚·??ãƒœã‚¿?ã‚«`ã‚½?ã®ä½ç½®ã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã«
+	ã€‚éª¸int  ã‚¤?ãƒ‡ãƒƒã‚¯ã‚¹
 */
 int getActionbuttonCursorPos(void)
 {
 	return savedatabuf[323+savecharrecord*300];
 }
 /*
-	¥Á?¥Ã¥È¤Î×´‘B¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
-	unsigned char line : ºÎĞĞ¤«
-	unsigned char color : ºÎÉ«¤«
+	ãƒ?ãƒƒãƒˆã®çŠ¶Bã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
+	unsigned char line : ä½•è¡Œã‹
+	unsigned char color : ä½•è‰²ã‹
 */
 void getChatState(unsigned char *line, unsigned char *color)
 {
@@ -854,14 +854,14 @@ void getChatState(unsigned char *line, unsigned char *color)
 	*color = savedatabuf[61+savecharrecord*300];
 }
 /*
-	?·¨½M¤ß¤¿¤Æ×´›r¤ò±£´æÓÃ¥Ğ¥Ã¥Õ¥¡¤«¤éÈ¡¤ë
+	?æ³•Mã¿ãŸã¦çŠ¶rã‚’ä¿å­˜ç”¨ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰å–ã‚‹
 */
 char getMagicPad(int i)
 {
 	return savedatabuf[62+i+savecharrecord*300];
 }
 /*
-	ÃûÇ°µÃ¤ë
+	åå‰å¾—ã‚‹
 */
 char *getName(char *name)
 {
@@ -876,7 +876,7 @@ char *getName(char *name)
 
 
 /**********************************************
-	¥­???¥¹¥È¤òµÃ¤¿?¥Ğ¥Ã¥Õ¥¡¥¯?¥¢
+	ã‚­???ã‚¹ãƒˆã‚’å¾—ãŸ?ãƒãƒƒãƒ•ã‚¡ã‚¯?ã‚¢
 **********************************************/
 void clearSavedataBuffer(void)
 {
@@ -910,7 +910,7 @@ void clearSavedataBuffer(void)
 	}
 }
 /**********************************************
-	?¥¹¥È¤ÎºÎ·¬Ä¿¤Î¥­??¤Ç?¥°¥¤?¤·¤¿¤«
+	?ã‚¹ãƒˆã®ä½•ç•ªç›®ã®ã‚­??ã§?ã‚°ã‚¤?ã—ãŸã‹
 **********************************************/
 void setSavedataRecord(char *name )
 {
@@ -928,7 +928,7 @@ void setSavedataRecord(char *name )
 			return;
 		}
 	}
-	//ÒŠ¤Ä¤«¤é¤Ê¤«¤Ã¤¿¤é
+	//ã¤ã‹ã‚‰ãªã‹ã£ãŸã‚‰
 	for(i=0;i<8;i++){
 		if(savedatabuf[262+i*300]=='\0'){
 			savecharrecord = i;
@@ -942,7 +942,7 @@ void setSavedataRecord(char *name )
 	sjisStringToEucString(name);
 }
 /*
-	?¥¹¥È¤ÎºÎ·¬Ä¿¤Ë?¤­ÒŠ¤Ä¤±¤Æ×÷¤ì¤¿¤«
+	?ã‚¹ãƒˆã®ä½•ç•ªç›®ã«?ãã¤ã‘ã¦ä½œã‚ŒãŸã‹
 */
 void getNullSavedataRecord(char *name){
 	int i;

@@ -14,7 +14,7 @@
 #include "menu.h"
 #include "map.h"
 
-// ���ķN�
+// 攻姆N
 enum{ 
 	BATTLE_ATTACK,
 	BATTLE_JUJUTU,
@@ -23,11 +23,11 @@ enum{
 	BATTLE_WAZA,
 };
 
-// �ȥ���
+// トグル
 #define BATTLE_MENU				( 1 << 0 )
 #define BATTLE_MENU_PET			( 1 << 1 )
 
-// ��˥�`���A��
+// メニュ`のA
 #define BATTLE_MENU_SUU					9
 #define BATTLE_MENU_FONTS				9
 #define BATTLE_MENU_JUJUTSU_FONTS		6
@@ -35,213 +35,213 @@ enum{
 #define BATTLE_MENU_PET_FONTS			7
 #define BATTLE_MENU_WAZA_FONTS			9
 
-// �Хȥ륳�ޥ�ɥ�����
+// バトルコマンドサイズ
 //#define BATTLE_COMMAND_SIZE			4096
 
-// �Хȥ�ܥ������
+// バトルボタンの数
 #define BATTLE_BUTTON_SUU	9
 
-// ���ޥ���ܸ��r�g
-//#define BATTLE_CNT_DOWN_TIME 300000	// ���
-#define BATTLE_CNT_DOWN_TIME  30000	// ������
-//#define BATTLE_CNT_DOWN_TIME  10000	// ������
-//#define BATTLE_CNT_DOWN_TIME  100000	// 90��
-//#define BATTLE_CNT_DOWN_TIME 10000	// ������
-//#define BATTLE_CNT_DOWN_TIME 3000	// ����
+// コマンド受付rg
+//#define BATTLE_CNT_DOWN_TIME 300000	// 五分
+#define BATTLE_CNT_DOWN_TIME  30000	// ３０秒
+//#define BATTLE_CNT_DOWN_TIME  10000	// １０秒
+//#define BATTLE_CNT_DOWN_TIME  100000	// 90秒
+//#define BATTLE_CNT_DOWN_TIME 10000	// １０秒
+//#define BATTLE_CNT_DOWN_TIME 3000	// ３秒
 
-// �Хȥ륳�ޥ��������
+// バトルコマンド文字列
 char BattleCmd[ BATTLE_COMMAND_SIZE ];
-// �Хȥ륳�ޥ�ɥХå����å�
+// バトルコマンドバックアップ
 char BattleCmdBak[ BATTLE_BUF_SIZE ][ BATTLE_COMMAND_SIZE ];
-// �Хȥ륳�ޥ�������Хݥ��󥿩`
+// バトルコマンド文字列ポインタ`
 int BattleCmdReadPointer;
 int BattleCmdWritePointer;
 
-// �Хȥ륳�ޥ�������ХХå����å�
+// バトルコマンド文字列バックアップ
 //char BattleCmdBak[ BATTLE_COMMAND_SIZE ];
 
-// �Хȥ�״�B������
+// バトル状B文字列
 char BattleStatus[ BATTLE_COMMAND_SIZE ];
-// �Хȥ�״�B�����ХХå����å�
+// バトル状B文字列バックアップ
 char BattleStatusBak[ BATTLE_BUF_SIZE ][ BATTLE_COMMAND_SIZE ];
-// �Хȥ�״�B�����Хݥ��󥿩`
+// バトル状B文字列ポインタ`
 int BattleStatusReadPointer;
 int BattleStatusWritePointer;
-// �Хȥ�״�B�����ХХå����å�
+// バトル状B文字列バックアップ
 //char BattleStatusBak[ BATTLE_COMMAND_SIZE ];
-// �Хȥ�״�B�����ХХå����å�
+// バトル状B文字列バックアップ
 //char BattleStatusBak2[ BATTLE_COMMAND_SIZE ];
 
-// �Է֤����з���
+// 自分の配列番号
 int BattleMyNo = 0;
-// ���L�r���Է֤Σͣ�
+// 殛Lrの自分のＭＰ
 int BattleMyMp;
-// ���L���ƽK�˥ե饰
+// 殛L制K了フラグ
 int BattleEscFlag = FALSE;
 
-// �ڥåȥ�����󥫥��󥿩`
+// ペットスタメンカウンタ`
 int BattlePetStMenCnt;
 
-// �£Хե饰
+// ＢＰフラグ
 int BattleBpFlag = FALSE;
-// ���ޥ�ɷ���
+// コマンド番号
 int BattleCmdNo = -1;
-// ���g����
+// 庑g番号
 int BattleJujutuNo;
-// ������
+// 技番号
 int BattleWazaNo;
-// �Α�ڥåȷ��ťХå����å�
+// 参楗讠氓确钮啸氓氓
 int battlePetNoBak = -2;
-// �Α�ڥåȷ��ťХå����åף�
+// 参楗讠氓确钮啸氓氓祝
 int battlePetNoBak2 = -2;
-// �����ƥ෬��
+// アイテム番号
 int BattleItemNo;
 
-// �ץ쥤��`�Ӥ����ե饰
+// プレイヤ`逃げたフラグ
 int battlePlayerEscFlag = FALSE;
 
-// ���ޥ�������g�ߥե饰
+// コマンド入力gみフラグ
 int BattleAnimFlag;
-// ���`�����ťե饰
+// タ`ン受信フラグ
 BOOL BattleTurnReceiveFlag;
-// �F�ڤΥ��饤����ȥ��`�󷬺�
+// F在のクライアントタ`ン番号
 int BattleCliTurnNo;
-// �F�ڤΥ��`�Щ`���`�󷬺�
+// F在のサ`バ`タ`ン番号
 int BattleSvTurnNo;
 
-// ���L�Y��������ɥ��ե饰
+// 殛LY果ウィンドウフラグ
 BOOL BattleResultWndFlag = FALSE;
 
-// ������ȥ�����
+// カウントダウン
 DWORD BattleCntDown;
-// ������ȥ�����ե饰�����å�
+// カウントダウンフラグチェック
 BOOL BattleCntDownFlag = FALSE;
 
-// �Хȥ��˥�`
+// バトルメニュ`
 static BOOL battleButtonFlag[ BATTLE_BUTTON_SUU ];
 static int battleButtonDispNo[ BATTLE_BUTTON_SUU ];
 static int battleMenuJujutsuFontNo[ BATTLE_MENU_JUJUTSU_FONTS ];
 static int battleMenuItemFontNo[ BATTLE_MENU_ITEM_FONTS ];
 static int battleMenuPetFontNo[ BATTLE_MENU_PET_FONTS ];
 static int battleMenuWazaFontNo[ BATTLE_MENU_WAZA_FONTS ];
-static int battleMenuFlag = FALSE;				// �F�ڳ��Ǥ����˥�`�Υե饰���ӥåȣ�
-static int battleMenuReturn = FALSE;			// ��˥�`��������Ф��ե饰
-static int battlePetMenuFlag = FALSE;			// �ڥåȥ�˥�`�����ե饰
-static int battlePetButtonFlag = FALSE;			// �ڥåȤμ��ܥ���ؤ��ߥե饰
+static int battleMenuFlag = FALSE;				// F在出でいるメニュ`のフラグ（ビット）
+static int battleMenuReturn = FALSE;			// メニュ`画面外へ行くフラグ
+static int battlePetMenuFlag = FALSE;			// ペットメニュ`出すフラグ
+static int battlePetButtonFlag = FALSE;			// ペットの技ボタンへこみフラグ
 static int battleTimeUpFlag = FALSE;
 static int battleTargetSelectFlag = FALSE;
-int battleMenuFlag2 = FALSE;	// �ץ�����������Ф��椨��
-static int battleButtonBak = -1;		// ǰ�ؤΥܥ���ӛ��
-static int battleButtonBak2 = -1;		// ǰ�ؤΥܥ���ӛ����
-static int battleWazaTargetBak = -1;		// ǰ�ؤμ�����
+int battleMenuFlag2 = FALSE;	// プロセスからの切り替え用
+static int battleButtonBak = -1;		// 前回のボタン
+static int battleButtonBak2 = -1;		// 前回のボタン２
+static int battleWazaTargetBak = -1;		// 前回の技番号
 
-// ������ɥ����������ݥ���
+// ウィンドウアクションポインタ
 //static ACTION *pActJujutsuWnd;
 //static ACTION *pActItemWnd;
 static ACTION *pActInfoWnd;
 static ACTION *pActWnd = NULL;
 
-// �Хȥ�ܥ��������
+// バトルボタンの座
 static int buttonX, buttonY, buttonA;
 
-// �Хȥ��˥�`���ڻ� ********************************************************/
+// バトルメニュ`初期化 ********************************************************/
 void InitBattleMenu( void )
 {
 	int i;
-	// �ܥ���
+	// ボタン
 	for( i = 0 ; i < BATTLE_BUTTON_SUU ; i++ ) battleButtonDispNo[ i ] = -2;
-	// ���g
+	// 庑g
 	for( i = 0 ; i < BATTLE_MENU_JUJUTSU_FONTS ; i++ ) battleMenuJujutsuFontNo[ i ] = -2;
-	// �����ƥ�
+	// アイテム
 	for( i = 0 ; i < BATTLE_MENU_ITEM_FONTS ; i++ ) battleMenuItemFontNo[ i ] = -2;
-	// �ڥå�
+	// ペット
 	for( i = 0 ; i < BATTLE_MENU_PET_FONTS ; i++ ) battleMenuPetFontNo[ i ] = -2;
-	// ��
+	// 技
 	for( i = 0 ; i < BATTLE_MENU_WAZA_FONTS ; i++ ) battleMenuWazaFontNo[ i ] = -2;
 
-	battleMenuFlag = FALSE;				// ��˥�`�ե饰���ڻ�
-	battleMenuReturn = TRUE;			// ��˥�`�L���ե饰�ϣƣ�
-	battleButtonBak = -1;				// ǰ�ؤΥܥ���ӛ��
-	battleButtonBak2 = -1;				// ǰ�ؤΥܥ���ӛ����
-	//battlePetNoBak = -2;				// �Α�ڥåȷ���ӛ��
-	BattleEscFlag = FALSE;				// ���L���ƽK�˥ե饰���ڻ�
-	// ���L�Y��������ɥ��ե饰
+	battleMenuFlag = FALSE;				// メニュ`フラグ初期化
+	battleMenuReturn = TRUE;			// メニュ`LすフラグＯＦＦ
+	battleButtonBak = -1;				// 前回のボタン
+	battleButtonBak2 = -1;				// 前回のボタン２
+	//battlePetNoBak = -2;				// 参楗讠氓确庞
+	BattleEscFlag = FALSE;				// 殛L制K了フラグ初期化
+	// 殛LY果ウィンドウフラグ
 	BattleResultWndFlag = FALSE;
-	// �ܥ���ե饰ȫ���ڻ�
+	// ボタンフラグ全初期化
 	ClearBattleButton();
-	// �ǥե���Ȥǹ��ĥܥ���ϣ�
+	// デフォルトで攻磨堀骏螅希
 	battleButtonBak = 0;
 	//DeathAction( pActWnd );
-	pActWnd = NULL;				// ������ɥ��ݥ��󥿳��ڻ�
-	// ����ե���`����󥦥���ɥ�Ĩ��
+	pActWnd = NULL;				// ウィンドウポインタ初期化
+	// インフォメ`ションウィンドウ抹
 	//DeathAction( pActInfoWnd );
 	pActInfoWnd = NULL;
-	// �ڥåȤ�������äƤʤ��ä���
+	// ペットが入れ替わってなかったら
 	if( battlePetNoBak != -2 ){
-		battlePetButtonFlag = FALSE;			// �ڥåȤμ��ܥ���
+		battlePetButtonFlag = FALSE;			// ペットの技ボタン
 	}else{
-		battlePetButtonFlag = TRUE;			// �ڥåȤμ��ܥ���
+		battlePetButtonFlag = TRUE;			// ペットの技ボタン
 	}
 }
 
-// һ���ä������ä������å� ********************************************/
+// 一人用か二人用かチェック ********************************************/
 int CheckBattle1P2P( void )
 {
 	int i, cnt = 0;
 	
-	// ����ƥ�֥�`��
+	// ２０匹分ル`プ
 	for( i = 0 ; i < 20 ; i++ ){
-		// �ݥ��󥿤��ʤ��r����
+		// ポインタがないr
 		if( p_party[ i ]->func == NULL ) continue;
-		// ����Ǥ���r
+		// 死んでいるr
 		//if( p_party[ i ]->hp <= 0 ) continue;
-		// �ץ쥤��`�ʤ�
+		// プレイヤ`なら
 		if( ( (ATR_EQU *)p_party[ i ]->pYobi )->pet_ok == TRUE ) cnt++;
 	}
 	if( cnt >= 2 ) return 2;
 	else return 1;
 }
-// ���ޥ�������g�ߥե饰�Υ����å� ********************************************/
+// コマンド入力gみフラグのチェック ********************************************/
 void CheckBattleAnimFlag( void )
 {
 	int i;
 	
-	// ���¤��o����Б���
+	// 更新がoければ
 	//if( BattleAnimFlag == 0 ) return;
 	
-	// ���饤����ȥ��`��ȥ��`�Щ`���`��ͬ���Εrȫ�T�ե饰���Ƥ�
+	// クライアントタ`ンとサ`バ`タ`ンが同じのr全Tフラグ立てる
 	if( BattleCliTurnNo != BattleSvTurnNo ){ 
-		// ����ƥ�֥�`��
+		// ２０匹分ル`プ
 		for( i = 0 ; i < 20 ; i++ ){
-			// ����λ�ӥåȤ��ж�
+			// 最下位ビットを判定
 			p_party[ i ]->atr |= ACT_ATR_BTL_CMD_END;
 		}
 		return;
 	}
-	// ����ƥ�֥�`��
+	// ２０匹分ル`プ
 	for( i = 0 ; i < 20 ; i++ ){
-		// ����λ�ӥåȤ��ж�
+		// 最下位ビットを判定
 		if( ( BattleAnimFlag >> i ) & 0x00000001 ) p_party[ i ]->atr |= ACT_ATR_BTL_CMD_END;
-		//BattleAnimFlag >>= 1;	// �Ҥأ��ӥåȥ��ե�
+		//BattleAnimFlag >>= 1;	// 右へ１ビットシフト
 	}
-	// ���ڻ�
+	// 初期化
 	//BattleAnimFlag = 0;
 }
 
-// ���ޥ�������g�ߥե饰�γ��ڻ� ********************************************/
+// コマンド入力gみフラグの初期化 ********************************************/
 void InitBattleAnimFlag( void )
 {
 	int i;
 	
-	// ����ƥ�֥�`��
+	// ２０匹分ル`プ
 	for( i = 0 ; i < 20 ; i++ ){
-		// ����λ�ӥåȤ��ж�
+		// 最下位ビットを判定
 		p_party[ i ]->atr &= ~ACT_ATR_BTL_CMD_END;
 	}
 }
 
 
-// �ڥå����������{�٤� *******************************************************/
+// ペット所持数を{べる *******************************************************/
 int CheckPetSuu( void )
 {
 	int i,cnt = 0;
@@ -252,83 +252,83 @@ int CheckPetSuu( void )
 	return cnt;
 }
 
-// �������ж��ܥå������� *****************************************************/
+// 当たり判定ボックス消す *****************************************************/
 void ClearBoxFlag( void )
 {
 	int i;
 	
-	// �������ж��ܥå�������
+	// 当たり判定ボックス消す
 	for( i = 0 ; i < 20 ; i++ ){
-		// �ݥ��󥿤��ʤ��r����
+		// ポインタがないr
 		if( p_party[ i ]->func == NULL ) continue;
-		// �������ж��ܥå�����ʾ�ե饰�ϣƣ�
+		// 当たり判定ボックス表示フラグＯＦＦ
 		p_party[ i ]->atr &= ~ACT_ATR_HIT_BOX;
 		p_party[ i ]->atr &= ~ACT_ATR_HIT_BOX_ALL1;
 		p_party[ i ]->atr &= ~ACT_ATR_HIT_BOX_ALL2;
 		p_party[ i ]->atr &= ~ACT_ATR_HIT_BOX_ALL3;
 		p_party[ i ]->atr |= ACT_ATR_HIT;
-		// �������ж����ų��ڻ�
+		// 当たり判定番号初期化
 		p_party[ i ]->hitDispNo = -2;
 	}
 }
 
-// ���`���åȤȤε������ж� ***************************************************/
+// タ`ゲットとの当たり判定 ***************************************************/
 int CheckBattelTarget( void )
 {
 	int i;
 	
-	// ����饯���`����������`��
+	// キャラクタ`の数だけル`プ
 	for( i = 0 ; i < 20 ; i++ ){
-		// �ݥ��󥿤��ʤ��r����
+		// ポインタがないr
 		if( p_party[ i ]->func == NULL ) continue;
-		// �x�٤ʤ��r����
+		// xべないr
 		if( !( p_party[ i ]->atr & ACT_ATR_HIT_BOX ) &&
 			!( p_party[ i ]->atr & ACT_ATR_HIT_BOX_ALL1 ) &&
 			!( p_party[ i ]->atr & ACT_ATR_HIT_BOX_ALL2 ) &&
 			!( p_party[ i ]->atr & ACT_ATR_HIT_BOX_ALL3 ) ) continue;
-		// �����äƤ�����
+		// 当たっていたら
 		if( p_party[ i ]->hitDispNo == HitDispNo ) return i;
 	}	
-	// �����äƤ��ʤ��r
+	// 当たっていないr
 	return -1;
 }
-// �ܥ���ե饰ȫ���ڻ���*****************************************************/
+// ボタンフラグ全初期化　*****************************************************/
 void ClearBattleButton( void )
 {
-	// �����ƥ�
+	// アイテム
 	memset( battleButtonFlag, 0, sizeof( battleButtonFlag ) );
 }
 
-// �Хȥ�ܥ���򤹤٤ƣϣƣƤˤ��� *******************************************/
+// バトルボタンをすべてＯＦＦにする *******************************************/
 void BattleButtonOff( void )
 {
-	// ������ɥ�����r
+	// ウィンドウあるr
 //	if( pActWnd != NULL ){ 
-		// ������ɥ��]������
+		// ウィンドウ]じる音
 //		play_se( 203, 320, 240 );
 //	}else{
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
 //	}
-	// ������ɥ����������Ĩ��
+	// ウィンドウアクション抹
 	DeathAction( pActWnd );
-	pActWnd = NULL;				// ������ɥ��ݥ��󥿳��ڻ�
-	// ���`���åȥ��쥯�ȥե饰�ϣƣ�
+	pActWnd = NULL;				// ウィンドウポインタ初期化
+	// タ`ゲットセレクトフラグＯＦＦ
 	battleTargetSelectFlag = FALSE;
-	// ���ޥ�ɷ���
+	// コマンド番号
 	BattleCmdNo = -1;
-	// �ܥ���ե饰ȫ���ڻ�
+	// ボタンフラグ全初期化
 	ClearBattleButton();
-	// �������ж��ܥå�������
+	// 当たり判定ボックス消す
 	ClearBoxFlag();
 }
 
-// �����ƥ��v�B�γ��ڻ� *******************************************************/
+// アイテムvBの初期化 *******************************************************/
 void InitItem2( int x, int y )
 {
 	int i, j = 0, k = 0;
 	
-	// �����ƥ�����`��
+	// アイテム数ル`プ
 	for( i = 5 ; i < MAX_ITEM ; i++ ){
 	
 		ItemBuffer[ i ].defX = x + 32 + j;
@@ -338,40 +338,40 @@ void InitItem2( int x, int y )
 		ItemBuffer[ i ].bmpNo = 20000 + j / 48;
 		ItemBuffer[ i ].dispPrio = DISP_PRIO_ITEM;
 		
-		j += 51; // �����ˤ��餹
-		// ��ߥåȥ����å�
+		j += 51; // Ｘ座摔氦椁
+		// リミットチェック
 		if( j >= 48 * 5 ){
 			j = 0;
-			k += 48; // �����ˤ��餹
+			k += 48; // Ｙ座摔氦椁
 		}
 	}
 }
 
-// �;�����`���`��ʾ ***********************************************************/
+// 耐久力メ`タ`表示 ***********************************************************/
 void HpMeterDisp( int no )
 {
 	int meterX = p_party[ no ]->x;
 	int meterY = p_party[ no ]->y - 80;
 	int graNo;
 	
-	// ���ڤ��ʤ��֤�����Ǥ�r������
+	// 存在しない又は死んでるr、
 	if( p_party[ no ]->func == NULL || p_party[ no ]->hp <= 0 ) return;
-	// �����ФΕr
+	// 旅行中のr
 	if( p_party[ no ]->atr & ACT_ATR_TRAVEL ) return;
 	
-	// �Է֤ȤΕr
+	// 自分とのr
 	if( no == BattleMyNo ){
-		// ��ʾ���ʤ��r
+		// 表示しないr
 		//if( CheckBattle1P2P() == 1 
 		//	&& BattleBpFlag & BATTLE_BP_PLAYER_MENU_NON 
 		//	&& ( BattleBpFlag & BATTLE_BP_PET_MENU_NON || p_party[ BattleMyNo + 5 ]->hp <= 0 ) ) return;
 		
-		// �б�ʾ
+		// Ｐ表示
 		//StockFontBuffer( meterX - 12, meterY - 8, FONT_PRIO_BACK, FONT_PAL_GREEN, "Player", 0 );
 		//StockFontBuffer( meterX - 12 - 20, meterY - 8, FONT_PRIO_BACK, FONT_PAL_GREEN, "P", 0 );
-		// ����ʾ
+		// 表示
 		StockDispBuffer( meterX, meterY, DISP_PRIO_IME1, CG_BATTLE_BAR_PLAYER_2, 0 );
-		// �;�����ʾ
+		// 耐久力表示
 		StockBoxDispBuffer( meterX - 21,
 							meterY - 3,
 							meterX - 21 + (int)( ( (double)p_party[ BattleMyNo ]->hp / (double)p_party[ BattleMyNo ]->maxHp ) * 40.0 ),
@@ -382,7 +382,7 @@ void HpMeterDisp( int no )
 							meterX - 21 + (int)( ( (double)p_party[ BattleMyNo ]->hp / (double)p_party[ BattleMyNo ]->maxHp ) * 40.0 ),
 							meterY - 2,
 							DISP_PRIO_IME2, SYSTEM_PAL_GREEN, 2 );
-		// ������ʾ
+		// 萘Ρ硎
 		StockBoxDispBuffer( meterX - 21,
 							meterY + 1,
 							meterX - 21 + (int)( ( (double)p_party[ BattleMyNo ]->mp / 100.0 ) * 40.0 ),
@@ -393,21 +393,21 @@ void HpMeterDisp( int no )
 							meterX - 21 + (int)( ( (double)p_party[ BattleMyNo ]->mp / 100.0 ) * 40.0 ),
 							meterY + 2,
 							DISP_PRIO_IME2, SYSTEM_PAL_YELLOW, 2 );
-	}else{	// �Է�����Εr
+	}else{	// 自分以外のr
 		
-		// �Է֤ΥڥåȤΕr
+		// 自分のペットのr
 		//if( no == BattleMyNo + 5 ) StockFontBuffer( meterX - 12 - 20, meterY - 8, FONT_PRIO_BACK, FONT_PAL_YELLOW, "P", 0 );
 		if( no == BattleMyNo + 5 ) graNo = CG_BATTLE_BAR_PET_2;
 		else graNo = CG_BATTLE_BAR_PET;
-		// ����ʾ
+		// 表示
 		StockDispBuffer( meterX , meterY, DISP_PRIO_IME1, graNo, 0 );
-		// �;�����ʾ�����饤��Ŀ��
+		// 耐久力表示（１ライン目）
 		StockBoxDispBuffer( meterX - 21,
 							meterY - 1,
 							meterX - 21 + (int)( ( (double)p_party[ no ]->hp / (double)p_party[ no ]->maxHp ) * 40.0 ),
 							meterY - 1,
 							DISP_PRIO_IME2, SYSTEM_PAL_GREEN, 2 );
-		// �;�����ʾ�����饤��Ŀ��
+		// 耐久力表示（２ライン目）
 		StockBoxDispBuffer( meterX - 21,
 							meterY + 0,
 							meterX - 21 + (int)( ( (double)p_party[ no ]->hp / (double)p_party[ no ]->maxHp ) * 40.0 ),
@@ -416,88 +416,88 @@ void HpMeterDisp( int no )
 	}
 }
 
-// �򹥓ĥܥ��� *****************************************************************/
+// ◎攻磨堀骏 *****************************************************************/
 void BattleButtonAttack( void )
 {
 	int i, j, k, bak, hitBoxAll;
 	
 	if( HitDispNo == battleButtonDispNo[ 0 ] || battleButtonBak2 == 0 ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK || battleButtonBak2 == 0 ){
 		
-			bak = battleButtonFlag[ 0 ];	// �Хå����å�
-			BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+			bak = battleButtonFlag[ 0 ];	// バックアップ
+			BattleButtonOff();				// とりあえず全てＯＦＦにする
 			
-			// �ܥ��󤬣ϣƣƤΕr�ϣΤˤ���
+			// ボタンがＯＦＦのrＯＮにする
 			if( bak == FALSE ){
 
-				// ���`���åȥ��쥯�ȥե饰�ϣ�
+				// タ`ゲットセレクトフラグＯＮ
 				battleTargetSelectFlag = TRUE;
-				// ���ޥ�ɷ���
+				// コマンド番号
 				BattleCmdNo = BATTLE_ATTACK;
-				// ���Υܥ�������ϣ�
+				// このボタンだけＯＮ
 				battleButtonFlag[ 0 ] = TRUE;
-				// ��ؤΥܥ���ӛ��
+				// 今回のボタン
 				battleButtonBak = 0;
-				// ǰ�ؤΥܥ�����ڻ�
+				// 前回のボタン初期化
 				battleButtonBak2 = -1;
-				// �֩`����Εr
+				// ブ`メランのr
 				if( BattleBpFlag & BATTLE_BP_BOOMERANG ){
-					// ���ڻ�
+					// 初期化
 					hitBoxAll = ACT_ATR_HIT_BOX_ALL1;
 					j = 0;
-					// ���饤��քI��
+					// ４ライン分I理
 					for( i = 0 ; i < 4 ; i++ ){
-						// �Է֤Υ饤��ǟo���r
+						// 自分のラインでoいr
 						if( !( j <= BattleMyNo && BattleMyNo < j + 5 ) ){
 						//if( BattleMyNo < j || j + 5 < BattleMyNo ){
-							// �������ж��ܥå�����ʾ
+							// 当たり判定ボックス表示
 							for( k = j ; k < j + 5 ; k++ ){
-								// �ݥ��󥿤��ʤ��r����
+								// ポインタがないr
 								if( p_party[ k ]->func == NULL ) continue;
-								// ����Ǥ���r
+								// 死んでいるr
 								if( p_party[ k ]->hp <= 0 ) continue;
-								// �����ФΕr
+								// 旅行中のr
 								if( p_party[ k ]->atr & ACT_ATR_TRAVEL ) continue;
-								// ����`�ץե饰�ϣ�
+								// グル`プフラグＯＮ
 								p_party[ k ]->atr |= hitBoxAll;
 							}
-							// �ΤΥ���`�פˤ���
+							// 次のグル`プにする
 							hitBoxAll <<= 1;
 						}
 						j += 5;
 					}
 				}else{
-					// �������ж��ܥå�����ʾ
+					// 当たり判定ボックス表示
 					for( i = 0 ; i < 20 ; i++ ){
-						// �Է֤ʤ����
+						// 自分なら
 						if( i == BattleMyNo ) continue;
-						// �ݥ��󥿤��ʤ��r����
+						// ポインタがないr
 						if( p_party[ i ]->func == NULL ) continue;
-						// ����Ǥ���r
+						// 死んでいるr
 						if( p_party[ i ]->hp <= 0 ) continue;
-						// �������ж��ܥå�����ʾ�ե饰�ϣ�
+						// 当たり判定ボックス表示フラグＯＮ
 						p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 					}
 				}
 #if 0
-				// �������ж��ܥå�����ʾ
+				// 当たり判定ボックス表示
 				for( i = 0 ; i < 10 ; i++ ){
-					// �ݥ��󥿤��ʤ��r����
+					// ポインタがないr
 					if( p_party[ i ]->func == NULL ) continue;
-					// ����Ǥ���r
+					// 死んでいるr
 					if( p_party[ i ]->hp <= 0 ) continue;
-					// �������ж��ܥå�����ʾ�ե饰�ϣ�
+					// 当たり判定ボックス表示フラグＯＮ
 					//p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 					p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 				}
-				// �������ж��ܥå�����ʾ
+				// 当たり判定ボックス表示
 				for( i = 10 ; i < 20 ; i++ ){
-					// �ݥ��󥿤��ʤ��r����
+					// ポインタがないr
 					if( p_party[ i ]->func == NULL ) continue;
-					// ����Ǥ���r
+					// 死んでいるr
 					if( p_party[ i ]->hp <= 0 ) continue;
-					// �������ж��ܥå�����ʾ�ե饰�ϣ�
+					// 当たり判定ボックス表示フラグＯＮ
 					//p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 					p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 				}
@@ -505,81 +505,81 @@ void BattleButtonAttack( void )
 			}
 			
 		}
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr,"���Ĥ��ޤ���");
+		// 一行インフォ
+		strcpy( OneLineInfoStr,"攻膜筏蓼埂");
 	}
 }
 
-// ����g�ܥ��� *****************************************************************/
+// ◎庑gボタン *****************************************************************/
 void BattleButtonJujutsu( void )
 {
 	int i, x, y, bak;
 	char moji[ 256 ];
 	
 	if( HitDispNo == battleButtonDispNo[ 1 ] || battleButtonBak2 == 1 ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK || battleButtonBak2 == 1 ){
 		
-			bak = battleButtonFlag[ 1 ];	// �Хå����å�
-			BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+			bak = battleButtonFlag[ 1 ];	// バックアップ
+			BattleButtonOff();				// とりあえず全てＯＦＦにする
 		
-			// �ܥ��󤬣ϣƣƤΕr
+			// ボタンがＯＦＦのr
 			if( bak == FALSE ){
 			
-				// ���Υܥ�������ϣ�
+				// このボタンだけＯＮ
 				battleButtonFlag[ 1 ] = TRUE;
-				// ���ޥ�ɷ���
+				// コマンド番号
 				BattleCmdNo = BATTLE_JUJUTU;
-				// ���֤ε������ж����ڻ�
+				// 文字の当たり判定初期化
 				for( i = 0 ; i < BATTLE_MENU_JUJUTSU_FONTS ; i++ ) battleMenuJujutsuFontNo[ i ] = -2;
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 380, 120, 4, 7, CG_WND_TITLE_SYSTEM, 1 );
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 361, 144, 272, 280, 0, -1 );
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				pActWnd = MakeWindowDisp( 361, 144, 271, 281, 0, -1 );
-				// ��ؤΥܥ���ӛ��
+				// 今回のボタン
 				battleButtonBak = 1;
-				// ǰ�ؤΥܥ�����ڻ�
+				// 前回のボタン初期化
 				battleButtonBak2 = -1;
 			}
 		}
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr, "���g�򳪤��ޤ���");
+		// 一行インフォ
+		strcpy( OneLineInfoStr, "庑gを唱えます。");
 	}
-	// ���g������ɥ��I��
+	// 庑gウィンドウI理
 	if( battleButtonFlag[ 1 ] == TRUE ){
-			// ������ɥ�������r
+			// ウィンドウがあるr
 		if( pActWnd != NULL ){
-			// ������ɥ������������äƤ�����
+			// ウィンドウが出来あがっていたら
 			if( pActWnd->hp > 0 ){
 				x = pActWnd->x + 74;
 				y = pActWnd->y + 208;
-				// һ�Х���ե�
-				//strcpy( OneLineInfoStr, "���g���x�k���Ƥ���������");
-				// ���g������ɥ�
+				// 一行インフォ
+				//strcpy( OneLineInfoStr, "庑gをxkしてください。");
+				// 庑gウィンドウ
 				StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActWnd->pYobi )->my + 10, DISP_PRIO_MENU, CG_JUJUTU_WND, 1 );
-				// ���g�x�k�����r
+				// 庑gxkしたr
 				for( i = 0 ; i < 5 ; i++ ){
-					// ���֤˵����äƤ���r���ġ����Ιڤ˅��g������r
+					// 文字に当たっているrかつ、この冥庑gがあるr
 					if( HitFontNo == battleMenuJujutsuFontNo[ i ] && magic[ i ].useFlag == TRUE ){
-						// ���Хݥ����
+						// 改行ポイント
 						char *splitPoint = magic[ i ].memo;
-						//char *splitPoint = "��ʾ�ƥ��ȤǤ���˽����ǰ��̫�������Ǥ������줫���������������ޤ���";
-						// ���M�ͣб�ʾ
+						//char *splitPoint = "表示テストです。私の名前は太田哲生です。これからもよろしくおいします。";
+						// 消MＭＰ表示
 						//sprintf( moji,"%2d/%2d", magic[ i ].mp, BattleMyMp );
 						sprintf( moji,"%2d/%2d", magic[ i ].mp, p_party[ BattleMyNo ]->mp );
 						StockFontBuffer( pActWnd->x + 74 + 81, pActWnd->y + 183, FONT_PRIO_FRONT, 0, moji, 0 );
-						// �����ƥ����ǰ��ʾ
+						// アイテムの名前表示
 						//StockFontBuffer( pActMenuWnd2->x + 16, pActMenuWnd2->y + 331, FONT_PRIO_FRONT, pc.item[ i ].color, pc.item[ i ].name, 0 );	
-						// ���g���h����ʾ
-						// �����֥�`��
+						// 庑gのh明表示
+						// 行数分ル`プ
 						while( 1 ){
-							// �������֤򳬤��Ƥ���ָ�
+							// ２２文字を超えてたら分割
 							if( strlen( splitPoint ) > 22 ){
 								strncpy( moji, splitPoint, 22 );
-								moji[ 22 ] = NULL;	// �K��ӛ�Ť򤤤��
-								// ȫ�Ǥΰ�֤��ä��r
+								moji[ 22 ] = NULL;	// K端号をいれる
+								// 全角の半分だったr
 								if( GetStrLastByte( moji ) == 3 ){
 									moji[ 21 ] = NULL;
 									splitPoint += 21;
@@ -595,9 +595,9 @@ void BattleButtonJujutsu( void )
 							}
 						}
 		#if 0
-						// �����Ф�����r
+						// 文字列があるr
 						if( magic[ i ].memo[ 0 ] != NULL ){
-							// ���g���h��
+							// 庑gのh明
 							strncpy( moji, magic[ i ].memo, 22 );
 							moji[ 22 ] = NULL;
 							StockFontBuffer( pActWnd->x + 74, pActWnd->y + 204, FONT_PRIO_FRONT, 0, moji, 0 );
@@ -609,219 +609,219 @@ void BattleButtonJujutsu( void )
 							}
 						}
 		#endif
-						//StockFontBuffer( pActWnd->x + 74, pActWnd->y + 206, FONT_PRIO_FRONT, 0, "���g���h���ڤǤ�������", 0 );
-						//StockFontBuffer( pActWnd->x + 74, pActWnd->y + 226, FONT_PRIO_FRONT, 0, "���g���h���ڤǤ�������", 0 );
-						// �����ƥ��ʾ
+						//StockFontBuffer( pActWnd->x + 74, pActWnd->y + 206, FONT_PRIO_FRONT, 0, "庑gのh明冥扦埂￥", 0 );
+						//StockFontBuffer( pActWnd->x + 74, pActWnd->y + 226, FONT_PRIO_FRONT, 0, "庑gのh明冥扦埂￥", 0 );
+						// アイテム表示
 						StockDispBuffer( pActWnd->x + 37, pActWnd->y + 220, DISP_PRIO_ITEM, pc.item[ i ].graNo, 0 );
 						
-						// �󥯥�å������r
+						// 左クリックしたr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// ʹ�ò����֤ϣͣв���Εr
+							// 使用不可又はＭＰ不足のr
 							//if( magic[ i ].field == MAGIC_FIELD_MAP || magic[ i ].mp > BattleMyMp ){
 							if( magic[ i ].field == MAGIC_FIELD_MAP || magic[ i ].mp > p_party[ BattleMyNo ]->mp ){
-								// �Σ���
+								// ＮＧ音
 								play_se( 220, 320, 240 );
 								
-							}else{ // ʹ�ÿ��ܤʕr
+							}else{ // 使用可能なr
 							
-								// ���g����ӛ��
+								// 庑g番号
 								BattleJujutuNo = i;
-								// ���`���åȥ��쥯�ȥե饰�ϣ�
+								// タ`ゲットセレクトフラグＯＮ
 								battleTargetSelectFlag = TRUE;
 								
-								// ���`���åȤǷ��
+								// タ`ゲットで分岐
 								switch( magic[ i ].target ){
 								//switch( 8 ){
 								
-								case MAGIC_TARGET_MYSELF:	// �Է֤Τ�
+								case MAGIC_TARGET_MYSELF:	// 自分のみ
 								
-									// �������ж��ܥå�����ʾ�ե饰�ϣ�
+									// 当たり判定ボックス表示フラグＯＮ
 									p_party[ BattleMyNo ]->atr |= ACT_ATR_HIT_BOX;
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_JUJUTU;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									
 									break;
 									
-								case MAGIC_TARGET_OTHER:	// �����ˣ��Էֺ���)
+								case MAGIC_TARGET_OTHER:	// 他の人（自分含む)
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// �������ж��ܥå�����ʾ�ե饰�ϣ�
+										// 当たり判定ボックス表示フラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_JUJUTU;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 
 									break;
 									
-								case MAGIC_TARGET_ALLMYSIDE:	// ζ��ȫ��
+								case MAGIC_TARGET_ALLMYSIDE:	// 味方全体
 								
-									// ���¥���`�פΕr
+									// 右下グル`プのr
 									if( BattleMyNo < 10 ){
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 0 ; i < 10 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// �����ФΕr
+											// 旅行中のr
 											if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 										}
 									}
-									// ���ϥ���`�פΕr
+									// 左上グル`プのr
 									else{
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 10 ; i < 20 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// �����ФΕr
+											// 旅行中のr
 											if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 										}
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_JUJUTU;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case MAGIC_TARGET_ALLOTHERSIDE:	// ���ւ�ȫ��
+								case MAGIC_TARGET_ALLOTHERSIDE:	// 相手热
 								
-									// ���ϥ���`�פΕr
+									// 左上グル`プのr
 									if( BattleMyNo >= 10 ){
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 0 ; i < 10 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// �����ФΕr
+											// 旅行中のr
 											if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 										}
 									}
-									// ���¥���`�פΕr
+									// 右下グル`プのr
 									else{
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 10 ; i < 20 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// �����ФΕr
+											// 旅行中のr
 											if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 										}
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_JUJUTU;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case MAGIC_TARGET_ALL:	// ȫ��
+								case MAGIC_TARGET_ALL:	// 全て
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// �����ФΕr
+										// 旅行中のr
 										if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-										// ����`�ץե饰�ϣ�
+										// グル`プフラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_JUJUTU;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case MAGIC_TARGET_WHOLEOTHERSIDE:	// �ɤ��餫������ȫ��
+								case MAGIC_TARGET_WHOLEOTHERSIDE:	// どちらかサイド全体
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 10 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// �����ФΕr
+										// 旅行中のr
 										if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-										// ����`�ץե饰�ϣ�
+										// グル`プフラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 									}
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 10 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( magic[ BattleJujutuNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// �����ФΕr
+										// 旅行中のr
 										if( p_party[ i ]->atr & ACT_ATR_TRAVEL ) continue;
-										// ����`�ץե饰�ϣ�
+										// グル`プフラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_JUJUTU;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 								}
@@ -829,38 +829,38 @@ void BattleButtonJujutsu( void )
 						}
 					}
 				}
-				// �󥯥�å������r
+				// 左クリックしたr
 				if( mouse.onceState & MOUSE_LEFT_CRICK ){
-					// ����r
+					// r
 					if( HitDispNo == battleMenuJujutsuFontNo[ 5 ] ){
 						BattleButtonOff();				
 					}
 				}
-				// ������ɥ�����r
+				// ウィンドウあるr
 				if( pActWnd != NULL ){
 					int flag = FALSE;
 					int col;
-					// �����O��
+					// 座嗽O定
 					x = pActWnd->x + 30;
 					y = pActWnd->y + 35;
 					
-					// ���g��ʾ
+					// 庑g表示
 					for( i = 0 ; i < 5 ; i++ ){
-						// ���Ιڤ˅��g������r
+						// この冥庑gがあるr
 						if( magic[ i ].useFlag == TRUE ){
-							col = FONT_PAL_WHITE;	// ʹ�ÿ��ܤ�ɫ���ף�
-							//if( magic[ i ].mp > BattleMyMp ) col = FONT_PAL_RED;	// �ͣв��㣨�ࣩ
-							if( magic[ i ].mp > p_party[ BattleMyNo ]->mp ) col = FONT_PAL_RED;	// �ͣв��㣨�ࣩ
-							if( magic[ i ].field == MAGIC_FIELD_MAP ) col = FONT_PAL_GRAY;	// ʹ�ò��ɤ�ɫ���ࣩ
-							// ���ֱ�ʾ�Хåե�������
+							col = FONT_PAL_WHITE;	// 使用可能な色（白）
+							//if( magic[ i ].mp > BattleMyMp ) col = FONT_PAL_RED;	// ＭＰ不足（赤）
+							if( magic[ i ].mp > p_party[ BattleMyNo ]->mp ) col = FONT_PAL_RED;	// ＭＰ不足（赤）
+							if( magic[ i ].field == MAGIC_FIELD_MAP ) col = FONT_PAL_GRAY;	// 使用不可な色（赤）
+							// 文字表示バッファに溜める
 							//sprintf( moji," %-16s ", magic[ i ].name );
 							CenteringStr( magic[ i ].name, moji, MAGIC_NAME_LEN );
 							battleMenuJujutsuFontNo[ i ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, col, moji, 2 ); y += 28;
 							flag = TRUE;
 						}
 					}
-					if( flag == FALSE ) StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, "���g������ޤ���", 0 );
-					// ���ֱ�ʾ�Хåե�������
+					if( flag == FALSE ) StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, "庑gがありません", 0 );
+					// 文字表示バッファに溜める
 					battleMenuJujutsuFontNo[ 5 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, pActWnd->y + 262 + 10, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 				}
 			}
@@ -868,57 +868,57 @@ void BattleButtonJujutsu( void )
 	}
 }
 
-// �򲶫@�ܥ��� *****************************************************************/
+// ◎捕@ボタン *****************************************************************/
 void BattleButtonCapture( void )
 {
 	int i, bak;
 	
 	if( HitDispNo == battleButtonDispNo[ 2 ] || battleButtonBak2 == 2 ){
-		// �ڥå����������{�٤�
+		// ペット所持数を{べる
 		if( CheckPetSuu() >= 5 ){
-			// һ�Х���ե�
-			strcpy( OneLineInfoStr, "�������ϥڥåȤ򲶫@�Ǥ��ޤ���");
-			// �󥯥�å����줿�r
+			// 一行インフォ
+			strcpy( OneLineInfoStr, "これ以上ペットを捕@できません。");
+			// 左クリックされたr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// �Σ���
+				// ＮＧ音
 				play_se( 220, 320, 240 );
 			}
-			// ǰ�ؤΥܥ�����ڻ�
+			// 前回のボタン初期化
 			battleButtonBak2 = -1;
 		}else{
-			// һ�Х���ե�
-			strcpy( OneLineInfoStr, "�ָo�򲶫@���ޤ���");
+			// 一行インフォ
+			strcpy( OneLineInfoStr, "恐oを捕@します。");
 		
-			// �󥯥�å����줿�r
+			// 左クリックされたr
 			if( mouse.onceState & MOUSE_LEFT_CRICK || battleButtonBak2 == 2 ){
 			
-				bak = battleButtonFlag[ 2 ];	// �Хå����å�
-				BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+				bak = battleButtonFlag[ 2 ];	// バックアップ
+				BattleButtonOff();				// とりあえず全てＯＦＦにする
 			
-				// �ܥ��󤬣ϣƣƤΕr
+				// ボタンがＯＦＦのr
 				if( bak == FALSE ){
 					
-					// ���`���åȥ��쥯�ȥե饰�ϣ�
+					// タ`ゲットセレクトフラグＯＮ
 					battleTargetSelectFlag = TRUE;
-					// ���ޥ�ɷ���
+					// コマンド番号
 					BattleCmdNo = BATTLE_CAPTURE;
-					// ���Υܥ�������ϣ�
+					// このボタンだけＯＮ
 					battleButtonFlag[ 2 ] = TRUE;
-					// ��ؤΥܥ���ӛ��
+					// 今回のボタン
 					battleButtonBak = 2;
-					// ǰ�ؤΥܥ�����ڻ�
+					// 前回のボタン初期化
 					battleButtonBak2 = -1;
-					// �������ж��ܥå�����ʾ
+					// 当たり判定ボックス表示
 					for( i = 0 ; i < 20 ; i++ ){
-						// �ݥ��󥿤��ʤ��r����
+						// ポインタがないr
 						if( p_party[ i ]->func == NULL ) continue;
-						// ζ���ʤ����
+						// 味方なら
 						if( ( (ATR_EQU *)p_party[ i ]->pYobi )->group_flg == ( (ATR_EQU *)p_party[ BattleMyNo ]->pYobi )->group_flg ) continue;
-						// �Է֤ʤ����
+						// 自分なら
 						if( i == BattleMyNo ) continue;
-						// ����Ǥ���r
+						// 死んでいるr
 						if( p_party[ i ]->hp <= 0 ) continue;
-						// �������ж��ܥå�����ʾ�ե饰�ϣ�
+						// 当たり判定ボックス表示フラグＯＮ
 						p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 					}
 				}
@@ -927,63 +927,63 @@ void BattleButtonCapture( void )
 	}
 }
 
-// ��ȣţ̣Хܥ��� *************************************************************/
+// ◎ＨＥＬＰボタン *************************************************************/
 void BattleButtonHelp( void )
 {
 	if( HitDispNo == battleButtonDispNo[ 3 ] && battleButtonFlag[ 3 ] == FALSE ){
-		// �󥯥�å����줿�r
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr, "��������Ӥޤ���");
+		// 左クリックされたr
+		// 一行インフォ
+		strcpy( OneLineInfoStr, "助けを呼びます。");
 		
 		if( mouse.onceState & MOUSE_LEFT_CRICK ){
-			// �إ�פʤ��Εr
+			// ヘルプなしのr
 			if( NoHelpFlag == TRUE ){
-				// �Σ���
+				// ＮＧ音
 				play_se( 220, 320, 240 );
 			}else{
-				// �ϣΤΕr
+				// ＯＮのr
 				if( helpFlag == TRUE ){
-					// �ϣƣƤˤ���r
+					// ＯＦＦにするr
 					helpFlag = FALSE;
 				}else{
-					// �ϣΤˤ���r
+					// ＯＮにするr
 					helpFlag = TRUE;
 				}
-				// �Α�ե饰����
+				// 参楗榨楗八托
 				lssproto_HL_send( sockfd, helpFlag );
-				// ����å���
+				// クリック音
 				play_se( 217, 320, 240 );
 			}
 		}
 	}
 }
 
-// ������ܥ��� *****************************************************************/
+// ◎防御ボタン *****************************************************************/
 void BattleButtonGuard( void )
 {
 	if( HitDispNo == battleButtonDispNo[ 4 ] && battleButtonFlag[ 4 ] == FALSE ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK ){
-			BattleButtonOff();	// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
-			// ���Υܥ�������ϣ�
+			BattleButtonOff();	// とりあえず全てＯＦＦにする
+			// このボタンだけＯＮ
 			battleButtonFlag[ 4 ] = TRUE;
-			// ��������
+			// 防御送信
 			lssproto_B_send( sockfd, "G" );
-			// ��˥�`�L��
+			// メニュ`Lす
 			battleMenuReturn = TRUE;
-			// ��ؤΥܥ���ӛ��
+			// 今回のボタン
 			battleButtonBak = -1;
-			// ǰ�ؤΥܥ�����ڻ�
+			// 前回のボタン初期化
 			battleButtonBak2 = -1;
-			// ������ɥ��]������
+			// ウィンドウ]じる音
 			play_se( 203, 320, 240 );
 		}
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr, "�������ޤ���");
+		// 一行インフォ
+		strcpy( OneLineInfoStr, "防御します。");
 	}
 }
 
-// �򥢥��ƥ�ܥ��� *************************************************************/
+// ◎アイテムボタン *************************************************************/
 void BattleButtonItem( void )
 {
 	int i, bak;
@@ -991,281 +991,281 @@ void BattleButtonItem( void )
 	int x, y;
 	
 	if( HitDispNo == battleButtonDispNo[ 5 ] || battleButtonBak2 == 5 ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK || battleButtonBak2 == 5 ){
 
-			bak = battleButtonFlag[ 5 ];	// �Хå����å�
-			BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+			bak = battleButtonFlag[ 5 ];	// バックアップ
+			BattleButtonOff();				// とりあえず全てＯＦＦにする
 		
-			// �ܥ��󤬣ϣƣƤΕr
+			// ボタンがＯＦＦのr
 			if( bak == FALSE ){
-				// ���Υܥ�������ϣ�
+				// このボタンだけＯＮ
 				battleButtonFlag[ 5 ] = TRUE;
-				// ���ޥ�ɷ���
+				// コマンド番号
 				BattleCmdNo = BATTLE_ITEM;
-				// ���֤ε������ж����ڻ�
+				// 文字の当たり判定初期化
 				for( i = 0 ; i < BATTLE_MENU_ITEM_FONTS ; i++ ) battleMenuItemFontNo[ i ] = -2;
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				pActWnd = MakeWindowDisp( 361, 160, 271, 281, 0, -1 );
-				// �����ƥ��v�B�γ��ڻ�
+				// アイテムvBの初期化
 				InitItem2( pActWnd->x, pActWnd->y );
-				// ��ؤΥܥ���ӛ��
+				// 今回のボタン
 				battleButtonBak = 5;
-				// ǰ�ؤΥܥ�����ڻ�
+				// 前回のボタン初期化
 				battleButtonBak2 = -1;
 			}
 		}
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr, "�����ƥ��ʹ���ޤ���");
+		// 一行インフォ
+		strcpy( OneLineInfoStr, "アイテムを使います。");
 	}
-	// �����ƥ०����ɥ��I��
+	// アイテムウィンドウI理
 	if( battleButtonFlag[ 5 ] == TRUE ){
-		// ������ɥ�������r
+		// ウィンドウがあるr
 		if( pActWnd != NULL ){
-			// ������ɥ������������äƤ�����
+			// ウィンドウが出来あがっていたら
 			if( pActWnd->hp > 0 ){
-				// �����ƥ०����ɥ��±�ʾ
+				// アイテムウィンドウ下表示
 				StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActWnd->pYobi )->my - 80, DISP_PRIO_MENU, CG_ITEM_WND_1, 1 );
-				// �����ƥ०����ɥ������ȥ��ʾ
+				// アイテムウィンドウタイトル表示
 				StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActWnd->pYobi )->my - 80, DISP_PRIO_MENU, CG_BTL_ITEM_WND_TITLE, 1 );
 				
-				// �󥯥�å������r
+				// 左クリックしたr
 				if( mouse.onceState & MOUSE_LEFT_CRICK ){
-					// �]����r
+					// ]じるr
 					if( HitDispNo == battleMenuItemFontNo[ 0 ] ){
-						// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+						// とりあえず全てＯＦＦにする
 						BattleButtonOff();				
 					}
 				}
 #if 0				
-				// �����ƥ��`��
+				// アイテムル`プ
 				for( i = 5 ; i < MAX_ITEM ; i++ ){
-					// ����֥륯��å��ǥ����ƥ�ʹ��
+					// 左ダブルクリックでアイテム使用
 					if( mouse.onceState & MOUSE_LEFT_DBL_CRICK ){
-						// ���Ιڤ˥����ƥब���ä���
+						// その冥衰ぅ匹啶盲郡
 						if( pc.item[ i ].useFlag == TRUE ){
-							// ���L��ʹ����ʤ��r
+							// 殛Lで使えるないr
 							//if( ( pc.item[ i ].field == ITEM_FIELD_ALL || pc.item[ i ].field == ITEM_FIELD_BATTLE ) && pc.level >= pc.item[ i ].level ){
 							if( pc.item[ i ].useFlag != TRUE || pc.item[ i ].field == ITEM_FIELD_MAP || pc.level < pc.item[ i ].level ){
-								// �Σ���
+								// ＮＧ音
 								play_se( 220, 320, 240 );
-							}else{ // ʹ�ÿ��ܤʕr
+							}else{ // 使用可能なr
 							
-								BattleItemNo = i;	// �����ƥ෬��ӛ��
+								BattleItemNo = i;	// アイテム番号
 							
-								// ���`���åȤǷ��
+								// タ`ゲットで分岐
 								switch( pc.item[ i ].target ){
 								
-								case ITEM_TARGET_MYSELF:				// �Է֤Τ�
+								case ITEM_TARGET_MYSELF:				// 自分のみ
 								
-									// �������ж��ܥå�����ʾ�ե饰�ϣ�
+									// 当たり判定ボックス表示フラグＯＮ
 									p_party[ BattleMyNo ]->atr |= ACT_ATR_HIT_BOX;
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case ITEM_TARGET_OTHER:					// �����ˣ��Էֺ���)
+								case ITEM_TARGET_OTHER:					// 他の人（自分含む)
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// �������ж��ܥå�����ʾ�ե饰�ϣ�
+										// 当たり判定ボックス表示フラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case ITEM_TARGET_ALLMYSIDE:				// ζ��ȫ��
+								case ITEM_TARGET_ALLMYSIDE:				// 味方全体
 								
-									// ���¥���`�פΕr
+									// 右下グル`プのr
 									if( BattleMyNo < 10 ){
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 0 ; i < 10 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 										}
 									}
-									// ���¥���`�פΕr
+									// 左下グル`プのr
 									else{
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 10 ; i < 20 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 										}
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case ITEM_TARGET_ALLOTHERSIDE:			// ���ւ�ȫ��
-									// ���¥���`�פΕr
+								case ITEM_TARGET_ALLOTHERSIDE:			// 相手热
+									// 右下グル`プのr
 									if( BattleMyNo >= 10 ){
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 0 ; i < 10 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 										}
 									}
-									// ���¥���`�פΕr
+									// 左下グル`プのr
 									else{
-										// �������ж��ܥå�����ʾ
+										// 当たり判定ボックス表示
 										for( i = 10 ; i < 20 ; i++ ){
-											// �ݥ��󥿤��ʤ��r����
+											// ポインタがないr
 											if( p_party[ i ]->func == NULL ) continue;
-											// ����Ǥ��Ĥό�����Εr
+											// 死んでるやつは象外のr
 											if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-											// ����`�ץե饰�ϣ�
+											// グル`プフラグＯＮ
 											p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 										}
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 								
-								case ITEM_TARGET_ALL:					// ȫ��
+								case ITEM_TARGET_ALL:					// 全て
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// ����`�ץե饰�ϣ�
+										// グル`プフラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case ITEM_TARGET_NONE:					// ���`���åȟo��
+								case ITEM_TARGET_NONE:					// タ`ゲットoし
 									//
-									BattleButtonOff(); // �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+									BattleButtonOff(); // とりあえず全てＯＦＦにする
 									
 									battleMenuReturn = TRUE;
-									// �����ƥ�ʹ����
+									// アイテム使う音
 									//play_se( 212, 320, 240 );
-									// �����ƥ�ʹ������
+									// アイテム使う送信
 									lssproto_ID_send( sockfd, nowGx, nowGy, i, 0 );
 									
-									// ������ɥ��]������
+									// ウィンドウ]じる音
 									play_se( 203, 320, 240 );
 									
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = FALSE;
 									break;
 									
-								case ITEM_TARGET_OTHERWITHOUTMYSELF:	// �Է�����
+								case ITEM_TARGET_OTHERWITHOUTMYSELF:	// 自分以外
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// �Է֤ΥڥåȤʤ����
+										// 自分のペットなら
 										if( i == BattleMyNo ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// ����`�ץե饰�ϣ�
+										// グル`プフラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 									
-								case ITEM_TARGET_WITHOUTMYSELFANDPET:	// �Է֤ȥڥå�����
+								case ITEM_TARGET_WITHOUTMYSELFANDPET:	// 自分とペット以外
 								
-									// �������ж��ܥå�����ʾ
+									// 当たり判定ボックス表示
 									for( i = 0 ; i < 20 ; i++ ){
-										// �ݥ��󥿤��ʤ��r����
+										// ポインタがないr
 										if( p_party[ i ]->func == NULL ) continue;
-										// �Է֤ΥڥåȤʤ����
+										// 自分のペットなら
 										if( i == BattleMyNo + 5 ) continue;
-										// �Է֤ʤ����
+										// 自分なら
 										if( i == BattleMyNo ) continue;
-										// ����Ǥ��Ĥό�����Εr
+										// 死んでるやつは象外のr
 										if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-										// ����`�ץե饰�ϣ�
+										// グル`プフラグＯＮ
 										p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 									}
-									// ���`���åȥ��쥯�ȥե饰�ϣ�
+									// タ`ゲットセレクトフラグＯＮ
 									battleTargetSelectFlag = TRUE;
-									// ������ɥ����������Ĩ��
+									// ウィンドウアクション抹
 									DeathAction( pActWnd );
 									pActWnd = NULL;
-									// �ܥ���ե饰ȫ���ڻ�
+									// ボタンフラグ全初期化
 									ClearBattleButton();
-									// ���ޥ�ɷ���
+									// コマンド番号
 									BattleCmdNo = BATTLE_ITEM;
-									// ����å���
+									// クリック音
 									play_se( 217, 320, 240 );
 									break;
 								}
@@ -1275,36 +1275,36 @@ void BattleButtonItem( void )
 					}
 				}
 #endif				
-				// ������ɥ�����r
+				// ウィンドウあるr
 				if( pActWnd != NULL ){
-					// �����O��
+					// 座嗽O定
 					x = pActWnd->x + 16;
 					y = pActWnd->y + 191 + 7;
 					
-					// �����ƥ��`��
+					// アイテムル`プ
 					for( i = 5 ; i < MAX_ITEM ; i++ ){
-						// ���ڤ���äƤ�����
+						// 内に入っていたら
 						if( MakeHitBox( ItemBuffer[ i ].defX - 24, ItemBuffer[ i ].defY - 24, 
 										ItemBuffer[ i ].defX + 25, ItemBuffer[ i ].defY + 23, DISP_PRIO_IME3 ) == TRUE ){
-							// ���Ιڤ˥����ƥब���ä���
+							// その冥衰ぅ匹啶盲郡
 							if( pc.item[ i ].useFlag == TRUE ){ 
 								int color = FONT_PAL_WHITE;
 									
-								// ���Хݥ����
+								// 改行ポイント
 								char *splitPoint = pc.item[ i ].memo;
-								//char *splitPoint = "��ʾ�ƥ��ȤǤ���˽����ǰ��̫�������Ǥ������줫���������������ޤ���";
-								// װ��Ǥ��뤫�����å�
+								//char *splitPoint = "表示テストです。私の名前は太田哲生です。これからもよろしくおいします。";
+								// 装浃扦毪隶Д氓
 								if( pc.level < pc.item[ i ].level ) color = FONT_PAL_RED;
-								// �����ƥ����ǰ��ʾ
+								// アイテムの名前表示
 								StockFontBuffer( pActWnd->x + 16, pActWnd->y + 332 - 160, FONT_PRIO_FRONT, color, pc.item[ i ].name, 0 );	
-								// �����ƥ���h����ʾ
-								// �����֥�`��
+								// アイテムのh明表示
+								// 行数分ル`プ
 								while( 1 ){
-									// �������֤򳬤��Ƥ���ָ�
+									// ２８文字を超えてたら分割
 									if( strlen( splitPoint ) > 28 ){
 										strncpy( moji, splitPoint, 28 );
-										moji[ 28 ] = NULL;	// �K��ӛ�Ť򤤤��
-										// ȫ�Ǥΰ�֤��ä��r
+										moji[ 28 ] = NULL;	// K端号をいれる
+										// 全角の半分だったr
 										if( GetStrLastByte( moji ) == 3 ){
 											moji[ 27 ] = NULL;
 											splitPoint += 27;
@@ -1321,232 +1321,232 @@ void BattleButtonItem( void )
 								}
 							}
 #if 1							
-							// ����֥륯��å��ǥ����ƥ�ʹ��
+							// 左ダブルクリックでアイテム使用
 							if( mouse.onceState & MOUSE_LEFT_DBL_CRICK ){
-								// ���Ιڤ˥����ƥब���ä���
+								// その冥衰ぅ匹啶盲郡
 								if( pc.item[ i ].useFlag == TRUE ){
-									// ���L��ʹ����ʤ��r
+									// 殛Lで使えるないr
 									//if( ( pc.item[ i ].field == ITEM_FIELD_ALL || pc.item[ i ].field == ITEM_FIELD_BATTLE ) && pc.level >= pc.item[ i ].level ){
 									if( pc.item[ i ].useFlag != TRUE || pc.item[ i ].field == ITEM_FIELD_MAP || pc.level < pc.item[ i ].level ){
-										// �Σ���
+										// ＮＧ音
 										play_se( 220, 320, 240 );
-									}else{ // ʹ�ÿ��ܤʕr
+									}else{ // 使用可能なr
 									
-										BattleItemNo = i;	// �����ƥ෬��ӛ��
+										BattleItemNo = i;	// アイテム番号
 									
-										// ���`���åȤǷ��
+										// タ`ゲットで分岐
 										switch( pc.item[ i ].target ){
 										
-										case ITEM_TARGET_MYSELF:				// �Է֤Τ�
+										case ITEM_TARGET_MYSELF:				// 自分のみ
 										
-											// �������ж��ܥå�����ʾ�ե饰�ϣ�
+											// 当たり判定ボックス表示フラグＯＮ
 											p_party[ BattleMyNo ]->atr |= ACT_ATR_HIT_BOX;
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_OTHER:					// �����ˣ��Էֺ���)
+										case ITEM_TARGET_OTHER:					// 他の人（自分含む)
 										
-											// �������ж��ܥå�����ʾ
+											// 当たり判定ボックス表示
 											for( i = 0 ; i < 20 ; i++ ){
-												// �ݥ��󥿤��ʤ��r����
+												// ポインタがないr
 												if( p_party[ i ]->func == NULL ) continue;
-												// ����Ǥ��Ĥό�����Εr
+												// 死んでるやつは象外のr
 												if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-												// �������ж��ܥå�����ʾ�ե饰�ϣ�
+												// 当たり判定ボックス表示フラグＯＮ
 												p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 											}
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_ALLMYSIDE:				// ζ��ȫ��
+										case ITEM_TARGET_ALLMYSIDE:				// 味方全体
 										
-											// ���¥���`�פΕr
+											// 右下グル`プのr
 											if( BattleMyNo < 10 ){
-												// �������ж��ܥå�����ʾ
+												// 当たり判定ボックス表示
 												for( i = 0 ; i < 10 ; i++ ){
-													// �ݥ��󥿤��ʤ��r����
+													// ポインタがないr
 													if( p_party[ i ]->func == NULL ) continue;
-													// ����Ǥ��Ĥό�����Εr
+													// 死んでるやつは象外のr
 													if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-													// ����`�ץե饰�ϣ�
+													// グル`プフラグＯＮ
 													p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 												}
 											}
-											// ���¥���`�פΕr
+											// 左下グル`プのr
 											else{
-												// �������ж��ܥå�����ʾ
+												// 当たり判定ボックス表示
 												for( i = 10 ; i < 20 ; i++ ){
-													// �ݥ��󥿤��ʤ��r����
+													// ポインタがないr
 													if( p_party[ i ]->func == NULL ) continue;
-													// ����Ǥ��Ĥό�����Εr
+													// 死んでるやつは象外のr
 													if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-													// ����`�ץե饰�ϣ�
+													// グル`プフラグＯＮ
 													p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 												}
 											}
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_ALLOTHERSIDE:			// ���ւ�ȫ��
-											// ���¥���`�פΕr
+										case ITEM_TARGET_ALLOTHERSIDE:			// 相手热
+											// 右下グル`プのr
 											if( BattleMyNo >= 10 ){
-												// �������ж��ܥå�����ʾ
+												// 当たり判定ボックス表示
 												for( i = 0 ; i < 10 ; i++ ){
-													// �ݥ��󥿤��ʤ��r����
+													// ポインタがないr
 													if( p_party[ i ]->func == NULL ) continue;
-													// ����Ǥ��Ĥό�����Εr
+													// 死んでるやつは象外のr
 													if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-													// ����`�ץե饰�ϣ�
+													// グル`プフラグＯＮ
 													p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 												}
 											}
-											// ���¥���`�פΕr
+											// 左下グル`プのr
 											else{
-												// �������ж��ܥå�����ʾ
+												// 当たり判定ボックス表示
 												for( i = 10 ; i < 20 ; i++ ){
-													// �ݥ��󥿤��ʤ��r����
+													// ポインタがないr
 													if( p_party[ i ]->func == NULL ) continue;
-													// ����Ǥ��Ĥό�����Εr
+													// 死んでるやつは象外のr
 													if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-													// ����`�ץե饰�ϣ�
+													// グル`プフラグＯＮ
 													p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 												}
 											}
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 										
-										case ITEM_TARGET_ALL:					// ȫ��
+										case ITEM_TARGET_ALL:					// 全て
 										
-											// �������ж��ܥå�����ʾ
+											// 当たり判定ボックス表示
 											for( i = 0 ; i < 20 ; i++ ){
-												// �ݥ��󥿤��ʤ��r����
+												// ポインタがないr
 												if( p_party[ i ]->func == NULL ) continue;
-												// ����Ǥ��Ĥό�����Εr
+												// 死んでるやつは象外のr
 												if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-												// ����`�ץե饰�ϣ�
+												// グル`プフラグＯＮ
 												p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 											}
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_NONE:					// ���`���åȟo��
+										case ITEM_TARGET_NONE:					// タ`ゲットoし
 											//
-											BattleButtonOff(); // �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+											BattleButtonOff(); // とりあえず全てＯＦＦにする
 											
 											battleMenuReturn = TRUE;
-											// �����ƥ�ʹ����
+											// アイテム使う音
 											//play_se( 212, 320, 240 );
-											// �����ƥ�ʹ������
+											// アイテム使う送信
 											lssproto_ID_send( sockfd, nowGx, nowGy, i, 0 );
 											
-											// ������ɥ��]������
+											// ウィンドウ]じる音
 											play_se( 203, 320, 240 );
 											
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = FALSE;
 											break;
 											
-										case ITEM_TARGET_OTHERWITHOUTMYSELF:	// �Է�����
+										case ITEM_TARGET_OTHERWITHOUTMYSELF:	// 自分以外
 										
-											// �������ж��ܥå�����ʾ
+											// 当たり判定ボックス表示
 											for( i = 0 ; i < 20 ; i++ ){
-												// �ݥ��󥿤��ʤ��r����
+												// ポインタがないr
 												if( p_party[ i ]->func == NULL ) continue;
-												// �Է֤ΥڥåȤʤ����
+												// 自分のペットなら
 												if( i == BattleMyNo ) continue;
-												// ����Ǥ��Ĥό�����Εr
+												// 死んでるやつは象外のr
 												if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-												// ����`�ץե饰�ϣ�
+												// グル`プフラグＯＮ
 												p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 											}
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_WITHOUTMYSELFANDPET:	// �Է֤ȥڥå�����
+										case ITEM_TARGET_WITHOUTMYSELFANDPET:	// 自分とペット以外
 										
-											// �������ж��ܥå�����ʾ
+											// 当たり判定ボックス表示
 											for( i = 0 ; i < 20 ; i++ ){
-												// �ݥ��󥿤��ʤ��r����
+												// ポインタがないr
 												if( p_party[ i ]->func == NULL ) continue;
-												// �Է֤ΥڥåȤʤ����
+												// 自分のペットなら
 												if( i == BattleMyNo + 5 ) continue;
-												// �Է֤ʤ����
+												// 自分なら
 												if( i == BattleMyNo ) continue;
-												// ����Ǥ��Ĥό�����Εr
+												// 死んでるやつは象外のr
 												if( pc.item[ BattleItemNo ].deadTargetFlag == FALSE ) if( p_party[ i ]->hp <= 0 ) continue;
-												// ����`�ץե饰�ϣ�
+												// グル`プフラグＯＮ
 												p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 											}
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = TRUE;
-											// ������ɥ����������Ĩ��
+											// ウィンドウアクション抹
 											DeathAction( pActWnd );
 											pActWnd = NULL;
-											// �ܥ���ե饰ȫ���ڻ�
+											// ボタンフラグ全初期化
 											ClearBattleButton();
-											// ���ޥ�ɷ���
+											// コマンド番号
 											BattleCmdNo = BATTLE_ITEM;
-											// ����å���
+											// クリック音
 											play_se( 217, 320, 240 );
 											break;
 										}
@@ -1556,16 +1556,16 @@ void BattleButtonItem( void )
 							}
 #endif
 						}
-						// ���Ιڤ˥����ƥब���ä���
+						// その冥衰ぅ匹啶盲郡
 						//if( pc.item[ i ].useFlag == TRUE && ItemBuffer[ i ].dragFlag == FALSE ){ 
 						if( pc.item[ i ].useFlag == TRUE ){ 
-							// �����ƥ��ʾ
+							// アイテム表示
 							StockDispBuffer( ItemBuffer[ i ].defX, ItemBuffer[ i ].defY, ItemBuffer[ i ].dispPrio, pc.item[ i ].graNo, 0 );
 						}
 					}
-					// ������ɥ����ä���
+					// ウィンドウあったら
 					if( pActWnd != NULL ){
-						// ���ֱ�ʾ�Хåե�������
+						// 文字表示バッファに溜める
 						battleMenuItemFontNo[ 0 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, pActWnd->y + 262, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 				}
@@ -1574,7 +1574,7 @@ void BattleButtonItem( void )
 	}
 }
 
-// ��ڥå�����椨�ܥ��� *******************************************************/
+// ◎ペット入れ替えボタン *******************************************************/
 void BattleButtonPet( void )
 {
 	int i, bak;
@@ -1586,114 +1586,114 @@ void BattleButtonPet( void )
 	int color;
 	
 	if( HitDispNo == battleButtonDispNo[ 6 ] || battleButtonBak2 == 6 ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK || battleButtonBak2 == 6 ){
 		
-			bak = battleButtonFlag[ 6 ];	// �Хå����å�
-			BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+			bak = battleButtonFlag[ 6 ];	// バックアップ
+			BattleButtonOff();				// とりあえず全てＯＦＦにする
 			
-			// �ܥ��󤬣ϣƣƤΕr
+			// ボタンがＯＦＦのr
 			if( bak == FALSE ){
-				// ���Υܥ�������ϣ�
+				// このボタンだけＯＮ
 				battleButtonFlag[ 6 ] = TRUE;
-				// ���֤ε������ж����ڻ�
+				// 文字の当たり判定初期化
 				for( i = 0 ; i < BATTLE_MENU_PET_FONTS ; i++ ) battleMenuPetFontNo[ i ] = -2;
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 380, 144, 4, 5, CG_WND_TITLE_SYSTEM, 1 );
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				pActWnd = MakeWindowDisp( 376, 132, 256, 320, 0, -1 );
-				// ��ؤΥܥ���ӛ��
+				// 今回のボタン
 				battleButtonBak = 6;
-				// ǰ�ؤΥܥ�����ڻ�
+				// 前回のボタン初期化
 				battleButtonBak2 = -1;
 			}	
 		}
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr, "�ڥåȤ�����椨�ޤ���");
+		// 一行インフォ
+		strcpy( OneLineInfoStr, "ペットを入れ替えます。");
 	}
-	// �ڥåȥ�����ɥ��I��
+	// ペットウィンドウI理
 	if( battleButtonFlag[ 6 ] == TRUE ){
 		if( pActWnd->hp > 0 ){
 			
-			// �ڥå�����椨������ɥ��α�ʾ
+			// ペット入れ替えウィンドウの表示
 			StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActWnd->pYobi )->my, DISP_PRIO_MENU, CG_BTL_PET_CHANGE_WND, 1 );
-			// �󥯥�å������r
+			// 左クリックしたr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// �ڥåȤ����֥�`��
+				// ペットの数分ル`プ
 				for( i = 0 ; i < 5 ; i++ ){
-					// ���Ιڤ˥ڥåȤ�����r ���� �������Εr
+					// この冥衰讠氓趣いr かつ スタメンのr
 					if( pet[ i ].useFlag == TRUE && pc.selectPetNo[ i ] == TRUE ){
-						// �ڥå��x�k�����r
+						// ペットxkしたr
 						if( HitFontNo == battleMenuPetFontNo[ i ] ){
-							// �ڥåȤ�μӤ�����
-							// ����ǟo���r
+							// ペットを参加させる
+							// 死んでoいr
 							if( pet[ i ].hp > 0 && i != pc.battlePetNo ){
-								// �������ˤ���
+								// スタメンにする
 								//pc.selectPetNo[ i ] = FALSE;
-								// ����������
+								// 文字列作成
 								sprintf( moji, "S|%d", i );
-								// �ڥå�����椨�֤ϳ���
+								// ペット入れ替え又は出す
 								lssproto_B_send( sockfd, moji );
-								//play_se( 217, 320, 240 ); // ����å���
-								// ������ɥ��]������
+								//play_se( 217, 320, 240 ); // クリック音
+								// ウィンドウ]じる音
 								play_se( 203, 320, 240 );
-								// ������ɥ����������Ĩ��
+								// ウィンドウアクション抹
 								DeathAction( pActWnd );
-								// ������ɥ��ݥ��󥿳��ڻ�
+								// ウィンドウポインタ初期化
 								pActWnd = NULL;
-								// ��˥�`�L��
+								// メニュ`Lす
 								battleMenuReturn = TRUE;
-								// ��ؤΥܥ���ӛ��
+								// 今回のボタン
 								battleButtonBak = -1;
-								// ǰ�ؤΥܥ�����ڻ�
+								// 前回のボタン初期化
 								battleButtonBak2 = -1;
 							}else{
-								// �Σ���
+								// ＮＧ音
 								play_se( 220, 320, 240 );
 							}
 						}
 					}
 				}
-				// �����r
+				// r
 				if( HitDispNo == battleMenuPetFontNo[ 5 ] && pc.battlePetNo != -1 ){
-					// �ڥåȤ�μӤ����ʤ�
+					// ペットを参加させない
 					lssproto_B_send( sockfd, "S|-1" );
-					//play_se( 217, 320, 240 ); // ����å���
-					// ������ɥ��]������
+					//play_se( 217, 320, 240 ); // クリック音
+					// ウィンドウ]じる音
 					play_se( 203, 320, 240 );
-					// ������ɥ����������Ĩ��
+					// ウィンドウアクション抹
 					DeathAction( pActWnd );
-					// ������ɥ��ݥ��󥿳��ڻ�
+					// ウィンドウポインタ初期化
 					pActWnd = NULL;
-					// ��˥�`�L��
+					// メニュ`Lす
 					battleMenuReturn = TRUE;
-					// ��ؤΥܥ���ӛ��
+					// 今回のボタン
 					battleButtonBak = -1;
-					// ǰ�ؤΥܥ�����ڻ�
+					// 前回のボタン初期化
 					battleButtonBak2 = -1;
 				}
-				// �]����r
+				// ]じるr
 				if( HitDispNo == battleMenuPetFontNo[ 6 ] ){
-					// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+					// とりあえず全てＯＦＦにする
 					BattleButtonOff();				
 				}
 			}
-			// ������ɥ�������r
+			// ウィンドウがあるr
 			if( pActWnd != NULL ){
-				// һ�Х���ե�
-				//strcpy( OneLineInfoStr, "�ڥåȤ��x�k���Ƥ���������");
-				// �����O��
+				// 一行インフォ
+				//strcpy( OneLineInfoStr, "ペットをxkしてください。");
+				// 座嗽O定
 				x = pActWnd->x + 17, y = pActWnd->y + 33;
-				// �ڥåȷ֥�`��
+				// ペット分ル`プ
 				for( i = 0 ; i < 5 ; i++ ){
-					// ���Ιڤ˥ڥåȤ�����r ���� �������Εr
+					// この冥衰讠氓趣いr かつ スタメンのr
 					if( pet[ i ].useFlag == TRUE && pc.selectPetNo[ i ] == TRUE ){
-						atrFlag = FALSE;	// �ե饰���ڻ�
-						color = FONT_PAL_AQUA;		// �ǥե����ɫ
-						if( pet[ i ].hp <= 0 ) color = FONT_PAL_RED;	// ����Ǥ�r
-						if( i == pc.battlePetNo ) color = FONT_PAL_YELLOW;	// ���L�˲μӤ��Ƥ���r
-						// ��ǰ������������
-						// ������������r
+						atrFlag = FALSE;	// フラグ初期化
+						color = FONT_PAL_AQUA;		// デフォルト色
+						if( pet[ i ].hp <= 0 ) color = FONT_PAL_RED;	// 死んでるr
+						if( i == pc.battlePetNo ) color = FONT_PAL_YELLOW;	// 殛Lに参加しているr
+						// 名前の文字列作成
+						// あだ名があるr
 						if( pet[ i ].freeName[ 0 ] != NULL )
 							//sprintf( moji, "%s ", pet[ i ].freeName );
 							CenteringStr( pet[ i ].freeName, moji, PET_NAME_LEN );
@@ -1702,66 +1702,66 @@ void BattleButtonPet( void )
 							CenteringStr( pet[ i ].name, moji, PET_NAME_LEN );
 						battleMenuPetFontNo[ i ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, color, moji, 2 );
 						
-						// ���Ա�ʾ
-						if( pet[ i ].earth > 0 ){	// ��
-							// ��Εr
+						// 属性表示
+						if( pet[ i ].earth > 0 ){	// 地
+							// 大のr
 							if( pet[ i ].earth > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_EARTH_BIG;
-							// С�Εr
+							// 小のr
 							else atrGraNo[ atrFlag ] = CG_ATR_ICON_EARTH_SML;
-							atrFlag++; // �ե饰�ϣ�
+							atrFlag++; // フラグＯＮ
 						}
-						if( pet[ i ].water > 0 ){	// ˮ
-							// ��Εr
+						if( pet[ i ].water > 0 ){	// 水
+							// 大のr
 							if( pet[ i ].water > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_WATER_BIG;
-							// С�Εr
+							// 小のr
 							else atrGraNo[ atrFlag ] = CG_ATR_ICON_WATER_SML;
-							atrFlag++; // �ե饰�ϣ�
+							atrFlag++; // フラグＯＮ
 						}
-						if( pet[ i ].fire > 0 ){	// ��
-							// ��Εr
+						if( pet[ i ].fire > 0 ){	// 火
+							// 大のr
 							if( pet[ i ].fire > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_FIRE_BIG;
-							// С�Εr
+							// 小のr
 							else atrGraNo[ atrFlag ] = CG_ATR_ICON_FIRE_SML;
-							atrFlag++; // �ե饰�ϣ�
+							atrFlag++; // フラグＯＮ
 						}
-						if( pet[ i ].wind > 0 ){	// �L
-							// ��Εr
+						if( pet[ i ].wind > 0 ){	// L
+							// 大のr
 							if( pet[ i ].wind > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_WIND_BIG;
-							// С�Εr
+							// 小のr
 							else atrGraNo[ atrFlag ] = CG_ATR_ICON_WIND_SML;
-							atrFlag++; // �ե饰�ϣ�
+							atrFlag++; // フラグＯＮ
 						}
-						// һ��Ŀ
+						// 一目
 						if( atrFlag > 0 ) StockDispBuffer( pActWnd->x + 214, y + 8, DISP_PRIO_IME3, atrGraNo[ 0 ], 0 );
-						// ����Ŀ
+						// 二目
 						if( atrFlag > 1 ) StockDispBuffer( pActWnd->x + 214 + 16 , y + 8, DISP_PRIO_IME3, atrGraNo[ 1 ], 0 );
 						 y += 26;
 						
-						// �̣֤ȣȣ�
-						sprintf( moji, "%3d��  �� %4d %4d", pet[ i ].level, pet[ i ].hp, pet[ i ].maxHp );
+						// ＬＶとＨＰ
+						sprintf( moji, "%3d　  　 %4d %4d", pet[ i ].level, pet[ i ].hp, pet[ i ].maxHp );
 						StockFontBuffer( x + 27, y, FONT_PRIO_FRONT, color, 	moji, 0 ); y += 25;
-						// ���\��
+						// 忠\度
 						sprintf( moji, "%3d", pet[ i ].ai );
 						StockFontBuffer( x + 60, y, FONT_PRIO_FRONT, color, 	moji, 0 ); y += 36;
 						flag = TRUE;
 					}
 				}
 				//y += 16;
-				// �ڥåȤ�����r
+				// ペットがいるr
 				if( flag == TRUE ){ 
-					// �ڥåȤ��Α餷�Ƥ���r
+					// ペットが参椁筏皮いr
 					if( pc.battlePetNo != -1 ){ 
 						battleMenuPetFontNo[ 5 ] = StockDispBuffer( pActWnd->x + 70, pActWnd->y + 299, DISP_PRIO_IME3, CG_BTL_PET_RETURN_BTN, 2 );
-						// �]����ܥ���
+						// ]じるボタン
 						battleMenuPetFontNo[ 6 ] = StockDispBuffer( pActWnd->x + 187, pActWnd->y + 299, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}else{
-						// �]����ܥ���
+						// ]じるボタン
 						battleMenuPetFontNo[ 6 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, pActWnd->y + 299, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 				}else{
-					// �ڥåȤ����ʤ��r
-					StockFontBuffer( x + 11, y, FONT_PRIO_FRONT, 0, "�Α餹��ڥåȤ����ޤ���", 0 );
-					// �]����ܥ���
+					// ペットがいないr
+					StockFontBuffer( x + 11, y, FONT_PRIO_FRONT, 0, "参椁工毳讠氓趣い蓼护", 0 );
+					// ]じるボタン
 					battleMenuPetFontNo[ 6 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, pActWnd->y + 299, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 				}
 			}
@@ -1769,289 +1769,289 @@ void BattleButtonPet( void )
 	}
 }
 
-// ���Ӥ���ܥ��� ***************************************************************/
+// ◎逃げるボタン ***************************************************************/
 void BattleButtonEscape( void )
 {
 	if( HitDispNo == battleButtonDispNo[ 7 ] && battleButtonFlag[ 7 ] == FALSE ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK ){
-			BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
-			// ���Υܥ�������ϣ�
+			BattleButtonOff();				// とりあえず全てＯＦＦにする
+			// このボタンだけＯＮ
 			battleButtonFlag[ 7 ] = TRUE;
-			// �Ӥ�����
+			// 逃げ送信
 			lssproto_B_send( sockfd, "E" );
-			// �ץ쥤��`�Ӥ����ե饰
+			// プレイヤ`逃げたフラグ
 			battlePlayerEscFlag = TRUE;
-			// ��˥�`�L��
+			// メニュ`Lす
 			battleMenuReturn = TRUE;
-			// ��ؤΥܥ���ӛ��
+			// 今回のボタン
 			battleButtonBak = -1;
-			// ǰ�ؤΥܥ�����ڻ�
+			// 前回のボタン初期化
 			battleButtonBak2 = -1;
-			// ������ɥ��]������
+			// ウィンドウ]じる音
 			play_se( 203, 320, 240 );
 		}
-		// һ�Х���ե�
-		strcpy( OneLineInfoStr, "�Ӥ��ޤ���");
+		// 一行インフォ
+		strcpy( OneLineInfoStr, "逃げます。");
 	}
 }
 
-// ���ҥåȥܥå����򥻥åȤ��� **************************************************/
+// 技ヒットボックスをセットする **************************************************/
 void BattleSetWazaHitBox( int no )
 {
 	char moji[ 256 ];
 	int i;
 	
-	// ������ӛ��
+	// 技番号
 	BattleWazaNo = no;
-	// ���`���åȥ��쥯�ȥե饰�ϣ�
+	// タ`ゲットセレクトフラグＯＮ
 	battleTargetSelectFlag = TRUE;
 	
-	//PETSKILL_TARGET_MYSELF,				�Է֤Τ�			
-	//PETSKILL_TARGET_OTHER,				�����ˣ��Էֺ���)
-	//PETSKILL_TARGET_ALLMYSIDE,			ζ��ȫ��			
-	//PETSKILL_TARGET_ALLOTHERSIDE,			���ւ�ȫ��
-	//PETSKILL_TARGET_ALL,					ȫ��
-	//PETSKILL_TARGET_NONE,					�l���x�k�����ʤ��������䤿��Εr
-	//PETSKILL_TARGET_OTHERWITHOUTMYSELF,	�����ˣ��Էֺ��ޤʤ�) 
+	//PETSKILL_TARGET_MYSELF,				自分のみ			
+	//PETSKILL_TARGET_OTHER,				他の人（自分含む)
+	//PETSKILL_TARGET_ALLMYSIDE,			味方全体			
+	//PETSKILL_TARGET_ALLOTHERSIDE,			相手热
+	//PETSKILL_TARGET_ALL,					全て
+	//PETSKILL_TARGET_NONE,					lもxk出来ない。防御やためのr
+	//PETSKILL_TARGET_OTHERWITHOUTMYSELF,	他の人（自分含まない) 
 	
-	// ���`���åȤǷ��
+	// タ`ゲットで分岐
 	switch( petSkill[ battlePetNoBak ][ no ].target ){
 	
-	case PETSKILL_TARGET_MYSELF:	// �ڥåȤΤ�
+	case PETSKILL_TARGET_MYSELF:	// ペットのみ
 	
-		// �������ж��ܥå�����ʾ�ե饰�ϣ�
+		// 当たり判定ボックス表示フラグＯＮ
 		p_party[ BattleMyNo + 5 ]->atr |= ACT_ATR_HIT_BOX;
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
 		
 		break;
 		
-	case PETSKILL_TARGET_OTHER:	// �����ˣ��Էֺ���)
+	case PETSKILL_TARGET_OTHER:	// 他の人（自分含む)
 	
-		// �������ж��ܥå�����ʾ
+		// 当たり判定ボックス表示
 		for( i = 0 ; i < 20 ; i++ ){
-			// �ݥ��󥿤��ʤ��r����
+			// ポインタがないr
 			if( p_party[ i ]->func == NULL ) continue;
-			// ����Ǥ���r
+			// 死んでいるr
 			if( p_party[ i ]->hp <= 0 ) continue;
-			// �������ж��ܥå�����ʾ�ե饰�ϣ�
+			// 当たり判定ボックス表示フラグＯＮ
 			p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 		}
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
     
 	break;
 		
-	case PETSKILL_TARGET_ALLMYSIDE:	// ζ��ȫ��
+	case PETSKILL_TARGET_ALLMYSIDE:	// 味方全体
 	
-		// ���¥���`�פΕr
+		// 右下グル`プのr
 		if( BattleMyNo < 10 ){
-			// �������ж��ܥå�����ʾ
+			// 当たり判定ボックス表示
 			for( i = 0 ; i < 10 ; i++ ){
-				// �ݥ��󥿤��ʤ��r����
+				// ポインタがないr
 				if( p_party[ i ]->func == NULL ) continue;
-				// ����Ǥ���r
+				// 死んでいるr
 				if( p_party[ i ]->hp <= 0 ) continue;
-				// ����`�ץե饰�ϣ�
+				// グル`プフラグＯＮ
 				p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 			}
 		}
-		// ���¥���`�פΕr
+		// 左下グル`プのr
 		else{
-			// �������ж��ܥå�����ʾ
+			// 当たり判定ボックス表示
 			for( i = 10 ; i < 20 ; i++ ){
-				// �ݥ��󥿤��ʤ��r����
+				// ポインタがないr
 				if( p_party[ i ]->func == NULL ) continue;
-				// ����Ǥ���r
+				// 死んでいるr
 				if( p_party[ i ]->hp <= 0 ) continue;
-				// ����`�ץե饰�ϣ�
+				// グル`プフラグＯＮ
 				p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 			}
 		}
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
 		break;
 		
-	case PETSKILL_TARGET_ALLOTHERSIDE:	// ���ւ�ȫ��
+	case PETSKILL_TARGET_ALLOTHERSIDE:	// 相手热
 	
-		// ���¥���`�פΕr
+		// 右下グル`プのr
 		if( BattleMyNo >= 10 ){
-			// �������ж��ܥå�����ʾ
+			// 当たり判定ボックス表示
 			for( i = 0 ; i < 10 ; i++ ){
-				// �ݥ��󥿤��ʤ��r����
+				// ポインタがないr
 				if( p_party[ i ]->func == NULL ) continue;
-				// ����Ǥ���r
+				// 死んでいるr
 				if( p_party[ i ]->hp <= 0 ) continue;
-				// ����`�ץե饰�ϣ�
+				// グル`プフラグＯＮ
 				p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 			}
 		}
-		// ���¥���`�פΕr
+		// 左下グル`プのr
 		else{
-			// �������ж��ܥå�����ʾ
+			// 当たり判定ボックス表示
 			for( i = 10 ; i < 20 ; i++ ){
-				// �ݥ��󥿤��ʤ��r����
+				// ポインタがないr
 				if( p_party[ i ]->func == NULL ) continue;
-				// ����Ǥ���r
+				// 死んでいるr
 				if( p_party[ i ]->hp <= 0 ) continue;
-				// ����`�ץե饰�ϣ�
+				// グル`プフラグＯＮ
 				p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL2;
 			}
 		}
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
 		break;
 		
-	case PETSKILL_TARGET_ALL:	// ȫ��
+	case PETSKILL_TARGET_ALL:	// 全て
 	
-		// �������ж��ܥå�����ʾ
+		// 当たり判定ボックス表示
 		for( i = 0 ; i < 20 ; i++ ){
-			// �ݥ��󥿤��ʤ��r����
+			// ポインタがないr
 			if( p_party[ i ]->func == NULL ) continue;
-			// ����Ǥ���r
+			// 死んでいるr
 			if( p_party[ i ]->hp <= 0 ) continue;
-			// ����`�ץե饰�ϣ�
+			// グル`プフラグＯＮ
 			p_party[ i ]->atr |= ACT_ATR_HIT_BOX_ALL1;
 		}
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
 		break;
 		
-	case PETSKILL_TARGET_NONE:	// �l���x�k�����ʤ��������ʤɡ�
+	case PETSKILL_TARGET_NONE:	// lもxk出来ない。防御など。
 	
-		BattleButtonOff(); // �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+		BattleButtonOff(); // とりあえず全てＯＦＦにする
 		battleMenuReturn = TRUE;
-		// ����������
+		// 文字列作成
 		sprintf( moji,"W|%X|%X", BattleWazaNo, BattleMyNo + 5 );
-		// ������
+		// 技送信
 		lssproto_B_send( sockfd, moji );
 	
-		// ������ɥ��]������
+		// ウィンドウ]じる音
 		play_se( 203, 320, 240 );
 		
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = -1;
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = FALSE;
 		break;
 		
-	case PETSKILL_TARGET_OTHERWITHOUTMYSELF:	// �����ˣ��Էֺ��ޤʤ�) 
+	case PETSKILL_TARGET_OTHERWITHOUTMYSELF:	// 他の人（自分含まない) 
 	
-		// �������ж��ܥå�����ʾ
+		// 当たり判定ボックス表示
 		for( i = 0 ; i < 20 ; i++ ){
-			// �ݥ��󥿤��ʤ��r����
+			// ポインタがないr
 			if( p_party[ i ]->func == NULL ) continue;
-			// �Է֤ΥڥåȤʤ����
+			// 自分のペットなら
 			if( i == BattleMyNo + 5 ) continue;
-			// ����Ǥ���r
+			// 死んでいるr
 			if( p_party[ i ]->hp <= 0 ) continue;
-			// ����`�ץե饰�ϣ�
+			// グル`プフラグＯＮ
 			p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 		}
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
 		break;
 		
-	case PETSKILL_TARGET_WITHOUTMYSELFANDPET:	// �Է֤ȥڥå����� 
+	case PETSKILL_TARGET_WITHOUTMYSELFANDPET:	// 自分とペット以外 
 	
-		// �������ж��ܥå�����ʾ
+		// 当たり判定ボックス表示
 		for( i = 0 ; i < 20 ; i++ ){
-			// �ݥ��󥿤��ʤ��r����
+			// ポインタがないr
 			if( p_party[ i ]->func == NULL ) continue;
-			// �Է֤ΥڥåȤʤ����
+			// 自分のペットなら
 			if( i == BattleMyNo + 5 ) continue;
-			// �Է֤ʤ����
+			// 自分なら
 			if( i == BattleMyNo ) continue;
-			// ����Ǥ���r
+			// 死んでいるr
 			if( p_party[ i ]->hp <= 0 ) continue;
-			// ����`�ץե饰�ϣ�
+			// グル`プフラグＯＮ
 			p_party[ i ]->atr |= ACT_ATR_HIT_BOX;
 		}
-		// ���`���åȥ��쥯�ȥե饰�ϣ�
+		// タ`ゲットセレクトフラグＯＮ
 		battleTargetSelectFlag = TRUE;
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
 		pActWnd = NULL;
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���ޥ�ɷ���
+		// コマンド番号
 		BattleCmdNo = BATTLE_WAZA;
-		// ����å���
+		// クリック音
 		play_se( 217, 320, 240 );
-		// �����ťХå����å�
+		// 技番号バックアップ
 		battleWazaTargetBak = no;
 		break;
 	}
 }
 
-// �򼼥ܥ��� *****************************************************************/
+// ◎技ボタン *****************************************************************/
 void BattleButtonWaza( void )
 {
 	int i, bak;
@@ -2059,94 +2059,94 @@ void BattleButtonWaza( void )
 	char moji[ 256 ];
 	
 	if( HitDispNo == battleButtonDispNo[ 8 ] || battlePetButtonFlag == TRUE ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 		if( mouse.onceState & MOUSE_LEFT_CRICK || battlePetButtonFlag == TRUE ){
 	//if( HitDispNo == battleButtonDispNo[ 8 ] || battleWazaTargetBak == -1 ){
-		// �󥯥�å����줿�r
+		// 左クリックされたr
 	//	if( mouse.onceState & MOUSE_LEFT_CRICK || battleWazaTargetBak == -1 ){
 		
-			bak = battleButtonFlag[ 8 ];	// �Хå����å�
-			BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+			bak = battleButtonFlag[ 8 ];	// バックアップ
+			BattleButtonOff();				// とりあえず全てＯＦＦにする
 		
-			// �ܥ��󤬣ϣƣƤΕr
+			// ボタンがＯＦＦのr
 			if( bak == FALSE ){
 			
-				// ���Υܥ�������ϣ�
+				// このボタンだけＯＮ
 				battleButtonFlag[ 8 ] = TRUE;
-				// �Хå����å׳��ڻ�
+				// バックアップ初期化
 				battleWazaTargetBak = -1;
-				// ���ޥ�ɷ���
+				// コマンド番号
 				//BattleCmdNo = BATTLE_WAZA;
-				// ���֤ε������ж����ڻ�
+				// 文字の当たり判定初期化
 				for( i = 0 ; i < BATTLE_MENU_WAZA_FONTS ; i++ ) battleMenuWazaFontNo[ i ] = -2;
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 380, 120, 4, 7, CG_WND_TITLE_SYSTEM, 1 );
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 361, 144, 272, 280, 0, -1 );
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 361, 144, 271, 281, 0, -1 );
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				//pActWnd = MakeWindowDisp( 376, 100, 4, 7, CG_WND_TITLE_SYSTEM, 1 );
 				pActWnd = MakeWindowDisp( 364, 96, 272, 348, 0, -1 );
 			}
 		}
-		// �ڥåȥܥ�����ڻ�
+		// ペットボタン初期化
 		battlePetButtonFlag = FALSE;
-		// һ�Х���ե�				 
-		strcpy( OneLineInfoStr, "����ʹ���ޤ���");
+		// 一行インフォ				 
+		strcpy( OneLineInfoStr, "技を使います。");
 	}
 	
-	// ��������ɥ��I��
+	// 技ウィンドウI理
 	if( battleButtonFlag[ 8 ] == TRUE ){
-		// ������ɥ�������r
+		// ウィンドウがあるr
 		if( pActWnd != NULL ){
-			// ������ɥ������������äƤ�����
+			// ウィンドウが出来あがっていたら
 			if( pActWnd->hp > 0 ){
-				// �ڥåȼ�������ɥ�
+				// ペット技ウィンドウ
 				StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActWnd->pYobi )->my, DISP_PRIO_MENU, CG_PET_WAZA_WND, 1 );
-				// �֤Ƥ뼼�����֥�`��
+				// 持てる技の数分ル`プ
 				for( i = 0 ; i < pet[ battlePetNoBak ].maxSkill ; i++ ){
 				//for( i = 0 ; i < 7 ; i++ ){
-					// ���٩`�����ʾ
+					// 技ベ`スを表示
 					StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActWnd->pYobi )->my, DISP_PRIO_IME3, CG_PET_WAZA_BAR_1 + i, 1 );
 				}
-				// �󥯥�å������r
+				// 左クリックしたr
 				if( mouse.onceState & MOUSE_LEFT_CRICK ){
-					// ������ɥ����]����
+					// ウィンドウを]じる
 					if( HitDispNo == battleMenuWazaFontNo[ 7 ] ){
-						// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+						// とりあえず全てＯＦＦにする
 						BattleButtonOff();				
-						// ������ɥ�Ĩ��
+						// ウィンドウ抹
 						//DeathAction( pActWnd );
 						//pActWnd = NULL;
-						// ������ɥ��]������
+						// ウィンドウ]じる音
 						//play_se( 203, 320, 240 );
 					}
 				}
 				
-				// ������ɥ�����r
+				// ウィンドウあるr
 				if( pActWnd != NULL ){
 					
-					// �����O��
+					// 座嗽O定
 					x = pActWnd->x + 32;
 					y = pActWnd->y + 252;
 					
-					// �h����
+					// h明
 					for( i = 0 ; i < pet[ battlePetNoBak ].maxSkill ; i++ ){
 					//for( i = 0 ; i < 7 ; i++ ){
-						// ���Ιڤ˼�����r
+						// その冥思激r
 						if( petSkill[ battlePetNoBak ][ i ].useFlag == TRUE ){
 							if( HitFontNo == battleMenuWazaFontNo[ i ] ){
-								// ���Хݥ����
+								// 改行ポイント
 								char *splitPoint = petSkill[ battlePetNoBak ][ i ].memo;
-								//char *splitPoint = "��ʾ�ƥ��ȤǤ���˽����ǰ��̫�������Ǥ������줫���������������ޤ���";
-								// �����֥�`��
+								//char *splitPoint = "表示テストです。私の名前は太田哲生です。これからもよろしくおいします。";
+								// 行数分ル`プ
 								while( 1 ){
-									// �������֤򳬤��Ƥ���ָ�
+									// ２４文字を超えてたら分割
 									if( strlen( splitPoint ) > 24 ){
 										strncpy( moji, splitPoint, 24 );
-										moji[ 24 ] = NULL;	// �K��ӛ�Ť򤤤��
-										// ȫ�Ǥΰ�֤��ä��r
+										moji[ 24 ] = NULL;	// K端号をいれる
+										// 全角の半分だったr
 										if( GetStrLastByte( moji ) == 3 ){
 											moji[ 23 ] = NULL;
 											splitPoint += 23;
@@ -2161,42 +2161,42 @@ void BattleButtonWaza( void )
 										break;
 									}
 								}
-								// �󥯥�å������r
+								// 左クリックしたr
 								if( mouse.onceState & MOUSE_LEFT_CRICK ){
-									// ���L��ʹ����r
+									// 殛Lで使えるr
 									if(	petSkill[ battlePetNoBak ][ i ].field != PETSKILL_FIELD_MAP ){
-										// ���ҥåȥܥå����򥻥åȤ���
+										// 技ヒットボックスをセットする
 										BattleSetWazaHitBox( i );
 									}else{
 										int flag = 0;
 										int j;
 										
-										// ���L��ʹ���ʤ��������֤äƤʤ��������å�
+										// 殛Lで使えない技しか持ってないかチェック
 										for( j = 0 ; j < pet[ battlePetNoBak ].maxSkill ; j++ ){
-											// ���Ιڤ˼�����r
+											// その冥思激r
 											if( petSkill[ battlePetNoBak ][ j ].useFlag == TRUE ){
-												// ���L��ʹ����r
+												// 殛Lで使えるr
 												if(	petSkill[ battlePetNoBak ][ j ].field != PETSKILL_FIELD_MAP ) flag++;
 											}
 										}
-										// ���L��ʹ���뼼��֤äƤ�r
+										// 殛Lで使える技を持ってるr
 										if( flag > 0 ){
-											// �Σ���
+											// ＮＧ音
 											play_se( 220, 320, 240 );
 										}
-										// �֤äƤʤ��r
+										// 持ってないr
 										else{
-											BattleButtonOff(); // �Ȥꤢ����ȫ�ƣϣƣƤˤ���
+											BattleButtonOff(); // とりあえず全てＯＦＦにする
 											battleMenuReturn = TRUE;
-											// �ڥåȤϺΤ⤷�ʤ�������
+											// ペットは何もしないを送信
 											lssproto_B_send( sockfd, "W|FF|FF" );
 	    					
-											// ������ɥ��]������
+											// ウィンドウ]じる音
 											play_se( 203, 320, 240 );
 											
-											// �����ťХå����å�
+											// 技番号バックアップ
 											battleWazaTargetBak = -1;
-											// ���`���åȥ��쥯�ȥե饰�ϣ�
+											// タ`ゲットセレクトフラグＯＮ
 											battleTargetSelectFlag = FALSE;
 										}
 									}
@@ -2205,13 +2205,13 @@ void BattleButtonWaza( void )
 						}
 					}
 					
-					// ������ɥ�������r
+					// ウィンドウがあるr
 					if( pActWnd != NULL ){
-						// �����O��
+						// 座嗽O定
 						x = pActWnd->x + 40;
 						y = pActWnd->y + 32;
 						
-						// ������������r
+						// あだ名があるr
 						if( pet[ battlePetNoBak ].freeName[ 0 ] != NULL )
 							//sprintf( moji,"%s", pet[ battlePetNoBak ].freeName );
 							CenteringStr( pet[ battlePetNoBak ].freeName, moji, PET_NAME_LEN );
@@ -2220,28 +2220,28 @@ void BattleButtonWaza( void )
 							CenteringStr( pet[ battlePetNoBak ].name, moji, PET_NAME_LEN );
 							StockFontBuffer( x - 28, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 26; x += 18;
 						
-						// ����ʾ
+						// 技表示
 						for( i = 0 ; i < pet[ battlePetNoBak ].maxSkill ; i++ ){
 						//for( i = 0 ; i < 7 ; i++ ){
-							// ���Ιڤ˼�����r
+							// その冥思激r
 							if( petSkill[ battlePetNoBak ][ i ].useFlag == TRUE ){
 								int color = FONT_PAL_GRAY;
-								sprintf( moji,"���� %-22s",petSkill[ battlePetNoBak ][ i ].name );
-							//	sprintf( moji,"�ڥåȤμ��Ǥ�����������" );
+								sprintf( moji,"　　 %-22s",petSkill[ battlePetNoBak ][ i ].name );
+							//	sprintf( moji,"ペットの技です。ああああ" );
 								
-								// ���L��ʹ����r
+								// 殛Lで使えるr
 								if(	petSkill[ battlePetNoBak ][ i ].field != PETSKILL_FIELD_MAP ) color = FONT_PAL_WHITE;
 								battleMenuWazaFontNo[ i ] = StockFontBuffer( x - 43, y, FONT_PRIO_FRONT, color, moji, 2 );
 							}
 							y += 25;
 						}
 						
-						// �����O��
+						// 座嗽O定
 						y = pActWnd->y + 330;
 						
-						// ���ֱ�ʾ�Хåե�������
+						// 文字表示バッファに溜める
 						battleMenuWazaFontNo[ 7 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActWnd->pYobi )->mx, y, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
-						//battleMenuWazaFontNo[ 7 ] = StockFontBuffer( x + 100, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"���] �� �롡", 2 );
+						//battleMenuWazaFontNo[ 7 ] = StockFontBuffer( x + 100, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"　] じ る　", 2 );
 					}
 				}
 			}
@@ -2249,129 +2249,129 @@ void BattleButtonWaza( void )
 	}
 }
 
-// ���`���åȥ��쥯�� *********************************************************/
+// タ`ゲットセレクト *********************************************************/
 void BattleTargetSelect( void )
 {
 	char moji[ 256 ];
 	int targetNo;
 	int no;
 	
-	// �����ƥ��˥�`���Ƥʤ��r
+	// システムメニュ`出てないr
 	if( !( MenuToggleFlag & JOY_ESC ) ){
-		// ����ե���`����󥦥���ɥ��ʤ��r
+		// インフォメ`ションウィンドウないr
 		if( pActInfoWnd == NULL ){
-			// �ޥ����������°�֤ˤ��ä���
+			// マウスが画面下半分にあったら
 			if( mouse.nowPoint.y < 228 ){ 
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				pActInfoWnd = MakeWindowDisp( 210, 356, 3, 2, 0, 1 );
 			}else{ 
-				// ������ɥ���ʾ����������
+				// ウィンドウ表示タスク作成
 				pActInfoWnd = MakeWindowDisp( 210, 4, 3, 2, 0, 1 );
 			}
 		}else{	
-			// ������ɥ����������äƤ�����
+			// ウィンドウ出来あがっていたら
 			if( pActInfoWnd->hp > 0 ){
-				// ���ֱ�ʾ�Хåե�������
-				StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 28, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"���`���åȤ�", 0 );
-				StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 52, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"�x�k�����¤���", 0 );
+				// 文字表示バッファに溜める
+				StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 28, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"タ`ゲットを", 0 );
+				StockFontBuffer( pActInfoWnd->x + 38, pActInfoWnd->y + 52, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	"xkして下さい", 0 );
 			}
-			// �ޥ����������°�֤ˤ��ä���
+			// マウスが画面下半分にあったら
 			if( mouse.nowPoint.y > 300 ) pActInfoWnd->y = 4;
 			if( mouse.nowPoint.y < 156 ) pActInfoWnd->y = 356;
 		}
 	}
 		
-	// �󥯥�å����줿�r
+	// 左クリックされたr
 	if( mouse.onceState & MOUSE_LEFT_CRICK ){
-		// �ҥåȥ����å�
+		// ヒットチェック
 		if( ( targetNo = CheckBattelTarget() ) != -1 ){
-			// ���ĤηNǷ��
+			// 攻膜畏Nで分岐
 			switch( BattleCmdNo ){
 			
-			case BATTLE_ATTACK:		// ͨ������
+			case BATTLE_ATTACK:		// 通常攻
 			
-				// ����������
+				// 文字列作成
 				sprintf( moji, "H|%X", targetNo );
-				// ͨ������
+				// 通常攻
 				lssproto_B_send( sockfd, moji );
 
 				break;
 			
-			case BATTLE_CAPTURE:		// ���@
+			case BATTLE_CAPTURE:		// 捕@
 			
-				// ����������
+				// 文字列作成
 				sprintf( moji, "T|%X", targetNo );
-				// ���@����
+				// 捕@送信
 				lssproto_B_send( sockfd, moji );
 				
 				break;
 				
-			case BATTLE_JUJUTU:			// ���g
+			case BATTLE_JUJUTU:			// 庑g
 				
-				// ���`���åȤǷ��
+				// タ`ゲットで分岐
 				switch( magic[ BattleJujutuNo ].target ){
 				
-				case MAGIC_TARGET_MYSELF:	// �Է֤Τ�
-				case MAGIC_TARGET_OTHER:	// �����ˣ��Էֺ���)
+				case MAGIC_TARGET_MYSELF:	// 自分のみ
+				case MAGIC_TARGET_OTHER:	// 他の人（自分含む)
 				
-					// ����������
+					// 文字列作成
 					sprintf( moji,"J|%X|%X", BattleJujutuNo, targetNo );
-					// ���g����
+					// 庑g送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 
 					break;
 					
-				case MAGIC_TARGET_ALLMYSIDE:	// ζ��ȫ��
+				case MAGIC_TARGET_ALLMYSIDE:	// 味方全体
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( BattleMyNo < 10 ) no = 20;
 					else no = 21;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"J|%X|%X", BattleJujutuNo, no );
-					// ���g����
+					// 庑g送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case MAGIC_TARGET_ALLOTHERSIDE:	// ���ւ�ȫ��
+				case MAGIC_TARGET_ALLOTHERSIDE:	// 相手热
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( BattleMyNo < 10 ) no = 21;
 					else no = 20;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"J|%X|%X", BattleJujutuNo, no );
-					// ���g����
+					// 庑g送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case MAGIC_TARGET_ALL:	// ȫ��
+				case MAGIC_TARGET_ALL:	// 全て
 				
-					// ����������
+					// 文字列作成
 					sprintf( moji,"J|%X|%X", BattleJujutuNo, 22 );
-					// ���g����
+					// 庑g送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case MAGIC_TARGET_WHOLEOTHERSIDE:    // �ɤ��餫������ȫ��
+				case MAGIC_TARGET_WHOLEOTHERSIDE:    // どちらかサイド全体
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( targetNo < 10 ) no = 20;
 					else no = 21;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"J|%X|%X", BattleJujutuNo, no );
-					// ���g����
+					// 庑g送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
@@ -2379,62 +2379,62 @@ void BattleTargetSelect( void )
 				
 				break;
 				
-			case BATTLE_ITEM:			// �����ƥ�
+			case BATTLE_ITEM:			// アイテム
 				
-				// ���`���åȤǷ��
+				// タ`ゲットで分岐
 				switch( pc.item[ BattleItemNo ].target ){
 				
-				case ITEM_TARGET_MYSELF:				// �Է֤Τ�
-				case ITEM_TARGET_OTHER:					// �����ˣ��Էֺ���)
-				case ITEM_TARGET_OTHERWITHOUTMYSELF:	// �����ˣ��Էֺ��ޤʤ�) 
-				case ITEM_TARGET_WITHOUTMYSELFANDPET:	// �Է֤ȥڥå�����
+				case ITEM_TARGET_MYSELF:				// 自分のみ
+				case ITEM_TARGET_OTHER:					// 他の人（自分含む)
+				case ITEM_TARGET_OTHERWITHOUTMYSELF:	// 他の人（自分含まない) 
+				case ITEM_TARGET_WITHOUTMYSELFANDPET:	// 自分とペット以外
 				
-					// ����������
+					// 文字列作成
 					sprintf( moji,"I|%X|%X", BattleItemNo, targetNo );
 					//sprintf( moji,"H|%X", targetNo );
-					// �����ƥ�ʹ������
+					// アイテム使う送信
 					lssproto_B_send( sockfd, moji );
 				
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 
 					break;
 					
-				case ITEM_TARGET_ALLMYSIDE:	// ζ��ȫ��
+				case ITEM_TARGET_ALLMYSIDE:	// 味方全体
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( BattleMyNo < 10 ) no = 20;
 					else no = 21;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"I|%X|%X", BattleItemNo, no );
-					// �����ƥ�ʹ������
+					// アイテム使う送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case ITEM_TARGET_ALLOTHERSIDE:	// ���ւ�ȫ��
+				case ITEM_TARGET_ALLOTHERSIDE:	// 相手热
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( BattleMyNo < 10 ) no = 21;
 					else no = 20;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"I|%X|%X", BattleItemNo, no );
-					// �����ƥ�ʹ������
+					// アイテム使う送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case ITEM_TARGET_ALL:	// ȫ��
+				case ITEM_TARGET_ALL:	// 全て
 				
-					// ����������
+					// 文字列作成
 					sprintf( moji,"I|%X|%X", BattleItemNo, 22 );
-					// �����ƥ�ʹ������
+					// アイテム使う送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
@@ -2442,60 +2442,60 @@ void BattleTargetSelect( void )
 				
 				break;
 				
-			case BATTLE_WAZA:			// �ڥåȤμ�
+			case BATTLE_WAZA:			// ペットの技
 				
-				// ���`���åȤǷ��
+				// タ`ゲットで分岐
 				switch( petSkill[ battlePetNoBak ][ BattleWazaNo ].target ){
 				
-				case PETSKILL_TARGET_MYSELF:				// �Է֤Τ�
-				case PETSKILL_TARGET_OTHER:					// �����ˣ��Էֺ���)
-				case PETSKILL_TARGET_OTHERWITHOUTMYSELF:	// �����ˣ��Էֺ��ޤʤ�) 
-				case PETSKILL_TARGET_WITHOUTMYSELFANDPET:	// �Է֤ȥڥå�����
-					// ����������
+				case PETSKILL_TARGET_MYSELF:				// 自分のみ
+				case PETSKILL_TARGET_OTHER:					// 他の人（自分含む)
+				case PETSKILL_TARGET_OTHERWITHOUTMYSELF:	// 他の人（自分含まない) 
+				case PETSKILL_TARGET_WITHOUTMYSELFANDPET:	// 自分とペット以外
+					// 文字列作成
 					sprintf( moji,"W|%X|%X", BattleWazaNo, targetNo );
-					// ������
+					// 技送信
 					lssproto_B_send( sockfd, moji );
 				
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 
 					break;
 					
-				case PETSKILL_TARGET_ALLMYSIDE:	// ζ��ȫ��
+				case PETSKILL_TARGET_ALLMYSIDE:	// 味方全体
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( BattleMyNo < 10 ) no = 20;
 					else no = 21;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"W|%X|%X", BattleWazaNo, no );
-					// ������
+					// 技送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case PETSKILL_TARGET_ALLOTHERSIDE:	// ���ւ�ȫ��
+				case PETSKILL_TARGET_ALLOTHERSIDE:	// 相手热
 				
-					// ���¥���`�פΕr
+					// 右下グル`プのr
 					if( BattleMyNo < 10 ) no = 21;
 					else no = 20;
-					// ����������
+					// 文字列作成
 					sprintf( moji,"W|%X|%X", BattleWazaNo, no );
-					// ������
+					// 技送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
 					
-				case PETSKILL_TARGET_ALL:	// ȫ��
+				case PETSKILL_TARGET_ALL:	// 全て
 				
-					// ����������
+					// 文字列作成
 					sprintf( moji,"W|%X|%X", BattleWazaNo, 22 );
-					// ������
+					// 技送信
 					lssproto_B_send( sockfd, moji );
-					// ����å���
+					// クリック音
 					play_se( 217, 320, 240 );
 					
 					break;
@@ -2503,331 +2503,331 @@ void BattleTargetSelect( void )
 				
 				break;
 			}
-			// ������ɥ��]������
+			// ウィンドウ]じる音
 			play_se( 203, 320, 240 );
-			// �ե饰���ڻ�
+			// フラグ初期化
 			battleTargetSelectFlag = FALSE;
 			//battleMenuFlag = FALSE;
-			// ��˥�`�L��
+			// メニュ`Lす
 			battleMenuReturn = TRUE;
-			// ����ե���`����󥦥���ɥ�Ĩ��
+			// インフォメ`ションウィンドウ抹
 			DeathAction( pActInfoWnd );
 			pActInfoWnd = NULL;
 		}
 	}
 }
 
-// ������ȥ�����I�� **********************************************************/
+// カウントダウンI理 **********************************************************/
 void BattleCntDownDisp( void )
 {
 	char moji[ 16 ];
 	char *work = moji;
 	int x = 320 - 16, y = 240, i;
-	// �Ф�r�g
+	// 残りrg
 	int BattleCntDownRest = BattleCntDown - GetTickCount();
 	
-	// �ե饰�����å�
+	// フラグチェック
 	if( BattleCntDownFlag == FALSE ) return;
 	
-	// �����४�`�Щ`�Εr
+	// タイムオ`バ`のr
 	if( BattleCntDownRest <= 0 ){
-		// �ե饰���ڻ�
+		// フラグ初期化
 		BattleCntDownFlag = FALSE;
 		BattleCntDownRest = 0;
-		// �������ж��ܥå�������
+		// 当たり判定ボックス消す
 		ClearBoxFlag();
-		// ������ɥ����������Ĩ��
+		// ウィンドウアクション抹
 		DeathAction( pActWnd );
-		// ������ɥ��ݥ��󥿳��ڻ�
+		// ウィンドウポインタ初期化
 		pActWnd = NULL;				
-		// �ܥ���ե饰ȫ���ڻ�
+		// ボタンフラグ全初期化
 		ClearBattleButton();
-		// ���Υܥ�������ϣ�
+		// このボタンだけＯＮ
 		//battleButtonFlag[ 4 ] = TRUE;
 
-		// �ץ쥤��`���Є��x�k�ФΕr���I���Τ�����ʤ�
+		// プレイヤ`の行舆xk中のr、I方何も出来ない
 		if( battleMenuFlag & BATTLE_MENU && battleMenuReturn == FALSE ){
-			// �ץ쥤��`�Τ⤷�ʤ�����
+			// プレイヤ`何もしない送信
 			lssproto_B_send( sockfd, "N" );
 			
-			// �Α餷�Ƥʤ��r���֤ϥڥå�����Ǥ���r
+			// 参椁筏皮胜r、又はペット死んでいるr
 			if( battlePetNoBak == -1 || 
 				p_party[ BattleMyNo + 5 ]->hp <= 0 ){
-				// �Τ��ͤ�ʤ�
+				// 何も送らない
 			}else{
-				// �ڥåȺΤ⤷�ʤ�������
+				// ペット何もしないを送信
 				lssproto_B_send( sockfd, "W|FF|FF" );
 			}
 		}else{
-			// �ڥåȤ��Є��x�k�ФΕr
+			// ペットの行舆xk中のr
 			if( ( battleMenuFlag & BATTLE_MENU && battleMenuReturn == TRUE ) ||
 				( battleMenuFlag & BATTLE_MENU_PET && battleMenuReturn == FALSE ) ){ 
-				// �Α餷�Ƥʤ��r���֤ϥڥå�����Ǥ���r
+				// 参椁筏皮胜r、又はペット死んでいるr
 				if( battlePetNoBak == -1 || 
 					p_party[ BattleMyNo + 5 ]->hp <= 0 ){
-					// �Τ��ͤ�ʤ�
+					// 何も送らない
 				}else{
-					// �ڥåȺΤ⤷�ʤ�������
+					// ペット何もしないを送信
 					lssproto_B_send( sockfd, "W|FF|FF" );
 				}
 			}
 		}
 		
-		// �ե饰���ڻ�
+		// フラグ初期化
 		battleTargetSelectFlag = FALSE;
 		battleMenuReturn = TRUE;
 		//battleMenuFlag = FALSE;
-		// ������ɥ��]������
+		// ウィンドウ]じる音
 		play_se( 203, 320, 240 );
-		// ��ؤΥܥ���ӛ��
+		// 今回のボタン
 		battleButtonBak = battleButtonBak2;
-		// ǰ�ؤμ����ų��ڻ�
+		// 前回の技番号初期化
 		//battleWazaTargetBak = -1
-		// ����ե���`����󥦥���ɥ�Ĩ��
+		// インフォメ`ションウィンドウ抹
 		DeathAction( pActInfoWnd );
 		pActInfoWnd = NULL;
 	}
-	// �����Фˉ�Q�������ʾ��
+	// 文字列にQ（二桁表示）
 	sprintf( moji, "%2d", BattleCntDownRest / 1000 );
 	
-	// ���֤���������`��
+	// 文字の数だけル`プ
 	for( i = 0 ; i < 2 ; i++ ){
-		// �հפǤʤ��r
+		// 空白でないr
 		if( *work != 0x20 ){
-			// ��ʾ
+			// 表示
 			StockDispBuffer( x, y, DISP_PRIO_IME1, *work - '0' + CG_CNT_DOWN_0, 0 );
 		}
-		// �������Ƅ�
+		// Ｘ座艘
 		x += 32;
-		// �ݥ����M���
+		// ポインタMめる
 		work++;
 	}
 }
 
-// �Хȥ��˥�`�I�� *********************************************************/
+// バトルメニュ`I理 *********************************************************/
 void BattleMenuProc( void )
 {
 	char moji[ 256 ];
 	int i;
 	
-	// �Q���`�ɤΕr
+	// Q楗猢`ドのr
 	if( BattleMyNo >= 20 ){
-		// �ץ쥤��`�Τ⤷�ʤ�������
+		// プレイヤ`何もしないを送信
 		lssproto_B_send( sockfd, "N" );
-		// ���ޥ�������g�ߥե饰�γ��ڻ�
+		// コマンド入力gみフラグの初期化
 		InitBattleAnimFlag();
-		// �ڥåȺΤ⤷�ʤ�������
+		// ペット何もしないを送信
 		//lssproto_B_send( sockfd, "W|FF|FF" );
-		// �ΤΥץ�������
+		// 次のプロセスへ
 		SubProcNo++;
 		
-		return;	// ���ƵĤˑ���
+		return;	// 制的に
 	}
 	
-	// ���¥���`�פΕr
+	// 右下グル`プのr
 	if( BattleMyNo < 10 ){
-		for( i  = 0 ; i < 10 ; i++ ) HpMeterDisp( i ); // �;�����`���`��ʾ
+		for( i  = 0 ; i < 10 ; i++ ) HpMeterDisp( i ); // 耐久力メ`タ`表示
 	}else 
-	// ���¥���`�פΕr
+	// 右下グル`プのr
 	if( BattleMyNo >= 10 ){ 
-		for( i = 10 ; i < 20 ; i++ ) HpMeterDisp( i ); // �;�����`���`��ʾ
+		for( i = 10 ; i < 20 ; i++ ) HpMeterDisp( i ); // 耐久力メ`タ`表示
 	}
-	// �ץ쥤��`���ڥåȤ��ЄӤǤ���r
+	// プレイヤ`かペットが行婴扦r
 	if( p_party[ BattleMyNo ]->hp > 0 && 
 		!( BattleBpFlag & BATTLE_BP_PLAYER_MENU_NON && BattleBpFlag & BATTLE_BP_PET_MENU_NON ) ){
 		
-		// ���`���åȥ��쥯�ȥե饰�ϣΤΕr
+		// タ`ゲットセレクトフラグＯＮのr
 		if( battleTargetSelectFlag ){ 
 			BattleTargetSelect();
-			// �����ƥ��˥�`���Ƥ�����Ĩ��
+			// システムメニュ`出ていたら抹
 			if( MenuToggleFlag & JOY_ESC ){
-				// ����ե���`����󥦥���ɥ�Ĩ��
+				// インフォメ`ションウィンドウ抹
 				DeathAction( pActInfoWnd );
 				pActInfoWnd = NULL;
 			}
 		}else{
-			// ����ե���`����󥦥���ɥ�Ĩ��
+			// インフォメ`ションウィンドウ抹
 			DeathAction( pActInfoWnd );
 			pActInfoWnd = NULL;
 		}
 		
-		// �ץ쥤��`���Ϥ� Player ��ʾ
+		// プレイヤ`の上に Player 表示
 		//if( p_party[ BattleMyNo ]->func != NULL ){
 		
 #if 0
 #if 0
-		// �Է֤��;�����`���`��ʾ
+		// 自分の耐久力メ`タ`表示
 		HpMeterDisp( BattleMyNo );
-		// �ڥåȤ��;�����`���`��ʾ
+		// ペットの耐久力メ`タ`表示
 		HpMeterDisp( BattleMyNo + 5 );
 #else
-		// �����֥�`��
+		// 人数分ル`プ
 		for( i = 0 ; i < 20 ; i++ ){
-			// �;�����`���`��ʾ
+			// 耐久力メ`タ`表示
 			HpMeterDisp( i );
 		}
 #endif
 #endif
 	}
 	
-	// �ץ쥤��`��˥�`�������Ԥ�줿�r
+	// プレイヤ`メニュ`出せと言われたr
 	if( battleMenuFlag2 == TRUE ){
 		
-		buttonX = 815;  // ���ڣ�����
-		buttonY = 65;	// ���ڣ�����
-		buttonA = 25;	// ���ڼ��ٶ�
+		buttonX = 815;  // 初期Ｘ座
+		buttonY = 65;	// 初期Ｙ座
+		buttonA = 25;	// 初期加速度
 
-		// ���ޥ�������g�ߥե饰�γ��ڻ�
+		// コマンド入力gみフラグの初期化
 		InitBattleAnimFlag();
-		// ���ޥ�������g�ߥե饰�Υ����å�
+		// コマンド入力gみフラグのチェック
 		//CheckBattleAnimFlag();
-		// �ץ쥤��`�Ӥ����ե饰
+		// プレイヤ`逃げたフラグ
 		battlePlayerEscFlag = FALSE;
 
-		// ������ȥ�����ե饰���ڻ�
+		// カウントダウンフラグ初期化
 		BattleCntDownFlag = TRUE;
-		// ���ޥ���ܸ��r�g���ڻ�
+		// コマンド受付rg初期化
 		BattleCntDown = GetTickCount() + BATTLE_CNT_DOWN_TIME;
 		
-		// �ڥåȤ�������äƤʤ��ä���
+		// ペットが入れ替わってなかったら
 		if( pc.battlePetNo == battlePetNoBak ){
-			// �����`���åȷ��Ť��ä���
+			// 技タ`ゲット番号あったら
 			if( battleWazaTargetBak != -1 ){
-				// �Ԅӥܥ���͹
+				// 自鹰堀骏笸
 				battlePetButtonFlag = FALSE;
 			}else{
-				// �Ԅӥܥ��󰼣������Ȥ��x����r��
+				// 自鹰堀骏蟀迹ǚ烙趣xんだr）
 				battlePetButtonFlag = TRUE;
 			}
 		}else{
-			// �Ԅӥܥ���
+			// 自鹰堀骏蟀
 			battlePetButtonFlag = TRUE;
-			// �Хå����å׳��ڻ�
+			// バックアップ初期化
 			battleWazaTargetBak = -1;
 		}
 		
-		// �Է֤�����Ǥ���r
+		// 自分が死んでいるr
 		if( p_party[ BattleMyNo ]->hp <= 0 ||
-			// �ץ쥤��`��˥�`�ʤ��Εr�ϥ��ޥ�������o��
+			// プレイヤ`メニュ`なしのrはコマンド入力oし
 			BattleBpFlag & BATTLE_BP_PLAYER_MENU_NON ){ 
 			
-			// �Хȥ��˥�`�ե饰�ϣƣ�	
+			// バトルメニュ`フラグＯＦＦ	
 			//battleMenuFlag &= ~BATTLE_MENU;
 			
-			// �ץ쥤��`��˥�`�ʤ��Εr�ϥ��ޥ�������o��
+			// プレイヤ`メニュ`なしのrはコマンド入力oし
 			if( BattleBpFlag & BATTLE_BP_PLAYER_MENU_NON ){ 
-				// �ץ쥤��`�Τ⤷�ʤ�������
+				// プレイヤ`何もしないを送信
 				lssproto_B_send( sockfd, "N" );
 			}
-			// �ЄӽK�˥ե饰���Ƥ�
+			// 行咏K了フラグ立てる
 			p_party[ BattleMyNo ]->atr |= ACT_ATR_BTL_CMD_END;
-			// �ڥåȥ�˥�`��
+			// ペットメニュ`へ
 			battlePetMenuFlag = TRUE;
 			
 		}else{
 		
-			// �Хȥ��˥�`�ե饰�ϣ�	
+			// バトルメニュ`フラグＯＮ	
 			battleMenuFlag |= BATTLE_MENU; 
-			// ���ڻ�
+			// 初期化
 			battleMenuReturn = FALSE; 
-			// �����ॢ�åץե饰���ڻ�
+			// タイムアップフラグ初期化
 			battleTimeUpFlag = FALSE;
-			// ������ɥ��_����
+			// ウィンドウ_く音
 			play_se( 202, 320, 240 );
-			// ���֤ε������ж����ڻ�
+			// 文字の当たり判定初期化
 			for( i = 0 ; i < BATTLE_BUTTON_SUU ; i++ ) battleButtonDispNo[ i ] = -2;
-			// �������ж��ܥå�������
+			// 当たり判定ボックス消す
 			ClearBoxFlag();
-			// ǰ�ؤΥܥ���ӛ��
+			// 前回のボタン
 			battleButtonBak2 = battleButtonBak;
 		}
-		// �Α�ڥåȷ��ťХå����åף��ץ쥤��`���ЄӤǲΑ鷬�Ť����뤿��Хå����å�ȡ�룩
+		// 参楗讠氓确钮啸氓氓祝ē抓欹ぅ洎`の行婴遣榉扭浃铯毪郡幞啸氓氓兹・耄
 		battlePetNoBak = pc.battlePetNo;
 		battlePetNoBak2 = pc.battlePetNo;
-		// �ե饰�ϣƣ�
+		// フラグＯＦＦ
 		battleMenuFlag2 = FALSE;
-		// �ե饰���ڻ�
+		// フラグ初期化
 		BattleBpFlag &= ~BATTLE_BP_PLAYER_MENU_NON;
 	}
 	
-	// �ץ쥤��`��˥�` *************************************************************/
+	// プレイヤ`メニュ` *************************************************************/
 	if( battleMenuFlag & BATTLE_MENU ){ 
-		// ��˥�`����ʤ��r
+		// メニュ`椁胜r
 		if( battleMenuReturn == FALSE ){
 			
-			// �ܥ�����F
+			// ボタン出F
 			if( buttonA > 0 ){
-				buttonA--;	// ���ٶȥץ饹
-				buttonX -= buttonA; // �ƄӄI��
+				buttonA--;	// 加速度プラス
+				buttonX -= buttonA; // 移I理
 			}
-			// �ܥ���I��
-			BattleButtonAttack();	// ���ĥܥ���
-			BattleButtonJujutsu();	// ���g�ܥ���
-			BattleButtonCapture();	// ���@�ܥ���
-			BattleButtonHelp();		// �ȣţ̣Хܥ���
-			BattleButtonGuard();	// �����ܥ���
-			BattleButtonItem();		// �����ƥ�ܥ���
-			BattleButtonPet();		// �ڥå�����椨�ܥ���
-			BattleButtonEscape();	// �Ӥ���
+			// ボタンI理
+			BattleButtonAttack();	// 攻磨堀骏
+			BattleButtonJujutsu();	// 庑gボタン
+			BattleButtonCapture();	// 捕@ボタン
+			BattleButtonHelp();		// ＨＥＬＰボタン
+			BattleButtonGuard();	// 防御ボタン
+			BattleButtonItem();		// アイテムボタン
+			BattleButtonPet();		// ペット入れ替えボタン
+			BattleButtonEscape();	// 逃げる
 			
-			// ������ȥ������ʾ�ȥ�ߥåȥ����å�
+			// カウントダウン表示とリミットチェック
 			//BattleCntDownDisp();
 #if 0			
 #ifdef _DEBUG
-			// ���åܥ���
+			// 氓堀骏
 			if( joy_trg[ 1 ] & JOY_F12 ){ 
-				BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
-				// ��������
+				BattleButtonOff();				// とりあえず全てＯＦＦにする
+				// 防御送信
 				lssproto_B_send( sockfd, "@" );
-				// �ե饰���ڻ�
+				// フラグ初期化
 				battleMenuFlag = FALSE;
-				// ��ؤΥܥ���ӛ��
+				// 今回のボタン
 				battleButtonBak = -1;
-				// ǰ�ؤΥܥ�����ڻ�
+				// 前回のボタン初期化
 				battleButtonBak2 = -1;
-				// ������ɥ��]������
+				// ウィンドウ]じる音
 				play_se( 203, 320, 240 );
 			}
 #endif
 #endif
 
-			// �ҥ���å����줿�r�Хȥ�ܥ���򤹤٤ƣϣƣƤˤ���
+			// 右クリックされたrバトルボタンをすべてＯＦＦにする
 			if( mouse.onceState & MOUSE_RIGHT_CRICK ) BattleButtonOff();
 			
-		}else{	// �ܥ��������
+		}else{	// ボタン画面外へ
 			if( buttonA <= 25 ){
-				buttonA++;	// ���ٶȥץ饹
-				buttonX += buttonA; // �ƄӄI��
+				buttonA++;	// 加速度プラス
+				buttonX += buttonA; // 移I理
 			}else{
-				// ���������������
-				// �ܥå����ե饰����
+				// 画面外に消えたら
+				// ボックスフラグ消す
 				ClearBoxFlag();
-				// �ե饰���ڻ�
+				// フラグ初期化
 				battleTargetSelectFlag = FALSE;
 				battleMenuFlag = FALSE;
 				
-				// �r�g�Ф�Ǥʤ��r
+				// rg切れでないr
 				if( BattleCntDownFlag == TRUE ){
-					// �ڥåȥ�˥�`�ϣ�
+					// ペットメニュ`ＯＮ
 					battlePetMenuFlag = TRUE;
 				}else{
-					// �ΤΥץ�������
+					// 次のプロセスへ
 					SubProcNo++;
 				}
 					
-				// ���ޥ�ɷ��ų��ڻ�
+				// コマンド番号初期化
 				BattleCmdNo = -1;
-				// �ܥ���ե饰ȫ���ڻ�
+				// ボタンフラグ全初期化
 				ClearBattleButton();
-				// �ЄӽK�˥ե饰���Ƥ�
+				// 行咏K了フラグ立てる
 				//p_party[ BattleMyNo ]->atr |= ACT_ATR_BTL_CMD_END;
-				// �ڥåȥ�����ɥ��ϣ�
+				// ペットウィンドウＯＮ
 				//battleMenuFlag |= BATTLE_MENU_PET;
-				// �ΤΥץ�������
+				// 次のプロセスへ
 				//SubProcNo++;
 			}
 		}
-		// �ܥ�����ʾ�Хåե�������
+		// ボタンを表示バッファに溜める
 		battleButtonDispNo[ 0 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_BTL_BUTTON_ATTACK_UP 	+ battleButtonFlag[ 0 ], 2 );
 		battleButtonDispNo[ 1 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_BTL_BUTTON_JUJUTU_UP 	+ battleButtonFlag[ 1 ], 2 );
 		battleButtonDispNo[ 2 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_BTL_BUTTON_CAPTURE_UP 	+ battleButtonFlag[ 2 ], 2 );
@@ -2837,166 +2837,166 @@ void BattleMenuProc( void )
 		battleButtonDispNo[ 6 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_BTL_BUTTON_PET_UP 		+ battleButtonFlag[ 6 ], 2 );
 		battleButtonDispNo[ 7 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_BTL_BUTTON_ESCAPE_UP 	+ battleButtonFlag[ 7 ], 2 );
 		StockDispBuffer( buttonX, buttonY, DISP_PRIO_MENU, CG_BTL_BUTTON_BASE, 0 );
-		// �ڥåȤ����äѤ��Εr�����ʾ
+		// ペットがいっぱいのr×を表示
 		if( CheckPetSuu() >= 5 ){
 			StockDispBuffer( buttonX + 28, buttonY - 18, DISP_PRIO_IME4, CG_BTL_BUTTON_CROSS, 0 );
 		}
-		// �إ�פʤ��Εr�����ʾ
+		// ヘルプなしのr×を表示
 		if( NoHelpFlag == TRUE ){
 			StockDispBuffer( buttonX + 28 + 54, buttonY - 18, DISP_PRIO_IME4, CG_BTL_BUTTON_CROSS, 0 );
 		}
 	}
 	
-	// �ڥåȥ�˥�`�������Ԥ�줿�r
+	// ペットメニュ`出せと言われたr
 	if( battlePetMenuFlag == TRUE ){
 		
-		buttonX = 815;  // ���ڣ�����
-		buttonY = 48;	// ���ڣ�����
-		buttonA = 25;	// ���ڼ��ٶ�
+		buttonX = 815;  // 初期Ｘ座
+		buttonY = 48;	// 初期Ｙ座
+		buttonA = 25;	// 初期加速度
 
-		// �Α餷�Ƥʤ��r���֤ϥڥå�����Ǥ���r
+		// 参椁筏皮胜r、又はペット死んでいるr
 		if( battlePetNoBak <= -1 || 
 			p_party[ BattleMyNo + 5 ]->hp <= 0 ){
 			
-			// ������ȥ�����ե饰�ϣƣ�
+			// カウントダウンフラグＯＦＦ
 			BattleCntDownFlag = FALSE;
 			
-			// �ڥåȤ�������äƤ�����
+			// ペットが入れ替わっていたら
 			//if( pc.battlePetNo != battlePetNoBak ){
-				// �Ԅӥܥ���
+				// 自鹰堀骏蟀
 			//	battlePetButtonFlag = TRUE;
-				// �Хå����å׳��ڻ�
+				// バックアップ初期化
 			//	battleWazaTargetBak = -1;
 			//}
 			
-			// �ΤΥץ�������
+			// 次のプロセスへ
 			SubProcNo++;
 		}else
-		// ��˥�`�����ʤ��r���ץ쥤��`����Ǥ�r
+		// メニュ`出さないr、プレイヤ`死んでるr
 		if( BattleBpFlag & BATTLE_BP_PET_MENU_NON || 
 			//BattleBpFlag & BATTLE_BP_PLAYER_MENU_NON || 
 			p_party[ BattleMyNo ]->hp <= 0 || 
 			battlePlayerEscFlag == TRUE ){
 			
-			// �ڥåȺΤ⤷�ʤ�������
+			// ペット何もしないを送信
 			lssproto_B_send( sockfd, "W|FF|FF" );
-			// ������ȥ�����ե饰�ϣƣ�
+			// カウントダウンフラグＯＦＦ
 			BattleCntDownFlag = FALSE;
-			// �ڥåȤ�������äƤ�����
+			// ペットが入れ替わっていたら
 			//if( pc.battlePetNo != battlePetNoBak ){
-				// �Ԅӥܥ���
+				// 自鹰堀骏蟀
 			//	battlePetButtonFlag = TRUE;
-				// �Хå����å׳��ڻ�
+				// バックアップ初期化
 			//	battleWazaTargetBak = -1;
 			//}
-			// �ΤΥץ�������
+			// 次のプロセスへ
 			SubProcNo++;
 		}else{
-			// �ڥåȥ�˥�`�ե饰�ϣ�	
+			// ペットメニュ`フラグＯＮ	
 			battleMenuFlag |= BATTLE_MENU_PET;
-			// ���ڻ�
+			// 初期化
 			battleMenuReturn = FALSE; 
-			// �Ԅӥܥ���ؤä���
+			// 自鹰堀骏螭丐盲长
 			//battlePetButtonFlag = TRUE;
 
-			// ������ɥ��_����
+			// ウィンドウ_く音
 			play_se( 202, 320, 240 );
-			// ���֤ε������ж����ڻ�
+			// 文字の当たり判定初期化
 			//for( i = 0 ; i < BATTLE_BUTTON_SUU ; i++ ) battleButtonDispNo[ i ] = -2;
-			// �������ж��ܥå�������
+			// 当たり判定ボックス消す
 			ClearBoxFlag();
 	
-			// �����Ť�����r
+			// 技番号があるr
 			if( battleWazaTargetBak != -1 ){
-				// ���ҥåȥܥå����򥻥åȤ���
+				// 技ヒットボックスをセットする
 				BattleSetWazaHitBox( BattleWazaNo );
 			}
 	
 		}
-		// �ե饰���ڻ�
+		// フラグ初期化
 		//BattleBpFlag &= ~BATTLE_BP_PLAYER_MENU_NON;
 		BattleBpFlag &= ~BATTLE_BP_PET_MENU_NON;
-		// �ե饰�ϣƣ�
+		// フラグＯＦＦ
 		battlePetMenuFlag = FALSE;
 	}
 	
-	// �ڥåȥ�˥�` *************************************************************/
+	// ペットメニュ` *************************************************************/
 	if( battleMenuFlag & BATTLE_MENU_PET ){ 
 		
-		// ��˥�`����ʤ��r
+		// メニュ`椁胜r
 		if( battleMenuReturn == FALSE ){
 			
-			// �ܥ�����F
+			// ボタン出F
 			if( buttonA > 0 ){
-				buttonA--;	// ���ٶȥץ饹
-				buttonX -= buttonA; // �ƄӄI��
+				buttonA--;	// 加速度プラス
+				buttonX -= buttonA; // 移I理
 			}
-			// �ܥ���I��
-			BattleButtonWaza();	// ���ܥ���
-			// ���åܥ���
+			// ボタンI理
+			BattleButtonWaza();	// 技ボタン
+			// 氓堀骏
 			//if( joy_trg[ 1 ] & JOY_F12 ){ 
-			//	BattleButtonOff();				// �Ȥꤢ����ȫ�ƣϣƣƤˤ���
-				// ��������
+			//	BattleButtonOff();				// とりあえず全てＯＦＦにする
+				// 防御送信
 			//	lssproto_B_send( sockfd, "@" );
-				// �ե饰���ڻ�
+				// フラグ初期化
 			//	battleMenuFlag = FALSE;
-				// ��ؤΥܥ���ӛ��
+				// 今回のボタン
 			//	battleButtonBak = -1;
-				// ǰ�ؤΥܥ�����ڻ�
+				// 前回のボタン初期化
 			//	battleButtonBak2 = -1;
-				// ������ɥ��]������
+				// ウィンドウ]じる音
 			//	play_se( 203, 320, 240 );
 			//}
-			// �ҥ���å����줿�r�Хȥ�ܥ���򤹤٤ƣϣƣƤˤ���
+			// 右クリックされたrバトルボタンをすべてＯＦＦにする
 			//if( mouse.onceState & MOUSE_RIGHT_CRICK ) BattleButtonOff();
 			
-			// �ҥ���å����줿�r�Хȥ�ܥ���򤹤٤ƣϣƣƤˤ���
+			// 右クリックされたrバトルボタンをすべてＯＦＦにする
 			if( mouse.onceState & MOUSE_RIGHT_CRICK ){ 
 				
-				// ���ܥ���ϣ�
+				// 技ボタンＯＮ
 				battlePetButtonFlag = TRUE;
-				// �Хå����å׳��ڻ�
+				// バックアップ初期化
 				battleWazaTargetBak = -1;
 			}
-		}else{	// �ܥ��������
+		}else{	// ボタン画面外へ
 			if( buttonA <= 25 ){
-				buttonA++;	// ���ٶȥץ饹
-				buttonX += buttonA; // �ƄӄI��
+				buttonA++;	// 加速度プラス
+				buttonX += buttonA; // 移I理
 			}else{
-				// ���������������
-				// �ܥå����ե饰����
+				// 画面外に消えたら
+				// ボックスフラグ消す
 				ClearBoxFlag();
-				// �ե饰���ڻ�
+				// フラグ初期化
 				battleTargetSelectFlag = FALSE;
 				battleMenuFlag = FALSE;
-				// ���ޥ�ɷ��ų��ڻ�
+				// コマンド番号初期化
 				//BattleCmdNo = -1;
-				// �ܥ���ե饰ȫ���ڻ�
+				// ボタンフラグ全初期化
 				//ClearBattleButton();
-				// �ЄӽK�˥ե饰���Ƥ�
+				// 行咏K了フラグ立てる
 				p_party[ BattleMyNo + 5 ]->atr |= ACT_ATR_BTL_CMD_END;
-				// �ΤΥץ�������
+				// 次のプロセスへ
 				SubProcNo++;
 			}
 		}
-		// �F���x�k���Ƥ��뼼��ʾ
-		// �������ä���
+		// F在xkしている技表示
+		// 技があったら
 		if( battleWazaTargetBak != -1 ){
 			sprintf( moji,"%-24s",petSkill[ battlePetNoBak ][ BattleWazaNo ].name );
-			//sprintf( moji,"%s","������������������������" );
+			//sprintf( moji,"%s","０１２３４５６７８９１２" );
 			//CenteringStr( petSkill[ battlePetNoBak ][ BattleWazaNo ].name, moji, SKILL_NAME_LEN );
 			StockFontBuffer( buttonX - 100, buttonY - 7, FONT_PRIO_FRONT, 0, moji, 0 );
-			// ����󥻥�ܥ����ʾ
+			// キャンセルボタン表示
 			battleButtonDispNo[ 8 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_PET_BTL_BUTTON_CANCEL_UP, 2 );
 		}else{
-			// �ܥ�����ʾ
+			// ボタンを表示
 			battleButtonDispNo[ 8 ] = StockDispBuffer( buttonX, buttonY, DISP_PRIO_IME3, CG_PET_BTL_BUTTON_WAZA_UP + battleButtonFlag[ 8 ], 2 );
 		}
-		// �ܥ���Υ٩`��
+		// ボタンのベ`ス
 		StockDispBuffer( buttonX, buttonY, DISP_PRIO_MENU, CG_PET_BTL_BUTTON_BASE, 0 );
 	}
 	
-	// ������ȥ������ʾ�ȥ�ߥåȥ����å�
+	// カウントダウン表示とリミットチェック
 	BattleCntDownDisp();
 }
 

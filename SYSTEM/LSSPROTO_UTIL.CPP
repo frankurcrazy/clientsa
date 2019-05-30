@@ -15,7 +15,7 @@ long lssproto_ringoDecompressor( unsigned char *text , long textlen , unsigned c
 /*
   lsrpc routines
 */
-int lssproto_AllocateCommonWork(int bufsiz)//³õÊ¼»¯·ÖÅä¹¤×÷Ïß³Ì£¿£¿£¿
+int lssproto_AllocateCommonWork(int bufsiz)//åˆå§‹åŒ–åˆ†é…å·¥ä½œçº¿ç¨‹ï¼Ÿï¼Ÿï¼Ÿ
 {
 	lssproto.workbufsize = bufsiz;
 	lssproto.work = NULL;
@@ -64,7 +64,7 @@ int lssproto_AllocateCommonWork(int bufsiz)//³õÊ¼»¯·ÖÅä¹¤×÷Ïß³Ì£¿£¿£¿
 	return 0;
 }
 /**********
-  Get message information from a network input µÃµ½·şÎñ¶ËÏûÏ¢´¦Àí£¿
+  Get message information from a network input å¾—åˆ°æœåŠ¡ç«¯æ¶ˆæ¯å¤„ç†ï¼Ÿ
 **********/
 void lssproto_GetMessageInfo( int *id , char *funcname , int len, char **tk )
 {
@@ -483,7 +483,7 @@ void lssproto_DebugSend( int fd , char *msg )
 {
 	lssproto_Send( fd, msg );
 }
-void lssproto_Send( int fd , char *msg )//³¬¼¶ÖØµã·¢ËÍº¯Êı
+void lssproto_Send( int fd , char *msg )//è¶…çº§é‡ç‚¹å‘é€å‡½æ•°
 {
     char *encoded;
 	if( lssproto_writelogfilename[0] != '\0' ){
@@ -491,9 +491,9 @@ void lssproto_Send( int fd , char *msg )//³¬¼¶ÖØµã·¢ËÍº¯Êı
 		if(wfp)fprintf( wfp , "%s\n", msg );
 		if(wfp)fclose(wfp);
 	}
-#ifdef lssproto__ENCRYPT //¼ÓÃÜº¯Êı
+#ifdef lssproto__ENCRYPT //åŠ å¯†å‡½æ•°
     encoded = lssproto.cryptwork;
-    lssproto_encodeString( msg , encoded , lssproto.workbufsize*3 );//ÕâÀïÊÇ¿Í»§¶Ë¼ÓÃÜº¯Êı£¿
+    lssproto_encodeString( msg , encoded , lssproto.workbufsize*3 );//è¿™é‡Œæ˜¯å®¢æˆ·ç«¯åŠ å¯†å‡½æ•°ï¼Ÿ
 #else
     encoded = msg;
 #endif
@@ -571,7 +571,7 @@ void lssproto_bcopy(char*s , char *d , int siz )
         *(d+siz-1-i)=*(s+siz-1-i);
     }
 }
-#ifdef lssproto__ENCRYPT  //¼ÓÃÜµÄ£¿£¿
+#ifdef lssproto__ENCRYPT  //åŠ å¯†çš„ï¼Ÿï¼Ÿ
 /* define function body only if the macro is set( but it's default) */
 static void lssproto_encode64( unsigned char *in , int i, unsigned char *out );
 static int lssproto_decode64( unsigned char *in , unsigned char *out );
@@ -580,7 +580,7 @@ static void lssproto_jEncode(char *src,int srclen,int key,char *encoded,int *enc
 //#define JENCODE_KEY    9922 
 #define JENCODE_KEY    51526931 
 
-/* translate original lsrpc text to code64 text ³¬¼¶ÖØµã  ¼ÓÃÜº¯ÊıÔÚÕâÀï£¿*/
+/* translate original lsrpc text to code64 text è¶…çº§é‡ç‚¹  åŠ å¯†å‡½æ•°åœ¨è¿™é‡Œï¼Ÿ*/
 static void lssproto_encodeString( char *src , char *out , int maxoutlen )
 {
 	//src="NDaf370d3wSJlYkYfDeazjc3MTeazpo3MTc3ac6acgOg1TcxN3KgA3KazppyA6CDOCA1xNE";
@@ -836,7 +836,7 @@ static void lssproto_jDecode(char *src,int srclen,int key,char *decoded,int *dec
 }
 
 /*****************************************************************/
-/*       Compress / Decompress routine          ³£¹æÑ¹Ëõ½âÑ¹Ëõ   */
+/*       Compress / Decompress routine          å¸¸è§„å‹ç¼©è§£å‹ç¼©   */
 /*****************************************************************/	
 #define B00000000 0
 #define B00000001 1
@@ -1244,7 +1244,7 @@ long lssproto_ringoCompressor( unsigned char *code , long codelen ,
 {
     NODE node[NODE_SIZE];
     int freeNode;        
-    int w,k;        /* used in this algo Ëã·¨£¿£¿*/
+    int w,k;        /* used in this algo ç®—æ³•ï¼Ÿï¼Ÿ*/
     int textind;    /* index to text buffer */
     int i;
     int position = 0;   /* indicates the last byte of code buffer */

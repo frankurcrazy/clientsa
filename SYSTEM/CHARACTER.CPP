@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* WIN32_LEAN_AND_MEAN¤òdefine¤¹¤ë¤ÈWINDOWS.H¤Î¤¦¤Á
-¤Î¤¢¤Ş¤êÊ¹¤ï¤ì¤Ê¤¤²¿·Ö¤¬¥¤¥ó¥¯¥ë©`¥É¤µ¤ì¤Ê¤¯¤Ê¤Ã¤Æ
-¤Á¤ç¤Ã¤È¤À¤±¥³¥ó¥Ñ¥¤¥ë¤¬¤Ï¤ä¤¯¤Ê¤ë */
+/* WIN32_LEAN_AND_MEANã‚’defineã™ã‚‹ã¨WINDOWS.Hã®ã†ã¡
+ã®ã‚ã¾ã‚Šä½¿ã‚ã‚Œãªã„éƒ¨åˆ†ãŒã‚¤ãƒ³ã‚¯ãƒ«`ãƒ‰ã•ã‚Œãªããªã£ã¦
+ã¡ã‚‡ã£ã¨ã ã‘ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒã¯ã‚„ããªã‚‹ */
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 #include <math.h>
@@ -24,7 +24,7 @@
 #include "anim_tbl.h"
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«
 enum
 {
 	CHAROBJ_USE_FREE,
@@ -33,19 +33,19 @@ enum
 };
 #define MAX_CHAROBJ	1000
 CHAROBJ charObj[MAX_CHAROBJ];
-int maxCharObj;		// µÇåhÊı
-int tailCharObj;	// ¥Æ©`¥Ö¥ë¤Î×îááÎ²Î»ÖÃ
-int freeCharObj;	// ¿Õ¤­¥Æ©`¥Ö¥ëÎ»ÖÃ
-int searchCharObj;	// —ÊË÷Î»ÖÃ
+int maxCharObj;		// ç™»hæ•°
+int tailCharObj;	// ãƒ†`ãƒ–ãƒ«ã®æœ€å¾Œå°¾ä½ç½®
+int freeCharObj;	// ç©ºããƒ†`ãƒ–ãƒ«ä½ç½®
+int searchCharObj;	// ä»•é­‘æ¢
 
 
-// ¥­¥ã¥é¤´¤È¤Ë¥Ş©`¥¯¤Î¸ß¤µ¤ò‰ä¤¨¤ë
+// ã‚­ãƒ£ãƒ©ã”ã¨ã«ãƒ`ã‚¯ã®é«˜ã•ã‚’æµƒÃ 
 int charIconOffsetY[12] =
 {
 	-71, -88, -84, -88, -96, -102, -88, -88, -88, -85, -85, -88
 };
 
-// ¥Ğ¥È¥ë¥¢¥¤¥³¥ó
+// ãƒãƒˆãƒ«ã‚¢ã‚¤ã‚³ãƒ³
 int battleIconTbl[][2] =
 {
 	{  CG_VS_MARK_1A,  CG_VS_MARK_1B },
@@ -64,7 +64,7 @@ int battleIconTbl[][2] =
 void charProc( ACTION * );
 
 
-// ¥­¥ã¥é¥¯¥¿¥¢¥¯¥·¥ç¥ó¤Î¥Ç¥Õ¥©¥ë¥È
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
 void charProc( ACTION *ptAct )
 {
 	float mx, my;
@@ -73,15 +73,15 @@ void charProc( ACTION *ptAct )
 	CHAREXTRA *ext;
 
 
-	// ÒÆ„Ó„IÀí
-	// PCÒÔÍâ¤Î¥­¥ã¥é¤Ï×ÔÇ°¤ÇÒÆ„Ó„IÀí
-	// PC¤Ï¥Ş¥Ã¥×ÒÆ„Ó¤Î½Y¹û¤òÈë¤ì¤Æ¤â¤é¤Ã¤ÆÒÆ„Ó¤¹¤ë
+	// ç§»Iç†
+	// PCä»¥å¤–ã®ã‚­ãƒ£ãƒ©ã¯è‡ªå‰ã§ç§»Iç†
+	// PCã¯ãƒãƒƒãƒ—ç§»å©´è°“Yæœã‚’å…¥ã‚Œã¦ã‚‚ã‚‰ã£ã¦ç§»å©´å·¥
 	if( pc.ptAct != ptAct )
 	{
 		ext = (CHAREXTRA *)ptAct->pYobi;
 		no = ext->charObjTblId;
 
-		// ¥Ñ©`¥Æ¥£¤ËÈë¤Ã¤Æ¤¤¤Ê¤¤¥­¥ã¥é¤À¤±„IÀí¤¹¤ë
+		// ãƒ‘`ãƒ†ã‚£ã«å…¥ã£ã¦ã„ãªã„ã‚­ãƒ£ãƒ©ã ã‘Iç†ã™ã‚‹
 		if( (charObj[no].status & CHR_STATUS_PARTY) == 0 )
 		{
 			charMove( ptAct );
@@ -99,16 +99,16 @@ void charProc( ACTION *ptAct )
 #endif
 	}
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;
 
 
-	// ¥¹¥Æ©`¥¿¥¹¥¨¥Õ¥§¥¯¥È±íÊ¾
+	// ã‚¹ãƒ†`ã‚¿ã‚¹ã‚¨ãƒ•ã‚§ã‚¯ãƒˆè¡¨ç¤º
 	drawCharStatus( ptAct );
 
-	// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 	if( ptAct->anim_no == ANIM_HAND
 	 || ptAct->anim_no == ANIM_HAPPY
 	 || ptAct->anim_no == ANIM_ANGRY
@@ -132,7 +132,7 @@ void charProc( ACTION *ptAct )
 		{
 			S2 xx, yy, ww, hh;
 
-			// »­ÃæÄÚ¤Ê¤é„IÀí¤¹¤ë
+			// ç”»é¢å†…ãªã‚‰Iç†ã™ã‚‹
 			realGetPos( ptAct->bmpNo, &xx, &yy );
 			realGetWH( ptAct->bmpNo, &ww, &hh );
 			xx += ptAct->x;
@@ -148,17 +148,17 @@ void charProc( ACTION *ptAct )
 
 
 #if 0
-	// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+	// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 	setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y, 0, 0, ptAct->mx, ptAct->my );
 #else
 	if( 20000 <= ptAct->anim_chr_no && ptAct->anim_chr_no <= 24999 )
 	{
-		// ¥¢¥¤¥Æ¥à
+		// ã‚¢ã‚¤ãƒ†ãƒ 
 
 #if 1
 		if( pc.ptAct != ptAct )
 		{
-			// ¹ ‡ìÍâ¤Ë³ö¤¿¤é¤«¤Ã¤Æ¤ËÏû¤¹
+			// ç„±çŒ¡é¡ºè¨¾éƒ¡æ¤ç›²çš®è®¼
 			if( ptAct->gx < nowGx-16 || nowGx+16 < ptAct->gx
 			 || ptAct->gy < nowGy-16 || nowGy+16 < ptAct->gy )
 			{
@@ -168,10 +168,10 @@ void charProc( ACTION *ptAct )
 		}
 #endif
 
-		// Í¬¤¸Î»ÖÃ¤Ë¤¢¤ë•r¤Ï±íÊ¾¤·¤Ê¤¤
+		// åŒã˜ä½ç½®ã«ã‚ã‚‹rã¯è¡¨ç¤ºã—ãªã„
 		if( !itemOverlapCheck( ptAct->bmpNo, ptAct->gx, ptAct->gy ) )
 		{
-			// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+			// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 			setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y, 0, 0, ptAct->mx, ptAct->my );
 			ptAct->atr &= (~ACT_ATR_HIDE);
 		}
@@ -182,49 +182,49 @@ void charProc( ACTION *ptAct )
 	}
 	else
 	{
-		// ¥¢¥¤¥Æ¥à¤¸¤ã¤Ê¤¤
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚¢ã‚¤ãƒ†ãƒ ã˜ã‚ƒãªã„
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y, 0, 0, ptAct->mx, ptAct->my );
 	}
 #endif
 }
 
 
-// ¥­¥ã¥é¥¯¥¿¤Î¥¢¥¯¥·¥ç¥ó×÷³É
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 ACTION *createCharAction( int graNo, int gx, int gy, int dir )
 {
 	ACTION *ptAct;
 	float mx, my;
 
-	/* ¥¢¥¯¥·¥ç¥ó¥ê¥¹¥È¤ËµÇåh */
+	/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆã«ç™»h */
 	ptAct = GetAction( PRIO_CHR, sizeof( CHAREXTRA ) );
 	if( ptAct == NULL )
 		return NULL;
 
-	// ŒgĞĞévÊı
+	// gè¡Œvæ•°
 	ptAct->func = charProc;
-	// ¥°¥é¥Õ¥£¥Ã¥¯¤Î·¬ºÅ
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®ç•ªå·
 	ptAct->anim_chr_no = graNo;
-	// „Ó×÷·¬ºÅ
+	// å¹¼é£
 	ptAct->anim_no = ANIM_STAND;
-	// ¥¢¥Ë¥á©`¥·¥ç¥óÏò¤­( £°¡«£· )( ÏÂ¤¬£°¤ÇÓÒ»Ø¤ê )
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³å‘ã( ï¼ï½ï¼— )( ä¸‹ãŒï¼ã§å³å›ã‚Š )
 	ptAct->anim_ang = dir;
-	// ±íÊ¾ƒÏÈ¶È
+	// è¡¨ç¤ºå…ˆåº¦
 	ptAct->dispPrio = DISP_PRIO_CHAR;
-	// 1ĞĞ¥¤¥ó¥Õ¥©±íÊ¾¥Õ¥é¥°
+	// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	ptAct->atr = ACT_ATR_INFO |	ACT_ATR_HIT | ACT_ATR_HIDE2;
-	// ³õÆÚÎ»ÖÃ
-	ptAct->nextGx = gx;					// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨ÒÆ„ÓÏÈ£©
+	// åˆæœŸä½ç½®
+	ptAct->nextGx = gx;					// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€ã„’é…‰é¾‹
 	ptAct->nextGy = gy;
 	ptAct->bufCount = 0;
-	ptAct->gx = gx;						// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨¬FÔÚµØ£©
+	ptAct->gx = gx;						// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€Ã¬Fåœ¨åœ°ï¼‰
 	ptAct->gy = gy;
-	ptAct->mx = (float)gx * GRID_SIZE;	// ¥Ş¥Ã¥××ù˜Ë
+	ptAct->mx = (float)gx * GRID_SIZE;	// ãƒãƒƒãƒ—åº§
 	ptAct->my = (float)gy * GRID_SIZE;
-	ptAct->vx = 0;						// ÒÆ„Ó‰ˆ·Ö
+	ptAct->vx = 0;						// ç§»åˆ†
 	ptAct->vy = 0;
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;
@@ -233,20 +233,20 @@ ACTION *createCharAction( int graNo, int gx, int gy, int dir )
 }
 
 
-// ¥­¥ã¥é¤ÎÒÆ„ÓÏÈ¤ò¥Ğ¥Ã¥Õ¥¡¤Ë¤¿¤á¤ë
+// ã‚­ãƒ£ãƒ©ã®ç§»é…‰è¶£é¢”å•¸æ°“æ¦¨ãƒ»æ‘”éƒ¡å¹›
 void stockCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 {
 	if( ptAct == NULL )
 		return;
 
-	// ¥Ğ¥Ã¥Õ¥¡¤¬¿Õ¤¤¤Æ¤¤¤¿¤é¤¿¤á¤ë
+	// ãƒãƒƒãƒ•ã‚¡ãŒç©ºã„ã¦ã„ãŸã‚‰ãŸã‚ã‚‹
 	if( ptAct->bufCount < sizeof( ptAct->bufGx )/sizeof( int ) )
 	{
 		ptAct->bufGx[ptAct->bufCount] = nextGx;
 		ptAct->bufGy[ptAct->bufCount] = nextGy;
 		ptAct->bufCount++;
 	}
-	// ¥Ğ¥Ã¥Õ¥¡¤¬Ò»±­¤Ê¤Î¤Ç¥ï©`¥×¤µ¤»¤ë
+	// ãƒãƒƒãƒ•ã‚¡ãŒä¸€æ¯ãªã®ã§ãƒ¯`ãƒ—ã•ã›ã‚‹
 	else
 	{
 		ptAct->bufCount = 0;
@@ -255,8 +255,8 @@ void stockCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 }
 
 
-// ¥­¥ã¥é¤ÎÒÆ„ÓÏÈ¤ò¥Ğ¥Ã¥Õ¥¡¤Ë¤¿¤á¡¢ÑaÕı¤Î±ØÒª¤¬¤¢¤ì¤ĞÑaÕı¤¹¤ë
-//£¨¤¿¤Ş¤Ë¥µ©`¥Ğ¤«¤é£±¥°¥ê¥Ã¥Éïw¤Ğ¤·¤¿‚¤¬À´¤ë¤Î¤òÑaÕı¤¹¤ë£©
+// ã‚­ãƒ£ãƒ©ã®ç§»é…‰è¶£é¢”å•¸æ°“æ¦¨ãƒ»æ‘”éƒ¡å¸·â’€aæ­£ã®å¿…è¦ãŒã‚ã‚Œã°aæ­£ã™ã‚‹
+//ï¼ˆãŸã¾ã«ã‚µ`ãƒã‹ã‚‰ï¼‘ã‚°ãƒªãƒƒãƒ‰wã°ã—ãŸææ¯ªéŸ¦èœ“aæ­£ã™ã‚‹ï¼‰
 void correctCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 {
 	int dx, dy;
@@ -268,8 +268,8 @@ void correctCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 	if( ptAct == NULL )
 		return;
 
-	// ÑaÕı¤¬±ØÒª¤«¥Á¥§¥Ã¥¯
-	// ¥Ğ¥Ã¥Õ¥¡¤¬¿Õ¤Î¤È¤­¤Ï¥­¥ã¥é¤Înext¤È±Èİ^¤¹¤ë
+	// aæ­£ãŒå¿…è¦ã‹ãƒã‚§ãƒƒã‚¯
+	// ãƒãƒƒãƒ•ã‚¡ãŒç©ºã®ã¨ãã¯ã‚­ãƒ£ãƒ©ã®nextã¨æ¯”^ã™ã‚‹
 	if( ptAct->bufCount <= 0 )
 	{
 		nextGx2 = ptAct->nextGx;
@@ -311,7 +311,7 @@ void correctCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 	nCnt++;
 
 
-	// ¥Ğ¥Ã¥Õ¥¡¤¬¿Õ¤¤¤Æ¤¤¤¿¤é¤¿¤á¤ë
+	// ãƒãƒƒãƒ•ã‚¡ãŒç©ºã„ã¦ã„ãŸã‚‰ãŸã‚ã‚‹
 	if( ptAct->bufCount+nCnt <= sizeof( ptAct->bufGx )/sizeof( int ) )
 	{
 		for( i = 0; i < nCnt; i++ )
@@ -321,7 +321,7 @@ void correctCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 			ptAct->bufCount++;
 		}
 	}
-	// ¥Ğ¥Ã¥Õ¥¡¤¬Ò»±­¤Ê¤Î¤Ç¥ï©`¥×¤µ¤»¤ë
+	// ãƒãƒƒãƒ•ã‚¡ãŒä¸€æ¯ãªã®ã§ãƒ¯`ãƒ—ã•ã›ã‚‹
 	else
 	{
 		ptAct->bufCount = 0;
@@ -331,7 +331,7 @@ void correctCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 }
 
 
-// ¥­¥ã¥é¤ÎÒÆ„ÓÏÈÔO¶¨
+// ã‚­ãƒ£ãƒ©ã®ç§»é…‰ä»Oå®š
 void setCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 {
 	float dir1;
@@ -434,7 +434,7 @@ void _setCharMovePoint( ACTION *ptAct, int nextGx, int nextGy )
 }
 
 
-// ´Î¤Î×ù˜Ë¥Ğ¥Ã¥Õ¥¡¤ò¥·¥Õ¥È¤¹¤ë
+// æ¬¡ã®åº§è¡°å•¸æ°“æ¦¨ãƒ»é¢”ä¼æ¦¨è¶£å·¥
 void shiftBufCount( ACTION *ptAct )
 {
 	int i;
@@ -453,7 +453,7 @@ void shiftBufCount( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥éÒÆ„Ó„IÀí
+// ã‚­ãƒ£ãƒ©ç§»Iç†
 void charMove( ACTION *ptAct )
 {
 	float mx, my;
@@ -464,10 +464,10 @@ void charMove( ACTION *ptAct )
 	mx = (float)ptAct->nextGx*GRID_SIZE;
 	my = (float)ptAct->nextGy*GRID_SIZE;
 
-	// ¥°¥ê¥Ã¥É¤ÎÖĞĞÄ¤ËÀ´¤¿¤é´Î¤ÎÒÆ„ÓÏÈ¤òÔO¶¨¤¹¤ë
+	// ã‚°ãƒªãƒƒãƒ‰ã®ä¸­å¿ƒã«æ¥ãŸã‚‰æ¬¡ã®ç§»é…‰è¶£è›ŸOå®šã™ã‚‹
 	if( mx == ptAct->mx && my == ptAct->my )
 	{
-		// ¥Ğ¥Ã¥Õ¥¡¤Ë´Î¤Î×ù˜Ë¤¬¤¢¤ë¤Î¤ÇÔO¶¨
+		// ãƒãƒƒãƒ•ã‚¡ã«æ¬¡ã®åº§æ‘”æ¯ªéŸ¦çªƒOå®š
 		if( ptAct->bufCount > 0 )
 		{
 			setCharMovePoint( ptAct, ptAct->bufGx[0], ptAct->bufGy[0] );
@@ -478,10 +478,10 @@ void charMove( ACTION *ptAct )
 	mx = (float)ptAct->nextGx*GRID_SIZE;
 	my = (float)ptAct->nextGy*GRID_SIZE;
 
-	// ÒÆ„ÓÖĞ¤«£¿
+	// ç§»åˆè‚–
 	if( ptAct->vx != 0 || ptAct->vy != 0 )
 	{
-		// Ä¿µÄµØ¤Ë×Å¤¤¤¿¤é¥Ñ¥é¥á©`¥¿³õÆÚ»¯
+		// ç›®çš„åœ°ã«ç€ã„ãŸã‚‰ãƒ‘ãƒ©ãƒ¡`ã‚¿åˆæœŸåŒ–
 		if( pointLen2( ptAct->mx, ptAct->my, mx, my )
 			<= ptAct->vx*ptAct->vx+ptAct->vy*ptAct->vy )
 		{
@@ -490,18 +490,18 @@ void charMove( ACTION *ptAct )
 			ptAct->vx = 0;
 			ptAct->vy = 0;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		else
 		{
 			ptAct->mx += ptAct->vx;
 			ptAct->my += ptAct->vy;
 		}
-		// ÒÆ„Ó¥¢¥Ë¥á
+		// ç§»é¹°è¡°
 		ptAct->anim_no = ANIM_WALK;
 	}
 	else
 	{
-		// ši¤­„Ó×÷¤òÁ¢¤Á×´‘B¤Ø
+		// iãå¹¼é³è›„ç£·Bã¸
 		if( ptAct->walkFlag != 0 )
 			ptAct->anim_no = ANIM_STAND;
 		ptAct->walkFlag = 0;
@@ -512,7 +512,7 @@ void charMove( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥éÒÆ„Ó„IÀí£¨ÒÆ„Ó„IÀí¤À¤±£©
+// ã‚­ãƒ£ãƒ©ç§»Iç†ï¼ˆç§»Iç†ã ã‘ï¼‰
 void charMove2( ACTION *ptAct )
 {
 	float mx, my;
@@ -523,10 +523,10 @@ void charMove2( ACTION *ptAct )
 	mx = (float)ptAct->nextGx*GRID_SIZE;
 	my = (float)ptAct->nextGy*GRID_SIZE;
 
-	// ÒÆ„ÓÖĞ¤«£¿
+	// ç§»åˆè‚–
 	if( ptAct->vx != 0 || ptAct->vy != 0 )
 	{
-		// Ä¿µÄµØ¤Ë×Å¤¤¤¿¤é¥Ñ¥é¥á©`¥¿³õÆÚ»¯
+		// ç›®çš„åœ°ã«ç€ã„ãŸã‚‰ãƒ‘ãƒ©ãƒ¡`ã‚¿åˆæœŸåŒ–
 		if( pointLen2( ptAct->mx, ptAct->my, mx, my )
 			<= ptAct->vx*ptAct->vx+ptAct->vy*ptAct->vy )
 		{
@@ -535,18 +535,18 @@ void charMove2( ACTION *ptAct )
 			ptAct->vx = 0;
 			ptAct->vy = 0;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		else
 		{
 			ptAct->mx += ptAct->vx;
 			ptAct->my += ptAct->vy;
 		}
-		// ÒÆ„Ó¥¢¥Ë¥á
+		// ç§»é¹°è¡°
 		ptAct->anim_no = ANIM_WALK;
 	}
 	else
 	{
-		// ši¤­„Ó×÷¤òÁ¢¤Á×´‘B¤Ø
+		// iãå¹¼é³è›„ç£·Bã¸
 		if( ptAct->walkFlag != 0 )
 			ptAct->anim_no = ANIM_STAND;
 		ptAct->walkFlag = 0;
@@ -557,7 +557,7 @@ void charMove2( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥éÒÆ„Ó„IÀí£¨ÒÆ„Ó„IÀí¤À¤±£©
+// ã‚­ãƒ£ãƒ©ç§»Iç†ï¼ˆç§»Iç†ã ã‘ï¼‰
 void _charMove( ACTION *ptAct )
 {
 	float mx, my;
@@ -569,13 +569,13 @@ void _charMove( ACTION *ptAct )
 	mx = (float)ptAct->nextGx*GRID_SIZE;
 	my = (float)ptAct->nextGy*GRID_SIZE;
 
-	// ÒÆ„ÓÖĞ¤«£¿
+	// ç§»åˆè‚–
 	if( ptAct->vx != 0 || ptAct->vy != 0 )
 	{
 		vx = ptAct->vx * nowSpdRate;
 		vy = ptAct->vy * nowSpdRate;
 
-		// Ä¿µÄµØ¤Ë×Å¤¤¤¿¤é¥Ñ¥é¥á©`¥¿³õÆÚ»¯
+		// ç›®çš„åœ°ã«ç€ã„ãŸã‚‰ãƒ‘ãƒ©ãƒ¡`ã‚¿åˆæœŸåŒ–
 		if( pointLen2( ptAct->mx, ptAct->my, mx, my )
 			<= vx*vx+vy*vy )
 		{
@@ -584,18 +584,18 @@ void _charMove( ACTION *ptAct )
 			ptAct->vx = 0;
 			ptAct->vy = 0;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		else
 		{
 			ptAct->mx += vx;
 			ptAct->my += vy;
 		}
-		// ÒÆ„Ó¥¢¥Ë¥á
+		// ç§»é¹°è¡°
 		ptAct->anim_no = ANIM_WALK;
 	}
 	else
 	{
-		// ši¤­„Ó×÷¤òÁ¢¤Á×´‘B¤Ø
+		// iãå¹¼é³è›„ç£·Bã¸
 		if( ptAct->walkFlag != 0 )
 			ptAct->anim_no = ANIM_STAND;
 		ptAct->walkFlag = 0;
@@ -606,7 +606,7 @@ void _charMove( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤Î¥ï©`¥×ÏÈÔO¶¨
+// ã‚­ãƒ£ãƒ©ã®ãƒ¯`ãƒ—å…ˆOå®š
 void setCharWarpPoint( ACTION *ptAct, int gx, int gy )
 {
 	if( ptAct == NULL )
@@ -626,16 +626,16 @@ void setCharWarpPoint( ACTION *ptAct, int gx, int gy )
 }
 
 
-// ¥¹¥Æ©`¥¿¥¹¥Ó¥Ã¥È¤ÎÔO¶¨
+// ã‚¹ãƒ†`ã‚¿ã‚¹ãƒ“ãƒƒãƒˆã®Oå®š
 //
-//   status : ¥¹¥Æ©`¥¿¥¹¥Ó¥Ã¥È¤Î¥İ¥¤¥ó¥¿
-//   smsg   : ¥¹¥Æ©`¥¿¥¹ÇéˆóÎÄ×ÖÁĞ
+//   status : ã‚¹ãƒ†`ã‚¿ã‚¹ãƒ“ãƒƒãƒˆã®ãƒã‚¤ãƒ³ã‚¿
+//   smsg   : ã‚¹ãƒ†`ã‚¿ã‚¹æƒ…ç¬ªæ·–è‡³
 //
-//  smsg¤ò½âÎö¤·status¤ËÔO¶¨¤¹¤ë
+//  smsgã‚’è§£æã—statusã«Oå®šã™ã‚‹
 //
 void setCharStatus( unsigned short *status, char *smsg )
 {
-	// ¶¾
+	// æ¯’
 	if( strstr( smsg, "P" ) )
 	{
 		*status |= CHR_STATUS_P;
@@ -644,7 +644,7 @@ void setCharStatus( unsigned short *status, char *smsg )
 	{
 		*status &= (~CHR_STATUS_P);
 	}
-	// Âé¯w
+	// éº»w
 	if( strstr( smsg, "N" ) )
 	{
 		*status |= CHR_STATUS_N;
@@ -653,7 +653,7 @@ void setCharStatus( unsigned short *status, char *smsg )
 	{
 		*status &= (~CHR_STATUS_N);
 	}
-	// Éòüa
+	// æ²ˆa
 	if( strstr( smsg, "Q" ) )
 	{
 		*status |= CHR_STATUS_Q;
@@ -662,7 +662,7 @@ void setCharStatus( unsigned short *status, char *smsg )
 	{
 		*status &= (~CHR_STATUS_Q);
 	}
-	// Ê¯»¯
+	// çŸ³åŒ–
 	if( strstr( smsg, "S" ) )
 	{
 		*status |= CHR_STATUS_S;
@@ -671,7 +671,7 @@ void setCharStatus( unsigned short *status, char *smsg )
 	{
 		*status &= (~CHR_STATUS_S);
 	}
-	// °µéœ
+	// æš—
 	if( strstr( smsg, "D" ) )
 	{
 		*status |= CHR_STATUS_D;
@@ -680,7 +680,7 @@ void setCharStatus( unsigned short *status, char *smsg )
 	{
 		*status &= (~CHR_STATUS_D);
 	}
-	// »ìÂÒ
+	// æ··ä¹±
 	if( strstr( smsg, "C" ) )
 	{
 		*status |= CHR_STATUS_C;
@@ -692,7 +692,7 @@ void setCharStatus( unsigned short *status, char *smsg )
 }
 
 
-// ¥­¥ã¥é¤ò¥ê©`¥À©`¤Ë¤¹¤ë
+// ã‚­ãƒ£ãƒ©ã‚’ãƒª`ãƒ€`ã«ã™ã‚‹
 void setCharLeader( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -707,7 +707,7 @@ void setCharLeader( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤ò¥ê©`¥À©`¤«¤é¤ä¤á¤µ¤»¤ë¡£
+// ã‚­ãƒ£ãƒ©ã‚’ãƒª`ãƒ€`ã‹ã‚‰ã‚„ã‚ã•ã›ã‚‹ã€‚
 void delCharLeader( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -722,7 +722,7 @@ void delCharLeader( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤ò¥Ñ©`¥Æ¥£©`¤ÎÒ»†T¤Ë¤¹¤ë
+// ã‚­ãƒ£ãƒ©ã‚’ãƒ‘`ãƒ†ã‚£`ã®ä¸€Tã«ã™ã‚‹
 void setCharParty( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -737,7 +737,7 @@ void setCharParty( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤ò¥Ñ©`¥Æ¥£©`¤«¤é¤ä¤á¤µ¤»¤ë¡£
+// ã‚­ãƒ£ãƒ©ã‚’ãƒ‘`ãƒ†ã‚£`ã‹ã‚‰ã‚„ã‚ã•ã›ã‚‹ã€‚
 void delCharParty( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -752,7 +752,7 @@ void delCharParty( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤òÓQ‘é×´‘B¤Ë¤¹¤ë
+// ã‚­ãƒ£ãƒ©ã‚’Qæ¨½Bã«ã™ã‚‹
 void setCharWatch( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -767,7 +767,7 @@ void setCharWatch( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤òÓQ‘é×´‘B¤«¤éÔª¤Ë¤â¤É¤¹
+// ã‚­ãƒ£ãƒ©ã‚’Qæ¨½Bã‹ã‚‰å…ƒã«ã‚‚ã©ã™
 void delCharWatch( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -782,7 +782,7 @@ void delCharWatch( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤¬‘éêLÖĞ
+// ã‚­ãƒ£ãƒ©ãŒæ®›Lä¸­
 void setCharBattle( ACTION *ptAct, int battleNo, short sideNo, short helpMode )
 {
 	CHAREXTRA *ext;
@@ -810,7 +810,7 @@ void setCharBattle( ACTION *ptAct, int battleNo, short sideNo, short helpMode )
 }
 
 
-// ¥­¥ã¥é¤¬‘éêL½KÁË
+// ã‚­ãƒ£ãƒ©ãŒæ®›LKäº†
 void delCharBattle( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -825,7 +825,7 @@ void delCharBattle( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤¬…âĞg¥¨¥Õ¥§¥¯¥È¤ò³ö¤¹
+// ã‚­ãƒ£ãƒ©ãŒåº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‡ºã™
 void setCharUseMagic( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -840,8 +840,8 @@ void setCharUseMagic( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤¬…âĞg¥¨¥Õ¥§¥¯¥È¤ò³ö¤·¤¿¤é¤¹¤°¤Ë¤³¤ì¤Ç
-// ¥Õ¥é¥°¤ò¤ª¤í¤¹
+// ã‚­ãƒ£ãƒ©ãŒåº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‡ºã—ãŸã‚‰ã™ãã«ã“ã‚Œã§
+// ãƒ•ãƒ©ã‚°ã‚’ãŠã‚ã™
 void delCharUseMagic( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -856,7 +856,7 @@ void delCharUseMagic( ACTION *ptAct )
 }
 
 
-// ¥­¥ã¥é¤Ë´µ¤­³ö¤·¤ò³ö¤¹
+// ã‚­ãƒ£ãƒ©ã«å¹ãå‡ºã—ã‚’å‡ºã™
 void setCharFukidashi( ACTION *ptAct, unsigned int offTime )
 {
 	CHAREXTRA *ext;
@@ -872,7 +872,7 @@ void setCharFukidashi( ACTION *ptAct, unsigned int offTime )
 }
 
 
-// ¥¹¥Æ©`¥¿¥¹¤Î±íÊ¾
+// ã‚¹ãƒ†`ã‚¿ã‚¹ã®è¡¨ç¤º
 void drawCharStatus( ACTION *ptAct )
 {
 	CHAREXTRA *ext;
@@ -890,7 +890,7 @@ void drawCharStatus( ACTION *ptAct )
 
 	if( pc.ptAct != NULL && pc.ptAct == ptAct )
 	{
-		// £Ğ£Ã¥­¥ã¥é¤Î•r
+		// ï¼°ï¼£ã‚­ãƒ£ãƒ©ã®r
 		status = pc.status;
 		battleNo = 0;
 		sideNo = 0;
@@ -904,60 +904,60 @@ void drawCharStatus( ACTION *ptAct )
 		helpMode = charObj[no].helpMode;
 	}
 
-	// ¥Ğ¥È¥ë¥Ş©`¥¯
+	// ãƒãƒˆãƒ«ãƒ`ã‚¯
 	if( (status & CHR_STATUS_BATTLE) != 0 )
 	{
 		int no;
 		U4 bmpNo;
 
 		no = (ptAct->anim_chr_no - SPR_001em) / 20;
-		no %= 12;	// ±©×ß¤·¤Ê¤¤¤è¤¦Äî¤Î¤¿¤á
+		no %= 12;	// æš´èµ°ã—ãªã„ã‚ˆã†å¿µã®ãŸã‚
 
 		realGetNo( battleIconTbl[(battleNo%10)][(sideNo%1)], &bmpNo );
 
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( bmpNo, ptAct->x, ptAct->y, 0, charIconOffsetY[no], ptAct->mx, ptAct->my );
 	}
 
-	// ÓQ‘é¥Ş©`¥¯
+	// Qæ¥—è•`ã‚¯
 	if( (status & CHR_STATUS_WATCH) != 0 )
 	{
 		int no;
 		U4 bmpNo;
 
 		no = (ptAct->anim_chr_no - SPR_001em) / 20;
-		no %= 12;	// ±©×ß¤·¤Ê¤¤¤è¤¦Äî¤Î¤¿¤á
+		no %= 12;	// æš´èµ°ã—ãªã„ã‚ˆã†å¿µã®ãŸã‚
 
 		realGetNo( CG_ICON_WATCHING, &bmpNo );
 
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( bmpNo, ptAct->x, ptAct->y, 0, charIconOffsetY[no], ptAct->mx, ptAct->my );
 	}
 
-	// ¥Ø¥ë¥×¥Ş©`¥¯
+	// ãƒ˜ãƒ«ãƒ—ãƒ`ã‚¯
 	if( (status & CHR_STATUS_HELP) != 0 )
 	{
 		int no;
 		U4 bmpNo;
 
 		no = (ptAct->anim_chr_no - SPR_001em) / 20;
-		no %= 12;	// ±©×ß¤·¤Ê¤¤¤è¤¦Äî¤Î¤¿¤á
+		no %= 12;	// æš´èµ°ã—ãªã„ã‚ˆã†å¿µã®ãŸã‚
 
 		realGetNo( CG_SPEECH_HELP, &bmpNo );
 
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( bmpNo, ptAct->x, ptAct->y, 0, charIconOffsetY[no]-20, ptAct->mx, ptAct->my );
 	}
 
 
-	// ¥ê©`¥À©`¥Ş©`¥¯
-	//£¨¥Ğ¥È¥ë¥Ş©`¥¯³ö¤ë•r¤ÏÏû¤¹£©
-	//£¨ÓQ‘é¥Ş©`¥¯³ö¤ë•r¤ÏÏû¤¹£©
+	// ãƒª`ãƒ€`ãƒ`ã‚¯
+	//ï¼ˆãƒãƒˆãƒ«ãƒ`ã‚¯å‡ºã‚‹rã¯æ¶ˆã™ï¼‰
+	//ï¼ˆQæ¥—è•`ã‚¯å‡ºã‚‹rã¯æ¶ˆã™ï¼‰
 	if( (status & CHR_STATUS_LEADER) != 0
 	 && ext->ptActLeaderMark == NULL
 	 && ((status & CHR_STATUS_BATTLE) == 0 || (status & CHR_STATUS_WATCH) == 0) )
 	{
-		// ¥ê©`¥À©`¥Ş©`¥¯±íÊ¾ÓÃ¥¢¥¯¥·¥ç¥ó×÷³É
+		// ãƒª`ãƒ€`ãƒ`ã‚¯è¡¨ç¤ºç”¨ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 		ext->ptActLeaderMark =
 			createCommmonEffectAction( SPR_leader, ptAct->gx, ptAct->gy, 0, 0, DISP_PRIO_CHAR );
 	}
@@ -965,7 +965,7 @@ void drawCharStatus( ACTION *ptAct )
 	if( ((status & CHR_STATUS_LEADER) == 0 || (status & CHR_STATUS_BATTLE) != 0)
 	 && ext->ptActLeaderMark != NULL )
 	{
-		// ¥ê©`¥À©`¥Ş©`¥¯±íÊ¾ÓÃ¥¢¥¯¥·¥ç¥óÄ¨Ïû
+		// ãƒª`ãƒ€`ãƒ`ã‚¯è¡¨ç¤ºç”¨ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æŠ¹æ¶ˆ
 		DeathAction( ext->ptActLeaderMark );
 		ext->ptActLeaderMark = NULL;
 	}
@@ -976,28 +976,28 @@ void drawCharStatus( ACTION *ptAct )
 		int no;
 
 		no = (ptAct->anim_chr_no - SPR_001em) / 20;
-		no %= 12;	// ±©×ß¤·¤Ê¤¤¤è¤¦Äî¤Î¤¿¤á
+		no %= 12;	// æš´èµ°ã—ãªã„ã‚ˆã†å¿µã®ãŸã‚
 
-		// ¥ê©`¥À©`¥Ş©`¥¯¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
+		// ãƒª`ãƒ€`ãƒ`ã‚¯ã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
 		ext->ptActLeaderMark->x  = ptAct->x;
 		ext->ptActLeaderMark->y  = ptAct->y;
 		ext->ptActLeaderMark->mx = ptAct->mx;
 		ext->ptActLeaderMark->my = ptAct->my;
 
-		// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+		// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 		pattern( ext->ptActLeaderMark, ANM_NOMAL_SPD, ANM_LOOP );
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( ext->ptActLeaderMark->bmpNo,
 			ext->ptActLeaderMark->x, ext->ptActLeaderMark->y, 0, charIconOffsetY[no],
 				ext->ptActLeaderMark->mx, ext->ptActLeaderMark->my );
 	}
 
 
-	// …âĞg¥¨¥Õ¥§¥¯¥È
+	// åº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	if( (status & CHR_STATUS_USE_MAGIC) != 0
 	 && ext->ptActMagicEffect == NULL )
 	{
-		// …âĞg¥¨¥Õ¥§¥¯¥È±íÊ¾ÓÃ¥¢¥¯¥·¥ç¥ó×÷³É
+		// åº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆè¡¨ç¤ºç”¨ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 		ext->ptActMagicEffect =
 			createCommmonEffectAction( SPR_effect01, ptAct->gx, ptAct->gy+1, 0, 0, DISP_PRIO_CHAR );
 		if( pc.ptAct != NULL && pc.ptAct == ptAct )
@@ -1012,30 +1012,30 @@ void drawCharStatus( ACTION *ptAct )
 	else
 	if( ext->ptActMagicEffect != NULL )
 	{
-		// …âĞg¥¨¥Õ¥§¥¯¥È¤Î¥¢¥Ë¥á©`¥·¥ç¥ó
+		// åº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³
 		ext->ptActMagicEffect->x  = ptAct->x;
 		ext->ptActMagicEffect->y  = ptAct->y;
 		ext->ptActMagicEffect->mx = ptAct->mx;
 		ext->ptActMagicEffect->my = ptAct->my;
 
-		// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+		// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 		if( pattern( ext->ptActMagicEffect, ANM_NOMAL_SPD, ANM_NO_LOOP ) == 0 )
 		{
-			// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+			// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 			setCharPrio( ext->ptActMagicEffect->bmpNo,
 				ext->ptActMagicEffect->x, ext->ptActMagicEffect->y+1, 0, 0,
 				ext->ptActMagicEffect->mx, ext->ptActMagicEffect->my );
 		}
 		else
 		{
-			// ¥¢¥Ë¥á©`¥·¥ç¥ó¥ë©`¥×½K¤ï¤ê
+			// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ãƒ«`ãƒ—Kã‚ã‚Š
 			DeathAction( ext->ptActMagicEffect );
 			ext->ptActMagicEffect = NULL;
 		}
 	}
 
 
-	// ´µ¤­³ö¤·¥Ş©`¥¯
+	// å¹ãå‡ºã—ãƒ`ã‚¯
 	if( (status & CHR_STATUS_FUKIDASHI) != 0 )
 	{
 		if( ext->drawFukidashiTime > GetTickCount() )
@@ -1050,17 +1050,17 @@ void drawCharStatus( ACTION *ptAct )
 			if( SPR_001em <= ptAct->anim_chr_no
 			 && ptAct->anim_chr_no <= SPR_114bw )
 			{
-				// ¥×¥ì¥¤¥ä©`¥­¥ã¥é¤Ê¤é¤³¤Ã¤Á
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤`ã‚­ãƒ£ãƒ©ãªã‚‰ã“ã£ã¡
 				no = (ptAct->anim_chr_no - SPR_001em) / 20;
-				no %= 12;	// ±©×ß¤·¤Ê¤¤¤è¤¦Äî¤Î¤¿¤á
+				no %= 12;	// æš´èµ°ã—ãªã„ã‚ˆã†å¿µã®ãŸã‚
 
-				// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+				// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 				setCharPrio( bmpNo, ptAct->x, ptAct->y,
 					20, charIconOffsetY[no], ptAct->mx, ptAct->my );
 			}
 			else
 			{
-				// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+				// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 				setCharPrio( bmpNo, ptAct->x, ptAct->y,
 					20, -84, ptAct->mx, ptAct->my );
 			}
@@ -1076,40 +1076,40 @@ void drawCharStatus( ACTION *ptAct )
 
 
 
-// »ù±¾¥¨¥Õ¥§¥¯¥È±íÊ¾„IÀí /////////////////////////////////////////////////
+// åŸºæœ¬ã‚¨ãƒ•ã‚§ã‚¯ãƒˆè¡¨ç¤ºIç† /////////////////////////////////////////////////
 ACTION *createCommmonEffectAction( int graNo, int gx, int gy, int anim, int dir, int prio )
 {
 	ACTION *ptAct;
 	float mx, my;
 
-	/* ¥¢¥¯¥·¥ç¥ó¥ê¥¹¥È¤ËµÇåh */
+	/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆã«ç™»h */
 	ptAct = GetAction( PRIO_CHR, 0 );
 	if( ptAct == NULL )
 		return NULL;
 
-	// ŒgĞĞévÊı
+	// gè¡Œvæ•°
 //	ptAct->func = charProc;
-	// ¥°¥é¥Õ¥£¥Ã¥¯¤Î·¬ºÅ
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®ç•ªå·
 	ptAct->anim_chr_no = graNo;
-	// „Ó×÷·¬ºÅ
+	// å¹¼é£
 	ptAct->anim_no = anim;
-	// ¥¢¥Ë¥á©`¥·¥ç¥óÏò¤­( £°¡«£· )( ÏÂ¤¬£°¤ÇÓÒ»Ø¤ê )
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³å‘ã( ï¼ï½ï¼— )( ä¸‹ãŒï¼ã§å³å›ã‚Š )
 	ptAct->anim_ang = dir;
-	// ±íÊ¾ƒÏÈ¶È
+	// è¡¨ç¤ºå…ˆåº¦
 	ptAct->dispPrio = prio;
-	// 1ĞĞ¥¤¥ó¥Õ¥©±íÊ¾¥Õ¥é¥°
+	// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	ptAct->atr = ACT_ATR_HIDE2;
-	// ³õÆÚÎ»ÖÃ
-	ptAct->nextGx = gx;					// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨ÒÆ„ÓÏÈ£©
+	// åˆæœŸä½ç½®
+	ptAct->nextGx = gx;					// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€ã„’é…‰é¾‹
 	ptAct->nextGy = gy;
-	ptAct->gx = gx;						// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨¬FÔÚµØ£©
+	ptAct->gx = gx;						// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€Ã¬Fåœ¨åœ°ï¼‰
 	ptAct->gy = gy;
-	ptAct->mx = (float)gx * GRID_SIZE;	// ¥Ş¥Ã¥××ù˜Ë
+	ptAct->mx = (float)gx * GRID_SIZE;	// ãƒãƒƒãƒ—åº§
 	ptAct->my = (float)gy * GRID_SIZE;
-	ptAct->vx = 0;						// ÒÆ„Ó‰ˆ·Ö
+	ptAct->vx = 0;						// ç§»åˆ†
 	ptAct->vy = 0;
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;
@@ -1118,26 +1118,26 @@ ACTION *createCommmonEffectAction( int graNo, int gx, int gy, int anim, int dir,
 }
 
 
-// »ù±¾¥¨¥Õ¥§¥¯¥È±íÊ¾„IÀí£¨¥ë©`¥×¤·¤Ê¤¤£© /////////////////////////////////
-// ¥¢¥Ë¥á©`¥·¥ç¥ó¤ò£±¥ë©`¥×¤·¤¿¤é¥¢¥¯¥·¥ç¥ó¤ò½KÁË¤¹¤ë
+// åŸºæœ¬ã‚¨ãƒ•ã‚§ã‚¯ãƒˆè¡¨ç¤ºIç†ï¼ˆãƒ«`ãƒ—ã—ãªã„ï¼‰ /////////////////////////////////
+// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ã‚’ï¼‘ãƒ«`ãƒ—ã—ãŸã‚‰ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’Käº†ã™ã‚‹
 void commmonEffectNoLoop( ACTION *ptAct )
 {
 	float mx, my;
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;
 
-	// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 	if( pattern( ptAct, ANM_NOMAL_SPD, ANM_NO_LOOP ) == 0 )
 	{
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y+1, 0, 0, ptAct->mx, ptAct->my );
 	}
 	else
 	{
-		// ¥¢¥Ë¥á©`¥·¥ç¥ó½K¤ï¤Ã¤¿¤Î¤Ç¥¢¥¯¥·¥ç¥ó½K¤ï¤ë
+		// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Kã‚ã£ãŸã®ã§ã‚¢ã‚¯ã‚·ãƒ§ãƒ³Kã‚ã‚‹
 		DeathAction( ptAct );
 		ptAct = NULL;
 	}
@@ -1150,34 +1150,34 @@ ACTION *createCommmonEffectNoLoop( int graNo, int gx, int gy, int anim, int dir,
 	ACTION *ptAct;
 	float mx, my;
 
-	/* ¥¢¥¯¥·¥ç¥ó¥ê¥¹¥È¤ËµÇåh */
+	/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆã«ç™»h */
 	ptAct = GetAction( PRIO_CHR, 0 );
 	if( ptAct == NULL )
 		return NULL;
 
-	// ŒgĞĞévÊı
+	// gè¡Œvæ•°
 	ptAct->func = commmonEffectNoLoop;
-	// ¥°¥é¥Õ¥£¥Ã¥¯¤Î·¬ºÅ
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®ç•ªå·
 	ptAct->anim_chr_no = graNo;
-	// „Ó×÷·¬ºÅ
+	// å¹¼é£
 	ptAct->anim_no = anim;
-	// ¥¢¥Ë¥á©`¥·¥ç¥óÏò¤­( £°¡«£· )( ÏÂ¤¬£°¤ÇÓÒ»Ø¤ê )
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³å‘ã( ï¼ï½ï¼— )( ä¸‹ãŒï¼ã§å³å›ã‚Š )
 	ptAct->anim_ang = dir;
-	// ±íÊ¾ƒÏÈ¶È
+	// è¡¨ç¤ºå…ˆåº¦
 	ptAct->dispPrio = prio;
-	// 1ĞĞ¥¤¥ó¥Õ¥©±íÊ¾¥Õ¥é¥°
+	// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	ptAct->atr = ACT_ATR_HIDE2;
-	// ³õÆÚÎ»ÖÃ
-	ptAct->nextGx = gx;					// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨ÒÆ„ÓÏÈ£©
+	// åˆæœŸä½ç½®
+	ptAct->nextGx = gx;					// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€ã„’é…‰é¾‹
 	ptAct->nextGy = gy;
-	ptAct->gx = gx;						// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨¬FÔÚµØ£©
+	ptAct->gx = gx;						// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€Ã¬Fåœ¨åœ°ï¼‰
 	ptAct->gy = gy;
-	ptAct->mx = (float)gx * GRID_SIZE;	// ¥Ş¥Ã¥××ù˜Ë
+	ptAct->mx = (float)gx * GRID_SIZE;	// ãƒãƒƒãƒ—åº§
 	ptAct->my = (float)gy * GRID_SIZE;
-	ptAct->vx = 0;						// ÒÆ„Ó‰ˆ·Ö
+	ptAct->vx = 0;						// ç§»åˆ†
 	ptAct->vy = 0;
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;
@@ -1188,7 +1188,7 @@ ACTION *createCommmonEffectNoLoop( int graNo, int gx, int gy, int anim, int dir,
 
 
 
-// ¥­¥ã¥é„Ó×÷‰ä¸ü /////////////////////////////////////////////////////////
+// ã‚­ãƒ£ãƒ©å¹¼æ¶“ /////////////////////////////////////////////////////////
 void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 								int effectno, int effectparam1, int effectparam2 )
 {
@@ -1205,16 +1205,16 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 
 	switch( action )
 	{
-		// Á¢¤Á×´‘B
+		// ç«‹ã¡çŠ¶B
 		case 0:
 #if 0
 #if 1
-			// ÖÙég×´‘B¤ÎÈË¤Ë¤ÏÍ¨³££¨ÌØÊâ¤Ê•r¤Ï„e£©¤Ï¤³¤Ê¤¤¤Î¤Ç
-			// ¤³¤Á¤é¤Î„IÀí¤ÇÁ¼¤¤
+			// ä»²gçŠ¶Bã®äººã«ã¯é€šå¸¸ï¼ˆç‰¹æ®Šãªrã¯eï¼‰ã¯ã“ãªã„ã®ã§
+			// ã“ã¡ã‚‰ã®Iç†ã§è‰¯ã„
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->bufCount = 0;
 #else
-			// NPC¤¬¥Ñ©`¥Æ¥£¤ËÈë¤Ã¤Æ¤Ê¤¤•r¤À¤±„IÀí
+			// NPCãŒãƒ‘`ãƒ†ã‚£ã«å…¥ã£ã¦ãªã„rã ã‘Iç†
 			if( (charObj[no].status & CHR_STATUS_PARTY) == 0 )
 			{
 				setCharWarpPoint( ptAct, x, y );
@@ -1227,15 +1227,15 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ¥ï©`¥×
+		// ãƒ¯`ãƒ—
 		case 31:
 #if 1
-			// ÖÙég×´‘B¤ÎÈË¤Ë¤ÏÍ¨³££¨ÌØÊâ¤Ê•r¤Ï„e£©¤Ï¤³¤Ê¤¤¤Î¤Ç
-			// ¤³¤Á¤é¤Î„IÀí¤ÇÁ¼¤¤
+			// ä»²gçŠ¶Bã®äººã«ã¯é€šå¸¸ï¼ˆç‰¹æ®Šãªrã¯eï¼‰ã¯ã“ãªã„ã®ã§
+			// ã“ã¡ã‚‰ã®Iç†ã§è‰¯ã„
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->bufCount = 0;
 #else
-			// NPC¤¬¥Ñ©`¥Æ¥£¤ËÈë¤Ã¤Æ¤Ê¤¤•r¤À¤±„IÀí
+			// NPCãŒãƒ‘`ãƒ†ã‚£ã«å…¥ã£ã¦ãªã„rã ã‘Iç†
 			if( (charObj[no].status & CHR_STATUS_PARTY) == 0 )
 			{
 				setCharWarpPoint( ptAct, x, y );
@@ -1248,9 +1248,9 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			charObj[no].stockDir = -1;
 			break;
 
-		// ·½ÏòÜ“Q
+		// æ–¹å‘Q
 		case 30:
-#if 1		// ¬FÔÚµØ¤È×ù˜Ë¤¬ß`¤¦¤Ê¤éši¤«¤»¤ë
+#if 1		// Fåœ¨åœ°ã¨åº§æ‘”`ã†ãªã‚‰iã‹ã›ã‚‹
 			charObj[no].stockDir = dir;
 			charObj[no].stockDirX = x;
 			charObj[no].stockDirY = y;
@@ -1264,13 +1264,13 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			break;
 #endif
 
-		// ši¤¯
+		// iã
 		case 1:
-			// NPC¤¬¥ê©`¥À¤Î•r¤ÏÒÆ„ÓˆöËù¤ò¥¹¥¿¥Ã¥¯¤ËÈë¤ì¤Æ„IÀí¤¹¤ë
+			// NPCãŒãƒª`ãƒ€ã®rã¯ç§»éŠé¢”æ”»éªæ°“å·³æ¯ªæ¬·Iç†ã™ã‚‹
 			if( (charObj[no].status & CHR_STATUS_PARTY) != 0
 			 && (charObj[no].status & CHR_STATUS_LEADER) != 0 )
 			{
-				// ¥Ğ¥Ã¥Õ¥¡¤¬¿Õ¤¤¤Æ¤¤¤¿¤é¤¿¤á¤ë
+				// ãƒãƒƒãƒ•ã‚¡ãŒç©ºã„ã¦ã„ãŸã‚‰ãŸã‚ã‚‹
 				if( ptAct->bufCount < sizeof( ptAct->bufGx )/sizeof( int ) )
 				{
 //					stockCharMovePoint( ptAct, x, y );
@@ -1278,24 +1278,24 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 				}
 				else
 				{
-					// ¥Ğ¥Ã¥Õ¥¡¤¬Ò»±­¤Î•r¤Ïëx¤ì¤¹¤®¤Æ¤¤¤ë¤Î¤Ç¥ï©`¥×¤µ¤»¤ë
+					// ãƒãƒƒãƒ•ã‚¡ãŒä¸€æ¯ã®rã¯xã‚Œã™ãã¦ã„ã‚‹ã®ã§ãƒ¯`ãƒ—ã•ã›ã‚‹
 					stockCharMovePoint( ptAct, x, y );
 					charObj[no].stockDir = -1;
 
-					// ÖÙég¤âÒ»¾w¤Ë¥ï©`¥×
+					// ä»²gã‚‚ä¸€wã«ãƒ¯`ãƒ—
 					for( i = 1; i < MAX_PARTY; i++ )
 					{
 						if( party[i].useFlag != 0 )
 						{
 							if( party[i].id != pc.id )
 							{
-								// £Î£Ğ£Ã¤Î•r
+								// ï¼®ï¼°ï¼£ã®r
 								party[i].ptAct->bufCount = 0;
 								setCharWarpPoint( party[i].ptAct, x, y );
 							}
 							else
 							{
-								// £Ğ£Ã¤Î•r
+								// ï¼°ï¼£ã®r
 								if( pc.ptAct != NULL )
 								{
 									pc.ptAct->bufCount = 0;
@@ -1309,8 +1309,8 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			else
 
 #if 0
-// ½ñ¤ÏÖÙég¤Î•r¤Ë¤³¤Î„IÀí¤Ë¤³¤Ê¤¤
-			// ¥Ñ©`¥Æ¥£ši¤­¤Î•r¤ÏŸoÒ•¤¹¤ë£¨moveProc¤ÇÈë¤ì¤Æ¤â¤é¤¦£©
+// ä»Šã¯ä»²gã®rã«ã“ã®Iç†ã«ã“ãªã„
+			// ãƒ‘`ãƒ†ã‚£iãã®rã¯oã™ã‚‹ï¼ˆmoveProcã§å…¥ã‚Œã¦ã‚‚ã‚‰ã†ï¼‰
 			if( (charObj[no].status & CHR_STATUS_PARTY) == 0 )
 #endif
 			{
@@ -1320,7 +1320,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			//ptAct->anim_ang = dir;
 			break;
 
-		// ¹¥“Ä
+		// æ”»
 		case 2:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_ATTACK;
@@ -1328,14 +1328,14 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// Í¶¤²¤ë
+		// æŠ•ã’ã‚‹
 		case 3:
 			ptAct->anim_no = ANIM_THROW;
 			ptAct->anim_no_bak = -1;
 			ptAct->anim_ang = dir;
 			break;
 
-		// ¥À¥á©`¥¸
+		// ãƒ€ãƒ¡`ã‚¸
 		case 4:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_DAMAGE;
@@ -1343,7 +1343,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ËÀÍö
+		// æ­»äº¡
 		case 5:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_DEAD;
@@ -1351,19 +1351,19 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// Ä§·¨Ê¹¤¦
+		// é­”æ³•ä½¿ã†
 		case 6:
 			break;
 
-		// ¥¢¥¤¥Æ¥àÊ¹¤¦
+		// ã‚¢ã‚¤ãƒ†ãƒ ä½¿ã†
 		case 7:
 			break;
 
-		// ¥¨¥Õ¥§¥¯¥È
+		// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 		case 8:		/* UsedMagic */
 			break;
 
-		// µ¹¤ì¤ë
+		// å€’ã‚Œã‚‹
 		case 10:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_DEAD;
@@ -1371,7 +1371,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ×ù¤ë
+		// åº§ã‚‹
 		case 11:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_SIT;
@@ -1379,7 +1379,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ÊÖ¤òÕñ¤ë
+		// æ‰‹ã‚’æŒ¯ã‚‹
 		case 12:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_HAND;
@@ -1387,7 +1387,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// Ï²¤Ö
+		// å–œã¶
 		case 13:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_HAPPY;
@@ -1395,7 +1395,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// Å­¤ë
+		// æ€’ã‚‹
 		case 14:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_ANGRY;
@@ -1403,7 +1403,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ±¯¤·¤à
+		// æ‚²ã—ã‚€
 		case 15:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_SAD;
@@ -1411,7 +1411,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ¥¬©`¥É
+		// ã‚¬`ãƒ‰
 		case 16:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_GUARD;
@@ -1419,14 +1419,14 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ši¤¯£¨„Ó×÷¤À¤±£©
+		// iãï¼ˆå¹¼é³å¤ä¿
 		case 17:
 			ptAct->anim_no = ANIM_WALK;
 			ptAct->anim_no_bak = -1;
 			ptAct->anim_ang = dir;
 			break;
 
-		// ¤¦¤Ê¤º¤¯
+		// ã†ãªãšã
 		case 18:
 			setCharWarpPoint( ptAct, x, y );
 			ptAct->anim_no = ANIM_NOD;
@@ -1435,12 +1435,12 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			break;
 
 
-		// ‘éêLÇéˆó
+		// æ®›Læƒ…
 		case 20:
 			if( effectno >= 0 )
 			{
 				setCharBattle( ptAct, effectno, effectparam1, effectparam2 );
-				// Á¢¤Á¥¢¥Ë¥á¤Ë¤«¤¨¤ë
+				// ç«‹ã¡ã‚¢ãƒ‹ãƒ¡ã«ã‹ãˆã‚‹
 				ptAct->anim_no = ANIM_STAND;
 				ptAct->anim_no_bak = -1;
 			}
@@ -1452,7 +1452,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ¥ê©`¥À©`Çéˆó
+		// ãƒª`ãƒ€`æƒ…
 		case 21:
 			if( effectno == 1 )
 			{
@@ -1466,7 +1466,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 			ptAct->anim_ang = dir;
 			break;
 
-		// ÓQ‘éÇéˆó
+		// Qæ¦
 		case 22:
 			if( effectno == 1 )
 			{
@@ -1485,7 +1485,7 @@ void changeCharAct( ACTION *ptAct, int x, int y, int dir, int action,
 
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë„IÀí /////////////////////////////////////////////////
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«Iç† /////////////////////////////////////////////////
 void charObjProc( void )
 {
 #if 0
@@ -1493,7 +1493,7 @@ void charObjProc( void )
 
 	for( i = 0; i < tailCharObj; i++ )
 	{
-		// ±íÊ¾¤µ¤ì¤Æ¤¤¤Ê¤¤¤Ê¤é±íÊ¾¤¹¤ë
+		// è¡¨ç¤ºã•ã‚Œã¦ã„ãªã„ãªã‚‰è¡¨ç¤ºã™ã‚‹
 		if( charObj[i].use == CHAROBJ_USE_STAY )
 		{
 			charObj[i].ptAct = createCharAction( charObj[i].graNo, charObj[i].gx, charObj[i].gy, 0 );
@@ -1507,8 +1507,8 @@ void charObjProc( void )
 }
 
 
-// ID—ÊË÷
-// ‘ø¤ê‚£º 0ÒÔÉÏ ... ID¤Î¤¢¤ëÎ»ÖÃ / -1 ... Ÿo¤«¤Ã¤¿
+// IDä»•
+//  0ä»¥ä¸Š ... IDã®ã‚ã‚‹ä½ç½® / -1 ... oã‹ã£ãŸ
 int searchCharObjId( int id )
 {
 	int i;
@@ -1541,8 +1541,8 @@ int searchCharObjId( int id )
 }
 
 
-// ×ù˜Ë—ÊË÷
-// ‘ø¤ê‚£ºTRUE ... ¤½¤³¤ËºÎ¤«¤¢¤ë
+// åº§ä»•
+// TRUE ... ãã“ã«ä½•ã‹ã‚ã‚‹
 BOOL checkCharObjPoint( int gx, int gy, short type )
 {
 	int i;
@@ -1564,10 +1564,10 @@ BOOL checkCharObjPoint( int gx, int gy, short type )
 }
 
 
-// ×ù˜Ë£¦¥¹¥Æ©`¥¿¥¹—ÊË÷
-// ‘ø¤ê‚£º2 ... ¤½¤³¤ËºÎ¤«¤¢¤ê¤½¤Î¥¹¥Æ©`¥¿¥¹
-//         1 ... ¤½¤³¤ËºÎ¤«¤¢¤ë
-//         0 ... ºÎ¤â¤Ê¤¤
+// åº§è€Î•æ”»è­¬`ã‚¿ã‚¹ä»•
+// 2 ... ãã“ã«ä½•ã‹ã‚ã‚Šãã®ã‚¹ãƒ†`ã‚¿ã‚¹
+//         1 ... ãã“ã«ä½•ã‹ã‚ã‚‹
+//         0 ... ä½•ã‚‚ãªã„
 int checkCharObjPointStatus( int gx, int gy, short type, unsigned short status )
 {
 	int i;
@@ -1596,9 +1596,9 @@ int checkCharObjPointStatus( int gx, int gy, short type, unsigned short status )
 }
 
 
-// ×ù˜Ë£¦¥¹¥Æ©`¥¿¥¹—ÊË÷
-// ‘ø¤ê‚£º1 ... ¤½¤Î¥¹¥Æ©`¥¿¥¹¤¸¤ã¤Ê¤¤ºÎ¤«¤¬¤¢¤ë
-//         0 ... ºÎ¤â¤Ê¤¤
+// åº§è€Î•æ”»è­¬`ã‚¿ã‚¹ä»•
+// 1 ... ãã®ã‚¹ãƒ†`ã‚¿ã‚¹ã˜ã‚ƒãªã„ä½•ã‹ãŒã‚ã‚‹
+//         0 ... ä½•ã‚‚ãªã„
 int checkCharObjPointNotStatus( int gx, int gy, short type, unsigned short status )
 {
 	int i;
@@ -1623,9 +1623,9 @@ int checkCharObjPointNotStatus( int gx, int gy, short type, unsigned short statu
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¤ËµÇåh
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ã«ç™»h
 //
-//   NPCÓÃ
+//   NPCç”¨
 //
 void setNpcCharObj( int id, int graNo, int gx, int gy, int dir, 
 char *name, char *freeName, int level, int nameColor, int walk, int height, int charType )
@@ -1634,23 +1634,23 @@ char *name, char *freeName, int level, int nameColor, int walk, int height, int 
 	BOOL existFlag = FALSE;
 	CHAREXTRA *ext;
 
-	// µÇåh¤µ¤ì¤Æ¤¤¤ë¤«¥Á¥§¥Ã¥¯
+	// ç™»hã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	if( (no = searchCharObjId( id )) >= 0 )
 	{
 		existFlag = TRUE;
 	}
 
-	// ¤Ş¤ÀµÇåh¤µ¤ì¤Æ¤¤¤Ê¤¤¤Ê¤éµÇåh
+	// ã¾ã ç™»hã•ã‚Œã¦ã„ãªã„ãªã‚‰ç™»h
 	if( !existFlag )
 	{
 		no = getCharObjBuf();
 		if( no < 0 )
-			return;	// ¥Æ©`¥Ö¥ë¤¬œº¥¿¥ó¤Ê¤é½K¤ï¤ë
+			return;	// ãƒ†`ãƒ–ãƒ«ãŒäº¥éªè­èƒœæ¦»Kã‚ã‚‹
 
 		charObj[no].ptAct = createCharAction( graNo, gx, gy, dir );
 		if( charObj[no].ptAct == NULL )
 		{
-			// µÇåh¤Ç¤­¤Ê¤¤¤Ê¤é½K¤ï¤ë£¨±¾µ±¤Ï¤¢¤Ã¤Æ¤ÏĞĞ¤±¤Ê¤¤£©
+			// ç™»hã§ããªã„ãªã‚‰Kã‚ã‚‹ï¼ˆæœ¬å½“ã¯ã‚ã£ã¦ã¯è¡Œã‘ãªã„ï¼‰
 			return;
 		}
 
@@ -1663,9 +1663,9 @@ char *name, char *freeName, int level, int nameColor, int walk, int height, int 
 		charObj[no].stockDir  = -1;
 	}
 	else
-	// µÇåh¤µ¤ì¤Æ¤¤¤¿¤é‰ä¸ü
+	// ç™»hã•ã‚Œã¦ã„ãŸã‚‰æ¶“
 	{
-		// ÒÆ„Ó¤µ¤»¤ë
+		// ç§»å©´ä¸¹æŠ¤
 #if 0
 		stockCharMovePoint( charObj[no].ptAct, gx, gy );
 		charObj[no].ptAct->anim_chr_no = graNo;
@@ -1699,14 +1699,14 @@ char *name, char *freeName, int level, int nameColor, int walk, int height, int 
 
 	charObj[no].charType = getAtrCharType( charType );
 
-	charObj[no].newFoundFlag = 1;	// ĞÂ°kÒŠ¥Á¥§¥Ã¥¯¤ò¤¹¤ë
+	charObj[no].newFoundFlag = 1;	// æ–°kãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹
 
-	// ¥¢¥¯¥·¥ç¥ó¤¬¤¢¤ë•r¤À¤±‚¤òÈë¤ì¤ë
+	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹rã ã‘è›‰æ¯ªæ¬·
 	if( charObj[no].ptAct == NULL )
 		return;
 
-	// ¥¢¥¯¥·¥ç¥ó¤¬¤¢¤ë•r¤Ë£Ã¥×¥í¥È¥³¥ë¤¬ºô¤Ğ¤ì¤¿¤é
-	// X,Y,DIR¤ÏŸoÒ•¤¹¤ë
+	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹rã«ï¼£ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãŒå‘¼ã°ã‚ŒãŸã‚‰
+	// X,Y,DIRã¯oã™ã‚‹
 	charObj[no].ptAct->anim_chr_no = graNo;
 	charObj[no].ptAct->level = level;
 	charObj[no].ptAct->atr |= charObj[no].charType;
@@ -1724,24 +1724,24 @@ char *name, char *freeName, int level, int nameColor, int walk, int height, int 
 
 
 //
-// ¥Ú¥Ã¥È¥á©`¥ë¤Ç¥Ú¥Ã¥È¤¬‘ø¤Ã¤Æ¤¯¤ë„IÀíÓÃ
+// ãƒšãƒƒãƒˆãƒ¡`ãƒ«ã§ãƒšãƒƒãƒˆãŒç›²çš®Iç†ç”¨
 //
 BOOL setReturnPetObj( int id, int graNo, int gx, int gy, int dir, 
 char *name, char *freeName, int level, int nameColor, int walk, int height, int charType )
 {
 	int no;
 
-	// µÇåh¤µ¤ì¤Æ¤¤¤ë¤«¥Á¥§¥Ã¥¯
+	// ç™»hã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	if( (no = searchCharObjId( id )) >= 0 )
 	{
-		// ¤¤¤¿¤é½K¤ï¤ë
+		// ã„ãŸã‚‰Kã‚ã‚‹
 		return FALSE;
 	}
 
-	// ¤Ş¤ÀµÇåh¤µ¤ì¤Æ¤¤¤Ê¤¤¤Ê¤éµÇåh
+	// ã¾ã ç™»hã•ã‚Œã¦ã„ãªã„ãªã‚‰ç™»h
 	no = getCharObjBuf();
 	if( no < 0 )
-		return FALSE;	// ¥Æ©`¥Ö¥ë¤¬œº¥¿¥ó¤Ê¤é½K¤ï¤ë
+		return FALSE;	// ãƒ†`ãƒ–ãƒ«ãŒäº¥éªè­èƒœæ¦»Kã‚ã‚‹
 
 	charObj[no].ptAct = NULL;
 	charObj[no].use = CHAROBJ_USE_VIEW;
@@ -1780,7 +1780,7 @@ char *name, char *freeName, int level, int nameColor, int walk, int height, int 
 
 
 //
-//   ¥¢¥¤¥Æ¥àÓÃ
+//   ã‚¢ã‚¤ãƒ†ãƒ ç”¨
 //
 void setItemCharObj( int id, int graNo, int gx, int gy, int dir, int classNo, char *info )
 {
@@ -1788,23 +1788,23 @@ void setItemCharObj( int id, int graNo, int gx, int gy, int dir, int classNo, ch
 	BOOL existFlag = FALSE;
 	CHAREXTRA *ext;
 
-	// µÇåh¤µ¤ì¤Æ¤¤¤ë¤«¥Á¥§¥Ã¥¯
+	// ç™»hã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	if( (no = searchCharObjId( id )) >= 0 )
 	{
 		existFlag = TRUE;
 	}
 
-	// ¤Ş¤ÀµÇåh¤µ¤ì¤Æ¤¤¤Ê¤¤¤Ê¤éµÇåh
+	// ã¾ã ç™»hã•ã‚Œã¦ã„ãªã„ãªã‚‰ç™»h
 	if( !existFlag )
 	{
 		no = getCharObjBuf();
 		if( no < 0 )
-			return;	// ¥Æ©`¥Ö¥ë¤¬œº¥¿¥ó¤Ê¤é½K¤ï¤ë
+			return;	// ãƒ†`ãƒ–ãƒ«ãŒäº¥éªè­èƒœæ¦»Kã‚ã‚‹
 
 		charObj[no].ptAct = createCharAction( graNo, gx, gy, dir );
 		if( charObj[no].ptAct == NULL )
 		{
-			// µÇåh¤Ç¤­¤Ê¤¤¤Ê¤é½K¤ï¤ë£¨±¾µ±¤Ï¤¢¤Ã¤Æ¤ÏĞĞ¤±¤Ê¤¤£©
+			// ç™»hã§ããªã„ãªã‚‰Kã‚ã‚‹ï¼ˆæœ¬å½“ã¯ã‚ã£ã¦ã¯è¡Œã‘ãªã„ï¼‰
 			return;
 		}
 
@@ -1817,10 +1817,10 @@ void setItemCharObj( int id, int graNo, int gx, int gy, int dir, int classNo, ch
 		charObj[no].stockDir  = -1;
 	}
 	else
-	// µÇåh¤µ¤ì¤Æ¤¤¤¿¤é‰ä¸ü
+	// ç™»hã•ã‚Œã¦ã„ãŸã‚‰æ¶“
 	{
 #if 0
-		// ÒÆ„Ó¤µ¤»¤ë
+		// ç§»å©´ä¸¹æŠ¤
 		stockCharMovePoint( charObj[no].ptAct, gx, gy );
 		charObj[no].ptAct->anim_ang = dir;
 #endif
@@ -1836,14 +1836,14 @@ void setItemCharObj( int id, int graNo, int gx, int gy, int dir, int classNo, ch
 		strcpy( charObj[no].info, info );
 	}
 	charObj[no].charType = ACT_ATR_TYPE_ITEM;
-	charObj[no].newFoundFlag = 0;	// ĞÂ°kÒŠ¥Á¥§¥Ã¥¯¤ò¤·¤Ê¤¤
+	charObj[no].newFoundFlag = 0;	// æ–°kãƒã‚§ãƒƒã‚¯ã‚’ã—ãªã„
 
-	// ¥¢¥¯¥·¥ç¥ó¤¬¤¢¤ë•r¤À¤±‚¤òÈë¤ì¤ë
+	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹rã ã‘è›‰æ¯ªæ¬·
 	if( charObj[no].ptAct == NULL )
 		return;
 
 	charObj[no].ptAct->anim_chr_no = graNo;
-	// 1ĞĞ¥¤¥ó¥Õ¥©¤Ë³ö¤¹¤¿¤á¤Ëname¤ËÈë¤ì¤ë
+	// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©ã«å‡ºã™ãŸã‚ã«nameã«å…¥ã‚Œã‚‹
 	if( strlen( info ) <= ITEM_NAME_LEN )
 	{
 		strcpy( charObj[no].ptAct->name, info );
@@ -1858,7 +1858,7 @@ void setItemCharObj( int id, int graNo, int gx, int gy, int dir, int classNo, ch
 
 
 //
-//   ¤ª½ğÓÃ
+//   ãŠé‡‘ç”¨
 //
 void setMoneyCharObj( int id, int graNo, int gx, int gy, int dir, int money, char *info )
 {
@@ -1866,24 +1866,24 @@ void setMoneyCharObj( int id, int graNo, int gx, int gy, int dir, int money, cha
 	BOOL existFlag = FALSE;
 	CHAREXTRA *ext;
 
-	// µÇåh¤µ¤ì¤Æ¤¤¤ë¤«¥Á¥§¥Ã¥¯
+	// ç™»hã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	if( (no = searchCharObjId( id )) >= 0 )
 	{
 		existFlag = TRUE;
 	}
 
-	// ¤Ş¤ÀµÇåh¤µ¤ì¤Æ¤¤¤Ê¤¤¤Ê¤éµÇåh
+	// ã¾ã ç™»hã•ã‚Œã¦ã„ãªã„ãªã‚‰ç™»h
 	if( !existFlag )
 	{
 		no = getCharObjBuf();
 		if( no < 0 )
-			return;	// ¥Æ©`¥Ö¥ë¤¬œº¥¿¥ó¤Ê¤é½K¤ï¤ë
+			return;	// ãƒ†`ãƒ–ãƒ«ãŒäº¥éªè­èƒœæ¦»Kã‚ã‚‹
 
 
 		charObj[no].ptAct = createCharAction( graNo, gx, gy, dir );
 		if( charObj[no].ptAct == NULL )
 		{
-			// µÇåh¤Ç¤­¤Ê¤¤¤Ê¤é½K¤ï¤ë£¨±¾µ±¤Ï¤¢¤Ã¤Æ¤ÏĞĞ¤±¤Ê¤¤£©
+			// ç™»hã§ããªã„ãªã‚‰Kã‚ã‚‹ï¼ˆæœ¬å½“ã¯ã‚ã£ã¦ã¯è¡Œã‘ãªã„ï¼‰
 			return;
 		}
 
@@ -1896,10 +1896,10 @@ void setMoneyCharObj( int id, int graNo, int gx, int gy, int dir, int money, cha
 		charObj[no].stockDir  = -1;
 	}
 	else
-	// µÇåh¤µ¤ì¤Æ¤¤¤¿¤é‰ä¸ü
+	// ç™»hã•ã‚Œã¦ã„ãŸã‚‰æ¶“
 	{
 #if 0
-		// ÒÆ„Ó¤µ¤»¤ë
+		// ç§»å©´ä¸¹æŠ¤
 		stockCharMovePoint( charObj[no].ptAct, gx, gy );
 		charObj[no].ptAct->anim_ang = dir;
 #endif
@@ -1915,14 +1915,14 @@ void setMoneyCharObj( int id, int graNo, int gx, int gy, int dir, int money, cha
 		strcpy( charObj[no].info, info );
 	}
 	charObj[no].charType = ACT_ATR_TYPE_GOLD;
-	charObj[no].newFoundFlag = 0;	// ĞÂ°kÒŠ¥Á¥§¥Ã¥¯¤ò¤·¤Ê¤¤
+	charObj[no].newFoundFlag = 0;	// æ–°kãƒã‚§ãƒƒã‚¯ã‚’ã—ãªã„
 
-	// ¥¢¥¯¥·¥ç¥ó¤¬¤¢¤ë•r¤À¤±‚¤òÈë¤ì¤ë
+	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒã‚ã‚‹rã ã‘è›‰æ¯ªæ¬·
 	if( charObj[no].ptAct == NULL )
 		return;
 
 	charObj[no].ptAct->anim_chr_no = graNo;
-	// 1ĞĞ¥¤¥ó¥Õ¥©¤Ë³ö¤¹¤¿¤á¤Ëname¤ËÈë¤ì¤ë
+	// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©ã«å‡ºã™ãŸã‚ã«nameã«å…¥ã‚Œã‚‹
 	if( strlen( info ) <= CHAR_NAME_LEN )
 	{
 		strcpy( charObj[no].ptAct->name, info );
@@ -1936,28 +1936,28 @@ void setMoneyCharObj( int id, int graNo, int gx, int gy, int dir, int money, cha
 
 
 
-// ¥­¥ã¥é¹ÜÀí¥Ğ¥Ã¥Õ¥¡¤ÎÈ¡µÃ
-//  ‘ø¤ê‚£ºcharObjÅäÁĞ¤ÎÌí¤¨•r
-//          -1 ... ¥Ğ¥Ã¥Õ¥¡¤¬¤Ê¤¤
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒãƒƒãƒ•ã‚¡ã®å–å¾—
+//  charObjé…åˆ—ã®æ·»ãˆr
+//          -1 ... ãƒãƒƒãƒ•ã‚¡ãŒãªã„
 int getCharObjBuf( void )
 {
 	int i;
 	int ret;
 
-	// ¥Æ©`¥Ö¥ë¤¬œº¥¿¥ó¤Ê¤é½K¤ï¤ë
+	// ãƒ†`ãƒ–ãƒ«ãŒäº¥éªè­èƒœæ¦»Kã‚ã‚‹
 	if( maxCharObj >= MAX_CHAROBJ )
 		return -1;
 
 	ret = freeCharObj;
 
-	// ×·¼Ó¤·¤¿¤é×î´ó‚¸üĞÂ
+	// è¿½åŠ ã—ãŸã‚‰æœ€å¤§
 	maxCharObj++;
 
-	// ×îááÎ²¤ÎµÇåhÎ»ÖÃ
+	// æœ€å¾Œå°¾ã®ç™»hä½ç½®
 	if( freeCharObj+1 > tailCharObj )
 		tailCharObj = freeCharObj+1;
 
-	// ´Î¤Î¿Õ¤­¤òÒŠ¤Ä¤±¤Æ¤ª¤¯
+	// æ¬¡ã®ç©ºãã‚’ã¤ã‘ã¦ãŠã
 	for( i = freeCharObj+1; i < MAX_CHAROBJ; i++ )
 	{
 		if( charObj[i].use == CHAROBJ_USE_FREE )
@@ -1983,22 +1983,22 @@ int getCharObjBuf( void )
 
 
 
-// ¥­¥ã¥é¤Î·Nî¤«¤éÊôĞÔÓÃ¤Î¥Ñ¥é¥á©`¥¿¤ò×÷¤ë
-//  Òı  Êı£ºtype ... ¥µ©`¥Ğ¤Ç¹ÜÀí¤µ¤ì¤Æ¤¤¤ë·Nî·¬ºÅ
-//  ‘ø¤ê‚£º¥¢¥¯¥·¥ç¥ó¤Îatr¤ËÔO¶¨¤¹¤ëÊôĞÔ‚
+// ã‚­ãƒ£ãƒ©ã®Nã‹ã‚‰å±æ€§ç”¨ã®ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚’ä½œã‚‹
+//  å¼•  æ•°ï¼štype ... ã‚µ`ãƒã§ç®¡ç†ã•ã‚Œã¦ã„ã‚‹Nç•ªå·
+//  äº¥ä¼ç»è­atrã«Oå®šã™ã‚‹å±æ€§
 int getAtrCharType( int type )
 {
 	switch( type )
 	{
-		// £Î£Ğ£Ã
+		// ï¼®ï¼°ï¼£
 		case CHAR_TYPEPLAYER:
 			return ACT_ATR_TYPE_OTHER_PC;
 
-		// ¥Ú¥Ã¥È
+		// ãƒšãƒƒãƒˆ
 		case CHAR_TYPEPET:
 			return ACT_ATR_TYPE_PET;
 
-		// ¤½¤ÎËû
+		// ãã®ä»–
 		default:
 			return ACT_ATR_TYPE_OTHER;
 	}
@@ -2007,9 +2007,9 @@ int getAtrCharType( int type )
 }
 
 
-// ¥­¥ã¥é¤Î·Nî¤«¤é¥­¥ã¥é¹ÜÀíÓÃ¤Î·Nî¤òÈ¡¤ê³ö¤¹
-//  Òı  Êı£ºtype ... ¥µ©`¥Ğ¤Ç¹ÜÀí¤µ¤ì¤Æ¤¤¤ë·Nî·¬ºÅ
-//  ‘ø¤ê‚£ºcharObj¤Îtype¤ËÔO¶¨¤¹¤ëÊôĞÔ‚
+// ã‚­ãƒ£ãƒ©ã®Nã‹ã‚‰ã‚­ãƒ£ãƒ©ç®¡ç†ç”¨ã®Nã‚’å–ã‚Šå‡ºã™
+//  å¼•  æ•°ï¼štype ... ã‚µ`ãƒã§ç®¡ç†ã•ã‚Œã¦ã„ã‚‹Nç•ªå·
+//  charObjã®typeã«Oå®šã™ã‚‹å±æ€§
 int getAtrCharObjType( int type )
 {
 	int ret;
@@ -2036,8 +2036,8 @@ int getAtrCharObjType( int type )
 }
 
 
-// ID¤ò¤ß¤Æ¥¢¥¯¥·¥ç¥ó¥İ¥¤¥ó¥¿¤ò·µ¤¹
-// ¤½¤ìÒÔÍâ¤ÏNULL
+// IDã‚’ã¿ã¦ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
+// ãã‚Œä»¥å¤–ã¯NULL
 ACTION *getCharObjAct( int id )
 {
 	int no;
@@ -2052,7 +2052,7 @@ ACTION *getCharObjAct( int id )
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¤«¤éÄ¨Ïû
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ã‹ã‚‰æŠ¹æ¶ˆ
 void delCharObj( int id )
 {
 	int i;
@@ -2067,7 +2067,7 @@ void delCharObj( int id )
 
 	no = searchCharObjId( id );
 
-	// IDÒŠ¤Ä¤±¤¿¤Î¤ÇÄ¨Ïû
+	// IDã¤ã‘ãŸã®ã§æŠ¹æ¶ˆ
 	if( no >= 0 )
 	{
 		if( charObj[no].ptAct != NULL )
@@ -2093,14 +2093,14 @@ void delCharObj( int id )
 		charObj[no].status = 0;
 		charObj[no].stockDir = -1;
 
-		// µÇåhÊı¸üĞÂ
+		// ç™»hæ•°æ›´æ–°
 		if( maxCharObj > 0 )
 			maxCharObj--;
-		// ½ñ¤Î¿Õ¤­Î»ÖÃ¤è¤êÇ°¤Î•r¤Ï¤³¤Á¤é¤ò¤¢¤­Î»ÖÃ¤Ë¤¹¤ë
+		// ä»Šã®ç©ºãä½ç½®ã‚ˆã‚Šå‰ã®rã¯ã“ã¡ã‚‰ã‚’ã‚ãä½ç½®ã«ã™ã‚‹
 		if( freeCharObj > no )
 			freeCharObj = no;
 #if 1
-		// µÇåh¤µ¤ì¤Æ¤¤¤ë×îáá¤òÌ½¤¹
+		// ç™»hã•ã‚Œã¦ã„ã‚‹æœ€å¾Œã‚’æ¢ã™
 		for( i = tailCharObj; i > 0; i-- )
 		{
 			if( charObj[i-1].use != CHAROBJ_USE_FREE )
@@ -2114,7 +2114,7 @@ void delCharObj( int id )
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«åˆæœŸåŒ–
 void initCharObj( void )
 {
 	int i;
@@ -2135,7 +2135,7 @@ void initCharObj( void )
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¥ê¥»¥Ã¥È
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ãƒªã‚»ãƒƒãƒˆ
 void resetCharObj( void )
 {
 	int i;
@@ -2178,7 +2178,7 @@ void resetCharObj( void )
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¤Î¥¢¥¯¥·¥ç¥ó¥İ¥¤¥ó¥¿¤òÄ¨Ïû¤¹¤ë
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒã‚¤ãƒ³ã‚¿ã‚’æŠ¹æ¶ˆã™ã‚‹
 void clearPtActCharObj( void )
 {
 	int i;
@@ -2194,7 +2194,7 @@ void clearPtActCharObj( void )
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¤Î¥¢¥¯¥·¥ç¥ó¥İ¥¤¥ó¥¿¤òÈ«¤ÆÍ»î¤µ¤»¤ë
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒã‚¤ãƒ³ã‚¿ã‚’å…¨ã¦æ´»ã•ã›ã‚‹
 void restorePtActCharObjAll( void )
 {
 	int i;
@@ -2217,9 +2217,9 @@ void restorePtActCharObjAll( void )
 			ext = (CHAREXTRA *)charObj[i].ptAct->pYobi;
 			ext->charObjTblId = i;
 
-			// NPC¤Î¥¢¥¯¥·¥ç¥óÍ»î
-			// Ëû¤ÎPC¤Î¥¢¥¯¥·¥ç¥óÍ»î
-			// »ÑÔ°å
+			// NPCã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ´»
+			// ä»–ã®PCã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ´»
+			// è°å›­
 			if( charObj[i].type == CHAROBJ_TYPE_NPC
 			 || charObj[i].type == CHAROBJ_TYPE_USER_NPC )
 			{
@@ -2228,10 +2228,10 @@ void restorePtActCharObjAll( void )
 				charObj[i].ptAct->atr |= charObj[i].charType;
 			}
 			else
-			// Item¤Î¥¢¥¯¥·¥ç¥óÍ»î
+			// Itemã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ´»
 			if( charObj[i].type == CHAROBJ_TYPE_ITEM )
 			{
-				// 1ĞĞ¥¤¥ó¥Õ¥©¤Ë³ö¤¹¤¿¤á¤Ëname¤ËÈë¤ì¤ë
+				// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©ã«å‡ºã™ãŸã‚ã«nameã«å…¥ã‚Œã‚‹
 				if( strlen( charObj[i].info ) <= ITEM_NAME_LEN )
 				{
 					strcpy( charObj[i].ptAct->name, charObj[i].info );
@@ -2243,10 +2243,10 @@ void restorePtActCharObjAll( void )
 				charObj[i].ptAct->atr |= charObj[i].charType;
 			}
 			else
-			// ¤ª½ğ¤Î¥¢¥¯¥·¥ç¥óÍ»î
+			// ãŠé‡‘ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³æ´»
 			if( charObj[i].type == CHAROBJ_TYPE_MONEY )
 			{
-				// 1ĞĞ¥¤¥ó¥Õ¥©¤Ë³ö¤¹¤¿¤á¤Ëname¤ËÈë¤ì¤ë
+				// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©ã«å‡ºã™ãŸã‚ã«nameã«å…¥ã‚Œã‚‹
 				if( strlen( charObj[i].info ) <= CHAR_NAME_LEN )
 				{
 					strcpy( charObj[i].ptAct->name, charObj[i].info );
@@ -2262,7 +2262,7 @@ void restorePtActCharObjAll( void )
 }
 
 
-// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¤Î¥¢¥¯¥·¥ç¥ó¥İ¥¤¥ó¥¿¤òÍ»î¤µ¤»¤ë
+// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒã‚¤ãƒ³ã‚¿ã‚’æ´»ã•ã›ã‚‹
 void restorePtActCharObj( int id )
 {
 	int no;
@@ -2271,10 +2271,10 @@ void restorePtActCharObj( int id )
 	if( id < 0 )
 		return;
 
-	// µÇåh¤µ¤ì¤Æ¤¤¤ë¤«¥Á¥§¥Ã¥¯
+	// ç™»hã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	if( (no = searchCharObjId( id )) < 0 )
 	{
-		// Ÿo¤«¤Ã¤¿¤é½K¤ï¤ê
+		// oã‹ã£ãŸã‚‰Kã‚ã‚Š
 		return;
 	}
 
@@ -2285,7 +2285,7 @@ void restorePtActCharObj( int id )
 			createCharAction( charObj[no].graNo, charObj[no].gx, charObj[no].gy, charObj[no].dir );
 		if( charObj[no].ptAct == NULL )
 		{
-			// ¥¢¥¯¥·¥ç¥ó×÷¤ì¤Ê¤«¤Ã¤¿¤Î¤Ç½K¤ï¤ê
+			// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œã‚Œãªã‹ã£ãŸã®ã§Kã‚ã‚Š
 			return;
 		}
 
@@ -2301,7 +2301,7 @@ void restorePtActCharObj( int id )
 }
 
 
-// ¥­¥ã¥éÎ»ÖÃ¸üĞÂ
+// ã‚­ãƒ£ãƒ©ä½ç½®æ›´æ–°
 void setMovePointCharObj( int id, int nextGx, int nextGy )
 {
 	int no;
@@ -2317,7 +2317,7 @@ void setMovePointCharObj( int id, int nextGx, int nextGy )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// Í¬Ò»¥¢¥¤¥Æ¥à¤¬Í¬¤¸×ù˜Ë¤Ë¤¿¤¯¤µ¤ó³ö¤¿•r£±»Ø¤·¤«±íÊ¾¤·¤Ê¤¤¤¿¤á¤Î„IÀí
+// åŒä¸€ã‚¢ã‚¤ãƒ†ãƒ ãŒåŒã˜åº§æ‘”æ‘”éƒ¡ä¸¹èŸªè¨¾rï¼‘å›ã—ã‹è¡¨ç¤ºã—ãªã„ãŸã‚ã®Iç†
 
 typedef struct
 {
@@ -2336,8 +2336,8 @@ void initItemOverlapCheck( void )
 }
 
 
-// ‘ø¤ê‚£º TRUE  ... Í¬¤¸Îï¤¬¤¢¤ë
-//          FALSE ... ¤Ê¤¤
+//  TRUE  ... åŒã˜ç‰©ãŒã‚ã‚‹
+//          FALSE ... ãªã„
 BOOL itemOverlapCheck( unsigned int bmpNo, int gx, int gy )
 {
 	int i;
@@ -2374,20 +2374,20 @@ BOOL itemOverlapCheck( unsigned int bmpNo, int gx, int gy )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ú¥Ã¥È¥á©`¥ë¤ÎÑİ³ö
+// ãƒšãƒƒãƒˆãƒ¡`ãƒ«ã®æ¼”å‡º
 
 
-// Ïò¤­¤¬¥°¥ê¥Ã¥É¤ÎĞ±¤á·½Ïò¤Ê¤éĞŞÕı¤¹¤ë
+// å‘ããŒã‚°ãƒªãƒƒãƒ‰ã®æ–œã‚æ–¹å‘ãªã‚‰ä¿®æ­£ã™ã‚‹
 void limitCantClientDir( short *dir )
 {
-	// dir¤¬Å¼Êı¤Ê¤éĞ±¤á¤Ê¤Î¤ÇÆæÊı¤Ë¤¹¤ë
+	// dirãŒå¶æ•°ãªã‚‰æ–œã‚ãªã®ã§å¥‡æ•°ã«ã™ã‚‹
 	if( ((*dir) % 2) == 0 )
 	{
 		(*dir)++;
 	}
 }
 
-// dir‚¤¬ 0 ¤«¤é 7 ¤Ë¤Ê¤ë¤è¤¦ĞŞÕı¤¹¤ë
+// dir 0 ã‹ã‚‰ 7 ã«ãªã‚‹ã‚ˆã†ä¿®æ­£ã™ã‚‹
 void ajustClientDir( short *dir )
 {
 	if( *dir < 0 )
@@ -2419,7 +2419,7 @@ void getPetRoute( ACTION *ptAct )
 	if( ptAct->bufCount > 0 )
 		return;
 
-	// µ±¤¿¤êÅĞ¶¨¤¬¤º¤ì¤ë¤Î¤Ç¤ä¤á¤ë
+	// å½“ãŸã‚Šåˆ¤å®šãŒãšã‚Œã‚‹ã®ã§ã‚„ã‚ã‚‹
 	if( nowGx != oldGx || nowGy != oldGy )
 		return;
 
@@ -2479,13 +2479,13 @@ void getPetRoute( ACTION *ptAct )
 }
 
 
-// ÒÆ„Ó„IÀí
+// ç§»Iç†
 BOOL petMoveProc( ACTION *ptAct )
 {
 	PETEXTRA *pe = (PETEXTRA *)ptAct->pYobi;
 
-	// ¹ ‡ìÍâ¤Ë³ö¤¿¤é¤«¤Ã¤Æ¤ËÏû¤¹
-	// ×÷³É¤«¤é8ÃëÒÔÉÏ¤¿¤Ã¤¿¤éÏû¤¹
+	// ç„±çŒ¡é¡ºè¨¾éƒ¡æ¤ç›²çš®è®¼
+	// ä½œæˆã‹ã‚‰8ç§’ä»¥ä¸ŠãŸã£ãŸã‚‰æ¶ˆã™
 	if( ABS( ptAct->gx - nowGx ) >= 13
 	 || ABS( ptAct->gy - nowGy ) >= 13
 	 || (pe->createTime+8000 < GetTickCount() && ptAct->vx == 0 && ptAct->vy == 0) )
@@ -2510,7 +2510,7 @@ BOOL petMoveProc( ACTION *ptAct )
 
 	if( ptAct->vx == 0 && ptAct->vy == 0 )
 	{
-		// ÒÆ„Ó¤¬½K¤ï¤Ã¤¿¤é´Î¤ÎÎ»ÖÃ¤ò—ÊË÷
+		// ç§»å©´Kã‚ã£ãŸã‚‰æ¬¡ã®ä½ç½®ã‚’ä»•
 		getPetRoute( ptAct );
 	}
 	charMove( ptAct );
@@ -2530,7 +2530,7 @@ BOOL petMoveProc( ACTION *ptAct )
 }
 
 
-// µ½×Å„IÀí
+// åˆ°ç€Iç†
 BOOL uprisePetProc( ACTION *ptAct )
 {
 	PETEXTRA *pe = (PETEXTRA *)ptAct->pYobi;
@@ -2546,7 +2546,7 @@ BOOL uprisePetProc( ACTION *ptAct )
 			0, 0, ptAct->dispPrio );
 	}
 
-	// ÊıÃëég¤Ï¥Ú¥Ã¥È¤òÏû¤·¤Æ¤ª¤¯
+	// æ•°ç§’gã¯ãƒšãƒƒãƒˆã‚’æ¶ˆã—ã¦ãŠã
 	if( pe->createTime+1200 < GetTickCount() )
 	{
 		restorePtActCharObj( pe->id );
@@ -2558,7 +2558,7 @@ BOOL uprisePetProc( ACTION *ptAct )
 }
 
 
-// »ØÜ„IÀí£¨Íâ¤ØÚ¤¬¤ë£©
+// å›Iç†ï¼ˆå¤–ã¸ãŒã‚‹ï¼‰
 BOOL petCircleOutProc( ACTION *ptAct )
 {
 	PETEXTRA *pe = (PETEXTRA *)ptAct->pYobi;
@@ -2596,15 +2596,15 @@ BOOL petCircleOutProc( ACTION *ptAct )
 		dx = (float)pe->r * CosT( angle );
 		dy = (float)pe->r * SinT( angle );
 
-		// »­Ãæ±íÊ¾Î»ÖÃ
+		// ç”»é¢è¡¨ç¤ºä½ç½®
 		camMapToGamen( ptAct->mx+dx, ptAct->my+dy, &mx, &my );
 		ptAct->x = (int)mx;
 		ptAct->y = (int)my;
 
-		// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+		// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 		pattern( ptAct, ANM_NOMAL_SPD, ANM_LOOP );
 
-		// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 		setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y, 0, 0, ptAct->mx+dx, ptAct->my+dy );
 		angle += 120;
 		AdjustDir( &angle );
@@ -2614,7 +2614,7 @@ BOOL petCircleOutProc( ACTION *ptAct )
 }
 
 
-// »ØÜ„IÀí£¨ÄÚ¤ËÏÁ¤Ş¤ë£©
+// å›Iç†ï¼ˆå†…ã«ç‹­ã¾ã‚‹ï¼‰
 BOOL petCircleInProc( ACTION *ptAct )
 {
 	PETEXTRA *pe = (PETEXTRA *)ptAct->pYobi;
@@ -2658,15 +2658,15 @@ BOOL petCircleInProc( ACTION *ptAct )
 			dx = (float)pe->r * CosT( angle );
 			dy = (float)pe->r * SinT( angle );
 
-			// »­Ãæ±íÊ¾Î»ÖÃ
+			// ç”»é¢è¡¨ç¤ºä½ç½®
 			camMapToGamen( ptAct->mx+dx, ptAct->my+dy, &mx, &my );
 			ptAct->x = (int)mx;
 			ptAct->y = (int)my;
 
-			// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+			// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 			pattern( ptAct, ANM_NOMAL_SPD, ANM_LOOP );
 
-			// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+			// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 			setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y, 0, 0, ptAct->mx+dx, ptAct->my+dy );
 			angle += 120;
 			AdjustDir( &angle );
@@ -2677,7 +2677,7 @@ BOOL petCircleInProc( ACTION *ptAct )
 }
 
 
-// ¥Ú¥Ã¥È¥¢¥¯¥·¥ç¥ó¤Î¥Ç¥Õ¥©¥ë¥È
+// ãƒšãƒƒãƒˆã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
 void petProc( ACTION *ptAct )
 {
 	float mx, my;
@@ -2686,7 +2686,7 @@ void petProc( ACTION *ptAct )
 
 	switch( pe->mode )
 	{
-		// ¥á©`¥ëËÍĞÅ•r£ºši¤¯©`£¾Ïû¤¨¤ë
+		// ãƒ¡`ãƒ«é€ä¿¡rï¼šiã`ï¼æ¶ˆãˆã‚‹
 		case 0:
 			if( !petMoveProc( ptAct ) )
 			{
@@ -2694,8 +2694,8 @@ void petProc( ACTION *ptAct )
 			}
 			break;
 
-		// ¥á©`¥ë×ÅĞÅ•r£º
-		// ¥Ú¥Ã¥È¤¬‘ø¤Ã¤ÆÀ´¤¿¤È¤­£º³ö¬F
+		// ãƒ¡`ãƒ«ç€ä¿¡rï¼š
+		// ãƒšãƒƒãƒˆãŒç›²è¯„æéƒ¡è¶£æ’¼éœˆF
 		case 1:
 			if( !uprisePetProc( ptAct ) )
 			{
@@ -2703,7 +2703,7 @@ void petProc( ACTION *ptAct )
 			}
 			break;
 
-		// ¥á©`¥ëËÍĞÅ•r£º·ÖÉí»ØÜ©`£¾Ïû¤¨¤ë
+		// ãƒ¡`ãƒ«é€ä¿¡rï¼šåˆ†èº«å›`ï¼æ¶ˆãˆã‚‹
 		case 2:
 			if( !petCircleOutProc( ptAct ) )
 			{
@@ -2711,7 +2711,7 @@ void petProc( ACTION *ptAct )
 			}
 			break;
 
-		// ¥á©`¥ëÊÜĞÅ•r£º·ÖÉí»ØÜ©`£¾¬F¤ì¤ë
+		// ãƒ¡`ãƒ«å—ä¿¡rï¼šåˆ†èº«å›`ï¼Fã‚Œã‚‹
 		case 3:
 			if( !petCircleInProc( ptAct ) )
 			{
@@ -2720,12 +2720,12 @@ void petProc( ACTION *ptAct )
 			break;
 	}
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;
 
-	// ¥¢¥Ë¥á©`¥·¥ç¥ó„IÀí
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³Iç†
 	if( ptAct->anim_no == ANIM_HAND
 	 || ptAct->anim_no == ANIM_HAPPY
 	 || ptAct->anim_no == ANIM_ANGRY
@@ -2742,48 +2742,48 @@ void petProc( ACTION *ptAct )
 	}
 	pattern( ptAct, ANM_NOMAL_SPD, animLoop );
 
-	// ¥ª¥ê¥¸¥Ê¥ë¥½©`¥ÈÓÃ¤Ë¥¹¥È¥Ã¥¯
+	// ã‚ªãƒªã‚¸ãƒŠãƒ«ã‚½`ãƒˆç”¨ã«ã‚¹ãƒˆãƒƒã‚¯
 	setCharPrio( ptAct->bmpNo, ptAct->x, ptAct->y, 0, 0, ptAct->mx, ptAct->my );
 }
 
 
 
-// ¥Ú¥Ã¥È¤Î¥¢¥¯¥·¥ç¥ó×÷³É
+// ãƒšãƒƒãƒˆã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆ
 ACTION *createPetAction( int graNo, int gx, int gy, int dir, int mode, int moveDir, int id )
 {
 	ACTION *ptAct;
 	float mx, my;
 	PETEXTRA *pe;
 
-	/* ¥¢¥¯¥·¥ç¥ó¥ê¥¹¥È¤ËµÇåh */
+	/* ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆã«ç™»h */
 	ptAct = GetAction( PRIO_CHR, sizeof( PETEXTRA ) );
 	if( ptAct == NULL )
 		return NULL;
 
-	// ŒgĞĞévÊı
+	// gè¡Œvæ•°
 	ptAct->func = petProc;
-	// ¥°¥é¥Õ¥£¥Ã¥¯¤Î·¬ºÅ
+	// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã®ç•ªå·
 	ptAct->anim_chr_no = graNo;
-	// „Ó×÷·¬ºÅ
+	// å¹¼é£
 	ptAct->anim_no = ANIM_STAND;
-	// ¥¢¥Ë¥á©`¥·¥ç¥óÏò¤­( £°¡«£· )( ÏÂ¤¬£°¤ÇÓÒ»Ø¤ê )
+	// ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³å‘ã( ï¼ï½ï¼— )( ä¸‹ãŒï¼ã§å³å›ã‚Š )
 	ptAct->anim_ang = dir;
-	// ±íÊ¾ƒÏÈ¶È
+	// è¡¨ç¤ºå…ˆåº¦
 	ptAct->dispPrio = DISP_PRIO_CHAR;
-	// 1ĞĞ¥¤¥ó¥Õ¥©±íÊ¾¥Õ¥é¥°
+	// 1è¡Œã‚¤ãƒ³ãƒ•ã‚©è¡¨ç¤ºãƒ•ãƒ©ã‚°
 	ptAct->atr = ACT_ATR_INFO |	ACT_ATR_HIT | ACT_ATR_HIDE2;
-	// ³õÆÚÎ»ÖÃ
-	ptAct->nextGx = gx;					// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨ÒÆ„ÓÏÈ£©
+	// åˆæœŸä½ç½®
+	ptAct->nextGx = gx;					// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€ã„’é…‰é¾‹
 	ptAct->nextGy = gy;
 	ptAct->bufCount = 0;
-	ptAct->gx = gx;						// ¥Ş¥Ã¥×¥°¥ê¥Ã¥É×ù˜Ë£¨¬FÔÚµØ£©
+	ptAct->gx = gx;						// ãƒãƒƒãƒ—ã‚°ãƒªãƒƒãƒ‰åº§è€Ã¬Fåœ¨åœ°ï¼‰
 	ptAct->gy = gy;
-	ptAct->mx = (float)gx * GRID_SIZE;	// ¥Ş¥Ã¥××ù˜Ë
+	ptAct->mx = (float)gx * GRID_SIZE;	// ãƒãƒƒãƒ—åº§
 	ptAct->my = (float)gy * GRID_SIZE;
-	ptAct->vx = 0;						// ÒÆ„Ó‰ˆ·Ö
+	ptAct->vx = 0;						// ç§»åˆ†
 	ptAct->vy = 0;
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( ptAct->mx, ptAct->my, &mx, &my );
 	ptAct->x = (int)mx;
 	ptAct->y = (int)my;

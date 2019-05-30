@@ -23,9 +23,9 @@
 #include "field.h"
 #include "t_music.h"
 
-#define NETPROC_NOTSEND     0           // ?????? ·¢ËÍÇ°
-#define NETPROC_SENDING     1           // ???????? ÖĞ
-#define NETPROC_RECEIVED    2           //??????    ½ÓÊÜ
+#define NETPROC_NOTSEND     0           // ?????? å‘é€å‰
+#define NETPROC_SENDING     1           // ???????? ä¸­
+#define NETPROC_RECEIVED    2           //??????    æ¥å—
 
 #define SET_SENDTIME( time )		time = GetTickCount()
 #define CHECK_TIMEOUT( time, timeout )		\
@@ -59,11 +59,11 @@
 	}
 
 /*
-// ?????§f??­·????­È£@?StoneAge??1?????õ…¡p?
+// ?????f??????@?StoneAge??1?????p?
 short selectServerIndex = -1;
 // ??????????????????..??
 short clientLoginStatus = 0;
-// ??????™º???????????...??/ 
+// ?????????????????...??/ 
 short charListStatus = 0;
 // /????ID ??????
 char userId[32];
@@ -77,49 +77,49 @@ short charLoginStatus = 0;
 // ????
 short charLogoutStatus = 0;
 */
-// Ö¸ÊıËùÑ¡ÔñµÄ·şÎñÆ÷£¨StoneAgeµÄ1»ò0µÄÇé¿öÏÂ
+// æŒ‡æ•°æ‰€é€‰æ‹©çš„æœåŠ¡å™¨ï¼ˆStoneAgeçš„1æˆ–0çš„æƒ…å†µä¸‹
 short selectServerIndex = -1;
-// µÇÂ¼£¨µÇÂ¼Ò»¶ÎÊ±¼ä...£©
+// ç™»å½•ï¼ˆç™»å½•ä¸€æ®µæ—¶é—´...ï¼‰
 short clientLoginStatus = 0;
-// ÈËÎïÁĞ±í×´Ì¬£¨ÊÕ¹ºÒ»...£©/ 
+// äººç‰©åˆ—è¡¨çŠ¶æ€ï¼ˆæ”¶è´­ä¸€...ï¼‰/ 
 short charListStatus = 0;
-// /ÓÃ»§ID ¡¤ÃÜÂë
+// /ç”¨æˆ·ID ãƒ»å¯†ç 
 char userId[32];
 char userPassword[32];
-// É¾³ıÈËÎï×´Ì¬
+// åˆ é™¤äººç‰©çŠ¶æ€
 short charDelStatus = 0;
-// ĞÂ½¨
+// æ–°å»º
 short newCharStatus = 0;
-// ¼ÇÂ¼
+// è®°å½•
 short charLoginStatus = 0;
-// ÍË³ö
+// é€€å‡º
 short charLogoutStatus = 0;
 
-// GAMESTATE_CHOOSESERVER//??????????È?   ĞÅÏ¢£¬±ØĞëÅäÖÃ
-// "¤ª¤ê¤ª¤ó"¤È¤«"¤Ú¤¬¤µ¤¹"¤ò¤¤¤ì¤ë¤³¤È¤Ë¤Ê¤ë¤À¤í¤¦¡£
+// GAMESTATE_CHOOSESERVER//???????????   ä¿¡æ¯ï¼Œå¿…é¡»é…ç½®
+// "ãŠã‚ŠãŠã‚“"ã¨ã‹"ãºãŒã•ã™"ã‚’ã„ã‚Œã‚‹ã“ã¨ã«ãªã‚‹ã ã‚ã†ã€‚
 char gamestate_chooseserver_name[128];
-// GAMESTATE_LOGIN??????????È?   ĞÅÏ¢£¬±ØĞëÅäÖÃ
+// GAMESTATE_LOGIN???????????   ä¿¡æ¯ï¼Œå¿…é¡»é…ç½®
 char gamestate_login_charname[128];
-// GAMESTATE_DELETECHAR??????????È?   ĞÅÏ¢£¬±ØĞëÅäÖÃ
+// GAMESTATE_DELETECHAR???????????   ä¿¡æ¯ï¼Œå¿…é¡»é…ç½®
 char gamestate_deletechar_charname[128];
 
 
-// ?şFùÑä}?    ´íÎóÏûÏ¢
+// ?F}?    é”™è¯¯æ¶ˆæ¯
 char netprocErrmsg[1024];
 
 int netproc_sending = NETPROC_NOTSEND; 
-DWORD start_time = 0;               // /?¥L??û¸??????§h????ÆŒ????????? TIMEOUT
-//½ø³ÌÆô¶¯Ê±µÄËùÓĞÊ±¼ä¡£³¬Ê±Í¨¹ı TIMEOUT
+DWORD start_time = 0;               // /?L????????h????????????? TIMEOUT
+//è¿›ç¨‹å¯åŠ¨æ—¶çš„æ‰€æœ‰æ—¶é—´ã€‚è¶…æ—¶é€šè¿‡ TIMEOUT
 
 
 
-// ¥µ©`¥Ğ©`ßx’k„IÀí ///////////////////////////////////////////////////////
-//???­È£n??­»???///
-//?????????­È? /?ıÌ???
-// ¥µ©`¥Ğ½Ó¾A
-// ³õÆÚ»¯
-//·şÎñÆ÷Ñ¡Ôñ¹ı³Ì///
-//Á¬½Óµ½·şÎñÆ÷/ /³õÊ¼»¯
+// ã‚µ`ãƒ`xkIç† ///////////////////////////////////////////////////////
+//???n?????///
+//?????????? /????
+// ã‚µ`ãƒæ¥A
+// åˆæœŸåŒ–
+//æœåŠ¡å™¨é€‰æ‹©è¿‡ç¨‹///
+//è¿æ¥åˆ°æœåŠ¡å™¨/ /åˆå§‹åŒ–
 
 int connectServerCounter = 0;
 
@@ -129,47 +129,47 @@ void initConnectServer( void )
 }
 
 
-// ½Ó¾A„IÀí  /???•Ê???
+// æ¥AIç†  /??????
 //
-// ?ì„? selectServerIndex ¡¢userId ¡¢userPassword 
+// ?? selectServerIndex ã€userId ã€userPassword 
 //
-//  ????	     0 ... ?¥i???
+//  ????	     0 ... ?i???
 //				 1 ... ????OK
 //				-1 ... ????
-//				-2 ... ???????????????­È£`şL????????»P??õ…¡S??îÂ??ŠN???
+//				-2 ... ???????????????`L????????P??S??ç›¥??N???
 //				-3 ... ??????????????
-//				-4 ... IP?????????«Ì?
+//				-4 ... IP??????????
 //				-5 ... connect????????
-//				-6 ... select???­Ì???
+//				-6 ... select??????
 //				-7 ... ????????????????  ????????
-//´¦ÀíÁ¬½Ó
+//å¤„ç†è¿æ¥
 //
-// ÉèÖÃ selectServerIndex AuserId AuserPassword 
+// è®¾ç½® selectServerIndex AuserId AuserPassword 
 //
-//  ·µ»Ø	     0 ... ½øĞĞÖĞ
-//				 1 ... Á¬½ÓOK
-//				-1 ... ³¬Ê±
-//				-2 ... ÓĞÃ»ÓĞÖ¸¶¨µÄ·şÎñÆ÷Ãû³Æ£¨Í¨³£ÕâÖÖÇé¿ö²»»á·¢Éú¡££©
-//				-3 ... ÎŞ·¨´´½¨Ì×½Ó×Ö
-//				-4 ... IPµØÖ·×ª»»ËğÊ§
-//				-5 ... connectÁ¬½ÓÊ§°Ü
-//				-6 ... selectÑ¡ÔñÊ§°Ü
-//				-7 ... ¿Í»§¶ËµÇÂ¼Ê§°Ü¡£  ³¬¼¶ÖØµã
+//  è¿”å›	     0 ... è¿›è¡Œä¸­
+//				 1 ... è¿æ¥OK
+//				-1 ... è¶…æ—¶
+//				-2 ... æœ‰æ²¡æœ‰æŒ‡å®šçš„æœåŠ¡å™¨åç§°ï¼ˆé€šå¸¸è¿™ç§æƒ…å†µä¸ä¼šå‘ç”Ÿã€‚ï¼‰
+//				-3 ... æ— æ³•åˆ›å»ºå¥—æ¥å­—
+//				-4 ... IPåœ°å€è½¬æ¢æŸå¤±
+//				-5 ... connectè¿æ¥å¤±è´¥
+//				-6 ... selecté€‰æ‹©å¤±è´¥
+//				-7 ... å®¢æˆ·ç«¯ç™»å½•å¤±è´¥ã€‚  è¶…çº§é‡ç‚¹
 int connectServer( void )
 {
-	// ³õÆÚ»¯¤¬ÍêÁË¤·¤Æ¤Ê¤±¤ì¤ĞºÎ¤â¤·¤Ê¤¤
+	// åˆæœŸåŒ–ãŒå®Œäº†ã—ã¦ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 	if( !init_net )
 		return 0;
 
 	if( connectServerCounter == 0 )
 	{
 		//???????????????             ????
-		//¼ÇÂ¼¿ªÊ¼Á¬½ÓÊ±¼             ¿´µ½
-		start_time = GetTickCount();//»ñµÃ»úÆ÷Æô¶¯µ½ÏÖÔÚµÄÊ±¼ä
-		//start_time = GetTickCount();//?­·??‘‚£cû¸?????????????
+		//è®°å½•å¼€å§‹è¿æ¥æ—¶             çœ‹åˆ°
+		start_time = GetTickCount();//è·å¾—æœºå™¨å¯åŠ¨åˆ°ç°åœ¨çš„æ—¶é—´
+		//start_time = GetTickCount();//???c?????????????
 
-			// Ó¦¸ÃÎª·Ç×èÈûÌ×½Ó×Ö£¬Á¬½Óµ½¸Ã¹ú ·şÎñÆ  
-		// ?????????ö²ã ????????????????????­È  
+			// åº”è¯¥ä¸ºéé˜»å¡å¥—æ¥å­—ï¼Œè¿æ¥åˆ°è¯¥å›½ æœåŠ¡  
+		// ?????????éœ¾????????????????????  
 		char hostname[128];
 		short pt;
 		if( getServerInfo( selectServerIndex, hostname, &pt ) < 0 )
@@ -179,7 +179,7 @@ int connectServer( void )
 			return -2;
 		}
 
-        // socket¤Ä¤¯ru
+        // socketã¤ãru
 		sockfd = socket( AF_INET , SOCK_STREAM ,0 );
 		if( sockfd == INVALID_SOCKET )
 		{
@@ -188,14 +188,14 @@ int connectServer( void )
 			return -3;
 		}
 
-        // ¥Î¥ó¥Ö¥í¥Ã¥­¥ó¥°¤Ë¤¹¤ë
+        // ãƒãƒ³ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã«ã™ã‚‹
 #if 1
 		unsigned long flg = 1;
-		//ĞŞ¸ÄÌ×½Ó×ÖµÄ×èÈûÄ£Ê½ 1Îª·Ç×èÈû 0×èÈû
-		ioctlsocket( sockfd, FIONBIO, &flg );//?????????????ö²â•??? 1?????ö²?0?ö²?
+		//ä¿®æ”¹å¥—æ¥å­—çš„é˜»å¡æ¨¡å¼ 1ä¸ºéé˜»å¡ 0é˜»å¡
+		ioctlsocket( sockfd, FIONBIO, &flg );//?????????????éœ¾??? 1?????éœ¾?0?éœ¾?
 #endif
-		// NoDelay ¤ÎˆöºÏ¤Ï¡¢setsockopt¤¹¤ë¡£ by ringo  ?ì„?setsockopt??????
-		//ÉèÖÃsetsockoptµÄÊÂ¼ş
+		// NoDelay ã®é¾Šæ‚‰ç¨€setsockoptã™ã‚‹ã€‚ by ringo  ??setsockopt??????
+		//è®¾ç½®setsockoptçš„äº‹ä»¶
 		extern BOOL NoDelay;
 		if( NoDelay ){
 			int flag = 1;
@@ -211,20 +211,20 @@ int connectServer( void )
 			unsigned char time = 1;
 			int len = 1;
 			char moji[256];
-			// ?ì„?????????
-			// ÉèÖÃ½ÓÊÕ³¬Ê±
+			// ??????????
+			// è®¾ç½®æ¥æ”¶è¶…æ—¶
 			if( getsockopt( sockfd, IPPROTO_TCP, SO_RCVTIMEO, (char*) &time,  &len ) == SOCKET_ERROR ){
 				CheckNetErrror();
 				//return -100;
 			}
-			sprintf( moji, "Ê±¼ä:%u", time );
+			sprintf( moji, "æ—¶é—´:%u", time );
 			MessageBox( NULL, moji, "ohta", MB_OK );
 		}
 #endif
 #endif
 
 
-		// ?ì„?????	// ÉèÖÃµØÖ·
+		// ??????	// è®¾ç½®åœ°å€
 		struct sockaddr_in sin;
 		struct hostent *h;
 
@@ -250,7 +250,7 @@ int connectServer( void )
 		{
 			if( WSAGetLastError() == WSAEWOULDBLOCK )
 			{
-				// ±¾À´¤Ï¥Ö¥í¥Ã¥¯¤¹¤ë¤Ï¤º¤À¤Ã¤¿¤ó¤ä¤±¤É ?şFùÕ????????ì„? ´íÎóÓ¦¸ÃÓ¦¸Ã×èÖ¹
+				// æœ¬æ¥ã¯ãƒ–ãƒ­ãƒƒã‚¯ã™ã‚‹ã¯ãšã ã£ãŸã‚“ã‚„ã‘ã© ?F????????? é”™è¯¯åº”è¯¥åº”è¯¥é˜»æ­¢
             }
 			else
 			{
@@ -260,7 +260,7 @@ int connectServer( void )
 			}
 		}
 
-		// ¤³¤³¤Ş¤Ç¤Ç¤­¤¿¤é¥«¥¦¥ó¥¿¤ò1¤Ë¤¹¤ë  ????????  Á¬½Ó¼ÆÊı
+		// ã“ã“ã¾ã§ã§ããŸã‚‰ã‚«ã‚¦ãƒ³ã‚¿ã‚’1ã«ã™ã‚‹  ????????  è¿æ¥è®¡æ•°
 		connectServerCounter = 1;
 	}
 	else
@@ -271,7 +271,7 @@ int connectServer( void )
 		{
 			connectServerCounter = 69;
 		}
-		// select¤¹¤ë  ????  	// select‚·‚é  Ñ¡Ôñ
+		// selectã™ã‚‹  ????  	// select  é€‰æ‹©
 		fd_set rfds , wfds , efds;
 		struct timeval tm;
 		tm.tv_sec = 0;
@@ -286,8 +286,8 @@ int connectServer( void )
 		if( FD_ISSET( sockfd, &wfds ) )
 		{
 			connectServerCounter = 71;
-			//?????????ëÂ¡¥[ß„??¯£???§c???¤³¤ìÒÔ½µ¤Ï¥Í¥Ã¥È¥ï©`¥¯¥ë©`¥Á¥ó¤¬Éú¤­¤ë¡£¤½¤Î¤¿¤á¤Î¥Õ¥é¥°Á¢¤Æ
-				//´ÓÏÖÔÚµÄÉú»îÍøÂç³ÌĞò
+			//?????????éš†[?????c???ã“ã‚Œä»¥é™ã¯ãƒãƒƒãƒˆãƒ¯`ã‚¯ãƒ«`ãƒãƒ³ãŒç”Ÿãã‚‹ã€‚ãã®ãŸã‚ã®ãƒ•ãƒ©ã‚°ç«‹ã¦
+				//ä»ç°åœ¨çš„ç”Ÿæ´»ç½‘ç»œç¨‹åº
 			server_choosed = 1;
 		}
 		if( FD_ISSET( sockfd , &efds ) )
@@ -301,17 +301,17 @@ int connectServer( void )
 	else
 	if( connectServerCounter >= 71 && connectServerCounter <= 80 )
 	{
-		// ClientLogin¤¹¤ë ????????   Á¬½Ó¡£¡£
+		// ClientLoginã™ã‚‹ ????????   è¿æ¥ã€‚ã€‚
 		if( connectServerCounter == 71 )
 		{
-			// ¹Ø±ÕÔÚÏß×´Ì¬
+			// å…³é—­åœ¨çº¿çŠ¶æ€
 			clientLoginStatus = 0;	// ????????????
 			lssproto_ClientLogin_send( sockfd, userId, userPassword );
 			netproc_sending = NETPROC_SENDING;
 		}
 		if( netproc_sending == NETPROC_RECEIVED )
 		{
-			//  recv ????????ÒÑ¾­³É¹¦
+			//  recv ????????å·²ç»æˆåŠŸ
 			if( clientLoginStatus )
 			{
 				connectServerCounter = 81;
@@ -332,24 +332,24 @@ int connectServer( void )
 	else
 	if( connectServerCounter >= 81 && connectServerCounter <= 98 )
 	{
-		// ¤Ş¤ï¤¹¤À¤±  ????×ª¶¯
+		// ã¾ã‚ã™ã ã‘  ????è½¬åŠ¨
 		connectServerCounter ++;
     }
 	else
 	if( connectServerCounter == 99 )
 	{
 		//ChangeProc( PROC_CHAR_SELECT );
-		// ÇĞ»»»Ø´«ËÍÓë·ñ ÎÒ¿ÉÒÔÌ¸Ì¸Ê²Ã´ 
+		// åˆ‡æ¢å›ä¼ é€ä¸å¦ æˆ‘å¯ä»¥è°ˆè°ˆä»€ä¹ˆ 
 
-		// ??????????????????????????? ¤Ş¤¿ËÍĞÅ¤·¤Æ¤¤¤Ê¤¤¥â©`¥É¤Ë‘ø¤¹¡£ºÎ»Ø¤·¤Æ¤â¤¤¤¤¤è¤¦¤Ë
+		// ??????????????????????????? ã¾ãŸé€ä¿¡ã—ã¦ã„ãªã„ãƒ¢`ãƒ‰ã«åŸ‚ï¼šä½ä¸ç­çš®çŒ¡ã„ã„ç‘œÎ”
 		netproc_sending = NETPROC_NOTSEND;
 		//connectServerCounter = 0;
 		return 1;
 	}
 
-	// ÖÆÏŞ•rég¤¬¤¹¤®¤¿¤é¡¢¥¨¥é©`×´‘B¤ËÒÆĞĞ¡¢¤½¤Î¤¢¤È¥¨¥é©`½KÁË
-	//???êû????ÊC??????í¢????????şFù¥??¯¶şFùÏ???
-	//Ì«¶àµÄÊ±¼äÏŞÖÆ£¬¹ú¼Ò¹ı¶ÉµÄ´íÎó£¬Ôò´íÎóÍË³ö
+	// åˆ¶é™rgãŒã™ããŸã‚‰ã€ã‚¨ãƒ©`çŠ¶Bã«ç§»è¡Œã€ãã®ã‚ã¨ã‚¨ãƒ©`Käº†
+	//???çŠ’????C??????æ????????F??F???
+	//å¤ªå¤šçš„æ—¶é—´é™åˆ¶ï¼Œå›½å®¶è¿‡æ¸¡çš„é”™è¯¯ï¼Œåˆ™é”™è¯¯é€€å‡º
 	SETTIMEOUT2( NET_ERRMSG_CONNECTTIMEOUT );
 
 	return 0;
@@ -358,7 +358,7 @@ int connectServer( void )
 
 
 
-// ¥¯¥é¥¤¥¢¥ó¥È¥í¥°¥¤¥ó ???????? ????
+// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ­ã‚°ã‚¤ãƒ³ ???????? ????
 void clientLogin( void )
 {
 	char cdkey[64];
@@ -371,7 +371,7 @@ void clientLogin( void )
 }
 
 
-// ¥í¥°¥¤¥óÊÜĞÅ„IÀí  ¿Í»§µÇÂ½ ÖØµã
+// ãƒ­ã‚°ã‚¤ãƒ³å—ä¿¡Iç†  å®¢æˆ·ç™»é™† é‡ç‚¹
 void lssproto_ClientLogin_recv( int fd, char *result )
 {
 	if( netproc_sending == NETPROC_SENDING )
@@ -382,7 +382,7 @@ void lssproto_ClientLogin_recv( int fd, char *result )
 		{
 			clientLoginStatus = 1;
 
-			// ¬FÔÚ¤ÎÈÕ•r¤òÈ¡µÃ
+			// Fåœ¨ã®æ—¥rã‚’å–å¾—
 			time( &serverAliveLongTime );
 			serverAliveTime = localtime( &serverAliveLongTime );
 		}
@@ -392,9 +392,9 @@ void lssproto_ClientLogin_recv( int fd, char *result )
 
 
 
-// ¥­¥ã¥é¥ê¥¹¥ÈÈ¡µÃ„IÀí ///////////////////////////////////////////////////
+// ã‚­ãƒ£ãƒ©ãƒªã‚¹ãƒˆå–å¾—Iç† ///////////////////////////////////////////////////
 
-// ¥­¥ã¥é¤Î¥ê¥¹¥ÈÈ¡µÃ¥á¥Ã¥»©`¥¸¤òËÍ¤ë
+// ã‚­ãƒ£ãƒ©ã®ãƒªã‚¹ãƒˆå–å¾—ãƒ¡ãƒƒã‚»`ã‚¸ã‚’é€ã‚‹
 void charListStart( void )
 {
 	int i;
@@ -412,13 +412,13 @@ void charListStart( void )
 }
 
 
-// ÊÜĞÅ´ı¤Á
-//   ‘ø¤ê‚£º  0 ... ÊÜĞÅ´ı¤Á
-//             1 ... ÊÜĞÅÍêÁË
-//            -1 ... ¥¿¥¤¥à¥¢¥¦¥È
-//            -2 ... ¥¨¥é©`¤¬¢¤Ã¤Æ¤­¤¿
-//            -3 ... ¥á¥ó¥Æ¥Ê¥ó¥¹ÖĞ
-//            -4 ... ¥æ©`¥¶ÕJÔ^Ê§”¡
+// å—ä¿¡å¾…ã¡
+//     0 ... å—ä¿¡å¾…ã¡
+//             1 ... å—ä¿¡å®Œäº†
+//            -1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+//            -2 ... ã‚¨ãƒ©`ãŒã£ã¦ããŸ
+//            -3 ... ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ä¸­
+//            -4 ... ãƒ¦`ã‚¶J^å¤±
 int charListProc( void )
 {
 	if( netproc_sending == NETPROC_RECEIVED )
@@ -452,7 +452,7 @@ int charListProc( void )
 }
 
 
-// ¥µ©`¥Ğ©`¤Ë±£´æ¤µ¤ì¤Æ¤¤¤ë¥­¥ã¥é¥¯¥¿¤Î¥ê¥¹¥È¤ÎÊÜĞÅ
+// ã‚µ`ãƒ`ã«ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®ãƒªã‚¹ãƒˆã®å—ä¿¡
 void lssproto_CharList_recv( int fd, char *result, char *data )
 {
 	if( netproc_sending == NETPROC_SENDING )
@@ -463,14 +463,14 @@ void lssproto_CharList_recv( int fd, char *result, char *data )
 		{
 			if( strcmp( data, "OUTOFSERVICE" ) == 0 )
 			{
-				// ¬FÔÚ¥á¥ó¥Æ¥Ê¥ó¥¹ÖĞ
+				// Fåœ¨ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹ä¸­
 				charListStatus = 2;
 			}
 #if 0
 			else
 			if( strcmp( data, "???????" ) == 0 )
 			{
-				// ¥æ©`¥¶ÕJÔ^Ê§”¡
+				// ãƒ¦`ã‚¶J^å¤±
 				charListStatus = 3;
 			}
 #endif
@@ -479,7 +479,7 @@ void lssproto_CharList_recv( int fd, char *result, char *data )
 
 		charListStatus = 1;
 
-		// ŒgëH¤ËÇéˆó¤ò¥»¥Ã¥È¤¹¤ë
+		// gHã«æƒ…è­é¢”äº’æ°“è¶£å·¥
 		char nm[1024], opt[1024];
 		int i;
 		for( i=0; i < MAXCHARACTER; i++ )
@@ -496,8 +496,8 @@ void lssproto_CharList_recv( int fd, char *result, char *data )
 
 
 
-// Ö¸¶¨¥­¥ã¥é¤Ç¥í¥°¥¤¥ó ///////////////////////////////////////////////////
-// ¥í¥°¥¤¥óé_Ê¼
+// æŒ‡å®šã‚­ãƒ£ãƒ©ã§ãƒ­ã‚°ã‚¤ãƒ³ ///////////////////////////////////////////////////
+// ãƒ­ã‚°ã‚¤ãƒ³_å§‹
 void charLoginStart( void )
 {
 	charLoginStatus = 0;
@@ -508,8 +508,8 @@ void charLoginStart( void )
 }
 
 
-// ¥í¥°¥¤¥óÖĞ
-//   ‘ø¤ê‚£º 0 ... ÊÜĞÅ´ı¤Á / 1 ... ÊÜĞÅÍêÁË / -1 ... ¥¿¥¤¥à¥¢¥¦¥È / -2 ... ¥¨¥é©`¤¬¢¤Ã¤Æ¤­¤¿
+// ãƒ­ã‚°ã‚¤ãƒ³ä¸­
+//    0 ... å—ä¿¡å¾…ã¡ / 1 ... å—ä¿¡å®Œäº† / -1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ / -2 ... ã‚¨ãƒ©`ãŒã£ã¦ããŸ
 int charLoginProc( void )
 {
 	if( !server_choosed )
@@ -534,7 +534,7 @@ int charLoginProc( void )
 }
 
 
-// ¥­¥ã¥é¥í¥°¥¤¥óÊÜĞÅ
+// ã‚­ãƒ£ãƒ©ãƒ­ã‚°ã‚¤ãƒ³å—ä¿¡
 void lssproto_CharLogin_recv( int fd, char* result, char* data )
 {
 	if( netproc_sending == NETPROC_SENDING )
@@ -551,8 +551,8 @@ void lssproto_CharLogin_recv( int fd, char* result, char* data )
 
 
 
-// ¥í¥°¥¢¥¦¥È /////////////////////////////////////////////////////////////
-// ¥í¥°¥¢¥¦¥Èé_Ê¼
+// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ /////////////////////////////////////////////////////////////
+// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ_å§‹
 void charLogoutStart( void )
 {
 	charLogoutStatus = 0;
@@ -563,11 +563,11 @@ void charLogoutStart( void )
 }
 
 
-// ¥í¥°¥¢¥¦¥ÈÖĞ
-//   ‘ø¤ê‚£º	 0 ... ¥í¥°¥¢¥¦¥ÈÖĞ
-//				 1 ... ¥í¥°¥¢¥¦¥ÈÍêÁË
-//				-1 ... ¥¿¥¤¥à¥¢¥¦¥È
-//				-2 ... ¥¨¥é©`¤¬¢¤Ã¤Æ¤­¤¿
+// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆä¸­
+//   	 0 ... ãƒ­ã‚°ã‚¢ã‚¦ãƒˆä¸­
+//				 1 ... ãƒ­ã‚°ã‚¢ã‚¦ãƒˆå®Œäº†
+//				-1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
+//				-2 ... ã‚¨ãƒ©`ãŒã£ã¦ããŸ
 int charLogoutProc( void )
 {
 	if( netproc_sending == NETPROC_RECEIVED )
@@ -604,25 +604,25 @@ void lssproto_CharLogout_recv( int fd, char *result, char *data )
 
 
 
-// ¥¹¥Æ©`¥¿¥¹Çéˆó¤òÊÜĞÅ¤¹¤ë ///////////////////////////////////////////////
-//   ¥¹¥Æ©`¥¿¥¹Çéˆó¤òÊÜĞÅ¤¹¤ë¡£
-//   ¤³¤Î¥³©`¥É¤Ï¥×¥í¥È¥³¥ë¥Õ¥¡¥¤¥ë¤ÎÄÚÈİ¤òÖÒŒg¤ËŒg×°¤·¤Æ¤¤¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤¡£
-//   ¥³©`¥É¤¬¤Á¤ç¤Ã¤È¤Ç¤âß`·´¤·¤Æ¤¤¤¿¤é¤½¤ì¤Ï¥Ğ¥°¤Ç¤¢¤ë¤È¤·¤Æ¤è¤¤¡£
-//×´Ì¬ĞÅÏ¢½ÓÊÕ////////
-//×´Ì¬ĞÅÏ¢/ /½ÓÊÕ¡£/ /Õâ´úÂëĞ­ÒéÎÄ¼şµÄÄÚÈİÖÒÊµµØÊµÊ©×Å±ØĞë¡£
-//´úÂëÉÔÎ¢Î¥·´ÁËµÄ»°£¬ÄÇÊÇ´íÎóµÄºÃ¡£
+// ã‚¹ãƒ†`ã‚¿ã‚¹æƒ…è­èš´è‹„æ‰­å·¥ ///////////////////////////////////////////////
+//   ã‚¹ãƒ†`ã‚¿ã‚¹æƒ…è­èš´è‹„æ‰­å·¥æ¿
+//   ã“ã®ã‚³`ãƒ‰ã¯ãƒ—ãƒ­ãƒˆã‚³ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’å¿ gã«gè£…ã—ã¦ã„ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+//   ã‚³`ãƒ‰ãŒã¡ã‚‡ã£ã¨ã§ã‚‚`åã—ã¦ã„ãŸã‚‰ãã‚Œã¯ãƒã‚°ã§ã‚ã‚‹ã¨ã—ã¦ã‚ˆã„ã€‚
+//çŠ¶æ€ä¿¡æ¯æ¥æ”¶////////
+//çŠ¶æ€ä¿¡æ¯/ /æ¥æ”¶ã€‚/ /è¿™ä»£ç åè®®æ–‡ä»¶çš„å†…å®¹å¿ å®åœ°å®æ–½ç€å¿…é¡»ã€‚
+//ä»£ç ç¨å¾®è¿åäº†çš„è¯ï¼Œé‚£æ˜¯é”™è¯¯çš„å¥½ã€‚
 
-#define S_DELIM '|'						// ¥Ç¥ê¥ß¥¿  ¶¨½ç·û
+#define S_DELIM '|'						// ãƒ‡ãƒªãƒŸã‚¿  å®šç•Œç¬¦
 
 void lssproto_S_recv( int fd, char *data ) 
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
 	switch( data[0] )
 	{
-		// ×ù˜Ë
+		// åº§
 		case 'C':
 			{
 			int fl;
@@ -631,31 +631,31 @@ void lssproto_S_recv( int fd, char *data )
 			int gx;
 			int gy;
 
-			// ¥Õ¥í¥¢‰ä¸ü¥Õ¥é¥°(¥Ş¥Ã¥×¤òÕi¤ß¤³¤à¤è¤¦¤Ë)
+			// ãƒ•ãƒ­ã‚¢æ¶“æ¦¨æ¥—(ãƒãƒƒãƒ—ã‚’iã¿ã“ã‚€ã‚ˆã†ã«)
 			floorChangeFlag = TRUE;
-			if( !loginFlag && ProcNo == PROC_GAME )	// ¥í¥°¥¤¥ó•r¤ÏŒgĞĞ¤·¤Ê¤¤
+			if( !loginFlag && ProcNo == PROC_GAME )	// ãƒ­ã‚°ã‚¤ãƒ³rã¯gè¡Œã—ãªã„
 			{
-				// ¥ï©`¥×¥¤¥Ù¥ó¥È¤Ç¤¹¤Ç¤ËŒgĞĞ¤µ¤ì¤Æ¤¤¤ì¤ĞºÎ¤â¤·¤Ê¤¤¡£
+				// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆã§ã™ã§ã«gè¡Œã•ã‚Œã¦ã„ã‚Œã°ä½•ã‚‚ã—ãªã„ã€‚
 				if( !warpEffectFlag )
 				{
-					// ¥ï©`¥×Ñİ³öŒgĞĞ
+					// ãƒ¯`ãƒ—æ¼”å‡ºgè¡Œ
 					SubProcNo = 200;
-					// ¬F•rµã¤Î»­Ãæ¤ò×÷¤ë
+					// Frç‚¹ã®ç”»é¢ã‚’ä½œã‚‹
 					warpEffectProc();
 #if 1
-					// ¥Ş¥Ã¥×¥¦¥£¥ó¥É¥¦¥Õ¥é¥°¥Ğ¥Ã¥¯¥¢¥Ã¥×
+					// ãƒãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ•ãƒ©ã‚°ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
 					if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
 #endif
 				}
 
-				// PC¥­¥ã¥é¥ê¥»¥Ã¥È
+				// PCã‚­ãƒ£ãƒ©ãƒªã‚»ãƒƒãƒˆ
 				resetPc();
 				warpEffectFlag = FALSE;
 				warpEffectStart = TRUE;
 			}
 
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹//Êı¾İ·ÖÀàÌáÈ¡
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™//æ•°æ®åˆ†ç±»æå–
 			data++;
 
 			fl   = getIntegerToken( data, S_DELIM, 1 );
@@ -664,22 +664,22 @@ void lssproto_S_recv( int fd, char *data )
 			gx   = getIntegerToken( data, S_DELIM, 4 );
 			gy   = getIntegerToken( data, S_DELIM, 5 );
 
-			// ¥Ş¥Ã¥×Î»ÖÃÔO¶¨  µØÍ¼Î»ÖÃÉè¶¨
+			// ãƒãƒƒãƒ—ä½ç½®Oå®š  åœ°å›¾ä½ç½®è®¾å®š
 			setMap( fl, gx, gy );
-			// ĞÂ¤·¤¤¥Ş¥Ã¥×¤Ê¤é¥Õ¥¡¥¤¥ë¤ò×÷¤ë  Èç¹û/ĞÂµØÍ¼ÎÄ¼ş  ÖÆ×÷/  
+			// æ–°ã—ã„ãƒãƒƒãƒ—ãªã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œã‚‹  å¦‚æœ/æ–°åœ°å›¾æ–‡ä»¶  åˆ¶ä½œ/  
 			createMap( fl, maxx, maxy );
-			// ¥Ş¥Ã¥×¥µ¥¤¥º¤ÎÔO¶¨  ³ß´ç/ /µØÍ¼µÄÉè¶¨
+			// ãƒãƒƒãƒ—ã‚µã‚¤ã‚ºã®Oå®š  å°ºå¯¸/ /åœ°å›¾çš„è®¾å®š
 			nowFloorGxSize = maxx;
 			nowFloorGySize = maxy;
 
 
-			// ¥­¥ã¥é¹ÜÀí¥Æ©`¥Ö¥ë¥ê¥»¥Ã¥È  ½ÇÉ«¹ÜÀí±í¸´Î»¶¨
+			// ã‚­ãƒ£ãƒ©ç®¡ç†ãƒ†`ãƒ–ãƒ«ãƒªã‚»ãƒƒãƒˆ  è§’è‰²ç®¡ç†è¡¨å¤ä½å®š
 			resetCharObj();
 
-			// ¿Õ¥Ş¥Ã¥×¥Õ¥é¥°  ¿ÕµØÍ¼×ªÕÛµã£¿
+			// ç©ºãƒãƒƒãƒ—ãƒ•ãƒ©ã‚°  ç©ºåœ°å›¾è½¬æŠ˜ç‚¹ï¼Ÿ
 			mapEmptyFlag = FALSE;
 
-			// ¥¨¥ó¥«¥¦¥ó¥ÈÂÊ¤Î³õÆÚ»¯  ÓöµĞÂÊµÄ³õÆÚ»¯
+			// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆç‡ã®åˆæœŸåŒ–  é‡æ•Œç‡çš„åˆæœŸåŒ–
 			nowEncountPercentage = minEncountPercentage;
 			nowEncountExtra = 0;
 
@@ -687,31 +687,31 @@ void lssproto_S_recv( int fd, char *data )
 			}
             break;
 
-		// PC¥­¥ã¥é¤ÎIDÔO¶¨
+		// PCã‚­ãƒ£ãƒ©ã®IDOå®š
 		case 'D':
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data++;
 
 			setPcId( getIntegerToken( data, S_DELIM, 1 ) );
 			serverTime = getIntegerToken( data, S_DELIM, 2 );
 			clientTime = time( NULL );
-			// £Ó£Á•rég¤òÈ¡µÃ
+			// ï¼³ï¼¡rgã‚’å–å¾—
 			RealTimeToSATime( &SaTime );
-			//£Ó£Á•rég¤Ç½ñ¤Î•régÇø·Ö¤òµÃ¤ë
+			//ï¼³ï¼¡rgã§ä»Šã®rgåŒºåˆ†ã‚’å¾—ã‚‹
 			SaTimeZoneNo = getLSTime ( &SaTime );
-			// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+			// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 			PaletteChange( SaTimeZoneNo, 0 );
 			
 			break;
 
-		// ¥Ñ¥é¥á©`¥¿
+		// ãƒ‘ãƒ©ãƒ¡`ã‚¿
 		case 'P':
 			{
 			char name[256];
 			char freeName[256];
 			//char status[256];
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data++;
 
 			int i;
@@ -720,7 +720,7 @@ void lssproto_S_recv( int fd, char *data )
 
 			kubun		= getInteger62Token( data, S_DELIM, 1 );
 
-			// È«¥Ñ¥é¥á©`¥¿ÊÜĞÅ
+			// å…¨ãƒ‘ãƒ©ãƒ¡`ã‚¿å—ä¿¡
 			if( kubun == 1 )
 			{
 				pc.hp		= getIntegerToken( data, S_DELIM, 2 );		// 0x00000002
@@ -756,7 +756,7 @@ void lssproto_S_recv( int fd, char *data )
 				if( strlen( freeName ) <= CHAR_FREENAME_LEN )
 					strcpy( pc.freeName, freeName );
 				//getStringToken( data, S_DELIM, 27, sizeof( status )-1, status );// 0x04000000
-				//setCharStatus( &pc.status, status );	// ¥¹¥Æ©`¥¿¥¹
+				//setCharStatus( &pc.status, status );	// ã‚¹ãƒ†`ã‚¿ã‚¹
 			}
 			else
 			{
@@ -940,7 +940,7 @@ void lssproto_S_recv( int fd, char *data )
 
 		// HP,MP,EXP
 		case 'M':
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data++;
 
 			pc.hp  = getIntegerToken( data, '|', 1 );
@@ -955,7 +955,7 @@ void lssproto_S_recv( int fd, char *data )
 			}
 			break;
 
-		// ¥Ú¥Ã¥È¤Î¥Ñ¥é¥á©`¥¿
+		// ãƒšãƒƒãƒˆã®ãƒ‘ãƒ©ãƒ¡`ã‚¿
 		case 'K':
 			{
 			char name[256];
@@ -965,10 +965,10 @@ void lssproto_S_recv( int fd, char *data )
 			int kubun;
 			no = data[1] - '0';
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data += 3;
 
-			// ¥Ú¥Ã¥È¤¤¤Ê¤¤•r¤Ï½KÁË
+			// ãƒšãƒƒãƒˆã„ãªã„rã¯Käº†
 			kubun = getInteger62Token( data, S_DELIM, 1 );
 			if( kubun == 0 )
 			{
@@ -1017,7 +1017,7 @@ void lssproto_S_recv( int fd, char *data )
 				if( strlen( freeName ) <= PET_NAME_LEN )
 					strcpy( pet[no].freeName, freeName );
 //				getStringToken( data, S_DELIM, 22, sizeof( status )-1, status );
-//				setCharStatus( &pet[no].status, status );	// ¥¹¥Æ©`¥¿¥¹
+//				setCharStatus( &pet[no].status, status );	// ã‚¹ãƒ†`ã‚¿ã‚¹
 			}
 			else
 			{
@@ -1159,10 +1159,10 @@ void lssproto_S_recv( int fd, char *data )
 			}
 			break;
 
-		// ¥¨¥ó¥«¥¦¥ó¥ÈÂÊ¤ÎÔO¶¨
+		// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆç‡ã®Oå®š
 		case 'E':
 			{
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data++;
 
 			minEncountPercentage = getIntegerToken( data, S_DELIM, 1 );
@@ -1171,7 +1171,7 @@ void lssproto_S_recv( int fd, char *data )
 			}
 			break;
 
-		// …âĞg¤Î¥Ñ¥é¥á©`¥¿
+		// åº‘gã®ãƒ‘ãƒ©ãƒ¡`ã‚¿
 		case 'J':
 			{
 			char name[256];
@@ -1179,10 +1179,10 @@ void lssproto_S_recv( int fd, char *data )
 			int no;
 			no = data[1] - '0';
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data += 3;
 
-			// …âĞg¤¬¤Ê¤¤•r¤Ï½KÁË
+			// åº‘gãŒãªã„rã¯Käº†
 			magic[no].useFlag = getIntegerToken( data, S_DELIM, 1 );
 			if( magic[no].useFlag == 0 )
 				break;
@@ -1215,7 +1215,7 @@ void lssproto_S_recv( int fd, char *data )
 			}
 			break;
 
-		// ÖÙég¤Î¥Ñ¥é¥á©`¥¿
+		// ä»²gã®ãƒ‘ãƒ©ãƒ¡`ã‚¿
 		case 'N':
 			{
 			ACTION *ptAct;
@@ -1228,14 +1228,14 @@ void lssproto_S_recv( int fd, char *data )
 
 			no = data[1] - '0';
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data += 3;
 
-			// ÖÙégÇéˆó¤¬¤Ê¤¤•r¤Ï½KÁË
+			// ä»²gæƒ…è­èƒœrã¯Käº†
 			kubun = getInteger62Token( data, S_DELIM, 1 );
 			if( kubun == 0 )
 			{
-				// ¤µ¤Ã¤­¤Ş¤ÇÖÙég¤¬¤¤¤¿¤éáá„IÀí¤·¤Æ½KÁË
+				// ã•ã£ãã¾ã§ä»²gãŒã„ãŸã‚‰å¾ŒIç†ã—ã¦Käº†
 				if( party[no].useFlag != 0 && party[no].id != pc.id )
 				{
 					ptAct = getCharObjAct( party[no].id );
@@ -1247,7 +1247,7 @@ void lssproto_S_recv( int fd, char *data )
 				party[no].useFlag	= 0;
 				party[no].ptAct		= NULL;
 
-				// Õl¤«¤¬’i¤±¤¿¤È¤­²Ğ¤ê¤¬×Ô·Ö¤À¤±¤Ê¤é¥Ñ©`¥Æ¥£¤Ï½âÉ¢
+				// lã‹ãŒiã‘ãŸã¨ãæ®‹ã‚ŠãŒè‡ªåˆ†ã ã‘ãªã‚‰ãƒ‘`ãƒ†ã‚£ã¯è§£æ•£
 				checkPartyCount = 0;
 				for( i = 0; i < MAX_PARTY; i++ )
 				{
@@ -1262,9 +1262,9 @@ void lssproto_S_recv( int fd, char *data )
 				break;
 			}
 
-			// ¤³¤³¤òÍ¨¤ë¤È¤¤¤¦¤³¤È¤ÏPC¤Ï¥Ñ©`¥Æ¥£¤ËÈë¤Ã¤¿¤³¤È¤Ë¤Ê¤ë
+			// ã“ã“ã‚’é€šã‚‹ã¨ã„ã†ã“ã¨ã¯PCã¯ãƒ‘`ãƒ†ã‚£ã«å…¥ã£ãŸã“ã¨ã«ãªã‚‹
 			partyModeFlag = 1;
-			prSendFlag = 0;		// ¤¿¤Ş¤ËPR¤Î·µÊÂ¤¬¤³¤Ê¤¤¤Î¤Ç¤³¤³¤Ç¥Õ¥é¥°¤òÏÂ¤í¤¹¡£
+			prSendFlag = 0;		// ãŸã¾ã«PRã®è¿”äº‹ãŒã“ãªã„ã®ã§ã“ã“ã§ãƒ•ãƒ©ã‚°ã‚’ä¸‹ã‚ã™ã€‚
 
 			party[no].useFlag	= 1;
 
@@ -1352,7 +1352,7 @@ void lssproto_S_recv( int fd, char *data )
 				{
 					party[no].ptAct = ptAct;
 					setCharParty( ptAct );
-					// NPC¤¬¥ê©`¥À©`¤Î•r
+					// NPCãŒãƒª`ãƒ€`ã®r
 					if( no == 0 )
 					{
 						setCharLeader( ptAct );
@@ -1360,19 +1360,19 @@ void lssproto_S_recv( int fd, char *data )
 #if 0
 					else
 					{
-						// ¥ê©`¥À©`¤¬£Î£Ğ£Ã¤Î•r
+						// ãƒª`ãƒ€`ãŒï¼®ï¼°ï¼£ã®r
 						if( party[0].id != pc.id )
 						{
-							// ¥ê©`¥À©`¤Î¤¤¤ëˆöËù¤ËÒÆ„Ó
+							// ãƒª`ãƒ€`ã®ã„ã‚‹éŠè‰˜
 							if( party[0].ptAct != NULL )
 							{
 								stockCharMovePoint( ptAct, party[0].ptAct->gx, party[0].ptAct->gy );
 							}
 						}
-						// ¥ê©`¥À©`¤¬£Ğ£Ã¤Î•r
+						// ãƒª`ãƒ€`ãŒï¼°ï¼£ã®r
 						else
 						{
-							// ¥ê©`¥À©`¤Î¤¤¤ëˆöËù¤ËÒÆ„Ó
+							// ãƒª`ãƒ€`ã®ã„ã‚‹éŠè‰˜
 							stockCharMovePoint( ptAct, nowGx, nowGy );
 						}
 					}
@@ -1388,16 +1388,16 @@ void lssproto_S_recv( int fd, char *data )
 				party[no].ptAct = pc.ptAct;
 				setPcParty();
 
-				// PC¤¬¥ê©`¥À©`¤Î•r
+				// PCãŒãƒª`ãƒ€`ã®r
 				if( no == 0 )
 				{
 					setPcLeader();
 				}
 #if 0
-				// PC¤¬¥ê©`¥À©`ÒÔÍâ¤Î•r
+				// PCãŒãƒª`ãƒ€`ä»¥å¤–ã®r
 				else
 				{
-					// ¥ê©`¥À©`¤Î¤¤¤ëˆöËù¤ËÒÆ„Ó
+					// ãƒª`ãƒ€`ã®ã„ã‚‹éŠè‰˜
 					if( party[0].ptAct != NULL )
 					{
 						stockCharMovePoint( pc.ptAct, party[0].ptAct->gx, party[0].ptAct->gy );
@@ -1408,7 +1408,7 @@ void lssproto_S_recv( int fd, char *data )
 			}
 			break;
 
-		// ¥¢¥¤¥Æ¥à¤ÎÇéˆó
+		// ã‚¢ã‚¤ãƒ†ãƒ ã®æƒ…
 		case 'I':
 			{
 			int i;
@@ -1417,7 +1417,7 @@ void lssproto_S_recv( int fd, char *data )
 			char name2[256];
 			char memo[256];
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data++;
 
 			for( i = 0; i < MAX_ITEM; i++ )
@@ -1426,7 +1426,7 @@ void lssproto_S_recv( int fd, char *data )
 				getStringToken( data, '|', no+1, sizeof( name ) - 1 , name );
 				makeRecvString( name );
 
-				// ÃûÇ°¤¬Ÿo¤¤•r¤Ï¥¢¥¤¥Æ¥à¤¬Ÿo¤¤¤È¤¹¤ë
+				// åå‰ãŒoã„rã¯ã‚¢ã‚¤ãƒ†ãƒ ãŒoã„ã¨ã™ã‚‹
 				if( strlen( name ) == 0 )
 				{
 					pc.item[i].useFlag = 0;
@@ -1471,7 +1471,7 @@ void lssproto_S_recv( int fd, char *data )
 			}
 			break;
 
-		// ¥Ú¥Ã¥È¤Î¼¼
+		// ãƒšãƒƒãƒˆã®æŠ€
 		case 'W':
 			{
 			int i;
@@ -1481,7 +1481,7 @@ void lssproto_S_recv( int fd, char *data )
 
 			no = data[1] - '0';
 
-			// ¥«¥Æ¥´¥êÎÄ×Ö¤òïw¤Ğ¤¹
+			// ã‚«ãƒ†ã‚´ãƒªæ–‡å­—ã‚’wã°ã™
 			data += 3;
 
 			for( i = 0; i < MAX_SKILL; i++ )
@@ -1493,7 +1493,7 @@ void lssproto_S_recv( int fd, char *data )
 				no2 = i * 5;
 				getStringToken( data, '|', no2+4, sizeof( name ) - 1, name );
 				makeRecvString( name );
-				// ÃûÇ°¤¬Ÿo¤¤•r¤Ï¥¹¥­¥ë¤¬¤Ê¤¤
+				// åå‰ãŒoã„rã¯ã‚¹ã‚­ãƒ«ãŒãªã„
 				if( strlen( name ) == 0 )
 				{
 					continue;
@@ -1527,7 +1527,7 @@ void lssproto_S_recv( int fd, char *data )
 
 
 #if 0
-    case 'S':       // ¥¹¥­¥ë
+    case 'S':       // ã‚¹ã‚­ãƒ«
         {
             int c=0;
             for(int i=0;i<MAXSKILL;i++){
@@ -1548,7 +1548,7 @@ void lssproto_S_recv( int fd, char *data )
 			}
         }
         break;
-    case 'T':       // ³ÆºÅ
+    case 'T':       // ç§°å·
         {
             for(int i=0;i<MAXTITLE;i++){
                 char t[TITLESIZE];
@@ -1572,22 +1572,22 @@ void lssproto_S_recv( int fd, char *data )
 }
 
 
-// ¥Ş¥Ã¥×„IÀí /////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë¤ÎÇéˆó¤Ç¥Á¥§¥Ã¥¯¥µ¥à¤òÈ¡¤ê¡¢
-// ¥Ş¥Ã¥×¤¬‰ä¤ï¤Ã¤¿¤«¡¢Ÿo¤¤•r¤Ë¥Ş¥Ã¥×¤òÒªÇó¤¹¤ë¡£
+// ãƒãƒƒãƒ—Iç† /////////////////////////////////////////////////////////////
+// ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®æƒ…è­é’éš¶Ğ”æ°“å•å•¶è›‰ãƒ»è¾
+// ãƒãƒƒãƒ—ãŒæµƒé“¯ç›²éƒ¡oã„rã«ãƒãƒƒãƒ—ã‚’è¦æ±‚ã™ã‚‹ã€‚
 void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 	int tileSum, int partsSum, int eventSum, char *data )
 {
 	char showString[512];
 	char floorName[32];
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
 #ifdef DEBUGPUSH
     char msg[800];
-    sprintf( msg , "µØĞÎ¤Î¥Á¥§¥Ã¥¯¥µ¥à¤ò¤¦¤±¤È¤Ã¤¿¡£FL%d %d,%d-%d,%d (%ud/%ud)",
+    sprintf( msg , "åœ°å½¢ã®ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’ã†ã‘ã¨ã£ãŸã€‚FL%d %d,%d-%d,%d (%ud/%ud)",
 		fl,x1,y1,x2,y2, tileSum, partsSum );
     PUSH( msg );
 #endif
@@ -1595,7 +1595,7 @@ void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 	getStringToken( data, '|', 1, sizeof( showString )-1, showString );
 
 	makeRecvString( showString );
-	// ¬FÔÚ¤¤¤ë¥Õ¥í¥¢ÒÔÍâ¤ÎÇéˆó¤Ï„IÀí¤·¤Ê¤¤
+	// Fåœ¨ã„ã‚‹ãƒ•ãƒ­ã‚¢ä»¥å¤–ã®æƒ…è­Iç†ã—ãªã„
 	if( nowFloor == fl )
 	{
 		getStringToken( showString, '|', 1, sizeof( floorName )-1, floorName );
@@ -1608,7 +1608,7 @@ void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 			strcpy( nowFloorName, "???" );
 		}
 
-		// ¥Ñ¥ì¥Ã¥È‰ä¸ü¤Î„IÀí
+		// ãƒ‘ãƒ¬ãƒƒãƒˆæ¶“Iç†
 		char strPal[32];
 
 		palNo = -2;
@@ -1618,7 +1618,7 @@ void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 		{
 			if( TimeZonePalChangeFlag == FALSE || loginFlag )
 			{
-				// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+				// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 				palNo = -1;
 			}
 		}
@@ -1630,7 +1630,7 @@ void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 			{
 				if( TimeZonePalChangeFlag == TRUE || loginFlag )
 				{
-					// ¹Ì¶¨¥Ñ¥ì¥Ã¥ÈÔO¶¨
+					// å›ºå®šãƒ‘ãƒ¬ãƒƒãƒˆOå®š
 					palNo = pal;
 				}
 			}
@@ -1638,7 +1638,7 @@ void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 			{
 				if( TimeZonePalChangeFlag == FALSE || loginFlag )
 				{
-					// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+					// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 					palNo = -1;
 				}
 			}
@@ -1649,20 +1649,20 @@ void lssproto_MC_recv( int fd, int fl, int x1, int y1, int x2, int y2,
 	{
 		if( nowFloor == fl )
 		{
-			// ¥Á¥§¥Ã¥¯¥µ¥àÍ¬¤¸•r¤Î„IÀí
+			// ãƒã‚§ãƒƒã‚¯ã‚µãƒ åŒã˜rã®Iç†
 			floorChangeFlag = FALSE;
 			if( warpEffectStart )
 			{
 				warpEffectOk = TRUE;
 			}
 		}
-		// ¤â¤¦¤³¤Î¥Õ¥é¥°¤Ï¤¤¤é¤Ê¤¤¤Î¤ÇFALSE¤Ë¤¹¤ë
+		// ã‚‚ã†ã“ã®ãƒ•ãƒ©ã‚°ã¯ã„ã‚‰ãªã„ã®ã§FALSEã«ã™ã‚‹
 		loginFlag = FALSE;
 	}
 }
 
 
-// ¥Ş¥Ã¥×¥Ç©`¥¿¤òÊÜ¤±È¡¤ê¥Õ¥¡¥¤¥ë¤Ë•ø¤¯
+// ãƒãƒƒãƒ—ãƒ‡`ã‚¿ã‚’å—ã‘å–ã‚Šãƒ•ã‚¡ã‚¤ãƒ«ã«
 void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data )
 {
 	char showString[512];
@@ -1675,13 +1675,13 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 	char tmp[100];
 	int flag;
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
 #ifdef DEBUGPUSH
     char msg[800];
-    sprintf( msg , "¥µ©`¥Ğ©`¤«¤éµØĞÎ¤ò¤¦¤±¤È¤Ã¤¿¡£FL%d %d,%d-%d,%d" , fl,x1,y1,x2,y2 );
+    sprintf( msg , "ã‚µ`ãƒ`ã‹ã‚‰åœ°å½¢ã‚’ã†ã‘ã¨ã£ãŸã€‚FL%d %d,%d-%d,%d" , fl,x1,y1,x2,y2 );
     PUSH( msg );
 #endif
 
@@ -1701,7 +1701,7 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 			strcpy( nowFloorName, "???" );
 		}
 
-		// ¥Ñ¥ì¥Ã¥È‰ä¸ü¤Î„IÀí
+		// ãƒ‘ãƒ¬ãƒƒãƒˆæ¶“Iç†
 		char strPal[32];
 
 		palNo = -2;
@@ -1711,7 +1711,7 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 		{
 			if( TimeZonePalChangeFlag == FALSE || loginFlag )
 			{
-				// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+				// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 				palNo = -1;
 			}
 		}
@@ -1723,7 +1723,7 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 			{
 				if( TimeZonePalChangeFlag == TRUE || loginFlag )
 				{
-					// ¹Ì¶¨¥Ñ¥ì¥Ã¥ÈÔO¶¨
+					// å›ºå®šãƒ‘ãƒ¬ãƒƒãƒˆOå®š
 					palNo = pal;
 				}
 			}
@@ -1731,7 +1731,7 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 			{
 				if( TimeZonePalChangeFlag == FALSE || loginFlag )
 				{
-					// ¥Ñ¥ì¥Ã¥È¥Á¥§¥ó¥¸
+					// ãƒ‘ãƒ¬ãƒƒãƒˆãƒã‚§ãƒ³ã‚¸
 					palNo = -1;
 				}
 			}
@@ -1759,7 +1759,7 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 
 	writeMap( fl, x1, y1, x2, y2, tile, parts, event );
 
-	// ¥Ş¥Ã¥×¤¬¿Õ¤Î•r¥Ç©`¥¿¤¬¤­¤¿¤é¥Ş¥Ã¥×¤òÕi¤ßŞz¤à¤è¤¦¤Ë¤¹¤ë
+	// ãƒãƒƒãƒ—ãŒç©ºã®rãƒ‡`ã‚¿ãŒããŸã‚‰ãƒãƒƒãƒ—ã‚’iã¿zã‚€ã‚ˆã†ã«ã™ã‚‹
 	if( mapEmptyFlag
 	 || floorChangeFlag )
 	{
@@ -1774,7 +1774,7 @@ void lssproto_M_recv( int fd, int fl, int x1, int y1, int x2, int y2, char* data
 		}
 	}
 
-	// ¤â¤¦¤³¤Î¥Õ¥é¥°¤Ï¤¤¤é¤Ê¤¤¤Î¤ÇFALSE¤Ë¤¹¤ë
+	// ã‚‚ã†ã“ã®ãƒ•ãƒ©ã‚°ã¯ã„ã‚‰ãªã„ã®ã§FALSEã«ã™ã‚‹
 	loginFlag = FALSE;
 }
 
@@ -1805,11 +1805,11 @@ void lssproto_C_recv( int fd, char *data )
 	int charType;
 	ACTION *ptAct;
 
-	// ?????­È£R??????¡c? ???¡pä}???
+	// ?????R??????c? ???p}???
 	if( logOutFlag )
 		return;
 
-	// ‘éêLÖĞ¤ÏŸoÒ•¤¹¤ë ???????????¡c? ???¡v???
+	// æ®›Lä¸­ã¯oã™ã‚‹ ???????????c? ???v???
 	if( encountNowFlag )
 	{
 		return;
@@ -1817,16 +1817,16 @@ void lssproto_C_recv( int fd, char *data )
 
 	for( i = 0; ; i++ )
 	{
-		// ¥Ñ¥é¥á©`¥¿Ÿo¤¯¤Ê¤Ã¤¿¤é½K¤ï¤ë
+		// ãƒ‘ãƒ©ãƒ¡`ã‚¿oããªã£ãŸã‚‰Kã‚ã‚‹
 		getStringToken( data, ',', i+1, sizeof( bigtoken )-1, bigtoken );
 		if( strlen( bigtoken ) == 0 )
 			break;
 
-		// 11‚€Ä¿¤Î¥È©`¥¯¥ó¤¬¤¢¤Ã¤¿¤é¤½¤ì¤Ï¥­¥ã¥é¡£
+		// 11ç›®ã®ãƒˆ`ã‚¯ãƒ³ãŒã‚ã£ãŸã‚‰ãã‚Œã¯ã‚­ãƒ£ãƒ©ã€‚
 		getStringToken( bigtoken , '|' , 11 , sizeof( smalltoken )-1, smalltoken );
 		if( strlen( smalltoken ) > 0 )
 		{
-			// NPC¤ÎÇéˆó
+			// NPCã®æƒ…
 			charType = getIntegerToken( bigtoken, '|', 1 );
 			getStringToken( bigtoken, '|', 2, sizeof( smalltoken )-1, smalltoken );
 			id = a62toi( smalltoken );
@@ -1852,22 +1852,22 @@ void lssproto_C_recv( int fd, char *data )
 
 			if( pc.id == id )
 			{
-				// PC¥­¥ã¥é
+				// PCã‚­ãƒ£ãƒ©
 				if( pc.ptAct == NULL )
 				{
-					// ¥¢¥¯¥·¥ç¥óŸo¤«¤Ã¤¿¤é×÷¤ë
+					// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³oã‹ã£ãŸã‚‰ä½œã‚‹
 					createPc( graNo, x, y, dir );
 					updataPcAct();
 				}
 				else
 				{
-					// ¥¢¥¯¥·¥ç¥ó¤¢¤Ã¤¿¤éÔO¶¨¤À¤±
+					// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚ã£ãŸã‚‰Oå®šã ã‘
 #if 0
 					setPcGraNo( graNo, dir );
 					setPcMovePoint( x, y );
 #else
-					// ¤¹¤Ç¤Ë¥¢¥¯¥·¥ç¥ó¤¢¤ë•r¤Ï¡¢
-					// X,Y,DIR¤ÏŸoÒ•¤¹¤ë
+					// ã™ã§ã«ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚ã‚‹rã¯ã€
+					// X,Y,DIRã¯oã™ã‚‹
 					setPcGraNo( graNo, pc.dir );
 #endif
 				}
@@ -1878,14 +1878,14 @@ void lssproto_C_recv( int fd, char *data )
 					party[0].level = pc.level;
 					strcpy( party[0].name, pc.name );
 				}
-				// ÖÙégÇéˆó¤¬¤¢¤Ã¤¿¤é¥¢¥¯¥·¥ç¥ó¥İ¥¤¥ó¥¿¤ò¸üĞÂ
+				// ä»²gæƒ…è­ç›²éƒ¡æ¥—ä¼ç»è—èªã…è—éƒ¡èš‹
 				for( j = 0; j < MAX_PARTY; j++ )
 				{
 					if( party[j].useFlag != 0 && party[j].id == id )
 					{
 						party[j].ptAct = pc.ptAct;
 						setPcParty();
-						// PC¤¬¥ê©`¥À©`¤Î•r
+						// PCãŒãƒª`ãƒ€`ã®r
 						if( j == 0 )
 						{
 							setPcLeader();
@@ -1898,7 +1898,7 @@ void lssproto_C_recv( int fd, char *data )
 			{
 				// NPC
 #if 0
-				// ¥æ©`¥¶¤¬ÔO¶¨¤·¤¿ÃûÇ°¤¬¤¢¤ë¤Ê¤é¤½¤ì¤òÊ¹¤¦
+				// ãƒ¦`ã‚¶ãŒOå®šã—ãŸåå‰ãŒã‚ã‚‹ãªã‚‰ãã‚Œã‚’ä½¿ã†
 				if( strlen( freeName ) > 0 )
 				{
 					strcpy( name, freeName );
@@ -1909,14 +1909,14 @@ void lssproto_C_recv( int fd, char *data )
 				ptAct = getCharObjAct( id );
 				if( ptAct != NULL )
 				{
-					// ÖÙégÇéˆó¤¬¤¢¤Ã¤¿¤é¥¢¥¯¥·¥ç¥ó¥İ¥¤¥ó¥¿¤ò¸üĞÂ
+					// ä»²gæƒ…è­ç›²éƒ¡æ¥—ä¼ç»è—èªã…è—éƒ¡èš‹
 					for( j = 0; j < MAX_PARTY; j++ )
 					{
 						if( party[j].useFlag != 0 && party[j].id == id )
 						{
 							party[j].ptAct = ptAct;
 							setCharParty( ptAct );
-							// NPC¤¬¥ê©`¥À©`¤Î•r
+							// NPCãŒãƒª`ãƒ€`ã®r
 							if( j == 0 )
 							{
 								setCharLeader( ptAct );
@@ -1928,7 +1928,7 @@ void lssproto_C_recv( int fd, char *data )
 			}
 
 #ifdef DEBUGPUSH
-//			PUSHVAR( "Charindex %d¡¡img %d¤Î¥­¥ã¥é¤ò¤À¤»¤È¥µ©`¥Ğ©`¤¬¤¤¤Ã¤¿¡£", id, graNo );
+//			PUSHVAR( "Charindex %dã€€img %dã®ã‚­ãƒ£ãƒ©ã‚’ã ã›ã¨ã‚µ`ãƒ`ãŒã„ã£ãŸã€‚", id, graNo );
 #endif
 		}
 		else
@@ -1936,7 +1936,7 @@ void lssproto_C_recv( int fd, char *data )
 			getStringToken( bigtoken, '|', 6, sizeof( smalltoken )-1, smalltoken );
 			if( strlen( smalltoken ) > 0 )
 			{
-				// ¥¢¥¤¥Æ¥àÇéˆó
+				// ã‚¢ã‚¤ãƒ†ãƒ æƒ…
 				getStringToken( bigtoken, '|', 1, sizeof(smalltoken)-1, smalltoken );
 				id = a62toi( smalltoken );
 				getStringToken( bigtoken, '|', 2, sizeof(smalltoken)-1, smalltoken );
@@ -1956,7 +1956,7 @@ void lssproto_C_recv( int fd, char *data )
 				getStringToken( bigtoken, '|', 4, sizeof( smalltoken )-1, smalltoken );
 				if( strlen( smalltoken ) > 0 )
 				{
-					// ¤ª½ğÇéˆó
+					// ãŠé‡‘æƒ…
 					getStringToken( bigtoken, '|', 1, sizeof(smalltoken)-1, smalltoken );
 					id = a62toi( smalltoken );
 					getStringToken( bigtoken, '|', 2, sizeof(smalltoken)-1, smalltoken );
@@ -1968,7 +1968,7 @@ void lssproto_C_recv( int fd, char *data )
 
 					sprintf( info, "%d Stone", money );
 
-					// ¤ª½ğ¤ÎÁ¿¤Ç¥°¥é¥Õ¥£¥Ã¥¯¤ò‰ä¤¨¤ë¤«¤â
+					// ãŠé‡‘ã®é‡ã§ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚’æµƒÃ æ¯ª
 					if( money > 10000 )
 					{
 						setMoneyCharObj( id, 24050, x, y, 0, money, info );
@@ -1991,8 +1991,8 @@ void lssproto_C_recv( int fd, char *data )
 
 
 
-// ¥­¥ã¥é¤Î¥¢¥¯¥·¥ç¥ó¤ÈÄ¨Ïû ///////////////////////////////////////////////
-// ¥­¥ã¥é¤Î¥¢¥¯¥·¥ç¥ó
+// ã‚­ãƒ£ãƒ©ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã¨æŠ¹æ¶ˆ ///////////////////////////////////////////////
+// ã‚­ãƒ£ãƒ©ã®ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
 void lssproto_CA_recv( int fd, char *data ) 
 {
 	char bigtoken[2048];
@@ -2012,11 +2012,11 @@ void lssproto_CA_recv( int fd, char *data )
 	ACTION *ptAct;
 
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
-	// ‘éêLÖĞ¤ÏŸoÒ•¤¹¤ë
+	// æ®›Lä¸­ã¯oã™ã‚‹
 	if( encountNowFlag )
 	{
 		return;
@@ -2045,11 +2045,11 @@ void lssproto_CA_recv( int fd, char *data )
 
 		if( pc.id == charindex )
 		{
-			// PC¥­¥ã¥é¤Î„Ó×÷‰ä¸ü
+			// PCã‚­ãƒ£ãƒ©ã®å¹¼æ¶“
 			if( pc.ptAct == NULL
 			 || (pc.ptAct != NULL && pc.ptAct->anim_chr_no == 0) )
 			{
-				// ¥¢¥¯¥·¥ç¥ó³öÀ´¤Æ¤Ê¤¤•r¤ÏC¤òÒªÇó¤·¥¢¥¯¥·¥ç¥ó¤ò×÷¤ë
+				// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³å‡ºæ¥ã¦ãªã„rã¯Cã‚’è¦æ±‚ã—ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä½œã‚‹
 				lssproto_C_send( sockfd, charindex );
 			}
 			else
@@ -2062,7 +2062,7 @@ void lssproto_CA_recv( int fd, char *data )
 		ptAct = getCharObjAct( charindex );
 		if( ptAct == NULL )
 		{
-			// Í¬¤¸ID¤¬Ñ}Êı¤¢¤Ã¤Æ¤â¥µ©`¥Ğ¤Ë†–¤¤ºÏ¤ï¤»¤ë¤Î¤Ï£±ID¤ÇÒ»»Ø¤Ë¤¹¤ë
+			// åŒã˜IDãŒ}æ•°ã‚ã£ã¦ã‚‚ã‚µ`ãƒã«ã„åˆã‚ã›ã‚‹ã®ã¯ï¼‘IDã§ä¸€å›ã«ã™ã‚‹
 			tellflag = 0;
 			for( j = 0; j < tellCindex; j++ )
 			{
@@ -2088,13 +2088,13 @@ void lssproto_CA_recv( int fd, char *data )
 }
 
 
-// ¥­¥ã¥é¤ÎÄ¨Ïû
+// ã‚­ãƒ£ãƒ©ã®æŠ¹æ¶ˆ
 void lssproto_CD_recv( int fd, char *data )
 {
 	int i, j;
 	int id;
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2121,33 +2121,33 @@ void lssproto_CD_recv( int fd, char *data )
 
 
 
-// ÒÆ„Ó ///////////////////////////////////////////////////////////////////
-// ¥µ©`¥Ğ¤ËÒÆ„Ó¤¹¤ë¤³¤È¤ò»¤¨¤ë
+// ç§» ///////////////////////////////////////////////////////////////////
+// ã‚µ`ãƒã«ç§»å©´å·¥æ¯ªé•¿è¶£æŠ¤Ã 
 void walkSendForServer( int x, int y, char *direction )
 {
     lssproto_W_send( sockfd , x, y, direction );
 }
 
 
-// ¥µ©`¥Ğ¤ËÒÆ„Ó¤¹¤ë¤³¤È¤ò»¤¨¤ë
-//  ¤³¤Á¤é¤Ï¥Á¥§¥Ã¥¯¥µ¥à¤òËÍ¤Ã¤Æ¤³¤Ê¤¤¤Î¤Ç£±¶È¤Ç¤â¤¤¤Ã¤¿Ëù¤Ç¤Ê¤¤¤ÈÊ¹¤¨¤Ê¤¤¡£
+// ã‚µ`ãƒã«ç§»å©´å·¥æ¯ªé•¿è¶£æŠ¤Ã 
+//  ã“ã¡ã‚‰ã¯ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’é€ã£ã¦ã“ãªã„ã®ã§ï¼‘åº¦ã§ã‚‚ã„ã£ãŸæ‰€ã§ãªã„ã¨ä½¿ãˆãªã„ã€‚
 void noChecksumWalkSendForServer( int x, int y, char *direction )
 {
     lssproto_w_send( sockfd , x, y, direction );
 }
 
 
-// ÒÆ„Ó¥³¥Ş¥ó¥É¤Î·µ´ğÊÜĞÅ
+// ç§»é¹°å¿è•™è—å—“ç•è¡é¹—è‹„
 void lssproto_W_recv( int fd, int id, int x, int y )
 {
-	// ½ñ»Ø¤Ï¤¢¤¿¤êÅĞ¶¨¤È¤«¥¯¥é¥¤¥¢¥ó¥È¤Ç¤·¤Æ
-	// ¥µ©`¥Ğ¤Ë¤Ï½Ì¤¨¤ë¤À¤±¤Ê¤Î¤ÇºÎ¤â¤·¤Ê¤¤¡£¤«¤â£¿
+	// ä»Šå›ã¯ã‚ãŸã‚Šåˆ¤å®šã¨ã‹ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã§ã—ã¦
+	// ã‚µ`ãƒã«ã¯æ•™ãˆã‚‹ã ã‘ãªã®ã§ä½•ã‚‚ã—ãªã„ã€‚ã‹ã‚‚ï¼Ÿ
 }
 
 
 
 
-// ¥Á¥ã¥Ã¥ÈÎÄ×ÖÁĞËÍĞÅ //ÁÄÌì×Ö·û´®·¢ËÍ///////////////////////////////////////////////////
+// ãƒãƒ£ãƒƒãƒˆæ–‡å­—åˆ—é€ä¿¡ //èŠå¤©å­—ç¬¦ä¸²å‘é€///////////////////////////////////////////////////
 void chatStrSendForServer( char *str, int color )
 {
 
@@ -2167,14 +2167,14 @@ void chatStrSendForServer( char *str, int color )
 
 
 
-// ¥Æ¥­¥¹¥ÈÊÜĞÅ ///////////////////////////////////////////////////////////
+// ãƒ†ã‚­ã‚¹ãƒˆå—ä¿¡ ///////////////////////////////////////////////////////////
 void lssproto_TK_recv( int fd, int index, char *message, int color )
 {
 	char id[2];
 	char msg[2024];
 	ACTION *ptAct;
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2190,7 +2190,7 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 		{
 			if( pc.ptAct != NULL && pc.id == index )
 			{
-				// 1000¥ß¥êÃë±íÊ¾
+				// 1000ãƒŸãƒªç§’è¡¨ç¤º
 				setPcFukidashi( 1000 );
 			}
 			else
@@ -2198,7 +2198,7 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 				ptAct = getCharObjAct( index );
 				if( ptAct != NULL )
 				{
-					// 1000¥ß¥êÃë±íÊ¾
+					// 1000ãƒŸãƒªç§’è¡¨ç¤º
 					setCharFukidashi( ptAct, 1000 );
 				}
 			}
@@ -2225,7 +2225,7 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 	}
 
 #ifdef DEBUGPUSH
-	if(color<249)PUSHVAR("‰ä¤ÊÉ«¤Ç¥á¥Ã¥»©`¥¸À´¤¿£¨%d£©'%s'",color, message); 
+	if(color<249)PUSHVAR("æµƒå™¬é’å¹æ°“å“—`ã‚¸æ¥ãŸï¼ˆ%dï¼‰'%s'",color, message); 
 #endif
 	char id[2];
     char msg[2024];
@@ -2253,7 +2253,7 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 	}else if(id[0] == 'D'){
 		int i;
 		selectwindowid = getIntegerToken(message, '|', 2);
-		void setDengonbanMessageNumber(int i);//netaction.cpp¤Ë±¾Ìå
+		void setDengonbanMessageNumber(int i);//netaction.cppã«æœ¬ä½“
 		setDengonbanMessageNumber(getIntegerToken(message, '|', 3));
 		for(i=0;i<5;i++){
 			getStringToken( message , '|' , i+4 , sizeof( selectstringline[i] )-1, selectstringline[i]);
@@ -2284,12 +2284,12 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 		cantclosewindowflag = 1;
 		if(mode[0] == 'G')OpenNPCWindow(NPC_KATARIBE_WINDOW);
 		else if(mode[0] == 'N')OpenNPCWindow(NPC_WINDOW);
-		else PUSHVAR("¥µ©`¥Ğ¤¬¥¦¥£¥ó¥É¥¦é_¤±¤È¤¤¤Ã¤¿¤¬Àí½â¤Ç¤­¤Ê¤«¤Ã¤¿", msg);
+		else PUSHVAR("ã‚µ`ãƒãŒã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ã‘ã¨ã„ã£ãŸãŒç†è§£ã§ããªã‹ã£ãŸ", msg);
 	}else if(id[0] == 'M'){
 		int i = 0, j = 0, k = 0;
 		if(strlen(message)>1024){
 #ifdef DEBUGPUSH
-			PUSH("¥µ©`¥Ğ¤«¤éÀ´¤¿¥á¥Ã¥»©`¥¸¤¬éL¤¹¤®¤ë¤Ê¤ê");
+			PUSH("ã‚µ`ãƒã‹ã‚‰æ¥ãŸãƒ¡ãƒƒã‚»`ã‚¸ãŒLã™ãã‚‹ãªã‚Š");
 #endif
 			return;
 		}
@@ -2320,11 +2320,11 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 		selectstringlinenumber=j;
 		if(mode[0] == 'G')OpenNPCWindow(NPC_G_MESSAGE_WINDOW);
 		else if(mode[0] == 'N')OpenNPCWindow(NPC_MESSAGE_WINDOW);
-		else PUSHVAR("¥µ©`¥Ğ¤¬¥¦¥£¥ó¥É¥¦é_¤±¤È¤¤¤Ã¤¿¤¬Àí½â¤Ç¤­¤Ê¤«¤Ã¤¿", msg);
+		else PUSHVAR("ã‚µ`ãƒãŒã‚¦ã‚£ãƒ³ãƒ‰ã‚¦_ã‘ã¨ã„ã£ãŸãŒç†è§£ã§ããªã‹ã£ãŸ", msg);
 	}else if(id[0] == 'S'){
 		int i;
 #if 1
-		// µê¤Î¥Ç©`¥¿¤¬À´¤¿¤Î¤Ç¥Ğ¥Ã¥Õ¥¡¤ò³õÆÚ»¯
+		// åº—ã®ãƒ‡`ã‚¿ãŒæ¥ãŸã®ã§ãƒãƒƒãƒ•ã‚¡ã‚’åˆæœŸåŒ–
 		for( i = 0; i < MAXSHOPITEM; i++ )
 		{
 			shopitem[i].plice = 0;
@@ -2362,8 +2362,8 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 		setShoppage (0);
 		OpenNPCWindow(NPC_SHOP_START_WINDOW);
 		cantclosewindowflag = 1;
-		PUSHVAR( "¥µ©`¥Ğ©`¤«¤é¡¢ '%s'¤È¤¤¤¦¥á¥Ã¥»©`¥¸¤­¤¿" , msg );
-	}else if(id[0] == 'L'){//¤í¤¹¤È
+		PUSHVAR( "ã‚µ`ãƒ`ã‹ã‚‰ã€ '%s'ã¨ã„ã†ãƒ¡ãƒƒã‚»`ã‚¸ããŸ" , msg );
+	}else if(id[0] == 'L'){//ã‚ã™ã¨
 		getStringToken( message , '|' , 2 , sizeof( selectstringline[0] )-1, selectstringline[0] );
 			makeRecvString(selectstringline[0]);
 		getStringToken( message , '|' , 3 , sizeof( selectstringline[1] )-1, selectstringline[1] );
@@ -2389,7 +2389,7 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 			flag = getStringToken( message , '|' , i+3 , sizeof( caption )-1, caption);
 			makeRecvString(caption);
 			strcpy(selectstringline[i],caption);
-			if(strcmp(selectstringline[i],"¥í¥°¥¢¥¦¥È")==0){
+			if(strcmp(selectstringline[i],"ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ")==0){
 				index = SYSTEM_LOGOUT;
 			}else{
 				index = SYSTEM_SERVERPUSH_1+i-1;
@@ -2402,11 +2402,11 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 		deadflag = 1;
 		OpenSystemWindow();
 //		OpenNPCWindow(NPC_WINDOW);
-		PUSH("TK¤ÇËÀ¤ó¤À¤ÈÑÔ¤ï¤ì¤¿");
+		PUSH("TKã§æ­»ã‚“ã ã¨è¨€ã‚ã‚ŒãŸ");
 	}else if(id[0] == 'R'){
 		deadflag = 0;
 	}else{
-		PUSH("TKÀ´¤¿¤±¤ÉÀí½â¤Ç¤­¤ó¤«¤Ã¤¿");
+		PUSH("TKæ¥ãŸã‘ã©ç†è§£ã§ãã‚“ã‹ã£ãŸ");
 	}
 
 #endif
@@ -2416,13 +2416,13 @@ void lssproto_TK_recv( int fd, int index, char *message, int color )
 
 
 
-// ĞÂ¥­¥ã¥é×÷³É ///////////////////////////////////////////////////////////
-// ×÷³É¤·¤¿¥­¥ã¥é¥Ç©`¥¿¤ò¥µ©`¥Ğ¤ËËÍ¤ë
+// æ–°ã‚­ãƒ£ãƒ©ä½œæˆ ///////////////////////////////////////////////////////////
+// ä½œæˆã—ãŸã‚­ãƒ£ãƒ©ãƒ‡`ã‚¿ã‚’ã‚µ`ãƒã«é€ã‚‹
 void createNewCharStart( void )
 {
 	newCharStatus = 0;
 
-	// ¥µ©`¥Ğ¤Ç±£´æÎ»ÖÃ¤¬¹Ì¶¨¤Ë¤Ê¤Ã¤¿¤é¤³¤Ã¤Á¤Ë¤¹¤ë
+	// ã‚µ`ãƒã§ä¿å­˜ä½ç½®ãŒå›ºå®šã«ãªã£ãŸã‚‰ã“ã£ã¡ã«ã™ã‚‹
 	lssproto_CreateNewChar_send( sockfd, selectPcNo, newCharacterName,
 		newCharacterGraNo, newCharacterFaceGraNo,
 		newCharacterVit, newCharacterStr, newCharacterTgh, newCharacterDex,
@@ -2433,8 +2433,8 @@ void createNewCharStart( void )
 }
 
 
-// ĞÂ¥­¥ã¥éµÇåhÍêÁË´ı¤Á
-//   ‘ø¤ê‚£º 0 ... ÊÜĞÅ´ı¤Á / 1 ... ÊÜĞÅÍêÁË / -1 ... ¥¿¥¤¥à¥¢¥¦¥È / -2 ... ¥¨¥é©`¤¬¢¤Ã¤Æ¤­¤¿
+// æ–°ã‚­ãƒ£ãƒ©ç™»hå®Œäº†å¾…ã¡
+//    0 ... å—ä¿¡å¾…ã¡ / 1 ... å—ä¿¡å®Œäº† / -1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ / -2 ... ã‚¨ãƒ©`ãŒã£ã¦ããŸ
 int createNewCharProc( void )
 {
 	if( netproc_sending == NETPROC_RECEIVED )
@@ -2456,7 +2456,7 @@ int createNewCharProc( void )
 }
 
 
-// ĞÂ¥­¥ã¥éµÇåhÍêÁËÊÜĞÅ
+// æ–°ã‚­ãƒ£ãƒ©ç™»hå®Œäº†å—ä¿¡
 void lssproto_CreateNewChar_recv( int fd, char *result, char *data ) 
 {
 	if( netproc_sending == NETPROC_SENDING )
@@ -2477,8 +2477,8 @@ void lssproto_CreateNewChar_recv( int fd, char *result, char *data )
 
 
 
-// ¥­¥ã¥éÏ÷³ı /////////////////////////////////////////////////////////////
-// Ï÷³ı¥­¥ã¥é·¬ºÅËÍĞÅ
+// ã‚­ãƒ£ãƒ©å‰Šé™¤ /////////////////////////////////////////////////////////////
+// å‰Šé™¤ã‚­ãƒ£ãƒ©ç•ªå·é€ä¿¡
 void delCharStart( void )
 {
 	charDelStatus = 0;
@@ -2489,8 +2489,8 @@ void delCharStart( void )
 }
 
 
-// ¥­¥ã¥éÏ÷³ı´ı¤Á
-//   ‘ø¤ê‚£º 0 ... Ï÷³ı´ı¤Á / 1 ... Ï÷³ıÍêÁË / -1 ... ¥¿¥¤¥à¥¢¥¦¥È / -2 ... ¥¨¥é©`¤¬¢¤Ã¤Æ¤­¤¿
+// ã‚­ãƒ£ãƒ©å‰Šé™¤å¾…ã¡
+//    0 ... å‰Šé™¤å¾…ã¡ / 1 ... å‰Šé™¤å®Œäº† / -1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ / -2 ... ã‚¨ãƒ©`ãŒã£ã¦ããŸ
 int delCharProc( void )
 {
 	if( netproc_sending == NETPROC_RECEIVED )
@@ -2512,7 +2512,7 @@ int delCharProc( void )
 }
 
 
-// ¥­¥ã¥éÏ÷³ıÍêÁËÊÜĞÅ
+// ã‚­ãƒ£ãƒ©å‰Šé™¤å®Œäº†å—ä¿¡
 void lssproto_CharDelete_recv( int fd, char *result, char *data )
 {
 	if( netproc_sending == NETPROC_SENDING )
@@ -2528,14 +2528,14 @@ void lssproto_CharDelete_recv( int fd, char *result, char *data )
 
 
 #if 0
-// ¥Ñ¥¹¥ï©`¥É‰ä¸ü /////////////////////////////////////////////////////////
+// ãƒ‘ã‚¹ãƒ¯`ãƒ‰æ¶“ /////////////////////////////////////////////////////////
 
 static short netprocChagePasswdSending = NETPROC_NOTSEND;
 static BOOL netprocChagePasswdResult = FALSE;
-static DWORD chagePasswdStartTime = 0;	// ¥¿¥¤¥à¥¢¥¦¥È¥Á¥§¥Ã¥¯
+static DWORD chagePasswdStartTime = 0;	// ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆãƒã‚§ãƒƒã‚¯
 
-// ĞÂ¤·¤¤¥Ñ¥¹¥ï©`¥ÉËÍĞÅ£¨ĞÂÒµÇåh£©
-//   CDKEY¤¬±ØÒª
+// æ–°ã—ã„ãƒ‘ã‚¹ãƒ¯`ãƒ‰é€ä¿¡ï¼ˆæ–°æ¸…hï¼‰
+//   CDKEYãŒå¿…è¦
 void changePassword( char *_cdkey, char *_newPasswd )
 {
 	char cdkey[64];
@@ -2548,7 +2548,7 @@ void changePassword( char *_cdkey, char *_newPasswd )
 	strcpy( cdkey, _cdkey );
 	strcpy( newPasswd, _newPasswd );
 
-    // ChangePasswd¤òËÍĞÅ¤¹¤ë¤ÈÍ¬•r¤ËClientLogin¤âËÍĞÅ¤¹¤ë( lssproto.html ²ÎÕÕ)
+    // ChangePasswdã‚’é€ä¿¡ã™ã‚‹ã¨åŒrã«ClientLoginã‚‚é€ä¿¡ã™ã‚‹( lssproto.html å‚ç…§)
 	netprocChagePasswdSending = NETPROC_SENDING;
 	netprocChagePasswdResult = FALSE;
     lssproto_ClientLogin_send( sockfd, cdkey, newPasswd );
@@ -2558,8 +2558,8 @@ void changePassword( char *_cdkey, char *_newPasswd )
 }
 
 
-// ¥Ñ¥¹¥ï©`¥É‰ä¸ü½Y¹û´ı¤Á
-// ‘ø¤ê‚£º0 ... ÍêÁË´ı¤Á/ 1 ... ÍêÁË(³É¹¦) / 2 ... ÍêÁË(Ê§”¡) / -1 ... ¥¿¥¤¥à¥¢¥¦¥È
+// ãƒ‘ã‚¹ãƒ¯`ãƒ‰æ¶“Yæœå¾…ã¡
+// 0 ... å®Œäº†å¾…ã¡/ 1 ... å®Œäº†(æˆåŠŸ) / 2 ... å®Œäº†(å¤±) / -1 ... ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ
 int changePasswordDoing( void )
 {
 	if( netprocChagePasswdSending == NETPROC_RECEIVED )
@@ -2582,7 +2582,7 @@ int changePasswordDoing( void )
 }
 
 
-// ¥Ñ¥¹¥ï©`¥É‰ä¸ü½Y¹ûÊÜĞÅ
+// ãƒ‘ã‚¹ãƒ¯`ãƒ‰æ¶“Yæœå—ä¿¡
 void lssproto_ChangePasswd_recv( int fd, char *result, char *data )
 {
 	if( netprocChagePasswdSending == NETPROC_SENDING )
@@ -2597,22 +2597,22 @@ void lssproto_ChangePasswd_recv( int fd, char *result, char *data )
 #endif
 
 
-// ÖÙégÒªÇó¤ÎÊÜĞÅ /////////////////////////////////////////////////////////
+// ä»²gè¦æ±‚ã®å—ä¿¡ /////////////////////////////////////////////////////////
 void lssproto_PR_recv( int fd, int request, int result )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
 	if( request == 1 && result == 1 )
 	{
-		// Õl¤«¤Î¥Ñ©`¥Æ¥£©`¤ËÈë¤ëÒªÇó¤¬Í¨¤Ã¤¿
+		// lã‹ã®ãƒ‘`ãƒ†ã‚£`ã«å…¥ã‚‹è¦æ±‚ãŒé€šã£ãŸ
 		setPcParty();
 	}
 	else
 	if( request == 0 && result == 1 )
 	{
-		// ¥Ñ©`¥Æ¥£©`¤«¤é³ıê ¤·¤¿
+		// ãƒ‘`ãƒ†ã‚£`ã‹ã‚‰é™¤ã—ãŸ
 		delPcParty();
 		delPcLeader();
 		partyModeFlag = 0;
@@ -2623,10 +2623,10 @@ void lssproto_PR_recv( int fd, int request, int result )
 
 
 
-// EV£¨¥¤¥Ù¥ó¥È£©ËÍĞÅáá¤ÎÊÜĞÅ´ı¤Á /////////////////////////////////////////
+// EVï¼ˆã‚¤ãƒ™ãƒ³ãƒˆï¼‰é€ä¿¡å¾Œã®å—ä¿¡å¾…ã¡ /////////////////////////////////////////
 void lssproto_EV_recv( int fd, int seqno, int result )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2635,10 +2635,10 @@ void lssproto_EV_recv( int fd, int seqno, int result )
 		eventWarpSendFlag = 0;
 		if( result == 0 )
 		{
-			// ¥ï©`¥×Ê§”¡¤·¤¿¤éÔª¤Î»­Ãæ¤ò±íÊ¾¤µ¤»¤ë
+			// ãƒ¯`ãƒ—å¤±ãƒ»ç­éƒ¡æ¨µä½å¦è™®ç¡å…¢ä¸¹æŠ¤
 			redrawMap();
 			floorChangeFlag = FALSE;
-			// ŠÖÆµÄ¤Ë¥Õ¥§©`¥É¥¤¥ó¤µ¤»¤ë
+			// åˆ¶çš„ã«ãƒ•ã‚§`ãƒ‰ã‚¤ãƒ³ã•ã›ã‚‹
 			warpEffectStart = TRUE;
 			warpEffectOk = TRUE;
 		}
@@ -2652,26 +2652,26 @@ void lssproto_EV_recv( int fd, int seqno, int result )
 		}
 		//else
 		//{
-			// ¥Õ¥é¥°¥ª¥Õ¤Ïprocess.cpp¤Ç¤ä¤ë
+			// ãƒ•ãƒ©ã‚°ã‚ªãƒ•ã¯process.cppã§ã‚„ã‚‹
 		//}
 	}
 }
 
 
-// ÖÙégOK¡¢‘éêLÍ¾ÖĞ²Î¼ÓOK¡¢£Ä£Õ£Å£Ì £Ï£Ë¤Î×´‘BÊÜĞÅ ////////////////////////
+// ä»²gOKã€æ®›Lé€”ä¸­å‚åŠ OKã€ï¼¤ï¼µï¼¥ï¼¬ ï¼¯ï¼«ã®çŠ¶Bå—ä¿¡ ////////////////////////
 void lssproto_FS_recv( int fd, int flg )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
 	pc.etcFlag = (unsigned short)flg;
-	pc.etcFlag &= ~PC_ETCFLAG_JOINT_BTL;	// ¤³¤Î¥Ó¥Ã¥È¤ÏÍ¨³££Ï£Æ£Æ
+	pc.etcFlag &= ~PC_ETCFLAG_JOINT_BTL;	// ã“ã®ãƒ“ãƒƒãƒˆã¯é€šå¸¸ï¼¯ï¼¦ï¼¦
 }
 
 
 
-// ¥¢¥É¥ì¥¹¥Ö¥Ã¥¯¤ÎÄÚÈİÊÜĞÅ ///////////////////////////////////////////////
+// ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ–ãƒƒã‚¯ã®å†…å®¹å—ä¿¡ ///////////////////////////////////////////////
 void lssproto_AB_recv( int fd, char *data )
 {
 	int i;
@@ -2681,7 +2681,7 @@ void lssproto_AB_recv( int fd, char *data )
 	int flag;
 	int useFlag;
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2704,9 +2704,9 @@ void lssproto_AB_recv( int fd, char *data )
 			{
 				memset( &MailHistory[i], 0, sizeof( MailHistory[0] ) ) ;
 				SaveMailHistory( i );
-				// Î´Õi¥Á¥§¥Ã¥¯
+				// æœªiãƒã‚§ãƒƒã‚¯
 				mailLamp = CheckMailNoReadFlag();
-				// ÊÖ¼ˆ¥¢¥Ë¥áÏûÈ¥
+				// æ‰‹ã‚¢ãƒ‹ãƒ¡æ¶ˆå»
 				DeathLetterAction();
 			}
 			addressBook[i].useFlag = 0;
@@ -2736,14 +2736,14 @@ void lssproto_AB_recv( int fd, char *data )
 
 
 #if 1
-// ¥¢¥É¥ì¥¹¥Ö¥Ã¥¯¤ÎÄÚÈİÊÜĞÅ£¨…gÌå£©////////////////////////////////////////
+// ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ–ãƒƒã‚¯ã®å†…å®¹å—ä¿¡ï¼ˆgä½“ï¼‰////////////////////////////////////////
 void lssproto_ABI_recv( int fd, int num, char* data )
 {
 	char name[256];
 	int nameLen;
 	int useFlag;
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2762,9 +2762,9 @@ void lssproto_ABI_recv( int fd, int num, char* data )
 		{
 			memset( &MailHistory[num], 0, sizeof( MailHistory[0] ) ) ;
 			SaveMailHistory( num );
-			// Î´Õi¥Á¥§¥Ã¥¯
+			// æœªiãƒã‚§ãƒƒã‚¯
 			mailLamp = CheckMailNoReadFlag();
-			// ÊÖ¼ˆ¥¢¥Ë¥áÏûÈ¥
+			// æ‰‹ã‚¢ãƒ‹ãƒ¡æ¶ˆå»
 			DeathLetterAction();
 		}
 		addressBook[num].useFlag = useFlag;
@@ -2789,14 +2789,14 @@ void lssproto_ABI_recv( int fd, int num, char* data )
 #endif
 
 
-// ‘éêL½Y¹û¥á¥Ã¥»©`¥¸ÊÜĞÅ /////////////////////////////////////////////////
+// æ®›LYæœãƒ¡ãƒƒã‚»`ã‚¸å—ä¿¡ /////////////////////////////////////////////////
 void lssproto_RS_recv( int fd, char *data )
 {
 	int i;
 	char token[2048];
 	char item[2048];
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2833,10 +2833,10 @@ void lssproto_RS_recv( int fd, char *data )
 }
 
 
-// ¥Ç¥å¥¨¥ë½Y¹û¥á¥Ã¥»©`¥¸ÊÜĞÅ /////////////////////////////////////////////////
+// ãƒ‡ãƒ¥ã‚¨ãƒ«Yæœãƒ¡ãƒƒã‚»`ã‚¸å—ä¿¡ /////////////////////////////////////////////////
 void lssproto_RD_recv( int fd, char *data )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2847,10 +2847,10 @@ void lssproto_RD_recv( int fd, char *data )
 }
 
 
-// ¥¢¥¤¥Æ¥àÎ»ÖÃ‰ä¸üÊÜĞÅ ///////////////////////////////////////////////////
+// ã‚¢ã‚¤ãƒ†ãƒ ä½ç½®æ¶“è‹„ ///////////////////////////////////////////////////
 void lssproto_SI_recv( int fd, int from, int to )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2858,7 +2858,7 @@ void lssproto_SI_recv( int fd, int from, int to )
 }
 
 
-// ¥¢¥¤¥Æ¥àÇéˆóÊÜĞÅ ///////////////////////////////////////////////////////
+// ã‚¢ã‚¤ãƒ†ãƒ æƒ…ç¬«è‹„ ///////////////////////////////////////////////////////
 void lssproto_I_recv( int fd, char *data )
 {
 	int i, j;
@@ -2867,7 +2867,7 @@ void lssproto_I_recv( int fd, char *data )
 	char name2[256];
 	char memo[256];
 
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2881,7 +2881,7 @@ void lssproto_I_recv( int fd, char *data )
 			break;
 		makeRecvString( name );
 
-		// ÃûÇ°¤¬Ÿo¤¤•r¤Ï¥¢¥¤¥Æ¥à¤¬Ÿo¤¤¤È¤¹¤ë
+		// åå‰ãŒoã„rã¯ã‚¢ã‚¤ãƒ†ãƒ ãŒoã„ã¨ã™ã‚‹
 		if( strlen( name ) == 0 )
 		{
 			pc.item[i].useFlag = 0;
@@ -2926,10 +2926,10 @@ void lssproto_I_recv( int fd, char *data )
 }
 
 
-// ¥¦¥£¥ó¥É¥¦„IÀí /////////////////////////////////////////////////////////
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦Iç† /////////////////////////////////////////////////////////
 void lssproto_WN_recv( int fd,int windowtype,int buttontype,int seqno,int objindex,char* data )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
@@ -2937,21 +2937,21 @@ void lssproto_WN_recv( int fd,int windowtype,int buttontype,int seqno,int objind
 }
 
 
-// ¥Ú¥Ã¥È¥á©`¥ëÑİ³ö ///////////////////////////////////////////////////////
+// ãƒšãƒƒãƒˆãƒ¡`ãƒ«æ¼”å‡º ///////////////////////////////////////////////////////
 void lssproto_PME_recv( int fd, int objindex,
 	int graphicsno, int x, int y, int dir, int flg, int no, char *cdata )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
-	// ‘éêLÖĞ¤ÏŸoÒ•¤¹¤ë
+	// æ®›Lä¸­ã¯oã™ã‚‹
 	if( encountNowFlag )
 	{
 		return;
 	}
 
-	// ËÍĞÅÑİ³ö
+	// é€ä¿¡æ¼”å‡º
 	if( flg == 0 )
 	{
 		switch( no )
@@ -2966,7 +2966,7 @@ void lssproto_PME_recv( int fd, int objindex,
 		}
 	}
 	else
-	// ÊÜĞÅÑİ³ö
+	// å—ä¿¡æ¼”å‡º
 	{
 		char smalltoken[2048];
 		int id;
@@ -3005,7 +3005,7 @@ void lssproto_PME_recv( int fd, int objindex,
 		getStringToken( cdata, '|', 12, sizeof( smalltoken )-1, smalltoken );
 		height = atoi( smalltoken );
 
-		// ¤¹¤Ç¤ËÇéˆó¤¬¤¢¤Ã¤¿¤éºÎ¤â¤·¤Ê¤¤
+		// ã™ã§ã«æƒ…è­ç›²éƒ¡æ¥¹éŸ¦çŒ¡ç­èƒœ
 		if( setReturnPetObj( id, graNo, x, y, dir, name, freeName,
 			level, nameColor, walkable, height, charType ) )
 		{
@@ -3024,7 +3024,7 @@ void lssproto_PME_recv( int fd, int objindex,
 }
 
 
-// Öi£¿ ///////////////////////////////////////////////////////////////////
+// iï¼Ÿ ///////////////////////////////////////////////////////////////////
 void lssproto_IS_recv( int fd, char* cdata )
 {
 }
@@ -3032,22 +3032,22 @@ void lssproto_IS_recv( int fd, char* cdata )
 
 
 
-// EN£¨¥¨¥ó¥«¥¦¥ó¥È£©ËÍĞÅáá¤ÎÊÜĞÅ´ı¤Á /////////////////////////////////////
-// result ¤Î‚	£±£ºÍ¨³£¥¨¥ó¥«¥¦¥ó¥È
-//				£²£º¥Ç¥å¥¨¥ë
-//				£´£ºÓQ‘é
-//				£µ£º¥Ø¥ë¥×²»¿É
+// ENï¼ˆã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆï¼‰é€ä¿¡å¾Œã®å—ä¿¡å¾…ã¡ /////////////////////////////////////
+// result ã®	ï¼‘ï¼šé€šå¸¸ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆ
+//				ï¼’ï¼šãƒ‡ãƒ¥ã‚¨ãƒ«
+//				ï¼”ï¼šQ
+//				ï¼•ï¼šãƒ˜ãƒ«ãƒ—ä¸å¯
 void lssproto_EN_recv( int fd,int result,int field )
 {
-	// ¥í¥°¥¢¥¦¥È¤Ï¤¸¤á¤¿¤é¥µ©`¥Ğ¤«¤é¤ÎÇéˆó¤ÏŸoÒ•¤¹¤ë
+	// ãƒ­ã‚°ã‚¢ã‚¦ãƒˆã¯ã˜ã‚ãŸã‚‰ã‚µ`ãƒã‹ã‚‰ã®æƒ…è­oã™ã‚‹
 	if( logOutFlag )
 		return;
 
-	// ¥¨¥ó¥«¥¦¥ó¥Õ¥é¥°£Ï£Î
+	// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒ•ãƒ©ã‚°ï¼¯ï¼®
 	if( result > 0 )
 	{
 		EncountFlag = TRUE;
-		// ¥¨¥ó¥«¥¦¥ó¥È¤¬¹Ì¶¨”³¤«¥Ç¥å¥¨¥ë¤Î•r
+		// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆãŒå›ºå®šé•¿é’æ¿‚Ä“æ¯ªr
 		if( result == 6
 		 || result == 2 )
 		{
@@ -3057,30 +3057,30 @@ void lssproto_EN_recv( int fd,int result,int field )
 		{
 			eventEnemyFlag = 0;
 		}
-		// ¥¨¥é©`¥Á¥§¥Ã¥¯
+		// ã‚¨ãƒ©`ãƒã‚§ãƒƒã‚¯
 		if( field < 0 || BATTLE_MAP_FILES <= field ){
-			BattleMapNo = 0;	// ¥Ç¥Õ¥©¥ë¥È·¬ºÅ
+			BattleMapNo = 0;	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆç•ªå·
 		}else{
-			BattleMapNo = field;	// ‘éêL¥Ş¥Ã¥×·¬ºÅ
+			BattleMapNo = field;	// æ®›Lãƒãƒƒãƒ—ç•ªå·
 		}
-		// ¥Ç¥å¥¨¥ë¤Î•r
+		// ãƒ‡ãƒ¥ã‚¨ãƒ«ã®r
 		if( result == 2 ) DuelFlag = TRUE;
 		else DuelFlag = FALSE;
-		// ¥Ø¥ë¥×Ÿo¤·¤Î•r
+		// ãƒ˜ãƒ«ãƒ—oã—ã®r
 		if( result == 2 || result == 5 ) NoHelpFlag = TRUE;
 		else NoHelpFlag = FALSE;
 		
-		// ¥Õ¥é¥°¥ª¥Õ¤Ïprocess.cpp¤Ç¤ä¤ë
+		// ãƒ•ãƒ©ã‚°ã‚ªãƒ•ã¯process.cppã§ã‚„ã‚‹
 		// sendEnFlag = 0;
 		// duelSendFlag = 0;
 
-		// ¥Ğ¥È¥ë¥³¥Ş¥ó¥É³õÆÚ»¯
+		// ãƒãƒˆãƒ«ã‚³ãƒãƒ³ãƒ‰åˆæœŸåŒ–
 		BattleStatusReadPointer = BattleStatusWritePointer =0;
 		BattleCmdReadPointer = BattleCmdWritePointer =0;
 	}
 	else
 	{
-		// ½Y¹û¤â¤é¤Ã¤Æ¥¨¥ó¥«¥¦¥ó¥È¤Ç¤­¤Ê¤¤¤Ê¤é¤¹¤°¥Õ¥é¥°¥ª¥Õ
+		// Yæœã‚‚ã‚‰ã£ã¦ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã§ããªã„ãªã‚‰ã™ããƒ•ãƒ©ã‚°ã‚ªãƒ•
 		sendEnFlag = 0;
 		duelSendFlag = 0;
 		jbSendFlag = 0;
@@ -3088,7 +3088,7 @@ void lssproto_EN_recv( int fd,int result,int field )
 }
 
 
-// ‘éêLÖĞ¥Ø¥ë¥×¤ÎÊÜĞÅ
+// æ®›Lä¸­ãƒ˜ãƒ«ãƒ—ã®å—ä¿¡
 void lssproto_HL_recv( int fd, int flg )
 {
 	helpFlag = flg;
@@ -3098,32 +3098,32 @@ void lssproto_HL_recv( int fd, int flg )
 
 
 
-// ¥Ğ¥È¥ë¥³¥Ş¥ó¥ÉÊÜĞÅ /////////////////////////////////////////////////////
+// ãƒãƒˆãƒ«ã‚³ãƒãƒ³ãƒ‰å—ä¿¡ /////////////////////////////////////////////////////
 void lssproto_B_recv( int fd,char* command )
 {
 
-	// ¥Ğ¥È¥ë×´‘BÊÜĞÅ
+	// ãƒãƒˆãƒ«çŠ¶Bå—ä¿¡
 	if( *( command + 1 ) == 'C'){
 //		strcpy( BattleStatusBak, command );
 		strcpy( BattleStatusBak[ BattleStatusWritePointer ], command );
 		BattleStatusWritePointer = ( BattleStatusWritePointer + 1 ) & ( BATTLE_BUF_SIZE-1 );
 	}
-	// ±¾ÈËÊÜĞÅ
+	// æœ¬äººå—ä¿¡
 	else if( *( command + 1 ) == 'P')
 		sscanf( command + 3, "%X|%X|%X", &BattleMyNo, &BattleBpFlag, &BattleMyMp );
-	// ¥³¥Ş¥ó¥ÉÈëÁ¦œg¤ß¥Õ¥é¥°ÊÜĞÅ
+	// ã‚³ãƒãƒ³ãƒ‰å…¥åŠ›gã¿ãƒ•ãƒ©ã‚°å—ä¿¡
 	else if( *( command + 1 ) == 'A'){
 		sscanf( command + 3, "%X|%X", &BattleAnimFlag, &BattleSvTurnNo );
-		// ¥¿©`¥óÊÜĞÅ¥Õ¥é¥°£Ï£Î¤Î•r
+		// ã‚¿`ãƒ³å—ä¿¡ãƒ•ãƒ©ã‚°ï¼¯ï¼®ã®r
 		if( BattleTurnReceiveFlag == TRUE ){ 
-			BattleCliTurnNo = BattleSvTurnNo;	// ×î³õ¤Î¥¿©`¥ó·¬ºÅ¤òÒ™¤¨¤ë¡£
-			BattleTurnReceiveFlag = FALSE;		// ¥Õ¥é¥°£Ï£Æ£Æ
+			BattleCliTurnNo = BattleSvTurnNo;	// æœ€åˆã®ã‚¿`ãƒ³ç•ªå·ã‚’ãˆã‚‹ã€‚
+			BattleTurnReceiveFlag = FALSE;		// ãƒ•ãƒ©ã‚°ï¼¯ï¼¦ï¼¦
 		}
 	}
-	// ‘éêLŠÖÆ½KÁËÊÜĞÅ
+	// æ®›Låˆ¶Käº†å—ä¿¡
 	else if( *( command + 1 ) == 'U')
 		BattleEscFlag = TRUE;
-	// ‘éêL½Y¹ûÊÜĞÅ
+	// æ®›LYæœå—ä¿¡
 	else {
 //		strcpy( BattleCmdBak, command );
 		strcpy( BattleCmdBak[ BattleCmdWritePointer ], command );
@@ -3136,131 +3136,131 @@ void lssproto_B_recv( int fd,char* command )
 	
 }
 
-// ‘éêL¤Ë³ö¤¹¥Ú¥Ã¥È¤òßx’k¤·¤¿
+// æ®›Lã«å‡ºã™ãƒšãƒƒãƒˆã‚’xkã—ãŸ
 void lssproto_KS_recv( int fd,int petarray,int result )
 {
-	int cnt = 0; // ´ı™C¥«¥¦¥ó¥È
+	int cnt = 0; // å¾…Cã‚«ã‚¦ãƒ³ãƒˆ
 	int i;
 	
-	// ÊÜĞÅ´ı¤Á¥Õ¥é¥°³õÆÚ»¯
+	// å—ä¿¡å¾…ã¡ãƒ•ãƒ©ã‚°åˆæœŸåŒ–
 	BattlePetReceiveFlag = FALSE;
-	// ¥Ğ¥È¥ëÊÜĞÅÖĞ¤Î¥Ú¥Ã¥È·¬ºÅ³õÆÚ»¯
+	// ãƒãƒˆãƒ«å—ä¿¡ä¸­ã®ãƒšãƒƒãƒˆç•ªå·åˆæœŸåŒ–
 	BattlePetReceivePetNo = -1;
-	// ³É¹¦¤·¤¿•r
+	// æˆåŠŸã—ãŸr
 	if( result == TRUE ){ 
-		// ¥Ú¥Ã¥È·¬ºÅ¥Ğ¥Ã¥¯¥¢¥Ã¥×³õÆÚ»¯
+		// ãƒšãƒƒãƒˆç•ªå·ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—åˆæœŸåŒ–
 		battlePetNoBak = -2;
-		// ÒÔÇ°¤Î¥Ğ¥È¥ë¥Ú¥Ã¥È¤ò´ı™C¤Ç¤Ê¤¯¤¹¤ë
+		// ä»¥å‰ã®ãƒãƒˆãƒ«ãƒšãƒƒãƒˆã‚’å¾…Cã§ãªãã™ã‚‹
 		//if( pc.battlePetNo != -1 ) pc.selectPetNo[ pc.battlePetNo ] = FALSE;
 		
-		// ½ñ»Ø¤Î¥Ğ¥È¥ë¥Ú¥Ã¥È¤ò´ı™C¤Ë¤¹¤ë
+		// ä»Šå›ã®ãƒãƒˆãƒ«ãƒšãƒƒãƒˆã‚’å¾…Cã«ã™ã‚‹
 		if( petarray != -1 ){ 
-			// ´ı™C¤Ë¤¹¤ë
+			// å¾…Cã«ã™ã‚‹
 			pc.selectPetNo[ petarray ] = TRUE;
-			// ¥á©`¥ë¥Ú¥Ã¥È¤À¤Ã¤¿¤é¡¢£Ï£Æ£Æ¤Ë¤¹¤ë
+			// ãƒ¡`ãƒ«ãƒšãƒƒãƒˆã ã£ãŸã‚‰ã€ï¼¯ï¼¦ï¼¦ã«ã™ã‚‹
 			if( pc.mailPetNo == petarray ) pc.mailPetNo = -1;
-			// ´ı™C¥Ú¥Ã¥ÈÊı¥Á¥§¥Ã¥¯
+			// å¾…Cãƒšãƒƒãƒˆæ•°ãƒã‚§ãƒƒã‚¯
 			for( i = 0 ; i < 5 ; i++ ){
 				if( pc.selectPetNo[ i ] == TRUE && i != petarray ) cnt++;
-				// ÈËÊı¥ª¥Ğ©`¤Î•r¡¢£Ï£Æ£Æ¤Ë¤¹¤ë
+				// äººæ•°ã‚ªãƒ`ã®rã€ï¼¯ï¼¦ï¼¦ã«ã™ã‚‹
 				if( cnt >= 3 ){ 
 					pc.selectPetNo[ i ] = FALSE;
 					cnt--;
 				}
 			}
 		}
-		// ½ñ»Ø¤Î¥Ğ¥È¥ë¥Ú¥Ã¥È·¬ºÅÓ›‘›
+		// ä»Šå›ã®ãƒãƒˆãƒ«ãƒšãƒƒãƒˆç•ªå·
 		pc.battlePetNo = petarray;
 	}
 }
 
-//	¥¹¥­¥ë¥¢¥Ã¥×¥İ¥¤¥ó¥È
+//	ã‚¹ã‚­ãƒ«ã‚¢ãƒƒãƒ—ãƒã‚¤ãƒ³ãƒˆ
 void lssproto_SKUP_recv( int fd,int point )
 {
-	// ¥¹¥Æ©`¥¿¥¹¥¢¥Ã¥×¥İ¥¤¥ó¥ÈÊÜĞÅ
+	// ã‚¹ãƒ†`ã‚¿ã‚¹ã‚¢ãƒƒãƒ—ãƒã‚¤ãƒ³ãƒˆå—ä¿¡
 	StatusUpPoint = point;
 }
 
-// ¥¢¥É¥ì¥¹¥Ö¥Ã¥¯¥á¥Ã¥»©`¥¸¤òÊÜ¤±È¡¤Ã¤¿
+// ã‚¢ãƒ‰ãƒ¬ã‚¹ãƒ–ãƒƒã‚¯ãƒ¡ãƒƒã‚»`ã‚¸ã‚’å—ã‘å–ã£ãŸ
 void lssproto_MSG_recv( int fd,int aindex,char* text ,int color)
 {
 	char moji[ 256 ];
 	int noReadFlag;
 	
-	// ¥á©`¥ë¥é¥ó¥×¥Õ¥é¥°£Ï£Î
+	// ãƒ¡`ãƒ«ãƒ©ãƒ³ãƒ—ãƒ•ãƒ©ã‚°ï¼¯ï¼®
 	mailLamp = TRUE;
 	
-	// ×îĞÂÂÄšs·¬ºÅ¤Î¸üĞÂ
+	// æœ€æ–°å±¥sç•ªå·ã®æ›´æ–°
 	MailHistory[ aindex ].newHistoryNo--;
-	// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+	// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 	if( MailHistory[ aindex ].newHistoryNo <= -1 ) MailHistory[ aindex ].newHistoryNo = MAIL_MAX_HISTORY - 1;
 	
-	// ÈÕ•r¤òÈ¡¤ê³ö¤¹
+	// æ—¥rã‚’å–ã‚Šå‡ºã™
 	getStringToken( text, '|', 1, sizeof( MailHistory[ aindex ].dateStr[ MailHistory[ aindex ].newHistoryNo ] )-1, 
 					MailHistory[ aindex ].dateStr[ MailHistory[ aindex ].newHistoryNo ] );
-	// ÎÄÕÂ¤òÈ¡¤ê³ö¤¹
+	// æ–‡ç« ã‚’å–ã‚Šå‡ºã™
 	getStringToken( text, '|', 2, sizeof( MailHistory[ aindex ].str[ MailHistory[ aindex ].newHistoryNo ] )-1, 
 					MailHistory[ aindex ].str[ MailHistory[ aindex ].newHistoryNo ] );
-	// ¥¨¥¹¥±©`¥×¤Ï¤º¤¹
+	// ã‚¨ã‚¹ã‚±`ãƒ—ã¯ãšã™
 	makeRecvString( MailHistory[ aindex ].str[ MailHistory[ aindex ].newHistoryNo ] );
 	
-	// ¥Ú¥Ã¥È¤Î¥°¥é¥Õ¥£¥Ã¥¯·¬ºÅÈ¡¤ê³ö¤¹
+	// ãƒšãƒƒãƒˆã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ç•ªå·å–ã‚Šå‡ºã™
 	noReadFlag = getIntegerToken( text, '|', 3 );
-	// ¥Ú¥Ã¥È¥á©`¥ë¤Î•r
+	// ãƒšãƒƒãƒˆãƒ¡`ãƒ«ã®r
 	if( noReadFlag != -1 ){
-		// ¥Ú¥Ã¥È¤Î¥°¥é¥Õ¥£¥Ã¥¯·¬ºÅÓ›‘›
+		// ãƒšãƒƒãƒˆã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ç•ªå·
 		MailHistory[ aindex ].noReadFlag[ MailHistory[ aindex ].newHistoryNo ] = noReadFlag;
-		// ¥Ú¥Ã¥È¤Î¥ì¥Ù¥ë¤òÈ¡¤ê³ö¤¹
+		// ãƒšãƒƒãƒˆã®ãƒ¬ãƒ™ãƒ«ã‚’å–ã‚Šå‡ºã™
 		MailHistory[ aindex ].petLevel[ MailHistory[ aindex ].newHistoryNo ] = getIntegerToken( text, '|', 4 );
-		// ¥Ú¥Ã¥È¤ÎÃûÇ°¤òÈ¡¤ê³ö¤¹
+		// ãƒšãƒƒãƒˆã®åå‰ã‚’å–ã‚Šå‡ºã™
 		getStringToken( text, '|', 5, sizeof( MailHistory[ aindex ].petName[ MailHistory[ aindex ].newHistoryNo ] ), 
 						MailHistory[ aindex ].petName[ MailHistory[ aindex ].newHistoryNo ] );
-		// ¥Ú¥Ã¥È¤ÎÃûÇ°¤Î¥¨¥¹¥±©`¥×¤Ï¤º¤¹
+		// ãƒšãƒƒãƒˆã®åå‰ã®ã‚¨ã‚¹ã‚±`ãƒ—ã¯ãšã™
 		makeRecvString( MailHistory[ aindex ].petName[ MailHistory[ aindex ].newHistoryNo ] );
-		// ¥¢¥¤¥Æ¥à¤Î¥°¥é¥Õ¥£¥Ã¥¯·¬ºÅ¤òÈ¡¤ê³ö¤¹
+		// ã‚¢ã‚¤ãƒ†ãƒ ã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ç•ªå·ã‚’å–ã‚Šå‡ºã™
 		MailHistory[ aindex ].itemGraNo[ MailHistory[ aindex ].newHistoryNo ] = getIntegerToken( text, '|', 6 );
-		// ¥á©`¥ë¤¬½ì¤¤¤¿¥á¥Ã¥»©`¥¸×÷³É
-		sprintf( moji,"%s ¤«¤é¥Ú¥Ã¥È¥á©`¥ë¤¬½ì¤¤¤¿£¡", addressBook[ aindex ].name );
+		// ãƒ¡`ãƒ«ãŒå±Šã„ãŸãƒ¡ãƒƒã‚»`ã‚¸ä½œæˆ
+		sprintf( moji,"%s ã‹ã‚‰ãƒšãƒƒãƒˆãƒ¡`ãƒ«ãŒå±Šã„ãŸï¼", addressBook[ aindex ].name );
 	}
-	// ÆÕÍ¨¥á©`¥ë¤Î•r
+	// æ™®é€šãƒ¡`ãƒ«ã®r
 	else{	
 		MailHistory[ aindex ].noReadFlag[ MailHistory[ aindex ].newHistoryNo ] = TRUE;
-		// ¥á©`¥ë¤¬½ì¤¤¤¿¥á¥Ã¥»©`¥¸×÷³É
-		sprintf( moji,"%s ¤«¤é¥á©`¥ë¤¬½ì¤¤¤¿£¡", addressBook[ aindex ].name );
+		// ãƒ¡`ãƒ«ãŒå±Šã„ãŸãƒ¡ãƒƒã‚»`ã‚¸ä½œæˆ
+		sprintf( moji,"%s ã‹ã‚‰ãƒ¡`ãƒ«ãŒå±Šã„ãŸï¼", addressBook[ aindex ].name );
 	}
 	
-	// ¥Á¥ã¥Ã¥ÈÎÄ×Ö¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë£¨Ò»ĞĞ£©
+	// ãƒãƒ£ãƒƒãƒˆæ–‡å­—ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹ï¼ˆä¸€è¡Œï¼‰
 	StockChatBufferLine( moji, FONT_PAL_WHITE );
 	
-	// ÒŠ¤Æ¤ë¥Ú©`¥¸¤Î•r
+	// ã¦ã‚‹ãƒš`ã‚¸ã®r
 	if( mailHistoryWndSelectNo == aindex ){
-		// ÒŠ¤Æ¤ë¥Ú©`¥¸¤ò£±¥Ú©`¥¸¤º¤é¤¹
+		// ã¦ã‚‹ãƒš`ã‚¸ã‚’ï¼‘ãƒš`ã‚¸ãšã‚‰ã™
 		mailHistoryWndPageNo++;
-		// ¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+		// ãƒªãƒŸãƒƒãƒˆãƒã‚§ãƒƒã‚¯
 		if( mailHistoryWndPageNo >= MAIL_MAX_HISTORY ) mailHistoryWndPageNo = 0;
-		// ÊÖ¼ˆ¥¢¥Ë¥á©`¥·¥ç¥óÄ¨š¢
+		// æ‰‹ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³æŠ¹
 	//	DeathLetterAction();
 	}
-	// ÊÜĞÅÒô
+	// å—ä¿¡éŸ³
 	play_se( 101, 320, 240 );
-	// ¥á©`¥ë¥Ç©`¥¿¤Î±£´æ
+	// ãƒ¡`ãƒ«ãƒ‡`ã‚¿ã®ä¿å­˜
 	SaveMailHistory( aindex );
 }
 
 
-// ¥Ú¥Ã¥È¤Î¼¼¤òÊ¹¤¤½K¤ï¤Ã¤¿¤òÊÜĞÅ
+// ãƒšãƒƒãƒˆã®æŠ€ã‚’ä½¿ã„Kã‚ã£ãŸã‚’å—ä¿¡
 void lssproto_PS_recv( int fd,int result,int havepetindex,int havepetskill,int toindex )
 {
 	char moji[ 256 ];
 	
-	// ¥Õ¥é¥°¤ò£Ï£Æ£Æ
+	// ãƒ•ãƒ©ã‚°ã‚’ï¼¯ï¼¦ï¼¦
 	ItemMixRecvFlag = FALSE;
 	
-	// Ê§”¡¤·¤¿¤é
+	// å¤±ãƒ»ç­éƒ¡
 	if( result == 0 ){
-		//Ò»ĞĞ¥¤¥ó¥Õ¥©¤Ë±íÊ¾
-		sprintf( moji,"Ê§”¡¤·¤Ş¤·¤¿£¡");
-		// ¥Á¥ã¥Ã¥ÈÎÄ×Ö¤ò¥Ğ¥Ã¥Õ¥¡¤ËÁï¤á¤ë£¨Ò»ĞĞ£©
+		//ä¸€è¡Œã‚¤ãƒ³ãƒ•ã‚©ã«è¡¨ç¤º
+		sprintf( moji,"å¤±ãƒ»ç­è“¼ç­æµš");
+		// ãƒãƒ£ãƒƒãƒˆæ–‡å­—ã‚’ãƒãƒƒãƒ•ã‚¡ã«æºœã‚ã‚‹ï¼ˆä¸€è¡Œï¼‰
 		StockChatBufferLine( moji, FONT_PAL_WHITE );
 	}
 	
@@ -3268,13 +3268,13 @@ void lssproto_PS_recv( int fd,int result,int havepetindex,int havepetskill,int t
 
 
 
-// ¥Ç¥Ğ¥Ã¥°ÓÃ³öÁ¦ /////////////////////////////////////////////////////////
+// ãƒ‡ãƒãƒƒã‚°ç”¨å‡ºåŠ› /////////////////////////////////////////////////////////
 void lssproto_Echo_recv( int fd, char *test )
 {
 #if 1
 #ifdef _DEBUG_MSG
 
-	// ¬FÔÚ¤ÎÈÕ•r¤òÈ¡µÃ
+	// Fåœ¨ã®æ—¥rã‚’å–å¾—
 	time( &serverAliveLongTime );
 	serverAliveTime = localtime( &serverAliveLongTime );
 
@@ -3288,7 +3288,7 @@ void lssproto_Echo_recv( int fd, char *test )
 
 
 
-// ¥À¥ß©`ÊÜĞÅ„IÀí
+// ãƒ€ãƒŸ`å—ä¿¡Iç†
 void lssproto_PlayerNumGet_recv( int fd, int logincount, int player )
 {
 }
@@ -3302,7 +3302,7 @@ void lssproto_ProcGet_recv( int fd, char* data )
 
 
 /*
-   ¥ì©`¥À©`¤ÎÇéˆó¤ò¤¦¤±¤È¤ë¡£
+   ãƒ¬`ãƒ€`ã®æƒ…è­é¢Î”å ¡è¶£æ¿
 
 */
 void lssproto_R_recv( int fd, char* data ) 
@@ -3315,7 +3315,7 @@ void lssproto_D_recv( int fd,int category,int dx,int dy,char* data )
 }
 
 /*
-	ÒŠ¤¨¤ë¹ ‡ì¤Î¥²©`¥à¥ª¥Ö¥¸¥§¥¯¥È¥¤¥ó¥Ç¥Ã¥¯¥¹¤ÎÁ_ÁĞ
+	ãˆã‚‹æ¬·è¿åš`ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®_åˆ—
 */
 void lssproto_ACI_recv( int fd, char* data )
 {
@@ -3368,22 +3368,22 @@ void lssproto_ACI_recv( int fd, char* data )
 
 #if 0
 
-// GAMESTATE_USERINFO¤Î¤¿¤á¤ËÔO¶¨¤·¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤Çéˆó¡£
+// GAMESTATE_USERINFOã®ãŸã‚ã«Oå®šã—ãªã‘ã‚Œã°ãªã‚‰ãªã„æƒ…èŸ†
 char gamestate_userinfo_cdkey[128];
 char gamestate_userinfo_passwd[128];
 
 
-// GAMESTATE_CHPASS¤Î¤¿¤á¤ËÔO¶¨¤·¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤Çéˆó¡£
+// GAMESTATE_CHPASSã®ãŸã‚ã«Oå®šã—ãªã‘ã‚Œã°ãªã‚‰ãªã„æƒ…èŸ†
 char gamestate_chpass_oldpass[128];
 char gamestate_chpass_newpass[128];
 
-// GAMESTATE_CREATECHAR¤Î¤¿¤á¤ËÔO¶¨¤·¤Ê¤±¤ì¤Ğ¤Ê¤é¤Ê¤¤Çéˆó¡£
-// ¤¤¤Ş¤ÏHP¤·¤«ÔO¶¨¤Ç¤­¤Ê¤¤¤¬¤½¤Î¤¦¤ÁÈ«²¿ÔO¶¨¤Ç¤­¤ë¤è¤¦¤Ë¤¹¤ë
+// GAMESTATE_CREATECHARã®ãŸã‚ã«Oå®šã—ãªã‘ã‚Œã°ãªã‚‰ãªã„æƒ…èŸ†
+// ã„ã¾ã¯HPã—ã‹Oå®šã§ããªã„ãŒãã®ã†ã¡å…¨éƒ¨Oå®šã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 int gamestate_createchar_hp;
 int gamestate_createchar_mp;
 int gamestate_createchar_str;
 int gamestate_createchar_tough;
-int gamestate_createchar_skills[128];  // ÊË˜”•ø¤Ë¤¢¤ë¥¹¥­¥ë¤Î¥³©`¥É¤ò¤Ê¤é¤Ù¤Æ¤¤¤ì¤Æ¡¢×îáá¤Ï-1
+int gamestate_createchar_skills[128];  // ä»•æ‘”æ¯³æ”»æ¯ªè¿ç•…`ãƒ‰ã‚’ãªã‚‰ã¹ã¦ã„ã‚Œã¦ã€æœ€å¾Œã¯-1
 char gamestate_createchar_charname[128];
 int gamestate_createchar_imgno;
 

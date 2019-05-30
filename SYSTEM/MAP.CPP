@@ -25,45 +25,45 @@
 
 
 
-//??ô™??????¥l¯Á???????????????ªC?? µØÍ¼µÄÏÖÔÚµØ Íæ¼ÒËùÔÚ£¿
+//????????l???????????????C?? åœ°å›¾çš„ç°åœ¨åœ° ç©å®¶æ‰€åœ¨ï¼Ÿ
 
 #define SEARCH_AREA		11		
-// ¿Õ¥Ş¥Ã¥×¤Î¥Á¥§¥Ã¥¯¹ ‡ì£¨¥­¥ã¥é¤«¤é¤Î¾àëx£©Ìì¿ÕµØÍ¼µÄ¼ì²é·¶Î§£¨½ÇÉ«¿ªÊ¼µÄ¾àÀë)
+// ç©ºãƒãƒƒãƒ—ã®ãƒã‚§ãƒƒã‚¯æ¬¤Ä“æ‚­æ¤æ¤å°‰åš¯xï¼‰å¤©ç©ºåœ°å›¾çš„æ£€æŸ¥èŒƒå›´ï¼ˆè§’è‰²å¼€å§‹çš„è·ç¦»)
 
 enum
 {
-	MOUSE_CURSOR_MODE_NORMAL,//?????ù³?  Êó±ê ÒÆ¶¯ºÍ¾²Ö¹£¿
+	MOUSE_CURSOR_MODE_NORMAL,//??????  é¼ æ ‡ ç§»åŠ¨å’Œé™æ­¢ï¼Ÿ
 	MOUSE_CURSOR_MODE_MOVE  //????
 };
 
-// ?ê¿?????????????????????  µØÍ¼µÄÏÖÔÚµØ Íæ¼ÒËùÔÚ£¿
+// ?æ˜•?????????????????????  åœ°å›¾çš„ç°åœ¨åœ° ç©å®¶æ‰€åœ¨ï¼Ÿ
 
-char nowFloorName[FLOOR_NAME_LEN+1];//µØÍ¼Ãû×Ö
-int nowFloor;                       //±àºÅ
-int nowFloorGxSize, nowFloorGySize; //ËùÔÚµØÍ¼¿é×ø±ê£¿
+char nowFloorName[FLOOR_NAME_LEN+1];//åœ°å›¾åå­—
+int nowFloor;                       //ç¼–å·
+int nowFloorGxSize, nowFloorGySize; //æ‰€åœ¨åœ°å›¾å—åæ ‡ï¼Ÿ
 int nowGx, nowGy;
 float nowX = (float)nowGx*GRID_SIZE, nowY = (float)nowGy*GRID_SIZE;
-float nowVx, nowVy, nowSpdRate;//×ø±ê ÒÆ¶¯ËÙ¶È
+float nowVx, nowVy, nowSpdRate;//åæ ‡ ç§»åŠ¨é€Ÿåº¦
 int nextGx, nextGy;
 int oldGx = -1, oldGy = -1;
 int oldNextGx = -1, oldNextGy = -1;
 int mouseMapGx, mouseMapGy;
 int mouseMapX, mouseMapY;
-#define MOVE_MODE_CHANGE_TIME	1000  //1Ãë¼ì²â
+#define MOVE_MODE_CHANGE_TIME	1000  //1ç§’æ£€æµ‹
 short mouseCursorMode = MOUSE_CURSOR_MODE_NORMAL;
 
-int mapAreaX1, mapAreaY1, mapAreaX2, mapAreaY2;//4¸ö×ø±êµã
-int mapAreaWidth, mapAreaHeight;//¿í¸ß
+int mapAreaX1, mapAreaY1, mapAreaX2, mapAreaY2;//4ä¸ªåæ ‡ç‚¹
+int mapAreaWidth, mapAreaHeight;//å®½é«˜
 
-unsigned short tile[MAP_X_SIZE * MAP_Y_SIZE];	// ƒ}ƒbƒv‚Ìƒ^ƒCƒ‹  µØÍ¼µÄ´É×©
-unsigned short parts[MAP_X_SIZE * MAP_Y_SIZE];	// ƒ}ƒbƒv‚Ìƒp[ƒc µØÍ¼µÄÁã¼ş
-unsigned short event[MAP_X_SIZE * MAP_Y_SIZE];	// ƒCƒxƒ“ƒg   »î¶¯
-unsigned short hitMap[MAP_X_SIZE * MAP_Y_SIZE];	// ƒ}ƒbƒv‚ ‚½‚è”»’è  µØÍ¼Ò»´øÅĞ¶¨  4²ãÊÂ¼ş£¿
+unsigned short tile[MAP_X_SIZE * MAP_Y_SIZE];	// }bv^C  åœ°å›¾çš„ç“·ç –
+unsigned short parts[MAP_X_SIZE * MAP_Y_SIZE];	// }bvp[c åœ°å›¾çš„é›¶ä»¶
+unsigned short event[MAP_X_SIZE * MAP_Y_SIZE];	// Cxg   æ´»åŠ¨
+unsigned short hitMap[MAP_X_SIZE * MAP_Y_SIZE];	// }bv  åœ°å›¾ä¸€å¸¦åˆ¤å®š  4å±‚äº‹ä»¶ï¼Ÿ
 
 
 
-// ¥Ş¥Ã¥×¥Ç©`¥¿Ÿo¤·•r¤ÎÒÆ„ÓßWÑÓ„IÀíÓÃ µØÍ¼ÎŞÊı¾İÊ±µÄÒÆ¶¯ÑÓ³Ù´¦ÀíÓÃ
-//?????????????????ùÖ???????????
+// ãƒãƒƒãƒ—ãƒ‡`ã‚¿oã—rã®ç§»èˆ†Wå»¶Iç†ç”¨ åœ°å›¾æ— æ•°æ®æ—¶çš„ç§»åŠ¨å»¶è¿Ÿå¤„ç†ç”¨
+//????????????????????????????
 BOOL mapEmptyFlag;
 short mapEmptyDir;
 int mapEmptyGx, mapEmptyGy;
@@ -72,30 +72,30 @@ short getMapAreaCnt;
 unsigned int mapEmptyStartTime;
 
 
-// ¥Õ¥í¥¢¤¬‰ä¸ü¤µ¤ì¤¿¤« ???????ÏN????Çf???? Â¥²ã±»¸Ä±äÁËÂğ£¿
+// ãƒ•ãƒ­ã‚¢ãŒæ¶“ä¸¹æ¬·éƒ¡ ???????N????f???? æ¥¼å±‚è¢«æ”¹å˜äº†å—ï¼Ÿ
 BOOL floorChangeFlag = FALSE;
 
 
-// ???????ìv?????
-//µÇÂ¼Ê±±ØÒªµÄ´¦Àí
+// ???????v?????
+//ç™»å½•æ—¶å¿…è¦çš„å¤„ç†
 BOOL loginFlag;
 
-// ¥ï©`¥×¥¨¥Õ¥§¥¯¥È¤ò2ÖØ¤ÇŒgĞĞ¤·¤Ê¤¤¤¿¤á¤Î¥Õ¥é¥°
-//¾­É´Ğ§¹ûË«ÖØ²»ÊµĞĞ±êÖ¾Îª
-//????2?¡S???????????
+// ãƒ¯`ãƒ—ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’2é‡ã§gè¡Œã—ãªã„ãŸã‚ã®ãƒ•ãƒ©ã‚°
+//ç»çº±æ•ˆæœåŒé‡ä¸å®è¡Œæ ‡å¿—ä¸º
+//????2?S???????????
 BOOL warpEffectFlag = FALSE;
-BOOL warpEffectStart = FALSE;	//?????????????•n?
-BOOL warpEffectOk = FALSE;		// ?½Ş¥N?????
+BOOL warpEffectStart = FALSE;	//?????????????n?
+BOOL warpEffectOk = FALSE;		// ?ç«N?????
 
-// ?????????????§i?????????
+// ?????????????i?????????
 float viewPointX;
 float viewPointY;
-int viewOffsetX = SCREEN_WIDTH_CENTER;//ÏÔÊ¾ÊÓÒ°
+int viewOffsetX = SCREEN_WIDTH_CENTER;//æ˜¾ç¤ºè§†é‡
 int viewOffsetY = SCREEN_HEIGHT_CENTER;
 
 
 // ????????
-/// /ÒÆ¶¯´¦Àí/ /ºÁÃë
+/// /ç§»åŠ¨å¤„ç†/ /æ¯«ç§’
 #define MOVE_CLICK_WAIT_TIME	250		//????
 short moveAddTbl[8][2] =
 {
@@ -107,7 +107,7 @@ short moveAddTbl[8][2] =
 	{  1,  0 }, // 5
 	{  1,  1 }, // 6
 	{  0,  1 }  // 7
-};//ÒÆ¶¯·½ÏòºÍ×ø±êµÄ´¦Àí
+};//ç§»åŠ¨æ–¹å‘å’Œåæ ‡çš„å¤„ç†
 BOOL moveStackFlag = FALSE;
 int moveStackGx, moveStackGy;
 #define MOVE_MAX	100
@@ -118,14 +118,14 @@ short moveRouteGy[MOVE_MAX];
 char moveRouteDir[MOVE_MAX];
 
 
-//???????????­È£R??ämù¾???
-#define MOVE_MAX2	2			// ¥µ©`¥Ğ¤ËËÍ¤ëÒÆ„Ó½UÂ·¤Î×î´ó‚ ·şÎñÆ÷ËÍµÄÒÆ¶¯Â·ÏßµÄ×î´óÖµ
+//???????????R??m???
+#define MOVE_MAX2	2			// ã‚µ`ãƒã«é€ã‚‹ç§»å’Uè·¯ã®æœ€å¤§ æœåŠ¡å™¨é€çš„ç§»åŠ¨è·¯çº¿çš„æœ€å¤§å€¼
 short moveRouteCnt2 = 0;
 short moveRoute2[MOVE_MAX2];
 
 short moveLastDir = -1;
 
-// ?ù³????Êó±êµÄ´¦Àí
+// ?????é¼ æ ‡çš„å¤„ç†
 BOOL mouseLeftCrick = FALSE;
 BOOL mouseLeftOn = FALSE;
 BOOL mouseRightCrick = FALSE;
@@ -134,8 +134,8 @@ unsigned int mouseLeftPushTime;
 unsigned int beforeMouseLeftPushTime;
 
 
-// ??????????????¯Ø???????
-//½ÇÉ«£¬Áã¼şµÄÏÔÊ¾ÓÅÏÈË³Ğò¾ö¶¨ÓÃ
+// ?????????????????????
+//è§’è‰²ï¼Œé›¶ä»¶çš„æ˜¾ç¤ºä¼˜å…ˆé¡ºåºå†³å®šç”¨
 enum
 {
 	CHAR_PARTS_PRIO_TYPE_CHAR,
@@ -161,35 +161,35 @@ int charPrioCnt;
 
 
 
-// ¥¨¥ó¥«¥¦¥ó¥È„IÀíÓÃ  ? Ù??????  ÓöµĞ´¦Àí
-short nowEncountPercentage;	// ? Ù??   ÓöµĞ
-short nowEncountExtra;		// ? Ù?? ???? 
-short minEncountPercentage;	// ?ëZ?  ×îĞ¡
-short maxEncountPercentage;	// ×î´ó¥¨¥ó¥«¥¦¥ó¥ÈÂÊ
-short sendEnFlag;			// EN??????õG???  ·¢ËÍÓöµĞ±êÖ¾
-short encountNowFlag;		// ¥¨¥ó¥«¥¦¥ó¥ÈÖĞ¤«  ???¡V????  ÓöµĞµ±ÖĞ±êÖ¾
+// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆIç†ç”¨  ???????  é‡æ•Œå¤„ç†
+short nowEncountPercentage;	// ???   é‡æ•Œ
+short nowEncountExtra;		// ??? ???? 
+short minEncountPercentage;	// ?Z?  æœ€å°
+short maxEncountPercentage;	// æœ€å¤§ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆç‡
+short sendEnFlag;			// EN??????G???  å‘é€é‡æ•Œæ ‡å¿—
+short encountNowFlag;		// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆä¸­ã‹  ???V????  é‡æ•Œå½“ä¸­æ ‡å¿—
 
 // ????????
-int eventId = 0;			// ¥¤¥Ù¥ó¥È¹ÜÀíID  ÊÂ¼ş¹ÜÀíID
-short eventWarpSendFlag;	// ¥ï©`¥×¥¤¥Ù¥ó¥ÈËÍĞÅ¥Õ¥é¥° µØÍ¼ÊÂ¼ş±êÖ¾
-short eventWarpSendId;		// ¥ï©`¥×¥¤¥Ù¥ó¥ÈËÍĞÅ•r¤ÎID ·¢ËÍ	ID
-short eventEnemySendFlag;	// ¹Ì¶¨¥¨¥ó¥«¥¦¥ó¥È¥¤¥Ù¥ó¥ÈËÍĞÅ¥Õ¥é¥°  ÓöµĞ±êÖ¾
-short eventEnemySendId;		// ¹Ì¶¨¥¨¥ó¥«¥¦¥ó¥È¥¤¥Ù¥ó¥ÈËÍĞÅ•r¤ÎID   ¹Ì¶¨µĞÈËÓöID
-short eventEnemyFlag;		// ¹Ì¶¨”³¤Ë¥¨¥ó¥«¥¦¥ó¥È¤·¤¿¤é£± ¹Ì¶¨µĞÈËÓöµĞµÄ»°£¬1Îª±êÖ¾
+int eventId = 0;			// ã‚¤ãƒ™ãƒ³ãƒˆç®¡ç†ID  äº‹ä»¶ç®¡ç†ID
+short eventWarpSendFlag;	// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆé€ä¿¡ãƒ•ãƒ©ã‚° åœ°å›¾äº‹ä»¶æ ‡å¿—
+short eventWarpSendId;		// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆé€ä¿¡rã®ID å‘é€	ID
+short eventEnemySendFlag;	// å›ºå®šã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã‚¤ãƒ™ãƒ³ãƒˆé€ä¿¡ãƒ•ãƒ©ã‚°  é‡æ•Œæ ‡å¿—
+short eventEnemySendId;		// å›ºå®šã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã‚¤ãƒ™ãƒ³ãƒˆé€ä¿¡rã®ID   å›ºå®šæ•Œäººé‡ID
+short eventEnemyFlag;		// å›ºå®šé•¿è¡°Ä“è—Î•è—è¶£ç­éƒ¡æ¤‹ å›ºå®šæ•Œäººé‡æ•Œçš„è¯ï¼Œ1ä¸ºæ ‡å¿—
 
 
 short etcEventFlag = 0;
 
 
-// ×Ô¶¯ÖÆÍ¼ÓÃ
+// è‡ªåŠ¨åˆ¶å›¾ç”¨
 #define AUTO_MAPPING_W		54
 #define AUTO_MAPPING_H		54
 BOOL autoMappingInitFlag = TRUE;
 unsigned char autoMappingBuf[AUTO_MAPPING_H][AUTO_MAPPING_W];
 #define AUTO_MAPPING_SEE_W		30
 #define AUTO_MAPPING_SEE_H		30
-//???????µÒ­Ô?????????  ??????????
-unsigned int readMapAfterFrame = 10000;		// ¥Ş¥Ã¥×Õi¤ßŞz¤ßáá¤Î½Uß^¥Õ¥ì©`¥àÊı
+//???????ç‹„?????????  ??????????
+unsigned int readMapAfterFrame = 10000;		// ãƒãƒƒãƒ—iã¿zã¿å¾Œã®U^ãƒ•ãƒ¬`ãƒ æ•°
 unsigned short autoMapSeeFlagBuf[AUTO_MAPPING_SEE_H*AUTO_MAPPING_SEE_W];
 BOOL autoMapSeeFlag = FALSE;
 int autoMapSeeFloor;
@@ -197,7 +197,7 @@ int autoMapSeeGx, autoMapSeeGy;
 
 
 
-// ???§ª??
+// ???Ğ˜??
 void onceMoveProc( void );
 void partyMoveProc( void );
 void getPartyTbl( void );
@@ -208,10 +208,10 @@ void getPartyTbl( void );
 //#define MAP_CACHE_PROC
 
 #ifdef MAP_CACHE_PROC
-//?????Ğß??ämùÌ???????
+//?????ç¾??m???????
 #define MAX_MAP_CACHE_SIZE	3		// ??3??
-#define MAP_CACHE_X_SIZE	800		//X 1?¥pämùÁ•f?
-#define MAP_CACHE_Y_SIZE	1200		// Y??1?¥pämùÁ•f?
+#define MAP_CACHE_X_SIZE	800		//X 1?pmf?
+#define MAP_CACHE_Y_SIZE	1200		// Y??1?pmf?
 #define MAP_CACHE_X_BYTE	((MAP_CACHE_X_SIZE+7)/8)
 #define MAP_CACHE_Y_BYTE	MAP_CACHE_Y_SIZE
 int mapCacheFloorNo[MAX_MAP_CACHE_SIZE];
@@ -256,7 +256,7 @@ BOOL createAutoMap( int, int, int );
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×„IÀí³õÆÚ»¯
+// ãƒãƒƒãƒ—Iç†åˆæœŸåŒ–
 void initMap( void )
 {
 #ifndef _DEBUG
@@ -359,10 +359,10 @@ void initMap( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×„IÀí¥ê¥»¥Ã¥È
+// ãƒãƒƒãƒ—Iç†ãƒªã‚»ãƒƒãƒˆ
 void resetMap( void )
 {
-	// ÒÆ„ÓÖĞ¤Ê¤éÒÆ„ÓÏÈ¤Ë¤¤¤ë¤³¤È¤Ë¤¹¤ë
+	// ç§»åˆè‚–èƒœæ©é…‰è¶£æ‘”ã„æ¯ªé•¿è¶£æ‘”å·¥
 	nowGx = (int)(nowX/GRID_SIZE);
 	nowGy = (int)(nowY/GRID_SIZE);
 	nextGx = nowGx;
@@ -412,8 +412,8 @@ void resetMap( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ĞÂ¤·¤¤¥Ş¥Ã¥×¤ËÀ´¤¿¤é¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë×÷³É¤·¥µ¥¤¥º¤ò¸ñ¼{¤¹¤ë
-//ĞÂµØÍ¼À´ÖÆ×÷³ß´çµØÍ¼ÎÄ¼ş´æ´¢
+// æ–°ã—ã„ãƒãƒƒãƒ—ã«æ¥ãŸã‚‰ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆã—ã‚µã‚¤ã‚ºã‚’æ ¼{ã™ã‚‹
+//æ–°åœ°å›¾æ¥åˆ¶ä½œå°ºå¯¸åœ°å›¾æ–‡ä»¶å­˜å‚¨
 void createMap( int fl, int maxx, int maxy )
 {
 	FILE *fp;
@@ -432,12 +432,12 @@ void createMap( int fl, int maxx, int maxy )
 #ifdef _DEBUG_MSG
 		{
 			char msg[256];
-			sprintf( msg, "ĞÂÒ¥Õ¥í¥¢¥Õ¥¡¥¤¥ë×÷³É¡£[¥Õ¥í¥¢:%d/x:%d/y:%d]", fl, maxx, maxy );
+			sprintf( msg, "æ–°æ¦¨ææ¦¨Ë‰ã…èƒ±é’ä¼[ãƒ•ãƒ­ã‚¢:%d/x:%d/y:%d]", fl, maxx, maxy );
 			StockChatBufferLine( msg, FONT_PAL_GRAY );
 		}
 #endif
 #endif
-		// ¥Õ¥¡¥¤¥ë¤¬Ÿo¤¤¤Î¤Ç×÷³É¤¹¤ë
+		// ãƒ•ã‚¡ã‚¤ãƒ«ãŒoã„ã®ã§ä½œæˆã™ã‚‹
 		_mkdir( "map" );
 		if( (fp = fopen( floorname, "wb" )) == NULL )
 			return;
@@ -458,7 +458,7 @@ void createMap( int fl, int maxx, int maxy )
 	}
 	else
 	{
-		// ¥Õ¥¡¥¤¥ë¤¬¤¢¤ë•r¥µ¥¤¥º¤¬ß`¤¦¤Ê¤é¥Ş¥Ã¥×¤¬‰ä¤ï¤Ã¤Æ¤ë
+		// ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹rã‚µã‚¤ã‚ºãŒ`ã†ãªã‚‰ãƒãƒƒãƒ—ãŒæµƒé“¯ç›²çš®
 		fread( &ox, sizeof( int ), 1, fp );
 		fread( &oy, sizeof( int ), 1, fp );
 		if( maxx != ox || maxy != oy )
@@ -467,14 +467,14 @@ void createMap( int fl, int maxx, int maxy )
 #ifdef _DEBUG_MSG
 			{
 				char msg[256];
-				sprintf( msg, "¥Ş¥Ã¥×¥µ¥¤¥º‰ä»¯¡£[¥Õ¥í¥¢:%d/x:%d->%d/y:%d->%d]",
+				sprintf( msg, "ãƒãƒƒãƒ—ã‚µã‚¤ã‚ºæµ [ãƒ•ãƒ­ã‚¢:%d/x:%d->%d/y:%d->%d]",
 					fl, ox, maxx, oy, maxy );
 				StockChatBufferLine( msg, FONT_PAL_GRAY );
 			}
 #endif
 #endif
 			fclose( fp );
-			// ¥µ¥¤¥º¤¬ß`¤¦¤Î¤Ç¼È´æ¥Õ¥¡¥¤¥ë¤òÏû¤·¤ÆĞÂÒ¤Ë¤¹¤ë
+			// ã‚µã‚¤ã‚ºãŒ`ã†ã®ã§æ—¢å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¶ˆã—ã¦æ–°æ‘”å·¥
 			if( (fp = fopen( floorname, "wb" )) == NULL )
 				return;
 			fwrite( &maxx, sizeof( int ), 1, fp );
@@ -495,20 +495,20 @@ void createMap( int fl, int maxx, int maxy )
 }
 
 
-// »­ÃæÄÚ¤Î¥¨¥Ù¥ó¥È¤¬ÔÙËÍ¤µ¤ì¤Æ¤­¤¿¤é¥á¥â¥ê¤â•ø¤­¤«¤¨¤ë
+// ç”»é¢å†…ã®ã‚¨ãƒ™ãƒ³ãƒˆãŒå†é€ã•ã‚Œã¦ããŸã‚‰ãƒ¡ãƒ¢ãƒªã‚‚Ã 
 void setEventMemory( int x, int y, unsigned short ev )
 {
 	event[(y-mapAreaY1)*mapAreaWidth+(x-mapAreaX1)] = ev;
 }
 
 
-// ¥Ş¥Ã¥×¥Ç©`¥¿¤Î•ø¤­Şz¤ß µØÍ¼Êı¾İµÄĞ´Èë
-//¸ñÍø×ø±ê£¨x1£¬y1)-( x2£¬y2£©µÄ·¶Î§µÄµØÍ¼Ğ´ÈëÊı¾İ
-//   ¥°¥ê¥Ã¥É×ù˜Ë(x1,y1)-(x2,y2)¤Î¹ ‡ì¤Î¥Ş¥Ã¥×¥Ç©`¥¿¤ò•ø¤­Şz¤à
+// ãƒãƒƒãƒ—ãƒ‡`ã‚¿ã®zã¿ åœ°å›¾æ•°æ®çš„å†™å…¥
+//æ ¼ç½‘åæ ‡ï¼ˆx1ï¼Œy1)-( x2ï¼Œy2ï¼‰çš„èŒƒå›´çš„åœ°å›¾å†™å…¥æ•°æ®
+//   ã‚°ãƒªãƒƒãƒ‰åº§(x1,y1)-(x2,y2)ã®æ¬·è¿è•™æ°“æŠ“ç­¾`ã‚¿ã‚’zã‚€
 //
-//     tile, parts, event ¤Ï¾€ĞÎ¥á¥â¥ê˜‹Ôì¤Ë¤Ê¤Ã¤Æ¤¤¤ë
-//tile, parts, event ÏßĞÔ¹¹ÔìÔÚÄÚ´æ¡£
-//Íæ¼ÒÊı¾İÔÚµØÍ¼µÄÎ»ÖÃ ¶ÁÈ¡ºÍĞ´Èë 
+//     tile, parts, event ã¯å½¢ãƒ¡ãƒ¢ãƒªé€ ã«ãªã£ã¦ã„ã‚‹
+//tile, parts, event çº¿æ€§æ„é€ åœ¨å†…å­˜ã€‚
+//ç©å®¶æ•°æ®åœ¨åœ°å›¾çš„ä½ç½® è¯»å–å’Œå†™å…¥ 
 BOOL writeMap( int floor, int x1, int y1, int x2, int y2,
 	unsigned short *tile , unsigned short *parts, unsigned short *event )
 {
@@ -526,8 +526,8 @@ BOOL writeMap( int floor, int x1, int y1, int x2, int y2,
 #ifdef _DEBUG_MSG
 	{
 		char msg[256];
-		//sprintf( msg, "¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë•ø¤­¤³¤ß¡£[¥Õ¥í¥¢:%d/(%d,%d)-(%d,%d)]",
-		sprintf( msg, "µØÍ¼ÎÄ¼şĞ´Èë¡£[Â¥²ãµØÍ¼ID:%d/(%d,%d)-(%d,%d)]",
+		//sprintf( msg, "ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«é•¿æ‘º[ãƒ•ãƒ­ã‚¢:%d/(%d,%d)-(%d,%d)]",
+		sprintf( msg, "åœ°å›¾æ–‡ä»¶å†™å…¥ã€‚[æ¥¼å±‚åœ°å›¾ID:%d/(%d,%d)-(%d,%d)]",
 
 			floor, x1, y1, x2, y2 );
 		StockChatBufferLine( msg, FONT_PAL_GRAY );
@@ -535,32 +535,32 @@ BOOL writeMap( int floor, int x1, int y1, int x2, int y2,
 #endif
 #endif
 
-	// Õi¤ßŞz¤ß¥Õ¥¡¥¤¥ëÃû×÷³É
-	//¶ÁÈ¡ÎÄ¼şÃû µØÍ¼ID
+	// iã¿zã¿ãƒ•ã‚¡ã‚¤ãƒ«åä½œæˆ
+	//è¯»å–æ–‡ä»¶å åœ°å›¾ID
 	sprintf( filename, "map\\%d.dat", floor);
 
-	// ¥Õ¥¡¥¤¥ë¥ª©`¥×¥ó  ÎÄ¼ş¿ª·Å¶ÁĞ´¸ñÊ½
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ª`ãƒ—ãƒ³  æ–‡ä»¶å¼€æ”¾è¯»å†™æ ¼å¼
 	if( (fp = fopen( filename, "rb+" ))==NULL )
 	{
-		// Ê§”¡¤¹¤ë¤Î¤Ï×î³õ¤Ç¥Ş¥Ã¥×¥Õ¥©¥ë¥À¤¬Ÿo¤¤¤«¤é
-		// ¤À¤«¤é¥Õ¥©¥ë¥À¤ò×÷¤ë
-		/// /Ê§°ÜµÄµÚÒ»´ÎÃ»ÓĞµØÍ¼ÎÄ¼ş¼ĞÎÄ¼ş¼Ğ/ / ËùÒÔÖÆ×÷
-		//´´½¨mapÄ¿Â¼
+		// å¤±ãƒ»å·¥æ¯ªéŸ¦çŒ®ç•›é…©é’è•™æ°“æŠ“æ¦¨â”æ¯³å¤oã„ã‹ã‚‰
+		// ã ã‹ã‚‰ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œã‚‹
+		/// /å¤±è´¥çš„ç¬¬ä¸€æ¬¡æ²¡æœ‰åœ°å›¾æ–‡ä»¶å¤¹æ–‡ä»¶å¤¹/ / æ‰€ä»¥åˆ¶ä½œ
+		//åˆ›å»ºmapç›®å½•
 		_mkdir( "map" );
-		// Õi¤ßŞz¤ß¥Ç©`¥¿¤â×÷¤ë
-		//¶ÁÈ¡Êı¾İÒ²ÖÆÔì
-		//¡¡wb Ö»Ğ´´ò¿ª»òĞÂ½¨Ò»¸ö¶ş½øÖÆÎÄ¼ş£»Ö»ÔÊĞíĞ´Êı¾İ¡£ 
+		// iã¿zã¿ãƒ‡`ã‚¿ã‚‚ä½œã‚‹
+		//è¯»å–æ•°æ®ä¹Ÿåˆ¶é€ 
+		//ã€€wb åªå†™æ‰“å¼€æˆ–æ–°å»ºä¸€ä¸ªäºŒè¿›åˆ¶æ–‡ä»¶ï¼›åªå…è®¸å†™æ•°æ®ã€‚ 
 		fp = fopen( filename, "wb" );
 		fclose( fp );
-		// Õi¤ßŞz¤ß¥â©`¥É¤Ç¤â¤¦Ò»¶È¥ª©`¥×¥ó
-		//¶ÁÈ¡Ä£Ê½ÔÙ¿ª·Å  rb+ ¶ÁĞ´´ò¿ªÒ»¸ö¶ş½øÖÆÎÄ¼ş£¬ÔÊĞí¶ÁÊı¾İ
+		// iã¿zã¿ãƒ¢`ãƒ‰ã§ã‚‚ã†ä¸€åº¦ã‚ª`ãƒ—ãƒ³
+		//è¯»å–æ¨¡å¼å†å¼€æ”¾  rb+ è¯»å†™æ‰“å¼€ä¸€ä¸ªäºŒè¿›åˆ¶æ–‡ä»¶ï¼Œå…è®¸è¯»æ•°æ®
 		if( (fp = fopen( filename, "rb+" ))==NULL )
 			return FALSE;
 	}
 
 
 	fseek( fp, 0, SEEK_SET );
-	//ÕâÀïÊÇµØÍ¼¸ñÊ½ÁË
+	//è¿™é‡Œæ˜¯åœ°å›¾æ ¼å¼äº†
 	fread( &fWidth,  sizeof(int), 1, fp );
 	fread( &fHeight, sizeof(int), 1, fp );
 
@@ -621,8 +621,8 @@ BOOL writeMap( int floor, int x1, int y1, int x2, int y2,
 	len2 = my * mWidth + mx;
 	for( i = 0; i < height; i++ )
 	{
-		// Õi¤ßŞz¤ß?ÒŠ¤¿¥Õ¥é¥°¤òÁ¢¤Æ¤ë
-		//¶ÁÈ¡£¿¿´ÁË×ªÕÛµãÁ¢
+		// iã¿zã¿?ãŸãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
+		//è¯»å–ï¼Ÿçœ‹äº†è½¬æŠ˜ç‚¹ç«‹
 		for( j = 0; j < width; j++ )
 		{
 			event[len2+j] |= (MAP_SEE_FLAG | MAP_READ_FLAG);
@@ -630,8 +630,8 @@ BOOL writeMap( int floor, int x1, int y1, int x2, int y2,
 			 && (mapAreaX1 <= x1+j && x1+j < mapAreaX2
 			  && mapAreaY1 <= y1+i && y1+i < mapAreaY2) )
 			{
-				// »­ÃæÄÚ¤Î¥¨¥Ù¥ó¥È¤¬ÔÙËÍ¤µ¤ì¤Æ¤­¤¿¤é¥á¥â¥ê¤â•ø¤­¤«¤¨¤ë
-				//»­ÃæÄÚµÄ¥¨¥Ù¥ó¥ÈÔÙËÍ¹ıÀ´µÄ»°»á±»ÄÚ´æÒ²Ğ´ÇàÍÜ ÔÙ´ÎĞ´ÈëÄÚ´æ
+				// ç”»é¢å†…ã®ã‚¨ãƒ™ãƒ³ãƒˆãŒå†é€ã•ã‚Œã¦ããŸã‚‰ãƒ¡ãƒ¢ãƒªã‚‚Ã 
+				//ç”»é¢å†…çš„ã‚¨ãƒ™ãƒ³ãƒˆå†é€è¿‡æ¥çš„è¯ä¼šè¢«å†…å­˜ä¹Ÿå†™é’è›™ å†æ¬¡å†™å…¥å†…å­˜
 				setEventMemory( x1+j, y1+i, event[len2+j] );
 			}
 		}
@@ -647,10 +647,10 @@ BOOL writeMap( int floor, int x1, int y1, int x2, int y2,
 }
 
 
-// ¥Ş¥Ã¥×¥Ç©`¥¿¤ÎÕi¤ßŞz¤ß
+// ãƒãƒƒãƒ—ãƒ‡`ã‚¿ã®iã¿zã¿
 //
-//   ¥°¥ê¥Ã¥É×ù˜Ë(x1,y1)-(x2,y2)¤Î¹ ‡ì¤Î¥Ş¥Ã¥×¥Ç©`¥¿¤òÕi¤ßŞz¤à
-//µØÍ¼Êı¾İµÄ¶ÁÈ¡/ /¸ñÍø×ø±ê£¨1/ / x£¬y1)-( x£¬yÁ½2£©µÄ·¶Î§µÄµØÍ¼Êı¾İ¶ÁÈ¡
+//   ã‚°ãƒªãƒƒãƒ‰åº§(x1,y1)-(x2,y2)ã®æ¬·è¿è•™æ°“æŠ“ç­¾`ã‚¿ã‚’iã¿zã‚€
+//åœ°å›¾æ•°æ®çš„è¯»å–/ /æ ¼ç½‘åæ ‡ï¼ˆ1/ / xï¼Œy1)-( xï¼Œyä¸¤2ï¼‰çš„èŒƒå›´çš„åœ°å›¾æ•°æ®è¯»å–
 //
 BOOL readMap( int floor, int x1, int y1, int x2, int y2,
 	unsigned short *tile, unsigned short *parts, unsigned short *event )
@@ -670,26 +670,26 @@ BOOL readMap( int floor, int x1, int y1, int x2, int y2,
 #ifdef _DEBUG_MSG
 	{
 		char msg[256];
-		sprintf( msg, "¥Ş¥Ã¥×¥Õ¥¡¥¤¥ëÕi¤ßŞz¤ß¡£[¥Õ¥í¥¢:%d/(%d,%d)-(%d,%d)]",
+		sprintf( msg, "ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«iã¿zã¿ã€‚[ãƒ•ãƒ­ã‚¢:%d/(%d,%d)-(%d,%d)]",
 			floor, x1, y1, x2, y2 );
 		StockChatBufferLine( msg, FONT_PAL_GRAY );
 	}
 #endif
 #endif
 
-	// Õi¤ßŞz¤ß¥Õ¥¡¥¤¥ëÃû×÷³É
+	// iã¿zã¿ãƒ•ã‚¡ã‚¤ãƒ«åä½œæˆ
 	sprintf( filename, "map\\%d.dat", floor);
 
-	// ¥Õ¥¡¥¤¥ë¥ª©`¥×¥ó
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ª`ãƒ—ãƒ³
 	if( (fp = fopen( filename, "rb" ))==NULL )
 	{
-		// Ê§”¡¤¹¤ë¤Î¤Ï×î³õ¤Ç¥Ş¥Ã¥×¥Õ¥©¥ë¥À¤¬Ÿo¤¤¤«¤é
-		// ¤À¤«¤é¥Õ¥©¥ë¥À¤ò×÷¤ë
+		// å¤±ãƒ»å·¥æ¯ªéŸ¦çŒ®ç•›é…©é’è•™æ°“æŠ“æ¦¨â”æ¯³å¤oã„ã‹ã‚‰
+		// ã ã‹ã‚‰ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œã‚‹
 		_mkdir( "map" );
-		// Õi¤ßŞz¤ß¥Ç©`¥¿¤â×÷¤ë
+		// iã¿zã¿ãƒ‡`ã‚¿ã‚‚ä½œã‚‹
 		fp = fopen( filename, "wb" );
 		fclose( fp );
-		// Õi¤ßŞz¤ß¥â©`¥É¤Ç¤â¤¦Ò»¶È¥ª©`¥×¥ó
+		// iã¿zã¿ãƒ¢`ãƒ‰ã§ã‚‚ã†ä¸€åº¦ã‚ª`ãƒ—ãƒ³
 		if( (fp = fopen( filename, "rb" ))==NULL )
 			return FALSE;
 	}
@@ -773,7 +773,7 @@ BOOL readMap( int floor, int x1, int y1, int x2, int y2,
 
 
 //
-// ¥Ş¥Ã¥×±íÊ¾Î»ÖÃÔO¶¨
+// ãƒãƒƒãƒ—è¡¨ç¤ºä½ç½®Oå®š
 //
 void setMap( int floor, int gx, int gy )
 {
@@ -784,11 +784,11 @@ void setMap( int floor, int gx, int gy )
 
 
 //
-// ¥Ş¥Ã¥×Î»ÖÃÒÆ„Ó‰ä¸ü
+// ãƒãƒƒãƒ—ä½ç½®ç§»æ¶“
 //
 void setMoveMap( int gx, int gy )
 {
-	// ¬FÔÚµØ¤ËÒÆ„Ó¤¹¤ë£¨ÒÆ„Ó¤È¤ÏÑÔ¤ï¤ó¤¬£©¤Ê¤éºÎ¤â¤·¤Ê¤¤¡£
+	// Fåœ¨åœ°ã«ç§»å©´å·¥è€„ã„’å©´è¶£æ¶é¢„é“¯è­â”€èƒœæ¥¹éŸ¦çŒ¡ç­èƒœã
 	if( nowGx == gx && nowGy == gy )
 		return;
 
@@ -799,7 +799,7 @@ void setMoveMap( int gx, int gy )
 
 
 //
-// ¥Ş¥Ã¥×Î»ÖÃ¥ï©`¥×‰ä¸ü
+// ãƒãƒƒãƒ—ä½ç½®ãƒ¯`ãƒ—æ¶“
 //
 void setWarpMap( int gx, int gy )
 {
@@ -821,13 +821,13 @@ void setWarpMap( int gx, int gy )
 	viewPointX = nowX;
 	viewPointY = nowY;
 
-	wnCloseFlag = 1;	// šøÓÃ¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+	wnCloseFlag = 1;	// æ°“Î•ï¼…è—ä¸§Î”èœ·]ã˜ã‚‹
 }
 
 
 //
-// ¥Ş¥Ã¥×±íÊ¾
-//µØÍ¼ÏÔÊ¾
+// ãƒãƒƒãƒ—è¡¨ç¤º
+//åœ°å›¾æ˜¾ç¤º
 void drawMap( void )
 {
 	int i, j;
@@ -842,14 +842,14 @@ void drawMap( void )
 
 	readMapAfterFrame++;
 
-	//ÏÖÔÚµÄÍø¸ñÎ»ÖÃ±äÁË´ÓÎÄ¼ş¶ÁÈ¡
-	// ¬FÔÚ¤Î¥°¥ê¥Ã¥ÉÎ»ÖÃ¤¬‰ä¤ï¤Ã¤¿¤é¥Õ¥¡¥¤¥ë¤«¤éÕi¤ßŞz¤à
+	//ç°åœ¨çš„ç½‘æ ¼ä½ç½®å˜äº†ä»æ–‡ä»¶è¯»å–
+	// Fåœ¨ã®ã‚°ãƒªãƒƒãƒ‰ä½ç½®ãŒæµƒé“¯ç›²éƒ¡æ¥—æ¦¨Ë‰ã…æ¯ªæªiã¿zã‚€
 	if( nowGx != oldGx || nowGy != oldGy )
 	{
 		if( readMap( nowFloor, mapAreaX1, mapAreaY1, mapAreaX2, mapAreaY2,
 				&tile[0], &parts[0], &event[0] ) )
 		{
-			// hitMap[]¤Ë¤¢¤¿¤êÅĞ¶¨¥Ç©`¥¿¤òÔO¶¨¤¹¤ë Ê±ÅĞ¶¨Êı¾İÉè¶¨
+			// hitMap[]ã«ã‚ãŸã‚Šåˆ¤å®šãƒ‡`ã‚¿ã‚’Oå®šã™ã‚‹ æ—¶åˆ¤å®šæ•°æ®è®¾å®š
 			readHitMap( mapAreaX1, mapAreaY1, mapAreaX2, mapAreaY2,
 				&tile[0], &parts[0], &event[0], &hitMap[0] );
 
@@ -862,14 +862,14 @@ void drawMap( void )
 #ifdef _DEBUG_MSG
 					{
 					char msg[256];
-					//sprintf( msg, "¥Ç©`¥¿¤¬À´¤¿¤Î¤ÇÒÆ„Ó¤Ç¤­¤ë¤è¤¦¤Ë¤¹¤ë¡£" );
-			        sprintf( msg, "Êı¾İÀ´ÁË£¬ÄÜÒÆ¶¯µÄ¡£" );
+					//sprintf( msg, "ãƒ‡`ã‚¿ãŒæ¥ãŸã®ã§ç§»å©´æ‰¦æ¯ªç‘œÎ”æ‘”å·¥æ¿" );
+			        sprintf( msg, "æ•°æ®æ¥äº†ï¼Œèƒ½ç§»åŠ¨çš„ã€‚" );
 					
 					StockChatBufferLine( msg, FONT_PAL_GRAY );
 					}
 #endif
 #endif
-					autoMappingInitFlag = TRUE;	// ¥ª©`¥È¥Ş¥Ã¥×Õi¤ßŞz¤ß ×Ô¶¯µØÍ¼¶ÁÈ¡
+					autoMappingInitFlag = TRUE;	// ã‚ª`ãƒˆãƒãƒƒãƒ—iã¿zã¿ è‡ªåŠ¨åœ°å›¾è¯»å–
 
 				}
 				else
@@ -878,7 +878,7 @@ void drawMap( void )
 #ifdef _DEBUG_MSG
 					{
 					char msg[256];
-					sprintf( msg, "¤Ş¤À¥Ç©`¥¿¤¬¤³¤Ê¤¤¤Î¤Ç´ı¤Ä¡£»¹Ã»µÈÊı¾İ" );
+					sprintf( msg, "ã¾ã ãƒ‡`ã‚¿ãŒã“ãªã„ã®ã§å¾…ã¤ã€‚è¿˜æ²¡ç­‰æ•°æ®" );
 					StockChatBufferLine( msg, FONT_PAL_GRAY );
 					}
 #endif
@@ -887,11 +887,11 @@ void drawMap( void )
 			}
 			else
 			{
-				autoMappingInitFlag = TRUE;	// ¥ª©`¥È¥Ş¥Ã¥×Õi¤ßŞz¤ß
+				autoMappingInitFlag = TRUE;	// ã‚ª`ãƒˆãƒãƒƒãƒ—iã¿zã¿
 			}
 
-			//µØÍ¼Êı¾İ¶ÁÈ¡µÄ¾­¹ı¿ò¼ÜÇåÎú
-			readMapAfterFrame = 0;	// ¥Ş¥Ã¥×¥Ç©`¥¿¤òÕi¤ßŞz¤ó¤Ç¤«¤é¤Î½Uß^¥Õ¥ì©`¥à¤ò¥¯¥ê¥¢
+			//åœ°å›¾æ•°æ®è¯»å–çš„ç»è¿‡æ¡†æ¶æ¸…æ™°
+			readMapAfterFrame = 0;	// ãƒãƒƒãƒ—ãƒ‡`ã‚¿ã‚’iã¿zã‚“ã§ã‹ã‚‰ã®U^ãƒ•ãƒ¬`ãƒ ã‚’ã‚¯ãƒªã‚¢
 		}
 		else
 		{
@@ -899,7 +899,7 @@ void drawMap( void )
 #ifdef _DEBUG_MSG
 			{
 				char msg[256];
-				sprintf( msg, "¥Ş¥Ã¥×¤ÎÕi¤ßŞz¤ß¤ËÊ§”¡¤·¤Ş¤·¤¿¡£µØÍ¼µÄ¶ÁÈ¡Ê§°ÜÁË" );
+				sprintf( msg, "ãƒãƒƒãƒ—ã®iã¿zã¿ã«å¤±ãƒ»ç­è“¼ç­ä¿Šï¼•èµå«‰äº©å¯¥âˆˆĞèŠ°" );
 				StockChatBufferLine( msg, FONT_PAL_GRAY );
 			}
 #endif
@@ -910,17 +910,17 @@ void drawMap( void )
 
 	if( ProcNo == PROC_GAME && SubProcNo == 3 )
 	{
-		//µØÍ¼¿´ÏÂ4Ö¡ºó£¨´¦Àí·ÖÉ¢£©
-		if( readMapAfterFrame == 4 )	// ¥Ş¥Ã¥×¤òÕi¤ß¤³¤ó¤Ç£´¥Õ¥ì©`¥àáá£¨„IÀí¤ò·ÖÉ¢¤¹¤ë¤¿¤á£©
+		//åœ°å›¾çœ‹ä¸‹4å¸§åï¼ˆå¤„ç†åˆ†æ•£ï¼‰
+		if( readMapAfterFrame == 4 )	// ãƒãƒƒãƒ—ã‚’iã¿ã“ã‚“ã§ï¼”ãƒ•ãƒ¬`ãƒ å¾Œï¼ˆIç†ã‚’åˆ†æ•£ã™ã‚‹ãŸã‚ï¼‰
 		{
-			//È¥ÁËËùÖÆ¶¨µÄ×ªÕÛµã
-			// ĞĞ¤Ã¤¿Ëù¤Î¥Õ¥é¥°¤òÁ¢¤Æ¤ë
+			//å»äº†æ‰€åˆ¶å®šçš„è½¬æŠ˜ç‚¹
+			// è¡Œã£ãŸæ‰€ã®ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 			readAutoMapSeeFlag();
 		}
 		else
 		if( readMapAfterFrame == 8 )
 		{
-			// Á¢¤Æ¤¿¥Õ¥é¥°¤ò•ø¤­Şz¤à  Á¢ÁË×ªÕÛµãĞ´Èë
+			// ç«‹ã¦ãŸãƒ•ãƒ©ã‚°ã‚’zã‚€  ç«‹äº†è½¬æŠ˜ç‚¹å†™å…¥
 			writeAutoMapSeeFlag();
 		}
 	}
@@ -928,7 +928,7 @@ void drawMap( void )
 	camMapToGamen( (float)(mapAreaX1*GRID_SIZE), (float)((mapAreaY2-1)*GRID_SIZE), &dx, &dy );
 
 #if 1
-	// „IÀí¤Îí˜·¬¤¬ÒÔÏÂ¤Î¤è¤¦¤Ë„IÀí¤¹¤ë  ´¦ÀíË³ĞòÒÔÏÂ´¦Àí
+	// Iç†ã®ç•ªãŒä»¥ä¸‹ã®ã‚ˆã†ã«Iç†ã™ã‚‹  å¤„ç†é¡ºåºä»¥ä¸‹å¤„ç†
 	//
 	// [map]
 	//               16
@@ -959,16 +959,16 @@ void drawMap( void )
 		while( i >= 0 && j >= 0 )
 		{
 
-			// ¥¿¥¤¥ë±íÊ¾ ´É×©±íÊ¾
+			// ã‚¿ã‚¤ãƒ«è¡¨ç¤º ç“·ç –è¡¨ç¤º
 			if( tile[i*mapAreaWidth+j] > CG_INVISIBLE )
 			{
 #if 0
-				// º£¥¿¥¤¥ë¤ÇÒôøQ¤é¤¹(¥Æ¥¹¥È)  º£´É×©ÉùÒôÏì£¨¿¼ÊÔ£©
+				// æµ·ã‚¿ã‚¤ãƒ«ã§éŸ³Qã‚‰ã™(ãƒ†ã‚¹ãƒˆ)  æµ·ç“·ç –å£°éŸ³å“ï¼ˆè€ƒè¯•ï¼‰
 				if( 193 <= tile[i*mapAreaWidth+j] && tile[i*mapAreaWidth+j] <= 196 )
 				{
 					play_environment( 0, x, y );
 				}
-				// »­ÃæÄÚ¤Ê¤é„IÀí¤¹¤ë  Èç¹û»­ÃæÄÚ´¦Àí
+				// ç”»é¢å†…ãªã‚‰Iç†ã™ã‚‹  å¦‚æœç”»é¢å†…å¤„ç†
 				if( x >= -SURFACE_WIDTH/2
 				 && x < DEF_APPSIZEX+SURFACE_WIDTH/2
 				 && y >= -SURFACE_HEIGHT/2
@@ -977,7 +977,7 @@ void drawMap( void )
 					StockDispBuffer( x, y, DISP_PRIO_TILE, tile[i*mapAreaWidth+j], 0 );
 				}
 #else
-				// »­ÃæÄÚ¤Ê¤é„IÀí¤¹¤ë
+				// ç”»é¢å†…ãªã‚‰Iç†ã™ã‚‹
 				if( x >= -SURFACE_WIDTH/2
 				 && x < DEF_APPSIZEX+SURFACE_WIDTH/2
 				 && y >= -SURFACE_HEIGHT/2
@@ -989,26 +989,26 @@ void drawMap( void )
 			}
 			else
 			{
-				// ÌØÊâ¤Ê¥Ñ©`¥Ä£¨Òô¤È¤«£© ÌØÊâµÄÁã¼ş£¨ÉùÒô£©
+				// ç‰¹æ®Šãªãƒ‘`ãƒ„ï¼ˆéŸ³ã¨ã‹ï¼‰ ç‰¹æ®Šçš„é›¶ä»¶ï¼ˆå£°éŸ³ï¼‰
 
-				// £Ó£Å¥Ñ©`¥Ä¤Ê¤Î¤ÇøQ¤é¤¹  SEÁã¼ş£¬ËùÒÔÏì
+				// ï¼³ï¼¥ãƒ‘`ãƒ„ãªã®ã§Qã‚‰ã™  SEé›¶ä»¶ï¼Œæ‰€ä»¥å“
 				if( 20 <= tile[i*mapAreaWidth+j] && tile[i*mapAreaWidth+j] <= 39 )
 				{
 					play_environment( tile[i*mapAreaWidth+j], x, y );
 				}
 				else
-				// £Â£Ç£Í¥Ñ©`¥Ä¤Ê¤Î¤ÇøQ¤é¤¹  ÒòÎªÁã¼şµÄBGMÇÃÏì
+				// ï¼¢ï¼§ï¼­ãƒ‘`ãƒ„ãªã®ã§Qã‚‰ã™  å› ä¸ºé›¶ä»¶çš„BGMæ•²å“
 				if( 40 <= tile[i*mapAreaWidth+j] && tile[i*mapAreaWidth+j] <= 59 )
 				{
 					play_map_bgm( tile[i*mapAreaWidth+j] );
 					draw_map_bgm_flg = 1;
 				}
 			}
-			// ¥Ñ©`¥Ä±íÊ¾  Áã¼ş±íÊ¾
+			// ãƒ‘`ãƒ„è¡¨ç¤º  é›¶ä»¶è¡¨ç¤º
 			if( parts[i*mapAreaWidth+j] > CG_INVISIBLE )
 			{
 #if 0
-				// º£¥¿¥¤¥ë¤ÇÒôøQ¤é¤¹(¥Æ¥¹¥È)  º£´É×©ÉùÒôÏì£¨¿¼ÊÔ£©
+				// æµ·ã‚¿ã‚¤ãƒ«ã§éŸ³Qã‚‰ã™(ãƒ†ã‚¹ãƒˆ)  æµ·ç“·ç –å£°éŸ³å“ï¼ˆè€ƒè¯•ï¼‰
 				if( parts[i*mapAreaWidth+j] == 10011 )
 				{
 					play_environment( 2, x, y );
@@ -1028,7 +1028,7 @@ void drawMap( void )
 				}
 #endif
 				realGetNo( parts[i*mapAreaWidth+j], &bmpNo );
-				// »­ÃæÄÚ¤Ê¤é„IÀí¤¹¤ë
+				// ç”»é¢å†…ãªã‚‰Iç†ã™ã‚‹
 				realGetPos( bmpNo, &xx, &yy );
 				realGetWH( bmpNo, &ww, &hh );
 				xx += x;
@@ -1036,16 +1036,16 @@ void drawMap( void )
 				if( xx < DEF_APPSIZEX && xx+ww-1 >= 0
 				 && yy < DEF_APPSIZEY && yy+hh-1 >= 0 )
 				{
-					// ±íÊ¾ƒÏÈ¶È›Q¶¨¤Î¤¿¤á¤ËµÇåh¤¹¤ë  ±íÊ¾ÓÅÏÈ¶ÈÎªÁË¾ö¶¨×¢²á
+					// è¡¨ç¤ºå…ˆåº¦Qå®šã®ãŸã‚ã«ç™»hã™ã‚‹  è¡¨ç¤ºä¼˜å…ˆåº¦ä¸ºäº†å†³å®šæ³¨å†Œ
 					setPartsPrio( bmpNo, x, y, 0, 0,
 						(float)(mapAreaX1+j)*GRID_SIZE, (float)(mapAreaY1+i)*GRID_SIZE );
 				}
 			}
 			else
 			{
-				// ÌØÊâ¤Ê¥Ñ©`¥Ä£¨Òô¤È¤«£©
+				// ç‰¹æ®Šãªãƒ‘`ãƒ„ï¼ˆéŸ³ã¨ã‹ï¼‰
 #if 0
-// ŠÖÆµÄ¤ËÓê£¨Ñ©£©¤ò½µ¤é¤¹  Ç¿ÖÆ£¨Ñ©£©Óê½µÏÂ
+// åˆ¶çš„ã«é›¨ï¼ˆé›ªï¼‰ã‚’é™ã‚‰ã™  å¼ºåˆ¶ï¼ˆé›ªï¼‰é›¨é™ä¸‹
 if( nowFloor == 4000 )
 {
 	if( mapAreaX1+j == 76 && mapAreaY1+i == 90 )
@@ -1065,20 +1065,20 @@ if( nowFloor == 4000 )
 }
 #endif
 
-				// £Ó£Å¥Ñ©`¥Ä¤Ê¤Î¤ÇøQ¤é¤¹
+				// ï¼³ï¼¥ãƒ‘`ãƒ„ãªã®ã§Qã‚‰ã™
 				if( 20 <= parts[i*mapAreaWidth+j] && parts[i*mapAreaWidth+j] <= 39 )
 				{
 					play_environment( parts[i*mapAreaWidth+j], x, y );
 				}
 				else
-				// £Â£Ç£Í¥Ñ©`¥Ä¤Ê¤Î¤ÇøQ¤é¤¹
+				// ï¼¢ï¼§ï¼­ãƒ‘`ãƒ„ãªã®ã§Qã‚‰ã™
 				if( 40 <= parts[i*mapAreaWidth+j] && parts[i*mapAreaWidth+j] <= 59 )
 				{
 					play_map_bgm( parts[i*mapAreaWidth+j] );
 					draw_map_bgm_flg = 1;
 				}
 				else
-				// Óê¥Ñ©`¥Ä
+				// é›¨ãƒ‘`ãƒ„
 				if( 80 <= parts[i*mapAreaWidth+j] && parts[i*mapAreaWidth+j] <= 84 )
 				{
 					if( ABS( nowGx - (mapAreaX1+j) ) <= 5
@@ -1091,7 +1091,7 @@ if( nowFloor == 4000 )
 					}
 				}
 				else
-				// Ñ©¥Ñ©`¥Ä
+				// é›ªãƒ‘`ãƒ„
 				if( 85 <= parts[i*mapAreaWidth+j] && parts[i*mapAreaWidth+j] <= 89 )
 				{
 					if( ABS( nowGx - (mapAreaX1+j) ) <= 5
@@ -1125,7 +1125,7 @@ if( nowFloor == 4000 )
 	}
 
 #else
-	// „IÀí¤Îí˜·¬¤¬ÒÔÏÂ¤Î¤è¤¦¤Ë„IÀí¤¹¤ë
+	// Iç†ã®ç•ªãŒä»¥ä¸‹ã®ã‚ˆã†ã«Iç†ã™ã‚‹
 	//
 	// [map] 
 	//               16
@@ -1145,10 +1145,10 @@ if( nowFloor == 4000 )
 		ty = y;
 		for( j = 0; j < mapAreaWidth; j++ )
 		{
-			// ¥¿¥¤¥ë±íÊ¾
+			// ã‚¿ã‚¤ãƒ«è¡¨ç¤º
 			if( tile[i*mapAreaWidth+j] > CG_INVISIBLE )
 			{
-				// »­ÃæÄÚ¤Ê¤é„IÀí¤¹¤ë
+				// ç”»é¢å†…ãªã‚‰Iç†ã™ã‚‹
 				if( x >= -SURFACE_WIDTH/2
 				 && x < DEF_APPSIZEX+SURFACE_WIDTH/2
 				 && y >= -SURFACE_HEIGHT/2
@@ -1158,11 +1158,11 @@ if( nowFloor == 4000 )
 				}
 			}
 
-			// ¥Ñ©`¥Ä±íÊ¾
+			// ãƒ‘`ãƒ„è¡¨ç¤º
 			if( parts[i*mapAreaWidth+j] > CG_INVISIBLE )
 			{
 				realGetNo( parts[i*mapAreaWidth+j], &bmpNo );
-				// »­ÃæÄÚ¤Ê¤é„IÀí¤¹¤ë
+				// ç”»é¢å†…ãªã‚‰Iç†ã™ã‚‹
 				realGetPos( bmpNo, &xx, &yy );
 				realGetWH( bmpNo, &ww, &hh );
 				xx += x;
@@ -1170,7 +1170,7 @@ if( nowFloor == 4000 )
 				if( xx < DEF_APPSIZEX && xx+ww-1 >= 0
 				 && yy < DEF_APPSIZEY && yy+hh-1 >= 0 )
 				{
-					// ±íÊ¾ƒÏÈ¶È›Q¶¨¤Î¤¿¤á¤ËµÇåh¤¹¤ë
+					// è¡¨ç¤ºå…ˆåº¦Qå®šã®ãŸã‚ã«ç™»hã™ã‚‹
 					setPartsPrio( bmpNo, x, y, 0, 0,
 						(float)(mapAreaX1+j)*GRID_SIZE, (float)(mapAreaY1+i)*GRID_SIZE );
 				}
@@ -1202,9 +1202,9 @@ if( nowFloor == 4000 )
 }
 
 
-// ¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë¤òÕi¤ßŞz¤ß¤Ê¤ª¤¹
-//   ŒgëH¤Î±íÊ¾¤Ï¡¢drawMap¤ÇĞĞ¤ï¤ì¤ë
-// /µØÍ¼ÎÄ¼şÖØĞÂ¶ÁÈ¡/ /Êµ¼ÊµÄ±íÊ¾£¬drawMap¾ÙĞĞ
+// ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã‚’iã¿zã¿ãªãŠã™
+//   gHã®è¡¨ç¤ºã¯ã€drawMapã§è¡Œã‚ã‚Œã‚‹
+// /åœ°å›¾æ–‡ä»¶é‡æ–°è¯»å–/ /å®é™…çš„è¡¨ç¤ºï¼ŒdrawMapä¸¾è¡Œ
 void redrawMap( void )
 {
 	oldGx = -1;
@@ -1212,13 +1212,13 @@ void redrawMap( void )
 }
 
 
-// ¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë¤Î¥Á¥§¥Ã¥¯¥µ¥à¤òÕ{¤Ù¤ë
-//   ‘ø¤ê‚£ºÍ¬¤¸¤Ê¤éTRUE / ß`¤¦¤Ê¤éFALSE
-/// /µØÍ¼ÎÄ¼ş²éĞ£Ñé/ /·µ»ØÖµ£ºÒ»ÑùµÄ»°TRUE /²»Í¬µÄ»°FALSE
+// ãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’{ã¹ã‚‹
+//   å’Œè¢±èƒœTRUE / `ã†ãªã‚‰FALSE
+/// /åœ°å›¾æ–‡ä»¶æŸ¥æ ¡éªŒ/ /è¿”å›å€¼ï¼šä¸€æ ·çš„è¯TRUE /ä¸åŒçš„è¯FALSE
 #if 1
 
-//µØÍ¼ÎÄ¼ş±ÈÌØµÄÅÅÁĞË³ĞòÏà·´µÄÁĞ±í
-static unsigned char BitTable[] =	/*	¥Ó¥Ã¥È¤ÎK¤Óí˜¤òÄæ¤Ë¤¹¤ë¥Æ©`¥Ö¥ë	*/
+//åœ°å›¾æ–‡ä»¶æ¯”ç‰¹çš„æ’åˆ—é¡ºåºç›¸åçš„åˆ—è¡¨
+static unsigned char BitTable[] =	/*	ãƒ“ãƒƒãƒˆã®Kã³ã‚’é€†ã«ã™ã‚‹ãƒ†`ãƒ–ãƒ«	*/
 {
 		0x00 , 0x80 , 0x40 , 0xC0 , 0x20 , 0xA0 , 0x60 , 0xE0 , 
 		0x10 , 0x90 , 0x50 , 0xD0 , 0x30 , 0xB0 , 0x70 , 0xF0 , 
@@ -1253,7 +1253,7 @@ static unsigned char BitTable[] =	/*	¥Ó¥Ã¥È¤ÎK¤Óí˜¤òÄæ¤Ë¤¹¤ë¥Æ©`¥Ö¥ë	*/
 		0x0F , 0x8F , 0x4F , 0xCF , 0x2F , 0xAF , 0x6F , 0xEF , 
 		0x1F , 0x9F , 0x5F , 0xDF , 0x3F , 0xBF , 0x7F , 0xFF
 };
-static unsigned short crctab16[] =	/*	crc¡¡¤ÎÓ‹Ëã¥Æ©`¥Ö¥ë	 ¼ÆËã±í	*/
+static unsigned short crctab16[] =	/*	crcã€€ã®ç®—ãƒ†`ãƒ–ãƒ«	 è®¡ç®—è¡¨	*/
 {
 		0x0000,  0x1021,  0x2042,  0x3063,  0x4084,  0x50a5,  0x60c6,  0x70e7,
 		0x8108,  0x9129,  0xa14a,  0xb16b,  0xc18c,  0xd1ad,  0xe1ce,  0xf1ef,
@@ -1316,12 +1316,12 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 	unsigned short event[MAP_X_SIZE*MAP_Y_SIZE];
 
 
-	// ¥¿¥¤¥ë?¥Ñ©`¥Ä¥Ç©`¥¿¤òÕi¤ß³ö¤¹ ¼ÆËãÖ÷Ìâ´É×©Áã¼şÊı¾İ¿ªÊ¼¶Á£¿
+	// ã‚¿ã‚¤ãƒ«?ãƒ‘`ãƒ„ãƒ‡`ã‚¿ã‚’iã¿å‡ºã™ è®¡ç®—ä¸»é¢˜ç“·ç –é›¶ä»¶æ•°æ®å¼€å§‹è¯»ï¼Ÿ
 #if 0
 #ifdef _DEBUG_MSG
 	{
 	char msg[256];
-	sprintf( msg, "¥Á¥§¥Ã¥¯¥µ¥à¤Î¤¿¤á¤Ë¡¢" );
+	sprintf( msg, "ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã®ãŸã‚ã«ã€" );
 	StockChatBufferLine( msg, FONT_PAL_GRAY );
 	}
 #endif
@@ -1346,13 +1346,13 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 #ifdef _DEBUG_MSG
 		{
 			char msg[256];
-			sprintf( msg, "µØĞÎ¤Î¥Á¥§¥Ã¥¯¥µ¥à¤¬Í¬¤¸¤Ê¤Î¤Ç¥Õ¥¡¥¤¥ë¤«¤éÕi¤ßŞz¤à¡£¼ÆËãµØĞÎµÄ¼ì²éºÍÏàÍ¬µÄ£¬ËùÒÔ´ÓÎÄ¼ş¶ÁÈ¡" );
+			sprintf( msg, "åœ°å½¢ã®ãƒã‚§ãƒƒã‚¯ã‚µãƒ ãŒåŒã˜ãªã®ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰iã¿zã‚€ã€‚è®¡ç®—åœ°å½¢çš„æ£€æŸ¥å’Œç›¸åŒçš„ï¼Œæ‰€ä»¥ä»æ–‡ä»¶è¯»å–" );
 			StockChatBufferLine( msg, FONT_PAL_GRAY );
 		}
 #endif
 #endif
 
-		// ¥í¥°¥¤¥ó•r¤Ë¥Ş¥Ã¥×¤òÕi¤ßŞz¤à¤è¤¦¤Ë¤¹¤ë µÇÂ¼Ê±¶ÁÈ¡µÄµØÍ¼
+		// ãƒ­ã‚°ã‚¤ãƒ³rã«ãƒãƒƒãƒ—ã‚’iã¿zã‚€ã‚ˆã†ã«ã™ã‚‹ ç™»å½•æ—¶è¯»å–çš„åœ°å›¾
 		if( loginFlag )
 		{
 			redrawMap();
@@ -1367,7 +1367,7 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 #ifdef _DEBUG_MSG
 		{
 			char msg[256];
-			sprintf( msg, "µØĞÎ¤Î¥Á¥§¥Ã¥¯¥µ¥à¤¬ß`¤¦¤Î¤Ç¥µ©`¥Ğ¤ØÒªÇó¡£µØĞÎµÄ¼ì²éºÍ²»Í¬·şÎñÆ÷È¥ÒªÇó" );
+			sprintf( msg, "åœ°å½¢ã®ãƒã‚§ãƒƒã‚¯ã‚µãƒ ãŒ`ã†ã®ã§ã‚µ`ãƒã¸è¦æ±‚ã€‚åœ°å½¢çš„æ£€æŸ¥å’Œä¸åŒæœåŠ¡å™¨å»è¦æ±‚" );
 			StockChatBufferLine( msg, FONT_PAL_GRAY );
 		}
 #endif
@@ -1375,7 +1375,7 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 		lssproto_M_send( sockfd, floor, x1, y1, x2, y2 );
 
 #if 0
-		// ¤â¤¦¤³¤Î¥Õ¥é¥°¤Ï¤¤¤é¤Ê¤¤¤Î¤ÇFALSE¤Ë¤¹¤ë  ÒÑ¾­Õâ¸ö×ªÕÛµãÊÇ²»ĞèÒªµÄ£¬ËùÒÔFALSEÇó
+		// ã‚‚ã†ã“ã®ãƒ•ãƒ©ã‚°ã¯ã„ã‚‰ãªã„ã®ã§FALSEã«ã™ã‚‹  å·²ç»è¿™ä¸ªè½¬æŠ˜ç‚¹æ˜¯ä¸éœ€è¦çš„ï¼Œæ‰€ä»¥FALSEæ±‚
 		if( loginFlag )
 		{
 			loginFlag = FALSE;
@@ -1401,12 +1401,12 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 	unsigned short event[MAP_X_SIZE*MAP_Y_SIZE];
 
 
-	// ¥¿¥¤¥ë?¥Ñ©`¥Ä¥Ç©`¥¿¤òÕi¤ß³ö¤¹  ´É×©Áã¼şÊı¾İ¿ªÊ¼¶Á£¿
+	// ã‚¿ã‚¤ãƒ«?ãƒ‘`ãƒ„ãƒ‡`ã‚¿ã‚’iã¿å‡ºã™  ç“·ç –é›¶ä»¶æ•°æ®å¼€å§‹è¯»ï¼Ÿ
 #if 0
 #ifdef _DEBUG_MSG
 	{
 	char msg[256];
-	sprintf( msg, "¥Á¥§¥Ã¥¯¥µ¥à¤Î¤¿¤á¤Ë¡¢ ÎªÁËĞ£Ñé£¬" );
+	sprintf( msg, "ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã®ãŸã‚ã«ã€ ä¸ºäº†æ ¡éªŒï¼Œ" );
 	StockChatBufferLine( msg, FONT_PAL_GRAY );
 	}
 #endif
@@ -1435,13 +1435,13 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 #ifdef _DEBUG_MSG
 		{
 			char msg[256];
-			sprintf( msg, "µØĞÎ¤Î¥Á¥§¥Ã¥¯¥µ¥à¤¬Í¬¤¸¤Ê¤Î¤Ç¥Õ¥¡¥¤¥ë¤«¤éÕi¤ßŞz¤à¡£µØĞÎµÄ¼ì²éºÍÏàÍ¬µÄ£¬ËùÒÔ´ÓÎÄ¼ş¶ÁÈ¡" );
+			sprintf( msg, "åœ°å½¢ã®ãƒã‚§ãƒƒã‚¯ã‚µãƒ ãŒåŒã˜ãªã®ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰iã¿zã‚€ã€‚åœ°å½¢çš„æ£€æŸ¥å’Œç›¸åŒçš„ï¼Œæ‰€ä»¥ä»æ–‡ä»¶è¯»å–" );
 			StockChatBufferLine( msg, FONT_PAL_GRAY );
 		}
 #endif
 #endif
 
-		// ¥í¥°¥¤¥ó•r¤Ë¥Ş¥Ã¥×¤òÕi¤ßŞz¤à¤è¤¦¤Ë¤¹¤ë
+		// ãƒ­ã‚°ã‚¤ãƒ³rã«ãƒãƒƒãƒ—ã‚’iã¿zã‚€ã‚ˆã†ã«ã™ã‚‹
 		if( loginFlag )
 		{
 			redrawMap();
@@ -1456,7 +1456,7 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 #ifdef _DEBUG_MSG
 		{
 			char msg[256];
-			sprintf( msg, "µØĞÎ¤Î¥Á¥§¥Ã¥¯¥µ¥à¤¬ß`¤¦¤Î¤Ç¥µ©`¥Ğ¤ØÒªÇó¡£µÇÂ¼Ê±¶ÁÈ¡µÄµØÍ¼" );
+			sprintf( msg, "åœ°å½¢ã®ãƒã‚§ãƒƒã‚¯ã‚µãƒ ãŒ`ã†ã®ã§ã‚µ`ãƒã¸è¦æ±‚ã€‚ç™»å½•æ—¶è¯»å–çš„åœ°å›¾" );
 			StockChatBufferLine( msg, FONT_PAL_GRAY );
 		}
 #endif
@@ -1464,7 +1464,7 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 		lssproto_M_send( sockfd, floor, x1, y1, x2, y2 );
 
 #if 0
-		// ¤â¤¦¤³¤Î¥Õ¥é¥°¤Ï¤¤¤é¤Ê¤¤¤Î¤ÇFALSE¤Ë¤¹¤ë
+		// ã‚‚ã†ã“ã®ãƒ•ãƒ©ã‚°ã¯ã„ã‚‰ãªã„ã®ã§FALSEã«ã™ã‚‹
 		if( loginFlag )
 		{
 			loginFlag = FALSE;
@@ -1477,7 +1477,7 @@ BOOL mapCheckSum( int floor, int x1, int y1, int x2, int y2,
 #endif
 
 
-// ¥¿¥¤¥ë?¥Ñ©`¥Ä¤«¤éµ±¤¿¤êÅĞ¶¨Çéˆó¤òÈ¡¤ê³ö¤¹¡£ ´É×©£¿Áã¼şÃ¿ĞÅÏ¢´ÓÅĞ¶¨È¡³ö¡£
+// ã‚¿ã‚¤ãƒ«?ãƒ‘`ãƒ„ã‹ã‚‰å½“ãŸã‚Šåˆ¤å®šæƒ…è­è›‰ãƒ»ç“¿è¨¾åŸ‚ ç“·ç –ï¼Ÿé›¶ä»¶æ¯ä¿¡æ¯ä»åˆ¤å®šå–å‡ºã€‚
 #if 1
 void readHitMap( int x1, int y1, int x2, int y2,
 	unsigned short *tile, unsigned short *parts, unsigned short *event, unsigned short *hitMap )
@@ -1495,25 +1495,25 @@ void readHitMap( int x1, int y1, int x2, int y2,
 	if( width < 1 || height < 1 )
 		return;
 
-	// ¥¿¥¤¥ë
+	// ã‚¿ã‚¤ãƒ«
 	for( i = 0; i < height; i++ )
 	{
 		for( j = 0; j < width; j++ )
 		{
-			// ¥¿¥¤¥ë¤Îµ±¤¿¤êÅĞ¶¨
+			// ã‚¿ã‚¤ãƒ«ã®å½“ãŸã‚Šåˆ¤å®š
 			if( tile[i*width+j] > CG_INVISIBLE
 			 || (60 <= tile[i*width+j] && tile[i*width+j] <= 79) )
 			{
 				realGetNo( tile[i*width+j], &bmpNo );
-				// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+				// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 				realGetHitFlag( bmpNo, &hit );
-				// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+				// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 				if( hit == 0 && hitMap[i*width+j] != 2 )
 				{
 					hitMap[i*width+j] = 1;
 				}
 				else
-				// hit¤¬2¤Î•r¤Ï¤¢¤¿¤êÅĞ¶¨¤Ê¤¯¤¹
+				// hitãŒ2ã®rã¯ã‚ãŸã‚Šåˆ¤å®šãªãã™
 				if( hit == 2 )
 				{
 					hitMap[i*width+j] = 2;
@@ -1521,12 +1521,12 @@ void readHitMap( int x1, int y1, int x2, int y2,
 			}
 			else
 			{
-				// 0¤«¤é11¤Ï¥Ç¥Õ¥©¥ë¥È¤ÇÒŠ¤¨¤Ê¤¤¥¿¥¤¥ë
+				// 0ã‹ã‚‰11ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãˆãªã„ã‚¿ã‚¤ãƒ«
 				switch( tile[i*width+j] )
 				{
-					case 0:	// 0.bmp(Ÿo¤¤¤±¤É)¥¿¥¤¥ë¤Ïµ±¤¿¤êÅĞ¶¨¤¢¤ë¤È¤¹¤ë
-						// Õi¤ßŞz¤ß¥Õ¥é¥°¤¬¤¿¤Ã¤Æ¤¤¤Ê¤¤•r¤Ï„IÀí¤·¤Ê¤¤
-						//£¨Ã»ÓĞ£©´É×©»÷ÖĞµÄÅĞ¶¨¡£/ /¶ÁÈ¡×ªÕÛµã¹ıÈ¥Ê±£¬ÊÇÃ»ÓĞ²»´¦Àí
+					case 0:	// 0.bmp(oã„ã‘ã©)ã‚¿ã‚¤ãƒ«ã¯å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ã¨ã™ã‚‹
+						// iã¿zã¿ãƒ•ãƒ©ã‚°ãŒãŸã£ã¦ã„ãªã„rã¯Iç†ã—ãªã„
+						//ï¼ˆæ²¡æœ‰ï¼‰ç“·ç –å‡»ä¸­çš„åˆ¤å®šã€‚/ /è¯»å–è½¬æŠ˜ç‚¹è¿‡å»æ—¶ï¼Œæ˜¯æ²¡æœ‰ä¸å¤„ç†
 						if( (event[i*width+j] & MAP_SEE_FLAG) == 0 )
 							break;
 					case 1:
@@ -1535,7 +1535,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 					case 6:
 					case 9:
 					case 10:
-						// µ±¤¿¤êÅĞ¶¨¤¬£²¤Î•r¤Ï£±¤òÔO¶¨¤·¤Ê¤¤ ÅĞ¶¨2µÄÊ±ºòÃ¿Ò»²»½¨Á¢
+						// å½“ãŸã‚Šåˆ¤å®šãŒï¼’ã®rã¯ï¼‘ã‚’Oå®šã—ãªã„ åˆ¤å®š2çš„æ—¶å€™æ¯ä¸€ä¸å»ºç«‹
 						if( hitMap[i*width+j] != 2 )
 						{
 							hitMap[i*width+j] = 1;
@@ -1551,18 +1551,18 @@ void readHitMap( int x1, int y1, int x2, int y2,
 	}
 
 
-	// ¥Ñ©`¥Ä
+	// ãƒ‘`ãƒ„
 	for( i = 0; i < height; i++ )
 	{
 		for( j = 0; j < width; j++ )
 		{
-			// ¥Ñ©`¥Ä¤Îµ±¤¿¤êÅĞ¶¨
+			// ãƒ‘`ãƒ„ã®å½“ãŸã‚Šåˆ¤å®š
 			if( parts[i*width+j] > CG_INVISIBLE )
 			{
 				realGetNo( parts[i*width+j], &bmpNo );
-				// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+				// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 				realGetHitFlag( bmpNo, &hit );
-				// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+				// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 				if( hit == 0 )
 				{
 					realGetHitPoints( bmpNo, &hitX, &hitY );
@@ -1579,9 +1579,9 @@ void readHitMap( int x1, int y1, int x2, int y2,
 					}
 				}
 				else
-				// µ±¤¿¤êÅĞ¶¨¤¬£²¤Î•r¤Ï¥¿¥¤¥ë¤¬ši¤±¤Ê¤¯¤Æ¤â
-				// ŠÖÆµÄ¤Ëši¤±¤ë¤è¤¦¤Ë¤¹¤ë
-				//ÅĞ¶¨/ /Ã¿2µÄÊ±ºòÊÇ´É×©Ò²²»ÄÜ×ß/ /Ç¿ÖÆ×ßÂ·µÄ
+				// å½“ãŸã‚Šåˆ¤å®šãŒï¼’ã®rã¯ã‚¿ã‚¤ãƒ«ãŒiã‘ãªãã¦ã‚‚
+				// åˆ¶çš„ã«iã‘ã‚‹ã‚ˆã†ã«ã™ã‚‹
+				//åˆ¤å®š/ /æ¯2çš„æ—¶å€™æ˜¯ç“·ç –ä¹Ÿä¸èƒ½èµ°/ /å¼ºåˆ¶èµ°è·¯çš„
 				if( hit == 2 )
 				{
 					realGetHitPoints( bmpNo, &hitX, &hitY );
@@ -1601,15 +1601,15 @@ void readHitMap( int x1, int y1, int x2, int y2,
 			if( 60 <= parts[i*width+j] && parts[i*width+j] <= 79 )
 			{
 				realGetNo( parts[i*width+j], &bmpNo );
-				// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+				// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 				realGetHitFlag( bmpNo, &hit );
-				// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+				// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 				if( hit == 0 && hitMap[i*width+j] != 2 )
 				{
 					hitMap[i*width+j] = 1;
 				}
 				else
-				// hit¤¬2¤Î•r¤Ï¤¢¤¿¤êÅĞ¶¨¤Ê¤¯¤¹
+				// hitãŒ2ã®rã¯ã‚ãŸã‚Šåˆ¤å®šãªãã™
 				if( hit == 2 )
 				{
 					hitMap[i*width+j] = 2;
@@ -1617,7 +1617,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 			}
 			else
 			{
-				// 0¤«¤é11¤Ï¥Ç¥Õ¥©¥ë¥È¤ÇÒŠ¤¨¤Ê¤¤¥¿¥¤¥ë
+				// 0ã‹ã‚‰11ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãˆãªã„ã‚¿ã‚¤ãƒ«
 				switch( parts[i*width+j] )
 				{
 					case 1:
@@ -1626,7 +1626,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 					case 6:
 					case 9:
 					case 10:
-						// µ±¤¿¤êÅĞ¶¨¤¬£²¤Î•r¤Ï£±¤òÔO¶¨¤·¤Ê¤¤
+						// å½“ãŸã‚Šåˆ¤å®šãŒï¼’ã®rã¯ï¼‘ã‚’Oå®šã—ãªã„
 						if( hitMap[i*width+j] != 2 )
 						{
 							hitMap[i*width+j] = 1;
@@ -1639,7 +1639,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 				}
 			}
 
-			// ¹Ì¶¨£Î£Ğ£Ã¥¤¥Ù¥ó¥È¤ÏÕÏº¦Îï¤È¤·¤Æ’Q¤¦ ¹Ì¶¨NPC»î¶¯ÕÏ°­Îï´¦Àí
+			// å›ºå®šï¼®ï¼°ï¼£ã‚¤ãƒ™ãƒ³ãƒˆã¯éšœå®³ç‰©ã¨ã—ã¦Qã† å›ºå®šNPCæ´»åŠ¨éšœç¢ç‰©å¤„ç†
 			if( (event[i*width+j] & 0x0fff) == EVENT_NPC )
 			{
 				hitMap[i*width+j] = 1;
@@ -1668,11 +1668,11 @@ void readHitMap( int x1, int y1, int x2, int y2,
 	{
 		for( j = 0; j < width; j++ )
 		{
-			// Õi¤ßŞz¤ß¥Õ¥é¥°¤¬¤¿¤Ã¤Æ¤¤¤Ê¤¤•r¤Ï„IÀí¤·¤Ê¤¤
+			// iã¿zã¿ãƒ•ãƒ©ã‚°ãŒãŸã£ã¦ã„ãªã„rã¯Iç†ã—ãªã„
 			if( (event[i*width+j] & MAP_READ_FLAG) == 0 )
 				continue;
 
-			// ¥¿¥¤¥ë¤Îµ±¤¿¤êÅĞ¶¨
+			// ã‚¿ã‚¤ãƒ«ã®å½“ãŸã‚Šåˆ¤å®š
 			if( tile[i*width+j] > CG_INVISIBLE
 #if 0
 			 || (60 <= tile[i*width+j] && tile[i*width+j] <= 79) )
@@ -1681,15 +1681,15 @@ void readHitMap( int x1, int y1, int x2, int y2,
 #endif
 			{
 				realGetNo( tile[i*width+j], &bmpNo );
-				// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+				// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 				realGetHitFlag( bmpNo, &hit );
-				// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+				// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 				if( hit == 0 && hitMap[i*width+j] != 2 )
 				{
 					hitMap[i*width+j] = 1;
 				}
 				else
-				// hit¤¬2¤Î•r¤Ï¤¢¤¿¤êÅĞ¶¨¤Ê¤¯¤¹
+				// hitãŒ2ã®rã¯ã‚ãŸã‚Šåˆ¤å®šãªãã™
 				if( hit == 2 )
 				{
 					hitMap[i*width+j] = 2;
@@ -1698,17 +1698,17 @@ void readHitMap( int x1, int y1, int x2, int y2,
 #if 0
 			else
 			{
-				// 0¤«¤é11¤Ï¥Ç¥Õ¥©¥ë¥È¤ÇÒŠ¤¨¤Ê¤¤¥¿¥¤¥ë
+				// 0ã‹ã‚‰11ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãˆãªã„ã‚¿ã‚¤ãƒ«
 				switch( tile[i*width+j] )
 				{
-					case 0:	// 0.bmp(Ÿo¤¤¤±¤É)¥¿¥¤¥ë¤Ïµ±¤¿¤êÅĞ¶¨¤¢¤ë¤È¤¹¤ë
+					case 0:	// 0.bmp(oã„ã‘ã©)ã‚¿ã‚¤ãƒ«ã¯å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ã¨ã™ã‚‹
 					case 1:
 					case 2:
 					case 5:
 					case 6:
 					case 9:
 					case 10:
-						// µ±¤¿¤êÅĞ¶¨¤¬£²¤Î•r¤Ï£±¤òÔO¶¨¤·¤Ê¤¤
+						// å½“ãŸã‚Šåˆ¤å®šãŒï¼’ã®rã¯ï¼‘ã‚’Oå®šã—ãªã„
 						if( hitMap[i*width+j] != 2 )
 						{
 							hitMap[i*width+j] = 1;
@@ -1722,13 +1722,13 @@ void readHitMap( int x1, int y1, int x2, int y2,
 			}
 #endif
 
-			// ¥Ñ©`¥Ä¤Îµ±¤¿¤êÅĞ¶¨
+			// ãƒ‘`ãƒ„ã®å½“ãŸã‚Šåˆ¤å®š
 			if( parts[i*width+j] > CG_INVISIBLE )
 			{
 				realGetNo( parts[i*width+j], &bmpNo );
-				// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+				// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 				realGetHitFlag( bmpNo, &hit );
-				// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+				// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 				if( hit == 0 )
 				{
 					realGetHitPoints( bmpNo, &hitX, &hitY );
@@ -1745,8 +1745,8 @@ void readHitMap( int x1, int y1, int x2, int y2,
 					}
 				}
 				else
-				// µ±¤¿¤êÅĞ¶¨¤¬£²¤Î•r¤Ï¥¿¥¤¥ë¤¬ši¤±¤Ê¤¯¤Æ¤â
-				// ŠÖÆµÄ¤Ëši¤±¤ë¤è¤¦¤Ë¤¹¤ë
+				// å½“ãŸã‚Šåˆ¤å®šãŒï¼’ã®rã¯ã‚¿ã‚¤ãƒ«ãŒiã‘ãªãã¦ã‚‚
+				// åˆ¶çš„ã«iã‘ã‚‹ã‚ˆã†ã«ã™ã‚‹
 				if( hit == 2 )
 				{
 					realGetHitPoints( bmpNo, &hitX, &hitY );
@@ -1767,15 +1767,15 @@ void readHitMap( int x1, int y1, int x2, int y2,
 			if( 60 <= parts[i*width+j] && parts[i*width+j] <= 79 )
 			{
 				realGetNo( parts[i*width+j], &bmpNo );
-				// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+				// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 				realGetHitFlag( bmpNo, &hit );
-				// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+				// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 				if( hit == 0 && hitMap[i*width+j] != 2 )
 				{
 					hitMap[i*width+j] = 1;
 				}
 				else
-				// hit¤¬2¤Î•r¤Ï¤¢¤¿¤êÅĞ¶¨¤Ê¤¯¤¹
+				// hitãŒ2ã®rã¯ã‚ãŸã‚Šåˆ¤å®šãªãã™
 				if( hit == 2 )
 				{
 					hitMap[i*width+j] = 2;
@@ -1785,7 +1785,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 #if 0
 			else
 			{
-				// 0¤«¤é11¤Ï¥Ç¥Õ¥©¥ë¥È¤ÇÒŠ¤¨¤Ê¤¤¥¿¥¤¥ë
+				// 0ã‹ã‚‰11ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãˆãªã„ã‚¿ã‚¤ãƒ«
 				switch( parts[i*width+j] )
 				{
 					case 1:
@@ -1794,7 +1794,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 					case 6:
 					case 9:
 					case 10:
-						// µ±¤¿¤êÅĞ¶¨¤¬£²¤Î•r¤Ï£±¤òÔO¶¨¤·¤Ê¤¤
+						// å½“ãŸã‚Šåˆ¤å®šãŒï¼’ã®rã¯ï¼‘ã‚’Oå®šã—ãªã„
 						if( hitMap[i*width+j] != 2 )
 						{
 							hitMap[i*width+j] = 1;
@@ -1808,7 +1808,7 @@ void readHitMap( int x1, int y1, int x2, int y2,
 			}
 #endif
 
-			// ¹Ì¶¨£Î£Ğ£Ã¥¤¥Ù¥ó¥È¤ÏÕÏº¦Îï¤È¤·¤Æ’Q¤¦
+			// å›ºå®šï¼®ï¼°ï¼£ã‚¤ãƒ™ãƒ³ãƒˆã¯éšœå®³ç‰©ã¨ã—ã¦Qã†
 			if( (event[i*width+j] & 0x0fff) == EVENT_NPC )
 			{
 				hitMap[i*width+j] = 1;
@@ -1820,8 +1820,8 @@ void readHitMap( int x1, int y1, int x2, int y2,
 
 
 //
-// ¤¢¤¿¤êÅĞ¶¨¤Î¥Á¥§¥Ã¥¯
-//   ‘ø¤ê‚£ºTRUE ... ßMÈë½ûÖ¹
+// ã‚ãŸã‚Šåˆ¤å®šã®ãƒã‚§ãƒƒã‚¯
+//   TRUE ... Må…¥ç¦æ­¢
 //
 BOOL checkHitMap( int gx, int gy )
 {
@@ -1830,14 +1830,14 @@ BOOL checkHitMap( int gx, int gy )
 	x = gx - mapAreaX1;
 	y = gy - mapAreaY1;
 
-	// ¥Ğ¥Ã¥Õ¥¡¹ ‡ìÍâ¤âßMÈë½ûÖ¹
+	// ãƒãƒƒãƒ•ã‚¡ç„±çŒ¡è†ºMå…¥ç¦æ­¢
 	if( x < 0 || mapAreaWidth <= x
 	 || y < 0 || mapAreaHeight <= y )
 	{
 		return TRUE;
 	}
 
-	// µ±¤¿¤êÅĞ¶¨¤¢¤ê¤Ê¤éßMÈë½ûÖ¹
+	// å½“ãŸã‚Šåˆ¤å®šã‚ã‚Šãªã‚‰Må…¥ç¦æ­¢
 	if( hitMap[y*mapAreaWidth+x] == 1 )
 	{
 		return TRUE;
@@ -1847,12 +1847,12 @@ BOOL checkHitMap( int gx, int gy )
 }
 
 //
-// ÒÆ„ÓÏÈ¤Ë¥Ç©`¥¿¤¬Ÿo¤¤•r¤ÏÒÆ„Ó¤ò¤È¤á¤Æ¥Ş¥Ã¥×¤¬À´¤ë¤Î¤ò´ı¤Ä¡£
-//Ç°·½Ã»ÓĞÒÆ¶¯Êı¾İÊ±ÒÆ¶¯Í£Ö¹µØÍ¼À´µÈ´ı¡£
+// ç§»é…‰è¶£è¡°ç­¾`ã‚¿ãŒoã„rã¯ç§»å©´é¢è¶£å¹›åŒ¹è•™æ°“é©»ææ¯ªéŸ¦è™¼æ‘¹
+//å‰æ–¹æ²¡æœ‰ç§»åŠ¨æ•°æ®æ—¶ç§»åŠ¨åœæ­¢åœ°å›¾æ¥ç­‰å¾…ã€‚
 BOOL checkEmptyMap( int dir )
 {
-	// ¥­¥ã¥é¤ÎÎ»ÖÃ¤«¤é¡À11¤Î¤È¤³¤í¤òÕ{¤Ù¤Æ¥Ç©`¥¿¤¬Ÿo¤±¤ì¤ĞTRUE¤ò·µ¤¹
-	//½ÇÉ«µÄÎ»ÖÃ¿ªÊ¼¡À11µÄµØ·½½øĞĞµ÷²éÊı¾İµÄ»°£¬ÄÇ¾ÍTRUE»Ø±¨
+	// ã‚­ãƒ£ãƒ©ã®ä½ç½®ã‹ã‚‰Â±11ã®ã¨ã“ã‚ã‚’{ã¹ã¦ãƒ‡`ã‚¿ãŒoã‘ã‚Œã°TRUEã‚’è¿”ã™
+	//è§’è‰²çš„ä½ç½®å¼€å§‹Â±11çš„åœ°æ–¹è¿›è¡Œè°ƒæŸ¥æ•°æ®çš„è¯ï¼Œé‚£å°±TRUEå›æŠ¥
 	int i;
 	int gx, gy;
 	int tx, ty;
@@ -1990,7 +1990,7 @@ BOOL checkEmptyMap( int dir )
 }
 
 
-// ¹ ‡ì¤Î¥ê¥ß¥Ã¥È¥Á¥§¥Ã¥¯
+// æ¬·è¿è¾šæ’ºæ°“å»éš¶Ğ”æ°“
 void checkAreaLimit( short *x1, short *y1, short *x2, short *y2 )
 {
 	if( *x1 < 0 )
@@ -2005,7 +2005,7 @@ void checkAreaLimit( short *x1, short *y1, short *x2, short *y2 )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥²©`¥à»­Ãæ¤Ë¥°¥ê¥Ã¥É¥«©`¥½¥ë¤ò±íÊ¾¤¹¤ë  ÓÎÏ·»­ÃæÏÔÊ¾Íø¸ñ¹â±ê
+// ã‚²`ãƒ ç”»é¢ã«ã‚°ãƒªãƒƒãƒ‰ã‚«`ã‚½ãƒ«ã‚’è¡¨ç¤ºã™ã‚‹  æ¸¸æˆç”»é¢æ˜¾ç¤ºç½‘æ ¼å…‰æ ‡
 //
 void drawGrid( void )
 {
@@ -2015,12 +2015,12 @@ void drawGrid( void )
 	extern int mapWndFontNo[];
 	extern int resultWndFontNo[];
 
-	// ¥Ş¥Ã¥×¥¦¥£¥ó¥É¥¦¤Î¥Ü¥¿¥ó¤Î³õÆÚ»¯  µØÍ¼´°¿ÚµÄ°´Å¥µÄ³õÆÚ»¯
+	// ãƒãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒœã‚¿ãƒ³ã®åˆæœŸåŒ–  åœ°å›¾çª—å£çš„æŒ‰é’®çš„åˆæœŸåŒ–
 	if( (MenuToggleFlag & JOY_CTRL_M) == 0 )
 	{
 		mapWndFontNo[0] = -2;
 	}
-	// ‘éêL½Y¹û¥¦¥£¥ó¥É¥¦¤Î¥Ü¥¿¥ó¤Î³õÆÚ»¯  Õ½¶·½á¹û´°¿ÚµÄ°´Å¥µÄ³õÆÚ»¯
+	// æ®›LYæœã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒœã‚¿ãƒ³ã®åˆæœŸåŒ–  æˆ˜æ–—ç»“æœçª—å£çš„æŒ‰é’®çš„åˆæœŸåŒ–
 	if( BattleResultWndFlag <= 0 )
 	{
 		resultWndFontNo[0] = -2;
@@ -2037,7 +2037,7 @@ void drawGrid( void )
 	camMapToGamen( (float)xx, (float)yy, &x, &y );
 
 
-	// ¥Ş¥¦¥¹¥«©`¥½¥ë¤¬¥á¥Ë¥å©`µÈ¤ÎÉÏ¤Ë¤¢¤ë¤Ê¤é±íÊ¾¤·¤Ê¤¤  Êó±ê²Ëµ¥µÈÉÏÃæµÄ»°²»ÏÔÊ¾
+	// ãƒã‚¦ã‚¹ã‚«`ã‚½ãƒ«ãŒãƒ¡ãƒ‹ãƒ¥`ç­‰ã®ä¸Šã«ã‚ã‚‹ãªã‚‰è¡¨ç¤ºã—ãªã„  é¼ æ ‡èœå•ç­‰ä¸Šé¢çš„è¯ä¸æ˜¾ç¤º
 #if 0
 	if( mouse.level < DISP_PRIO_MENU
 	 || mapWndFontNo[0] == HitDispNo
@@ -2046,7 +2046,7 @@ void drawGrid( void )
 	if( mouse.level < DISP_PRIO_MENU )
 #endif
 	{
-		// ¥°¥ê¥Ã¥É¥«©`¥½¥ë¤Î±íÊ¾
+		// ã‚°ãƒªãƒƒãƒ‰ã‚«`ã‚½ãƒ«ã®è¡¨ç¤º
 		if( mouseCursorMode == MOUSE_CURSOR_MODE_NORMAL )
 		{
 			StockDispBuffer( (int)x, (int)y, DISP_PRIO_GRID, CG_GRID_CURSOR, 0 );
@@ -2058,8 +2058,8 @@ void drawGrid( void )
 	}
 
 
-	// ¥Ş¥¦¥¹¤Î—ÊÖª
-	// fieldProc(); moveProc(); ¤Ç²ÎÕÕ¤µ¤ì¤ë¤Î¤Ç¤½¤ì¤Ş¤Ç¤ËŒgĞĞ¤¹¤ë
+	// ãƒã‚¦ã‚¹ã®æ‰‹
+	// fieldProc(); moveProc(); ã§å‚ç…§ã•ã‚Œã‚‹ã®ã§ãã‚Œã¾ã§ã«gè¡Œã™ã‚‹
 	mouseLeftCrick = FALSE;
 	mouseLeftOn = FALSE;
 	mouseRightCrick = FALSE;
@@ -2096,8 +2096,8 @@ void drawGrid( void )
 			mouseRightOn = TRUE;
 		}
 
-		// ¥Ş¥Ã¥×¥¦¥£¥ó¥É¥¦¤Î¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤Æ¤âÒÆ„Ó¤·¤Ê¤¤˜”¤Ë¤¹¤ë
-		// ‘éêL½Y¹û¥¦¥£¥ó¥É¥¦¤Î¥Ü¥¿¥ó¤¬Ñº¤µ¤ì¤Æ¤âÒÆ„Ó¤·¤Ê¤¤˜”¤Ë¤¹¤ë
+		// ãƒãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã‚‚ç§»å©´ç­èƒœã«ã™ã‚‹
+		// æ®›LYæœã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã‚‚ç§»å©´ç­èƒœã«ã™ã‚‹
 		if( mapWndFontNo[0] == HitDispNo
 		 || resultWndFontNo[0] == HitDispNo )
 			mouseLeftCrick = FALSE;
@@ -2111,14 +2111,14 @@ void drawGrid( void )
 }
 
 
-// ÒÆ„Ó„IÀí¥ê¥»¥Ã¥È
+// ç§»Iç†ãƒªã‚»ãƒƒãƒˆ
 void resetMoveProc( void )
 {
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ÒÆ„Ó„IÀí
+// ç§»Iç†
 void moveProc( void )
 {
 	static unsigned int befortime = -1;
@@ -2164,8 +2164,8 @@ void moveProc( void )
 		if( tglSw == 3
 		 || tglSw == 4 )
 		{
-			// ¤¢¤¿¤êÅĞ¶¨±íÊ¾£¨¥Ç¥Ğ¥Ã¥°£©
-			// ¥¤¥Ù¥ó¥ÈÅĞ¶¨±íÊ¾£¨¥Ç¥Ğ¥Ã¥°£©
+			// ã‚ãŸã‚Šåˆ¤å®šè¡¨ç¤ºï¼ˆãƒ‡ãƒãƒƒã‚°ï¼‰
+			// ã‚¤ãƒ™ãƒ³ãƒˆåˆ¤å®šè¡¨ç¤ºï¼ˆãƒ‡ãƒãƒƒã‚°ï¼‰
 			char msg[256];
 			int x, y, xx, yy;
 
@@ -2265,7 +2265,7 @@ void moveProc( void )
 
 
 #if 0
-	// …âĞg¥¨¥Õ¥§¥¯¥È
+	// åº‘gã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	if( joy_trg[ 1 ] & JOY_F9 )
 	{
 		setPcUseMagic();
@@ -2285,7 +2285,7 @@ void moveProc( void )
 
 
 #if 0
-	// ¥Ş¥¦¥¹Çéˆó±íÊ¾£¨¥Ç¥Ğ¥Ã¥°£©
+	// ãƒã‚¦ã‚¹æƒ…èŸŠç¡è†Ä“é’å•¸æ°“åŸƒ
 	{
 		static char msg[256];
 
@@ -2330,7 +2330,7 @@ void moveProc( void )
 #endif
 
 
-	// ¸÷·N¥¤¥Ù¥ó¥È¥Õ¥é¥°¤Î¥Á¥§¥Ã¥¯
+	// å„Nã‚¤ãƒ™ãƒ³ãƒˆãƒ•ãƒ©ã‚°ã®ãƒã‚§ãƒƒã‚¯
 	if( sendEnFlag == 0
 	 && eventWarpSendFlag == 0
 	 && eventEnemySendFlag == 0 )
@@ -2339,8 +2339,8 @@ void moveProc( void )
 	}
 
 
-	// ëO½Ó¤¹¤ë’÷Ê¾°åµÈ¤ò×ó¥¯¥ê¥Ã¥¯¤·¤¿¤é
-	// ¥µ©`¥Ğ¤ËÒŠ¤ë¥×¥í¥È¥³¥ë¤òËÍ¤ë
+	// Oæ¥ã™ã‚‹é­‡æ™¯å®“è¶£èœƒè—è¾šæ°“ç­éƒ¡
+	// ã‚µ`ãƒã«ã‚‹ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’é€ã‚‹
 	if( mouseLeftCrick )
 	{
 		if( lookAtAround() )
@@ -2349,45 +2349,45 @@ void moveProc( void )
 		}
 	}
 
-	// ¤½¤Îˆö¤ÇÏò¤­‰ä¤¨£¦¥¢¥¤¥Æ¥àÊ°¤¤  ÓÒ¼ü  ÔÚÄÇ¸ö³¡ºÏµÄ·½Ïò¸Ä±ä&µÀ¾ß¼ñÆğÀ´
+	// ãã®è¨¾çªé¢æµƒÇÎ•ã…åŒ¹å—æŒ¨  å³é”®  åœ¨é‚£ä¸ªåœºåˆçš„æ–¹å‘æ”¹å˜&é“å…·æ¡èµ·æ¥
 	if( mouseRightCrick )
 	{
-		// ¤½¤ÎˆöÏò¤­‰ä¤¨  ·½Ïò¸Ä±ä
+		// ãã®é±¿é¢æµƒ  æ–¹å‘æ”¹å˜
 		turnAround();
-		// ¥¢¥¤¥Æ¥àÊ°¤¦  µÀ¾ß¼ñÆğÀ´
+		// ã‚¢ã‚¤ãƒ†ãƒ æ‹¾ã†  é“å…·æ¡èµ·æ¥
 		getItem();
 
-		//´¥·¢NPC ÓÒ¼ü·¢ËÍµãÏûÏ¢£¿ÁÙÊ±²âÊÔÏÂ
+		//è§¦å‘NPC å³é”®å‘é€ç‚¹æ¶ˆæ¯ï¼Ÿä¸´æ—¶æµ‹è¯•ä¸‹
 		chatStrSendForServer( "", 1 );
 	}
 
 
 
-	// ÒÆ„ÓÏÈ¤Îßx’k
-	// …g¶À¤«¥ê©`¥À©`¤Î•r¤À¤±ÈëÁ¦¤òÊÜ¤±¸¶¤±¤ë
-	// áá¡¢¥¤¥Ù¥ó¥È¤È¤«Æğ¤³¤Ã¤Æ¤¤¤Ê¤¤¤³¤È
+	// ç§»é…‰è¶£èŠœxk
+	// gç‹¬ã‹ãƒª`ãƒ€`ã®rã ã‘å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã‚‹
+	// å¾Œã€ã‚¤ãƒ™ãƒ³ãƒˆã¨ã‹èµ·ã“ã£ã¦ã„ãªã„ã“ã¨
 	if( (partyModeFlag == 0 || (pc.status & CHR_STATUS_LEADER) != 0)
 	 && etcSendFlag == 0
 	 && etcEventFlag == 0 )
 	{
-		// ×ó¥Ü¥¿¥ó¤òÊıÃëÑº¤¹¤ÈÒÆ„Ó¥â©`¥É¤ËÒÆĞĞ
+		// å·¦ãƒœã‚¿ãƒ³ã‚’æ•°ç§’æŠ¼ã™ã¨ç§»é¹°çŒ¢`ãƒ‰ã«ç§»è¡Œ
 		if( mouseLeftPushTime >= MOVE_MODE_CHANGE_TIME )
 		{
 			mouseCursorMode = MOUSE_CURSOR_MODE_MOVE;
 		}
 
-		// ÒÆ„Ó¥â©`¥É¤Î„IÀí
+		// ç§»é¹°çŒ¢`ãƒ‰ã®Iç†
 		if( mouseCursorMode == MOUSE_CURSOR_MODE_MOVE )
 		{
-			// ¥¯¥ê¥Ã¥¯¤µ¤ì¤¿¤éÍ¨³£¥â©`¥É¤Ë‘ø¤ë
+			// ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‚‰é€šå¸¸ãƒ¢`ãƒ‰ã«
 			if( mouseLeftCrick )
 			{
 				mouseCursorMode = MOUSE_CURSOR_MODE_NORMAL;
 			}
 			else
-			// ¥«©`¥½¥ë¤ÎÖ¸¤¹Î»ÖÃ¤òÒÆ„ÓÏÈ¤È¤¹¤ë
+			// ã‚«`ã‚½ãƒ«ã®æŒ‡ã™ä½ç½®ã‚’ç§»é…‰è¶£è¶£å·¥
 			{
-				// ¥Ş¥¦¥¹¤ÎßBÉä¤òÒÖÖÆ
+				// ãƒã‚¦ã‚¹ã®Bå°„ã‚’æŠ‘åˆ¶
 				if( befortime+MOVE_CLICK_WAIT_TIME <= GetTickCount() )
 				{
 					befortime = GetTickCount();
@@ -2398,11 +2398,11 @@ void moveProc( void )
 			}
 		}
 		else
-		// Í¨³£¥â©`¥É¤Î„IÀí
+		// é€šå¸¸ãƒ¢`ãƒ‰ã®Iç†
 		if( mouseLeftCrick )
 		{
-			// ¥«©`¥½¥ë¤ÎÖ¸¤¹Î»ÖÃ¤òÒÆ„ÓÏÈ¤È¤¹¤ë
-			// ¥Ş¥¦¥¹¤ÎßBÉä¤òÒÖÖÆ
+			// ã‚«`ã‚½ãƒ«ã®æŒ‡ã™ä½ç½®ã‚’ç§»é…‰è¶£è¶£å·¥
+			// ãƒã‚¦ã‚¹ã®Bå°„ã‚’æŠ‘åˆ¶
 			if( befortime+MOVE_CLICK_WAIT_TIME <= GetTickCount() )
 			{
 				befortime = GetTickCount();
@@ -2415,17 +2415,17 @@ void moveProc( void )
 
 
 
-	// ¥Ñ©`¥Æ¥£©`·¬ºÅÔ‘¤á¤ÆÈ¡¤ê³ö¤¹
+	// ãƒ‘`ãƒ†ã‚£`ç•ªå·ã‚ã¦å–ã‚Šå‡ºã™
 	getPartyTbl();
 
-	// Ò»ÈË¤«¥ê©`¥À©`¤Î•r¤ÎÒÆ„Ó„IÀí
+	// ä¸€äººã‹ãƒª`ãƒ€`ã®rã®ç§»Iç†
 	if( partyModeFlag == 0
 	 || (pc.status & CHR_STATUS_LEADER) != 0 )
 	{
 		onceMoveProc();
 	}
 	else
-	// ¥Ñ©`¥Æ¥£¤Î×Ó¹©¤Î•r¤ÎÒÆ„Ó„IÀí
+	// ãƒ‘`ãƒ†ã‚£ã®å­ä¾›ã®rã®ç§»Iç†
 	{
 		partyMoveProc();
 	}
@@ -2441,9 +2441,9 @@ short _enemyEventFlag = 0;
 int  _enemyEventDir;
 
 
-short justGoalFlag = 0;	// Ä¿µÄµØ¤Ë×Å¤¤¤¿áá¤¹¤°¤«¤É¤¦¤«
+short justGoalFlag = 0;	// ç›®çš„åœ°ã«ç€ã„ãŸå¾Œã™ãã‹ã©ã†ã‹
 
-short _partyTbl[MAX_PARTY];	// ¥Ñ©`¥Æ¥£©`Çéˆó¤òÔ‘¤á¤ë¥Æ©`¥Ö¥ë
+short _partyTbl[MAX_PARTY];	// ãƒ‘`ãƒ†ã‚£`æƒ…è­è›Ÿã‚ã‚‹ãƒ†`ãƒ–ãƒ«
 
 void _etcEventCheck( void );
 BOOL _execEtcEvent( void );
@@ -2468,32 +2468,32 @@ BOOL checkEmptyMapData( int, int, int );
 
 
 
-// ¥×¥ì©`¥ä©`Ò»ÈË¤ÇÒÆ„Ó
+// ãƒ—ãƒ¬`ãƒ¤`ä¸€äººã§ç§»
 void onceMoveProc( void )
 {
 	int dir;
 
-	// £Ğ£Ã¤¬»ùœÊ¤Ëši¤¯¤È¤­¤Ï¼ÓËÙ¤¹¤ë±ØÒªŸo¤¤
+	// ï¼°ï¼£ãŒåŸºèƒœiãã¨ãã¯åŠ é€Ÿã™ã‚‹å¿…è¦oã„
 	nowSpdRate = 1.0F;
 
-	// ¥Ş¥Ã¥×¿Õ¤Ê¤Î¤ÇÒÆ„Ó„IÀí¤ò¤·¤Ê¤¤
+	// ãƒãƒƒãƒ—ç©ºãªã®ã§ç§»Iç†ã‚’ã—ãªã„
 	if( mapEmptyFlag )
 		return;
 
 
-	if( sendEnFlag == 0				// ¥¨¥ó¥«¥¦¥ó¥È
-	 && eventWarpSendFlag == 0		// ¥ï©`¥×¥¤¥Ù¥ó¥È
-	 && eventEnemySendFlag == 0		// ”³¥¤¥Ù¥ó¥È
+	if( sendEnFlag == 0				// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆ
+	 && eventWarpSendFlag == 0		// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆ
+	 && eventEnemySendFlag == 0		// å¿ã…ä½¶è—
 	)
 	{
-		// ¥¤¥Ù¥ó¥ÈµÈ¤ÎŒgĞĞ
+		// ã‚¤ãƒ™ãƒ³ãƒˆç­‰ã®gè¡Œ
 		if( _execEtcEvent() )
 			return;
 
-		// ¥°¥ê¥Ã¥É¤ÎÖĞĞÄ¤Ë¤¤¤ë•r¤Î„IÀí
+		// ã‚°ãƒªãƒƒãƒ‰ã®ä¸­å¿ƒã«ã„ã‚‹rã®Iç†
 		if( (float)nextGx*GRID_SIZE == nowX && (float)nextGy*GRID_SIZE == nowY )
 		{
-			// ÒÆ„ÓÏÈ¤¬ÔO¶¨¤µ¤ì¤Æ¤¤¤¿¤éÒÆ„Ó½UÂ·¤òËã³ö
+			// ç§»é…‰è¶£Oå®šã•ã‚Œã¦ã„ãŸã‚‰ç§»å’Uè·¯ã‚’ç®—å‡º
 			if( moveStackFlag
 			 && moveRouteCnt2 == 0 )
 			{
@@ -2501,68 +2501,68 @@ void onceMoveProc( void )
 				getRouteMap();
 				if( moveRouteCnt == 0 )
 				{
-					// ÒÆ„Ó½UÂ·Ì½¤·¤¿¤¬Ÿo¤«¤Ã¤¿•rÏò¤­¤À¤±‰ä¤¨¤Æ¤ª¤¯
+					// ç§»å’Uè·¯æ¢ã—ãŸãŒoã‹ã£ãŸrå‘ãã ã‘æµƒÃ çš®
 					turnAround();
 				}
 			}
 
-			// ÒÆ„Óáá¤ËÄ¿µÄµØ¤¸¤ã¤Ê¤¤¤È¤­¤½¤Î·½Ïò¤òÏò¤±¤ë
+			// ç§»ä¿å¹›å››åº·ç‰¡ä¸è¢±æ‚šèƒœã„è¶£é¥¯ç•è¾ƒé¢è›³é¢å ¡
 			if( moveRouteCnt == 0 && moveRouteCnt2 == 0 )
 			{
 				turnAround2( moveLastDir );
 				moveLastDir = -1;
 			}
 
-			// ¥µ©`¥Ğ¤ØËÍ¤ë¥Ç©`¥¿¤òÈ¡¤ê³ö¤¹
+			// ã‚µ`ãƒã¸é€ã‚‹ãƒ‡`ã‚¿ã‚’å–ã‚Šå‡ºã™
 			if( moveRouteCnt > 0 && moveRouteCnt2 == 0 )
 			{
-				// ÒÆ„Ó½UÂ·¤«¤é¥µ©`¥Ğ¤ËËÍ¤ë×î´óÊı·ÖÈ¡¤ê³ö¤¹
+				// ç§»å’Uè·¯ã‹ã‚‰ã‚µ`ãƒã«é€ã‚‹æœ€å¤§æ•°åˆ†å–ã‚Šå‡ºã™
 				_getMoveRoute2();
 
 				if( moveRouteCnt2 > 0 )
 				{
-					// È¡¤ê³ö¤·¤¿½UÂ·ÉÏ¤Ç¥¤¥Ù¥ó¥ÈµÈ¤¬°kÉú¤¹¤ë¤«¥Á¥§¥Ã¥¯
+					// å–ã‚Šå‡ºã—ãŸUè·¯ä¸Šã§ã‚¤ãƒ™ãƒ³ãƒˆç­‰ãŒkç”Ÿã™ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 					_etcEventCheck();
 				}
 
-				// ¥µ©`¥Ğ¤ËÒÆ„Ó½UÂ·ËÍ¤ë
+				// ã‚µ`ãƒã«ç§»å’Uè·¯é€ã‚‹
 				_sendMoveRoute();
 			}
 
 
-			// ÒÆ„Ó½UÂ·¤¬¤¢¤ë¤Î¤ÇÒÆ„ÓÁ¿¤òËã³ö
+			// ç§»å’Uè·¯ãŒã‚ã‚‹ã®ã§ç§»æ¿éƒ¡è›©æ„ 
 			if( moveRouteCnt2 > 0 )
 			{
-				// ¥Ş¥Ã¥×¤¬¿Õ¤Ê¤é¥Õ¥é¥°Á¢¤Æ¤Æ¤Ş¤Ä
+				// ãƒãƒƒãƒ—ãŒç©ºãªã‚‰ãƒ•ãƒ©ã‚°ç«‹ã¦ã¦ã¾ã¤
 				_checkEmptyMap();
 
-				// ÒÆ„ÓÏÈ¤òÔO¶¨¤·ÒÆ„ÓÁ¿¤òÓ‹Ëã¤¹¤ë
+				// ç§»é…‰è¶£è›ŸOå®šã—ç§»æ¿éƒ¡è›´ç®—ã™ã‚‹
 				dir = moveRoute2[0];
 				shiftRouteMap2();
 				setMapMovePoint( nowGx+moveAddTbl[dir][0], nowGy+moveAddTbl[dir][1] );
 
-				// £Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¤ÇÒÆ„Ó¤·¤¿Ë²ég¤Ë
-				// ´Î¤Î¥Ñ©`¥Æ¥£¥­¥ã¥é¤Ë¬FÔÚ¤Î×ù˜Ë¤òÔO¶¨¤·¤Æ¤ä¤ë
+				// ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã§ç§»å©´ç­å…‹æŸ¥gã«
+				// æ¬¡ã®ãƒ‘`ãƒ†ã‚£ã‚­ãƒ£ãƒ©ã«Fåœ¨ã®åº§æ‘”è›ŸOå®šã—ã¦ã‚„ã‚‹
 				setPcMovePointToChar( nowGx, nowGy );
 			}
 		}
 	}
 
-	// £Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¡¢Ëû¤Î¥Ñ©`¥Æ¥£©`¤ÎÒÆ„ÓÏÈ¤òÔO¶¨¤¹¤ë
+	// ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã€ä»–ã®ãƒ‘`ãƒ†ã‚£`ã®ç§»é…‰è¶£è›ŸOå®šã™ã‚‹
 	setPartyMovePoint();
 
 
-	// ¥¤¥Ù¥ó¥È¤È¤«¤Î¥Á¥§¥Ã¥¯¤¬½K¤ï¤Ã¤¿¤é³õÆÚ»¯¤·¤Æ¤ª¤¯
+	// ã‚¤ãƒ™ãƒ³ãƒˆã¨ã‹ã®ãƒã‚§ãƒƒã‚¯ãŒKã‚ã£ãŸã‚‰åˆæœŸåŒ–ã—ã¦ãŠã
 	justGoalFlag = 0;
 
-	// ¥Ş¥Ã¥×¿Õ¤Ê¤Î¤ÇÒÆ„Ó„IÀí¤ò¤·¤Ê¤¤
+	// ãƒãƒƒãƒ—ç©ºãªã®ã§ç§»Iç†ã‚’ã—ãªã„
 	if( mapEmptyFlag )
 		return;
 
-	// £Ğ£ÃÒÆ„Ó„IÀí£¨ÒÆ„ÓÁ¿¤¬¤¢¤ë•r¤À¤±£©
+	// ï¼°ï¼£ç§»Iç†ï¼ˆç§»æ¿éƒ¡rã ã‘ï¼‰
 	_mapMove();
 
-	// ¥Ñ©`¥Æ¥£©`¤ÎÒÆ„Ó„IÀí
+	// ãƒ‘`ãƒ†ã‚£`ã®ç§»Iç†
 	_partyMapMove();
 
 	mapAreaX1 = nowGx+MAP_TILE_GRID_X1;
@@ -2587,31 +2587,31 @@ void onceMoveProc( void )
 }
 
 
-// £Î£Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¤Î„IÀí
+// ï¼®ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã®Iç†
 void partyMoveProc( void )
 {
 	int i;
 	ACTION *ptAct, *ptActNext;
 
-	// ¥­¥ã¥é¤¬¥°¥ê¥Ã¥É¤ÎÖĞĞÄ¤ËÀ´¤Æ¤Ş¤ÀÒÆ„ÓÏÈ¤¬¤¢¤ë¤Ê¤éÔO¶¨¡£
-	// ¤½¤·¤Æ¡¢áá¤í¤Ë¥Ñ©`¥Æ¥£¤¬¤¤¤¿¤é½ñ¤Î×ù˜Ë¤òÔO¶¨¤·¤Æ¤ä¤ë¡£
+	// ã‚­ãƒ£ãƒ©ãŒã‚°ãƒªãƒƒãƒ‰ã®ä¸­å¿ƒã«æ¥ã¦ã¾ã ç§»é…‰è¶£æ¯ªèƒœæ¨µOå®šã€‚
+	// ãã—ã¦ã€å¾Œã‚ã«ãƒ‘`ãƒ†ã‚£ãŒã„ãŸã‚‰ä»Šã®åº§æ‘”è›ŸOå®šã—ã¦ã‚„ã‚‹ã€‚
 	for( i = 0; i < MAX_PARTY; i++ )
 	{
 		if( _partyTbl[i] >= 0 )
 		{
 			ptAct = party[_partyTbl[i]].ptAct;
 
-			// £Î£Ğ£Ã¤Î•r
+			// ï¼®ï¼°ï¼£ã®r
 			if( party[_partyTbl[i]].id != pc.id )
 			{
-				// ¥°¥ê¥Ã¥É¤ÎÖĞĞÄ¤ËÀ´¤¿¤é´Î¤ÎÒÆ„ÓÏÈ¤òÔO¶¨¤¹¤ë
+				// ã‚°ãƒªãƒƒãƒ‰ã®ä¸­å¿ƒã«æ¥ãŸã‚‰æ¬¡ã®ç§»é…‰è¶£è›ŸOå®šã™ã‚‹
 				if( (float)ptAct->nextGx*GRID_SIZE == ptAct->mx
 				 && (float)ptAct->nextGy*GRID_SIZE == ptAct->my )
 				{
-					// ¥Ğ¥Ã¥Õ¥¡¤Ë´Î¤Î×ù˜Ë¤¬¤¢¤ë¤Î¤ÇÔO¶¨
+					// ãƒãƒƒãƒ•ã‚¡ã«æ¬¡ã®åº§æ‘”æ¯ªéŸ¦çªƒOå®š
 					if( ptAct->bufCount > 0 )
 					{
-						// ¥Ğ¥Ã¥Õ¥¡¤¬¤¿¤Ş¤Ã¤Æ¤¿¤é¼ÓËÙ¤¹¤ë
+						// ãƒãƒƒãƒ•ã‚¡ãŒãŸã¾ã£ã¦ãŸã‚‰åŠ é€Ÿã™ã‚‹
 						if( i == 0 )
 						{
 							nowSpdRate = 1.0F;
@@ -2641,14 +2641,14 @@ void partyMoveProc( void )
 					}
 				}
 			}
-			// £Ğ£Ã¤Î•r
+			// ï¼°ï¼£ã®r
 			else
 			{
-				// ¥°¥ê¥Ã¥É¤ÎÖĞĞÄ¤ËÀ´¤¿¤é´Î¤ÎÒÆ„ÓÏÈ¤òÔO¶¨¤¹¤ë
+				// ã‚°ãƒªãƒƒãƒ‰ã®ä¸­å¿ƒã«æ¥ãŸã‚‰æ¬¡ã®ç§»é…‰è¶£è›ŸOå®šã™ã‚‹
 				if( (float)nextGx*GRID_SIZE == nowX
 				 && (float)nextGy*GRID_SIZE == nowY )
 				{
-					// ¥Ğ¥Ã¥Õ¥¡¤Ë´Î¤Î×ù˜Ë¤¬¤¢¤ë¤Î¤ÇÔO¶¨
+					// ãƒãƒƒãƒ•ã‚¡ã«æ¬¡ã®åº§æ‘”æ¯ªéŸ¦çªƒOå®š
 					if( ptAct->bufCount > 0 )
 					{
 						_setMapMovePoint( ptAct->bufGx[0], ptAct->bufGy[0] );
@@ -2670,7 +2670,7 @@ void partyMoveProc( void )
 	}
 
 
-	// ÒÆ„Ó„IÀí
+	// ç§»Iç†
 	for( i = 0; i < MAX_PARTY; i++ )
 	{
 		if( _partyTbl[i] >= 0 )
@@ -2714,7 +2714,7 @@ void partyMoveProc( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×¤ËÒÆ„ÓÏÈ¤òÔO¶¨
+// ãƒãƒƒãƒ—ã«ç§»é…‰è¶£è›ŸOå®š
 void _setMapMovePoint( int _nextGx, int _nextGy )
 {
 	float dx, dy;
@@ -2725,7 +2725,7 @@ void _setMapMovePoint( int _nextGx, int _nextGy )
 	nextGx = _nextGx;
 	nextGy = _nextGy;
 
-	// ÒÆ„ÓÁ¿¤òÇó¤á¤ë
+	// ç§»æ¿éƒ¡èš¯è­å¹›
 	dx = nextGx*GRID_SIZE-nowX;
 	dy = nextGy*GRID_SIZE-nowY;
 	len = (float)sqrt( (double)(dx*dx+dy*dy) );
@@ -2742,7 +2742,7 @@ void _setMapMovePoint( int _nextGx, int _nextGy )
 	nowVx = dx * MOVE_SPEED;
 	nowVy = dy * MOVE_SPEED;
 
-	// PC¥­¥ã¥é¤Î·½ÏòÔO¶¨
+	// PCã‚­ãƒ£ãƒ©ã®æ–¹å‘Oå®š
 	if( dx != 0 || dy != 0 )
 	{
 		dir1 = Atan( dx, dy ) + 22.5F;
@@ -2752,14 +2752,14 @@ void _setMapMovePoint( int _nextGx, int _nextGy )
 		setPcWalkFlag();
 	}
 
-	// PC¥­¥ã¥é¤ò¥Ş¥Ã¥×¤ÎÎ»ÖÃ¤ÈÍ¬ÆÚ¤¹¤ë
+	// PCã‚­ãƒ£ãƒ©ã‚’ãƒãƒƒãƒ—ã®ä½ç½®ã¨åŒæœŸã™ã‚‹
 	setPcPoint();
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
-// £Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¡¢ÒÆ„Ó¤·¤¿Ë²ég¤Ë
-// ´Î¤Î¥Ñ©`¥Æ¥£¥­¥ã¥é¤Ë¬FÔÚ¤Î×ù˜Ë¤òÔO¶¨¤·¤Æ¤ä¤ë
+// ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã€ç§»å©´ç­å…‹æŸ¥gã«
+// æ¬¡ã®ãƒ‘`ãƒ†ã‚£ã‚­ãƒ£ãƒ©ã«Fåœ¨ã®åº§æ‘”è›ŸOå®šã—ã¦ã‚„ã‚‹
 void setPcMovePointToChar( int gx, int gy )
 {
 	if( partyModeFlag != 0 && (pc.status & CHR_STATUS_LEADER) != 0 )
@@ -2773,7 +2773,7 @@ void setPcMovePointToChar( int gx, int gy )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// £Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¡¢ÒÆ„Ó¤·¤¿¤éËû¤Î¥­¥ã¥é¤âÒÆ„Ó¤µ¤»¤ë
+// ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã€ç§»å©´ç­éƒ¡æ¨—è¿æ‚­æ¤åº–å©´ä¸¹æŠ¤
 void setPartyMovePoint( void )
 {
 	int i;
@@ -2787,16 +2787,16 @@ void setPartyMovePoint( void )
 			{
 				ptAct = party[_partyTbl[i]].ptAct;
 
-				// ¥­¥ã¥é¤¬¥°¥ê¥Ã¥É¤ÎÖĞĞÄ¤«
+				// ã‚­ãƒ£ãƒ©ãŒã‚°ãƒªãƒƒãƒ‰ã®ä¸­å¿ƒã‹
 				if( (float)ptAct->nextGx*GRID_SIZE == ptAct->mx
 				 && (float)ptAct->nextGy*GRID_SIZE == ptAct->my )
 				{
-					// ¥Ğ¥Ã¥Õ¥¡¤Ë´Î¤Î×ù˜Ë¤¬¤¢¤ë¤Î¤ÇÔO¶¨
+					// ãƒãƒƒãƒ•ã‚¡ã«æ¬¡ã®åº§æ‘”æ¯ªéŸ¦çªƒOå®š
 					if( ptAct->bufCount > 0 )
 					{
 						setCharMovePoint( ptAct, ptAct->bufGx[0], ptAct->bufGy[0] );
 						shiftBufCount( ptAct );
-						// ´Î¤Î¥Ñ©`¥Æ¥£¤Ë×ù˜Ë¤ò¶É¤¹
+						// æ¬¡ã®ãƒ‘`ãƒ†ã‚£ã«åº§æ‘”èš¨å—“
 						if( _partyTbl[i+1] >= 0
 						 && (i+1) < MAX_PARTY )
 						{
@@ -2816,7 +2816,7 @@ void setPartyMovePoint( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ÒÆ„Ó¤ÎÓ‹Ëã
+// ç§»å©´æ–¡ç®—
 void _mapMove( void )
 {
 	float nGx, nGy;
@@ -2830,20 +2830,20 @@ void _mapMove( void )
 		vx = nowVx * nowSpdRate;
 		vy = nowVy * nowSpdRate;
 
-		// ¬FÔÚµØ¤ÈÄ¿µÄµØ¤Î¾àëx¤¬ÒÆ„ÓÁ¿ÒÔÏÂ¤Ê¤éÄ¿µÄµØ¤Ëµ½×Å
+		// Fåœ¨åœ°ã¨ç›®çš„åœ°ã®è·xãŒç§»æ¿æ³éŸµé™‡èƒœæ§Ÿåº·ç‰¡ä¸è¯´é˜¶
 		if( pointLen2( nowX, nowY, nGx, nGy )
 		 <= vx*vx+vy*vy )
 		{
-			// Ä¿µÄµØ¤Ë×Å¤¤¤¿¤é¥Ñ¥é¥á©`¥¿³õÆÚ»¯
+			// ç›®çš„åœ°ã«ç€ã„ãŸã‚‰ãƒ‘ãƒ©ãƒ¡`ã‚¿åˆæœŸåŒ–
 			nowX = nGx;
 			nowY = nGy;
 			nowVx = 0;
 			nowVy = 0;
-			justGoalFlag = 1;	// ½ñ¡¢Ä¿µÄµØ¤Ë×Å¤¤¤¿
+			justGoalFlag = 1;	// ä»Šã€ç›®çš„åœ°ã«ç€ã„ãŸ
 		}
 		else
 		{
-			// ÒÆ„Ó
+			// ç§»
 			nowX += vx;
 			nowY += vy;
 		}
@@ -2857,7 +2857,7 @@ void _mapMove( void )
 	}
 	else
 	{
-		// PC¥­¥ã¥é¤Î¥¢¥Ë¥á©`¥·¥ç¥ó¤¬WALK¤Î´Î¤Î¥Õ¥ì©`¥à¤Ê¤é¤Ê¤éSTAND¤Ë¤¹¤ë
+		// PCã‚­ãƒ£ãƒ©ã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ãŒWALKã®æ¬¡ã®ãƒ•ãƒ¬`ãƒ ãªã‚‰ãªã‚‰STANDã«ã™ã‚‹
 		if( checkPcWalkFlag() == 1 )
 		{
 			setPcAction( ANIM_STAND );
@@ -2869,18 +2869,18 @@ void _mapMove( void )
 	nowGx = (int)(nowX/GRID_SIZE);
 	nowGy = (int)(nowY/GRID_SIZE);
 
-	// PC¥­¥ã¥é¤ò¥Ş¥Ã¥×¤ÎÎ»ÖÃ¤ÈÍ¬ÆÚ¤¹¤ë
+	// PCã‚­ãƒ£ãƒ©ã‚’ãƒãƒƒãƒ—ã®ä½ç½®ã¨åŒæœŸã™ã‚‹
 	setPcPoint();
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
-// £Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¤Î¥Ñ©`¥Æ¥£©`
+// ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã®ãƒ‘`ãƒ†ã‚£`
 void _partyMapMove( void )
 {
 	int i;
 
-	// £Ğ£Ã¤¬¥ê©`¥À©`¤Î•r¤ÇÒÆ„Ó¤·¤¿¤éËû¤Î¥­¥ã¥é¤âÒÆ„Ó¤¹¤ë
+	// ï¼°ï¼£ãŒãƒª`ãƒ€`ã®rã§ç§»å©´ç­éƒ¡æ¨—è¿æ‚­æ¤åº–å©´å·¥
 	if( partyModeFlag != 0 && (pc.status & CHR_STATUS_LEADER) != 0 )
 	{
 		for( i = 1; i < MAX_PARTY; i++ )
@@ -2899,19 +2899,19 @@ void _partyMapMove( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ñ©`¥Æ¥£©`Çéˆó¤òÔ‘¤á¤ë
+// ãƒ‘`ãƒ†ã‚£`æƒ…è­è›Ÿã‚ã‚‹
 void getPartyTbl( void )
 {
 	int i, j;
 
 	if( partyModeFlag != 0 )
 	{
-		// ¥Æ©`¥Ö¥ë³õÆÚ»¯
+		// ãƒ†`ãƒ–ãƒ«åˆæœŸåŒ–
 		for( i = 0; i < MAX_PARTY; i++ )
 		{
 			_partyTbl[i] = -1;
 		}
-		// ¥Ñ©`¥Æ¥£©`·¬ºÅ¤òÔ‘¤á¤ÆÈ¡¤ê³ö¤¹
+		// ãƒ‘`ãƒ†ã‚£`ç•ªå·ã‚’ã‚ã¦å–ã‚Šå‡ºã™
 		for( i = 0, j = 0; i < MAX_PARTY; i++ )
 		{
 			if( party[i].useFlag != 0 && party[i].ptAct != NULL )
@@ -2925,7 +2925,7 @@ void getPartyTbl( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¸÷·N¥¨¥Ù¥ó¥È¥Á¥§¥Ã¥¯£¦ŒgĞĞ
+// å„Nã‚¨ãƒ™ãƒ³ãƒˆãƒã‚§ãƒƒã‚¯ï¼†gè¡Œ
 
 enum
 {
@@ -2957,17 +2957,17 @@ void _etcEventCheck( void )
 	ogy = gy;
 	breakFlag = FALSE;
 
-	// ¤³¤ì¤«¤éÒÆ„Ó¤·¤è¤¦¤È¤¹¤ë½UÂ·¤ÇºÎ¤«¤¬Æğ¤³¤ë¤«¥Á¥§¥Ã¥¯¤¹¤ë
+	// ã“ã‚Œã‹ã‚‰ç§»å©´ç­ç‘œÎ”è¶£å·¥è™¢Uè·¯ã§ä½•ã‹ãŒèµ·ã“ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	for( i = 0; i < moveRouteCnt2; i++ )
 	{
 		gx += moveAddTbl[moveRoute2[i]][0];
 		gy += moveAddTbl[moveRoute2[i]][1];
-		// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+		// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 		tmpDir = Atan( (float)(gx-ogx), (float)(gy-ogy) ) + 22.5F;
 		AdjustDir( &tmpDir );
 		dir = (int)(tmpDir/45);
 
-		// ¹Ì¶¨¥¨¥ó¥«¥¦¥ó¥È¥Á¥§¥Ã¥¯
+		// å›ºå®šã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆãƒã‚§ãƒƒã‚¯
 		if( _checkEnemyEvent( gx, gy ) )
 		{
 			_etcEventFlag = TRUE;
@@ -2981,7 +2981,7 @@ void _etcEventCheck( void )
 			break;
 		}
 		else
-		// ¥ï©`¥×¥¤¥Ù¥ó¥È¥Á¥§¥Ã¥¯
+		// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆãƒã‚§ãƒƒã‚¯
 		if( _checkWarpEvent( gx, gy ) )
 		{
 			_etcEventFlag = TRUE;
@@ -2991,7 +2991,7 @@ void _etcEventCheck( void )
 			break;
 		}
 		else
-		// ¥í©`¥«¥ë¥¨¥ó¥«¥¦¥ó¥È¥Á¥§¥Ã¥¯
+		// ãƒ­`ã‚«ãƒ«ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆãƒã‚§ãƒƒã‚¯
 		if( _checkEncount() )
 		{
 			_etcEventFlag = TRUE;
@@ -3003,7 +3003,7 @@ void _etcEventCheck( void )
 		ogx = gx;
 		ogy = gy;
 	}
-	// ÒÆ„ÓÍ¾ÖĞ¤ÇºÎ¤«¤¬Æğ¤³¤ë¤Î¤Ç¤½¤ìÒÔ½µ¤ÎÒÆ„Ó½UÂ·¤Ï¤¤¤é¤Ê¤¤
+	// ç§»æ²¹å±€è‚–å‘›éŸ¦é»é•¿æ¯ªéŸ¦æ‰¦é¥¯ç…²è¶Šä¸¹æˆ‘å’Uè·¯ã¯ã„ã‚‰ãªã„
 	if( i < MOVE_MAX2 && breakFlag )
 	{
 		moveRouteCnt2 = i+1;
@@ -3026,17 +3026,17 @@ BOOL _execEtcEvent( void )
 		{
 			switch( _etcEventMode )
 			{
-				// ¥ï©`¥×¥¤¥Ù¥ó¥È°k„Ó
+				// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆk
 				case etcEventMode_Warp:
 					_sendWarpEvent();
 					break;
 
-				// ¥í©`¥«¥ë¥¨¥ó¥«¥¦¥ó¥È°k„Ó
+				// ãƒ­`ã‚«ãƒ«ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆk
 				case etcEventMode_LocalEncount:
 					_sendEncount();
 					break;
 
-				// ”³¥¤¥Ù¥ó¥È¤Ë¤¢¤¿¤Ã¤¿
+				// å¿ã…ä½¶è—è¶£æ‘”éƒ¡ç›²
 				case etcEventMode_Enemy:
 					_sendEnemyEvent();
 					break;
@@ -3054,7 +3054,7 @@ BOOL _execEtcEvent( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ÒÆ„Ó½UÂ·¤«¤é¥µ©`¥Ğ¤ËËÍ¤ë×î´óÊı·ÖÈ¡¤ê³ö¤¹
+// ç§»å’Uè·¯ã‹ã‚‰ã‚µ`ãƒã«é€ã‚‹æœ€å¤§æ•°åˆ†å–ã‚Šå‡ºã™
 void _getMoveRoute2( void )
 {
 	int i;
@@ -3069,16 +3069,16 @@ void _getMoveRoute2( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥µ©`¥Ğ¤ËÒÆ„Ó½UÂ·ËÍ¤ë
+// ã‚µ`ãƒã«ç§»å’Uè·¯é€ã‚‹
 void _sendMoveRoute( void )
 {
 	int i;
 
-	// ¥Ç©`¥¿Ÿo¤¤¤Ê¤éºÎ¤â¤·¤Ê¤¤
+	// ãƒ‡`ã‚¿oã„ãªã‚‰ä½•ã‚‚ã—ãªã„
 	if( moveRouteCnt2 <= 0 )
 		return;
 
-	// ¥µ©`¥Ğ¤ËÒÆ„Ó½UÂ·ËÍ¤ë
+	// ã‚µ`ãƒã«ç§»å’Uè·¯é€ã‚‹
 	for( i = 0; i < moveRouteCnt2; i++ )
 	{
 		moveRouteDir[i] = cnvServDir( moveRoute2[i], 0 );
@@ -3087,7 +3087,7 @@ void _sendMoveRoute( void )
 	if( !offlineFlag )
 #endif
 	{
-		// Õl¤ÎÖÙég¤Ç¤â¤Ê¤¤•r¤ËËÍ¤ë
+		// lã®ä»²gã§ã‚‚ãªã„rã«é€ã‚‹
 		if( partyModeFlag == 0 || (pc.status & CHR_STATUS_LEADER) != 0 )
 		{
 			moveRouteDir[i] = '\0';
@@ -3096,12 +3096,12 @@ void _sendMoveRoute( void )
 			if( checkMapCache( nowGx, nowGy, moveRoute2, moveRouteCnt2,
 				nowFloor, nowFloorGxSize, nowFloorGySize ) )
 			{
-				// ¥­¥ã¥Ã¥·¥å¤¬¤¢¤Ã¤¿¤Î¤Ç¥Á¥§¥Ã¥¯¥µ¥àŸo¤·
+				// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒã‚ã£ãŸã®ã§ãƒã‚§ãƒƒã‚¯ã‚µãƒ oã—
 				noChecksumWalkSendForServer( nowGx, nowGy, moveRouteDir );
 			}
 			else
 			{
-				// ¥­¥ã¥Ã¥·¥å¤¬Ÿo¤¤¤Î¤Ç¥Á¥§¥Ã¥¯¥µ¥à¤¢¤ê
+				// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãŒoã„ã®ã§ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚ã‚Š
 				walkSendForServer( nowGx, nowGy, moveRouteDir );
 			}
 #else
@@ -3113,7 +3113,7 @@ void _sendMoveRoute( void )
 #ifdef _DEBUG_MSG
 	{
 		char msg[256];
-		sprintf( msg, "¥µ©`¥Ğ¤ËÒÆ„Ó½UÂ·ËÍ¤ë(%d %d %s)", nowGx, nowGy, moveRouteDir );
+		sprintf( msg, "ã‚µ`ãƒã«ç§»å’Uè·¯é€ã‚‹(%d %d %s)", nowGx, nowGy, moveRouteDir );
 		StockChatBufferLine( msg, FONT_PAL_GRAY );
 	}
 #endif
@@ -3122,20 +3122,20 @@ void _sendMoveRoute( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥¨¥ó¥«¥¦¥ó¥È„IÀí
+// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆIç†
 //
-// ¥¨¥ó¥«¥¦¥ó¥È¤·¤¿¤«¥Á¥§¥Ã¥¯
+// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã—ãŸã‹ãƒã‚§ãƒƒã‚¯
 BOOL _checkEncount( void )
 {
 	BOOL ret = FALSE;
 
 #ifdef _DEBUG
-	// ¥¨¥ó¥«¥¦¥ó¥ÈŸo¤·¥Õ¥é¥°¤¬¤¿¤Ã¤Æ¤¿¤é¥¨¥ó¥«¥¦¥ó¥È¤·¤Ê¤¤
+	// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆoã—ãƒ•ãƒ©ã‚°ãŒãŸã£ã¦ãŸã‚‰ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã—ãªã„
 	if( EncountOffFlag )
 		return FALSE;
 #endif
 
-	// ×Ô·Ö¤¬¥Ñ©`¥Æ¥£©`¤ÎÒ»†T¤Ç¤Ê¤¤•r„IÀí¤¹¤ë
+	// è‡ªåˆ†ãŒãƒ‘`ãƒ†ã‚£`ã®ä¸€Tã§ãªã„rIç†ã™ã‚‹
 	if( partyModeFlag == 0 || (pc.status & CHR_STATUS_LEADER) != 0 )
 	{
 //		if( nowEncountPercentage > (rand()%100) )
@@ -3158,24 +3158,24 @@ BOOL _checkEncount( void )
 	return ret;
 }
 
-// ¥µ©`¥Ğ¤Ë¥¨¥ó¥«¥¦¥ó¥È¤·¤¿¤ÈËÍ¤ë
+// ã‚µ`ãƒã«ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã—ãŸã¨é€ã‚‹
 void _sendEncount( void )
 {
-	// ÒÆ„Ó¤òÖ¹¤á¤ë
+	// ç§»å©´è›‘å·¥å¹›
 	resetMap();
 	sendEnFlag = 1;
 	etcEventFlag = 1;
 	eventEnemyFlag = 0;
 
-	// ¥¨¥ó¥«¥¦¥ó¥È¤·¤¿¤È¥µ©`¥Ğ©`¤ËÑÔ¤¦
+	// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã—ãŸã¨ã‚µ`ãƒ`ã«è¨€ã†
 	lssproto_EN_send( sockfd, nowGx, nowGy );
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥ï©`¥×¥¤¥Ù¥ó¥È„IÀí
+// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆIç†
 //
-// ¥ï©`¥×¥¤¥Ù¥ó¥È¥Á¥§¥Ã¥¯
+// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆãƒã‚§ãƒƒã‚¯
 BOOL _checkWarpEvent( int gx, int gy )
 {
 	int x, y;
@@ -3187,27 +3187,27 @@ BOOL _checkWarpEvent( int gx, int gy )
 	timeZoneNo = getLSTime ( &SaTime );
 
 	_eventWarpNo = (event[y*mapAreaWidth+x] & 0x0fff);
-	// ¥ï©`¥×
+	// ãƒ¯`ãƒ—
 	if( _eventWarpNo == EVENT_WARP )
 	{
 		return TRUE;
 	}
 	else
-	// ³¯¤À¤±¥ï©`¥×
+	// æœã ã‘ãƒ¯`ãƒ—
 	if( _eventWarpNo == EVENT_WARP_MONING
 	 && timeZoneNo == LS_MORNING )
 	{
 		return TRUE;
 	}
 	else
-	// Öç¤À¤±¥ï©`¥×
+	// æ˜¼ã ã‘ãƒ¯`ãƒ—
 	if( _eventWarpNo == EVENT_WARP_NOON
 	 && (timeZoneNo == LS_NOON || timeZoneNo == LS_EVENING) )
 	{
 		return TRUE;
 	}
 	else
-	// Ò¹¤À¤±¥ï©`¥×
+	// å¤œã ã‘ãƒ¯`ãƒ—
 	if( _eventWarpNo == EVENT_WARP_NIGHT
 	 && timeZoneNo == LS_NIGHT )
 	{
@@ -3218,38 +3218,38 @@ BOOL _checkWarpEvent( int gx, int gy )
 }
 
 
-// ¥ï©`¥×¥¤¥Ù¥ó¥ÈËÍĞÅ
+// ãƒ¯`ãƒ—ã‚¤ãƒ™ãƒ³ãƒˆé€ä¿¡
 void _sendWarpEvent( void )
 {
-	// ÒÆ„Ó¤òÖ¹¤á¤ë
+	// ç§»å©´è›‘å·¥å¹›
 	resetMap();
 	eventWarpSendFlag = 1;
 	etcEventFlag = 1;
 	eventWarpSendId = eventId;
 	lssproto_EV_send( sockfd, _eventWarpNo, eventId, nowGx, nowGy, -1 );
 	eventId++;
-	wnCloseFlag = 1;	// šøÓÃ¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
-	closeEtcSwitch();	// ¸÷·NÔO¶¨¥á¥Ë¥å©`¤òé]¤¸¤ë
-	closeCharActionAnimeChange();	// ¥¢¥¯¥·¥ç¥ó¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
+	wnCloseFlag = 1;	// æ°“Î•ï¼…è—ä¸§Î”èœ·]ã˜ã‚‹
+	closeEtcSwitch();	// å„NOå®šãƒ¡ãƒ‹ãƒ¥`ã‚’]ã˜ã‚‹
+	closeCharActionAnimeChange();	// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’]ã˜ã‚‹
 
 #if 1
-	// ¥ï©`¥×Ñİ³öŒgĞĞ
+	// ãƒ¯`ãƒ—æ¼”å‡ºgè¡Œ
 	SubProcNo = 200;
-	// ¬F•rµã¤Î»­Ãæ¤ò×÷¤ë
+	// Frç‚¹ã®ç”»é¢ã‚’ä½œã‚‹
 	warpEffectProc();
 	warpEffectFlag = TRUE;
 	floorChangeFlag = TRUE;
 #endif
 
-	// ¥Ş¥Ã¥×¥¦¥£¥ó¥É¥¦¥Õ¥é¥°¥Ğ¥Ã¥¯¥¢¥Ã¥×
+	// ãƒãƒƒãƒ—ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ•ãƒ©ã‚°ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—
 	if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¹Ì¶¨¥¨¥ó¥«¥¦¥ó¥È¥¤¥Ù¥ó¥È„IÀí
+// å›ºå®šã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã‚¤ãƒ™ãƒ³ãƒˆIç†
 //
-// ¥¤¥Ù¥ó¥È¥Á¥§¥Ã¥¯
+// ã‚¤ãƒ™ãƒ³ãƒˆãƒã‚§ãƒƒã‚¯
 BOOL _checkEnemyEvent( int gx, int gy )
 {
 	int x, y;
@@ -3259,7 +3259,7 @@ BOOL _checkEnemyEvent( int gx, int gy )
 	y = gy - mapAreaY1;
 
 	ev = (event[y*mapAreaWidth+x] & 0x0fff);
-	// ¥¨¥ó¥«¥¦¥ó¥È
+	// ã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆ
 	if( ev == EVENT_ENEMY )
 	{
 		return TRUE;
@@ -3269,24 +3269,24 @@ BOOL _checkEnemyEvent( int gx, int gy )
 }
 
 
-// ¹Ì¶¨¥¨¥ó¥«¥¦¥ó¥È¥¤¥Ù¥ó¥ÈËÍĞÅ
+// å›ºå®šã‚¨ãƒ³ã‚«ã‚¦ãƒ³ãƒˆã‚¤ãƒ™ãƒ³ãƒˆé€ä¿¡
 void _sendEnemyEvent( void )
 {
-	// ÒÆ„Ó¤òÖ¹¤á¤ë
+	// ç§»å©´è›‘å·¥å¹›
 	resetMap();
 	eventEnemySendFlag = 1;
 	etcEventFlag = 1;
 	eventEnemySendId = eventId;
 	lssproto_EV_send( sockfd, EVENT_ENEMY, eventId,	nowGx, nowGy, _enemyEventDir );
 	eventId++;
-	wnCloseFlag = 1;	// šøÓÃ¥¦¥£¥ó¥É¥¦¤òé]¤¸¤ë
-	eventEnemyFlag = 1;	// ¹Ì¶¨”³¤Ë¥¨¥ó¥«¥¦¥ó¥È¤·¤¿¤é£±¤Ë¤¹¤ë
+	wnCloseFlag = 1;	// æ°“Î•ï¼…è—ä¸§Î”èœ·]ã˜ã‚‹
+	eventEnemyFlag = 1;	// å›ºå®šé•¿è¡°Ä“è—Î•è—è¶£ç­éƒ¡æ¤‹å ¡æ‘”å·¥
 }
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// ÒÆ„ÓÏÈ¤Ë¥Ç©`¥¿¤¬Ÿo¤¤•r¤ÏÒÆ„Ó¤ò¤È¤á¤Æ¥Ş¥Ã¥×¤¬À´¤ë¤Î¤ò´ı¤Ä¡£
+// ç§»é…‰è¶£è¡°ç­¾`ã‚¿ãŒoã„rã¯ç§»å©´é¢è¶£å¹›åŒ¹è•™æ°“é©»ææ¯ªéŸ¦è™¼æ‘¹
 //
 void _checkEmptyMap( void )
 {
@@ -3302,7 +3302,7 @@ void _checkEmptyMap( void )
 //	{
 		dir = moveRoute2[i];
 
-		// ÒÆ„ÓÏÈ¤Ë¥Ç©`¥¿¤¬Ÿo¤±¤ì¤Ğ¥Õ¥é¥°¤òÁ¢¤Æ¤ÆÒÆ„Ó¤ò¤È¤á¤ë
+		// ç§»é…‰è¶£è¡°ç­¾`ã‚¿ãŒoã‘ã‚Œã°ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¦ç§»å©´é¢è¶£å¹›
 		if( checkEmptyMapData( gx, gy, dir ) )
 		{
 			for( j = 0; j < getMapAreaCnt; j++ )
@@ -3311,10 +3311,10 @@ void _checkEmptyMap( void )
 #ifdef _DEBUG_MSG
 				char msg[256];
 
-				sprintf( msg, "¥Ç©`¥¿Ÿo¤¤¤Î¤ÇÒÆ„Ó¤È¤á¤ë(%d,%d) dir = %d",
+				sprintf( msg, "ãƒ‡`ã‚¿oã„ã®ã§ç§»å©´è¶£å¹›(%d,%d) dir = %d",
 					nowGx, nowGy, dir );
 				StockChatBufferLine( msg, FONT_PAL_GRAY );
-				sprintf( msg, "¥Ç©`¥¿(%d,%d)-(%d,%d)¤ò¥µ©`¥Ğ¤ËÒªÇó",
+				sprintf( msg, "ãƒ‡`ã‚¿(%d,%d)-(%d,%d)ã‚’ã‚µ`ãƒã«è¦æ±‚",
 					getMapAreaX1[j],
 					getMapAreaY1[j],
 					getMapAreaX2[j],
@@ -3322,7 +3322,7 @@ void _checkEmptyMap( void )
 				StockChatBufferLine( msg, FONT_PAL_GRAY );
 #endif
 #endif
-				// ¥µ©`¥Ğ¤ËÒªÇó
+				// ã‚µ`ãƒã«è¦æ±‚
 				lssproto_M_send( sockfd, nowFloor,
 					getMapAreaX1[j],
 					getMapAreaY1[j],
@@ -3333,7 +3333,7 @@ void _checkEmptyMap( void )
 			mapEmptyDir = dir;
 			mapEmptyGx = nowGx;
 			mapEmptyGy = nowGy;
-			mapEmptyStartTime = GetTickCount();	// ¥Ş¥Ã¥×ÒªÇó¤·¤¿•r¤Î•rég¤òÓ›‘›
+			mapEmptyStartTime = GetTickCount();	// ãƒãƒƒãƒ—è¦æ±‚ã—ãŸrã®rgã‚’
 		}
 
 //		gx += moveAddTbl[dir][0];
@@ -3344,7 +3344,7 @@ void _checkEmptyMap( void )
 
 BOOL checkEmptyMapData( int _gx, int _gy, int dir )
 {
-	// ¥­¥ã¥é¤ÎÎ»ÖÃ¤«¤é¡À11¤Î¤È¤³¤í¤òÕ{¤Ù¤Æ¥Ç©`¥¿¤¬Ÿo¤±¤ì¤ĞTRUE¤ò·µ¤¹
+	// ã‚­ãƒ£ãƒ©ã®ä½ç½®ã‹ã‚‰Â±11ã®ã¨ã“ã‚ã‚’{ã¹ã¦ãƒ‡`ã‚¿ãŒoã‘ã‚Œã°TRUEã‚’è¿”ã™
 	int i;
 	int gx, gy;
 	int tx, ty;
@@ -3496,7 +3496,7 @@ BOOL checkEmptyMapData( int _gx, int _gy, int dir )
 
 
 
-// ¥Ş¥Ã¥×¤ËÒÆ„ÓÏÈ¤òÔO¶¨
+// ãƒãƒƒãƒ—ã«ç§»é…‰è¶£è›ŸOå®š
 void setMapMovePoint( int _nextGx, int _nextGy )
 {
 	float dx, dy;
@@ -3508,7 +3508,7 @@ void setMapMovePoint( int _nextGx, int _nextGy )
 	nextGx = _nextGx;
 	nextGy = _nextGy;
 
-	// ÒÆ„ÓÁ¿¤òÇó¤á¤ë
+	// ç§»æ¿éƒ¡èš¯è­å¹›
 	dx = nextGx*GRID_SIZE-nowX;
 	dy = nextGy*GRID_SIZE-nowY;
 	len = (float)sqrt( (double)(dx*dx+dy*dy) );
@@ -3525,7 +3525,7 @@ void setMapMovePoint( int _nextGx, int _nextGy )
 	nowVx = dx * MOVE_SPEED * rate;
 	nowVy = dy * MOVE_SPEED * rate;
 
-	// PC¥­¥ã¥é¤Î·½ÏòÔO¶¨
+	// PCã‚­ãƒ£ãƒ©ã®æ–¹å‘Oå®š
 	if( dx != 0 || dy != 0 )
 	{
 		dir1 = Atan( dx, dy ) + 22.5F;
@@ -3535,12 +3535,12 @@ void setMapMovePoint( int _nextGx, int _nextGy )
 		setPcWalkFlag();
 	}
 
-	// PC¥­¥ã¥é¤ò¥Ş¥Ã¥×¤ÎÎ»ÖÃ¤ÈÍ¬ÆÚ¤¹¤ë
+	// PCã‚­ãƒ£ãƒ©ã‚’ãƒãƒƒãƒ—ã®ä½ç½®ã¨åŒæœŸã™ã‚‹
 	setPcPoint();
 }
 
 
-// ¥Ş¥Ã¥×¤ËÒÆ„ÓÏÈ¤òÔO¶¨£¨¼ÓËÙ„IÀí¤¢¤ê£©
+// ãƒãƒƒãƒ—ã«ç§»é…‰è¶£è›ŸOå®šï¼ˆåŠ é€ŸIç†ã‚ã‚Šï¼‰
 void setMapMovePoint2( int _nextGx, int _nextGy )
 {
 	float dx, dy;
@@ -3570,7 +3570,7 @@ void setMapMovePoint2( int _nextGx, int _nextGy )
 	nextGx = _nextGx;
 	nextGy = _nextGy;
 
-	// ÒÆ„ÓÁ¿¤òÇó¤á¤ë
+	// ç§»æ¿éƒ¡èš¯è­å¹›
 	dx = nextGx*GRID_SIZE-nowX;
 	dy = nextGy*GRID_SIZE-nowY;
 	len = (float)sqrt( (double)(dx*dx+dy*dy) );
@@ -3587,7 +3587,7 @@ void setMapMovePoint2( int _nextGx, int _nextGy )
 	nowVx = dx * MOVE_SPEED * rate;
 	nowVy = dy * MOVE_SPEED * rate;
 
-	// PC¥­¥ã¥é¤Î·½ÏòÔO¶¨
+	// PCã‚­ãƒ£ãƒ©ã®æ–¹å‘Oå®š
 	if( dx != 0 || dy != 0 )
 	{
 		dir1 = Atan( dx, dy ) + 22.5F;
@@ -3597,20 +3597,20 @@ void setMapMovePoint2( int _nextGx, int _nextGy )
 		setPcWalkFlag();
 	}
 
-	// PC¥­¥ã¥é¤ò¥Ş¥Ã¥×¤ÎÎ»ÖÃ¤ÈÍ¬ÆÚ¤¹¤ë
+	// PCã‚­ãƒ£ãƒ©ã‚’ãƒãƒƒãƒ—ã®ä½ç½®ã¨åŒæœŸã™ã‚‹
 	setPcPoint();
 }
 
 
-// ¥Ş¥Ã¥×ÒÆ„Ó„IÀí
+// ãƒãƒƒãƒ—ç§»Iç†
 void mapMove2( void )
 {
 	float dx, dy;
 
-	// ÒÆ„ÓÖĞ¤«£¿
+	// ç§»åˆè‚–
 	if( nowVx != 0 || nowVy != 0 )
 	{
-		// Ä¿µÄµØ¤Ë×Å¤¤¤¿¤é¥Ñ¥é¥á©`¥¿³õÆÚ»¯
+		// ç›®çš„åœ°ã«ç€ã„ãŸã‚‰ãƒ‘ãƒ©ãƒ¡`ã‚¿åˆæœŸåŒ–
 		dx = (float)nextGx*GRID_SIZE;
 		dy = (float)nextGy*GRID_SIZE;
 		if( pointLen2( nowX, nowY, dx, dy ) <= nowVx*nowVx+nowVy*nowVy )
@@ -3620,7 +3620,7 @@ void mapMove2( void )
 			nowVx = 0;
 			nowVy = 0;
 		}
-		// ÒÆ„Ó
+		// ç§»
 		else
 		{
 			nowX += nowVx;
@@ -3631,7 +3631,7 @@ void mapMove2( void )
 	}
 	else
 	{
-		// PC¥­¥ã¥é¤Î¥¢¥Ë¥á©`¥·¥ç¥ó¤¬WALK¤Î´Î¤Î¥Õ¥ì©`¥à¤Ê¤é¤Ê¤éSTAND¤Ë¤¹¤ë
+		// PCã‚­ãƒ£ãƒ©ã®ã‚¢ãƒ‹ãƒ¡`ã‚·ãƒ§ãƒ³ãŒWALKã®æ¬¡ã®ãƒ•ãƒ¬`ãƒ ãªã‚‰ãªã‚‰STANDã«ã™ã‚‹
 		if( checkPcWalkFlag() == 1 )
 		{
 			setPcAction( ANIM_STAND );
@@ -3642,14 +3642,14 @@ void mapMove2( void )
 	nowGx = (int)(nowX/GRID_SIZE);
 	nowGy = (int)(nowY/GRID_SIZE);
 
-	// PC¥­¥ã¥é¤ò¥Ş¥Ã¥×¤ÎÎ»ÖÃ¤ÈÍ¬ÆÚ¤¹¤ë
+	// PCã‚­ãƒ£ãƒ©ã‚’ãƒãƒƒãƒ—ã®ä½ç½®ã¨åŒæœŸã™ã‚‹
 	setPcPoint();
 }
 
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¤½¤Îˆö¤ÇÏò¤­¤ò‰ä¤¨¤ë
+// ãã®è¨¾çªé¢æµƒÃ 
 //
 void turnAround( void )
 {
@@ -3659,20 +3659,20 @@ void turnAround( void )
 	char dir2[2];
 	static unsigned int turnSendTime = 0;
 
-	// PC¥­¥ã¥é¤¤¤Ê¤±¤ì¤ĞºÎ¤â¤·¤Ê¤¤
+	// PCã‚­ãƒ£ãƒ©ã„ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 	if( pc.ptAct == NULL )
 		return;
 
-	// ÒÆ„Ó¤ÎÍ¾ÖĞ¤Ç¤âºÎ¤â¤·¤Ê¤¤
+	// ç§»å©´ç“®å±€è‚–æ‰¦å¤‚éŸ¦çŒ¡ç­èƒœ
 	if( nowVx != 0 || nowVy != 0 )
 		return;
 
-	// ºÎ¤«¤Î¥×¥í¥È¥³¥ë¤òËÍ¤Ã¤Æ¤¿¤éºÎ¤â¤·¤Ê¤¤
+	// ä½•ã‹ã®ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’é€ã£ã¦ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if( etcSendFlag != 0 || etcEventFlag != 0 )
 		return;
 
 
-	// ¬FÔÚ¤Î¥Ş¥¦¥¹¤Î·½Ïò¤òÕ{¤Ù¤ë
+	// Fåœ¨ã®ãƒã‚¦ã‚¹ã®æ–¹å‘ã‚’{ã¹ã‚‹
 	tmpX = (float)(mouseMapGx - nowGx);
 	tmpY = (float)(mouseMapGy - nowGy);
 	tmpDir = Atan( tmpX, tmpY ) + 22.5F;
@@ -3680,11 +3680,11 @@ void turnAround( void )
 	dir = (int)(tmpDir/45);
 
 
-	// Ïò¤­¤¬Í¬¤¸•r¤âºÎ¤â¤·¤Ê¤¤
+	// å‘ããŒåŒã˜rã‚‚ä½•ã‚‚ã—ãªã„
 	if( pc.ptAct->anim_ang == dir )
 		return;
 
-	// ßBÉäÒÖÖÆ
+	// Bå°„æŠ‘åˆ¶
 	if( turnSendTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )
 	{
 		setPcDir( dir );
@@ -3703,27 +3703,27 @@ void turnAround2( int dir )
 	char dir2[2];
 	static unsigned int turnSendTime = 0;
 
-	// ·½Ïò¤¬égß`¤Ã¤Æ¤¤¤ì¤ĞºÎ¤â¤·¤Ê¤¤
+	// æ–¹å‘ãŒg`ã£ã¦ã„ã‚Œã°ä½•ã‚‚ã—ãªã„
 	if( dir < 0 || 7 < dir )
 		return;
 
-	// PC¥­¥ã¥é¤¤¤Ê¤±¤ì¤ĞºÎ¤â¤·¤Ê¤¤
+	// PCã‚­ãƒ£ãƒ©ã„ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
 	if( pc.ptAct == NULL )
 		return;
 
-	// ÒÆ„Ó¤ÎÍ¾ÖĞ¤Ç¤âºÎ¤â¤·¤Ê¤¤
+	// ç§»å©´ç“®å±€è‚–æ‰¦å¤‚éŸ¦çŒ¡ç­èƒœ
 	if( nowVx != 0 || nowVy != 0 )
 		return;
 
-	// ºÎ¤«¤Î¥×¥í¥È¥³¥ë¤òËÍ¤Ã¤Æ¤¿¤éºÎ¤â¤·¤Ê¤¤
+	// ä½•ã‹ã®ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’é€ã£ã¦ãŸã‚‰ä½•ã‚‚ã—ãªã„
 	if( etcSendFlag != 0 || etcEventFlag != 0 )
 		return;
 
-	// Ïò¤­¤¬Í¬¤¸•r¤âºÎ¤â¤·¤Ê¤¤
+	// å‘ããŒåŒã˜rã‚‚ä½•ã‚‚ã—ãªã„
 	if( pc.ptAct->anim_ang == dir )
 		return;
 
-	// ßBÉäÒÖÖÆ
+	// Bå°„æŠ‘åˆ¶
 	if( turnSendTime+FIELD_BTN_PUSH_WAIT < GetTickCount() )
 	{
 		setPcDir( dir );
@@ -3738,9 +3738,9 @@ void turnAround2( int dir )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ÒÆ„Ó½UÂ·¤òËã³ö¤¹¤ë
+// ç§»å’Uè·¯ã‚’ç®—å‡ºã™ã‚‹
 //
-// ¬FÔÚµØ¤«¤édir·½Ïò¤Ë1šiÒÆ„Ó¤¹¤ë¤¿¤á¤Î¥Ç©`¥¿¤òÈ¡µÃ¤¹¤ë
+// Fåœ¨åœ°ã‹ã‚‰diræ–¹å‘ã«1iç§»å©´å·¥æ¯ªéƒ¡å¹›è¿ç­¾`ã‚¿ã‚’å–å¾—ã™ã‚‹
 void getRouteData( int dir, int *x, int *y )
 {
 	switch( dir )
@@ -3793,13 +3793,13 @@ void getRouteData( int dir, int *x, int *y )
 }
 
 
-// (gx1,gy1)¤«¤é(gx2,gy2)¤Ø¤ÎÏò¤­
+// (gx1,gy1)ã‹ã‚‰(gx2,gy2)ã¸ã®å‘ã
 int getDirData( int gx1, int gy1, int gx2, int gy2 )
 {
 	float tmpDir;
 	float tmpX, tmpY;
 
-	// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+	// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 	tmpX = (float)(gx2 - gx1);
 	tmpY = (float)(gy2 - gy1);
 	tmpDir = Atan( tmpX, tmpY ) + 22.5F;
@@ -3808,8 +3808,8 @@ int getDirData( int gx1, int gy1, int gx2, int gy2 )
 	return (int)(tmpDir/45);
 }
 
-// (gx1,gy2)¤òÄ¿µÄµØ¤È¤·(gx2,gy2)¤¬ëO½Ó¥°¥ê¥Ã¥É¤«¤É¤¦¤«Õ{¤Ù¤ë
-// ‘ø¤ê‚£ºTRUE ... ëO½Ó¥°¥ê¥Ã¥É
+// (gx1,gy2)ã‚’ç›®çš„åœ°ã¨ã—(gx2,gy2)ãŒOæ¥ã‚°ãƒªãƒƒãƒ‰ã‹ã©ã†ã‹{ã¹ã‚‹
+// TRUE ... Oæ¥ã‚°ãƒªãƒƒãƒ‰
 BOOL checkGridAround( int gx1, int gy1, int gx2, int gy2 )
 {
 	if( ((gx1 == gx2) && ABS( gy2 - gy1 ) == 1)
@@ -3844,7 +3844,7 @@ void getRouteMap( void )
 	if( nowx == mx && nowy == my )
 		return;
 
-	// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+	// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 	tmpX = (float)(mx - nowx);
 	tmpY = (float)(my - nowy);
 	tmpDir = Atan( tmpX, tmpY ) + 22.5F;
@@ -3861,7 +3861,7 @@ void getRouteMap( void )
 			return;
 		}
 
-		// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+		// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 		tmpX = (float)(mx - nowx);
 		tmpY = (float)(my - nowy);
 		tmpDir = Atan( tmpX, tmpY ) + 22.5F;
@@ -3876,7 +3876,7 @@ void getRouteMap( void )
 			checkDir2 &= 7;
 			if( nowDir != targetDir && nowDir != checkDir1 && nowDir != checkDir2 )
 			{
-				// ³õÆÚÎ»ÖÃ¤«¤éÄ¿µÄµØ¤Ø¤Î·½Ïò¤È×óÓÒÇ°·½ÒÔÍâ¤Î·½Ïò¤Ë¤ÏÒÆ„Ó¤·¤Ê¤¤
+				// åˆæœŸä½ç½®ã‹ã‚‰ç›®çš„åœ°ã¸ã®æ–¹å‘ã¨å·¦å³å‰æ–¹ä»¥å¤–ã®æ–¹å‘ã«ã¯ç§»å©´ç­èƒœ
 				break;
 			}
 		}
@@ -3894,12 +3894,12 @@ void getRouteMap( void )
 			checkDir2 &= 7;
 			if( dir != targetDir && dir != checkDir1 && dir != checkDir2 )
 			{
-				// ³õÆÚÎ»ÖÃ¤«¤éÄ¿µÄµØ¤Ø¤Î·½Ïò¤È×óÓÒÇ°·½ÒÔÍâ¤Î·½Ïò¤Ë¤ÏÒÆ„Ó¤·¤Ê¤¤
+				// åˆæœŸä½ç½®ã‹ã‚‰ç›®çš„åœ°ã¸ã®æ–¹å‘ã¨å·¦å³å‰æ–¹ä»¥å¤–ã®æ–¹å‘ã«ã¯ç§»å©´ç­èƒœ
 				continue;
 			}
 
 #if 0
-			// £±ši¤Ç¤â„Ó¤¤¤¿áá¡¢Ä¿µÄµØ¤ÈİS¤¬¤¢¤Ã¤¿¤é½KÁË
+			// ï¼‘iã§ã‚‚å©´ã„é…·å¸·â’›åº·ç‰¡ä¸å®¹SãŒã‚ã£ãŸã‚‰Käº†
 			if( moveRouteCnt > 0
 			 && (nowx == mx || nowy == my) )
 			{
@@ -3911,14 +3911,14 @@ void getRouteMap( void )
 			getRouteData( dir, &dx, &dy );
 			if( checkHitMap( nowx+dx, nowy+dy ) )
 			{
-				// ßMÈë²»¿É
+				// Må…¥ä¸å¯
 				if( (nowx+dx) == mx && (nowy+dy) == my )
 				{
 #if 1
 					if( (dir % 2) == 0 )
 						continue;
 #endif
-					// ÒÆ„ÓÏÈ¤¬Ä¿µÄµØ¤Ê¤é½KÁË
+					// ç§»é…‰è¶£åº·ç‰¡ä¸èƒœæ¦»Käº†
 					flag = TRUE;
 					break;
 				}
@@ -3927,7 +3927,7 @@ void getRouteMap( void )
 					continue;
 				}
 			}
-			// ¥°¥ê¥Ã¥Éég¤òĞ±¤á¤ËÒÆ„Ó¤¹¤ë•r¡¢Ç°·½×óÓÒĞ±¤áÇ°¤ÎÕÏº¦Îï¤Ë¤è¤Ã¤Æ„Ó×÷¤¬‰ä¤ï¤ë
+			// ã‚°ãƒªãƒƒãƒ‰gã‚’æ–œã‚ã«ç§»å©´å·¥rã€å‰æ–¹å·¦å³æ–œã‚å‰ã®éšœå®³ç‰©ã«ã‚ˆã£ã¦å¹¼é³æµƒé“¯
 			if( (dir % 2) == 0 )
 			{
 				int dir2, dx2, dy2;
@@ -3942,13 +3942,13 @@ void getRouteMap( void )
 				getRouteData( dir3, &dx3, &dy3 );
 				flag2 = checkHitMap( nowx+dx2, nowy+dy2 );
 				flag3 = checkHitMap( nowx+dx3, nowy+dy3 );
-				// I·½¤ËÕÏº¦Îï¤¬¤¢¤ë¤Ê¤éĞĞ¤­Ö¹¤Ş¤ê
+				// Iæ–¹ã«éšœå®³ç‰©ãŒã‚ã‚‹ãªã‚‰è¡Œãæ­¢ã¾ã‚Š
 				if( flag2 && flag3 )
 				{
 					break;
 				}
-				// ÓÒĞ±¤áÇ°¤ËÕÏº¦Îï¤¬¤¢¤ë•r
-				// ×óĞ±¤áÇ°¤Ë»Ø±Ü
+				// å³æ–œã‚å‰ã«éšœå®³ç‰©ãŒã‚ã‚‹r
+				// å·¦æ–œã‚å‰ã«å›é¿
 				if( flag2 )
 				{
 					moveRoute[moveRouteCnt] = dir3;
@@ -3963,8 +3963,8 @@ void getRouteMap( void )
 					flag = FALSE;
 					break;
 				}
-				// ×óĞ±¤áÇ°¤ËÕÏº¦Îï¤¬¤¢¤ë•r
-				// ÓÒĞ±¤áÇ°¤Ë»Ø±Ü
+				// å·¦æ–œã‚å‰ã«éšœå®³ç‰©ãŒã‚ã‚‹r
+				// å³æ–œã‚å‰ã«å›é¿
 				if( flag3 )
 				{
 					moveRoute[moveRouteCnt] = dir2;
@@ -3980,12 +3980,12 @@ void getRouteMap( void )
 					break;
 				}
 			}
-			// ¤³¤³¤Ş¤ÇÀ´¤¿¤éÒÆ„ÓÏÈ¤¬›Q¶¨¤·¤Æ¤¤¤ë
+			// ã“ã“ã¾ã§æ¥ãŸã‚‰ç§»é…‰è¶£Qå®šã—ã¦ã„ã‚‹
 			flag = FALSE;
 			break;
 		}
 
-		// ĞĞ¤­Ö¹¤Ş¤ê¤Ê¤Î¤Ç½K¤ï¤ë
+		// è¡Œãæ­¢ã¾ã‚Šãªã®ã§Kã‚ã‚‹
 		if( flag )
 			break;
 
@@ -4045,7 +4045,7 @@ void getRouteMap( void )
 	}
 #endif
 
-	// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+	// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 	if( moveRouteCnt > 0
 	 && (nowx != mx || nowy != my) )
 	{
@@ -4078,7 +4078,7 @@ void getRouteMap( void )
 	if( nowx == mx && nowy == my )
 		return;
 
-	// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+	// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 	tmpX = (float)(mx - nowx);
 	tmpY = (float)(my - nowy);
 	tmpDir = Atan( tmpX, tmpY ) + 22.5F;
@@ -4095,7 +4095,7 @@ void getRouteMap( void )
 			return;
 		}
 
-		// Ä¿µÄµØ¤Î·½Ïò¤òÕ{¤Ù¤ë
+		// ç›®çš„åœ°ã®æ–¹å‘ã‚’{ã¹ã‚‹
 		tmpX = (float)(mx - nowx);
 		tmpY = (float)(my - nowy);
 		tmpDir = Atan( tmpX, tmpY ) + 22.5F;
@@ -4113,17 +4113,17 @@ void getRouteMap( void )
 			checkDir2 &= 7;
 			if( dir != targetDir && dir != checkDir1 && dir != checkDir2 )
 			{
-				// ³õÆÚÎ»ÖÃ¤«¤éÄ¿µÄµØ¤Ø¤Î·½Ïò¤È×óÓÒÇ°·½ÒÔÍâ¤Î·½Ïò¤Ë¤ÏÒÆ„Ó¤·¤Ê¤¤
+				// åˆæœŸä½ç½®ã‹ã‚‰ç›®çš„åœ°ã¸ã®æ–¹å‘ã¨å·¦å³å‰æ–¹ä»¥å¤–ã®æ–¹å‘ã«ã¯ç§»å©´ç­èƒœ
 				continue;
 			}
 
 			getRouteData( dir, &dx, &dy );
 			if( checkHitMap( nowx+dx, nowy+dy ) )
 			{
-				// ßMÈë²»¿É
+				// Må…¥ä¸å¯
 				if( (nowx+dx) == mx && (nowy+dy) == my )
 				{
-					// ÒÆ„ÓÏÈ¤¬Ä¿µÄµØ¤Ê¤é½KÁË
+					// ç§»é…‰è¶£åº·ç‰¡ä¸èƒœæ¦»Käº†
 					flag = TRUE;
 					break;
 				}
@@ -4132,7 +4132,7 @@ void getRouteMap( void )
 					continue;
 				}
 			}
-			// ¥°¥ê¥Ã¥Éég¤òĞ±¤á¤ËÒÆ„Ó¤¹¤ë•r¡¢Ç°·½×óÓÒĞ±¤áÇ°¤ÎÕÏº¦Îï¤Ë¤è¤Ã¤Æ„Ó×÷¤¬‰ä¤ï¤ë
+			// ã‚°ãƒªãƒƒãƒ‰gã‚’æ–œã‚ã«ç§»å©´å·¥rã€å‰æ–¹å·¦å³æ–œã‚å‰ã®éšœå®³ç‰©ã«ã‚ˆã£ã¦å¹¼é³æµƒé“¯
 			if( (dir % 2) == 0 )
 			{
 				int dir2, dx2, dy2;
@@ -4147,13 +4147,13 @@ void getRouteMap( void )
 				getRouteData( dir3, &dx3, &dy3 );
 				flag2 = checkHitMap( nowx+dx2, nowy+dy2 );
 				flag3 = checkHitMap( nowx+dx3, nowy+dy3 );
-				// I·½¤ËÕÏº¦Îï¤¬¤¢¤ë¤Ê¤éĞĞ¤­Ö¹¤Ş¤ê
+				// Iæ–¹ã«éšœå®³ç‰©ãŒã‚ã‚‹ãªã‚‰è¡Œãæ­¢ã¾ã‚Š
 				if( flag2 && flag3 )
 				{
 					break;
 				}
-				// ÓÒĞ±¤áÇ°¤ËÕÏº¦Îï¤¬¤¢¤ë•r
-				// ×óĞ±¤áÇ°¤Ë»Ø±Ü
+				// å³æ–œã‚å‰ã«éšœå®³ç‰©ãŒã‚ã‚‹r
+				// å·¦æ–œã‚å‰ã«å›é¿
 				if( flag2 )
 				{
 					dir = dir3;
@@ -4162,8 +4162,8 @@ void getRouteMap( void )
 					flag = FALSE;
 					break;
 				}
-				// ×óĞ±¤áÇ°¤ËÕÏº¦Îï¤¬¤¢¤ë•r
-				// ÓÒĞ±¤áÇ°¤Ë»Ø±Ü
+				// å·¦æ–œã‚å‰ã«éšœå®³ç‰©ãŒã‚ã‚‹r
+				// å³æ–œã‚å‰ã«å›é¿
 				if( flag3 )
 				{
 					dir = dir2;
@@ -4173,12 +4173,12 @@ void getRouteMap( void )
 					break;
 				}
 			}
-			// ¤³¤³¤Ş¤ÇÀ´¤¿¤éÒÆ„ÓÏÈ¤¬›Q¶¨¤·¤Æ¤¤¤ë
+			// ã“ã“ã¾ã§æ¥ãŸã‚‰ç§»é…‰è¶£Qå®šã—ã¦ã„ã‚‹
 			flag = FALSE;
 			break;
 		}
 
-		// ĞĞ¤­Ö¹¤Ş¤ê¤Ê¤Î¤Ç½K¤ï¤ë
+		// è¡Œãæ­¢ã¾ã‚Šãªã®ã§Kã‚ã‚‹
 		if( flag )
 			break;
 
@@ -4196,7 +4196,7 @@ void getRouteMap( void )
 #endif
 
 
-// µÇåh¤µ¤ì¤Æ¤¤¤ëÒÆ„Ó¥ë©`¥È¤òÇ°¤Ë¥·¥Õ¥È
+// ç™»hã•ã‚Œã¦ã„ã‚‹ç§»é¹°æ°…`ãƒˆã‚’å‰ã«ã‚·ãƒ•ãƒˆ
 void shiftRouteMap( void )
 {
 	int i;
@@ -4213,7 +4213,7 @@ void shiftRouteMap( void )
 	}
 }
 
-// µÇåh¤µ¤ì¤Æ¤¤¤ëÒÆ„Ó¥ë©`¥È¤òÇ°¤Ë¥·¥Õ¥È
+// ç™»hã•ã‚Œã¦ã„ã‚‹ç§»é¹°æ°…`ãƒˆã‚’å‰ã«ã‚·ãƒ•ãƒˆ
 void shiftRouteMap2( void )
 {
 	int i;
@@ -4230,20 +4230,20 @@ void shiftRouteMap2( void )
 
 
 
-// ÒÆ„ÓÖĞ¤ËŠÖÆ¥ï©`¥×¤·¤¿•r¡¢
-//   ¥ï©`¥×µØµã¤¬Í¨ß^áá¤ÎÎ»ÖÃ¤Ê¤é¥ï©`¥×¡¢
-//   ÒÆ„ÓÏÈ¤Ê¤é¤½¤³¤Ş¤ÇÒÆ„Ó¤¹¤ë¡£
+// ç§»åˆè‚–åˆ¶ãƒ¯`ãƒ—ã—ãŸrã€
+//   ãƒ¯`ãƒ—åœ°ç‚¹ãŒé€š^å¾Œã®ä½ç½®ãªã‚‰ãƒ¯`ãƒ—ã€
+//   ç§»é…‰è¶£èƒœæ¤é¥¯é•¿è“¼ä¸”å©´å·¥æ¿
 void forceWarpMap( int gx, int gy )
 {
 	int i;
 
-	// ÒÆ„ÓÖĞ¤ÇŸo¤¤¤Ê¤éºÎ¤â¤·¤Ê¤¤
+	// ç§»åˆè‚–oã„ãªã‚‰ä½•ã‚‚ã—ãªã„
 	if( moveRouteCnt <= 0 )
 		return;
 
 	for( i = 0; i < moveRouteCnt; i++ )
 	{
-		// ¥ï©`¥×µØµã¤¬ÒÆ„ÓÏÈ¤Ê¤é¤½¤³¤Ş¤ÇÒÆ„Ó¤¹¤ë
+		// ãƒ¯`ãƒ—åœ°ç‚¹ãŒç§»é…‰è¶£èƒœæ¤é¥¯é•¿è“¼ä¸”å©´å·¥
 		if( moveRouteGx[i] == gx && moveRouteGy[i] == gy )
 		{
 			moveRouteCnt = i + 1;
@@ -4251,15 +4251,15 @@ void forceWarpMap( int gx, int gy )
 		}
 	}
 
-	// ¥ï©`¥×µØµã¤¬Í¨ß^áá¤ÎÎ»ÖÃ¤Ê¤é¥ï©`¥×
-	// (ÒÆ„Ó„IÀí½K¤ï¤ë)
+	// ãƒ¯`ãƒ—åœ°ç‚¹ãŒé€š^å¾Œã®ä½ç½®ãªã‚‰ãƒ¯`ãƒ—
+	// (ç§»Iç†Kã‚ã‚‹)
 	moveRouteCnt = 0;
 	setMap( nowFloor, gx, gy );
 }
 
 
-// ·½Ïò¤ò¥µ©`¥Ğ¤ËËÍ¤ë¤È¤­¤ÎÎÄ×Ö¤Ë¤¹¤ë
-// mode : 0 ... ÒÆ„ÓÓÃ/ 1 ... ·½Ïò‰ä¤¨¤ë¤À¤±
+// æ–¹å‘ã‚’ã‚µ`ãƒã«é€ã‚‹ã¨ãã®æ–‡å­—ã«ã™ã‚‹
+// mode : 0 ... ç§»ä½‘/ 1 ... æ–¹å‘æµƒÃ æ¯ªå¤
 char cnvServDir( int dir, int mode )
 {
 	char ret = 'f';
@@ -4294,8 +4294,8 @@ char cnvServDir( int dir, int mode )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥­¥ã¥é¡¢¥Ñ©`¥Ä¤Î±íÊ¾ƒÏÈí˜Î»›Q¶¨ÓÃ
-// ³õÆÚ»¯
+// ã‚­ãƒ£ãƒ©ã€ãƒ‘`ãƒ„ã®è¡¨ç¤ºå…ˆä½Qå®šç”¨
+// åˆæœŸåŒ–
 void initCharPartsPrio( void )
 {
 	charPrioCnt = 0;
@@ -4304,19 +4304,19 @@ void initCharPartsPrio( void )
 }
 
 
-// ¥Ş¥Ã¥×¥Ñ©`¥Ä¤ò¥Ğ¥Ã¥Õ¥¡¤Ë¤¿¤á¤ë
+// ãƒãƒƒãƒ—ãƒ‘`ãƒ„ã‚’ãƒãƒƒãƒ•ã‚¡ã«ãŸã‚ã‚‹
 void setPartsPrio( int graNo, int x, int y, int dx, int dy, float mx, float my )
 {
 	int i;
 	CHAR_PARTS_PRIORITY *ptc, *prePtc;
 	BOOL flag;
 
-	// ¥Ğ¥Ã¥Õ¥¡¤¬Ÿo¤¤¤Î¤Ç½K¤ï¤ë
+	// ãƒãƒƒãƒ•ã‚¡ãŒoã„ã®ã§Kã‚ã‚‹
 	if( charPrioCnt >= MAX_CHAR_PRIO_BUF )
 		return;
 
 
-	// ¥Ğ¥Ã¥Õ¥¡¤Ë¥Ñ¥é¥á©`¥¿¥»¥Ã¥È
+	// ãƒãƒƒãƒ•ã‚¡ã«ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚»ãƒƒãƒˆ
 	charPrioBuf[charPrioCnt].graNo = graNo;
 	charPrioBuf[charPrioCnt].x     = x;
 	charPrioBuf[charPrioCnt].y     = y;
@@ -4335,7 +4335,7 @@ void setPartsPrio( int graNo, int x, int y, int dx, int dy, float mx, float my )
 	}
 	else
 	{
-		// ¤Û¤«¤ËµÇåh¤µ¤ì¤¿¤é¥½©`¥È¤¹¤ë
+		// ã»ã‹ã«ç™»hã•ã‚ŒãŸã‚‰ã‚½`ãƒˆã™ã‚‹
 		flag = FALSE;
 		ptc = charPrioBufTop.next;
 		for( i = 0; i < charPrioCnt && ptc != NULL; i++, ptc = ptc->next )
@@ -4361,18 +4361,18 @@ void setPartsPrio( int graNo, int x, int y, int dx, int dy, float mx, float my )
 }
 
 
-// ¥­¥ã¥é¤ò¥Ğ¥Ã¥Õ¥¡¤Ë¤¿¤á¤ë
+// ã‚­ãƒ£ãƒ©ã‚’ãƒãƒƒãƒ•ã‚¡ã«ãŸã‚ã‚‹
 void setCharPrio( int graNo, int x, int y, int dx, int dy, float mx, float my )
 {
 	int i;
 	CHAR_PARTS_PRIORITY *ptc, *prePtc;
 	BOOL flag;
 
-	// ¥Ğ¥Ã¥Õ¥¡¤¬Ÿo¤¤¤Î¤Ç½K¤ï¤ë
+	// ãƒãƒƒãƒ•ã‚¡ãŒoã„ã®ã§Kã‚ã‚‹
 	if( charPrioCnt >= MAX_CHAR_PRIO_BUF )
 		return;
 
-	// ¥Ğ¥Ã¥Õ¥¡¤Ë¥Ñ¥é¥á©`¥¿¥»¥Ã¥È
+	// ãƒãƒƒãƒ•ã‚¡ã«ãƒ‘ãƒ©ãƒ¡`ã‚¿ã‚»ãƒƒãƒˆ
 	charPrioBuf[charPrioCnt].graNo = graNo;
 	charPrioBuf[charPrioCnt].x     = x;
 	charPrioBuf[charPrioCnt].y     = y;
@@ -4391,7 +4391,7 @@ void setCharPrio( int graNo, int x, int y, int dx, int dy, float mx, float my )
 	}
 	else
 	{
-		// ¤Û¤«¤ËµÇåh¤µ¤ì¤¿¤é¥½©`¥È¤¹¤ë
+		// ã»ã‹ã«ç™»hã•ã‚ŒãŸã‚‰ã‚½`ãƒˆã™ã‚‹
 		flag = FALSE;
 		ptc = charPrioBufTop.next;
 		for( i = 0; i < charPrioCnt && ptc != NULL; i++, ptc = ptc->next )
@@ -4414,28 +4414,28 @@ void setCharPrio( int graNo, int x, int y, int dx, int dy, float mx, float my )
 }
 
 
-// ¥Ñ©`¥Ä¤È¥­¥ã¥é¤ÎÃè»­ƒÏÈí˜Î»¥Á¥§¥Ã¥¯
-//   ‘ø¤ê‚£º¥Ñ©`¥Ä¤¬¥­¥ã¥é¤è¤êÊÖÇ°¤Ê¤é TRUE
+// ãƒ‘`ãƒ„ã¨ã‚­ãƒ£ãƒ©ã®æç”»å…ˆä½ãƒã‚§ãƒƒã‚¯
+//   äº¥é›ª`ãƒ„ãŒã‚­ãƒ£ãƒ©ã‚ˆã‚Šæ‰‹å‰ãªã‚‰ TRUE
 BOOL checkPrioPartsVsChar( CHAR_PARTS_PRIORITY *ptc, CHAR_PARTS_PRIORITY *ptp )
 {
 	short hit;
 	short prioType;
 	S2 w, h;
 
-	// Ãè»­ƒÏÈí˜Î»›Q¶¨¥¿¥¤¥×¤òÈ¡¤ê³ö¤¹
+	// æç”»å…ˆä½Qå®šã‚¿ã‚¤ãƒ—ã‚’å–ã‚Šå‡ºã™
 	realGetPrioType( ptp->graNo, &prioType );
 
-	// ¤¢¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+	// ã‚ãŸã‚Šåˆ¤å®šã®æœ‰o
 	realGetHitFlag( ptp->graNo, &hit );
 
-	// ši¤±¤ëÎïÌå¤Ç prioType == 3 ¤Ï¥¿¥¤¥ë’Q¤¤
+	// iã‘ã‚‹ç‰©ä½“ã§ prioType == 3 ã¯ã‚¿ã‚¤ãƒ«Qã„
 	if( hit != 0 && prioType == 3 )
 	{
 		return FALSE;
 	}
 
-	// ¥¿¥¤¥×£±
-	//  ½ñ¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤òÊ¹¤¨¤Ğ¤¤¤¤£¨¤³¤ì¤Ï±ØÒª¤Ê¤¤£©
+	// ã‚¿ã‚¤ãƒ—ï¼‘
+	//  ä»Šã¯ã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’ä½¿ãˆã°ã„ã„ï¼ˆã“ã‚Œã¯å¿…è¦ãªã„ï¼‰
 	if( prioType == 1 )
 	{
 		if( ptc->mx <= ptp->mx
@@ -4450,11 +4450,11 @@ BOOL checkPrioPartsVsChar( CHAR_PARTS_PRIORITY *ptc, CHAR_PARTS_PRIORITY *ptp )
 	}
 #if 0
 	else
-	// ¥¿¥¤¥×£²
-	//  ¥¿¥¤¥ë¤ÈÍ¬¤¸’Q¤¤¤Ë¤¹¤ë
+	// ã‚¿ã‚¤ãƒ—ï¼’
+	//  ã‚¿ã‚¤ãƒ«ã¨åŒã˜Qã„ã«ã™ã‚‹
 	if( prioType == 2 )
 	{
-		// ¹Å¤¤ÔO¶¨£¨¤â¤¦¤¤¤é¤Ê¤¤¤«¤â£©
+		// å¤ã„Oå®šï¼ˆã‚‚ã†ã„ã‚‰ãªã„ã‹ã‚‚ï¼‰
 		if( (ptc->mx <= ptp->mx && ptc->my >= ptp->my)
 		 || (ptc->mx < ptp->mx-GRID_SIZE || ptc->my > ptp->my+GRID_SIZE) )
 		{
@@ -4469,7 +4469,7 @@ BOOL checkPrioPartsVsChar( CHAR_PARTS_PRIORITY *ptc, CHAR_PARTS_PRIORITY *ptp )
 
 
 
-	// ¥Ç¥Õ¥©¥ë¥È¤Î¥×¥é¥¤¥ª¥ê¥Æ¥£©`
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£`
 #if 1
 	if( ptc->mx > ptp->mx && ptc->my < ptp->my )
 	{
@@ -4480,14 +4480,14 @@ BOOL checkPrioPartsVsChar( CHAR_PARTS_PRIORITY *ptc, CHAR_PARTS_PRIORITY *ptp )
 	realGetHitPoints( ptp->graNo, &w, &h );
 	if( ptc->x > ptp->x )
 	{
-		// PC¤¬½¨Îï¤ÎÓÒ‚È¤Ë¤¤¤ë
+		// PCãŒå»ºç‰©ã®å³è¶£æ‘”ã„
 		if( ptp->y-(w-1)*SURFACE_HEIGHT/2 <= ptc->y )
 			return FALSE;
 	}
 	else
 	if( ptc->x < ptp->x )
 	{
-		// PC¤¬½¨Îï¤Î×ó‚È¤Ë¤¤¤ë
+		// PCãŒå»ºç‰©ã®å·¦è¶£æ‘”ã„
 		if( ptp->y-(h-1)*SURFACE_HEIGHT/2 <= ptc->y )
 			return FALSE;
 	}
@@ -4501,13 +4501,13 @@ BOOL checkPrioPartsVsChar( CHAR_PARTS_PRIORITY *ptc, CHAR_PARTS_PRIORITY *ptp )
 	realGetHitPoints( ptp->graNo, &w, &h );
 	if( ptc->x >= ptp->x )
 	{
-		// PC¤¬½¨Îï¤ÎÓÒ‚È¤Ë¤¤¤ë
+		// PCãŒå»ºç‰©ã®å³è¶£æ‘”ã„
 		if( ptp->y-(w-1)*SURFACE_HEIGHT/2 < ptc->y )
 			return FALSE;
 	}
 	else
 	{
-		// PC¤¬½¨Îï¤Î×ó‚È¤Ë¤¤¤ë
+		// PCãŒå»ºç‰©ã®å·¦è¶£æ‘”ã„
 		if( ptp->y-(h-1)*SURFACE_HEIGHT/2 < ptc->y )
 			return FALSE;
 	}
@@ -4517,7 +4517,7 @@ BOOL checkPrioPartsVsChar( CHAR_PARTS_PRIORITY *ptc, CHAR_PARTS_PRIORITY *ptp )
 }
 
 
-// pt1¤ÎˆöËù¤Ëpt2¤ò’·Èë¤¹¤ë
+// pt1ã®éŠpt2ã‚’å•¡æ¯ªå·¥
 void insertCharPartsPrio( CHAR_PARTS_PRIORITY *pt1, CHAR_PARTS_PRIORITY *pt2 )
 {
 	if( pt1 == NULL || pt2 == NULL )
@@ -4531,7 +4531,7 @@ void insertCharPartsPrio( CHAR_PARTS_PRIORITY *pt1, CHAR_PARTS_PRIORITY *pt2 )
 }
 
 
-// pt1¤Îáá¤í¤Ëp2¤ò×·¼Ó¤¹¤ë
+// pt1ã®å¾Œã‚ã«p2ã‚’è¿½åŠ ã™ã‚‹
 void addCharPartsPrio( CHAR_PARTS_PRIORITY *pt1, CHAR_PARTS_PRIORITY *pt2 )
 {
 	if( pt1 == NULL || pt2 == NULL )
@@ -4548,13 +4548,13 @@ void addCharPartsPrio( CHAR_PARTS_PRIORITY *pt1, CHAR_PARTS_PRIORITY *pt2 )
 }
 
 
-// pt1¤òÏ÷³ı
+// pt1ã‚’å‰Šé™¤
 void delCharPartsPrio( CHAR_PARTS_PRIORITY *pt1 )
 {
 	if( pt1 == NULL )
 		return;
 
-	// ÏÈî^¤Î¥Ğ¥Ã¥Õ¥¡¤ÏÏ÷³ı¤Ç¤­¤Ê¤¤
+	// å…ˆ^ã®ãƒãƒƒãƒ•ã‚¡ã¯å‰Šé™¤ã§ããªã„
 	if( pt1->pre == NULL )
 		return;
 
@@ -4566,7 +4566,7 @@ void delCharPartsPrio( CHAR_PARTS_PRIORITY *pt1 )
 }
 
 
-// ¥½©`¥Èáá±íÊ¾¤¹¤ë
+// ã‚½`ãƒˆå¾Œè¡¨ç¤ºã™ã‚‹
 void stockCharParts( void )
 {
 	int i;
@@ -4581,7 +4581,7 @@ void stockCharParts( void )
 		StockDispBuffer2( pt->x + pt->dx, pt->y + pt->dy,
 			DISP_PRIO_PARTS, pt->graNo, 0 );
 #if 0
-		// ¥Ç¥Ğ¥Ã¥°ÓÃ
+		// ãƒ‡ãƒãƒƒã‚°ç”¨
 		if( pt->type == CHAR_PARTS_PRIO_TYPE_CHAR )
 			break;
 #endif
@@ -4591,16 +4591,16 @@ void stockCharParts( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥¤¥Ù¥ó¥È„IÀí
+// ã‚¤ãƒ™ãƒ³ãƒˆIç†
 //
 
-#if 0	// ¤³¤Î¥¤¥Ù¥ó¥È¤ÏÕÏº¦Îï¤È¤·¤Æ¤¢¤¿¤êÅĞ¶¨¤Ç¤¢¤Ä¤«¤¦
+#if 0	// ã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã¯éšœå®³ç‰©ã¨ã—ã¦ã‚ãŸã‚Šåˆ¤å®šã§ã‚ã¤ã‹ã†
 //
-// NPC¤Ë¤Ö¤Ä¤«¤Ã¤¿¤éÖ¹¤Ş¤ë¥¤¥Ù¥ó¥È
-// £¨¤³¤Î¥¤¥Ù¥ó¥È¤Ï¥×¥í¥È¥³¥ë¤òËÍ¤é¤Ê¤¤£©
+// NPCã«ã¶ã¤ã‹ã£ãŸã‚‰æ­¢ã¾ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆ
+// ï¼ˆã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã¯ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’é€ã‚‰ãªã„ï¼‰
 //
-//   ‘ø¤ê‚£ºTRUE  ... ¥¤¥Ù¥ó¥È°kÉú
-//           FALSE ... ºÎ¤âŸo¤·
+//   TRUE  ... ã‚¤ãƒ™ãƒ³ãƒˆkç”Ÿ
+//           FALSE ... ä½•ã‚‚oã—
 BOOL checkNpcEvent( int gx, int gy, int dx, int dy )
 {
 	int x, y;
@@ -4610,10 +4610,10 @@ BOOL checkNpcEvent( int gx, int gy, int dx, int dy )
 	y = gy - mapAreaY1;
 
 	ev = (event[(y+dy)*mapAreaWidth+(x+dx)] & 0x0fff);
-	// ÒÆ„ÓÏÈ¤ËNPC
+	// ç§»é…‰è¶£NPC
 	if( ev == EVENT_NPC )
 	{
-		// ÒÆ„Ó¤òÖ¹¤á¤ë
+		// ç§»å©´è›‘å·¥å¹›
 		resetMap();
 		return TRUE;
 	}
@@ -4626,7 +4626,7 @@ BOOL checkNpcEvent( int gx, int gy, int dx, int dy )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥ª©`¥È¥Ş¥Ã¥Ô¥ó¥°„IÀí
+// ã‚ª`ãƒˆãƒãƒƒãƒ”ãƒ³ã‚°Iç†
 //
 void drawAutoMap( int x, int y )
 {
@@ -4640,8 +4640,8 @@ void drawAutoMap( int x, int y )
 }
 
 
-// (gx,gy)¥°¥ê¥Ã¥É×ù˜Ë¤òÖĞĞÄ¤È¤·¤¿¥ª©`¥È¥Ş¥Ã¥×¥«¥é©`¤ò
-// autoMappingBuf¤Ë¸ñ¼{¤¹¤ë
+// (gx,gy)ã‚°ãƒªãƒƒãƒ‰åº§æ‘”è›‘è¡Œè†œè¶£ç­éª`ãƒˆãƒãƒƒãƒ—ã‚«ãƒ©`ã‚’
+// autoMappingBufã«æ ¼{ã™ã‚‹
 BOOL createAutoMap( int floor, int gx, int gy )
 {
 	FILE *fp;
@@ -4661,19 +4661,19 @@ BOOL createAutoMap( int floor, int gx, int gy )
 
 	memset( autoMappingBuf, 0, sizeof( autoMappingBuf ) );
 
-	// Õi¤ßŞz¤ß¥Õ¥¡¥¤¥ëÃû×÷³É
+	// iã¿zã¿ãƒ•ã‚¡ã‚¤ãƒ«åä½œæˆ
 	sprintf( filename, "map\\%d.dat", floor );
 
-	// ¥Õ¥¡¥¤¥ë¥ª©`¥×¥ó
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ª`ãƒ—ãƒ³
 	if( (fp = fopen( filename, "rb" ))==NULL )
 	{
-		// Ê§”¡¤¹¤ë¤Î¤Ï×î³õ¤Ç¥Ş¥Ã¥×¥Õ¥©¥ë¥À¤¬Ÿo¤¤¤«¤é
-		// ¤À¤«¤é¥Õ¥©¥ë¥À¤ò×÷¤ë
+		// å¤±ãƒ»å·¥æ¯ªéŸ¦çŒ®ç•›é…©é’è•™æ°“æŠ“æ¦¨â”æ¯³å¤oã„ã‹ã‚‰
+		// ã ã‹ã‚‰ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œã‚‹
 		_mkdir( "map" );
-		// Õi¤ßŞz¤ß¥Ç©`¥¿¤â×÷¤ë
+		// iã¿zã¿ãƒ‡`ã‚¿ã‚‚ä½œã‚‹
 		fp = fopen( filename, "wb" );
 		fclose( fp );
-		// Õi¤ßŞz¤ß¥â©`¥É¤Ç¤â¤¦Ò»¶È¥ª©`¥×¥ó
+		// iã¿zã¿ãƒ¢`ãƒ‰ã§ã‚‚ã†ä¸€åº¦ã‚ª`ãƒ—ãƒ³
 		if( (fp = fopen( filename, "rb" ))==NULL )
 			return FALSE;
 	}
@@ -4759,12 +4759,12 @@ BOOL createAutoMap( int floor, int gx, int gy )
 	fclose (fp);
 
 
-	// ¥¿¥¤¥ëÔO¶¨
+	// ã‚¿ã‚¤ãƒ«Oå®š
 	for( i = 0; i < AUTO_MAPPING_H; i++ )
 	{
 		for( j = 0; j < AUTO_MAPPING_W; j++ )
 		{
-			// ĞĞ¤Ã¤¿¤³¤È¤ÎŸo¤¤ˆöËù¤Ï¥ª©`¥È¥Ş¥Ã¥×¤Ë±íÊ¾¤·¤Ê¤¤
+			// è¡Œã£ãŸã“ã¨ã®oã„éŠè†`ãƒˆãƒãƒƒãƒ—ã«è¡¨ç¤ºã—ãªã„
 			if( event[i*AUTO_MAPPING_W+j] & MAP_SEE_FLAG )
 			{
 				autoMappingBuf[i][j] =
@@ -4772,12 +4772,12 @@ BOOL createAutoMap( int floor, int gx, int gy )
 			}
 		}
 	}
-	// ¥Ñ©`¥ÄÔO¶¨
+	// ãƒ‘`ãƒ„Oå®š
 	for( i = 0; i < AUTO_MAPPING_H; i++ )
 	{
 		for( j = 0; j < AUTO_MAPPING_W; j++ )
 		{
-			// ĞĞ¤Ã¤¿¤³¤È¤ÎŸo¤¤ˆöËù¤Ï¥ª©`¥È¥Ş¥Ã¥×¤Ë±íÊ¾¤·¤Ê¤¤
+			// è¡Œã£ãŸã“ã¨ã®oã„éŠè†`ãƒˆãƒãƒƒãƒ—ã«è¡¨ç¤ºã—ãªã„
 			if( event[i*AUTO_MAPPING_W+j] & MAP_SEE_FLAG )
 			{
 				index = autoMapColorTbl[parts[i*AUTO_MAPPING_W+j]];
@@ -4788,9 +4788,9 @@ BOOL createAutoMap( int floor, int gx, int gy )
 					int k, l;
 
 					realGetNo( parts[i*AUTO_MAPPING_W+j], &bmpNo );
-					// µ±¤¿¤êÅĞ¶¨¤ÎÓĞŸo
+					// å½“ãŸã‚Šåˆ¤å®šã®æœ‰o
 					realGetHitFlag( bmpNo, &hit );
-					// µ±¤¿¤êÅĞ¶¨¤¢¤ë¤Ê¤é¥Ğ¥Ã¥Õ¥¡¤ËÔO¶¨
+					// å½“ãŸã‚Šåˆ¤å®šã‚ã‚‹ãªã‚‰ãƒãƒƒãƒ•ã‚¡ã«Oå®š
 					if( hit == 0 )
 					{
 						realGetHitPoints( bmpNo, &hitX, &hitY );
@@ -4818,7 +4818,7 @@ BOOL createAutoMap( int floor, int gx, int gy )
 }
 
 
-// ši¤¤¤¿Ëù¤Î¥Õ¥é¥°¤òÕi¤ß¤³¤à
+// iã„ãŸæ‰€ã®ãƒ•ãƒ©ã‚°ã‚’iã¿ã“ã‚€
 void readAutoMapSeeFlag( void )
 {
 	FILE *fp;
@@ -4833,10 +4833,10 @@ void readAutoMapSeeFlag( void )
 	int x1, y1, x2, y2;
 
 
-	// Õi¤ßŞz¤ß¥Õ¥¡¥¤¥ëÃû×÷³É
+	// iã¿zã¿ãƒ•ã‚¡ã‚¤ãƒ«åä½œæˆ
 	sprintf( filename, "map\\%d.dat", nowFloor );
 
-	// ¥Õ¥¡¥¤¥ë¥ª©`¥×¥ó
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ª`ãƒ—ãƒ³
 	if( (fp = fopen( filename, "rb" ))==NULL )
 	{
 		return;
@@ -4897,7 +4897,7 @@ void readAutoMapSeeFlag( void )
 
 	fclose (fp);
 
-	// Í¨¤Ã¤¿Ëù¤Ë¥Õ¥é¥°¤òÁ¢¤Æ¤Æ¥ª©`¥È¥Ş¥Ã¥×¤Ë±íÊ¾¤µ¤ì¤ë¤è¤¦¤Ë¤¹¤ë
+	// é€šã£ãŸæ‰€ã«ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã¦ã‚ª`ãƒˆãƒãƒƒãƒ—ã«è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 	for( i = 0; i < AUTO_MAPPING_SEE_H; i++ )
 	{
 		for( j = 0; j < AUTO_MAPPING_SEE_W; j++ )
@@ -4914,7 +4914,7 @@ void readAutoMapSeeFlag( void )
 }
 
 
-// ši¤¤¤¿Ëù¤Î¥Õ¥é¥°¤ò•ø¤­Şz¤à
+// iã„ãŸæ‰€ã®ãƒ•ãƒ©ã‚°ã‚’zã‚€
 void writeAutoMapSeeFlag( void )
 {
 	FILE *fp;
@@ -4929,16 +4929,16 @@ void writeAutoMapSeeFlag( void )
 	int x1, y1, x2, y2;
 
 
-	// ¥Ç©`¥¿¤¬¥Ğ¥Ã¥Õ¥¡¤ËŸo¤¤¤Ê¤éºÎ¤â¤·¤Ê¤¤¡£
+	// ãƒ‡`ã‚¿ãŒãƒãƒƒãƒ•ã‚¡ã«oã„ãªã‚‰ä½•ã‚‚ã—ãªã„ã€‚
 	if( !autoMapSeeFlag )
 		return;
 
 	autoMapSeeFlag = FALSE;
 
-	// Õi¤ßŞz¤ß¥Õ¥¡¥¤¥ëÃû×÷³É
+	// iã¿zã¿ãƒ•ã‚¡ã‚¤ãƒ«åä½œæˆ
 	sprintf( filename, "map\\%d.dat", autoMapSeeFloor );
 
-	// ¥Õ¥¡¥¤¥ë¥ª©`¥×¥ó
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ª`ãƒ—ãƒ³
 	if( (fp = fopen( filename, "rb+" ))==NULL )
 	{
 		return;
@@ -5000,11 +5000,11 @@ void writeAutoMapSeeFlag( void )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×¥­¥ã¥Ã¥·¥å„IÀí
+// ãƒãƒƒãƒ—ã‚­ãƒ£ãƒƒã‚·ãƒ¥Iç†
 #ifdef MAP_CACHE_PROC
 
 
-// ³õÆÚ»¯
+// åˆæœŸåŒ–
 void initMapCache( void )
 {
 	int i;
@@ -5022,7 +5022,7 @@ void initMapCache( void )
 }
 
 
-// ÒÆ„ÓÏÈ¤Î¥Ş¥Ã¥×¤¬¥­¥ã¥Ã¥·¥å¤µ¤ì¤Æ¤¤¤ë¤«¥Á¥§¥Ã¥¯
+// ç§»é…‰è¶£è¿è•™æ°“é©»æ‚­æ°“ä¼æ¾¶ä¸¹æ¬·çš®ã„æ¯ªéš¶Ğ”æ°“
 BOOL checkMapCache( int gx, int gy, short *buf, int size, int floor, int gxSize, int gySize )
 {
 	#define MAP_CACHE_RANGE		14
@@ -5041,7 +5041,7 @@ BOOL checkMapCache( int gx, int gy, short *buf, int size, int floor, int gxSize,
 	int mask;
 
 
-	// ÒÆ„Ó¤Ë¤è¤Ã¤Æ±ØÒª¤Ë¤Ê¤ë¥Ş¥Ã¥×¤Î¹ ‡ì¤òÓ‹Ëã¤¹¤ë
+	// ç§»å©´æ‘”ç‘œç›²ç¥¨åŒ¾æ‘”èƒœæ¯³è•™æ°“é©»å–‚æ¬·è›´ç®—ã™ã‚‹
 	tbit = 0;
 	for( cnt = 0; cnt < size; cnt++ )
 	{
@@ -5116,7 +5116,7 @@ BOOL checkMapCache( int gx, int gy, short *buf, int size, int floor, int gxSize,
 		gy += dy;
 	}
 
-	// ¥Ş¥Ã¥×¤Î¹ ‡ì¤¬¥Ş¥Ã¥×ÄÚ¤Ë¤¢¤ë¤«¥Á¥§¥Ã¥¯
+	// ãƒãƒƒãƒ—ã®æ¬·è•™æ°“å•„å†¥æ‘”æ¯ªéš¶Ğ”æ°“
 	bit = 0;
 	for( i = 0, mask = 1; i < 2; i++, mask <<= 1 )
 	{
@@ -5143,7 +5143,7 @@ BOOL checkMapCache( int gx, int gy, short *buf, int size, int floor, int gxSize,
 }
 
 
-// ¥Õ¥é¥°¤Î¥¯¥ê¥¢
+// ãƒ•ãƒ©ã‚°ã®ã‚¯ãƒªã‚¢
 void clearMapCacheFlag( int no )
 {
 	if( no < 0 || MAX_MAP_CACHE_SIZE <= no )
@@ -5152,9 +5152,9 @@ void clearMapCacheFlag( int no )
 }
 
 
-// Ö¸¶¨Î»ÖÃ¤Î¥Õ¥é¥°¤ò¥Á¥§¥Ã¥¯¤¹¤ë
-//  ‘ø¤ê‚£ºTRUE  ... ¥­¥ã¥Ã¥·¥å¤Ë¤¢¤ë
-//			FALSE ... ¥­¥ã¥Ã¥·¥å¤Ë¤Ê¤¤
+// æŒ‡å®šä½ç½®ã®ãƒ•ãƒ©ã‚°ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+//  TRUE  ... ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ã‚ã‚‹
+//			FALSE ... ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ãªã„
 BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 	int x1, int y1, int x2, int y2 )
 {
@@ -5166,13 +5166,13 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 	BOOL ret = TRUE;
 	BOOL thisFloorCacheFlag = FALSE;
 
-	// Ö¸¶¨¤Î¥Õ¥í¥¢·¬ºÅ¤¬¤¢¤ë¤«Õ{¤Ù¤ë
+	// æŒ‡å®šã®ãƒ•ãƒ­ã‚¢ç•ªå·ãŒã‚ã‚‹ã‹{ã¹ã‚‹
 	j = mapCacheUse;
 	for( i = 0; i < MAX_MAP_CACHE_SIZE; i++ )
 	{
 		if( mapCacheFloorNo[j] == floor )
 		{
-			// ¥Õ¥í¥¢¤¬¤¢¤Ã¤¿
+			// ãƒ•ãƒ­ã‚¢ãŒã‚ã£ãŸ
 			mapCacheUse = j;
 			thisFloorCacheFlag = TRUE;
 			break;
@@ -5183,19 +5183,19 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 			j = 0;
 	}
 
-	// ¥­¥ã¥Ã¥·¥å¤ËŸo¤¤•r
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«oã„r
 	if( !thisFloorCacheFlag )
 	{
 		BOOL flag;
 		unsigned int tmpTime;
 
-		// ¥Ş¥Ã¥×¥µ¥¤¥º¤¬£±£°£°£ø£±£°£°Î´œº¤Ï¥­¥ã¥Ã¥·¥å¤·¤Ê¤¤
+		// ãƒãƒƒãƒ—ã‚µã‚¤ã‚ºãŒï¼‘ï¼ï¼ï½˜ï¼‘ï¼ï¼æœªæ°¦è†æ‚­æ°“ä¼æ¾¶ç­èƒœ
 		if( gxSize < 100 || gySize < 100 )
 		{
 			return FALSE;
 		}
 
-		// ¥­¥ã¥Ã¥·¥å¤¹¤ë¤Î¤Ç¿Õ¤¤¤Æ¤ë¤È¤³¤í¤òÌ½¤¹
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹ã®ã§ç©ºã„ã¦ã‚‹ã¨ã“ã‚ã‚’æ¢ã™
 		flag = FALSE;
 		for( i = 0; i < MAX_MAP_CACHE_SIZE; i++ )
 		{
@@ -5205,7 +5205,7 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 				break;
 			}
 		}
-		// ¿Õ¤­¤¬Ÿo¤¤¤Î¤ÇÒ»·¬¹Å¤¤¥­¥ã¥Ã¥·¥å¤òÏû¤¹
+		// ç©ºããŒoã„ã®ã§ä¸€ç•ªå¤ã„ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’æ¶ˆã™
 		if( !flag )
 		{
 			i = 0;
@@ -5220,7 +5220,7 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 			}
 		}
 
-		// ¥­¥ã¥Ã¥·¥åµÇåh
+		// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç™»h
 		mapCacheUse = i;
 		mapCacheFloorNo[i] = floor;
 		mapCacheFloorGxSize[i] = gxSize;
@@ -5229,7 +5229,7 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 		ret = FALSE;
 	}
 
-	// ¥­¥ã¥Ã¥·¥å¤Ø¤Î¥¢¥¯¥»¥¹•régµÇåh
+	// ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹rgç™»h
 	mapCacheLastTime[mapCacheUse] = GetTickCount();
 
 
@@ -5250,7 +5250,7 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 		y2 = mapCacheFloorGySize[mapCacheUse];
 	}
 
-	// ¥Ş¥Ã¥×¹ ‡ìÍâ
+	// ãƒãƒƒãƒ—ç„±
 	if( x1 > x2 || y1 > y2 )
 		return FALSE;
 
@@ -5276,7 +5276,7 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 		{
 			if( (mapCacheFlag[mapCacheUse][j*MAP_CACHE_X_BYTE+i] & bits) != bits )
 			{
-				// ¤Ş¤ÀÀ´¤¿¤³¤È¤ÎŸo¤¤Ëù¤À¤Ã¤¿¡£
+				// ã¾ã æ¥ãŸã“ã¨ã®oã„æ‰€ã ã£ãŸã€‚
 				ret = FALSE;
 			}
 			mapCacheFlag[mapCacheUse][j*MAP_CACHE_X_BYTE+i] |= bits;
@@ -5287,7 +5287,7 @@ BOOL checkMapCacheFlag( int floor, int gxSize, int gySize,
 }
 
 
-// ¥¤¥Ù¥ó¥ÈÇéˆóÄÚ¤ËEVENT_ALTERRATIVE¤¬¤¢¤ë•r¡¢TRUE¤ò·µ¤¹¡£
+// ã‚¤ãƒ™ãƒ³ãƒˆæƒ…ç«½å†¥EVENT_ALTERRATIVEãŒã‚ã‚‹rã€TRUEã‚’è¿”ã™ã€‚
 BOOL checkMapCacheEvent( int x1, int y1, int x2, int y2 )
 {
 	int x, y;
@@ -5297,8 +5297,8 @@ BOOL checkMapCacheEvent( int x1, int y1, int x2, int y2 )
 	if( x1 >= mapAreaX2 || x2 < 0
 	 || y1 >= mapAreaY2 || y2 < 0 )
 	{
-		// ¥Á¥§¥Ã¥¯¤¹¤ëˆöËù¤¬¹ ‡ìÍâ¤Ê¤é£Ô£Ò£Õ£Å¤ò·µ¤·¤Æ
-		// ¥µ©`¥Ğ¤Ë¥Á¥§¥Ã¥¯¥µ¥à¤òÒªÇó¤¹¤ë
+		// ãƒã‚§ãƒƒã‚¯ã™ã‚‹éŠç„±çŒ¡èƒœæ¤‹è£•é¥çœ¨æ‰­èšä¸¹ç­
+		// ã‚µ`ãƒã«ãƒã‚§ãƒƒã‚¯ã‚µãƒ ã‚’è¦æ±‚ã™ã‚‹
 		return TRUE;
 	}
 
@@ -5348,7 +5348,7 @@ BOOL checkMapCacheEvent( int x1, int y1, int x2, int y2 )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×¥¨¥Õ¥§¥¯¥È
+// ãƒãƒƒãƒ—ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 
 
 #define MAX_MAP_EFFECT_BUF	500
@@ -5373,7 +5373,7 @@ short mapEffectStarFlag = 0;
 short mapEffectFallingStarFlag = 0;
 int mapEffectFallingStarTime;
 
-// ¥Ş¥Ã¥×¥¨¥Õ¥§¥¯¥È¤Î³õÆÚ»¯
+// ãƒãƒƒãƒ—ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–
 void initMapEffect( void )
 {
 	int i;
@@ -5402,12 +5402,12 @@ void initMapEffect( void )
 }
 
 
-// ¥¨¥Õ¥§¥¯¥È¥Ğ¥Ã¥Õ¥¡¤òÈ¡µÃ¤·±íÊ¾ÔO¶¨¤ò¤¹¤ë
+// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒãƒƒãƒ•ã‚¡ã‚’å–å¾—ã—è¡¨ç¤ºOå®šã‚’ã™ã‚‹
 MAP_EFFECT *getMapEffectBuf( void )
 {
 	MAP_EFFECT *buf;
 
-	// ¥Ğ¥Ã¥Õ¥¡¤¬Ÿo¤¤¤Î¤ÇNULL¤ò·µ¤¹
+	// ãƒãƒƒãƒ•ã‚¡ãŒoã„ã®ã§NULLã‚’è¿”ã™
 	if( emptyBufMapEffect == (MAP_EFFECT *)NULL )
 		return (MAP_EFFECT *)NULL;
 
@@ -5430,7 +5430,7 @@ MAP_EFFECT *getMapEffectBuf( void )
 }
 
 
-// ¥¨¥Õ¥§¥¯¥È¥Ğ¥Ã¥Õ¥¡¤òé_·Å¤¹¤ë
+// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒãƒƒãƒ•ã‚¡ã‚’_æ”¾ã™ã‚‹
 void delMapEffectBuf( MAP_EFFECT *buf )
 {
 	if( buf == (MAP_EFFECT *)NULL )
@@ -5458,7 +5458,7 @@ void delMapEffectBuf( MAP_EFFECT *buf )
 }
 
 
-// ÒÆ„Ó¤Ë¤è¤ëÑaÕı
+// ç§»å©´æ‘”ç‘œèƒ™aæ­£
 void mapEffectDirHosei( int *x, int *y )
 {
 	if( mapEffectMoveDir < 0 )
@@ -5511,7 +5511,7 @@ void mapEffectDirHosei( int *x, int *y )
 
 
 
-// sprdisp.cppÄÚ¤ÎPutBmp()¤Çºô¤Ğ¤ì¤ë
+// sprdisp.cppå†…ã®PutBmp()ã§å‘¼ã°ã‚Œã‚‹
 void drawMapEffect( void )
 {
 	if( mapEffectDrawFlag )
@@ -5522,7 +5522,7 @@ void drawMapEffect( void )
 }
 
 
-// ¸÷¥¨¥Õ¥§¥¯¥È¤ÎÓ‹Ëã
+// å„ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ç®—
 void mapEffectProc( void )
 {
 	mapEffectRain();
@@ -5541,7 +5541,7 @@ void mapEffectProc2( int n )
 }
 
 
-// Óê¤Î¥¨¥Õ¥§¥¯¥È
+// é›¨ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 void mapEffectRain( void )
 {
 	short mapEffectRainWaitTime = 0;
@@ -5555,7 +5555,7 @@ void mapEffectRain( void )
 	int i;
 
 
-	// £³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+	// ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 	if( ResoMode == 1 )
 	{
 		ww /= 2;
@@ -5565,7 +5565,7 @@ void mapEffectRain( void )
 	}
 
 
-	// Óê°kÉú
+	// é›¨kç”Ÿ
 	if( mapEffectRainLevel )
 	{
 		if( mapEffectRainLevel < 3 )
@@ -5611,7 +5611,7 @@ void mapEffectRain( void )
 	}
 
 
-	// ÒÆ„Ó„IÀí
+	// ç§»Iç†
 	i = 0;
 	buf = useBufMapEffect;
 	while( buf != (MAP_EFFECT *)NULL )
@@ -5623,7 +5623,7 @@ void mapEffectRain( void )
 			mapEffectDirHosei( &buf->x, &buf->y );
 			if( ww <= buf->x || hh <= buf->y )
 			{
-				// ÒÆ„Ó½KÁË
+				// ç§»å’Käº†
 				MAP_EFFECT *buf2 = buf->next;
 				delMapEffectBuf( buf );
 				buf = buf2;
@@ -5646,7 +5646,7 @@ void mapEffectRain( void )
 }
 
 
-// Ñ©¤Î¥¨¥Õ¥§¥¯¥È
+// é›ªã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 void mapEffectSnow( void )
 {
 	short mapEffectSnowWaitTime = 0;
@@ -5660,7 +5660,7 @@ void mapEffectSnow( void )
 	int i, j;
 
 
-	// £³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+	// ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 	if( ResoMode == 1 )
 	{
 		ww /= 2;
@@ -5670,7 +5670,7 @@ void mapEffectSnow( void )
 	}
 
 
-	// Ñ©°kÉú
+	// é›ªkç”Ÿ
 	if( mapEffectSnowLevel )
 	{
 		if( mapEffectSnowLevel < 3 )
@@ -5736,7 +5736,7 @@ void mapEffectSnow( void )
 	}
 
 
-	// ÒÆ„Ó„IÀí
+	// ç§»Iç†
 	i = 0;
 	buf = useBufMapEffect;
 	while( buf != (MAP_EFFECT *)NULL )
@@ -5748,7 +5748,7 @@ void mapEffectSnow( void )
 			mapEffectDirHosei( &buf->x, &buf->y );
 			if( ww <= buf->x || hh <= buf->y )
 			{
-				// ÒÆ„Ó½KÁË
+				// ç§»å’Käº†
 				MAP_EFFECT *buf2 = buf->next;
 				delMapEffectBuf( buf );
 				buf = buf2;
@@ -5771,7 +5771,7 @@ void mapEffectSnow( void )
 }
 
 
-// ĞÇ¤Î¥¨¥Õ¥§¥¯¥È£¨µØÓòÏŞ¶¨£©
+// æ˜Ÿã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆï¼ˆåœ°åŸŸé™å®šï¼‰
 
 void setEffectStar( MAP_EFFECT *buf, int gx, int gy, int ggx, int ggy, int type )
 {
@@ -5790,11 +5790,11 @@ void calEffectStar( MAP_EFFECT *buf )
 {
 	float mx, my;
 
-	// »­Ãæ±íÊ¾Î»ÖÃ
+	// ç”»é¢è¡¨ç¤ºä½ç½®
 	camMapToGamen( (float)buf->gx*GRID_SIZE, (float)buf->gy*GRID_SIZE, &mx, &my );
 	buf->x = (int)mx + buf->ggx;
 	buf->y = (int)my + buf->ggy;
-	//£³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+	//ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 	if( ResoMode == 1 )
 	{
 		buf->x /= 2;
@@ -6085,24 +6085,24 @@ void mapEffectStar( void )
 			if( buf[i] )
 			{
 				calEffectStar( buf[i] );
-				// Öç¡«Ï¦£±
-				// Ò¹¡«³¯£³
+				// æ˜¼ï½å¤•ï¼‘
+				// å¤œï½æœï¼“
 				if( SaTime.hour < NOON_TO_EVENING+20
 				 || NIGHT_TO_MORNING+70 < SaTime.hour )
 				{
 					buf[i]->mode = 5;
 				}
 				else
-				// Öç¡«Ï¦£²
-				// Ò¹¡«³¯£²
+				// æ˜¼ï½å¤•ï¼’
+				// å¤œï½æœï¼’
 				if( (NOON_TO_EVENING+20 <= SaTime.hour && SaTime.hour < NOON_TO_EVENING+30)
 				 || NIGHT_TO_MORNING+60 < SaTime.hour )
 				{
 					buf[i]->mode = 6;
 				}
 				else
-				// Öç¡«Ï¦£³
-				// Ò¹¡«³¯£±
+				// æ˜¼ï½å¤•ï¼“
+				// å¤œï½æœï¼‘
 				if( (NOON_TO_EVENING+30 <= SaTime.hour && SaTime.hour < NOON_TO_EVENING+40)
 				 || NIGHT_TO_MORNING+40 < SaTime.hour )
 				{
@@ -6112,16 +6112,16 @@ void mapEffectStar( void )
 				{
 					if( buf[i]->type2 == 0 )
 					{
-						// Öç¡«Ï¦£ºÉÙ¤·ĞÇ¤¬´ó¤­¤¯¤Ê¤ë
-						// Ò¹¡«³¯£º¤µ¤é¤ËĞÇ¤¬Ğ¡¤µ¤¯¤Ê¤ë
+						// æ˜¼ï½å¤•ï¼šå°‘ã—æ˜ŸãŒå¤§ãããªã‚‹
+						// å¤œï½æœï¼šã•ã‚‰ã«æ˜ŸãŒå°ã•ããªã‚‹
 						if( SaTime.hour < NOON_TO_EVENING+50
 						 || NIGHT_TO_MORNING+30 < SaTime.hour )
 						{
 							buf[i]->mode = 4;
 						}
 						else
-						// Öç¡«Ï¦£º¤µ¤é¤ËĞÇ¤¬´ó¤­¤¯¤Ê¤ë
-						// Ò¹¡«³¯£ºÉÙ¤·ĞÇ¤¬Ğ¡¤µ¤¯¤Ê¤ë
+						// æ˜¼ï½å¤•ï¼šã•ã‚‰ã«æ˜ŸãŒå¤§ãããªã‚‹
+						// å¤œï½æœï¼šå°‘ã—æ˜ŸãŒå°ã•ããªã‚‹
 						if( SaTime.hour < NOON_TO_EVENING+80
 						 || NIGHT_TO_MORNING+20 < SaTime.hour )
 						{
@@ -6157,7 +6157,7 @@ void mapEffectStar( void )
 }
 
 
-// Á÷¤ìĞÇ¥¨¥Õ¥§¥¯¥È
+// æµã‚Œæ˜Ÿã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 void mapEffectFallingStar( void )
 {
 	static MAP_EFFECT *buf = NULL;
@@ -6222,7 +6222,7 @@ void mapEffectFallingStar( void )
 						buf->ey = 120;
 						break;
 				}
-				// ĞÇ¤Î·Nî
+				// æ˜Ÿã®N
 				if( (rand() % 10) < 6 )
 				{
 					buf->mode = 8;
@@ -6302,7 +6302,7 @@ void mapEffectFallingStar( void )
 						buf->ey = 80;
 						break;
 				}
-				// ĞÇ¤Î·Nî
+				// æ˜Ÿã®N
 				if( (rand() % 10) < 6 )
 				{
 					buf->mode = 8;
@@ -6347,7 +6347,7 @@ void mapEffectFallingStar( void )
 						buf->ey = 40;
 						break;
 				}
-				// ĞÇ¤Î·Nî
+				// æ˜Ÿã®N
 				if( (rand() % 10) < 6 )
 				{
 					buf->mode = 8;
@@ -6413,7 +6413,7 @@ void mapEffectFallingStar( void )
 						buf->ey = 120;
 						break;
 				}
-				// ĞÇ¤Î·Nî
+				// æ˜Ÿã®N
 				if( (rand() % 10) < 6 )
 				{
 					buf->mode = 8;
@@ -6447,7 +6447,7 @@ void mapEffectFallingStar( void )
 
 
 
-// Ñ©¤Î¥¨¥Õ¥§¥¯¥È
+// é›ªã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 void mapEffectSnow2( int n )
 {
 	short mapEffectSnowWaitTime = 0;
@@ -6461,7 +6461,7 @@ void mapEffectSnow2( int n )
 	int i, j, k;
 
 
-	// £³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+	// ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 	if( ResoMode == 1 )
 	{
 		ww /= 2;
@@ -6474,7 +6474,7 @@ void mapEffectSnow2( int n )
 	for( k = 0; k < n; k++ )
 	{
 
-	// Ñ©°kÉú
+	// é›ªkç”Ÿ
 	if( mapEffectSnowLevel )
 	{
 		if( mapEffectSnowLevel < 3 )
@@ -6540,7 +6540,7 @@ void mapEffectSnow2( int n )
 	}
 
 
-	// ÒÆ„Ó„IÀí
+	// ç§»Iç†
 	i = 0;
 	buf = useBufMapEffect;
 	while( buf != (MAP_EFFECT *)NULL )
@@ -6552,7 +6552,7 @@ void mapEffectSnow2( int n )
 			mapEffectDirHosei( &buf->x, &buf->y );
 			if( ww <= buf->x || hh <= buf->y )
 			{
-				// ÒÆ„Ó½KÁË
+				// ç§»å’Käº†
 				MAP_EFFECT *buf2 = buf->next;
 				delMapEffectBuf( buf );
 				buf = buf2;
@@ -6570,7 +6570,7 @@ void mapEffectSnow2( int n )
 }
 
 
-// Óê¤Î¥¨¥Õ¥§¥¯¥È
+// é›¨ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 void mapEffectRain2( int n )
 {
 	short mapEffectRainWaitTime = 0;
@@ -6584,7 +6584,7 @@ void mapEffectRain2( int n )
 	int i, k;
 
 
-	// £³£²£°£ª£²£´£°¥É¥Ã¥È¥â©`¥É¤Î•r
+	// ï¼“ï¼’ï¼ï¼Šï¼’ï¼”ï¼ãƒ‰ãƒƒãƒˆãƒ¢`ãƒ‰ã®r
 	if( ResoMode == 1 )
 	{
 		ww /= 2;
@@ -6596,7 +6596,7 @@ void mapEffectRain2( int n )
 	for( k = 0; k < n; k++ )
 	{
 
-	// Óê°kÉú
+	// é›¨kç”Ÿ
 	if( mapEffectRainLevel )
 	{
 		if( mapEffectRainLevel < 3 )
@@ -6642,7 +6642,7 @@ void mapEffectRain2( int n )
 	}
 
 
-	// ÒÆ„Ó„IÀí
+	// ç§»Iç†
 	i = 0;
 	buf = useBufMapEffect;
 	while( buf != (MAP_EFFECT *)NULL )
@@ -6654,7 +6654,7 @@ void mapEffectRain2( int n )
 			mapEffectDirHosei( &buf->x, &buf->y );
 			if( ww <= buf->x || hh <= buf->y )
 			{
-				// ÒÆ„Ó½KÁË
+				// ç§»å’Käº†
 				MAP_EFFECT *buf2 = buf->next;
 				delMapEffectBuf( buf );
 				buf = buf2;
@@ -6674,7 +6674,7 @@ void mapEffectRain2( int n )
 
 
 ///////////////////////////////////////////////////////////////////////////
-// ¥Ş¥Ã¥×¤Î×ù˜Ë£¨¥°¥ê¥Ã¥É¤Ç¤Ï¤Ê¤¤£©¤è¤ê»­Ãæ×ù˜Ë¤Ë¤¹¤ë¡£
+// ãƒãƒƒãƒ—ã®åº§è€Ä“å“è¾šæ°“å—“æ‰¦æ‚‰èƒœãƒâ”€ç‘œæ˜Šå­€æ‘”æ‘”å·¥æ¿
 //
 void camMapToGamen( float sx , float sy , float *ex , float *ey )
 {
@@ -6689,21 +6689,21 @@ void camMapToGamen( float sx , float sy , float *ex , float *ey )
 	x = + x0 * tx  +   y0 * tx ;
 	y = - x0 * ty  +   y0 * ty ;
 
-	//»­Ãæ×ù˜Ë
+	//ç”»é¢åº§
 	*ex = x + viewOffsetX;
 	*ey = y + viewOffsetY;
 }
 
 
 //
-// »­Ãæ×ù˜Ë¤è¤ê¥Ş¥Ã¥×¤Î×ù˜Ë(¥°¥ê¥Ã¥É¤Ç¤Ï¤Ê¤¤)¤Ë¤¹¤ë¡£
+// ç”»é¢åº§æ‘”ç‘œè¾šè•™æ°“é©»å·«(ã‚°ãƒªãƒƒãƒ‰ã§ã¯ãªã„)ã«ã™ã‚‹ã€‚
 //
 void camGamenToMap( float sx , float sy , float *ex , float *ey )
 {
 	float x0, y0;
 	float x, y;
 
-	// »­Ãæ×ù˜Ë
+	// ç”»é¢åº§
 	x0 = sx - viewOffsetX; 
 	y0 = sy - viewOffsetY; 
 

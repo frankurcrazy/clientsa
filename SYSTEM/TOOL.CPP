@@ -3,14 +3,14 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-/* WIN32_LEAN_AND_MEANËûdefine ±¾º¯Êı²»³£ÓÃµÄº¯Êı²»ÓÃ±àÒë  WINDOWS.H */
+/* WIN32_LEAN_AND_MEANä»–define æœ¬å‡½æ•°ä¸å¸¸ç”¨çš„å‡½æ•°ä¸ç”¨ç¼–è¯‘  WINDOWS.H */
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 
 #include "tool.h"
 
 
-//¤½¤ÎÎÄ×ÖÁĞ¤Î¥ï©`¥ÉÎ»ÖÃ¤Ş¤Ç¥İ¥¤¥ó¥¿¤ò¤º¤é¤¹ Ö¸Õë¼ì²â
+//ãã®æ–‡å­—åˆ—ã®ãƒ¯`ãƒ‰ä½ç½®ã¾ã§ãƒã‚¤ãƒ³ã‚¿ã‚’ãšã‚‰ã™ æŒ‡é’ˆæ£€æµ‹
 int wordchk( char **pp )
 {
 	char *p = *pp;
@@ -32,7 +32,7 @@ int wordchk( char **pp )
 	}
 	return 0;
 }
-//¤½¤ÎÎÄ×ÖÁĞ¤«¤é£±¥ï©`¥É·Ö¤È¤Ã¤Æ¸ü¤Ë¥İ¥¤¥ó¥¿¤òÒÆ„Ó  ÄÇ¸ö×Ö·û´®µ½1×Ö·ÖÀ´Ëµ¸üÖ¸ÕëÒÆ¶¯
+//ãã®æ–‡å­—åˆ—ã‹ã‚‰ï¼‘ãƒ¯`ãƒ‰åˆ†ã¨ã£ã¦æ›´ã«ãƒã‚¤ãƒ³ã‚¿ã‚’ç§»  é‚£ä¸ªå­—ç¬¦ä¸²åˆ°1å­—åˆ†æ¥è¯´æ›´æŒ‡é’ˆç§»åŠ¨
 int getword(char **pp , char *q)
 {
 	int i=0;
@@ -49,7 +49,7 @@ int getword(char **pp , char *q)
 	*pp = p;
 	return i;
 }
-//Ò»ĞĞ¥í©`¥É¥ë©`¥Á¥ó  ÊÍ·Å£¿
+//ä¸€è¡Œãƒ­`ãƒ‰ãƒ«`ãƒãƒ³  é‡Šæ”¾ï¼Ÿ
 void freadline( char *ptbuf , FILE *ptFile )
 {
 	char buf;
@@ -85,7 +85,7 @@ void freadline( char *ptbuf , FILE *ptFile )
 	}
 }
 
-//£ñÎÄ×ÖÁĞ¤ÈÍ¬¤¸¤Ê¤é¤½¤ÎÎÄ×ÖÊı¤ò·µ¤·¡¢£ğ¤ò„Ó¤«¤¹  qÎÄ×ÖÁĞÒ»ÑùµÄ»°ÄÇÎÄ×ÖÊıÁ¿£¬pÔË¶¯
+//ï½‘æ–‡å­—åˆ—ã¨åŒã˜ãªã‚‰ãã®æ–‡å­—æ•°ã‚’è¿”ã—ã€ï½ã‚’å©´  qæ–‡å­—åˆ—ä¸€æ ·çš„è¯é‚£æ–‡å­—æ•°é‡ï¼Œpè¿åŠ¨
 int strstr2( char **pp , char *q )
 {
 	char *p = *pp;
@@ -107,7 +107,7 @@ int strstr2( char **pp , char *q )
 }
 
 
-//¤½¤ÎÎÄ×ÖÁĞ¤«¤é£±¥ï©`¥É·Ö¤È¤Ã¤Æ¤½¤ì¤òÊı‚¤È¤·¤Æ·µ¤¹¡£
+//ãã®æ–‡å­—åˆ—ã‹ã‚‰ï¼‘ãƒ¯`ãƒ‰åˆ†ã¨ã£ã¦ãã‚Œã‚’æ•°è¶£ç­å“ä¸¹åŸ‚
 int strint2( char **pp )
 {
 	char moji[1000]="";
@@ -120,7 +120,7 @@ int strint2( char **pp )
 }
 
 
-//¤½¤ÎÎÄ×ÖÁĞ¤«¤é£±¥ï©`¥É·Ö¤È¤Ã¤Æ¤½¤ì¤òlongĞÍÊı‚¤È¤·¤Æ·µ¤¹¡£ ÄÇ¸ö×Ö·û´®µ½1×Ö·ÖÀ´Ëµ£¬ËüÒÑĞÍÊıÖµ×÷Îª»Ø±¨
+//ãã®æ–‡å­—åˆ—ã‹ã‚‰ï¼‘ãƒ¯`ãƒ‰åˆ†ã¨ã£ã¦ãã‚Œã‚’longå‹æ•°è¶£ç­å“ä¸¹åŸ‚ é‚£ä¸ªå­—ç¬¦ä¸²åˆ°1å­—åˆ†æ¥è¯´ï¼Œå®ƒå·²å‹æ•°å€¼ä½œä¸ºå›æŠ¥
 long strlong2( char **pp )
 {
 	char moji[1000]="";
@@ -135,17 +135,17 @@ long strlong2( char **pp )
 
 /* by nakamura */
 /*********************************************************************************
-  SJIS¤ÎÎÄ×ÖÁĞ¤òEUC¤Ë‰ä“Q¤¹¤ë¡£
-  buffer: SJIS¤ÎÎÄ×ÖÁĞ¡£¤³¤Î¥Ğ¥Ã¥Õ¥¡¤òÖ±½Ó•ø¤­“Q¤¨¤ë¤Î¤Ç¡¢ÎÄ×ÖÁĞ¶¨Êı¤Ø¤Î¥İ¥¤¥ó¥¿
-  ¤ò¤¤¤ì¤¿¤ê¤·¤Æ¤Ï¤¤¤±¤Ê¤¤¡£
-  SJISµÄ×Ö·û´®EUC×ª»»¡£buffer: SJISÎÄ×ÖÁĞ¡£Õâ¸ö»º³åÖ±½ÓÖØĞ´£¬
-  ËùÒÔ×Ö·û´®³£ÊıµÄÖ¸ÕëÈç¹û²»×¼¡£
+  SJISã®æ–‡å­—åˆ—ã‚’EUCã«Qã™ã‚‹ã€‚
+  buffer: SJISã®æ–‡å­—åˆ—ã€‚ã“ã®ãƒãƒƒãƒ•ã‚¡ã‚’ç›´æ¥Qãˆã‚‹ã®ã§ã€æ–‡å­—åˆ—å®šæ•°ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+  ã‚’ã„ã‚ŒãŸã‚Šã—ã¦ã¯ã„ã‘ãªã„ã€‚
+  SJISçš„å­—ç¬¦ä¸²EUCè½¬æ¢ã€‚buffer: SJISæ–‡å­—åˆ—ã€‚è¿™ä¸ªç¼“å†²ç›´æ¥é‡å†™ï¼Œ
+  æ‰€ä»¥å­—ç¬¦ä¸²å¸¸æ•°çš„æŒ‡é’ˆå¦‚æœä¸å‡†ã€‚
 **********************************************************************************/
 void sjisStringToEucString( char *buffer )
 {
 	int sjis2euc( unsigned char *sjis, unsigned char *euc );
 
-	/* ÎÒĞŞ¸Ä
+	/* æˆ‘ä¿®æ”¹
     char tmp[4];
 
     while( *buffer != '\0' ){
@@ -159,19 +159,19 @@ void sjisStringToEucString( char *buffer )
     }*/
 }
 /*****************************************************************************
-  SJIS¤Î1ÎÄ×Ö¤òEUC¤Ë‰ä“Q¤¹¤ë¡£
-  sjis: SJIS¤ÎÎÄ×Ö
-  euc:  EUC¤Ë‰ä“Q¤µ¤ì¤¿ÎÄ×Ö
-  ·µ¤ê‚£ºSJIS¤Ç¤Ê¤¤ÎÄ×Ö(ASCIIµÈ)¤¬¶É¤µ¤ì¤ë¤ÈFALSE,SJIS¤À¤Ã¤¿¤éTRUE.
+  SJISã®1æ–‡å­—ã‚’EUCã«Qã™ã‚‹ã€‚
+  sjis: SJISã®æ–‡å­—
+  euc:  EUCã«Qã•ã‚ŒãŸæ–‡å­—
+  è¿”ã‚ŠSJISã§ãªã„æ–‡å­—(ASCIIç­‰)ãŒæ¸¡ã•ã‚Œã‚‹ã¨FALSE,SJISã ã£ãŸã‚‰TRUE.
 
-  SJISÒ»ÎÄ×ÖEUC×ª»»¡£sjis: SJISµÄÎÄ×Öeuc: EUC±»×ª»»µÄÎÄ×Ö·µ»ØÖµ£º
-  ²»SJISÎÄ×Ö£¨ASCIIµÈ£©½»¸¶µÄFALSE£¬SJISµÄ»°TRUE.
+  SJISä¸€æ–‡å­—EUCè½¬æ¢ã€‚sjis: SJISçš„æ–‡å­—euc: EUCè¢«è½¬æ¢çš„æ–‡å­—è¿”å›å€¼ï¼š
+  ä¸SJISæ–‡å­—ï¼ˆASCIIç­‰ï¼‰äº¤ä»˜çš„FALSEï¼ŒSJISçš„è¯TRUE.
 *****************************************************************************/
 int sjis2euc( unsigned char *sjis, unsigned char *euc )
 {
     int word;
     if( !( (0x81<=sjis[0]&&sjis[0]<=0x9f)||(0xc0<=sjis[0]) ) )	return	FALSE;
- // sjis ¤Ç¤Ï¤Ê¤«¤Ã¤¿ ÄÇÃ´Ã»
+ // sjis ã§ã¯ãªã‹ã£ãŸ é‚£ä¹ˆæ²¡
 
     word = sjis[0];
     if( word>=0xa0 )	word-= 0x40;
@@ -192,16 +192,16 @@ int sjis2euc( unsigned char *sjis, unsigned char *euc )
 
 
 /*********************************************************************************
-  EUC¤ÎÎÄ×ÖÁĞ¤òSJIS¤Ë‰ä“Q¤¹¤ë¡£
-  buffer: EUC¤ÎÎÄ×ÖÁĞ¡£¤³¤Î¥Ğ¥Ã¥Õ¥¡¤òÖ±½Ó•ø¤­“Q¤¨¤ë¤Î¤Ç¡¢ÎÄ×ÖÁĞ¶¨Êı¤ò¤¤¤ì¤¿¤ê
-  ¤·¤Æ¤Ï¤¤¤±¤Ê¤¤¡£  EUCµÄ×Ö·û´®SJIS×ª»»¡£buffer: EUCÎÄ×ÖÁĞ¡£Õâ¸ö»º³åÖ±½ÓÖØĞ´£¬ËùÒÔ¿ÉÒÔ×Ö·û´®³£Êı²»¿É¡£
+  EUCã®æ–‡å­—åˆ—ã‚’SJISã«Qã™ã‚‹ã€‚
+  buffer: EUCã®æ–‡å­—åˆ—ã€‚ã“ã®ãƒãƒƒãƒ•ã‚¡ã‚’ç›´æ¥Qãˆã‚‹ã®ã§ã€æ–‡å­—åˆ—å®šæ•°ã‚’ã„ã‚ŒãŸã‚Š
+  ã—ã¦ã¯ã„ã‘ãªã„ã€‚  EUCçš„å­—ç¬¦ä¸²SJISè½¬æ¢ã€‚buffer: EUCæ–‡å­—åˆ—ã€‚è¿™ä¸ªç¼“å†²ç›´æ¥é‡å†™ï¼Œæ‰€ä»¥å¯ä»¥å­—ç¬¦ä¸²å¸¸æ•°ä¸å¯ã€‚
 **********************************************************************************/
 void eucStringToSjisString( char *buffer )
 {
 	/*
 	int euc2sjis( unsigned char *c);
 
-	//ÎÒÈ¥µô ×Ö·û´®¼ÓÃÜµ¼ÖÂºº×Ó ÂÒÂë
+	//æˆ‘å»æ‰ å­—ç¬¦ä¸²åŠ å¯†å¯¼è‡´æ±‰å­ ä¹±ç 
 	
     while( *buffer != '\0' )
 	{
@@ -216,17 +216,17 @@ void eucStringToSjisString( char *buffer )
     }*/
 }
 /*****************************************************************************
-  EUC¤Î1ÎÄ×Ö¤òSJIS¤Ë‰ä“Q¤¹¤ë¡£
-  euc: EUC¤ÎÎÄ×Ö
-  sjis:  SJIS¤Ë‰ä“Q¤µ¤ì¤¿ÎÄ×Ö
-  ·µ¤ê‚£ºEUC¤Ç¤Ê¤¤ÎÄ×Ö(ASCIIµÈ)¤¬¶É¤µ¤ì¤ë¤ÈFALSE,EUC¤À¤Ã¤¿¤éTRUE.
+  EUCã®1æ–‡å­—ã‚’SJISã«Qã™ã‚‹ã€‚
+  euc: EUCã®æ–‡å­—
+  sjis:  SJISã«Qã•ã‚ŒãŸæ–‡å­—
+  è¿”ã‚ŠEUCã§ãªã„æ–‡å­—(ASCIIç­‰)ãŒæ¸¡ã•ã‚Œã‚‹ã¨FALSE,EUCã ã£ãŸã‚‰TRUE.
 
-  EUCÒ»ÎÄ×ÖSJIS×ª»»¡£euc: EUCµÄÎÄ×Ösjis: SJIS±»×ª»»µÄÎÄ×Ö·µ»ØÖµ£º
-  ²»EUCÎÄ×Ö£¨ASCIIµÈ£©½»¸¶µÄFALSE£¬EUCµÄ»°TRUE
+  EUCä¸€æ–‡å­—SJISè½¬æ¢ã€‚euc: EUCçš„æ–‡å­—sjis: SJISè¢«è½¬æ¢çš„æ–‡å­—è¿”å›å€¼ï¼š
+  ä¸EUCæ–‡å­—ï¼ˆASCIIç­‰ï¼‰äº¤ä»˜çš„FALSEï¼ŒEUCçš„è¯TRUE
 *****************************************************************************/
 int euc2sjis( unsigned char *c)
 {
-  if( !(c[0]&0x80) )    return FALSE; // euc¤Ç¤Ï¤Ê¤«¤Ã¤¿  eucÁË
+  if( !(c[0]&0x80) )    return FALSE; // eucã§ã¯ãªã‹ã£ãŸ  eucäº†
   c[1] -= (c[0] & 1) == 0 ? 2 : (c[1] < 0xe0 ? 0x61 : 0x60);
   c[0]  = (c[0] < 0xdf ? c[0] + 0x61 : c[0] + 0xe1) >> 1;
   return TRUE;
@@ -236,18 +236,18 @@ int euc2sjis( unsigned char *c)
 
 
 /*
-   ¤ª¤ª¤­¤¤ÎÄ×ÖÁĞ¤«¤é¥È©`¥¯¥ó¤ò¤È¤ê¤À¤¹¡£¤½¤Î¤È¤­¤ËÖ¸¶¨¤·¤¿¥Ç¥ê¥ß¥¿£¨£±ÎÄ×Ö£©¤ò
-   ¤Ä¤«¤¦¤³¤È¤¬¤Ç¤­¤ë¡£
+   ãŠãŠãã„æ–‡å­—åˆ—ã‹ã‚‰ãƒˆ`ã‚¯ãƒ³ã‚’ã¨ã‚Šã ã™ã€‚ãã®ã¨ãã«æŒ‡å®šã—ãŸãƒ‡ãƒªãƒŸã‚¿ï¼ˆï¼‘æ–‡å­—ï¼‰ã‚’
+   ã¤ã‹ã†ã“ã¨ãŒã§ãã‚‹ã€‚
 
-  char *src : ¤â¤È¤ÎÎÄ×ÖÁĞ
-  char delim : ¤Ç¤ê¤ß¤¿
-  int count : ¤Ê¤ó¤³¤á¤«¡££±¤Ê¤é×î³õ¤Î¤È©`¤¯¤ó
-  int maxlen : out ¤Ë¤È¤ê¤À¤¹×î´óÎÄ×ÖÁĞ¤Ê¤¬¤µ
-  char *out : ³öÁ¦
+  char *src : ã‚‚ã¨ã®æ–‡å­—åˆ—
+  char delim : ã§ã‚Šã¿ãŸ
+  int count : ãªã‚“ã“ã‚ã‹ã€‚ï¼‘ãªã‚‰æœ€åˆã®ã¨`ãã‚“
+  int maxlen : out ã«ã¨ã‚Šã ã™æœ€å¤§æ–‡å­—åˆ—ãªãŒã•
+  char *out : å‡ºåŠ›
 
 
-  ‘ø¤ê‚  0£º¥Ç¥ê¥ß¥¿¤Ç½K¤ï¤Ã¤¿
-          1:ÎÄ×ÖÁĞ½K¶Ë¤Ç½K¤ï¤Ã¤¿
+    0ï¼šãƒ‡ãƒªãƒŸã‚¿ã§Kã‚ã£ãŸ
+          1:æ–‡å­—åˆ—Kç«¯ã§Kã‚ã£ãŸ
 */
 static int copyStringUntilDelim( char *src , char delim , int maxlen , char *out );
 int getStringToken( char *src , char delim , int count , int maxlen , char *out )
@@ -270,20 +270,20 @@ int getStringToken( char *src , char delim , int count , int maxlen , char *out 
     }
 }
 /*
-  ÎÄ×ÖÁĞ¤«¤éÎÄ×ÖÁĞ¤Ø¡¢ÎÄ×ÖÁĞ¤¬¤ª¤ï¤ë¤«¥Ç¥ê¥ß¥¿¤¬¤¯¤ë¤Ş¤Ç¤³¤Ô©`¤¹¤ë
+  æ–‡å­—åˆ—ã‹ã‚‰æ–‡å­—åˆ—ã¸ã€æ–‡å­—åˆ—ãŒãŠã‚ã‚‹ã‹ãƒ‡ãƒªãƒŸã‚¿ãŒãã‚‹ã¾ã§ã“ã´`ã™ã‚‹
 
-  char *src : Ôª¤ÎÎÄ×ÖÁĞ
-  char delim : ¥Ç¥ê¥ß¥¿
-  int maxlen : ×î´ó¥³¥Ô©`¤Ê¤¬¤µ
-  char *out : ³öÁ¦
+  char *src : å…ƒã®æ–‡å­—åˆ—
+  char delim : ãƒ‡ãƒªãƒŸã‚¿
+  int maxlen : æœ€å¤§ã‚³ãƒ”`ãªãŒã•
+  char *out : å‡ºåŠ›
 
-  ‘ø¤ê‚  0£º¥Ç¥ê¥ß¥¿¤Ç½K¤ï¤Ã¤¿
-          1:ÎÄ×ÖÁĞ½K¶Ë¤Ç½K¤ï¤Ã¤¿
+    0ï¼šãƒ‡ãƒªãƒŸã‚¿ã§Kã‚ã£ãŸ
+          1:æ–‡å­—åˆ—Kç«¯ã§Kã‚ã£ãŸ
 
-  ÎÄ×ÖÁĞÎÄ×ÖÁĞ£¬×Ö·û´®½áÊøÂğ¶¨½ç·ûÀ´µ½PµÄ
-  char * src:ÔªµÄÎÄ×ÖÁĞchar delim:¶¨½ç·ûint 
-  maxlen:×î´óµÄ¤¬¤µ¸´ÖÆchar * out:Êä³ö·µ»ØÖµ0 :
-  ¶¨½ç·û¾Í½áÊøÁËÒ»:×Ö·û´®ÖÕÖ¹½áÊøÁË
+  æ–‡å­—åˆ—æ–‡å­—åˆ—ï¼Œå­—ç¬¦ä¸²ç»“æŸå—å®šç•Œç¬¦æ¥åˆ°Pçš„
+  char * src:å…ƒçš„æ–‡å­—åˆ—char delim:å®šç•Œç¬¦int 
+  maxlen:æœ€å¤§çš„ãŒã•å¤åˆ¶char * out:è¾“å‡ºè¿”å›å€¼0 :
+  å®šç•Œç¬¦å°±ç»“æŸäº†ä¸€:å­—ç¬¦ä¸²ç»ˆæ­¢ç»“æŸäº†
 */
 static int copyStringUntilDelim( char *src , char delim , int maxlen , char *out )
 {
@@ -299,15 +299,15 @@ static int copyStringUntilDelim( char *src , char delim , int maxlen , char *out
 	return 1;
 }
 /*
-  ÕûÊı¤Î¥È©`¥¯¥ó¤òint‚¤Ç¤È¤ê¤À¤¹¡£
+  æ•´æ•°ã®ãƒˆ`ã‚¯ãƒ³ã‚’intæ‰¦è¶£è¾˜å¤åŸ‚
 
-  char *src : ¤â¤È¤ÎÎÄ×ÖÁĞ
-  char delim: ¥Ç¥ê¥ß¥¿¤Ë¤Ê¤ëÎÄ×ÖÁĞ
-  int count :ºÎ‚€Ä¿¤Î¥È©`¥¯¥ó¤« £±¤Ê¤é×î³õ¤Î¤È©`¤¯¤ó
+  char *src : ã‚‚ã¨ã®æ–‡å­—åˆ—
+  char delim: ãƒ‡ãƒªãƒŸã‚¿ã«ãªã‚‹æ–‡å­—åˆ—
+  int count :ä½•ç›®ã®ãƒˆ`ã‚¯ãƒ³ã‹ ï¼‘ãªã‚‰æœ€åˆã®ã¨`ãã‚“
 
-  return value : ‚
-  ÕûÊıµÄÑÜÉúÎïÎªintÖµÀÌ³ö¡£char * src:Ô­À´µÄÎÄ×ÖÁĞ
-  char delim:¶¨½ç·ûµÄ×Ö·û´®int count:Ê²Ã´¸öÑÛµÄ´ú±Ò1»°×î³õµÄºÍ°¢return value:Öµ
+  return value : 
+  æ•´æ•°çš„è¡ç”Ÿç‰©ä¸ºintå€¼æå‡ºã€‚char * src:åŸæ¥çš„æ–‡å­—åˆ—
+  char delim:å®šç•Œç¬¦çš„å­—ç¬¦ä¸²int count:ä»€ä¹ˆä¸ªçœ¼çš„ä»£å¸1è¯æœ€åˆçš„å’Œé˜¿return value:å€¼
 
 */
 int getIntegerToken( char *src , char delim , int count )
@@ -318,12 +318,12 @@ int getIntegerToken( char *src , char delim , int count )
     return atoi( s );
 }
 /*
-  double¤Î¥È©`¥¯¥ó¤ò¤È¤ê¤À¤¹¡£
-  char *src : ¤â¤È¤ÎÎÄ×ÖÁĞ
-  char delim: ¥Ç¥ê¥ß¥¿¤Ë¤Ê¤ëÎÄ×ÖÁĞ
-  int count :ºÎ‚€Ä¿¤Î¥È©`¥¯¥ó¤« £±¤Ê¤é×î³õ¤Î¤È©`¤¯¤ó
+  doubleã®ãƒˆ`ã‚¯ãƒ³ã‚’ã¨ã‚Šã ã™ã€‚
+  char *src : ã‚‚ã¨ã®æ–‡å­—åˆ—
+  char delim: ãƒ‡ãƒªãƒŸã‚¿ã«ãªã‚‹æ–‡å­—åˆ—
+  int count :ä½•ç›®ã®ãƒˆ`ã‚¯ãƒ³ã‹ ï¼‘ãªã‚‰æœ€åˆã®ã¨`ãã‚“
 
-  return value: ‚
+  return value: 
 
 */
 double getDoubleToken( char *src , char delim , int count )
@@ -336,9 +336,9 @@ double getDoubleToken( char *src , char delim , int count )
 }
 
 /*
-        chop¤¹¤ë(UNIXĞÎÊ½¤ÎÎÄ×ÖÁĞ)
+        chopã™ã‚‹(UNIXå½¢å¼ã®æ–‡å­—åˆ—)
 
-  char *src : Ôª¤ÎÎÄ×ÖÁĞ¡£  ¤³¤Î¥Ğ¥Ã¥Õ¥¡¤òÖ±½Ó¾¼¯¤¹¤ë¤«¤é×¢Òâ¡£
+  char *src : å…ƒã®æ–‡å­—åˆ—ã€‚  ã“ã®ãƒãƒƒãƒ•ã‚¡ã‚’ç›´æ¥å·¥æ¯ªæ¨½â’ç‹»
 
 */
 void chop( char *src )
@@ -354,16 +354,16 @@ void chop( char *src )
 
 
 /*
-int¤ÎÅäÁĞ¤ò¥·¥Õ¥È¤¹¤ë¤Î¤À
+intã®é…åˆ—ã‚’ã‚·ãƒ•ãƒˆã™ã‚‹ã®ã 
 
-  int *a : ÅäÁĞ¤Î¥¢¥É¥ì¥¹
-  int siz :¡¡ÅäÁĞ¤Î¥µ¥¤¥º
-  int count : ¤¤¤¯¤Ä¤Ö¤ó¥·¥Õ¥È¤¹¤ë¤«
-¡¡ÅäÁĞ¤Î×îáá¤Ë¤Ï£°¤ò¤¦¤á¤ë¤¾
+  int *a : é…åˆ—ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+  int siz :ã€€é…åˆ—ã®ã‚µã‚¤ã‚º
+  int count : ã„ãã¤ã¶ã‚“ã‚·ãƒ•ãƒˆã™ã‚‹ã‹
+ã€€é…åˆ—ã®æœ€å¾Œã«ã¯ï¼ã‚’ã†ã‚ã‚‹ã
 
 
-  intÅÅÁĞ×ªÒÆµÄ¡£int * a:ÅÅÁĞµÄµØÖ·int siz:ÅÅÁĞµÄ³ß´ç
-  int count:¼¸¸ö·Ö×Ó×ªÒÆÂğÅÅÁĞµÄ×îºó0Ìî²¹ÁË
+  intæ’åˆ—è½¬ç§»çš„ã€‚int * a:æ’åˆ—çš„åœ°å€int siz:æ’åˆ—çš„å°ºå¯¸
+  int count:å‡ ä¸ªåˆ†å­è½¬ç§»å—æ’åˆ—çš„æœ€å0å¡«è¡¥äº†
 
 */
 void shiftIntArray( int *a , int siz , int count )
@@ -378,8 +378,8 @@ void shiftIntArray( int *a , int siz , int count )
 }
 
 
-// 62ßMÎÄ×ÖÁĞ¤òint¤Ë‰ä“Q¤¹¤ë
-//62½øÎÄ×ÖÁĞint×ª»»
+// 62Mæ–‡å­—åˆ—ã‚’intã«Qã™ã‚‹
+//62è¿›æ–‡å­—åˆ—intè½¬æ¢
 // 0-9,a-z(10-35),A-Z(36-61)
 int a62toi( char *a )
 {
@@ -409,17 +409,17 @@ int a62toi( char *a )
 
 
 /*
-  ÕûÊı¤Î¥È©`¥¯¥ó¤òint‚¤Ç¤È¤ê¤À¤¹¡£
+  æ•´æ•°ã®ãƒˆ`ã‚¯ãƒ³ã‚’intæ‰¦è¶£è¾˜å¤åŸ‚
 
-  char *src : ¤â¤È¤ÎÎÄ×ÖÁĞ
-  char delim: ¥Ç¥ê¥ß¥¿¤Ë¤Ê¤ëÎÄ×ÖÁĞ
-  int count :ºÎ‚€Ä¿¤Î¥È©`¥¯¥ó¤« £±¤Ê¤é×î³õ¤Î¤È©`¤¯¤ó
+  char *src : ã‚‚ã¨ã®æ–‡å­—åˆ—
+  char delim: ãƒ‡ãƒªãƒŸã‚¿ã«ãªã‚‹æ–‡å­—åˆ—
+  int count :ä½•ç›®ã®ãƒˆ`ã‚¯ãƒ³ã‹ ï¼‘ãªã‚‰æœ€åˆã®ã¨`ãã‚“
 
-  return value : ‚
+  return value : 
 
-  ÕûÊıµÄÑÜÉúÎïÎªintÖµÀÌ³ö¡£char * src:Ô­À´µÄÎÄ×ÖÁĞ
-  char delim:¶¨½ç·ûµÄ×Ö·û´®
-  int count:Ê²Ã´¸öÑÛµÄ´ú±Ò1»°×î³õµÄºÍ°¢return value:Öµ
+  æ•´æ•°çš„è¡ç”Ÿç‰©ä¸ºintå€¼æå‡ºã€‚char * src:åŸæ¥çš„æ–‡å­—åˆ—
+  char delim:å®šç•Œç¬¦çš„å­—ç¬¦ä¸²
+  int count:ä»€ä¹ˆä¸ªçœ¼çš„ä»£å¸1è¯æœ€åˆçš„å’Œé˜¿return value:å€¼
 
 */
 int getInteger62Token( char *src, char delim, int count )
@@ -434,7 +434,7 @@ int getInteger62Token( char *src, char delim, int count )
 
 
 #if 0
-//fpsÓ‹Ëã
+//fpsç®—
 int GetFps(void)
 {
 	static int counter[2];
@@ -453,21 +453,21 @@ int GetFps(void)
 
 
 /*
-  Ğ¡ÎÄ×Ö¡¢´óÎÄ×Ö¤Ëév‚S¤Ê¤¯ÎÄ×ÖÁĞ¤ò±Èİ^¤¹¤ë¡£
+  å°æ–‡å­—ã€å¤§æ–‡å­—ã«vSãªãæ–‡å­—åˆ—ã‚’æ¯”^ã™ã‚‹ã€‚
 
-  char *s1 : ÎÄ×ÖÁĞ£±
-  char *s2 : ÎÄ×ÖÁĞ£²
-  int len : ×î´ó±Èİ^ÎÄ×ÖÊı¡£
+  char *s1 : æ–‡å­—åˆ—ï¼‘
+  char *s2 : æ–‡å­—åˆ—ï¼’
+  int len : æœ€å¤§æ¯”^æ–‡å­—æ•°ã€‚
 
 
 
-  Ğ¡Ğ´×ÖÄ¸´óĞ´£¬¹ØÏµ±È½ÏÎÄ×ÖÁĞµÄ¡£char * s1:×Ö·û´®1char * s2:×Ö·û´®2int len:×î´ó±È½ÏÎÄ×ÖÊı¡£
+  å°å†™å­—æ¯å¤§å†™ï¼Œå…³ç³»æ¯”è¾ƒæ–‡å­—åˆ—çš„ã€‚char * s1:å­—ç¬¦ä¸²1char * s2:å­—ç¬¦ä¸²2int len:æœ€å¤§æ¯”è¾ƒæ–‡å­—æ•°ã€‚
 */
 int strncmpi( char *s1 , char *s2 , int len )
 {
 	for(int i=0;i<len;i++){
 		if( s1[i] == '\0' || s2[i] == '\0' ) return 0;
-		int c1 = tolower( s1[i] );  //°Ñ×Ö·û×ª»»³ÉĞ¡Ğ´×ÖÄ¸,·Ç×ÖÄ¸×Ö·û²»×ö³ö´¦Àí
+		int c1 = tolower( s1[i] );  //æŠŠå­—ç¬¦è½¬æ¢æˆå°å†™å­—æ¯,éå­—æ¯å­—ç¬¦ä¸åšå‡ºå¤„ç†
 		int c2 = tolower( s2[i] );
 		if( c1 != c2 )return 1;
 	}
@@ -482,9 +482,9 @@ RECT intToRect( int left, int top, int right, int bottom )
 }
 
 /*****************************************************************
-  ¥¹¥Ú©`¥¹¤À¤±¤ÎÎÄ×ÖÁĞ¤À¤Ã¤¿¤é1¡¢Ëû¤ÎÎÄ×Ö¤òº¬¤ó¤Ç¤¤¤¿¤é
-  0¤ò·µ¤¹¡£SJISÓÃ¡£
-  ¿Õ¼ä¹âµÄÎÄ×ÖÁĞµÄ»°1£¬ÆäËûÎÄ×Öº¬ÓĞµÄ»°0»Ø±¨¡£SJISÓÃ¡£
+  ã‚¹ãƒš`ã‚¹ã ã‘ã®æ–‡å­—åˆ—ã ã£ãŸã‚‰1ã€ä»–ã®æ–‡å­—ã‚’å«ã‚“ã§ã„ãŸã‚‰
+  0ã‚’è¿”ã™ã€‚SJISç”¨ã€‚
+  ç©ºé—´å…‰çš„æ–‡å­—åˆ—çš„è¯1ï¼Œå…¶ä»–æ–‡å­—å«æœ‰çš„è¯0å›æŠ¥ã€‚SJISç”¨ã€‚
 ******************************************************************/
 int isOnlySpaceChars( char *data )
 {
@@ -513,12 +513,12 @@ int isOnlySpaceChars( char *data )
 
 
 /****************************
-  ÎÄ×ÖÁĞ¤ò¥Ğ¥Ã¥Õ¥¡¤Ë’·Èë¤¹¤ë¡£
-  buffer: ¥Ğ¥Ã¥Õ¥¡
-  string: ’·Èë¤¹¤ëÎÄ×ÖÁĞ
-  whereToinsert: ¤É¤³¤Ë’·Èë¤¹¤ë¤«
+  æ–‡å­—åˆ—ã‚’ãƒãƒƒãƒ•ã‚¡ã«å•¡æ¯ªå·¥æ¿
+  buffer: ãƒãƒƒãƒ•ã‚¡
+  string: å•¡æ¯ªå·¥èƒ›æ·–è‡³
+  whereToinsert: ã©ã“ã«å•¡æ¯ªå·¥æ¯ª
 
-  ×Ö·û´®»º³å²åÈë¡£buffer:»º³å: stringµÄ×Ö·û´®²åÈëwhereToinsert:²åÈëµ½ÄÄÀï£¿
+  å­—ç¬¦ä¸²ç¼“å†²æ’å…¥ã€‚buffer:ç¼“å†²: stringçš„å­—ç¬¦ä¸²æ’å…¥whereToinsert:æ’å…¥åˆ°å“ªé‡Œï¼Ÿ
 ****************************/
 void insertString( char *buffer, char *string, int whereToInsert )
 {
@@ -537,13 +537,13 @@ void insertString( char *buffer, char *string, int whereToInsert )
 }
 
 /****************************
-  ÎÄ×Ö¤ò¥Ğ¥Ã¥Õ¥¡¤Ë’·Èë¤¹¤ë¡£
-  buffer: ¥Ğ¥Ã¥Õ¥¡
-  character: ’·Èë¤¹¤ëÎÄ×ÖÁĞ
-  whereToinsert: ¤É¤³¤Ë’·Èë¤¹¤ë¤«
+  æ–‡å­—ã‚’ãƒãƒƒãƒ•ã‚¡ã«å•¡æ¯ªå·¥æ¿
+  buffer: ãƒãƒƒãƒ•ã‚¡
+  character: å•¡æ¯ªå·¥èƒ›æ·–è‡³
+  whereToinsert: ã©ã“ã«å•¡æ¯ªå·¥æ¯ª
 
 
-  ÎÄ×Ö»º³å²åÈë¡£buffer:»º³åcharacter:²åÈëµÄ×Ö·û´®whereToinsert:²åÈëµ½ÄÄÀï£¿
+  æ–‡å­—ç¼“å†²æ’å…¥ã€‚buffer:ç¼“å†²character:æ’å…¥çš„å­—ç¬¦ä¸²whereToinsert:æ’å…¥åˆ°å“ªé‡Œï¼Ÿ
 ****************************/
 void insertChar( char *buffer, char character, int whereToInsert )
 {
@@ -560,8 +560,8 @@ void insertChar( char *buffer, char character, int whereToInsert )
 
 
 /*************************************************************
-¤¨¤¹¤±©`¤×£¨¥µ©`¥Ğ¤«¤é¤Î¤Ğ¤Ã¤Á¤â¤ó£©
-°¥¡ª¤×É«ÀÇ£¨´Ó·şÎñÆ÷µÄºÜ°ôµÄ¶«Î÷£©
+ãˆã™ã‘`ã·ï¼ˆã‚µ`ãƒã‹ã‚‰ã®ã°ã£ã¡ã‚‚ã‚“ï¼‰
+å“â€•ã·è‰²ç‹¼ï¼ˆä»æœåŠ¡å™¨çš„å¾ˆæ£’çš„ä¸œè¥¿ï¼‰
 *************************************************************/
 
 
@@ -578,15 +578,15 @@ static EscapeChar   escapeChar[]=
     { '\\',   'y' },
 };
 /*----------------------------------------
- * makeEscapeString¤Ç×÷³É¤µ¤ì¤¿ÎÄ×ÖÁĞ¤òÔª¤Ë‘ø¤¹
- * ÒıÊı
- *  src             char*       Ôª¤Ë¤Ê¤ëÎÄ×ÖÁĞ¡£¤³¤ì¤¬•ø¤­Ìæ¤ë¡£
- * ·µ¤ê‚
- *  src    ¤ò·µ¤¹¡£(évÊı¤òÈë¤ì¤³¤Ë¤·¤ä¤¹¤¤¤è¤¦¤Ë)
+ * makeEscapeStringã§ä½œæˆã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’å…ƒã«
+ * å¼•æ•°
+ *  src             char*       å…ƒã«ãªã‚‹æ–‡å­—åˆ—ã€‚ã“ã‚ŒãŒå¦æ¿
+ * è¿”ã‚Š
+ *  src    ã‚’è¿”ã™ã€‚(væ•°ã‚’å…¥ã‚Œã“ã«ã—ã‚„ã™ã„ã‚ˆã†ã«)
 
 
-  ÔÚ* makeEscapeString±»ÖÆ×÷ÁËµÄ×Ö·û´®Ô­×´*²ÎÊısrc char * *ÔªµÄ×Ö·û´®¡£
-  ÕâĞ´µÄÌæ¤ë¡£*·µ»ØÖµ* src»Ø±¨¡££¨º¯Êı·ÅÈëÕâÀï·½±ã£©
+  åœ¨* makeEscapeStringè¢«åˆ¶ä½œäº†çš„å­—ç¬¦ä¸²åŸçŠ¶*å‚æ•°src char * *å…ƒçš„å­—ç¬¦ä¸²ã€‚
+  è¿™å†™çš„æ›¿ã‚‹ã€‚*è¿”å›å€¼* srcå›æŠ¥ã€‚ï¼ˆå‡½æ•°æ”¾å…¥è¿™é‡Œæ–¹ä¾¿ï¼‰
  ----------------------------------------*/
 char*   makeStringFromEscaped( char* src )
 {
@@ -598,15 +598,15 @@ char*   makeStringFromEscaped( char* src )
         if( src[i] == '\\' ){
             int j;
 
-            /*  ´Î¤ÎÎÄ×Ö¤ËĞĞ¤¯  ÏÂÃæµÄÎÄ×ÖÈ¥ */
+            /*  æ¬¡ã®æ–‡å­—ã«è¡Œã  ä¸‹é¢çš„æ–‡å­—å» */
             i++;
             for( j = 0; j<sizeof(escapeChar)/sizeof(escapeChar[0]); j++)
                 if( escapeChar[j].escapedchar == src[i] ){
-                    /*  ´Î¤¬¥¨¥¹¥±©`¥×¥­¥ã¥é¤À    ´ÎÌÓÍÑ½ÇÉ«¡£*/
+                    /*  æ¬¡ãŒã‚¨ã‚¹ã‚±`ãƒ—ã‚­ãƒ£ãƒ©ã     æ¬¡é€ƒè„±è§’è‰²ã€‚*/
                     src[searchindex++] = escapeChar[j].escapechar;
                     goto NEXT;
                 }
-            /*  ¥¨¥é©`¤ä¤±¤É¤½¤Î¤Ş¤Ş¥³¥Ô©`¤·¤Æ¤ª¤¯  */
+            /*  ã‚¨ãƒ©`ã‚„ã‘ã©ãã®ã¾ã¾ã‚³ãƒ”`ã—ã¦ãŠã  */
             src[searchindex++] = src[i];
         }else
             src[searchindex++] = src[i];
@@ -618,13 +618,13 @@ char*   makeStringFromEscaped( char* src )
 }
 
 /*----------------------------------------
- * ¥¨¥¹¥±©`¥×¤¹¤ë¡£
- * ÒıÊı
- *  src             char*       Ôª¤Ë¤Ê¤ëÎÄ×ÖÁĞ
- *  dest            char*       ¥¨¥¹¥±©`¥×¤µ¤ì¤ëÎÄ×ÖÁĞ
- *  sizeofdest      int         dest ¤Î ¥µ¥¤¥º
- * ·µ¤ê‚
- *  dest    ¤ò·µ¤¹¡£(évÊı¤òÈë¤ì¤³¤Ë¤·¤ä¤¹¤¤¤è¤¦¤Ë)
+ * ã‚¨ã‚¹ã‚±`ãƒ—ã™ã‚‹ã€‚
+ * å¼•æ•°
+ *  src             char*       å…ƒã«ãªã‚‹æ–‡å­—åˆ—
+ *  dest            char*       ã‚¨ã‚¹ã‚±`ãƒ—ã•ã‚Œã‚‹æ–‡å­—åˆ—
+ *  sizeofdest      int         dest ã® ã‚µã‚¤ã‚º
+ * è¿”ã‚Š
+ *  dest    ã‚’è¿”ã™ã€‚(væ•°ã‚’å…¥ã‚Œã“ã«ã—ã‚„ã™ã„ã‚ˆã†ã«)
  ----------------------------------------*/
 char*   makeEscapeString( char* src , char* dest, int sizeofdest)
 {
@@ -637,7 +637,7 @@ char*   makeEscapeString( char* src , char* dest, int sizeofdest)
         int     j;
         char    escapechar='\0';
         if( destindex + 1 >= sizeofdest )
-            /*  '\0'·Ö¤¬×ã¤ê¤Ê¤¤¤Î¤Ç¤³¤³¤Ç½K¤ê   */
+            /*  '\0'åˆ†ãŒè¶³ã‚Šãªã„ã®ã§ã“ã“ã§Kã‚Š   */
             break;
 
         for( j = 0; j<sizeof(escapeChar)/sizeof(escapeChar[0]); j++)
@@ -648,17 +648,17 @@ char*   makeEscapeString( char* src , char* dest, int sizeofdest)
             }
 
         if( dirty == TRUE ){
-            /*  ¥¨¥¹¥±©`¥×¤¹¤ëÎÄ×Ö¤À    */
+            /*  ã‚¨ã‚¹ã‚±`ãƒ—ã™ã‚‹æ–‡å­—ã     */
             if( destindex + 2 < sizeofdest ){
-                /*  +2 ¤È¤¤¤¦¤Î¤Ï¡¢ '\\' ¤È 'n'¤ÎÊÂ¤À   */
-                /*  ²Ğ¤êÎÄ×Ö¤ÏÊ®·Ö¤À    */
+                /*  +2 ã¨ã„ã†ã®ã¯ã€ '\\' ã¨ 'n'ã®äº‹ã    */
+                /*  æ®‹ã‚Šæ–‡å­—ã¯ååˆ†ã     */
                 dest[destindex] = '\\';
                 dest[destindex+1] = escapechar;
                 destindex+=2;
                 dirty=TRUE;
-                continue;       /*  ´Î¤ÎÎÄ×Ö¤ËßM¤à  */
+                continue;       /*  æ¬¡ã®æ–‡å­—ã«Mã‚€  */
             }else{
-                /*  ²Ğ¤ê¥Ğ¥Ã¥Õ¥¡¤¬²»×ã¤·¤Æ¤¤¤ë  */
+                /*  æ®‹ã‚Šãƒãƒƒãƒ•ã‚¡ãŒä¸è¶³ã—ã¦ã„ã‚‹  */
                 dest[destindex] = '\0';
                 return dest;
             }
@@ -673,10 +673,10 @@ char*   makeEscapeString( char* src , char* dest, int sizeofdest)
 }
 
 /*
-	sjis¤òeuc¤Ë¤·¤Æ¥¨¥¹¥±©`¥×¤«¤Ş¤¹
-	char *src :¤â¤È
-	char *dest : ³öÁ¦
-	int sizeofdest : ³öÁ¦¤Î×î´ó¥µ¥¤¥º
+	sjisã‚’eucã«ã—ã¦ã‚¨ã‚¹ã‚±`ãƒ—ã‹ã¾ã™
+	char *src :ã‚‚ã¨
+	char *dest : å‡ºåŠ›
+	int sizeofdest : å‡ºåŠ›ã®æœ€å¤§ã‚µã‚¤ã‚º
 */
 void makeSendString(char *src, char *dest, int sizeofdest)
 {
@@ -686,9 +686,9 @@ void makeSendString(char *src, char *dest, int sizeofdest)
 }
 
 /*
-	euc¤òsjis¤Ë¤·¤Æ¥¨¥¹¥±©`¥×½â³ı
-	char *src :¤â¤È
-	char *src¤¬Ö±½Ó•ø¤­“Q¤ï¤ë¡£
+	eucã‚’sjisã«ã—ã¦ã‚¨ã‚¹ã‚±`ãƒ—è§£é™¤
+	char *src :ã‚‚ã¨
+	char *srcãŒç›´æ¥Qã‚ã‚‹ã€‚
 */
 char *makeRecvString(char *src)
 {
@@ -701,62 +701,62 @@ char *makeRecvString(char *src)
 
 
 /***************************************************************
-	°µºÅ»¯¥ë©`¥Á¥óév‚S by Jun
+	æš—å·åŒ–ãƒ«`ãƒãƒ³vS by Jun
 ***************************************************************/
 /*
-char *src	Éú¤Î¥Ç©`¥¿adress
-int srclen	Éú¤Î¥Ç©`¥¿src¤ÎÓĞ„¿éL¤µ
-int keystring	¥¨¥ó¥³©`¥É¤¹¤ë¤¿¤á¤Î¥­©`
-char *encoded	¥¨¥ó¥³©`¥É¤µ¤ì¤¿ÎÄ×ÖÁĞ¤ò¸ñ¼{¤¹¤ë¥á¥â¥ê¤Î¥¢¥É¥ì¥¹
-int *encodedlen	¥¨¥ó¥³©`¥É¤µ¤ì¤¿ÎÄ×ÖÁĞ¤ÎéL¤µ¤ò¤¤¤ì¤ë¥¢¥É¥ì¥¹ 
-int maxencodedlen ×î´óéL¤µ¤Ï¤­¤á¤é¤ì¤Æ¤¤¤ë
+char *src	ç”Ÿã®ãƒ‡`ã‚¿adress
+int srclen	ç”Ÿã®ãƒ‡`ã‚¿srcã®æœ‰å—Lã•
+int keystring	ã‚¨ãƒ³ã‚³`ãƒ‰ã™ã‚‹ãŸã‚ã®ã‚­`
+char *encoded	ã‚¨ãƒ³ã‚³`ãƒ‰ã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’æ ¼{ã™ã‚‹ãƒ¡ãƒ¢ãƒªã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+int *encodedlen	ã‚¨ãƒ³ã‚³`ãƒ‰ã•ã‚ŒãŸæ–‡å­—åˆ—ã®Lã•ã‚’ã„ã‚Œã‚‹ã‚¢ãƒ‰ãƒ¬ã‚¹ 
+int maxencodedlen æœ€å¤§Lã•ã¯ãã‚ã‚‰ã‚Œã¦ã„ã‚‹
 */
 void jEncode(char *src,int srclen,int key,char *encoded,int *encodedlen,int maxencodedlen)
 {
 	char sum=0;
 	int i;
 	if(srclen+1 > maxencodedlen){
-		/* ¥¨¥ó¥³©`¥Éáá¤ÏéL¤µ¤¬1¤Î¤Ó¤ë¡£¥Ş¥Ã¥¯¥¹¤ò¤³¤¨¤¿¤é¥¨¥ó¥³©`¥É¤»¤º…g¤Ë¥³¥Ô©`¤¹¤ë¤À¤±*/
+		/* ã‚¨ãƒ³ã‚³`ãƒ‰å¾Œã¯Lã•ãŒ1ã®ã³ã‚‹ã€‚ãƒãƒƒã‚¯ã‚¹ã‚’ã“ãˆãŸã‚‰ã‚¨ãƒ³ã‚³`ãƒ‰ã›ãšgã«ã‚³ãƒ”`ã™ã‚‹ã ã‘*/
 		*encodedlen = maxencodedlen;
 		for(i=0;i<(*encodedlen);i++){
 			encoded[i] = src[i];
 		}
 	}
 	if(srclen+1 <= maxencodedlen){
-		/*¥Ş¥Ã¥¯¥¹¤³¤¨¤Ê¤¤¤È¤­ */
+		/*ãƒãƒƒã‚¯ã‚¹ã“ãˆãªã„ã¨ã */
 		*encodedlen=srclen+1;
 		for(i=0;i<srclen;i++){
 			sum = sum + src[i];
-			/*ÏÈî^¤«¤é7¤Î±¶Êı‚€Ä¿¤«2¤Î±¶Êı‚€Ä¿¤Î¤È¤³¤í¤Ï¥Ó¥Ã¥È·´Ü*/
+			/*å…ˆ^ã‹ã‚‰7ã®å€æ•°ç›®ã‹2ã®å€æ•°ç›®ã®ã¨ã“ã‚ã¯ãƒ“ãƒƒãƒˆå*/
 			if(((key%7) == (i%5))||((key%2) == (i%2))){
 				src[i] = ~src[i];
 			}
 		}
 		for(i=0;i<(*encodedlen);i++){
 			if(abs((key%srclen)) > i){			
-			encoded[i] = src[i] + sum*((i*i)%3);	/*¤Æ¤­¤È¤¦¤Ë¤¿¤·¤Æ¤ë*/
+			encoded[i] = src[i] + sum*((i*i)%3);	/*ã¦ãã¨ã†ã«ãŸã—ã¦ã‚‹*/
 			}
-			/*key%srclen¤ÎÎ»ÖÃ¤ËÈ«¥Ó¥Ã¥È¤ò¤¿¤·¤¿¤â¤Î¤òÖÃ¤¯*/			
+			/*key%srclenã®ä½ç½®ã«å…¨ãƒ“ãƒƒãƒˆã‚’ãŸã—ãŸã‚‚ã®ã‚’ç½®ã*/			
 			if(abs((key%srclen)) == i){
 				encoded[i] = sum;
 			}
 			if(abs((key%srclen)) < i){
-				encoded[i] = src[i-1] + sum*((i*i)%7);	/*¤Æ¤­¤È¤¦¤Ë¤¿¤·¤Æ¤ë*/
+				encoded[i] = src[i-1] + sum*((i*i)%7);	/*ã¦ãã¨ã†ã«ãŸã—ã¦ã‚‹*/
 			}
 		}
 	}
 }
 
 /*
-char *src	°µºÅ»¯¤µ¤ì¤¿¥Ç©`¥¿
-int srclen	°µºÅ»¯¤µ¤ì¤Æ¤¤¤ë¥Ç©`¥¿¤ÎÓĞ„¿éL¤µ
-int key		Ôª¤Î¥Ç©`¥¿¤Î¤ó¤ÈÍ¬¤¸¥­©`
-char *decoded	¥Ç¥³©`¥É¤µ¤ì¤¿ÎÄ×ÖÁĞ¡£³öÁ¦
-int *decodedlen	¥Ç¥³©`¥É¤µ¤ì¤¿ÎÄ×ÖÁĞ¤ÎéL¤µ
+char *src	æš—å·åŒ–ã•ã‚ŒãŸãƒ‡`ã‚¿
+int srclen	æš—å·åŒ–ã•ã‚Œã¦ã„ã‚‹ãƒ‡`ã‚¿ã®æœ‰å—Lã•
+int key		å…ƒã®ãƒ‡`ã‚¿ã®ã‚“ã¨åŒã˜ã‚­`
+char *decoded	ãƒ‡ã‚³`ãƒ‰ã•ã‚ŒãŸæ–‡å­—åˆ—ã€‚å‡ºåŠ›
+int *decodedlen	ãƒ‡ã‚³`ãƒ‰ã•ã‚ŒãŸæ–‡å­—åˆ—ã®Lã•
 */
 void jDecode(char *src,int srclen,int key,char *decoded,int *decodedlen)
 {
-	/*¥¨¥ó¥³©`¥É¤ÎÄæ*/
+	/*ã‚¨ãƒ³ã‚³`ãƒ‰ã®é€†*/
 	char sum;
 	int i;
 	*decodedlen=srclen-1;

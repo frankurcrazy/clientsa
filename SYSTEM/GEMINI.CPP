@@ -584,8 +584,8 @@ Sint16 DELTA_TBL[]={
 /*	ENT	:   ATR_SPD(A0)
 *		    ATR_CRS(A0)
 
-*	EXT	:   d1.w:�������Ƅ���
-*		:   d2.w:�������Ƅ���
+*	EXT	:   d1.w:Ｘ座艘恿
+*		:   d2.w:Ｙ座艘恿
 
 *	DESTORY	:   D0,D1,D2,D3,D4
 *		    A1,A6
@@ -597,28 +597,28 @@ void gemini(ACTION *a0)
 //	Uint8 d0;
 	Sint32 d0;
 	Uint16 a1;
-	d5=((Sint32)ATR_H_POS(a0))<<16;		/*�F�ڤ�λ�ä�Хå����å�*/
+	d5=((Sint32)ATR_H_POS(a0))<<16;		/*F在の位置をバックアップ*/
 	d6=((Sint32)ATR_V_POS(a0))<<16;
 	d5+=(Sint32)(ATR_H_MINI(a0))<<8;
 	d6+=(Sint32)(ATR_V_MINI(a0))<<8;
 
 	if(!(d0=ATR_SPD(a0))) return;
 
-	d0--;		/*���ԩ`�ɣ��p�餹*/
+	d0--;		/*スピ`ド１pらす*/
 	a1=((Uint16)d0)<<6;		/*32(DIR)*2(H/V)*2(BYTE)=128BYTE*/
 	d0=ATR_CRS(a0);		/*COURSE $00 - $1F*/
 
-	a1+=((Uint16)d0)*2;		/*�Ʃ`�֥���㤹*/
+	a1+=((Uint16)d0)*2;		/*テ`ブルに足す*/
 
 	d1=(Sint32)(DELTA_TBL[a1]);		/*H DELTA*/
 
-	d1=d1<<8;		/*��Ϥ碌*/
-	d5+=d1;		/*H �Ƅ������㤹*/
+	d1=d1<<8;		/*桁合わせ*/
+	d5+=d1;		/*H 移恿郡蜃悚*/
 
 	d1=(Sint32)(DELTA_TBL[a1+1]);		/*V DELTA*/
 
-	d1=d1<<8;		/*��Ϥ碌*/
-	d6+=d1;		/*V �Ƅ������㤹*/
+	d1=d1<<8;		/*桁合わせ*/
+	d6+=d1;		/*V 移恿郡蜃悚*/
 
 	d3=(Sint32)(ATR_H_POS(a0));
 	d4=(Sint32)(ATR_V_POS(a0));

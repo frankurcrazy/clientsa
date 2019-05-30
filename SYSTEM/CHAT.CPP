@@ -1,5 +1,5 @@
 /************************/
-/*	chat.c		����		*/
+/*	chat.c		聊天		*/
 /************************/
 #include "system.h"
 #include "font.h"
@@ -15,100 +15,100 @@
 #include "lssproto_cli.h"
 #include "netmain.h"
 
-// ����åȥХåե��`  ���컺����
+// チャットバッファ`  聊天缓冲器
 CHAT_BUFFER ChatBuffer[ MAX_CHAT_LINE ];
 
-// �Է֤���������Хåե��`   �Լ����뻺����
+// 自分の入力するバッファ`   自己输入缓冲区
 STR_BUFFER MyChatBuffer;
-//���ڵ����뻺��Խ����ָ��
-// �F�ڤ������ե��`�����Хåե��ؤΥݥ��� 
+//现在的输入缓冲对焦点的指针
+// F在の入力フォ`カスバッファへのポインタ 
 STR_BUFFER *pNowStrBuffer = NULL;
 
-// ����å��Х����󥿩`  ��/ /�����̨
+// チャット行カウンタ`  行/ /聊天柜台
 int NowChatLine = 0;
-// ��������
+// 初期行数
 int NowMaxChatLine = DEF_CHAT_LINE;
-// �������δ󤭤� ���ڵ������Ĵ�С
+// 初期声の大きさ 初期的声音的大小
 int NowMaxVoice = DEF_VOICE;
-// ���`�����祫�����  �����˸����
+// カ`ソル点绁Ε螗  光标闪烁计数
 int CursorFlashCnt = 0;
-// ����`���������`������  ˳����������
+// スム`ズスクロ`ル座  顺畅滚动坐标
 int ChatLineSmoothY = 0;
 
 
-//�����¼�ļ���
-#define CAHT_HISTORY_STR_FILE_NAME 	"data\\chathis.dat" 	// ����åȤ��Ěs�ե�����ͩ`��
-// ����åȤΥҥ��ȥ�`������
-//�������ʷ�ṹ
+//聊天记录文件名
+#define CAHT_HISTORY_STR_FILE_NAME 	"data\\chathis.dat" 	// チャットの履sファイルネ`ム
+// チャットのヒストリ`造体
+//聊天的历史结构
 CHAT_HISTORY ChatHistory;
 
-// �ԣ��¥��`�I�� TAB������
+// ＴＡＢキ`I理 TAB键处理
 void KeyboardTab( void );
 
-// �����ե�����  ��־�ļ�
+// ログファイル  日志文件
 FILE *chatLogFile = NULL;
 char chatLogFileName[] = "CHAT_000000.TXT";
 void openChatLogFile( void );
 
 #if 1
-// ��ǥ��ʤ���ȫ�ǥ��ʉ�Q��������  
-//���Ƭ������ʼȫ�Ǽ���ת����������
-char *ZenkakuKana = "?��������?�򥡥������������"
-					"�`������������������������������"
-					"�����ĥƥȥʥ˥̥ͥΥϥҥեإۥ�"
-					"�ߥ��������������a�b";
+// 半角カナから全角カナQ用文字列  
+//半角片假名开始全角假名转换用文字列
+char *ZenkakuKana = "?。「」、?ヲァィゥェォャュョッ"
+					"`アイウエオカキクケコサシスセソ"
+					"タチツテトナニヌネノハヒフヘホマ"
+					"ミムメモヤユヨラリルレロワンab";
 #endif
 
-/* ����å��v�B���ڻ� **������س��ڻ�********************************************************/
+/* チャットvB初期化 **聊天相关初期化********************************************************/
 void InitChat( void )
 {
-	// �Хåե��`���ꥢ �������
+	// バッファ`クリア 缓冲清除
 	memset( ChatBuffer, 0, sizeof( CHAT_BUFFER ) * MAX_CHAT_LINE );
 	memset( &MyChatBuffer, 0, sizeof( STR_BUFFER ) );
-	// ����å������Хåե��`�γ��ڻ�  �����������ݳ�ʼ��
-	//���޸�ԭʼ70
-	MyChatBuffer.len = 70;	// �����Ф��L��  �ִ�����̫����Ļ����
-	//MyChatBuffer.len = 200;	// �����Ф��L��  �ִ�����
-	//MyChatBuffer.len = 254;	// �����Ф��L��
-	//MyChatBuffer.color = 0; // ɫ
+	// チャット入力バッファ`の初期化  聊天输入数据初始化
+	//我修改原始70
+	MyChatBuffer.len = 70;	// 文字列のLさ  字串长度太长屏幕不够
+	//MyChatBuffer.len = 200;	// 文字列のLさ  字串长度
+	//MyChatBuffer.len = 254;	// 文字列のLさ
+	//MyChatBuffer.color = 0; // 色
 	MyChatBuffer.fontPrio = FONT_PRIO_BACK;
-	MyChatBuffer.x = 8; 	// ������
-	MyChatBuffer.y = 432; 	// ������
-	//MyChatBuffer.x = 8; 	// ������
-	//MyChatBuffer.y = 200; 	// ������
-	//MyChatBuffer.lineLen = 25; 	// ������
-	//MyChatBuffer.lineDist = 16; 	// ������
+	MyChatBuffer.x = 8; 	// Ｘ座
+	MyChatBuffer.y = 432; 	// Ｙ座
+	//MyChatBuffer.x = 8; 	// Ｘ座
+	//MyChatBuffer.y = 200; 	// Ｙ座
+	//MyChatBuffer.lineLen = 25; 	// Ｘ座
+	//MyChatBuffer.lineDist = 16; 	// Ｙ座
 
-	// ���椵��Ƥ������å������i�ߤ���  ������������Ϣ��ӵ��
+	// 保存されているチャット情螭蛘iみこむ  保存着聊天信息读拥挤
 	getUserChatOption();
 	
-	// ����åȥХåե����ͤ�줿�����Ф�����ե�����˳���
-	//���컺�屻�͵�����������־�ļ����
+	// チャットバッファに送られた文字列をログファイルに出力
+	//聊天缓冲被送到了文字列日志文件输出
 	openChatLogFile();
 	
 }
 
 
-/* ����åȥ����ե�����Υ��`�ץ� **������־�ļ��Ŀ���********************************************/
+/* チャットログファイルのオ`プン **聊天日志文件的开放********************************************/
 void openChatLogFile( void )
 {
 	if( chatLogFile == NULL )
 	{
 #ifdef _DEBUG
-		// ������ӕr����Ҏ����
+		// 今は起rに新鞒
 		chatLogFile = fopen( chatLogFileName, "wt" );
 #else
 		struct tm *nowTime;
 		time_t longTime;
 
-		// �F�ڤ��Օr��ȡ��
+		// F在の日rを取得
 		time( &longTime );
 		nowTime = localtime( &longTime );
 
 		sprintf( chatLogFileName, "CHAT_%02d%02d%02d.TXT",
 			(nowTime->tm_year % 100), nowTime->tm_mon+1, nowTime->tm_mday );
 
-		// ������ӕr����Ҏ����  ����������ʱ�½�
+		// 今は起rに新鞒  现在在启动时新建
 		chatLogFile = fopen( chatLogFileName, "a" );
 		if( chatLogFile )
 		{
@@ -120,106 +120,106 @@ void openChatLogFile( void )
 	}
 }
 
-// ����åȤ��Ěs���֤α��� ****************************************************************/
+// チャットの履s文字の保存 ****************************************************************/
 BOOL SaveChatHistoryStr( int no )
 {
 	FILE *fp; 
 	
-	// �����z�ߥե����륪�`�ץ�
+	// zみファイルオ`プン
 	if( ( fp = fopen( CAHT_HISTORY_STR_FILE_NAME, "r+b" ) ) == NULL ){
 		return FALSE;
 	}
 	
-	// ��ؕ����z�������ޤǥե�����ݥ��󥿤��M�ޤ���
+	// 今回zむ鏊蓼钎榨ˉぅ毳荪ぅ螗郡蜻Mませる
 	fseek( fp, sizeof( ChatHistory.str[ 0 ] ) * no, SEEK_SET );
-	// �����Хǩ`�������z��
+	// 文字列デ`タzみ
 	if( fwrite( &ChatHistory.str[ no ], sizeof( ChatHistory.str[ 0 ] ), 1, fp ) < 1 ){
 	
-		fclose( fp );// �ե����륯���`��
+		fclose( fp );// ファイルクロ`ズ
 		return FALSE;
 	}
 	
-	// ���¤��Ěs���ŤΈ����ޤǥե�����ݥ����M�ޤ���
+	// 最新の履s番号の鏊蓼钎榨ˉぅ毳荪ぅ螗窟Mませる
 	fseek( fp, sizeof( ChatHistory.str[ 0 ] ) * MAX_CHAT_HISTORY, SEEK_SET );
-	// ���¤��Ěs���Ťα���
+	// 最新の履s番号の保存
 	if( fwrite( &no, sizeof( int ), 1, fp ) < 1 ){
 	
-		fclose( fp );// �ե����륯���`��
+		fclose( fp );// ファイルクロ`ズ
 		return FALSE;
 	}
 	
-	// �ե����륯���`��
+	// ファイルクロ`ズ
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// ����åȤ��Ěs���֤��i���z�� ****************************************************************/
+// チャットの履s文字のiみzみ ****************************************************************/
 BOOL LoadChatHistoryStr( void )
 {
 	FILE *fp;
 
-	// �F�ڤΥ���å��Ěs���Ťγ��ڻ�
+	// F在のチャット履s番号の初期化
 	ChatHistory.nowNo = -1;
 
-	// �i���z�ߥե����륪�`�ץ�
+	// iみzみファイルオ`プン
 	if( ( fp = fopen( CAHT_HISTORY_STR_FILE_NAME, "rb" ) ) == NULL ){
-		// �ʤ��r�����ƵĤ�����
+		// ないr、制的に作成
 		if( ( fp = fopen( CAHT_HISTORY_STR_FILE_NAME, "wb" ) ) != NULL ){
-			// �ǩ`�������z��
+			// デ`タzみ
 			fwrite( &ChatHistory, sizeof( CHAT_HISTORY ) - sizeof( int ), 1, fp );
-			fclose( fp );	// �ե����륯���`��
+			fclose( fp );	// ファイルクロ`ズ
 		}
 		
-		// ���¤Υ���å��Ěs���Ťγ��ڻ�
+		// 最新のチャット履s番号の初期化
 		ChatHistory.nowNo = MAX_CHAT_HISTORY - 1;
 		
 		return FALSE;
 	}
 	
-	// �ǩ`���i���z��
+	// デ`タiみzみ
 	if( fread( &ChatHistory, sizeof( CHAT_HISTORY ) - sizeof( int ), 1, fp ) < 1 ){
 		
-		fclose( fp );	// �ե����륯���`��
+		fclose( fp );	// ファイルクロ`ズ
 		return FALSE;
 	}
-	// �ե����륯���`��
+	// ファイルクロ`ズ
 	fclose( fp );
 	
 	return TRUE;
 }
 
-/* �����Ф�F�ڤ����������Ф��ͤ� ****������Ϊ���ڵ�������������************************************************/
+/* 文字列をF在の入力文字列に送る ****文字列为现在的输入文字列送************************************************/
 void StrToNowStrBuffer( char *str )
 {
 
 	int strLen, i;
 	
-	// ���֤��L����ȡ��
+	// 文字のLさの取得
 	strLen = strlen( str );
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( strLen >= 256 ) strLen = 255;
-	// ���֤���������`��
+	// 文字の数だけル`プ
 	for( i = 0 ; i < strLen ; i++ ){
-		// ���֥Хåե�������
+		// 文字バッファに溜める
 		StockStrBufferChar( str[ i ] );
 	}
 }
 
-/* ����å��v�B�I�� *****������ش���*******************************************************/
+/* チャットvBI理 *****聊天相关处理*******************************************************/
 void ChatProc( void )
 {
 
-	// �꥿�`�󥭩`Ѻ���줿�r ���»س���ʱ
+	// リタ`ンキ`押されたr 按下回车键时
 	//if( joy_trg[ 1 ] & JOY_RETURN ) KeyboardReturn();
 	
-	// �ԣ��¥��`Ѻ���줿�r
+	// ＴＡＢキ`押されたr
 	if( joy_trg[ 1 ] & JOY_TAB ) KeyboardTab();
 	
-	// �����ե��`����������å��֤ϥ�`��Εr
+	// 入力フォ`カスがチャット又はメ`ルのr
 	if( pNowStrBuffer == &MyChatBuffer || pNowStrBuffer == &MailStr ){
 	
-		// ���h�����Ф�ʹ�ä����Ȥ������h�����Ф�F�ڤ����������Ф��ͤ�
+		// 登h文字列を使用したとき、登h文字列をF在の入力文字列に送る
 		if(	joy_trg[ 1 ] & JOY_F1 ) StrToNowStrBuffer( chatRegistryStr[ 0 ].buffer );
 		if( joy_trg[ 1 ] & JOY_F2 ) StrToNowStrBuffer( chatRegistryStr[ 1 ].buffer );
 		if( joy_trg[ 1 ] & JOY_F3 ) StrToNowStrBuffer( chatRegistryStr[ 2 ].buffer );
@@ -231,46 +231,46 @@ void ChatProc( void )
 		if( joy_trg[ 1 ] & JOY_F8 ) StrToNowStrBuffer( chatRegistryStr[ 7 ].buffer );
 	}
 
-	// �����ե��`����������åȤΕr���ɣͣťХåե������֤��o���r
+	// 入力フォ`カスがチャットのr、ＩＭＥバッファに文字がoいr
 	if( pNowStrBuffer == &MyChatBuffer && ImeBufferBak2 == NULL ){
-		// �ϥ��`��Ѻ�����r
+		// 上キ`を押したr
 		if( joy_auto[ 0 ] & JOY_UP ){
-			int bak = ChatHistory.nowNo;	// �Хå����å�
-			// �ҥ��ȥ�`��`�ɤ���äƤʤ��r
+			int bak = ChatHistory.nowNo;	// バックアップ
+			// ヒストリ`モ`ドに入ってないr
 			if( ChatHistory.nowNo == -1 ) ChatHistory.nowNo = ChatHistory.newNo;
 			else ChatHistory.nowNo--;
-			// ��ߥåȥ����å�
+			// リミットチェック
 			if( ChatHistory.nowNo < 0 ) ChatHistory.nowNo = MAX_CHAT_HISTORY - 1;
-			// �ҥ��ȥ�`������r���ġ�( һ�ܻؤäƤʤ��r�֤ϡ��ҥ��ȥ�`��`�ɤ���äƤ��ʤ��ä��r ��
+			// ヒストリ`があるrかつ、( 一周回ってないr又は、ヒストリ`モ`ドに入っていなかったr ）
 			if( ChatHistory.str[ ChatHistory.nowNo ][ 0 ] != 0 && ( ChatHistory.nowNo != ChatHistory.newNo || bak == -1 ) ){
-				// �������Ƥ������֤���ڻ�
+				// 入力してある文字を初期化
 				pNowStrBuffer->cnt = 0;
 				pNowStrBuffer->buffer[ 0 ] = NULL;
-				// �ҥ��ȥ�`�����Ф������Хåե����ͤ�
+				// ヒストリ`文字列を入力バッファへ送る
 				StrToNowStrBuffer( ChatHistory.str[ ChatHistory.nowNo ] );
 			}else{
-				// �Хå����åפ������
+				// バックアップから
 				ChatHistory.nowNo = bak;
 			}
 		}else
-		// �¥��`��Ѻ�����r
+		// 下キ`を押したr
 		if( joy_auto[ 0 ] & JOY_DOWN ){
-			// �ҥ��ȥ�`��`�ɤ���äƤ�����
+			// ヒストリ`モ`ドに入っていたら
 			if( ChatHistory.nowNo != -1 ){
-				// �ҥ��ȥ�`��`�ɤ�i����r
+				// ヒストリ`モ`ドをiけるr
 				if( ChatHistory.nowNo == ChatHistory.newNo ){ 
 					ChatHistory.nowNo = -1;
-					// �������Ƥ������֤���ڻ�
+					// 入力してある文字を初期化
 					pNowStrBuffer->cnt = 0;
 					pNowStrBuffer->buffer[ 0 ] = NULL;
 				}else{
 					ChatHistory.nowNo++;
-					// ��ߥåȥ����å�
+					// リミットチェック
 					if( ChatHistory.nowNo >= MAX_CHAT_HISTORY ) ChatHistory.nowNo = 0;
-					// �������Ƥ������֤���ڻ�
+					// 入力してある文字を初期化
 					pNowStrBuffer->cnt = 0;
 					pNowStrBuffer->buffer[ 0 ] = NULL;
-					// �ҥ��ȥ�`�����Ф������Хåե����ͤ�
+					// ヒストリ`文字列を入力バッファへ送る
 					StrToNowStrBuffer( ChatHistory.str[ ChatHistory.nowNo ] );
 				}
 			}
@@ -278,255 +278,255 @@ void ChatProc( void )
 	}
 }
 
-// ���`�ܩ`�ɥ��`������I�� **���̹����˸����************************************************/
+// キ`ボ`ドカ`ソル点I理 **键盘光标闪烁处理************************************************/
 void FlashKeyboardCursor( void )
 {
 	
 	int lastByte, strWidth = 0;
 	
-	// �����������ʤ��r����
+	// 入力鏊胜r
 	if( pNowStrBuffer == NULL ) return;
 	
-	// ���`������I��
+	// カ`ソル点I理
 	if( CursorFlashCnt >= 20 ){
-		// �ɣͣŤ��ϣƣƤΕr����ǥ��`���룩
+		// ＩＭＥがＯＦＦのr（半角カ`ソル）
 		if( ImeOpenState() == FALSE ){
-			// ���������`�Щ`�Εr
+			// 文字数オ`バ`のr
 			if( pNowStrBuffer->cnt >= pNowStrBuffer->len ){
-				// �����Ф����᤬��Ǥ�ȫ�Ǥ����{�٤�
+				// 文字列の最後が半角か全角かを{べる
 				lastByte = GetStrLastByte( pNowStrBuffer->buffer );
 				if( lastByte == 1 ) strWidth = FontHankakuWidth;
 				else if( lastByte == 2 ) strWidth = FontZenkauWidth;
 				
 			}
-			// ���`�����ե���ȥХåե�������
+			// カ`ソルをフォントバッファへ溜める
 			StockFontBuffer( pNowStrBuffer->imeX - strWidth, pNowStrBuffer->imeY, pNowStrBuffer->fontPrio, pNowStrBuffer->color, "_" , 0 );
 			
-		}else{ 	// �ɣͣŤ��ϣΤΕr��ȫ�ǥ��`���룩
+		}else{ 	// ＩＭＥがＯＮのr（全角カ`ソル）
 		
-			// ���������`�Щ`�Εr
+			// 文字数オ`バ`のr
 			if( pNowStrBuffer->cnt >= pNowStrBuffer->len ){
-				// �����Ф����᤬��Ǥ�ȫ�Ǥ����{�٤�
+				// 文字列の最後が半角か全角かを{べる
 				lastByte = GetStrLastByte( pNowStrBuffer->buffer );
 				if( lastByte == 1 ) strWidth = FontHankakuWidth;
 				else if( lastByte == 2 ) strWidth = FontZenkauWidth;
 				
 			}
-			// �ɣͣťХåե������֤��o���r
+			// ＩＭＥバッファに文字がoいr
 			if( ImeBufferBak2 == NULL ){
-				// ���`�����ե���ȥХåե�������
-				StockFontBuffer( pNowStrBuffer->imeX + GetStrWidth( ImeBuffer ) - strWidth, pNowStrBuffer->imeY, pNowStrBuffer->fontPrio, pNowStrBuffer->color, "��" , 0 );
+				// カ`ソルをフォントバッファへ溜める
+				StockFontBuffer( pNowStrBuffer->imeX + GetStrWidth( ImeBuffer ) - strWidth, pNowStrBuffer->imeY, pNowStrBuffer->fontPrio, pNowStrBuffer->color, "＿" , 0 );
 			}else{
-				// ���`�����ե���ȥХåե�������
-				StockFontBuffer( pNowStrBuffer->imeX + GetStrWidth( ImeBuffer ), pNowStrBuffer->imeY, pNowStrBuffer->fontPrio, pNowStrBuffer->color, "��" , 0 );
+				// カ`ソルをフォントバッファへ溜める
+				StockFontBuffer( pNowStrBuffer->imeX + GetStrWidth( ImeBuffer ), pNowStrBuffer->imeY, pNowStrBuffer->fontPrio, pNowStrBuffer->color, "＿" , 0 );
 			}
 		}
 	}
-	// ���`�����祫����
+	// カ`ソル点绁Ε螗
 	CursorFlashCnt++;
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( CursorFlashCnt >= 40 ) CursorFlashCnt = 0;
 }
 
-// �£ӥ��`�I�� ***************************************************************/
+// ＢＳキ`I理 ***************************************************************/
 void KeyboardBackSpace( void )
 {
 	int byte;
 	
-	// �����������ʤ��r����
+	// 入力鏊胜r
 	if( pNowStrBuffer == NULL ) return;
 	
-	// ��������֤���Ǥ�ȫ�Ǥ����{�٤�
+	// 最後の文字が半角か全角かを{べる
 	byte = GetStrLastByte( pNowStrBuffer->buffer ); 
 		
-	// �K��ӛ�Ť�����
+	// K端号を入れる
 	pNowStrBuffer->buffer[ pNowStrBuffer->cnt - byte ] = '\0';
-	// һ���֑���
+	// 一文字
 	pNowStrBuffer->cnt -= byte;
 			
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( *( pNowStrBuffer->buffer ) == '\0' ) pNowStrBuffer->cnt = 0;
 	
-	// �ե�å��奫���󥿩`��������ƣ�
+	// フラッシュカウンタ`梗ǖ愕疲
 	CursorFlashCnt = 20;
 }	
 
-// �ԣ��¥��`�I�� ***************************************************************/
+// ＴＡＢキ`I理 ***************************************************************/
 void KeyboardTab( void )
 {
 
 	int i,flag = 0;
 	
-	// �����������ʤ��r���� ���룬û�еط������
+	// 入力鏊胜r 输入，没有地方点回来
 	if( pNowStrBuffer == NULL ) return;
 	
-	// ���ֵ��h�����å� *******����ע����************************
+	// 文字登hチェック *******文字注册检查************************
 	for( i = 0 ; i < MAX_CHAT_REGISTY_STR ; i++ ){
 		if( pNowStrBuffer == &chatRegistryStr[ i ] ){ 
 			flag = TRUE;
 			break;
 		}
 	}
-	// ���ֵ��h�Εr ******���ֵ�¼ʱ*************************
+	// 文字登hのr ******文字登录时*************************
 	if( flag == TRUE ){
-		// ���եȥ��`����Ƥ�����   �� Shift���Ļ�
+		// シフトキ`されていたら   被 Shift键的话
 		if( joy_con[ 1 ] & JOY_RSHIFT || joy_con[ 1 ] & JOY_LSHIFT ){
 			i--;
-			// ��ߥåȥ����å� ���޼��
+			// リミットチェック 极限检查
 			if( i < 0 ) i = MAX_CHAT_REGISTY_STR - 1;
 		}else{
 			i++;
-			// ��ߥåȥ����å�
+			// リミットチェック
 			if( i >= MAX_CHAT_REGISTY_STR ) i = 0;
 		}
-		// �����ե��`�����Ƅ� ���뽹���ƶ�
+		// 入力フォ`カス移 输入焦点移动
 		GetKeyInputFocus( &chatRegistryStr[ i ] );
 	}
 	
-	// �ե�å��奫���󥿩`��������ƣ�
+	// フラッシュカウンタ`梗ǖ愕疲
 	CursorFlashCnt = 20;
 }	
 
-/* �꥿�`�󥭩`�I�� *******�س�������*****************************************************/
+/* リタ`ンキ`I理 *******回车键处理*****************************************************/
 void KeyboardReturn( void )
 {
 	char bakNo;
 	
-	// �ɣͣťХåե��`�����֤�����r������  �������ֿյ�ʱ�򣬻�
+	// ＩＭＥバッファ`に文字があるr、  缓冲文字空的时候，回
 	if( ImeBufferBak2 != NULL ) return;
 	
-	// ����å������Εr ***���������ʱ��****************************
+	// チャット入力のr ***聊天输入的时候****************************
 	if( pNowStrBuffer == &MyChatBuffer ){;
 	
-		// �հ��Ф��ȸ��Ф��ʤ�  ���кͿհ��в���
+		// 空白行だと改行しない  换行和空白行不。
 		if( pNowStrBuffer->cnt == 0 ) return;
 		
-		// �K��ӛ�Ť�����  �ն˼Ǻŷ�0
+		// K端号を入れる  终端记号放0
 		pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] = '\0';
 		
-		// �����Ф����å��Ф��ͤꤳ��  ����������������
+		// 文字列をチャット行に送りこむ  文字列行送入聊天
 		
 		//StockChatBufferLine( pNowStrBuffer->buffer, MyChatBuffer.color );
 		
 #ifdef _DEBUG
 	
-		// �Хȥ�ץ�������  ս������
+		// バトルプロセスへ  战斗工序
 		if( strstr( pNowStrBuffer->buffer, "[battlein]" ) ) EncountFlag = TRUE;
 		if( strstr( pNowStrBuffer->buffer, "[battleout]" ) ){
 			ChangeProc( PROC_GAME, 1 );
-			DeathAllAction();	// �����������ڻ�  �������ڻ�
+			DeathAllAction();	// アクション初期化  动作初期化
 		} 
 		
 #endif	
-		// �Хå����å�  ����
+		// バックアップ  备份
 		bakNo = ChatHistory.newNo;
-		// �ΤΥХåե����Ť�  ��һ�������/ /����
+		// 次のバッファ番号へ  下一个缓冲对/ /号码
 		ChatHistory.newNo++;
-		// ��ߥåȥ����å� ���޼��
+		// リミットチェック 极限检查
 
 
 		if( ChatHistory.newNo >= MAX_CHAT_HISTORY ) ChatHistory.newNo = 0;
-		// ǰ�ؤ��`�������ФΕr ���ϴβ�ͬ���ַ�����ʱ��
+		// 前回と`う文字列のr 和上次不同的字符串的时候
 		if( strcmp( pNowStrBuffer->buffer, ChatHistory.str[ bakNo ] ) != 0 )
 		{
-			// ��ؤ������Ф�ҙ����  ��ε������м�
+			// 今回の文字列をえる  这次的文字列记
 			strcpy( ChatHistory.str[ ChatHistory.newNo ], pNowStrBuffer->buffer );
-			// ����åȤ��Ěs���֤α���  ������������ֱ���
+			// チャットの履s文字の保存  聊天的履历文字保存
 			SaveChatHistoryStr( ChatHistory.newNo );
 		}
 		else
 		{
-			// �Хå����åפ������  �ӱ��ݻָ�
+			// バックアップから  从备份恢复
 			ChatHistory.newNo = bakNo;
 		}
-		// �ҥ��ȥ�`���ų��ڻ�  ��ʷ������ڻ�
+		// ヒストリ`番号初期化  历史号码初期化
 		ChatHistory.nowNo = -1;
 	
 		
 #ifdef _DEBUG
 		if( offlineFlag == FALSE )
 #endif
-		// ����å�����������  �����ַ�������
+		// チャット文字列送信  聊天字符串发送
 		
 		chatStrSendForServer( pNowStrBuffer->buffer, MyChatBuffer.color );
 		
-		// ��ˤˑ��� ��˷���
+		// 左端に 左端返回
 		pNowStrBuffer->cnt = 0;
 		
-		// �Է֤���������Хåե��`�򥯥ꥢ  ���뻺������Լ���
+		// 自分の入力するバッファ`をクリア  输入缓冲清楚自己的
 		*( pNowStrBuffer->buffer )= '\0';
-		// �K��ӛ�Ť����� �ն˼Ǻŷ�
+		// K端号を入れる 终端记号放
 	}
 	else
 	
-	// �ƺŉ���Εr **********************************
+	// 称号涓r **********************************
 	if( pNowStrBuffer == &shougouChange )
 	{
-		// ������ɥ�Ĩ��
+		// ウィンドウ抹
 		DeathAction( pActMenuWnd3 );
 		pActMenuWnd3 = NULL;
-		// �����ե��`��������
+		// 入力フォ`カス
 		GetKeyInputFocus( &MyChatBuffer );
-		// ������ɥ��]������
+		// ウィンドウ]じる音
 		play_se( 203, 320, 240 );
-		// ���������γƺŤ���
+		// アクションの称号も涓
 		//strcpy( pc.ptAct->freeName, shougouChange.buffer );
-		// �ţգäˉ�Q
+		// ＥＵＣにQ
 		sjisStringToEucString( shougouChange.buffer );
-		// ��ǰ�������
+		// 名前涓托
 		lssproto_FT_send( sockfd, shougouChange.buffer ) ; /* ../doc/lssproto.html line 1792 */
 	}
 	else
 	
-	// ��ǰ����Εr **********���ֱ����ʱ************************
+	// 名前涓r **********名字变更的时************************
 	if( pNowStrBuffer == &petNameChange )
 	{
-		// ������ɥ�Ĩ��
+		// ウィンドウ抹
 		DeathAction( pActMenuWnd3 );
 		pActMenuWnd3 = NULL;
-		// �����ե��`��������
+		// 入力フォ`カス
 		GetKeyInputFocus( &MyChatBuffer );
-		// ������ɥ��]������
+		// ウィンドウ]じる音
 		play_se( 203, 320, 240 );
-		// �ţգäˉ�Q
+		// ＥＵＣにQ
 		sjisStringToEucString( petNameChange.buffer );
-		// ��ǰ�������
+		// 名前涓托
 		lssproto_KN_send( sockfd, petStatusNo, petNameChange.buffer ) ; /* ../doc/lssproto.html line 1792 */
 	}
 	else
 	
-	// ��`��Εr ***�ʼ���ʱ��*******************************
+	// メ`ルのr ***邮件的时候*******************************
 	if( pNowStrBuffer == &MailStr )
 	{
-		// ������ФΕr�ϸ��Ф��ʤ�
+		// 最後の行のrは改行しない
 		if( MailStr.cnt < MailStr.len - MailStr.lineLen ){
-			// ��ˤΕr
+			// 左端のr
 			if( MailStr.cnt % MailStr.lineLen == 0 ){
-				// һ���֤�������
+				// 一文字だけ入れる
 				StockStrBufferChar( ' ' );
 			}
-			// �Фζˤޤǥ��ک`��������
+			// 行の端までスペ`スを入れる
 			while( MailStr.cnt % MailStr.lineLen ) StockStrBufferChar( ' ' );
 		}
 	}
 	else
 	
-	// ��`��Εr **********�ʼ���ʱ��*****�ѵ�������һ��?*******************
+	// メ`ルのr **********邮件的时候*****难道和上面一样?*******************
 	if( pNowStrBuffer == &MailStr )
 	{
-		// ������ФΕr�ϸ��Ф��ʤ�
+		// 最後の行のrは改行しない
 		if( MailStr.cnt < MailStr.len - MailStr.lineLen ){
-			// ��ˤΕr
+			// 左端のr
 			if( MailStr.cnt % MailStr.lineLen == 0 ){
-				// һ���֤�������
+				// 一文字だけ入れる
 				StockStrBufferChar( ' ' );
 			}
-			// �Фζˤޤǥ��ک`��������
+			// 行の端までスペ`スを入れる
 			while( MailStr.cnt % MailStr.lineLen ) StockStrBufferChar( ' ' );
 		}
 	}
 
-	// �ɣĥ��`�����Εr ******���������ʱ��**********************
+	// ＩＤキ`入力のr ******键盘输入的时候**********************
 	extern STR_BUFFER *idPasswordStr;
 	extern short idKeyReturn;
 	if( pNowStrBuffer == idPasswordStr )
@@ -534,70 +534,70 @@ void KeyboardReturn( void )
 		idKeyReturn = 1;
 	}
 	
-	// �ե�å��奫���󥿩`��������ƣ�
+	// フラッシュカウンタ`梗ǖ愕疲
 	CursorFlashCnt = 20;
 	
 }
 
-/* ���֤�Хåե������루���Х��ȣ�**���ֻ��崢��1�ֽڣ�****************************************/
+/* 文字をバッファに溜める（１バイト）**文字缓冲储（1字节）****************************************/
 void StockStrBufferChar( char c )
 {
 
-	static BOOL zenkakuFlag = FALSE; // ȫ�ǥե饰  ȫ��ת�۵�
-	static BOOL zenkakuFlag2 = FALSE; // ȫ�ǥե饰
+	static BOOL zenkakuFlag = FALSE; // 全角フラグ  全角转折点
+	static BOOL zenkakuFlag2 = FALSE; // 全角フラグ
 	
-	// �����������ʤ��r����  ���룬û�еط������
+	// 入力鏊胜r  输入，没有地方点回来
 	if( pNowStrBuffer == NULL ) return;
 	
-	// �v�S�ʤ����֤��w�Ф� ��ϵû�������ڷ�  С��1 ���� С��1f
+	// vSない文字はwばす 关系没有文字在飞  小于1 并且 小于1f
 	if( 0x01 <= c && c <= 0x1f /* && c != 0x08 && c != 0x0d */ ){
 		return;
 	}
 	
-	// ǰ�ؤ�ȫ�ǤǤʤ��ä���  �ϴ�ȫ�ǣ����û��
+	// 前回が全角でなかったら  上次全角，如果没有
 	if( zenkakuFlag == FALSE ){
-		// ǰ�ؤ����Ȱ��һ���֤��������Ǥ���״�B��ȫ�Ǥ�Ϥ������r����ؤ����
+		// 前回があと半角一文字だけ入力できる状Bで全角をはじいたr、今回も
 		if( zenkakuFlag2 == TRUE ){
-			zenkakuFlag2 = FALSE; // �ե饰�ϣƣ�
+			zenkakuFlag2 = FALSE; // フラグＯＦＦ
 			return;
 		}
-		// ȫ�ǤΤȤ� ȫ�ǵ�ʱ��
-		// ���֤���Ǥ�ȫ�Ǥ����{�٤�
+		// 全角のとき 全角的时候
+		// 文字が半角か全角かを{べる
 		if( GetCharByte( c ) == 2 ){
-			// ���Ȱ��һ���֤��������Ǥ���r��ȫ�Ǥ������Ǥ��ʤ�
+			// あと半角一文字だけ入力できるr、全角は入力できない
 			if( pNowStrBuffer->cnt >= pNowStrBuffer->len - 1 ){
-				zenkakuFlag2 = TRUE; // �ե饰�ϣ�
+				zenkakuFlag2 = TRUE; // フラグＯＮ
 				return;
 			}
-		// ��ǤΕr
+		// 半角のr
 		}else{
-			// ���������Εr�������Ǥ��ʤ�
+			// 文字列最大のr、入力できない
 			if( pNowStrBuffer->cnt >= pNowStrBuffer->len/* || zenkakuFlag2 == TRUE*/ ){
-				//zenkakuFlag2 = FALSE; // �ե饰�ϣƣ�
+				//zenkakuFlag2 = FALSE; // フラグＯＦＦ
 				return;
 			}
 #if 1
-			// ��ǥ��ʤΕr��ȫ�Ǥ��ʤˉ�Q����
+			// 半角カナのr、全角かなにQする
 			if( ( char )0xa0 <= c && c <= ( char )0xdf ){ 
-				// ���Ȱ��һ���֤��������Ǥ���r��ȫ�Ǥ������Ǥ��ʤ�
+				// あと半角一文字だけ入力できるr、全角は入力できない
 				if( pNowStrBuffer->cnt >= pNowStrBuffer->len - 1 )
 				{
 					return;
 				}
-				// һ�Х���Ŀ��Хåե��`������
-				//��ȥ
+				// 一バイト目をバッファ`に溜める
+				//我去
 				
 			//	pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] = ZenkakuKana[ ( c - ( char )0xa0 ) * 2 ];
-				// �Τ���������Хåե��`�ؤΥݥ��󥿤��M�ޤ���
+				// 次に入力するバッファ`へのポインタをMませる
 			//	pNowStrBuffer->cnt++;
-				// ���Х���Ŀ
+				// ２バイト目
 			//	pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] = ZenkakuKana[ ( c - ( char )0xa0 ) * 2 + 1 ];
-				// �K��ӛ�Ť�����
+				// K端号を入れる
 			//	pNowStrBuffer->buffer[ pNowStrBuffer->cnt + 1 ] = '\0';
 	          
-				// �Τ���������Хåե��`�ؤΥݥ��󥿤��M�ޤ���
+				// 次に入力するバッファ`へのポインタをMませる
 			//	pNowStrBuffer->cnt++;
-				// �ե�å��奫���󥿩`��������ƣ�
+				// フラッシュカウンタ`梗ǖ愕疲
 				
 				CursorFlashCnt = 20;
 				
@@ -607,237 +607,237 @@ void StockStrBufferChar( char c )
 		}
 	}
 	
-	// �Хåե��`�����֤�����
+	// バッファ`に文字を溜める
 	pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] = c;
-	// �K��ӛ�Ť�����
+	// K端号を入れる
 	pNowStrBuffer->buffer[ pNowStrBuffer->cnt + 1 ] = '\0';
 	
-	// �Τ���������Хåե��`�ؤΥݥ��󥿤��M�ޤ���
+	// 次に入力するバッファ`へのポインタをMませる
 	pNowStrBuffer->cnt++;
-	// �ե�å��奫���󥿩`��������ƣ�
+	// フラッシュカウンタ`梗ǖ愕疲
 	CursorFlashCnt = 20;
 	
-	// ǰ�ؤ�ȫ�ǤǤʤ��ä���
+	// 前回が全角でなかったら
 	if( zenkakuFlag == FALSE ){
-		// ȫ�ǤΤȤ��ե饰�����ƤƤ���
-		// ���֤���Ǥ�ȫ�Ǥ����{�٤�
+		// 全角のときフラグを立てておく
+		// 文字が半角か全角かを{べる
 		if( GetCharByte( c ) == 2 ) zenkakuFlag = TRUE;
 			
 	}else zenkakuFlag = FALSE;
 	
 }
-//���Ų�����
+//开放测试下
 #if 0
-/* ����å����֤�Хåե������루���Х��ȣ�******�������ֻ��崢��2�ֽڣ�*****************************/
+/* チャット文字をバッファに溜める（２バイト）******聊天文字缓冲储（2字节）*****************************/
 void StockChatBufferWord( WORD w )
 {
 	STR_BUFFER *chatBuffer = &ChatBuffer[ NowChatLine ];
 	//STR_BUFFER *chatBuffer =(STR_BUFFER *) &ChatBuffer[ NowChatLine ];
 	
-	// ������ȥ��`�Щ`�Εr
+	// カウントオ`バ`のr
 //	if( ChatCnt >= CHAT_BUFFER_SIZE - 2 ) return;
 	
-	// ����å��������Хåե��`�����֤�����
+	// チャット文字数バッファ`に文字を溜める
 	pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] = w;
-	// �K��ӛ�Ť�����
+	// K端号を入れる
 	pNowStrBuffer->buffer[ pNowStrBuffer->cnt + 2 ] = '\0';
 	
-	// �Τ���������Хåե��`�ؤΥݥ��󥿤��M�ޤ���
+	// 次に入力するバッファ`へのポインタをMませる
 	pNowStrBuffer->cnt++;
 }
 #endif
 
-/* ����å����֤�Хåե������루һ�У�******�������ֻ��崢���У�*********************************/
+/* チャット文字をバッファに溜める（一行）******聊天文字缓冲储（行）*********************************/
 void StockChatBufferLine( char *str, unsigned char color )
 {
 	int splitPoint = 0;
 	char splitStr[ STR_BUFFER_SIZE + 1 ];
 	
-	// һ�Ф˅��ޤ�ʤ��r  һ��û����¼��ʱ��
+	// 一行にГ蓼椁胜r  一行没有收录的时候
 	if( strlen( str ) > MyChatBuffer.len )
 	{
-		// �ָ�����������
+		// 分割文字列作成
 		strncpy( splitStr, str, MyChatBuffer.len );
-		// �K��ӛ�Ť�����
+		// K端号を入れる
 		*( splitStr + MyChatBuffer.len ) = NULL;
-		// �����ȫ�����֤��ָ��Ƥ���r  ����ȫ�����ֱ��ָ��ʱ��
+		// 最後の全角文字が分割されているr  最后的全角文字被分割的时候
 		
 		if( GetStrLastByte( splitStr ) == 3 )
 		{ 
-			// һ���֑��� һ���ͻָ�
+			// 一文字 一字型恢复
 			splitPoint = MyChatBuffer.len - 1;
-			// �K��ӛ�Ť�����
+			// K端号を入れる
 			*( splitStr + MyChatBuffer.len - 1 ) = NULL; 
 		}
 		else splitPoint = MyChatBuffer.len; 
 
-      //�Ҽ� ԭʼ�������
+      //我加 原始是上面的
       // splitPoint = MyChatBuffer.len;
 		
-		// �����Ф����å��Ф��ͤꤳ��
+		// 文字列をチャット行に送りこむ
 		strncpy( ChatBuffer[ NowChatLine ].buffer, str, splitPoint );
-		// �K��ӛ�Ť�����
+		// K端号を入れる
 		*( ChatBuffer[ NowChatLine ].buffer + splitPoint ) = NULL; 
 	}
 	else
 	{
-		// �����Ф����å��Ф��ͤꤳ��
+		// 文字列をチャット行に送りこむ
 		strcpy( ChatBuffer[ NowChatLine ].buffer, str );
 	}
-	// ����åȥ����ե�����˳���
+	// チャットログファイルに出力
 	if( chatLogFile )
 	{
 		fprintf( chatLogFile, "%s\n", ChatBuffer[ NowChatLine ].buffer );
 	}
-	// ɫ��ָ��
+	// 色の指定
 	ChatBuffer[ NowChatLine ].color = color;
 	
-	NowChatLine++;	// ����åȸ���
-	// ��ߥåȥ����å�
+	NowChatLine++;	// チャット改行
+	// リミットチェック
 	if( NowChatLine >= MAX_CHAT_LINE ) NowChatLine = 0;
 
-	// һ�Ф˅��ޤ�ʤ��ä���
+	// 一行にГ蓼椁胜盲郡
 	if( splitPoint != 0 ){
-		// �Τ��Ф��ͤ������Ф����å��Ф��ͤꤳ�ࣨ�َ��I����
+		// 次の行に送る文字列をチャット行に送りこむ（再I理）
 		StockChatBufferLine( str + splitPoint, color );
 	}
-	// ����`���������`������
+	// スム`ズスクロ`ル座
 	//ChatLineSmoothY += 20;
 	ChatLineSmoothY = 20;
 	
 }
 
-/* ����å����֤�ȫ�ƥ��ꥢ���� *******��������ȫ�����****************************************/
+/* チャット文字を全てクリアする *******聊天文字全部清除****************************************/
 void ClearChatBuffer( void )
 {
 	int i;
 	
-	// ����åȤ������֥�`��
+	// チャットの行数分ル`プ
 	for( i = 0 ; i < MAX_CHAT_LINE ; i++ ){
-		// �K��ӛ�Ť�����
+		// K端号を入れる
 		ChatBuffer[ i ].buffer[ 0 ] = '\0';
 	}
 }
 
-/* ����åȥХåե��`��ե���ȥХåե������� **���컺�����建����******************************/
+/* チャットバッファ`をフォントバッファに溜める **聊天缓冲字体缓冲蓄******************************/
 void ChatBufferToFontBuffer( void )
 {
 	#define CHAT_ZOUBUN_Y 20;
 	int i, j, k = 0;
 	//char moji[ 256 ];
-	int x = 8, y = 400; // ��ʾ����
+	int x = 8, y = 400; // 表示座
 	
-	// ����ʼ����Ф��O��  ��ʼд�е��趨
+	// 激幛胄肖卧O定  开始写行的设定
 	j = NowChatLine - 1;
-	// ��ߥåȥ����å�
+	// リミットチェック
 	if( j < 0 ) j = MAX_CHAT_LINE - 1;
 	
-	// �������`���Ф�һ����֤˱�ʾ ������һ�ж����ʾ
+	// スクロ`ル中は一行余分に表示 滚动中一行多余表示
 	if( ChatLineSmoothY > 0 ) k = NowMaxChatLine + 1;
 	else k = NowMaxChatLine;
 	
-	// ��ߥåȥ����å�  ���޼��
+	// リミットチェック  极限检查
 	if( k > MAX_CHAT_LINE )  k = MAX_CHAT_LINE;
 	
-	// ����åȤ������֥�`��  �������������ѭ��
+	// チャットの行数分ル`プ  聊天的行数分钟循环
 	for( i = 0 ; i < k; i++ ){
 	//for( i = 0 ; i < NowMaxChatLine; i++ ){
-		// �Τ����֤����ä���
+		// 何かも字があったら
 		if( *ChatBuffer[ j ].buffer != NULL ){
-			// �ե���ȥХåե�������
+			// フォントバッファへ溜める
 			StockFontBuffer( x, y + ChatLineSmoothY, FONT_PRIO_BACK, ChatBuffer[ j ].color, ( char *)ChatBuffer[ j ].buffer, 0 );
 		}
-		y -= CHAT_ZOUBUN_Y;  // �����Ƅ�
-		// �ΤΥХåե�
+		y -= CHAT_ZOUBUN_Y;  // 座艘
+		// 次のバッファ
 		j--;
-		// ��ߥåȥ����å�
+		// リミットチェック
 		if( j < 0 ) j = MAX_CHAT_LINE - 1;
 	}
-	// ����`���������`��Εr
+	// スム`ズスクロ`ルのr
 	if( ChatLineSmoothY > 0 ) ChatLineSmoothY--;
 	
-	// �Τ����֤����ä���
+	// 何か文字があったら
 	//if( *MyChatBuffer.buffer != NULL ){
-		// �Է֤�������ե���ȥХåե�������
+		// 自分の入力をフォントバッファへ溜める
 		StockFontBuffer2( &MyChatBuffer );
 		//StockFontBuffer( MyChatBuffer.x, MyChatBuffer.y, FONT_PRIO_BACK, MyChatBuffer.color, ( char *)MyChatBuffer.buffer, 0 );
 	//}
 }
 
 /*******************************************************************************/
-/* �����Ф����᤬��Ǥ�ȫ�Ǥ����{�٤�
-/* ���ꂎ��	��ǣ���
-/* 			ȫ�ǣ���
-/* 			���⣺��
+/* 文字列の最後が半角か全角かを{べる
+/* 	半角：１
+/* 			全角：２
+/* 			例外：３
 /*******************************************************************************/
 int GetStrLastByte( char *str )
 {
 	int byte = 0;
 	
-	// �����Ф�����ޤǥ�`��
+	// 文字列の最後までル`プ
 	while( !( *str == '\0' ) ){
 	//		( *str == ( char )0x81 && *( str + 1 ) == ( char )0x51 ) ) ){
 	
-		// ȫ�ǤΤȤ�
+		// 全角のとき
 		if( ( char )0x80 <= *str && *str <= ( char )0x9f ||
 			( char )0xe0 <= *str && *str <= ( char )0xff ){
 			
-			// ȫ�Ǥ����֤��ָ��Ƥ���r
-			if( *( str + 1 ) == NULL ) return 3; // ����
+			// 全角の文字が分割されているr
+			if( *( str + 1 ) == NULL ) return 3; // 例外
 			
-			str += 2; 	// ���Х����w�Ф�
-			byte = 2;	// ȫ�ǤǤ�
+			str += 2; 	// ２バイトwばす
+			byte = 2;	// 全角です
 			
-		}else{	// ��ǤΤȤ�
+		}else{	// 半角のとき
 		
-			str ++; 	// ���Х����w�Ф�
-			byte = 1;	// ��ǤǤ�
+			str ++; 	// １バイトwばす
+			byte = 1;	// 半角です
 		}
 	}
 	return byte;
 }
 
 /*******************************************************************************/
-/* ���֤���Ǥ�ȫ�Ǥ����{�٤�
-/* ���ꂎ��	��ǣ���
-/* 			ȫ�ǣ���  ȫ�ǰ��/�����𣿵��鷵��ֵ/��ǣ�1/ȫ�ǣ�2
+/* 文字が半角か全角かを{べる
+/* 	半角：１
+/* 			全角：２  全角半角/文字吗？调查返回值/半角：1/全角：2
 /*******************************************************************************/
 int GetCharByte( char c )
 {
-	// ȫ�ǤΤȤ�
+	// 全角のとき
 	if( ( char )0x80 <= c && c <= ( char )0x9f ||
 		( char )0xe0 <= c && c <= ( char )0xff ){
 		
-		return 2;	// ȫ�ǤǤ�
+		return 2;	// 全角です
 		
-	}else{	// ��ǤΤȤ�
+	}else{	// 半角のとき
 	
-		return  1;	// ��ǤǤ�
+		return  1;	// 半角です
 	}
 }
 
 /*******************************************************************************/
-/* �����Фκ�����ɥå��������{�٤�
-/* ���ꂎ��	�ɥå���
+/* 文字列の横幅（ドット数）を{べる
+/* 	ドット数
 /*******************************************************************************/
 int GetStrWidth( char *str )
 {
 	int width = 0;
 	
-	// �����Ф�����ޤǥ�`��
+	// 文字列の最後までル`プ
 	while( !( *str == '\0' ) ){
 	
-		// ȫ�ǤΤȤ�
+		// 全角のとき
 		if( ( char )0x80 <= *str && *str <= ( char )0x9f ||
 			( char )0xe0 <= *str && *str <= ( char )0xff ){
 			
-			str += 2; 	// ���Х����w�Ф�
-			width += FontZenkauWidth; // ȫ�ǥ��������㤹
+			str += 2; 	// ２バイトwばす
+			width += FontZenkauWidth; // 全角サイズを足す
 			
-		}else{	// ��ǤΤȤ�
+		}else{	// 半角のとき
 		
-			str ++; 	// ���Х����w�Ф�
-			width += FontHankakuWidth; // ��ǥ��������㤹
+			str ++; 	// １バイトwばす
+			width += FontHankakuWidth; // 半角サイズを足す
 		}
 	}
 	
@@ -845,22 +845,22 @@ int GetStrWidth( char *str )
 }
 
 /*******************************************************************************/
-/* �����ե��`����ȡ��  ����۽�ȡ��
+/* 入力フォ`カス取得  输入聚焦取得
 /*******************************************************************************/
 void GetKeyInputFocus( STR_BUFFER *pStrBuffer )
 {
 	
-	// ��������������r
+	// 入力鏊r
 	//if( pNowStrBuffer != NULL ){
-		// ���`���뤬�ФäƤ���r
+		// カ`ソルが残っているr
 	//	if(	pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] != '\0' ){
-			// �K��ӛ�Ť�����
+			// K端号を入れる
 	//		pNowStrBuffer->buffer[ pNowStrBuffer->cnt ] = '\0';
 	//	}
 	//}
-	// �ɣͣťХåե��`����ڻ�
+	// ＩＭＥバッファ`を初期化
 	//*ImeBuffer = '\0';
-	// �����Хåե��ݥ��󥿤���
+	// 入力バッファポインタを涓
 	pNowStrBuffer = pStrBuffer;
 }
 

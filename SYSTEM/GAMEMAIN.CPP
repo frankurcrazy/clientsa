@@ -22,82 +22,82 @@
 #include "pc.h"
 #include "map.h"
 
-#define NO_DRAW_MAX_CNT 20	// �軭���ʤ����ե�`����  ��ͼ�������
-//�����ϵͳ SKIPָ��
-#define FRAME_SKIP	0		// ������������ƥ� �ϣΣ������ϣƣƣ���  �����ϵͳ
+#define NO_DRAW_MAX_CNT 20	// 描画しない最大フレ`ム数  绘图不最大框架
+//格掉的系统 SKIP指针
+#define FRAME_SKIP	0		// コマ落ちシステム ＯＮ：１　ＯＦＦ：０  格掉的系统
 
-// ������ɥ���`���Ф��椨�v������ ����ģʽת����������
+// ウィンドウモ`ド切り替えv数宣言 窗口模式转换函数宣言
 void ChangeWindowMode( void );
-// ����ȥ�`���O���I��
+// 解像度モ`ドO定I理
 void SetResoMode(int Mode);
 
-//����ģʽ3�� ��ǰ�ر��ҿ���
+//调试模式3行 以前关闭我开启
 //#ifndef _DEBUG
-//#define _DEBUG	// �Ȥꤢ�����ǥХå���`��  ��֮���Է�ʽ
+//#define _DEBUG	// とりあえずデバッグモ`ド  总之调试方式
 //#endif
 
 int testCnt;
 static char no_wait_cnt = 0;
 
 //---------------------------------------------------------------------------//
-// �����`�Х�������x       ȫ�ֱ�������                                                 //
+// グロ`バル涫x       全局变量定义                                                 //
 //---------------------------------------------------------------------------//
-int	GameState;					// ���`���״�B ��Ϸ��״̬
-double ProcTime = 16.666667;	// �I����ʹ���r�g������軭�r�g 
-//����ʱ�䣬ʹ�ú���Ƶ�ʱ��
-//double ProcTime = 33.333333;				// �I����ʹ���r�g������軭�r�g
-double SystemTime = 16.666667;	// �����󥯤� 16 msc
-//float SystemTime = 33.33333333;	// �����󥯤� 16 msc
-double NowTime; 					// �F�ڤΕr�gӛ��
-//��ͼ������̨
-int	  NoDrawCnt = 1;			// �軭���Ƥʤ����������󥿩`
-//��������滭����
-int BackBufferDrawType;			// �Хå��Хåե��`�軭����
+int	GameState;					// ゲ`ムの状B 游戏的状态
+double ProcTime = 16.666667;	// I理に使うrg、後は描画rg 
+//处理时间，使用后绘制的时间
+//double ProcTime = 33.333333;				// I理に使うrg、後は描画rg
+double SystemTime = 16.666667;	// １シンクは 16 msc
+//float SystemTime = 33.33333333;	// １シンクは 16 msc
+double NowTime; 					// F在のrg
+//绘图次数柜台
+int	  NoDrawCnt = 1;			// 描画してない回数カウンタ`
+//背部缓冲绘画方法
+int BackBufferDrawType;			// バックバッファ`描画方法
 
-// �ե�`���`��Ӌ����  ֡����
-int	  FrameRate;				// �ե�`���`��  ֡����
-//��ÿ�뼸�Ż��Ƽ���
-int	  DrawFrameCnt;				// һ���g�˺�ö�軭��������ӛ��
-DWORD DrawFrameTime;			// һ���g�������륫���󥿩` 1�����
+// フレ`ムレ`ト算用  帧速率
+int	  FrameRate;				// フレ`ムレ`ト  帧速率
+//以每秒几张绘制计数
+int	  DrawFrameCnt;				// 一秒gに何枚描画したかを
+DWORD DrawFrameTime;			// 一秒gを数えるカウンタ` 1秒计数
 #ifdef _DEBUG
-static int palNo = 0;			// �ѥ�åȷ���  �������
-static int fontNo = 0;			// �ե���ȷ���
+static int palNo = 0;			// パレット番号  字体号码
+static int fontNo = 0;			// フォント番号
 #endif
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ��������ɥ������ᥤ��I���v��                                       //
-// ���� ��HWND hWnd : ������ɥ����R�e�ϥ�ɥ�                               //
+// 概要 ：ウインドウ制御メインI理v数                                       //
+// 引数 ：HWND hWnd : ウィンドウのReハンドル                               //
 //---------------------------------------------------------------------------//
 //---------------------------------------------------------------------------//
-// ��Ҫ ��������ɥ������ᥤ��I���v��                                       //
-// ���� ��HWND hWnd : ������ɥ����R�e�ϥ�ɥ�                               //
-//  ��Ҫ�����ڿ�����Ҫ��������/ // /������HWND hWnd:���ڵ�ʶ���ֱ�
+// 概要 ：ウインドウ制御メインI理v数                                       //
+// 引数 ：HWND hWnd : ウィンドウのReハンドル                               //
+//  概要：窗口控制主要处理函数/ // /参数：HWND hWnd:窗口的识别手柄
 //---------------------------------------------------------------------------//
 BOOL GameMain( void )
 {
-	// ���`���_ʼ�I��
+	// ゲ`ム_始I理
 	if( InitGame() == FALSE ) return FALSE;
 	
-	// �ᥤ���`��
+	// メインル`プ
 	while( 1 )
 	{
-		// ��å��`����`�ץ��`��  ��Ϣѭ������
+		// メッセ`ジル`プコ`ル  信息循环呼叫
 		if( SystemTask() == FALSE ){
 		
-			EndGame(); // ���`��K�˄I��
+			EndGame(); // ゲ`ムK了I理
 			
 			return FALSE;
 		}
 		
-		// �ӣ��r�g��ȡ��
+		// ＳＡrgを取得
 		RealTimeToSATime( &SaTime );
 		
-		// ��ʾ�����󥿩`���ڻ�����������Εr����ڻ����뤿�ᤳ���Ǥ��룩
+		// 表示カウンタ`初期化（コマ落ちのrも初期化するためここでする）
 		DispBuffer.DispCnt = 0;
-		// �ե���ȥ����󥿩`���ڻ�  �����̨���ڻ�
+		// フォントカウンタ`初期化  字体柜台初期化
 		FontCnt = 0;
 		
-		// �ͥåȥ�`���I��
+		// ネットワ`クI理
 #ifdef _DEBUG
 		if( !offlineFlag )
 			networkLoop();
@@ -105,97 +105,97 @@ BOOL GameMain( void )
 		networkLoop();
 #endif
 		
-		// �ãģģ������� ��ԩ`�� ���ظ�
+		// ＣＤＤＡ再生（ リピ`ト ）重复
 		cdda_play( cdda_no );
 		
-		joy_read(); 	// ���`�ܩ`������  ��������
+		joy_read(); 	// キ`ボ`ド入力  键盘输入
 #if 1
 //		if( joy_trg[ 1 ] & JOY_PRINT_SCREEN )
 		if( joy_trg[ 1 ] & JOY_F12 )
 		{
 			static unsigned int prePushTime = 0;
 
-			// �B�����ƣ�0.5���g����
+			// B射抑制（0.5秒g隔）
 			if( prePushTime + 500 <= GetTickCount() )
 			{
-				// �F�ڤλ����£ͣХե�����˱���
+				// F在の画面をＢＭＰファイルに保存
 				snapShot();
 				prePushTime = GetTickCount();
 			}
 		}
 #endif
-		Process();		// �������I��  ������
+		Process();		// タスクI理  任务处理
 		
-		MouseProc();	// �ޥ����I��
+		MouseProc();	// マウスI理
 		
-		SortDispBuffer(); 	// ��ʾ�Хåե����`�� ��ʾ���򻺳���
+		SortDispBuffer(); 	// 表示バッファソ`ト 表示排序缓冲区
 		
-		HitMouseCursor();	// �ޥ������`����Τ������ж�
+		HitMouseCursor();	// マウスカ`ソルのあたり判定
 		
-		PaletteProc();		// �ѥ�åȄI��
+		PaletteProc();		// パレットI理
 		
 
 #ifdef _DEBUG
-		// ����ȉ��
+		// 解像度涓
 		if( joy_trg[ 1 ] & JOY_F9  && WindowMode ){
 #else			
-		// ����ȉ��
+		// 解像度涓
 		if( joy_trg[ 1 ] & JOY_F9  && WindowMode && LowResoCmdFlag ){
 #endif
-			// �ݳ��ФǤʤ����
+			// 演出中でなければ
 			if( BackBufferDrawType != DRAW_BACK_PRODUCE ){
 				
-				// DirectDraw���֥������Ȥ�����r
+				// DirectDrawオブジェクトがあるr
 				if( lpDraw != NULL ){
-					// DirectDraw �_��
+					// DirectDraw _放
 					ReleaseDirectDraw();
-					// �ե���ȥ��֥������Ȥ�Ĩ��
+					// フォントオブジェクトを抹
 					DeleteObject( hFont );
-					// ����ȥ�`���O��
+					// 解像度モ`ドO定
 					SetResoMode( (ResoMode + 1 ) & 1 );
 
-					// ������ɥ���`�ɤǤʤ����
+					// ウィンドウモ`ドでなければ
 //					if( !WindowMode ){
-						// ������ɥ���`�ɥե饰���
+						// ウィンドウモ`ドフラグ涓
 //						if( WindowMode == TRUE ) WindowMode = FALSE;
 //						else WindowMode = TRUE;
 //						WindowMode = TRUE;
 //					}
-					// DirectDraw ���ڻ�
+					// DirectDraw 初期化
 					InitDirectDraw();
-					// ���ե�����`�󥵩`�ե��������� 
+					// オフスクリ`ンサ`フェスの作成 
 					InitOffScreenSurface();
-					// �ե���ȥ��֥������Ȥ����� */
+					// フォントオブジェクトの作成 */
 					InitFont( 0 );
-					// ������ɥ���`�ɤʤ�
+					// ウィンドウモ`ドなら
 //					if( WindowMode ){
-						// ������ɥ���`���Ф��椨
+						// ウィンドウモ`ド切り替え
 						ChangeWindowMode();
 //					}
 
-					// ȫ������ɥ������軭Ҫ��
+					// 全ウィンドウに再描画要求
 					//SendMessage( HWND_BROADCAST, WM_PAINT, NULL, NULL );
 					
-					// �ѥ�åȳ��ڻ�
+					// パレット初期化
 					if( InitPalette() == FALSE ){
 						PostMessage( hWnd, WM_CLOSE, 0, 0L );
 					}
-					// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ�������
+					// バトルマップiみzみとバトルサ`フェスの画像作成
 					if( ProcNo == PROC_BATTLE ){ 
-						// �Хåե����ڻ�
+						// バッファ初期化
 						DispBuffer.DispCnt = 0;
 						FontCnt = 0;
 						ReadBattleMap( BattleMapNo );
-						// �Хå����`�ե������\�ǥ��ꥢ�`
+						// バックサ`フェスを\でクリア`
 						ClearBackSurface();	
-						// �£ͣФ�Хå����`�ե����˥��å�
+						// ＢＭＰをバックサ`フェスにセット
 						PutBmp();	
-						// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+						// バックサ`フェスからバトルサ`フェスへコピ`
 						lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-						// �Хåե����ڻ�
+						// バッファ初期化
 						DispBuffer.DispCnt = 0;
 						FontCnt = 0;
-						// �F�ڤΕr�g��ӛ��
+						// F在のrgを
 						NowTime = GetTickCount();
 					}
 //					continue;
@@ -204,149 +204,149 @@ BOOL GameMain( void )
 		}
 #ifdef _DEBUG
 #if 0
-		// �ѥ�åȉ��
-		if( joy_trg[ 1 ] & JOY_F8 ){	/* �ץ饹 */
+		// パレット涓
+		if( joy_trg[ 1 ] & JOY_F8 ){	/* プラス */
 			palNo++;
 			if( palNo >= MAX_PAL ) palNo = 0;
-			// �ѥ�åȥ�����
+			// パレットチェンジ
 			PaletteChange( palNo, 300 );
-			// �����ƥ�ʹ����
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
-		// �ե���ȉ��
-		if( joy_trg[ 1 ] & JOY_F6 ){	/* �ץ饹 */
+		// フォント涓
+		if( joy_trg[ 1 ] & JOY_F6 ){	/* プラス */
 		}
-		// �ե���ȉ��
-		if( joy_trg[ 1 ] & JOY_F5 ){	/* �ץ饹 */
-		// ���Υ��ץꥱ�`�����Θ��ޥ�٥���O��(������٥� & �ե륹����`���棩
+		// フォント涓
+		if( joy_trg[ 1 ] & JOY_F5 ){	/* プラス */
+		// このアプリケ`ションの叵蕙欹佶毪蛟O定(排他レベル & フルスクリ`ン画面）
 		//	if( lpDraw->lpDD2->SetCooperativeLevel( hWnd, DDSCL_NORMAL ) != DD_OK )
 		//	{
-		//		MessageBox( hWnd, "SetCooperativeLevel Error", "�_�J", MB_OK | MB_ICONSTOP );
+		//		MessageBox( hWnd, "SetCooperativeLevel Error", "_J", MB_OK | MB_ICONSTOP );
 			//return FALSE;
 		//	}
 		}
 		
-		// �ե���ȉ��
-		if( joy_trg[ 1 ] & JOY_F7 ){	/* �ץ饹 */
-			// ��`��ǩ`�����i���z��
+		// フォント涓
+		if( joy_trg[ 1 ] & JOY_F7 ){	/* プラス */
+			// メ`ルデ`タのiみzみ
 			//LoadMailHistory();
-			// ȫ������ɥ������軭Ҫ��
+			// 全ウィンドウに再描画要求
 		//	SendMessage( HWND_BROADCAST, WM_PAINT, NULL, NULL );
 		//	SendMessage( HWND_BROADCAST, WM_PALETTECHANGED, NULL, NULL );
 		//	SendMessage( HWND_BROADCAST, WM_ERASEBKGND, NULL, NULL );
 		//	SendMessage( HWND_BROADCAST, WM_PAINTCLIPBOARD, NULL, NULL );
 		//	SendMessage( HWND_BROADCAST, WM_PAINTICON, NULL, NULL );
 		
-		// ���Υ��ץꥱ�`�����Θ��ޥ�٥���O��(������٥� & �ե륹����`���棩
+		// このアプリケ`ションの叵蕙欹佶毪蛟O定(排他レベル & フルスクリ`ン画面）
 		//if( lpDraw->lpDD2->SetCooperativeLevel( hWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN ) != DD_OK )
 		//{
-		//	MessageBox( hWnd, "SetCooperativeLevel Error", "�_�J", MB_OK | MB_ICONSTOP );
+		//	MessageBox( hWnd, "SetCooperativeLevel Error", "_J", MB_OK | MB_ICONSTOP );
 			//return FALSE;
 		//}
-			//MessageBox( hWnd, "�ģ������ģ����γ��ڻ���ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+			//MessageBox( hWnd, "ＤｉｒｅｃｔＤｒａｗの初期化に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 			//BattleResultWndFlag = 2;
 			//BattleResultWndFlag = 1;
 			fontNo++;
 			if( fontNo >= 3 ) fontNo = 0;
-			// �ե���ȥ�����
+			// フォントチェンジ
 			InitFont( fontNo );
-			// �����ƥ�ʹ����
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
 		
 		extern void lssproto_MSG_recv( int fd,int aindex,char* text ,int color);
-		// �ե���ȉ��
-		if( joy_trg[ 1 ] & JOY_F5 ){	/* �ץ饹 */
+		// フォント涓
+		if( joy_trg[ 1 ] & JOY_F5 ){	/* プラス */
 			char moji[ 256 ];
 			static cnt = 0;
-			// ��`�뤬�줤����å��`������
-			sprintf( moji," 9/%02d 12:15|��������������������������������������������������������������������������������������������������������������������������������������������", cnt, cnt++ );
-			// ���ǽ줤��
+			// メ`ルが届いたメッセ`ジ作成
+			sprintf( moji," 9/%02d 12:15|１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０", cnt, cnt++ );
+			// 墙欷い
 			lssproto_MSG_recv( 0, 1, moji ,0 );
-			// �����ƥ�ʹ����
+			// アイテム使う音
 			//play_se( 212, 320, 240 );
-			// ��`��ǩ`���α���
+			// メ`ルデ`タの保存
 			//SaveMailHistory();
 		}
 #endif		
 #if 0		
 
-		// ���ѥ�åȉ��
-		if( joy_auto[ 0 ] & JOY_A ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// Ａパレット涓
+		if( joy_auto[ 0 ] & JOY_A ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
-		// �¥ѥ�åȉ��
-		if( joy_auto[ 0 ] & JOY_B ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// Ｂパレット涓
+		if( joy_auto[ 0 ] & JOY_B ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
 		
-		// ���ѥ�åȉ��
-		//if( joy_trg[ 0 ] & JOY_A ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// Ａパレット涓
+		//if( joy_trg[ 0 ] & JOY_A ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
-		// �¥ѥ�åȉ��
-		//if( joy_trg[ 0 ] & JOY_B ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// Ｂパレット涓
+		//if( joy_trg[ 0 ] & JOY_B ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
 		
 		
-		// �ѥ�åȉ��
-		//if( joy_trg[ 1 ] & JOY_CTRL_MINUS ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		//if( joy_trg[ 1 ] & JOY_CTRL_MINUS ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
-		// ���ѥ�åȉ��
-		//if( joy_trg[ 1 ] & JOY_CTRL_MINUS ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// Ａパレット涓
+		//if( joy_trg[ 1 ] & JOY_CTRL_MINUS ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
-		// �ѥ�åȉ��
-		//if( joy_trg[ 1 ] & JOY_CTRL_CIRCUMFLEX ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		//if( joy_trg[ 1 ] & JOY_CTRL_CIRCUMFLEX ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
-		// �ѥ�åȉ��
-		if( joy_trg[ 1 ] & JOY_CTRL_YEN ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		if( joy_trg[ 1 ] & JOY_CTRL_YEN ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
-		// �ѥ�åȉ��
-		//if( joy_trg[ 1 ] & JOY_PRINT_SCREEN ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		//if( joy_trg[ 1 ] & JOY_PRINT_SCREEN ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
-		// �ѥ�åȉ��
-		if( joy_trg[ 1 ] & JOY_RSHIFT ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		if( joy_trg[ 1 ] & JOY_RSHIFT ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
-		// �ѥ�åȉ��
-		if( joy_trg[ 1 ] & JOY_LSHIFT ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		if( joy_trg[ 1 ] & JOY_LSHIFT ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
-		// �ѥ�åȉ��
-		if( joy_trg[ 1 ] & JOY_TAB ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		if( joy_trg[ 1 ] & JOY_TAB ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
-		// �ѥ�åȉ��
-		//if( joy_trg[ 1 ] & JOY_RETURN ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		//if( joy_trg[ 1 ] & JOY_RETURN ){	/* プラス */
+			// アイテム使う音
 		//	play_se( 212, 320, 240 );
 		//}
-		// �ѥ�åȉ��
-		if( joy_trg[ 1 ] & JOY_CTRL_W ){	/* �ץ饹 */
-			// �����ƥ�ʹ����
+		// パレット涓
+		if( joy_trg[ 1 ] & JOY_CTRL_W ){	/* プラス */
+			// アイテム使う音
 			play_se( 212, 320, 240 );
 		}
 #endif		
 		
-		// ����`�ȥ��åȥ��`  ��ݼ�
+		// ショ`トカットキ`  快捷键
 		if( joy_trg[ 0 ] & JOY_HOME ){
 			strcpy( MyChatBuffer.buffer + MyChatBuffer.cnt, DebugKey0 );
 			MyChatBuffer.cnt += strlen( DebugKey0 );
@@ -360,13 +360,13 @@ BOOL GameMain( void )
 			MyChatBuffer.cnt += strlen( DebugKey2 );
 		}
 		
-		// �ե�`���`�Ȥ�Ӌ�㣨���ˤ����ɣ�  ֡���ʵļ��㣨���������
+		// フレ`ムレ`トの算（外人が作成）  帧速率的计算（外国人作成
 		DisplayFrameRate();
 		
-		// ����ʾ
+		// 情蟊硎
 		{
 			static int flag = 0;
-			// PageUp Ѻ�����r����ʾ���ȥ��룩
+			// PageUp 押したr情蟊硎荆ē去哎耄
 			if( di_key[ DIK_PRIOR ] & 0x80 ){ 
 				if( flag == 0 ) flag = 1;
 				if( flag == 2 ) flag = 3;
@@ -379,40 +379,40 @@ BOOL GameMain( void )
 #endif	
 	
 #if FRAME_SKIP
-		// �軭�r�g���ФäƤ��ʤ��Ȥ����軭���ʤ� ( �����I���ˑ��� )
+		// 描画rgが残っていないときは描画しない ( すぐI理に )
 		if( NowTime + ProcTime < GetTickCount() ){
-			// �軭���ʤ��Ƥ⤤���r�ʤ�
+			// 描画しなくてもいいrなら
 			if( NoDrawCnt < NO_DRAW_MAX_CNT ){
-				// �����ƥॿ����ץ饹�� �RԽ )
+				// システムタイムプラス（ R越 )
 				NowTime += SystemTime;
-				// �軭���Ƥʤ������������
+				// 描画してない回数カウント
 				NoDrawCnt++;
 				continue;
 			}
 		}
 #endif		
 #ifdef _DEBUG		
-		// �F�ڱ�ʾ���Ƥ��륵�`�ե������γ��ڻ�
+		// F在表示しているサ`フェス数の初期化
 		SurfaceDispCnt = 0;
 		
-		// �軭�r�g���v���� �ǥХå��� ��
+		// 描画rg（v）（ デバッグ用 ）
 		DrawDebugLine( 250 ); 
 #endif		
-		// �Хå��Хåե��`�軭�����Ƿ��
+		// バックバッファ`描画方法で分岐
 		switch( BackBufferDrawType ){
 		
-			case DRAW_BACK_NON:		// �軭���ʤ�
+			case DRAW_BACK_NON:		// 描画しない
 				break;
 				
-			case DRAW_BACK_NORMAL:	// �Хå����`�ե������\�ǥ��ꥢ�`
+			case DRAW_BACK_NORMAL:	// バックサ`フェスを\でクリア`
 			
 				ClearBackSurface();	
 				break;
 				
-			case DRAW_BACK_PRODUCE:	// �ݳ���
+			case DRAW_BACK_PRODUCE:	// 演出中
 				break;
 				
-			case DRAW_BACK_BATTLE:	// �Хȥ�ޥå��軭
+			case DRAW_BACK_BATTLE:	// バトルマップ描画
 			
 				DrawBattleMap();
 				break;
@@ -423,80 +423,80 @@ BOOL GameMain( void )
 #ifdef _DEBUG
 		no_wait_cnt++;
 		no_wait_cnt&=7;
-		if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//�ӣȣɣƣԤ�Ѻ���Ƥ���
+		if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//ＳＨＩＦＴを押してたら
 			if(!no_wait_cnt){
-				PutBmp();	// �£ͣФ�Хå����`�ե����˥��å�
+				PutBmp();	// ＢＭＰをバックサ`フェスにセット
 			}
 		} else {
-			PutBmp();	// �£ͣФ�Хå����`�ե����˥��å�
+			PutBmp();	// ＢＭＰをバックサ`フェスにセット
 		}
 #else
 		
-		PutBmp();	// �£ͣФ�Хå����`�ե����˥��å�
+		PutBmp();	// ＢＭＰをバックサ`フェスにセット
 #endif	
 		
 #ifdef _DEBUG
-			// �����軭�r�g���ࣩ�� �ǥХå��� ��
+			// 文字描画rg（青）（ デバッグ用 ）
 			//DrawDebugLine( 252 ); 
 #endif	
-		// �ե���Ȥ�Хå����`�ե����˥��å�
+		// フォントをバックサ`フェスにセット
 		//PutText( FONT_PRIO_FRONT );	
 		
-		// ������ɥ���`�ɤǤʤ��r
+		// ウィンドウモ`ドでないr
 		//if( !WindowMode ){
-			// �£ͣб�ʾ�Хåե��γ��ڻ�
+			// ＢＭＰ表示バッファの初期化
 		//	DispBuffer.DispCnt = 0;
-			// �ե���ȥ����󥿩`���ڻ�
+			// フォントカウンタ`初期化
 		//	FontCnt = 0;
-			// �ޥ������`����α�ʾ����ȱ�ʾ��
+			// マウスカ`ソルの表示（最先表示）
 		//	StockDispBuffer( mouse.nowPoint.x + 8, mouse.nowPoint.y + 8, DISP_PRIO_TOP, 5200, 0 );
-		//	PutBmp();	// �£ͣФ�Хå����`�ե����˥��å�
+		//	PutBmp();	// ＢＭＰをバックサ`フェスにセット
 		//}
 		
 #ifdef _DEBUG		
 		
-		// ��ä��r�g���\���� �ǥХå��� ��
+		// 余ったrg（\）（ デバッグ用 ）
 		DrawDebugLine( 0 );	
 #endif		
 		
 #ifdef _DEBUG		
-		if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//�ӣȣɣƣԤ�Ѻ���Ƥ���
+		if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//ＳＨＩＦＴを押してたら
 			if(!no_wait_cnt){
-				Flip();	// ��ֱͬ�ھ��r���Ф��椨�I��
+				Flip();	// 垂直同期rの切り替えI理
 			}
 		} else {
-			Flip();	// ��ֱͬ�ھ��r���Ф��椨�I��
+			Flip();	// 垂直同期rの切り替えI理
 		}
 #else
 		
-		Flip();	// ��ֱͬ�ھ��r���Ф��椨�I��
+		Flip();	// 垂直同期rの切り替えI理
 #endif		
 		
 #ifdef _DEBUG		
-		// �I��r�g���ࣩ�� �ǥХå��� ��
+		// I理rg（赤）（ デバッグ用 ）
 		DrawDebugLine( 249 ); 
 #endif
 		
 #if FRAME_SKIP
 #ifdef _DEBUG		
-		if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//�ӣȣɣƣԤ�Ѻ���Ƥ���
-			// �Ω`��������
+		if( GetAsyncKeyState( 0x10 ) & 0x8000 ){		//ＳＨＩＦＴを押してたら
+			// ノ`ウエイト
 			NowTime = GetTickCount();
 		} else {
-			// �r�g�Τ�����{��
+			// rgのずれを{整
 //			while( NowTime >= GetTickCount() );
 			while( NowTime >= GetTickCount() ){
-				// ������ɥ���`�ɤʤ�
+				// ウィンドウモ`ドなら
 				if( WindowMode ){
 					Sleep(1);
 				}
 			}
 		}
 #else
-		// �r�g�Τ�����{��
+		// rgのずれを{整
 //		while( NowTime >= GetTickCount() );
 		while( NowTime >= GetTickCount() ){
-			// ������ɥ���`�ɤʤ�
+			// ウィンドウモ`ドなら
 			if( WindowMode ){
 				Sleep(1);
 			}
@@ -505,29 +505,29 @@ BOOL GameMain( void )
 #endif
 #endif
 
-		// �ѥ�åȥ����󥸥ե饰�ϣΤΕr
+		// パレットチェンジフラグＯＮのr
 		if( PalChangeFlag == TRUE ){
-			// һ���_��
+			// 一度_放
 		//    lpDraw->lpPALETTE->Release();
-			// 8Bit����ǥå�����Palette�����ǳ��ڻ������Y����lpPALETTE�ط�����
+			// 8BitインデックスをPalette涫浅跗诨贰⒔Y果をlpPALETTEへ返す。
 		//	lpDraw->lpDD2->CreatePalette( DDPCAPS_8BIT, Palette, &lpDraw->lpPALETTE, NULL );
 		
 		
-			// �ѥ�åȤ��������O��
+			// パレットの中身をO定
 			lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
-			PalChangeFlag = FALSE; // �ե饰���ڻ�
+			PalChangeFlag = FALSE; // フラグ初期化
 		}
 		
-		// �����ƥॿ����ץ饹
+		// システムタイムプラス
 		NowTime += SystemTime;
-		// �軭���Ƥʤ��������ڻ�
+		// 描画してない回数初期化
 		NoDrawCnt = 1;
 		
 #ifdef _DEBUG		
-		// һ���g���軭����ö���򥫥����
+		// 一秒gに描画した枚数をカウント
     	DrawFrameCnt++;
 #endif
-		// ���`�ե�����ʹ�ä����ո������
+		// サ`フェスを使用した日付を更新
 		SurfaceDate++;
 	}
 
@@ -535,7 +535,7 @@ BOOL GameMain( void )
 }
 
 #ifdef _DEBUG		
-// ����ʾ *******************************************************************/
+// 情蟊硎 *******************************************************************/
 void InfoDisp( void )
 {
 	char szMoji[ 256 ];
@@ -544,7 +544,7 @@ void InfoDisp( void )
 	char c = 0;
 	
 	sprintf( szMoji,"ActionCnt        = %d", ActCnt );
-	// �ե��������Хåե�������
+	// フォント情螭颔啸氓榨・肆铯幛
 	StockFontBuffer( x, y, FONT_PRIO_FRONT, c++, szMoji, 0 );y += 16;
 	
 	sprintf( szMoji,"DispCnt          = %d", DispBuffer.DispCnt );
@@ -637,156 +637,156 @@ void InfoDisp( void )
 }
 #endif		
 
-// �ե�`���`�Ȥ�Ӌ�㣨���ˤ����ɣ�
+// フレ`ムレ`トの算（外人が作成）
 void DisplayFrameRate( void )
 {
-	// һ�뤿�ä������
+	// 一秒たったら更新
     if( GetTickCount() - DrawFrameTime >= 1000 ){
 	
-		// �ե�`��쥤�Ȥ�ӛ��
+		// フレ`ムレイトを
         FrameRate = DrawFrameCnt;
-		// ��Εr�g��ӛ��
+		// 今のrgを
         DrawFrameTime = GetTickCount();
-		// һ���g���軭����ö������ڻ�
+		// 一秒gに描画した枚数を初期化
         DrawFrameCnt = 0;
     }
 }
 
-// �����α�ʾ ***��־�ı�ʾ**************************************************************/
+// ロゴの表示 ***标志的表示**************************************************************/
 void PutLogo( void )
 {
 	
-	// �£ͣб�ʾ�Хåե��γ��ڻ�
+	// ＢＭＰ表示バッファの初期化
 	DispBuffer.DispCnt = 0;
 	StockDispBuffer( 320, 240, DISP_PRIO_TOP, CG_TITLE_NOW_LOADING, 0 );
-	ClearBackSurface();	// �Хå����`�ե������\�ǥ��ꥢ�`  �����ӿڿ�ʼ�´�λͼ
-	PutBmp();			// �£ͣФ�Хå����`�ե����˥��å� ����λͼ
-	Flip();				// ��ֱͬ�ھ��r���Ф��椨�I��  ��ֱ��ʱ��ת������
+	ClearBackSurface();	// バックサ`フェスを\でクリア`  清理接口开始下次位图
+	PutBmp();			// ＢＭＰをバックサ`フェスにセット 设置位图
+	Flip();				// 垂直同期rの切り替えI理  垂直线时的转换处理
 }	
 
-// ���`���_ʼ�I�� ////��Ϸ��ʼ����//////////////////////////////////////////////////////////
+// ゲ`ム_始I理 ////游戏开始处理//////////////////////////////////////////////////////////
 BOOL InitGame( void )
 {
 	
-	// DirectDraw ���ڻ�  ���ﲻ��Ϥ�Ժ�ѧϰ�����и����Բ���16λɫ����ϵͳ����
+	// DirectDraw 初期化  这里不熟悉以后学习里面有个可以不用16位色调换系统不用
 	if( InitDirectDraw() == FALSE ){
-		MessageBox( hWnd, "�ģ������ģ����γ��ڻ���ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "ＤｉｒｅｃｔＤｒａｗの初期化に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 	
-	/* ���ե�����`�󥵩`�ե���������  ��ʼ�� ����ӿ�Ϊ��ʾ��׼��*/
+	/* オフスクリ`ンサ`フェスの作成  初始化 表面接口为显示做准备*/
 	if( InitOffScreenSurface() == FALSE ){
-		MessageBox( hWnd, "���ե�����`�󥵩`�ե����������ɤ�ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "オフスクリ`ンサ`フェイスの作成に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 
-	// �ѥ�åȳ��ڻ� ��ɫ���ص�Ҫѧϰ�� ������
+	// パレット初期化 调色板重点要学习完 拿来用
 	if( InitPalette() == FALSE ) return FALSE;
 	
 	//_asm{int 3}
-	// Realbin �v�B�γ��ڻ�  �ص��� ���ﵽ�˵�ͼͼƬ�����ļ�
+	// Realbin vBの初期化  重点了 这里到了地图图片数据文件
 	if( initRealbinFileOpen( realBinName, adrnBinName ) == FALSE ) {
 	//if( initRealbinFileOpen( "..\\real.bin", "..\\adrn.bin" ) == FALSE ) {
-		MessageBox( hWnd, "Real.bin �Υ��`�ץ��ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
-		//MessageBox( hWnd, "�ӣ�գ������.����夫�����Ӥ��Ƥ���������", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "Real.bin のオ`プンに失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "ＳａＵｐｄａｔｅ.ｅｘｅから起婴筏皮坤丹ぁ", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 	
-	// �����α�ʾ
+	// ロゴの表示
 	PutLogo();
 	
-	// ���`�ȥޥå׳��ڻ��I��
+	// オ`トマップ初期化I理
 	initAutoMapColor( adrnBinName );
 
-	// SprBin �v�B�γ��ڻ�
+	// SprBin vBの初期化
 	if( InitSprBinFileOpen( sprBinName, sprAdrnBinName ) == FALSE ){
-		MessageBox( hWnd, "Spr.bin �Υ��`�ץ��ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "Spr.bin のオ`プンに失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 
-	/* �����������ڻ� */
+	/* アクション初期化 */
 	InitAction();
 		
-	// �ե���ȥ��֥������Ȥ����� */
+	// フォントオブジェクトの作成 */
 	InitFont( 0 );
 	//InitFont( 2 );
 	
-	// ����ϵ�г��ڻ�
+	// 乱数系列初期化
 	srand( ( unsigned int )GetTickCount() );
 	initRand2();
 	
-	// DirectSound ���ڻ�
+	// DirectSound 初期化
 	t_music_init();
 
-	// �����쥯�ȥ���ץåȳ��ڻ�
+	// ダイレクトインプット初期化
 	InitDInput();
 	
-	// �ãģģ�����
+	// ＣＤＤＡ再生
 	//cdda_play( Rnd( 2, 34 ) );
 	
-	// �ɣͣ��v�B�γ��ڻ�
+	// ＩＭＥvBの初期化
 	InitIme();
 	
-	// �ޥ����I���γ��ڻ�
+	// マウスI理の初期化
 	MouseInit();
 
-	// CD���`���ѥ���`���i���z��
+	// CDキ`、パスワ`ドiみzみ
 	if( loadUserSetting() == FALSE )
 	{
 		char msg[1024];
 		sprintf( msg, SAVE_ERRMSG_loadNowState, savedataErrorCode );
-		MessageBox( hWnd, msg, "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, msg, "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 	
-	// ����åȤε��h���֤��i���z��  �����ע�����ֵĶ�ȡ
+	// チャットの登h文字のiみzみ  聊天的注册文字的读取
 	LoadChatRegistyStr();				
 	
-	// �F�ڤΕr�g��ӛ��
+	// F在のrgを
 	NowTime = GetTickCount();
 	DrawFrameTime = GetTickCount();
 
-// �ǥХå���Ǥʤ��Ȥ�	
+// デバッグ版でないとき	
 #ifndef _DEBUG
-	// �ޥ������`������L��
+	// マウスカ`ソルをLす
 	ShowCursor( FALSE );
 #endif	
 	return TRUE;
 }	
 
-// ���`��K�˄I�� //////////////////////////////////////////////////////////////
+// ゲ`ムK了I理 //////////////////////////////////////////////////////////////
 void EndGame( void )
 {
-	//DirectDraw �_��
+	//DirectDraw _放
 	ReleaseDirectDraw();
-	// �����쥯�ȥ���ץå��_��
+	// ダイレクトインプット_放
 	EndDInput();
-	// DirectSound �_��
+	// DirectSound _放
 	t_music_end();
-	// �ãģģ�ֹͣ
+	// ＣＤＤＡ停止
 	cdda_stop();
-	// Rialbin �]����
+	// Rialbin ]じる
 	cleanupRealbin();
-	// �ե���ȥ��֥������Ȥ�Ĩ��
+	// フォントオブジェクトを抹
 	DeleteObject( hFont );
-	// �ɣͣŤνK��
+	// ＩＭＥのK了
 	EndIme();
-	// ���������K�˄I��
+	// アクションK了I理
 	EndAction();
-	// �ͥåȥ�`���K�˄I��
+	// ネットワ`クK了I理
 	cleanupNetwork();
-	// ͬ�r���ӥ����å����֥��������_��
+	// 同r起鹰隶Д氓芝弗Д乳_放
 	ReleaseMutex( hMutex );
-	// �ѥ��`�����`��
+	// パラメ`タセ`ブ
 	saveUserSetting();
-	// ����åȤε��h���֤α���
+	// チャットの登h文字の保存
 	SaveChatRegistyStr();
 	
-	// �����ީ`�K��
+	// タイマ`K了
 //	timeKillEvent(timerId);
 	
 	//{
-		// ALT+TAB �Є��ˤ���
+		// ALT+TAB 有郡摔工
 	//	int nOldVal;
 	//	SystemParametersInfo (SPI_SCREENSAVERRUNNING, FALSE, &nOldVal, 0);
 	//}

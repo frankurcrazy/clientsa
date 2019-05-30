@@ -21,18 +21,18 @@ static char ADDRBINFILENAME[255];
 #define LINESTRINGS			255
 
 ADRNBIN adrnbuff[MAX_GRAPHICS];
-//´ÓÁĞ±íÀ­µ¹×ÀÃæÏÔÊ¾£¿  ÊÇÈ«²¿µØÖ·½á¹¹ÌåÁĞ±í ÎªÈİÒ×Ìá³öµØÍ¼ĞÅÏ¢½¨Á¢µÄÊı¾İµØÖ·±í
-unsigned long bitmapnumbertable[MAX_GRAPHICS];//¥Ê¥ó¥Ğ©`¤«¤é¥Ó¥Ã¥È¥Ş¥Ã¥×·¬ºÅ¤òÒı¤¯¥Æ©`¥Ö¥ë U2
-//×Ô¶¯µØÍ¼×÷³ÉÊ±¸÷Í¼ÏñµÄÑÕÉ«±í
-unsigned char autoMapColorTbl[MAX_GRAPHICS];	// ¥ª©`¥È¥Ş¥Ã¥××÷³É•r¤Î¸÷»­Ïñ¤ÎÉ«¥Æ©`¥Ö¥ë
+//ä»åˆ—è¡¨æ‹‰å€’æ¡Œé¢æ˜¾ç¤ºï¼Ÿ  æ˜¯å…¨éƒ¨åœ°å€ç»“æ„ä½“åˆ—è¡¨ ä¸ºå®¹æ˜“æå‡ºåœ°å›¾ä¿¡æ¯å»ºç«‹çš„æ•°æ®åœ°å€è¡¨
+unsigned long bitmapnumbertable[MAX_GRAPHICS];//ãƒŠãƒ³ãƒ`ã‹ã‚‰ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ç•ªå·ã‚’å¼•ããƒ†`ãƒ–ãƒ« U2
+//è‡ªåŠ¨åœ°å›¾ä½œæˆæ—¶å„å›¾åƒçš„é¢œè‰²è¡¨
+unsigned char autoMapColorTbl[MAX_GRAPHICS];	// ã‚ª`ãƒˆãƒãƒƒãƒ—ä½œæˆrã®å„ç”»åƒã®è‰²ãƒ†`ãƒ–ãƒ«
 
 FILE *Realbinfp, *Addrbinfp, *debughistory;
-BITMAPINFO		tmpBitMapInfo;//Î»Í¼ĞÅÏ¢Í·
+BITMAPINFO		tmpBitMapInfo;//ä½å›¾ä¿¡æ¯å¤´
 
 
 PBITMAPINFO 		PBiInfo;
 PBYTE				PBits;
-BITMAPFILEHEADER	header;//Î»Í¼ÎÄ¼şÍ·×¼±¸ÌáÈ¡Î»Í¼ÏÔÊ¾ÓÃ
+BITMAPFILEHEADER	header;//ä½å›¾æ–‡ä»¶å¤´å‡†å¤‡æå–ä½å›¾æ˜¾ç¤ºç”¨
 
 LONG	GetWidth(){return PBiInfo->bmiHeader.biWidth;}
 LONG	GetHeight(){return PBiInfo->bmiHeader.biHeight;}
@@ -48,47 +48,47 @@ struct RECODEHEAD{
 
 
 
-//¥Õ¥¡¥¤¥ë¤òé_¤¤¤Æ¤ß¤ë
-//ŸoÊÂé_¤±¤¿¤éTRUE¤ò·µ¤¹   ´ò¿ª	REAL ³É¹¦TRUE
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’_ã„ã¦ã¿ã‚‹
+//oäº‹_ã‘ãŸã‚‰TRUEã‚’è¿”ã™   æ‰“å¼€	REAL æˆåŠŸTRUE
 BOOL initRealbinFileOpen(char *realbinfilename, char *addrbinfilename)
 {
 	
     strcpy(REALBINFILENAME, realbinfilename);
 	strcpy(ADDRBINFILENAME, addrbinfilename);
 	ADRNBIN tmpadrnbuff;
-	//real.biné_¤­£¨¤Ã¤Ñ¤Ê¤·£©  ´ò¿ª£¨Ò»Ö±£©
+	//real.bin_ãï¼ˆã£ã±ãªã—ï¼‰  æ‰“å¼€ï¼ˆä¸€ç›´ï¼‰
 	if ((Realbinfp = fopen(REALBINFILENAME, "rb"))==NULL){
 		return FALSE;
 	}
 
-	//adrn.biné_¤­ ´ò¿ª
+	//adrn.bin_ã æ‰“å¼€
 	if ((Addrbinfp = fopen(ADDRBINFILENAME, "rb"))==NULL){
 		return FALSE;
 	}
-	//adrn.bin¥Ğ¥Ã¥Õ¥¡¤ËÕi¤ßŞz¤ß »º³å¶ÁÈ¡
+	//adrn.binãƒãƒƒãƒ•ã‚¡ã«iã¿zã¿ ç¼“å†²è¯»å–
 	while(!feof(Addrbinfp))
 	{
-		//fread ¶ÁÈ¡Ò»¸öBMPµØÖ·½á¹¹µ½Ò»¸öµØÖ·½á¹¹±äÁ¿
+		//fread è¯»å–ä¸€ä¸ªBMPåœ°å€ç»“æ„åˆ°ä¸€ä¸ªåœ°å€ç»“æ„å˜é‡
 		fread(&tmpadrnbuff, sizeof(tmpadrnbuff), 1, Addrbinfp);
-		//µÃµ½µÄ½á¹¹ËÍµ½ÉêÇëµÄ½á¹¹Ö¸Õë´æ´¢  Êµ¼ÊÊÇÖ¸ÕëÖ¸ÏòÁË±¾µÃµ½µÄ½á¹¹
-		//bitmapno Í¼Æ¬µÄ½á¹¹ÌåËùÔÚºÅÂëË³Ğò´Ó0¿ªÊ¼
+		//å¾—åˆ°çš„ç»“æ„é€åˆ°ç”³è¯·çš„ç»“æ„æŒ‡é’ˆå­˜å‚¨  å®é™…æ˜¯æŒ‡é’ˆæŒ‡å‘äº†æœ¬å¾—åˆ°çš„ç»“æ„
+		//bitmapno å›¾ç‰‡çš„ç»“æ„ä½“æ‰€åœ¨å·ç é¡ºåºä»0å¼€å§‹
 		adrnbuff[tmpadrnbuff.bitmapno] = tmpadrnbuff;
 
 
-		// bitmapnumbertable[¥Ó¥Ã¥È¥Ş¥Ã¥×·¬ºÅ] = Í¨¤··¬ºÅ  [Î»Í¼ºÅÂë] =±àºÅ
+		// bitmapnumbertable[ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ç•ªå·] = é€šã—ç•ªå·  [ä½å›¾å·ç ] =ç¼–å·
 		if ( tmpadrnbuff.attr.bmpnumber != 0)
 		{
-			//×îºóµÄµØÍ¼±àºÅ²»ÊÇ0 ¾Í°Ñ½á¹¹ÌåÎ»ÖÃºÅÂë´«¸øÎ»Í¼µÄºÅÂë
+			//æœ€åçš„åœ°å›¾ç¼–å·ä¸æ˜¯0 å°±æŠŠç»“æ„ä½“ä½ç½®å·ç ä¼ ç»™ä½å›¾çš„å·ç 
 			bitmapnumbertable[tmpadrnbuff.attr.bmpnumber] = tmpadrnbuff.bitmapno;
 #if 1
-			// ÔO¶¨¤¬¤ª¤«¤·¤¤¤â¤Î¤Ë‚€„e¤ÇĞŞÕı¤¹¤ë  Éè¶¨¹Ö¶«Î÷¸ö±ğĞŞÕı
-			// 300ÔO¶¨¤¬¤Ê¤¤¤Î¤ÇÔO¶¨¤¹¤ë  ²»µ½300£¿Éè¶¨300¸ö
+			// Oå®šãŒãŠã‹ã—ã„ã‚‚ã®ã«eã§ä¿®æ­£ã™ã‚‹  è®¾å®šæ€ªä¸œè¥¿ä¸ªåˆ«ä¿®æ­£
+			// 300Oå®šãŒãªã„ã®ã§Oå®šã™ã‚‹  ä¸åˆ°300ï¼Ÿè®¾å®š300ä¸ª
 			if( (12802 <= tmpadrnbuff.attr.bmpnumber && tmpadrnbuff.attr.bmpnumber <= 12811)
 			 || (10132 <= tmpadrnbuff.attr.bmpnumber && tmpadrnbuff.attr.bmpnumber <= 10136) )
 			{
 				adrnbuff[tmpadrnbuff.bitmapno].attr.hit =
 					300 + (adrnbuff[tmpadrnbuff.bitmapno].attr.hit % 100);
-			}//Ã»Àí½âÊÇ¸ÉÊ²Ã´µÄËäÈ»´úÂë¶¼Ã÷°×ÒâË¼  hitÍâÃæ´«ËµÊÇ0¿ÉÒÔÍ¨¹ı1²»¿ÉÒÔ
+			}//æ²¡ç†è§£æ˜¯å¹²ä»€ä¹ˆçš„è™½ç„¶ä»£ç éƒ½æ˜ç™½æ„æ€  hitå¤–é¢ä¼ è¯´æ˜¯0å¯ä»¥é€šè¿‡1ä¸å¯ä»¥
 #endif
 		}
 		else
@@ -100,33 +100,33 @@ BOOL initRealbinFileOpen(char *realbinfilename, char *addrbinfilename)
 #endif
 		}
 	}
-	//adrn.biné]¤¸¤ë  ¹Ø±Õ
+	//adrn.bin]ã˜ã‚‹  å…³é—­
 	fclose(Addrbinfp);
 
 	return TRUE;
 }
 
 
-// ¥ª©`¥È¥Ş¥Ã¥×ÓÃ»­ÏñÉ«¤Î×÷³É¤Ş¤¿¤ÏÕi¤ßŞz¤ß
-//×Ô¶¯µØÍ¼ÓÃÍ¼ÏñÑÕÉ«×÷³É»ò¶ÁÈ¡
+// ã‚ª`ãƒˆãƒãƒƒãƒ—ç”¨ç”»åƒè‰²ã®ä½œæˆã¾ãŸã¯iã¿zã¿
+//è‡ªåŠ¨åœ°å›¾ç”¨å›¾åƒé¢œè‰²ä½œæˆæˆ–è¯»å–
 void initAutoMapColor( char *addrbinfilename )
 {
 	char *filename = "data\\auto.dat";
 
-	// ¥ª©`¥È¥Ş¥Ã¥×ÓÃ»­ÏñÉ«¤Î¥Õ¥¡¥¤¥ë¤«¤éÕi¤ß¤³¤à
-	//×Ô¶¯µØÍ¼ÓÃÍ¼ÏñÑÕÉ«µÄÎÄ¼şÖĞ¶Á
+	// ã‚ª`ãƒˆãƒãƒƒãƒ—ç”¨ç”»åƒè‰²ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰iã¿ã“ã‚€
+	//è‡ªåŠ¨åœ°å›¾ç”¨å›¾åƒé¢œè‰²çš„æ–‡ä»¶ä¸­è¯»
 	if( readAutoMapColor( filename, addrbinfilename ) == 0 )
 	{
-		// Ÿo¤¤¤Î¤Ç¥ª©`¥È¥Ş¥Ã¥×ÓÃ»­ÏñÉ«¤ò×÷³É
-		//ÒòÎªÃ»ÓĞ×Ô¶¯µØÍ¼ÓÃÍ¼ÏñÑÕÉ«×÷³É
+		// oã„ã®ã§ã‚ª`ãƒˆãƒãƒƒãƒ—ç”¨ç”»åƒè‰²ã‚’ä½œæˆ
+		//å› ä¸ºæ²¡æœ‰è‡ªåŠ¨åœ°å›¾ç”¨å›¾åƒé¢œè‰²ä½œæˆ
 		makeAutoMapColor();
 		writeAutoMapColor( filename, addrbinfilename );
 	}
 }
 
 
-// ¥ª©`¥È¥Ş¥Ã¥×ÓÃ»­ÏñÉ«¤Î×÷³É
-//×Ô¶¯µØÍ¼ÓÃÍ¼ÏñÑÕÉ«µÄ×÷³É
+// ã‚ª`ãƒˆãƒãƒƒãƒ—ç”¨ç”»åƒè‰²ã®ä½œæˆ
+//è‡ªåŠ¨åœ°å›¾ç”¨å›¾åƒé¢œè‰²çš„ä½œæˆ
 void makeAutoMapColor( void )
 {
 	unsigned int i;
@@ -150,7 +150,7 @@ void makeAutoMapColor( void )
 			if( 60 <= adrnbuff[i].attr.bmpnumber
 			 && adrnbuff[i].attr.bmpnumber <= 79 )
 			{
-				// »­Ïñ¤Î¥¿¥¤¥ë¤ËÉ«¤òÔO¶¨¤¹¤ë Í¼ÏñµÄ´É×©ÑÕÉ«ÉèÖÃ
+				// ç”»åƒã®ã‚¿ã‚¤ãƒ«ã«è‰²ã‚’Oå®šã™ã‚‹ å›¾åƒçš„ç“·ç –é¢œè‰²è®¾ç½®
 				autoMapColorTbl[adrnbuff[i].attr.bmpnumber] =
 					(unsigned char)chgTbl[adrnbuff[i].attr.bmpnumber-60];
 			}
@@ -167,10 +167,10 @@ void makeAutoMapColor( void )
 }
 
 
-// ¥ª©`¥È¥Ş¥Ã¥×ÓÃ»­ÏñÉ«¤ò¥Õ¥¡¥¤¥ë¤Ë•ø¤­Şz¤à
-//×Ô¶¯µØÍ¼ÓÃÍ¼ÏñÎÄ¼şĞ´ÈëµÄÑÕÉ«
-//  ‘ø¤ê‚£º  1 ... ³É¹¦
-//            0 ... Ê§”¡
+// ã‚ª`ãƒˆãƒãƒƒãƒ—ç”¨ç”»åƒè‰²ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«zã‚€
+//è‡ªåŠ¨åœ°å›¾ç”¨å›¾åƒæ–‡ä»¶å†™å…¥çš„é¢œè‰²
+//    1 ... æˆåŠŸ
+//            0 ... å¤±
 int writeAutoMapColor( char *wFName, char *addrbinfilename )
 {
 	FILE *wfp, *rfp;
@@ -182,13 +182,13 @@ int writeAutoMapColor( char *wFName, char *addrbinfilename )
 	char *tmpStr;
 
 
-	// adrn.bin¤Î¥Ğ©`¥¸¥ç¥ó·¬ºÅ¥Á¥§¥Ã¥¯  °æ±¾ºÅ¼ì²é
+	// adrn.binã®ãƒ`ã‚¸ãƒ§ãƒ³ç•ªå·ãƒã‚§ãƒƒã‚¯  ç‰ˆæœ¬å·æ£€æŸ¥
 	tmpStr = strstr( addrbinfilename, "adrn" );
 	if( tmpStr == NULL )
-		return 0;	// ÎÄ×ÖÁĞŸo¤«¤Ã¤¿¤é½K¤ï¤ë ÎÄ×ÖÁĞ£¬Èç¹ûÃ»ÓĞ½áÊø
+		return 0;	// æ–‡å­—åˆ—oã‹ã£ãŸã‚‰Kã‚ã‚‹ æ–‡å­—åˆ—ï¼Œå¦‚æœæ²¡æœ‰ç»“æŸ
 	if( tmpStr[4] == '.' )
 	{
-		adrnNo = 0;	// ¥Ç¥Ğ¥Ã¥°¥Ğ©`¥¸¥ç¥ó µ÷ÊÔ°æ±¾
+		adrnNo = 0;	// ãƒ‡ãƒãƒƒã‚°ãƒ`ã‚¸ãƒ§ãƒ³ è°ƒè¯•ç‰ˆæœ¬
 	}
 	else
 	{
@@ -198,7 +198,7 @@ int writeAutoMapColor( char *wFName, char *addrbinfilename )
 			return 0;
 	}
 
-	// adrn.bin¤Î×÷³ÉÈÕ¥Á¥§¥Ã¥¯  ×÷³ÉÈÕ¼ì²é
+	// adrn.binã®ä½œæˆæ—¥ãƒã‚§ãƒƒã‚¯  ä½œæˆæ—¥æ£€æŸ¥
 	if( (rfp = fopen( addrbinfilename, "rb" )) == NULL )
 		return 0;
 
@@ -211,7 +211,7 @@ int writeAutoMapColor( char *wFName, char *addrbinfilename )
 	adrnTime = statBuf.st_ctime;
 	fclose( rfp );
 
-	// ¥Ç©`¥¿•ø¤­¤³¤ß
+	// ãƒ‡`ã‚¿é•¿
 	if( (wfp = fopen( wFName, "wb" )) == NULL )
 		return 0;
 
@@ -226,9 +226,9 @@ int writeAutoMapColor( char *wFName, char *addrbinfilename )
 }
 
 
-// ¥ª©`¥È¥Ş¥Ã¥×ÓÃ»­ÏñÉ«¤ò¥Õ¥¡¥¤¥ë¤«¤éÕi¤ß¤³¤à
-//  ‘ø¤ê‚£º  1 ... ³É¹¦
-//            0 ... Ê§”¡
+// ã‚ª`ãƒˆãƒãƒƒãƒ—ç”¨ç”»åƒè‰²ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰iã¿ã“ã‚€
+//    1 ... æˆåŠŸ
+//            0 ... å¤±
 int readAutoMapColor( char *wFName, char *addrbinfilename )
 {
 	FILE *rfp;
@@ -240,13 +240,13 @@ int readAutoMapColor( char *wFName, char *addrbinfilename )
 	char *tmpStr;
 
 
-	// adrn.bin¤Î¥Ğ©`¥¸¥ç¥ó·¬ºÅÈ¡µÃ  °æ±¾ºÅÈ¡µÃ
+	// adrn.binã®ãƒ`ã‚¸ãƒ§ãƒ³ç•ªå·å–å¾—  ç‰ˆæœ¬å·å–å¾—
 	tmpStr = strstr( addrbinfilename, "adrn" );
 	if( tmpStr == NULL )
-		return 0;	// ÎÄ×ÖÁĞŸo¤«¤Ã¤¿¤é½K¤ï¤ë
+		return 0;	// æ–‡å­—åˆ—oã‹ã£ãŸã‚‰Kã‚ã‚‹
 	if( tmpStr[4] == '.' )
 	{
-		adrnNo = 0;	// ¥Ç¥Ğ¥Ã¥°¥Ğ©`¥¸¥ç¥ó
+		adrnNo = 0;	// ãƒ‡ãƒãƒƒã‚°ãƒ`ã‚¸ãƒ§ãƒ³
 	}
 	else
 	{
@@ -256,12 +256,12 @@ int readAutoMapColor( char *wFName, char *addrbinfilename )
 			return 0;
 	}
 
-	// adrn.bin¤Î×÷³ÉÈÕÈ¡µÃ
+	// adrn.binã®ä½œæˆæ—¥å–å¾—
 	if( (rfp = fopen( addrbinfilename, "rb" )) == NULL )
 		return 0;
 
-	rfh = _fileno( rfp );//È¡µÃ²ÎÊıstreamÖ¸¶¨µÄÎÄ¼şÁ÷ËùÊ¹ÓÃµÄÎÄ¼şÃèÊö·û ·µ»ØÄ³¸öÊı¾İÁ÷µÄÎÄ¼ş¾ä±ú 
-	if( _fstat( rfh, &statBuf ) < 0 )//»ñÈ¡ÓÉÎÄ¼şÖ¸Õë handle Ëù´ò¿ªÎÄ¼şµÄÍ³¼ÆĞÅÏ¢
+	rfh = _fileno( rfp );//å–å¾—å‚æ•°streamæŒ‡å®šçš„æ–‡ä»¶æµæ‰€ä½¿ç”¨çš„æ–‡ä»¶æè¿°ç¬¦ è¿”å›æŸä¸ªæ•°æ®æµçš„æ–‡ä»¶å¥æŸ„ 
+	if( _fstat( rfh, &statBuf ) < 0 )//è·å–ç”±æ–‡ä»¶æŒ‡é’ˆ handle æ‰€æ‰“å¼€æ–‡ä»¶çš„ç»Ÿè®¡ä¿¡æ¯
 	{
 		fclose( rfp );
 		return 0;
@@ -269,54 +269,54 @@ int readAutoMapColor( char *wFName, char *addrbinfilename )
 	adrnTime = statBuf.st_ctime;
 	fclose( rfp );
 
-	// ¥Ç©`¥¿Õi¤ßŞz¤ß
+	// ãƒ‡`ã‚¿iã¿zã¿
 	if( (rfp = fopen( wFName, "rb" )) == NULL )
 		return 0;
 
-	// ¥Ğ©`¥¸¥ç¥óÕi¤ßŞz¤ß
+	// ãƒ`ã‚¸ãƒ§ãƒ³iã¿zã¿
 	if( fread( &rAutoMapColorVersion, sizeof( rAutoMapColorVersion ), 1, rfp ) != 1 )
 	{
-		// Õi¤ßŞz¤ßÊ§”¡
+		// iã¿zã¿å¤±
 		fclose( rfp );
 		return 0;
 	}
 	if( autoMapColorVersion != rAutoMapColorVersion )
 	{
-		// ¥Ğ©`¥¸¥ç¥óß`¤¦¤Î¤Ç½K¤ï¤ë
+		// ãƒ`ã‚¸ãƒ§ãƒ³`ã†ã®ã§Kã‚ã‚‹
 		fclose( rfp );
 		return 0;
 	}
-	// adrn.bin¥Ğ©`¥¸¥ç¥óÕi¤ßŞz¤ß
+	// adrn.binãƒ`ã‚¸ãƒ§ãƒ³iã¿zã¿
 	if( fread( &rAdrnNo, sizeof( rAdrnNo ), 1, rfp ) != 1 )
 	{
-		// Õi¤ßŞz¤ßÊ§”¡
+		// iã¿zã¿å¤±
 		fclose( rfp );
 		return 0;
 	}
 	if( adrnNo != rAdrnNo )
 	{
-		// ¥Ğ©`¥¸¥ç¥óß`¤¦¤Î¤Ç½K¤ï¤ë
+		// ãƒ`ã‚¸ãƒ§ãƒ³`ã†ã®ã§Kã‚ã‚‹
 		fclose( rfp );
 		return 0;
 	}
-	// adrn.bin•régÕi¤ßŞz¤ß
+	// adrn.binrgiã¿zã¿
 	if( fread( &rAdrnTime, sizeof( rAdrnTime ), 1, rfp ) != 1 )
 	{
-		// Õi¤ßŞz¤ßÊ§”¡
+		// iã¿zã¿å¤±
 		fclose( rfp );
 		return 0;
 	}
 	if( adrnTime != rAdrnTime )
 	{
-		// •régß`¤¦¤Î¤Ç½K¤ï¤ë
+		// rg`ã†ã®ã§Kã‚ã‚‹
 		fclose( rfp );
 		return 0;
 	}
 
-	// Œg¥Ç©`¥¿Õi¤ßŞz¤ß
+	// gãƒ‡`ã‚¿iã¿zã¿
 	if( fread( &autoMapColorTbl, sizeof( autoMapColorTbl ), 1, rfp ) != 1 )
 	{
-		// Õi¤ßŞz¤ßÊ§”¡
+		// iã¿zã¿å¤±
 		fclose( rfp );
 		return 0;
 	}
@@ -328,8 +328,8 @@ int readAutoMapColor( char *wFName, char *addrbinfilename )
 
 
 
-//¥Õ¥¡¥¤¥ë¤òé]¤¸¤è¤¦¤È¤¹¤ë / /ÎÄ¼ş±ÕµÄ/ /
-//é_¤¯¤³¤È¤¬³öÀ´¤Ê¤«¤Ã¤¿ˆöºÏ¤Ç¤â¡¢†–î}Ÿo¤·¡£ÄÜ¿ªÁË£¬¼´Ê¹Ã»ÓĞÎÊÌâ¡£
+//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’]ã˜ã‚ˆã†ã¨ã™ã‚‹ / /æ–‡ä»¶é—­çš„/ /
+//_ãã“ã¨ãŒå‡ºæ¥ãªã‹ã£ãŸé¾Šæ‚‰æ‰¦ç‹»}oã—ã€‚èƒ½å¼€äº†ï¼Œå³ä½¿æ²¡æœ‰é—®é¢˜ã€‚
 void cleanupRealbin(void)
 {
 	fclose(Realbinfp);
@@ -342,8 +342,8 @@ void cleanupRealbin(void)
 
 
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤êÁ¢¤ÁÎ»ÖÃ¤ò¤â¤é¤¦  Æ½ÃæºÅÂë±ÈµÃµ½Õ¾Á¢µÄÎ»ÖÃ
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šç«‹ã¡ä½ç½®ã‚’ã‚‚ã‚‰ã†  å¹³é¢å·ç æ¯”å¾—åˆ°ç«™ç«‹çš„ä½ç½®
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetPos(U4 GraphicNo , S2 *x , S2 *y)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){*x=0;*y=0;return FALSE;}
@@ -352,8 +352,8 @@ BOOL realGetPos(U4 GraphicNo , S2 *x , S2 *y)
 	return TRUE;
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤«¤é¥°¥é¥Õ¥£¥Ã¥¯·ù¡¢¸ß¤µ¤ò·µ¤¹
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‹ã‚‰ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯å¹…ã€é«˜ã•ã‚’è¿”ã™
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetWH(U4 GraphicNo , S2 *w , S2 *h)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){*w=0;*h=0;return FALSE;}
@@ -364,8 +364,8 @@ BOOL realGetWH(U4 GraphicNo , S2 *w , S2 *h)
 	return TRUE;
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤êµ±¤¿¤ê¥µ¥¤¥º¤òÇó¤á¤ë¡£
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šå½“ãŸã‚Šã‚µã‚¤ã‚ºã‚’æ±‚ã‚ã‚‹ã€‚
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetHitPoints(U4 GraphicNo , S2 *HitX , S2 *HitY)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){*HitX=0;*HitY=0;return FALSE;}
@@ -376,8 +376,8 @@ BOOL realGetHitPoints(U4 GraphicNo , S2 *HitX , S2 *HitY)
 	return TRUE;
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤êµ±¤¿¤êÅĞ¶¨¤òÇó¤á¤ë¡£
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šå½“ãŸã‚Šåˆ¤å®šã‚’æ±‚ã‚ã‚‹ã€‚
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetHitFlag(U4 GraphicNo , S2 *Hit)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){
@@ -390,8 +390,8 @@ BOOL realGetHitFlag(U4 GraphicNo , S2 *Hit)
 	return TRUE;
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤êÃè»­ƒÏÈí˜Î»›Q¶¨·¨¤òÈ¡¤ê³ö¤¹¡£
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šæç”»å…ˆä½Qå®šæ³•ã‚’å–ã‚Šå‡ºã™ã€‚
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetPrioType(U4 GraphicNo , S2 *prioType)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){
@@ -403,8 +403,8 @@ BOOL realGetPrioType(U4 GraphicNo , S2 *prioType)
 	return TRUE;
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤ê¸ß¤µ¤ÎÓĞŸo¤òÇó¤á¤ë¡£
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šé«˜ã•ã®æœ‰oã‚’æ±‚ã‚ã‚‹ã€‚
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetHeightFlag(U4 GraphicNo , S2 *Height)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){*Height=0;return FALSE;}
@@ -413,8 +413,8 @@ BOOL realGetHeightFlag(U4 GraphicNo , S2 *Height)
 	return TRUE;
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤ê­h¾³Òô¤ò
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šhå¢ƒéŸ³ã‚’
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 int realGetSoundEffect(U4 GraphicNo)
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS)return FALSE;
@@ -422,8 +422,8 @@ int realGetSoundEffect(U4 GraphicNo)
 
 }
 
-//¥°¥é¥Õ¥£¥Ã¥¯¥Ê¥ó¥Ğ©`¤è¤êšiĞĞÒô¤ò
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã‚ˆã‚Šiè¡ŒéŸ³ã‚’
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetWalkSoundEffect(U4 GraphicNo )
 {
 	if(GraphicNo<0 || GraphicNo>=MAX_GRAPHICS){return FALSE;}
@@ -431,8 +431,8 @@ BOOL realGetWalkSoundEffect(U4 GraphicNo )
 
 }
 
-//ÒıÊı¤Ë¥Ó¥Ã¥È¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë·¬ºÅ(¥Õ¥¡¥¤¥ëÃû¤ÎÊı×Ö¤Î¤ß)¤òÓë¤¨¤ÆÍ¨¤··¬ºÅ¤ò·µ¤¹
-//	‘ø‚ -1:Ê§”¡ or ÒÔÍâ³É¹¦
+//å¼•æ•°ã«ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ç•ªå·(ãƒ•ã‚¡ã‚¤ãƒ«åã®æ•°å­—ã®ã¿)ã‚’ä¸ãˆã¦é€šã—ç•ªå·ã‚’è¿”ã™
+//	 -1:å¤± or ä»¥å¤–æˆåŠŸ
 BOOL realGetNo( U4 CharAction , U4 *GraphicNo )
 {
 	if(CharAction<0 || CharAction>=MAX_GRAPHICS){*GraphicNo=0;return FALSE;}
@@ -441,7 +441,7 @@ BOOL realGetNo( U4 CharAction , U4 *GraphicNo )
 }
 
 //
-//  ÒıÊı¤ËÍ¨¤··¬ºÅ¤òÓë¤¨¤Æ¥Ó¥Ã¥È¥Ş¥Ã¥×¥Õ¥¡¥¤¥ë·¬ºÅ¤ò·µ¤¹ ( realGetNo ¤ÎÄæ)
+//  å¼•æ•°ã«é€šã—ç•ªå·ã‚’ä¸ãˆã¦ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ç•ªå·ã‚’è¿”ã™ ( realGetNo ã®é€†)
 //  by Thai
 int realGetBitmapNo( int num )
 {
@@ -457,13 +457,13 @@ int realGetBitmapNo( int num )
 extern int unpack2(FILE *fp, char* p_out, long* bytelength);
 extern int unpack3(char* bytedata, char* p_out, long* bytelength, int mode);
 
-//////////////////////////////////////////////////////////µ½ÕâÀïÎªÖ¹µ÷ÊÔº¯Êı/////////¤³¤³¤Ş¤Ç¥Ç¥Ğ¥Ã¥°évÊı
+//////////////////////////////////////////////////////////åˆ°è¿™é‡Œä¸ºæ­¢è°ƒè¯•å‡½æ•°/////////ã“ã“ã¾ã§ãƒ‡ãƒãƒƒã‚°væ•°
 #define REALGETIMAGEMAXSIZE 1000*1000
 BYTE g_realgetimagebuf[REALGETIMAGEMAXSIZE];
 BYTE g_realgetimagebuf2[REALGETIMAGEMAXSIZE];
 
-//¥Ê¥ó¥Ğ©`¤«¤é¥¤¥á©`¥¸¥Ç©`¥¿¤ò·µ¤¹   Ñ¹Ëõ¸ñÊ½IDºÅµÄÍ¼ÏñÊı¾İ·µ»Ø
-//graphicNo Í¼Æ¬ID   ºóÃæ2¸ö¿í¸ß
+//ãƒŠãƒ³ãƒ`ã‹ã‚‰ã‚¤ãƒ¡`ã‚¸ãƒ‡`ã‚¿ã‚’è¿”ã™   å‹ç¼©æ ¼å¼IDå·çš„å›¾åƒæ•°æ®è¿”å›
+//graphicNo å›¾ç‰‡ID   åé¢2ä¸ªå®½é«˜
 #if 1
 BOOL realGetImage(int graphicNo, unsigned char **bmpdata, int *width, int *height)
 {
@@ -473,20 +473,20 @@ BOOL realGetImage(int graphicNo, unsigned char **bmpdata, int *width, int *heigh
 //	static BYTE bitmapinfo[sizeof(BITMAPINFO)+sizeof(RGBQUAD)*256];
 	if(graphicNo<0 || graphicNo>=MAX_GRAPHICS)return FALSE;
 
-	//graphicNo¥¢¥É¥ì¥¹È¡¤ê³ö¤·
+	//graphicNoã‚¢ãƒ‰ãƒ¬ã‚¹å–ã‚Šå‡ºã—
 	adrdata=adrnbuff[graphicNo];
 
-	//¤³¤ì¤Çadrndata¤Ëreal.bin¤Î¥¢¥É¥ì¥¹¤¬Èë¤ë
-	//Éè¶¨ÎÄ¼şÖ¸Õë Ö¸ÏòÒªÌáÈ¡µÄrealµÄµØÖ·
-	fseek(Realbinfp, adrdata.adder, SEEK_SET);//real.bin¥Õ¥¡¥¤¥ë¥İ¥¤¥ó¥¿ºÏ¤ï¤» 
+	//ã“ã‚Œã§adrndataã«real.binã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒå…¥ã‚‹
+	//è®¾å®šæ–‡ä»¶æŒ‡é’ˆ æŒ‡å‘è¦æå–çš„realçš„åœ°å€
+	fseek(Realbinfp, adrdata.adder, SEEK_SET);//real.binãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿åˆã‚ã› 
 
     if( fread(&g_realgetimagebuf, adrdata.size, 1, Realbinfp ) != 1 )
-	//´ÓrealÎÄ¼ş¶ÁÈ¡Ò»¸öadrnÀïÃæÖ¸¶¨µÄ±¾Í¼Æ¬Êı¾İ´óĞ¡
+	//ä»realæ–‡ä»¶è¯»å–ä¸€ä¸ªadrné‡Œé¢æŒ‡å®šçš„æœ¬å›¾ç‰‡æ•°æ®å¤§å°
 		return FALSE;
 
 	unsigned int len;
 	*bmpdata = g_realgetimagebuf2;
-	//°ÑÌá³öµÄÊı¾İ´«µİ¸øbmpdata
+	//æŠŠæå‡ºçš„æ•°æ®ä¼ é€’ç»™bmpdata
 
 	if( decoder( g_realgetimagebuf, bmpdata,
 			(unsigned int*)width, (unsigned int*)height, &len ) == NULL )
@@ -504,18 +504,18 @@ BOOL realGetImage(int graphicNo, unsigned char **bmpdata, int *width, int *heigh
 //	static BYTE bitmapinfo[sizeof(BITMAPINFO)+sizeof(RGBQUAD)*256];
 	if(graphicNo<0 || graphicNo>=MAX_GRAPHICS)return FALSE;
 
-	//graphicNo¥¢¥É¥ì¥¹È¡¤ê³ö¤·
+	//graphicNoã‚¢ãƒ‰ãƒ¬ã‚¹å–ã‚Šå‡ºã—
 	adrdata=adrnbuff[graphicNo];
 
-	//¤³¤ì¤Çadrndata¤Ëreal.bin¤Î¥¢¥É¥ì¥¹¤¬Èë¤ë
-	fseek(Realbinfp, adrdata.adder, SEEK_SET);//real.bin¥Õ¥¡¥¤¥ë¥İ¥¤¥ó¥¿ºÏ¤ï¤» 
+	//ã“ã‚Œã§adrndataã«real.binã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒå…¥ã‚‹
+	fseek(Realbinfp, adrdata.adder, SEEK_SET);//real.binãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿åˆã‚ã› 
 
     if( fread(&head, 8, 1 , Realbinfp ) != 1 ) return FALSE;
 	if((head.magicnumber != 'AP')&&(head.magicnumber != 'UC')){
-	    //¥Ø¥Ã¥À©`¤¬‰ä
+	    //ãƒ˜ãƒƒãƒ€`ãŒ
 #if 0
 #ifdef DEBUGPUSH
-		PUSH("real.bin¤¬Ò¸ñÍâ");
+		PUSH("real.binãŒè£¢");
 #endif
 #endif
 		return FALSE;
@@ -529,13 +529,13 @@ BOOL realGetImage(int graphicNo, unsigned char **bmpdata, int *width, int *heigh
 
 #if 0
     if( fread(&g_realgetimagebuf, head.size, 1 , Realbinfp ) != 1 )return FALSE;
-	//¥Ø¥Ã¥À©`¤¬ˆR¿sÓÃ¥Ş¥¸¥Ã¥¯¥Ê¥ó¥Ğ©`¤À¤Ã¤¿•r£¨11/12¥Ø¥Ã¥ÀÏ÷³ı&¥Ç©`¥¿ˆR¿s°æ£©
+	//ãƒ˜ãƒƒãƒ€`ãŒRsç”¨ãƒã‚¸ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã ã£ãŸrï¼ˆ11/12ãƒ˜ãƒƒãƒ€å‰Šé™¤&ãƒ‡`ã‚¿Rsç‰ˆï¼‰
 
 	if( head.magicnumber =='AP') 
 		unpack( (char *)&g_realgetimagebuf[0], &head.size , 1 );
 #else
     if( fread(g_realgetimagebuf2, head.size, 1 , Realbinfp ) != 1 )return FALSE;
-	//¥Ø¥Ã¥À©`¤¬ˆR¿sÓÃ¥Ş¥¸¥Ã¥¯¥Ê¥ó¥Ğ©`¤À¤Ã¤¿•r£¨11/12¥Ø¥Ã¥ÀÏ÷³ı&¥Ç©`¥¿ˆR¿s°æ£©
+	//ãƒ˜ãƒƒãƒ€`ãŒRsç”¨ãƒã‚¸ãƒƒã‚¯ãƒŠãƒ³ãƒ`ã ã£ãŸrï¼ˆ11/12ãƒ˜ãƒƒãƒ€å‰Šé™¤&ãƒ‡`ã‚¿Rsç‰ˆï¼‰
 
 	if( head.magicnumber =='AP') 
 		unpack3( (char *)g_realgetimagebuf2,(char *)g_realgetimagebuf, &head.size , 1 );
@@ -549,7 +549,7 @@ BOOL realGetImage(int graphicNo, unsigned char **bmpdata, int *width, int *heigh
 	*width = *( ( int *)g_realgetimagebuf );
 	*height = *( ( int *)g_realgetimagebuf + 1 );
 	*bmpdata = g_realgetimagebuf + 8;
-#else // ˆR¿s¤Ê¤·
+#else // Rsãªã—
 	*width = 64;
 	*height = head.size / 64;
 	*bmpdata = g_realgetimagebuf2;
@@ -561,17 +561,17 @@ BOOL realGetImage(int graphicNo, unsigned char **bmpdata, int *width, int *heigh
 
 #if 0
 BYTE g_linearbuf[REALGETIMAGEMAXSIZE];
-//¾€ĞÎ¥á¥â¥ê¤Ë¤¹¤ë  ÏßĞÔÄÚ´æµÄ
+//å½¢ãƒ¡ãƒ¢ãƒªã«ã™ã‚‹  çº¿æ€§å†…å­˜çš„
 BOOL Linear(void)
 {
-    //±£¹Ü
+    //ä¿ç®¡
     LPBYTE  PReserv;
 
 	int siz = GetImageSize();
 
 	PReserv = g_linearbuf;
 
-    //PBits¤ÎÄÚÈİ¤ò±£¹Ü
+    //PBitsã®å†…å®¹ã‚’ä¿ç®¡
     CopyMemory(PReserv, PBits, GetImageSize() );
 
     LPBYTE  PSource;
@@ -579,11 +579,11 @@ BOOL Linear(void)
     LPBYTE  PDest;
 
     if(GetHeight() > 0){
-        //¥¦¥£¥ó¥É¥¦¥ºĞÎÊ½
+        //ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚ºå½¢å¼
         PSource = PReserv + (GetHeight() - 1) * GetLineSize();
         SourcePitch = -GetLineSize();
     }else{
-        //OS2ĞÎÊ½
+        //OS2å½¢å¼
         PSource = PReserv;
         SourcePitch = GetLineSize();
     }

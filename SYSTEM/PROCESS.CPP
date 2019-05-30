@@ -1,5 +1,5 @@
 /************************/
-/*	process.c	������Ҫ��������	*/
+/*	process.c	进程重要处理事务	*/
 /************************/
 #include "system.h"
 #include "../ohta/ohta.h"
@@ -21,135 +21,135 @@
 #include "field.h"
 #include "handletime.h"
 
-/* ���������*******************************************************************/
+/* 命令处理隐藏*******************************************************************/
 extern void kakushi_command(void);
-/* ���̺� */
+/* 进程号 */
 UINT ProcNo;
-/* �ӽ��� */
+/* 子进程 */
 UINT SubProcNo;
 
-int palNo;//�ֵ�
+int palNo;//兄弟
 int oldPalNo;
 
-/* �ץ������I�� ********************************************************************/
+/* プロセスI理 ********************************************************************/
 void Process( void )
 {
-	/* �ץ�������� */
+	/* プロセス分岐 */
 	switch( ProcNo ){
 	
 		case PROC_OPENNING:
 		
 			break;
 			
-		case PROC_INIT: 	/* ���ڻ��ץ����� */
+		case PROC_INIT: 	/* 初期化プロセス */
 		
 			InitProc();
 			
 			break;
 			
 
-	// ����֤�����봦��
+	// 身份证，密码处理
 		case PROC_ID_PASSWORD:
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			idPasswordProc();
-			RunAction();			// ִ�ж���
-			StockTaskDispBuffer();	// ��ʾ���ݻ�����������
-			FlashKeyboardCursor();	// ���������˸����/ /
-			ImeProc();				// ���뷨�йصĴ���
+			RunAction();			// 执行动作
+			StockTaskDispBuffer();	// 显示数据缓冲区的任务
+			FlashKeyboardCursor();	// 处理光标闪烁键盘/ /
+			ImeProc();				// 输入法有关的处理
 			break;
 
-		// ����Ͳ˵�ѡ��
+		// 标题和菜单选择
 		case PROC_TITLE_MENU:
-			// /�ı����˻�����
+			// /改变了退缓冲区
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			titleProc();
-			TitleProduce();			// ְ��/ 
-			RunAction();			// /ִ�ж���
-			StockTaskDispBuffer();	// ��ʾ���ݻ�����������
-			kakushi_command();		//���ص������
+			TitleProduce();			// 职衔/ 
+			RunAction();			// /执行动作
+			StockTaskDispBuffer();	// 显示数据缓冲区的任务
+			kakushi_command();		//隐藏的命令处理
 			break;
 
-		// ����ѡ��
-		case PROC_CHAR_SELECT:		// ����ѡ��
-			// ���ĺ����Ⱦ����
-			BackBufferDrawType = DRAW_BACK_NORMAL;// ��׼
+		// 人物选择
+		case PROC_CHAR_SELECT:		// 人物选择
+			// 更改后的渲染处理
+			BackBufferDrawType = DRAW_BACK_NORMAL;// 标准
 			selectCharacterProc();
 			break;
 
 
 
-		// ��������
+		// 创建人物
 		case PROC_CHAR_MAKE:
-			// ��Ⱦ����
+			// 渲染处理
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			makeCharacterProc();
 			break;
 
 			
-		// ��ʼ��½ѡ��������
+		// 开始登陆选定的人物
 		case PROC_CHAR_LOGIN_START:
-			// ת������
+			// 转换人物
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
-			// charLoginStart();�����δ������ϵ����ݱ��ݻ�����
-			//��ʼ���Ա�����
-			initMap();		// ��ͼ
-			initPcAll();	// PC�ĳ�ʼ����Ϣ�����
-			initCharObj();	// ��ʼ�����������
-			initOpenServerWindow();	// ��ʼ���Ĵ�������ʾ����������·
-			initFieldProc();		// ���ڳ�ʼ��
-			initMapEffect();		// ��ͼ��ʼ����Ӱ��
+			// charLoginStart();因此如何从网络上的数据备份缓冲区
+			//初始化以保持其
+			initMap();		// 地图
+			initPcAll();	// PC的初始化信息（清除
+			initCharObj();	// 初始化人物管理表
+			initOpenServerWindow();	// 初始化的窗口中显示服务器的线路
+			initFieldProc();		// 窗口初始化
+			initMapEffect();		// 地图初始化的影响
 			EncountFlag = FALSE;
 			logOutFlag = FALSE;
-			InitOhtaParam();	// ��������
+			InitOhtaParam();	// 其他参数
 
 
 			
 			ChangeProc( PROC_CHAR_LOGIN );
-			// �£ǣͥե��`�ɥ������_ʼ
-			fade_out_bgm();//�˳�GM��
+			// ＢＧＭフェ`ドアウト_始
+			fade_out_bgm();//退出GM？
 			break;
 
 		case PROC_CHAR_LOGIN:
-			// �Хå��Хåե��`�軭�������
+			// バックバッファ`描画方法涓
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			characterLoginProc();
 			break;
 
-		// ����������
+		// ログアウト
 		case PROC_CHAR_LOGOUT:
-			// ��־���
+			// 日志输出
 //			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			characterLogoutProc();
 			break;
 
 
-		case PROC_GAME:     /*���̵���Ϸ */
+		case PROC_GAME:     /*进程的游戏 */
 			
 			GameProc();
 			break;
 
-		case PROC_DISCONNECT_SERVER://�Ͽ���Ϸ��
+		case PROC_DISCONNECT_SERVER://断开游戏？
 			switch( SubProcNo )
 			{
 				case 0:
-					// ���ڻ�
-					// PC�ꥻ�å�  / /��ʼ��/ /���Ը�λ
+					// 初期化
+					// PCリセット  / /初始化/ /电脑复位
 					resetPc();
-					// ���������
+					// 人物管理表
 					initCharObj();
-					// ȡ������
+					// 取消动作
 					DeathAllAction();
 
 
-					//  /��ʼ������
+					//  /初始化生产
 					ProduceInitFlag = TRUE;
-					// ���Ʊ�������ͼ��
+					// 复制背景创建图像
 					CopyBackBuffer();
-					// ��Ⱦ����
+					// 渲染方法
 					BackBufferDrawType = DRAW_BACK_PRODUCE; 
-					// ��������
+					// 背景音乐
 					fade_out_bgm();
-					// ��¼��ǰʱ��
+					// 记录当前时间
 
 					NowTime = GetTickCount();
 					SubProcNo++;
@@ -157,7 +157,7 @@ void Process( void )
 					break;
 
 				case 1:
-					// ����
+					// 生成
 					if( DrawProduce( PRODUCE_DOWN_ACCELE ) == TRUE )
 					{
 						BackBufferDrawType = DRAW_BACK_NORMAL; 
@@ -166,58 +166,58 @@ void Process( void )
 					break;
 
 				case 2:
-					// ����
+					// 结束
 					break;
 			}
-			// �Ͽ�����Windows ����
+			// 断开警告Windows 窗口
 			if( disconnectServer() )
 			{
-				// ��ʼ������
+				// 初始化网络
 				cleanupNetwork();
-				// �ָ�Ĭ�ϵ�ɫ��
+				// 恢复默认调色板
 				PaletteChange( DEF_PAL, 0 );
-				// �����⻭��
+				// 到标题画面
 				ChangeProc( PROC_TITLE_MENU );
-				// /�����ж�
+				// /消除行动
 				DeathAllAction();
 				disconnectServerFlag = FALSE;
 				oldDisconnectServerFlag = FALSE;
 				break;
 			}
-			RunAction();			// ����������ߤ餻��  ��������
-			StockTaskDispBuffer();	// ��������ʾ�ǩ`����Хåե�������  ��ʾ�������񻺳���
+			RunAction();			// アクション走らせる  动作运行
+			StockTaskDispBuffer();	// タスク表示デ`タをバッファに溜める  显示数据任务缓冲蓄
 			break;
 
 
-		case PROC_BATTLE:     /* �Хȥ�ץ����� */
+		case PROC_BATTLE:     /* バトルプロセス */
 		
 			BattleProc();
 			break;
 			
 #ifdef _DEBUG		
-		//case PROC_OHTA_TEST:     /* ̫��ƥ��ȥץ����� */
+		//case PROC_OHTA_TEST:     /* 太田テストプロセス */
 		
 		//	OhtaTestProc();
 		//	break;
 			
-		//case PROC_TAKE_TEST:     /* ���ڤ���ƥ��ȥץ����� */
+		//case PROC_TAKE_TEST:     /* 竹内さんテストプロセス */
 		
 		//	TakeTestProc();
 		//	break;
 
-		//case PROC_DWAF_TEST:	// DWAF�ƥ���
+		//case PROC_DWAF_TEST:	// DWAFテスト
 		//	dwafTestProc();
 		//	break;
 
-		case PROC_SPR_VIEW:		// ��ʼ��֤
+		case PROC_SPR_VIEW:		// 初始验证
 			SprViewProc();
 			break;
 			
-		case PROC_ANIM_VIEW:	// ������֤
+		case PROC_ANIM_VIEW:	// 动画验证
 			AnimViewProc();
 			break;
 			
-		case PROC_SE_TEST:	//  SE��������
+		case PROC_SE_TEST:	//  SE的审查过程
 			SeTestProc();
 			break;
 #endif
@@ -228,68 +228,68 @@ void Process( void )
 	}
 }
 
-/* �ץ���������I�� ***********************************************************/
+/* プロセス涓I理 ***********************************************************/
 void ChangeProc( int procNo )
 {
-	// �ץ��������Ť�ӛ��
+	// プロセス番号を
 	ProcNo = procNo;
-	// ���֥ץ��������Ťγ��ڻ�
+	// サブプロセス番号の初期化
 	SubProcNo = 0;
 }
-/* �ץ���������I�� ***********************************************************/
+/* プロセス涓I理 ***********************************************************/
 void ChangeProc( int procNo, int subProcNo )
 {
-	// �ץ��������Ť�ӛ��
+	// プロセス番号を
 	ProcNo = procNo;
-	// ���֥ץ��������Ťγ��ڻ�
+	// サブプロセス番号の初期化
 	SubProcNo = subProcNo;
 }
 
-/* ���`��ץ������I�� ********************************************************************/
+/* ゲ`ムプロセスI理 ********************************************************************/
 void GameProc( void )
 {
 	static int now_bgm;
-	static BOOL produceFlag;	// �ݳ��ե饰
+	static BOOL produceFlag;	// 演出フラグ
 
-	/* ���֥ץ��������ŤǷ�� */
+	/* サブプロセス番号で分岐 */
 	switch( SubProcNo ){
 	
 		case 0:
 #ifdef _DEBUG
-			// ���ե饤���`�ɤΕr�Υޥå׳��ڻ�
+			// オフラインモ`ドのrのマップ初期化
 			if( offlineFlag )
 			{
-				initMap();		// �ޥå׳��ڻ�
+				initMap();		// マップ初期化
 			}
 #endif
 
-			//InitIme();		// �ɣͣ��v�B�γ��ڻ�
-			ClrImeCompositionString(); // ������ɥ����ΣɣͣťХåե��`�򥯥ꥢ����
-			InitChat();		/* ����å��v�B���ڻ� */
-			// �ݳ����ť����ࣨż���Τߣ�
+			//InitIme();		// ＩＭＥvBの初期化
+			ClrImeCompositionString(); // ウィンドウズのＩＭＥバッファ`をクリアする
+			InitChat();		/* チャットvB初期化 */
+			// 演出番号ランダム（偶数のみ）
 			//ProduceNo = Rnd( 0, PRODUCE_END - 1 ) & 0xfffffffe;
-			produceFlag = FALSE;	// �ݳ��ե饰�ϣƣ�
-			EncountFlag = FALSE;	// ���󥫥���ȥե饰�ϣƣ�
-			//�ե��`��ɣ£ǣ������_ʼ
+			produceFlag = FALSE;	// 演出フラグＯＦＦ
+			EncountFlag = FALSE;	// エンカウントフラグＯＦＦ
+			//フィ`ルドＢＧＭ再生_始
 //			play_bgm(0);
-			// ����Х���i���z��  ר���Ķ�ȡ  �ಾ
+			// アルバムのiみzみ  专辑的读取  相簿
 			LoadAlbum();
 			
 			SubProcNo++;
 
-		// ���������ݳ�
+		// ログイン演出
 		case 150:
 			SubProcNo = 100;
 
 		case 100:
-			initPc();				// �ץ쥤��`���������
-			resetFieldProc();		// �ե��`��ɄI���Υꥻ�å�
-			restorePtActCharObjAll();	// ���������Ʃ`�֥�Υ��������ͻ�
-			initOpenServerWindow();	// ���`�Ф�ָʾ�Ǳ�ʾ���륦����ɥ��γ��ڻ�
-			InitMenu();		// ��˥�`�v�B�γ��ڻ�
-//			BattleStatusBak[ 0 ] = NULL;// �Хȥ�״�B���ڻ�
+			initPc();				// プレイヤ`キャラ作成
+			resetFieldProc();		// フィ`ルドI理のリセット
+			restorePtActCharObjAll();	// キャラ管理テ`ブルのアクション活
+			initOpenServerWindow();	// サ`バの指示で表示するウィンドウの初期化
+			InitMenu();		// メニュ`vBの初期化
+//			BattleStatusBak[ 0 ] = NULL;// バトル状B初期化
 //			BattleStatusReadPointer = BattleStatusWritePointer =0;
-			// �����ե��`����ȡ��
+			// 入力フォ`カス取得
 			GetKeyInputFocus( &MyChatBuffer );
 			SubProcNo++;
 
@@ -302,51 +302,51 @@ void GameProc( void )
 			SubProcNo++;
 
 		case 102:
-			// �ݳ����������
-			// �Хåե����ڻ�
+			// 演出画像の作成
+			// バッファ初期化
 			paletteProc();
 
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
-			initCharPartsPrio();	// �����?�ѩ`�Ĥ΃����λ�Q���I���γ��ڻ�
-			RunAction();			// ����������ߤ餻��
-			StockTaskDispBuffer();	// ��������ʾ�ǩ`����Хåե�������
-			stop_bgm();				//�£ǣ�ֹͣ
-			drawMap();				//	�ޥåױ�ʾ
-			MenuProc();				// ��˥�`�I��
-			// һ�Х���ե��ډT��Ĥ֤����\ɫ��
+			initCharPartsPrio();	// キャラ?パ`ツの先位Q定I理の初期化
+			RunAction();			// アクション走らせる
+			StockTaskDispBuffer();	// タスク表示デ`タをバッファに溜める
+			stop_bgm();				//ＢＧＭ停止
+			drawMap();				//	マップ表示
+			MenuProc();				// メニュ`I理
+			// 一行インフォTりつぶし（\色）
 			//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
-			ChatProc();				// ����åȄI��
-			//���컺�����建����
-			ChatBufferToFontBuffer(); // ����åȥХåե��`��ե���ȥХåե�������
-			ImeProc();				// �ɣͣ��v�B�I��
-			SortDispBuffer(); 	// ��ʾ�Хåե����`��
-			// �Хå����`�ե������\�ǥ��ꥢ�`
+			ChatProc();				// チャットI理
+			//聊天缓冲字体缓冲蓄
+			ChatBufferToFontBuffer(); // チャットバッファ`をフォントバッファに溜める
+			ImeProc();				// ＩＭＥvBI理
+			SortDispBuffer(); 	// 表示バッファソ`ト
+			// バックサ`フェスを\でクリア`
 			ClearBackSurface();	
-			// �£ͣФ�Хå����`�ե����˥��å�
+			// ＢＭＰをバックサ`フェスにセット
 			PutBmp();	
-			// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+			// バックサ`フェスからバトルサ`フェスへコピ`
 			lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-			// �Хåե����ڻ�
+			// バッファ初期化
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
 
-		//	_asm{int 3}  ��� �����ͳ��� �ҹر�
+		//	_asm{int 3}  这个 开启就出错 我关闭
 		//	play_bgm( map_bgm_no );
 
-			// �F�ڤΕr�g��ӛ��
+			// F在のrgを
 			NowTime = GetTickCount();
-			// �Хå��Хåե��`�軭�������
+			// バックバッファ`描画方法涓
 //			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
-			// �ݳ���
+			// 演出中
 			ProduceInitFlag = TRUE;
 			DrawProduce( PRODUCE_BRAN_BIG );
 			SubProcNo++;
 			break;
 
 		case 103:
-			// �ݳ���
+			// 演出中
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			if( DrawProduce( PRODUCE_BRAN_BIG ) == TRUE )
 			{
@@ -357,34 +357,34 @@ void GameProc( void )
 			break;
 
 
-		// ��`���ݳ�
+		// ワ`プ演出
 		case 200:
-			// �£ǣͥե��`�ɥ������_ʼ
+			// ＢＧＭフェ`ドアウト_始
 //			fade_out_bgm();
 
-			// S�ץ��ȥ����C�� warpEffectProc();�����Ф��
-			// ���������ΤǤ����ǤϤ��ʤ�������
+			// SプロトコルのCで warpEffectProc();が呼ばれて
+			// 画面を作るのでここではしなくて良い
 			SubProcNo++;
 
 		case 201:
-			// �ݳ���
+			// 演出中
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			if( DrawProduce( PRODUCE_CENTER_PRESSIN ) == TRUE )
 			{
 				SubProcNo++;
 			}
-			drawField();	// �ե��`��ɻ���ˤ���������ʾ
-			MenuProc();	// ��˥�`�I��
-			ImeProc();	// �ɣͣ��v�B�I��
+			drawField();	// フィ`ルド画面にいろいろ表示
+			MenuProc();	// メニュ`I理
+			ImeProc();	// ＩＭＥvBI理
 			break;
 
 		case 202:
 			if( !warpEffectStart || !warpEffectOk )
 			{
 				BackBufferDrawType = DRAW_BACK_NORMAL; 
-				drawField();	// �ե��`��ɻ���ˤ���������ʾ
-				MenuProc();	// ��˥�`�I��
-				ImeProc();	// �ɣͣ��v�B�I��
+				drawField();	// フィ`ルド画面にいろいろ表示
+				MenuProc();	// メニュ`I理
+				ImeProc();	// ＩＭＥvBI理
 				break;
 			}
 			warpEffectStart = FALSE;
@@ -392,20 +392,20 @@ void GameProc( void )
 			SubProcNo++;
 
 		case 203:
-			// �ݳ����������
-			// �Хåե����ڻ�  /�ݳ�ͼ�������/ /������ڻ�
+			// 演出画像の作成
+			// バッファ初期化  /演出图像的作成/ /缓冲初期化
 			paletteProc();
 
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
-			initCharPartsPrio();	// �����?�ѩ`�Ĥ΃����λ�Q���I���γ��ڻ�
-			RunAction();			// ����������ߤ餻��
-			StockTaskDispBuffer();	// ��������ʾ�ǩ`����Хåե�������
+			initCharPartsPrio();	// キャラ?パ`ツの先位Q定I理の初期化
+			RunAction();			// アクション走らせる
+			StockTaskDispBuffer();	// タスク表示デ`タをバッファに溜める
 			redrawMap();
-			drawMap();				//	�ޥåױ�ʾ
+			drawMap();				//	マップ表示
 
 #if 1
-			// ���ե����ȤΥ��ꥢ
+			// エフェクトのクリア
 			if( (mapEffectRainLevel == 0 && oldMapEffectRainLevel != 0 )
 			 || (mapEffectSnowLevel == 0 && oldMapEffectSnowLevel != 0 ) )
 			{
@@ -413,35 +413,35 @@ void GameProc( void )
 			}
 #endif
 
-			// һ�Х���ե��ډT��Ĥ֤����\ɫ��
+			// 一行インフォTりつぶし（\色）
 			//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
-			ChatProc();				// ����åȄI��
-			ChatBufferToFontBuffer(); // ����åȥХåե��`��ե���ȥХåե�������
-			SortDispBuffer(); 	// ��ʾ�Хåե����`��
-			// �Хå����`�ե������\�ǥ��ꥢ�`
+			ChatProc();				// チャットI理
+			ChatBufferToFontBuffer(); // チャットバッファ`をフォントバッファに溜める
+			SortDispBuffer(); 	// 表示バッファソ`ト
+			// バックサ`フェスを\でクリア`
 			ClearBackSurface();	
 #if 1
 			if( (mapEffectRainLevel != 0 && oldMapEffectRainLevel == 0 )
 			 || (mapEffectSnowLevel != 0 && oldMapEffectSnowLevel == 0 ) )
 			{
-				mapEffectProc2( 80 );		// �ޥåץ��ե����ȣ���?ѩ�ȣ�
+				mapEffectProc2( 80 );		// マップエフェクト（雨?雪等）
 			}
 #endif
-			// �£ͣФ�Хå����`�ե����˥��å�
+			// ＢＭＰをバックサ`フェスにセット
 			PutBmp();	
-			// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+			// バックサ`フェスからバトルサ`フェスへコピ`
 			lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-			// �Хåե����ڻ�
+			// バッファ初期化
 			DispBuffer.DispCnt = 0;
 			FontCnt = 0;
 
 //			if( map_bgm_no != now_bgm )
 //			{
-//				stop_bgm();				//�£ǣ�ֹͣ
+//				stop_bgm();				//ＢＧＭ停止
 //				play_bgm( map_bgm_no );
 //			}
 
-			// �F�ڤΕr�g��ӛ��
+			// F在のrgを
 			NowTime = GetTickCount();
 
 			ProduceInitFlag = TRUE;
@@ -449,74 +449,74 @@ void GameProc( void )
 			SubProcNo++;
 
 		case 204:
-			// �ݳ���
+			// 演出中
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			if( DrawProduce( PRODUCE_CENTER_PRESSOUT ) == TRUE )
 			{
 				SubProcNo = 3;
 				fieldInfoTime = GetTickCount();
 			}
-			drawField();	// �ե��`��ɻ���ˤ���������ʾ
-			MenuProc();	// ��˥�`�I��
-			ImeProc();	// �ɣͣ��v�B�I��
+			drawField();	// フィ`ルド画面にいろいろ表示
+			MenuProc();	// メニュ`I理
+			ImeProc();	// ＩＭＥvBI理
 			break;
 
 
 		case 1:
-			initPc();				// �ץ쥤��`���������
-			resetFieldProc();		// �ե��`��ɄI���Υꥻ�å�
-			restorePtActCharObjAll();	// ���������Ʃ`�֥�Υ��������ͻ�
-			initOpenServerWindow();	// ���`�Ф�ָʾ�Ǳ�ʾ���륦����ɥ��γ��ڻ�
-			InitMenu();		// ��˥�`�v�B�γ��ڻ�
-//			BattleStatusBak[ 0 ] = NULL;// �Хȥ�״�B���ڻ�
+			initPc();				// プレイヤ`キャラ作成
+			resetFieldProc();		// フィ`ルドI理のリセット
+			restorePtActCharObjAll();	// キャラ管理テ`ブルのアクション活
+			initOpenServerWindow();	// サ`バの指示で表示するウィンドウの初期化
+			InitMenu();		// メニュ`vBの初期化
+//			BattleStatusBak[ 0 ] = NULL;// バトル状B初期化
 //			BattleStatusReadPointer = BattleStatusWritePointer =0;
-			// �����ե��`����ȡ��
+			// 入力フォ`カス取得
 			GetKeyInputFocus( &MyChatBuffer );
 			
-			// �ݳ�����r
+			// 演出するr
 			if( produceFlag == TRUE ){
-			// ���L�Y��������ɥ��ե饰�ϣ�
+			// 殛LY果ウィンドウフラグＯＮ
 			//if( BattleResultWndFlag == TRUE ){
 
-				// �ݳ����������
-				// �Хåե����ڻ�
+				// 演出画像の作成
+				// バッファ初期化
 				DispBuffer.DispCnt = 0;
 				FontCnt = 0;
-				initCharPartsPrio();	// �����?�ѩ`�Ĥ΃����λ�Q���I���γ��ڻ�
-				RunAction();			// ����������ߤ餻��
-				StockTaskDispBuffer();	// ��������ʾ�ǩ`����Хåե�������
-				stop_bgm();				//�£ǣ�ֹͣ
-				drawMap();				//	�ޥåױ�ʾ
-				//�£ǣͤ��ʤ����
+				initCharPartsPrio();	// キャラ?パ`ツの先位Q定I理の初期化
+				RunAction();			// アクション走らせる
+				StockTaskDispBuffer();	// タスク表示デ`タをバッファに溜める
+				stop_bgm();				//ＢＧＭ停止
+				drawMap();				//	マップ表示
+				//ＢＧＭがなければ
 				if(!draw_map_bgm_flg){
-					//���ä��Σ£ǣ�����
+					//さっきのＢＧＭ再生
 					play_bgm(map_bgm_no = now_bgm);
 					draw_map_bgm_flg = 1;
 				}
-				MenuProc();				// ��˥�`�I��
-				// һ�Х���ե��ډT��Ĥ֤����\ɫ��
+				MenuProc();				// メニュ`I理
+				// 一行インフォTりつぶし（\色）
 				//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
-				ChatProc();				// ����åȄI��
-				ChatBufferToFontBuffer(); // ����åȥХåե��`��ե���ȥХåե�������
-				ImeProc();				// �ɣͣ��v�B�I��
-				SortDispBuffer(); 	// ��ʾ�Хåե����`��
-				// �Хå����`�ե������\�ǥ��ꥢ�`
+				ChatProc();				// チャットI理
+				ChatBufferToFontBuffer(); // チャットバッファ`をフォントバッファに溜める
+				ImeProc();				// ＩＭＥvBI理
+				SortDispBuffer(); 	// 表示バッファソ`ト
+				// バックサ`フェスを\でクリア`
 				ClearBackSurface();	
-				// �£ͣФ�Хå����`�ե����˥��å�
+				// ＢＭＰをバックサ`フェスにセット
 				PutBmp();	
-				// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+				// バックサ`フェスからバトルサ`フェスへコピ`
 				lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-				// �Хåե����ڻ�
+				// バッファ初期化
 				DispBuffer.DispCnt = 0;
 				FontCnt = 0;
-				// �F�ڤΕr�g��ӛ��
+				// F在のrgを
 				NowTime = GetTickCount();
-				// �Хå��Хåե��`�軭�������
+				// バックバッファ`描画方法涓
 				BackBufferDrawType = DRAW_BACK_PRODUCE; 
-				// �ݳ���
+				// 演出中
 				DrawProduce( PRODUCE_4WAY_IN );
 			}else{
-				// �ݳ��ե饰�ϣ�
+				// 演出フラグＯＮ
 				produceFlag = TRUE;
 				SubProcNo++;
 			}
@@ -524,9 +524,9 @@ void GameProc( void )
 			
 			break;
 		
-		case 2:	// �ե��`��ɥ����ݳ�
+		case 2:	// フィ`ルドイン演出
 			
-			// �ݳ���
+			// 演出中
 			if( DrawProduce( PRODUCE_4WAY_IN ) == TRUE ){
 				SubProcNo++;
 				warpEffectStart = FALSE;
@@ -535,119 +535,119 @@ void GameProc( void )
 			break;
 			
 		case 3:
-			// �Хå��Хåե��`�軭�������
+			// バックバッファ`描画方法涓
 			BackBufferDrawType = DRAW_BACK_NORMAL; 
 			
 			paletteProc();
 			
-			initItemOverlapCheck();	// �����ƥ��ؤʤ�����å��I���γ��ڻ�
-			drawGrid();				// ����åɥ��`�����ʾ
-			fieldProc();			// �ե��`����v�B�I��
-			moveProc();				// �ƄӄI��
-			charObjProc();			// ��������I��
-			initCharPartsPrio();	// �����?�ѩ`�Ĥ΃����λ�Q���I���γ��ڻ�
-			addressBookProc();		// ���ɥ쥹�֥å��I��
-			openServerWindowProc();	// ���`�Џ��ƥ�����ɥ�
-			drawFieldInfoWin();		// ��`����Έ������
+			initItemOverlapCheck();	// アイテム重なりチェックI理の初期化
+			drawGrid();				// グリッドカ`ソル表示
+			fieldProc();			// フィ`ルドvBI理
+			moveProc();				// 移I理
+			charObjProc();			// キャラ管理I理
+			initCharPartsPrio();	// キャラ?パ`ツの先位Q定I理の初期化
+			addressBookProc();		// アドレスブックI理
+			openServerWindowProc();	// サ`バ制ウィンドウ
+			drawFieldInfoWin();		// ワ`プ後の鏊
 			
-			/* ����������ߤ餻�� */
+			/* アクション走らせる */
 			RunAction();
-			// ��������ʾ�ǩ`����Хåե�������
-			// ָ������ϥ��ȥå����ʤ�
+			// タスク表示デ`タをバッファに溜める
+			// 指定欷膝攻去氓筏胜
 			StockTaskDispBuffer();
 
-			mapEffectProc();		// �ޥåץ��ե����ȣ���?ѩ�ȣ�
+			mapEffectProc();		// マップエフェクト（雨?雪等）
 
-			drawMap();		// �ޥåױ�ʾ
-			drawField();	// �ե��`��ɻ���ˤ���������ʾ
+			drawMap();		// マップ表示
+			drawField();	// フィ`ルド画面にいろいろ表示
 
-			/* ����åȄI�� */
+			/* チャットI理 */
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������
+			// チャットバッファ`をフォントバッファに溜める
 			ChatBufferToFontBuffer(); 
-			// ���`�ܩ`�ɥ��`������I��
+			// キ`ボ`ドカ`ソル点I理
 			
 			FlashKeyboardCursor();
-			// ��˥�`�I��
+			// メニュ`I理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();		
-			// �r�g���I���ȥѥ�åȥ����󥸄I��
+			// rgI理とパレットチェンジI理
 			TimeZoneProc();
 			
 #ifdef _DEBUG
-			// ���󥫥���ȥܥ���
+			// エンカウントボタン
 			if( joy_trg[ 0 ] & JOY_P_DOWN ){
 				if( pc.ptAct != NULL ){
-					resetMap();					// �ޥåׄI���ꥻ�å�
-					// ���󥫥��������
+					resetMap();					// マップI理リセット
+					// エンカウント送信
 					lssproto_EN_send( sockfd, pc.ptAct->gx, pc.ptAct->gy );
 					eventEnemyFlag = 0;
 				}
 			}
 #endif
-			// ���󥫥���Ȥ����r  ���е�ʱ��
+			// エンカウントしたr  遇敌的时候
 			if( EncountFlag == TRUE ){
-				resetPc();				// PC�ꥻ�å�
-				resetCharObj();			// ���������Ʃ`�֥�ꥻ�å�
-				resetMap();				// �ޥåׄI���ꥻ�å�
-				clearPtActPartyParam();	// ���g���Υ��������ݥ��󥿤�����NULL�ˤ���
-				fieldInfoTime = 0;		// ������󤬳��Ƥ�������
-				drawFieldInfoWin();		// ��`����Έ������
-				nowEncountPercentage = minEncountPercentage;// ���󥫥�����ʤ���С�ˑ���
+				resetPc();				// PCリセット
+				resetCharObj();			// キャラ管理テ`ブルリセット
+				resetMap();				// マップI理リセット
+				clearPtActPartyParam();	// 仲g情螭违伐绁螗荪ぅ螗郡坤堡NULLにする
+				fieldInfoTime = 0;		// 鏊螭訾皮郡橄
+				drawFieldInfoWin();		// ワ`プ後の鏊
+				nowEncountPercentage = minEncountPercentage;// エンカウント率を最小に
 				sendEnFlag = 0;
 				encountNowFlag = 1;
 				eventEnemySendFlag = 0;
 				duelSendFlag = 0;
 				jbSendFlag = 0;
-				// �ޥåץ�����ɥ��ե饰�Хå����å�
+				// マップウィンドウフラグバックアップ
 				if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
-				// ������ޤǤΕr�g�����ީ`
+				// 消えるまでのrgタイマ`
 				ResultWndTimer = RESULT_WND_CLOSE_TIME;
-				InitMenu();			// ��˥�`�v�B�γ��ڻ�
-				BattleCmd[ 0 ] = NULL;		// �Хȥ륳�ޥ�ɳ��ڻ�
-//				BattleCmdBak[ 0 ] = NULL;	// �Хȥ륳�ޥ�ɳ��ڻ�
+				InitMenu();			// メニュ`vBの初期化
+				BattleCmd[ 0 ] = NULL;		// バトルコマンド初期化
+//				BattleCmdBak[ 0 ] = NULL;	// バトルコマンド初期化
 //				BattleCmdReadPointer = BattleCmdWritePointer =0;
-				BattleStatus[ 0 ] = NULL;	// �Хȥ�״�B���ڻ�
-				//BattleStatusBak[ 0 ] = NULL;// �Хȥ�״�B���ڻ�
+				BattleStatus[ 0 ] = NULL;	// バトル状B初期化
+				//BattleStatusBak[ 0 ] = NULL;// バトル状B初期化
 //				BattleStatusReadPointer = BattleStatusWritePointer =0;
-				BattleTurnReceiveFlag = TRUE;	// ���`�����ťե饰�ϣ�
-				// ���󥫥������
+				BattleTurnReceiveFlag = TRUE;	// タ`ン受信フラグＯＮ
+				// エンカウント音
 				play_se( 215, 320, 240 );
-				// �F�ڤΣ£ǣͱ���
+				// F在のＢＧＭ保存
 				now_bgm = t_music_bgm_no;
-				// �£ǣ�ֹͣ
+				// ＢＧＭ停止
 				stop_bgm();
 				SubProcNo++;
 			}
 			break;
 			
-		case 4:	// �Хå��Хåե��`���ݳ��å��`�ե����˥��ԩ`
-			// �Хȥ륵�`�ե����λ������� 
+		case 4:	// バックバッファ`を演出用サ`フェスにコピ`
+			// バトルサ`フェスの画像作成 
 			CopyBackBuffer();
-			// �Хå��Хåե��`�軭�������
+			// バックバッファ`描画方法涓
 			BackBufferDrawType = DRAW_BACK_PRODUCE; 
 			SubProcNo++;
 			
 			break;
 			
-		case 5:	// ���󥫥�����ݳ�
+		case 5:	// エンカウント演出
 		
-			// �ݳ���
+			// 演出中
 			if( DrawProduce( PRODUCE_HAGARE_OCHI_OUT ) == TRUE ){
 			//if( GameState == GAME_ENCOUNT_TO_BATTLE ){ 
-				// �ץ�����������
+				// プロセスチェンジ
 				ChangeProc( PROC_BATTLE );
 			}
-			MenuProc();	// ��˥�`�I��
-			ImeProc();	// �ɣͣ��v�B�I��
+			MenuProc();	// メニュ`I理
+			ImeProc();	// ＩＭＥvBI理
 			
 			break;
 	}
 }
 
 
-// ��`���ݳ���
+// ワ`プ演出用
 void warpEffectProc( void )
 {
 	oldMapEffectRainLevel = mapEffectRainLevel;
@@ -656,52 +656,52 @@ void warpEffectProc( void )
 	DispBuffer.DispCnt = 0;
 	FontCnt = 0;
 
-	// �ޥåץ�����ɥ��ե饰�Хå����å�
+	// マップウィンドウフラグバックアップ
 	if( MenuToggleFlag & JOY_CTRL_M ) MapWmdFlagBak = TRUE;
 	InitMenu2();
 
-	fieldProc();			// �ե��`����v�B�I��
-	charObjProc();			// ��������I��
-	initCharPartsPrio();	// �����?�ѩ`�Ĥ΃����λ�Q���I���γ��ڻ�
-	openServerWindowProc();	// ���`�Џ��ƥ�����ɥ�
+	fieldProc();			// フィ`ルドvBI理
+	charObjProc();			// キャラ管理I理
+	initCharPartsPrio();	// キャラ?パ`ツの先位Q定I理の初期化
+	openServerWindowProc();	// サ`バ制ウィンドウ
 
-	fieldInfoTime = 0;		// ������󤬳��Ƥ�������
-	drawFieldInfoWin();		// ��`����Έ������
+	fieldInfoTime = 0;		// 鏊螭訾皮郡橄
+	drawFieldInfoWin();		// ワ`プ後の鏊
 
 
-	/* ����������ߤ餻�� */
+	/* アクション走らせる */
 	RunAction();
-	// ��������ʾ�ǩ`����Хåե�������
+	// タスク表示デ`タをバッファに溜める
 	StockTaskDispBuffer();
 
-	mapEffectProc();		// �ޥåץ��ե����ȣ���?ѩ�ȣ�
+	mapEffectProc();		// マップエフェクト（雨?雪等）
 
 	redrawMap();
-	drawMap();		// �ޥåױ�ʾ
+	drawMap();		// マップ表示
 
-	/* ����åȄI�� */
+	/* チャットI理 */
 	ChatProc();
-	// ����åȥХåե��`��ե���ȥХåե�������
+	// チャットバッファ`をフォントバッファに溜める
 	ChatBufferToFontBuffer(); 
-	// �r�g���I���ȥѥ�åȥ����󥸄I��
+	// rgI理とパレットチェンジI理
 //	TimeZoneProc();
 
-	SortDispBuffer(); 	// ��ʾ�Хåե����`��
+	SortDispBuffer(); 	// 表示バッファソ`ト
 
-	// �Хå����`�ե������\�ǥ��ꥢ�`
+	// バックサ`フェスを\でクリア`
 	ClearBackSurface();	
-	// �£ͣФ�Хå����`�ե����˥��å�
+	// ＢＭＰをバックサ`フェスにセット
 	PutBmp();	
 
 
-	// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+	// バックサ`フェスからバトルサ`フェスへコピ`
 	lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
 
-	// �Хåե����ڻ�
+	// バッファ初期化
 	DispBuffer.DispCnt = 0;
 	FontCnt = 0;
 
-	// �F�ڤΕr�g��ӛ��
+	// F在のrgを
 	NowTime = GetTickCount();
 
 	ProduceInitFlag = TRUE;
@@ -712,18 +712,18 @@ void paletteProc( void )
 {
 	if( palNo == -1 )
 	{
-		// �ѥ�åȥ�����
+		// パレットチェンジ
 		PaletteChange( SaTimeZoneNo, 0 );
-		// �r�g���ǥѥ�åȥ����󥸤���r
+		// rgでパレットチェンジするr
 		TimeZonePalChangeFlag = TRUE;
 		palNo = -2;
 	}
 	else
 	if( palNo >= 0 )
 	{
-		// �̶��ѥ�å��O��
-		PaletteChange( palNo, 0 );// �ѥ�åȥ�����
-		// �r�g���ǥѥ�åȥ����󥸤��ʤ��r
+		// 固定パレットO定
+		PaletteChange( palNo, 0 );// パレットチェンジ
+		// rgでパレットチェンジしないr
 		TimeZonePalChangeFlag = FALSE;
 		palNo = -2;
 	}

@@ -19,7 +19,7 @@
 #include "field.h"
 #include "pet_skillinfo.h"
 
-// есе╦ехй`д╬ыAМ╙д╚╡▒д┐дъ┼╨╢ид╬╩¤
+// уГбуГЛуГе`уБоAхй┤щ╣КхабщГбцШ▒хН╕├ащЧо
 #define MENU_SYSTEM_0	9
 #define MENU_MAP_0		3
 #define MENU_STATUS_0	12
@@ -30,54 +30,54 @@
 #define MENU_BTL_RESULT_0	1
 
 
-// е╖е╣е╞ер
-#define MAX_CHAT_REGISTY_STR		8		// е┴еуе├е╚д╬╬─╫╓╡╟хhд╬╩¤
-#define MAX_CHAT_REGISTY_STR_LEN	26 		// е┴еуе├е╚д╬╬─╫╓╡╟хhд╬╬─╫╓╩¤
-#define CAHT_REGISTY_STR_FILE_NAME 	"data\\chatreg.dat" 	// е┴еуе├е╚д╬╡╟хh╬─╫╓▒г┤це╒ебедеы├√
-static int systemWndFontNo[ MENU_SYSTEM_0 ]; 			// ╡▒д┐дъ┼╨╢и╖м║┼
-static unsigned int  systemWndNo;						// ежегеєе╔еж╖м║┼
-STR_BUFFER chatRegistryStr[ MAX_CHAT_REGISTY_STR ];		// е┴еуе├е╚д╬╬─╫╓╡╟хhд╬╚ы┴же╨е├е╒ебй`
+// уВ╖уВ╣уГЖуГа
+#define MAX_CHAT_REGISTY_STR		8		// уГБуГгуГГуГИуБоцЦЗхнЧчЩ╗hуБоцХ░
+#define MAX_CHAT_REGISTY_STR_LEN	26 		// уГБуГгуГГуГИуБоцЦЗхнЧчЩ╗hуБоцЦЗхнЧцХ░
+#define CAHT_REGISTY_STR_FILE_NAME 	"data\\chatreg.dat" 	// уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧф┐ЭхнШуГХуВбуВдуГлхРН
+static int systemWndFontNo[ MENU_SYSTEM_0 ]; 			// х╜УуБЯуВКхИдхоЪчХкхП╖
+static unsigned int  systemWndNo;						// уВжуВгуГ│уГЙуВжчХкхП╖
+STR_BUFFER chatRegistryStr[ MAX_CHAT_REGISTY_STR ];		// уГБуГгуГГуГИуБоцЦЗхнЧчЩ╗hуБохЕехКЫуГРуГГуГХуВб`
 
-// е▐е├е╫
-int mapWndFontNo[ MENU_MAP_0 ]; 	// ╡▒д┐дъ┼╨╢и╖м║┼
-static unsigned int  mapWndNo;		// ежегеєе╔еж╖м║┼
-int MapWmdFlagBak;					// СщъLссд╦╫╘Д╙д╟е▐е├е╫ежегеєе╔▒э╩╛д╣дые╒еще░
+// уГЮуГГуГЧ
+int mapWndFontNo[ MENU_MAP_0 ]; 	// х╜УуБЯуВКхИдхоЪчХкхП╖
+static unsigned int  mapWndNo;		// уВжуВгуГ│уГЙуВжчХкхП╖
+int MapWmdFlagBak;					// цоЫLх╛МуБлшЗкхй┤щТОшХЩц░УцКУ╬Хя╝ЕшЮЧцЭАчбОхЕвх╖ецп│цжицеЧ
 
-// е╣е╞й`е┐е╣
-static int statusWndFontNo[ MENU_STATUS_0 ]; 	// ╡▒д┐дъ┼╨╢и╖м║┼
-static int statusWndBtnFlag[ MENU_STATUS_0 ];	// е▄е┐еє░╝═╣е╒еще░
-static unsigned int statusWndNo;				// ежегеєе╔еж╖м║┼
-STR_BUFFER shougouChange;						// е╫еьедефй`д╬│╞║┼╙├╬─╫╓┴╨
-int StatusUpPoint;								// е╣е╞й`е┐е╣еве├е╫е▌едеєе╚
+// уВ╣уГЖ`уВ┐уВ╣
+static int statusWndFontNo[ MENU_STATUS_0 ]; 	// х╜УуБЯуВКхИдхоЪчХкхП╖
+static int statusWndBtnFlag[ MENU_STATUS_0 ];	// уГЬуВ┐уГ│хЗ╣хЗ╕уГХуГйуВ░
+static unsigned int statusWndNo;				// уВжуВгуГ│уГЙуВжчХкхП╖
+STR_BUFFER shougouChange;						// уГЧуГмуВдуГд`уБочз░хП╖чФицЦЗхнЧхИЧ
+int StatusUpPoint;								// уВ╣уГЖ`уВ┐уВ╣уВвуГГуГЧуГЭуВдуГ│уГИ
 
-// е┌е├е╚
-static int petWndFontNo[ MENU_PET_0 ]; 	// ╡▒д┐дъ┼╨╢и╖м║┼
-static int petWndBtnFlag[ MENU_PET_0 ]; // е▄е┐еє░╝═╣е╒еще░
-static unsigned int  petWndNo;			// е┌е├е╚ежегеєе╔еж╖м║┼
-int  petStatusNo;				// ╘Ф╝Ъежегеєе╔ежд╦▒э╩╛д╡дьд╞дддые┌е├е╚д╬╖м║┼
-static ACTION *pActPet;					// е┌е├е╚д╬евепе╖ечеєе▌едеєе┐
-BOOL BattlePetReceiveFlag;				// ▓╬Сще┌е├е╚Йф╕№е╫еэе╚е│еы╦═╨┼е╒еще░
-STR_BUFFER petNameChange;				// е┌е├е╚д╬├√╟░Йф╕№╙├╬─╫╓┴╨
-int BattlePetReceivePetNo = -1;			// е╨е╚еы╩▄╨┼╓╨д╬е┌е├е╚╖м║┼
-int SelectWazaNo;						// ▀xТkд╖д┐╝╝╖м║┼
+// уГЪуГГуГИ
+static int petWndFontNo[ MENU_PET_0 ]; 	// х╜УуБЯуВКхИдхоЪчХкхП╖
+static int petWndBtnFlag[ MENU_PET_0 ]; // уГЬуВ┐уГ│хЗ╣хЗ╕уГХуГйуВ░
+static unsigned int  petWndNo;			// уГЪуГГуГИуВжуВгуГ│уГЙуВжчХкхП╖
+int  petStatusNo;				// уВжуВгуГ│уГЙуВжуБлшбичд║уБХуВМуБжуБДуВЛуГЪуГГуГИуБочХкхП╖
+static ACTION *pActPet;					// уГЪуГГуГИуБоуВвуВпуВ╖уГзуГ│уГЭуВдуГ│уВ┐
+BOOL BattlePetReceiveFlag;				// хПВцеЧшоац░Уц╢УцКУцББхО╗хБ┐шГицЙШщТоцжицеЧ
+STR_BUFFER petNameChange;				// уГЪуГГуГИуБохРНхЙНц╢Уцвжц╖ЦшЗ│
+int BattlePetReceivePetNo = -1;			// уГРуГИуГлхПЧф┐бф╕нуБоуГЪуГГуГИчХкхП╖
+int SelectWazaNo;						// xkуБЧуБЯцКАчХкхП╖
 
-// еведе╞ер
-static int itemWndFontNo[ MENU_ITEM_0 ]; 	// ╡▒д┐дъ┼╨╢и╖м║┼
-static int itemWndBtnFlag[ MENU_ITEM_0 ];	// е▄е┐еє░╝═╣е╒еще░
+// уВвуВдуГЖуГа
+static int itemWndFontNo[ MENU_ITEM_0 ]; 	// х╜УуБЯуВКхИдхоЪчХкхП╖
+static int itemWndBtnFlag[ MENU_ITEM_0 ];	// уГЬуВ┐уГ│хЗ╣хЗ╕уГХуГйуВ░
 static unsigned int  itemWndNo;		
-static int  jujutuNo = -1;					// ▀xТkд╡дьд╞дддыЕт╨g╖м║┼
-static int  itemNo = -1;					// ▀xТkд╡дьд╞дддыеведе╞ер╖м║┼
-static int  itemWndDropGold;				// Т╬д╞дыдк╜Ё
-static int  itemWndDropGoldInc;				// Т╬д╞дыдк╜ЁЙИ╖╓
-static int  itemWndDropGoldCnt;				// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`
-static ACTION *pActPet2;					// ║╧│╔е┌е├е╚д╬евепе╖ечеєе▌едеєе┐
-BOOL ItemMixRecvFlag;						// ║╧│╔│Ў└┤д┐е╒еще░
-static int ItemMixPetNo = -1;				// ║╧│╔д╖д╞дддые┌е├е╚д╬╖м║┼
-// еведе╞ере╨е├е╒ебй`
+static int  jujutuNo = -1;					// xkуБХуВМуБжуБДуВЛх║СgчХкхП╖
+static int  itemNo = -1;					// xkуБХуВМуБжуБДуВЛуВвуВдуГЖуГачХкхП╖
+static int  itemWndDropGold;				// щЯжчЪоцпк
+static int  itemWndDropGoldInc;				// щЯжчЪоцпкхИЖ
+static int  itemWndDropGoldCnt;				// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`
+static ACTION *pActPet2;					// хРИцИРуГЪуГГуГИуБоуВвуВпуВ╖уГзуГ│уГЭуВдуГ│уВ┐
+BOOL ItemMixRecvFlag;						// хРИцИРхЗ║цЭеуБЯуГХуГйуВ░
+static int ItemMixPetNo = -1;				// хРИцИРуБЧуБжуБДуВЛуГЪуГГуГИуБочХкхП╖
+// уВвуВдуГЖуГауГРуГГуГХуВб`
 ITEM_BUFFER ItemBuffer[ MAX_ITEM ];
 
-// есй`еы
-#define MAIL_HISTORY_FILE_NAME 	"data\\mail.dat" 	// ┬─Ъs▒г┤це╒ебедеы├√
+// уГб`уГл
+#define MAIL_HISTORY_FILE_NAME 	"data\\mail.dat" 	// х▒еsф┐ЭхнШуГХуВбуВдуГлхРН
 typedef enum{
 	MAIL_WND_VIEW,
 	MAIL_WND_SELECT,
@@ -87,87 +87,87 @@ typedef enum{
 	MAIL_WND_HISTORY,
 }MAIL_WND_TYPE;
 static int mailWndFontNo[ MENU_MAIL_0 ]; 
-static int mailWndBtnFlag[ MENU_MAIL_0 ];			// е▄е┐еє░╝═╣е╒еще░
-static MAIL_WND_TYPE mailWndNo;						// мF╘┌д╬есй`еыежегеєе╔еж╖м║┼
-static MAIL_WND_TYPE mailWndNoBak;					// ╟░д╬есй`еыежегеєе╔еж╖м║┼
-static int mailViewWndPageNo;						// ├√┤╠╥╗╙Eежегеєе╔ежд╬е┌й`е╕╖м║┼
-static int mailSendWndPageNo;						// ╞╒═и╦═╨┼ежегеєе╔ежд╬е┌й`е╕╖м║┼
-static int mailPetSendWndPageNo;					// е┌е├е╚╦═╨┼ежегеєе╔ежд╬е┌й`е╕╖м║┼
-static int mailItemNo;								// е┌е├е╚╦═╨┼ежегеєе╔ежд╬еведе╞ер╖м║┼
-static int mailWndSendFlag[ MAX_ADR_BOOK ]; 		// ╦═╨┼╧р╩╓╙ЫСЫе╒еще░
-//int mailReceivePetGraNo;							// е┌е├е╚есй`еы╩▄╨┼Хrд╬е┌е├е╚д╬е░еще╒еге├еп╖м║┼
-int mailHistoryWndPageNo;							// ┬─Ъsежегеєе╔ежд╬е┌й`е╕╖м║┼
-int mailHistoryWndSelectNo;							// ▀xТkд╡дьд╞ддды├√┤╠╖м║┼
-static int mailHistoryWndNowPageNo;					// МgыHд╦▒э╩╛д╣ды┬─Ъs╖м║┼
-STR_BUFFER MailStr;									// ╦═ды╬─╒┬
-MAIL_HISTORY MailHistory[ MAX_ADR_BOOK ];			// есй`еыд╬┬─Ъs╬─╫╓┴╨
-ACTION *pActLetter[ 4 ];							// ╩╓╝Иеве╦есй`е╖ечеєевепе╖ечеєе▌едеєе┐
-ACTION *pActMailItem;								// е┌е├е╚есй`еыд╟│╓д├д╞дддпеведе╞ер
+static int mailWndBtnFlag[ MENU_MAIL_0 ];			// уГЬуВ┐уГ│хЗ╣хЗ╕уГХуГйуВ░
+static MAIL_WND_TYPE mailWndNo;						// FхЬиуБоуГб`уГлуВжуВгуГ│уГЙуВжчХкхП╖
+static MAIL_WND_TYPE mailWndNoBak;					// хЙНуБоуГб`уГлуВжуВгуГ│уГЙуВжчХкхП╖
+static int mailViewWndPageNo;						// хРНхИ║ф╕АEуВжуВгуГ│уГЙуВжуБоуГЪ`уВ╕чХкхП╖
+static int mailSendWndPageNo;						// цЩощАЪщАБф┐буВжуВгуГ│уГЙуВжуБоуГЪ`уВ╕чХкхП╖
+static int mailPetSendWndPageNo;					// уГЪуГГуГИщАБф┐буВжуВгуГ│уГЙуВжуБоуГЪ`уВ╕чХкхП╖
+static int mailItemNo;								// уГЪуГГуГИщАБф┐буВжуВгуГ│уГЙуВжуБоуВвуВдуГЖуГачХкхП╖
+static int mailWndSendFlag[ MAX_ADR_BOOK ]; 		// щАБф┐бчЫ╕цЙЛуГХуГйуВ░
+//int mailReceivePetGraNo;							// уГЪуГГуГИуГб`уГлхПЧф┐бrуБоуГЪуГГуГИуБоуВ░уГйуГХуВгуГГуВпчХкхП╖
+int mailHistoryWndPageNo;							// х▒еsуВжуВгуГ│уГЙуВжуБоуГЪ`уВ╕чХкхП╖
+int mailHistoryWndSelectNo;							// xkуБХуВМуБжуБДуВЛхРНхИ║чХкхП╖
+static int mailHistoryWndNowPageNo;					// gHуБлшбичд║уБЩуВЛх▒еsчХкхП╖
+STR_BUFFER MailStr;									// щАБуВЛцЦЗчла
+MAIL_HISTORY MailHistory[ MAX_ADR_BOOK ];			// уГб`уГлуБох▒еsцЦЗхнЧхИЧ
+ACTION *pActLetter[ 4 ];							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уГЭуВдуГ│уВ┐
+ACTION *pActMailItem;								// уГЪуГГуГИуГб`уГлуБзцМБуБгуБжуБДуБПуВвуВдуГЖуГа
 
-// евеые╨ер
-#define ALBUM_FILE_NAME 	"data\\album.dat" 	// евеые╨ер▒г┤це╒ебедеы├√
+// уВвуГлуГРуГа
+#define ALBUM_FILE_NAME 	"data\\album.dat" 	// уВвуГлуГРуГаф┐ЭхнШуГХуВбуВдуГлхРН
 static int albumWndFontNo[ MENU_ALBUM_0 ]; 			
 static int albumWndBtnFlag[ MENU_ALBUM_0 ]; 			
 static unsigned int albumWndNo;						
-static int albumWndPageNo;					// е┌й`е╕╖м║┼
-static int albumNo;						// евеые╨ер╖м║┼
-// евеые╨ер╙├е┌е├е╚е╟й`е┐е╞й`е╓еыШЛ╘ь╠х
+static int albumWndPageNo;					// уГЪ`уВ╕чХкхП╖
+static int albumNo;						// уВвуГлуГРуГачХкхП╖
+// уВвуГлуГРуГачФиуГЪуГГуГИуГЗ`уВ┐уГЖ`уГЦуГлщАаф╜У
 PET_ALBUM_TBL PetAlbumTbl[] = {
-	#include "petName.h"	// е┌е├е╚д╬е╟й`е┐е╞й`е╓еы
+	#include "petName.h"	// уГЪуГГуГИуБоуГЗ`уВ┐уГЖ`уГЦуГл
 };
-PET_ALBUM PetAlbum[ MAX_PET_KIND ];		// евеые╨ерШЛ╘ь╠х
-int AlbumIdCnt = 0;					// ╜ё╗╪д╬евеые╨ере╒ебедеы╒iд▀▐zд▀ИЎ╦∙ележеєе┐
-// г╔г─░╡║┼╗пе╞й`е╓еы
+PET_ALBUM PetAlbum[ MAX_PET_KIND ];		// уВвуГлуГРуГащАаф╜У
+int AlbumIdCnt = 0;					// ф╗КхЫЮуБоуВвуГлуГРуГауГХуВбуВдуГлiуБ┐zуБ┐щПК╬ХшЮЧ
+// я╝йя╝дцЪЧхП╖хМЦуГЖ`уГЦуГл
 int IdEncryptionTbl[ 16 ] = { 48, 158, 98, 23, 134, 29, 92, 67, 
 								70, 28, 235, 20, 189, 48, 57, 125 };
 
-// СщъL╜Y╣√ежегеєе╔еж
-int resultWndFontNo[ MENU_BTL_RESULT_0 ];	// ╡▒д┐дъ┼╨╢и╖м║┼
-int ResultWndTimer;							// ╧√дидыд▐д╟д╬Хrщgе┐еде▐й`
+// цоЫLYцЮЬуВжуВгуГ│уГЙуВж
+int resultWndFontNo[ MENU_BTL_RESULT_0 ];	// х╜УуБЯуВКхИдхоЪчХкхП╖
+int ResultWndTimer;							// ц╢ИуБИуВЛуБ╛уБзуБоrgуВ┐уВдуГЮ`
 
-// е┐е╣епе╨й`  ╚╬╬ё└╕
+// уВ┐уВ╣уВпуГР`  ф╗╗хКбцаП
 #define TASK_BAR	7
 #define TASK_BAR_X 320
 #define TASK_BAR_Y 468
-BOOL TaskBarFlag = FALSE;	// е┐е╣епе╨й`е╒еще░  ╚╬╬ё└╕╫к╒█╡у
+BOOL TaskBarFlag = FALSE;	// уВ┐уВ╣уВпуГР`уГХуГйуВ░  ф╗╗хКбцаПш╜мцКШчВ╣
 static int taskBarFontNo[ TASK_BAR ]; 
 static int taskBarX = TASK_BAR_X, taskBarY = TASK_BAR_Y + 24;
 
-// е╚е░еые╒еще░ ╓т╜┌╫к╒█╡у
+// уГИуВ░уГлуГХуГйуВ░ шВШшКВш╜мцКШчВ╣
 unsigned int MenuToggleFlag;
 
-// ежегеєе╔ежевепе╖ечеєе▌едеєе┐ ┤░┐┌╡─╢п╫ў╓╕╒ы
+// уВжуВгуГ│уГЙуВжуВвуВпуВ╖уГзуГ│уГЭуВдуГ│уВ┐ чкЧхПгчЪДхКиф╜ЬцМЗщТИ
 ACTION *pActMenuWnd;
 ACTION *pActMenuWnd2;
 ACTION *pActMenuWnd3;
 ACTION *pActMenuWnd4;
 ACTION *pActYesNoWnd;
 
-// Д┐╣√╥Їе╣е╞еьекете╬ещеы╬─╫╓┴╨  ╨з╣√╥Ї┴в╠х╔∙╡е╔∙╡└╫╓╖√┤о
-static char *monoStereoStr[] = { 	"бббббб╡е╔∙╡└бббббб",
-									"бббббб┴в╠х╔∙бббббб"};
+// цКЧч▒БцФ╗хМ╣цм╣чМКш┐ЭцеЧшГЫц╖ЦшЗ│  цХИцЮЬщЯ│члЛф╜Ухг░хНХхг░щБУхнЧчмжф╕▓
+static char *monoStereoStr[] = { 	"уААуААуААхНХхг░щБУуААуААуАА",
+									"уААуААуААчлЛф╜Ухг░уААуААуАА"};
 
-#define WINDOW_CREATE_FRAME 10	// ежегеєе╔еждм▒э╩╛д╡дьдыд▐д╟д╬Хrщg
+#define WINDOW_CREATE_FRAME 10	// уВжуВгуГ│уГЙуВжуБМшбичд║уБХуВМуВЛуБ╛уБзуБоrg
 
-// е┌е├е╚д╬е│й`е╣длдщ╧ЄдндЄ╚бд├д╞дпды
+// уГЪуГГуГИуБоуВ│`уВ╣уБЛуВЙхРСуБНуВТхПЦуБгуБжуБПуВЛ
 extern unsigned char crs_change_tbl[];
-// е┌е├е╚д╬╧Єдндлдще│й`е╣дЄ╚бд├д╞дпды
+// уГЪуГГуГИуБохРСуБНуБЛуВЙуВ│`уВ╣уВТхПЦуБгуБжуБПуВЛ
 extern unsigned char crs_change_tbl2[];
-// ╖┤╔фе╞й`е╓еы
+// хПНх░ДуГЖ`уГЦуГл
 extern unsigned char crs_bound_tbl[][32];
 
-// ежегеєе╔еж▒э╩╛е┐е╣епДI└э ***************************************************/
+// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпIчРЖ ***************************************************/
 void WindowDisp( ACTION *pAct )
 {
-	// ╙шВфШЛ╘ь╠хд╬еве╔еье╣
+	// ф║ИщАаф╜УуБоуВвуГЙуГмуВ╣
 	WINDOW_DISP *pYobi = ( WINDOW_DISP *)pAct->pYobi;
 	int i, j;
 	int x = pAct->x + 32, y = pAct->y + 24;
 	
-	// ╨╨Д╙╖м║┼д╟╖╓ск
+	// шбМшЗГцЙнцмаш╜┤
 	switch( pAct->actNo ){
 	
-	case 0:	// ежегеєе╔еж│ЎмFДI└э ┤░┐┌│Ў╧╓┤ж└э
+	case 0:	// уВжуВгуГ│уГЙуВжхЗ║FIчРЖ чкЧхПгхЗ║чО░хдДчРЖ
 	
 		StockBoxDispBuffer( pYobi->mx - pYobi->nowX, 
 							pYobi->my - pYobi->nowY, 
@@ -179,93 +179,93 @@ void WindowDisp( ACTION *pAct )
 		//					pYobi->mx + pYobi->nowX - 2,
 		//					pYobi->my + pYobi->nowY - 2, 
 		//					pYobi->boxDispPrio, SYSTEM_PAL_BLACK, 0 );
-		// ЙИ╖╓е╫еще╣
+		// хИЖуГЧуГйуВ╣
 		pYobi->nowX += pAct->dx;					
 		pYobi->nowY += pAct->dy;					
-		// ележеєе┐й`е╫еще╣
+		// уВлуВжуГ│уВ┐`уГЧуГйуВ╣
 		pYobi->cnt++;
-		// еъе▀е├е╚е┴езе├еп
+		// уГкуГЯуГГуГИуГБуВзуГГуВп
 		if( pYobi->cnt >= WINDOW_CREATE_FRAME ){ 
-			// ЦШд└д▒д╬Хr
+			// уБауБСуБоr
 			if( pYobi->wndType == -1 ) pAct->actNo = 1;
 			else
-			// ┤_╒Jежегеєе╔ежд╬Хr
+			// _JуВжуВгуГ│уГЙуВжуБоr
 			if( pYobi->wndType == -2 ) pAct->actNo = 3;
 			else pAct->actNo = 2;
 		}
 		
 		break;
 		
-	case 1:	// ЦШд└д▒д╬Хr
+	case 1:	// уБауБСуБоr
 		pAct->hp = 1;
 		
 		break;
 		
-	case 2:	// ежегеєе╔еж├ш╗н
+	case 2:	// уВжуВгуГ│уГЙуВжцППчФ╗
 	
 		for( j = 0 ; j < pYobi->sizeY ; j++ ){	
-			// ╔╧▒э╩╛
+			// ф╕Кшбичд║
 			if( j == 0 ){
 				for( i = 0 ; i < pYobi->sizeX ; i++ ){	
-					// ╫є╢╦
+					// х╖жчлп
 					if( i == 0 ) StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 0, pYobi->hitFlag );
-					// ╙╥╢╦
+					// хП│члп
 					else if( i == pYobi->sizeX - 1 ) StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 2, pYobi->hitFlag );
-					// ╒цдє╓╨
+					// чЬЯуВУф╕н
 					else StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 1, pYobi->hitFlag );
-					x += 64; // ╫∙Ш╦е╫еще╣
+					x += 64; // х║зшб░цКУцеЧ
 				}
 			}else 
-			// ╧┬▒э╩╛
+			// ф╕Лшбичд║
 			if( j == pYobi->sizeY - 1 ){
 				for( i = 0 ; i < pYobi->sizeX ; i++ ){	
-					// ╫є╢╦
+					// х╖жчлп
 					if( i == 0 ) StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 6, pYobi->hitFlag );
-					// ╙╥╢╦
+					// хП│члп
 					else if( i == pYobi->sizeX - 1 ) StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 8, pYobi->hitFlag );
-					// ╒цдє╓╨
+					// чЬЯуВУф╕н
 					else StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 7, pYobi->hitFlag );
-					x += 64; // ╫∙Ш╦е╫еще╣
+					x += 64; // х║зшб░цКУцеЧ
 				}
 			}else 
-			// ╒цдє╓╨▒э╩╛
+			// чЬЯуВУф╕ншбичд║
 			for( i = 0 ; i < pYobi->sizeX ; i++ ){	
-				// ╫є╢╦
+				// х╖жчлп
 				if( i == 0 ) StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 3, pYobi->hitFlag );
-				// ╙╥╢╦
+				// хП│члп
 				else if( i == pYobi->sizeX - 1 ) StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 5, pYobi->hitFlag );
-				// ╒цдє╓╨
+				// чЬЯуВУф╕н
 				else StockDispBuffer( x, y, DISP_PRIO_MENU, pYobi->wndType + 4, pYobi->hitFlag );
-				x += 64; // ╫∙Ш╦е╫еще╣
+				x += 64; // х║зшб░цКУцеЧ
 			}
-			x = pAct->x + 32; 	// ╫є╢╦д╦С°д╣
-			y += 48; 		// ╫∙Ш╦е╫еще╣
+			x = pAct->x + 32; 	// х╖жчлпуБл
+			y += 48; 		// х║зшб░цКУцеЧ
 		}
-		// е┐еде╚еы├ш╗н ▒ъ╠т╗ц═╝
+		// уВ┐уВдуГИуГлцППчФ╗ цаЗщвШч╗ШхЫ╛
 		if( pYobi->titleNo != 0 ) StockDispBuffer( pYobi->titleX, pYobi->titleY, DISP_PRIO_IME3, pYobi->titleNo, pYobi->hitFlag );
 		//if( pYobi->titleNo != 0 ) StockDispBuffer( pYobi->titleX, pYobi->titleY, DISP_PRIO_IME3, CG_WND_TITLE_SYSTEM, pYobi->hitFlag );
 		pAct->hp = 1;
 		break;
 		
-	case 3:	// ┤_╒Jежегеєе╔еж  ╚╖╚╧┤░┐┌
+	case 3:	// _JуВжуВгуГ│уГЙуВж  чбошодчкЧхПг
 		
-		// ╫єепеъе├епд╖д┐Хr
+		// х╖жуВпуГкуГГуВпуБЧуБЯr
 		if( mouse.onceState & MOUSE_LEFT_CRICK ){
-			// д╧ддд╬Хr
+			// уБпуБДуБоr
 			if( HitDispNo == pYobi->yesDispNo ){
 				pYobi->yesNoResult = TRUE;
 			}
-			// дддддид╬Хr
+			// уБДуБДуБИуБоr
 			if( HitDispNo == pYobi->noDispNo ){
 				pYobi->yesNoResult = FALSE;
 			}
 		}
 		
-		// ┤_╒Jежегеєе╔ежд╬е┘й`е╣▒э╩╛
+		// _JуВжуВгуГ│уГЙуВжуБоуГЩ`уВ╣шбичд║
 		StockDispBuffer( pYobi->mx, pYobi->my, DISP_PRIO_YES_NO_WND, CG_COMMON_WIN_YORO, 1 );
-		// д╧дде▄е┐еє
+		// уБпуБДуГЬуВ┐уГ│
 		pYobi->yesDispNo = StockDispBuffer( pYobi->mx, pYobi->my, DISP_PRIO_YES_NO_BTN, CG_COMMON_YES_BTN, 2);
-		// дддддие▄е┐еє
+		// уБДуБДуБИуГЬуВ┐уГ│
 		pYobi->noDispNo = StockDispBuffer( pYobi->mx, pYobi->my, DISP_PRIO_YES_NO_BTN, CG_COMMON_NO_BTN, 2 );
 		
 		break;
@@ -273,163 +273,163 @@ void WindowDisp( ACTION *pAct )
 	
 }
 
-// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔ **************************************************************/
-//	╥¤╩¤г║	int x,y 			▒э╩╛╫∙Ш╦ги╫є╔╧гй
-//			int sizeX,sizeY 	ежегеєе╔ежд╬е╡еде║е╤й`е─Еg╬╗гиЦШд└д▒д╬Хrд╧е╘епе╗еыЕg╬╗гй
-//			int titleNo 		е┐еде╚еыд─д▒дыд╚днд╬╗н╧ё╖м║┼бвгиЯoд╖д╬д╚днд╧г╬г╒г╠г╠гй
-//			int wndType 		г░г║╩пд╬ежегеєе╔ежги╡▒д┐дъ┼╨╢идвдъгй
-//			 					г▒г║─╛д╬ежегеєе╔ежги╡▒д┐дъ┼╨╢идвдъгй
-//								г▓г║╩пд╬ежегеєе╔ежги╡▒д┐дъ┼╨╢иЯoд╖гй
-//								г│г║─╛д╬ежегеєе╔ежги╡▒д┐дъ┼╨╢иЯoд╖гй
-//								г┤г║┤_╒Jежегеєе╔ежги╡▒д┐дъ┼╨╢идвдъгй
-//								-1г║ЦШд└д▒
+// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР **************************************************************/
+//	х╝ХцХ░я╝Ъ	int x,y 			шбичд║х║зшАНуДЧчмКх╕М
+//			int sizeX,sizeY 	уВжуВгуГ│уГЙуВжуБоуВ╡уВдуВ║уГС`уГДgф╜Ня╝ИуБауБСуБоrуБпуГФуВпуВ╗уГлgф╜Ня╝Й
+//			int titleNo 		уВ┐уВдуГИуГлуБдуБСуВЛуБиуБНуБочФ╗хГПчХкхП╖уАБя╝ИoуБЧуБоуБиуБНуБпя╝оя╝╡я╝мя╝мя╝Й
+//			int wndType 		я╝Ря╝ЪчЯ│уБоуВжуВгуГ│уГЙуВжя╝Их╜УуБЯуВКхИдхоЪуБВуВКя╝Й
+//			 					я╝Ся╝ЪцЬиуБоуВжуВгуГ│уГЙуВжя╝Их╜УуБЯуВКхИдхоЪуБВуВКя╝Й
+//								я╝Тя╝ЪчЯ│уБоуВжуВгуГ│уГЙуВжя╝Их╜УуБЯуВКхИдхоЪoуБЧя╝Й
+//								я╝Уя╝ЪцЬиуБоуВжуВгуГ│уГЙуВжя╝Их╜УуБЯуВКхИдхоЪoуБЧя╝Й
+//								я╝Фя╝Ъ_JуВжуВгуГ│уГЙуВжя╝Их╜УуБЯуВКхИдхоЪуБВуВКя╝Й
+//								-1я╝ЪуБауБС
 //****************************************************************************************/
 ACTION *MakeWindowDisp( int x, int y, int sizeX, int sizeY, int titleNo, int wndType )
 {
 	ACTION *pAct;
 	WINDOW_DISP *pYobi;
 	
-	// евепе╖ечеєе▌едеєе┐╚б╡├
+	// уВвуВпуВ╖уГзуГ│уГЭуВдуГ│уВ┐хПЦх╛Ч
 	pAct = GetAction( PRIO_JIKI, sizeof( WINDOW_DISP ) );
 	if( pAct == NULL ) return NULL;
 	
-	// Мg╨╨щv╩¤
+	// gшбМvцХ░
 	pAct->func = WindowDisp;
-	// ▒э╩╛ГЮ╧╚╢╚
+	// шбичд║хЕИх║ж
 	pAct->dispPrio = DISP_PRIO_MENU;
-	// ╡▒д┐дъ┼╨╢ид╣ды
+	// х╜УуБЯуВКхИдхоЪуБЩуВЛ
 	pAct->atr |= ACT_ATR_HIT;
-	// ▒э╩╛д╖д╩дд
+	// шбичд║уБЧуБкуБД
 	pAct->atr |= ACT_ATR_HIDE;
 	
-	// ╙шВфШЛ╘ь╠хд╬еве╔еье╣
+	// ф║ИщАаф╜УуБоуВвуГЙуГмуВ╣
 	pYobi = ( WINDOW_DISP *)pAct->pYobi;
 	
-	// ╫∙Ш╦дЄ╙ЫСЫ
+	// х║зцСФшЫ┤
 	pAct->x = x;
 	pAct->y = y;
 	pYobi->titleX = x + ( sizeX * 64 ) / 2;
 	pYobi->titleY = pAct->y + 27;
-	// е╡еде║дЄ╙ЫСЫ
+	// уВ╡уВдуВ║уВТ
 	pYobi->sizeX = sizeX;
 	pYobi->sizeY = sizeY;
-	// е┐еде╚еы╖м║┼╙ЫСЫ
+	// уВ┐уВдуГИуГлчХкхП╖
 	pYobi->titleNo = titleNo;
 	pYobi->boxDispPrio = DISP_PRIO_MENU;
-	// ежегеєе╔еже┐еде╫╙ЫСЫ
+	// уВжуВгуГ│уГЙуВжуВ┐уВдуГЧ
 	if( wndType == 0 ) pYobi->wndType = CG_WND_G_0;
 	else if( wndType == 1 ) pYobi->wndType = CG_WND2_G_0;
 	else if( wndType == 2 ) pYobi->wndType = CG_WND_G_0;
 	else if( wndType == 3 ) pYobi->wndType = CG_WND2_G_0;
 	else if( wndType == 4 ){
 		pYobi->wndType = -2;
-		// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+		// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 		pYobi->yesDispNo = -2;
 		pYobi->noDispNo = -2;
 		pYobi->boxDispPrio = DISP_PRIO_YES_NO_WND;
 	}
 	else pYobi->wndType = -1;
 	
-	// YesNo е╒еще░│ї╞┌╗п
+	// YesNo уГХуГйуВ░хИЭцЬЯхМЦ
 	pYobi->yesNoResult = -1;
 	
-	// ╡▒д┐дъ┼╨╢ие╒еще░
+	// х╜УуБЯуВКхИдхоЪуГХуГйуВ░
 	if( wndType >= 2 ) pYobi->hitFlag = FALSE;
 	else pYobi->hitFlag = TRUE;
 	
-	// ╓╨╨─╫∙Ш╦╙Л╦у
-	// ЦШд└д▒д╬Хrбв╙╓д╧┤_╒Jежегеєе╔ежд╬Хr
+	// ф╕нх┐Гх║зцУЮчоЧ
+	// уБауБСуБоrуАБхПИуБп_JуВжуВгуГ│уГЙуВжуБоr
 	if( wndType == -1 || wndType == 4 ){
 		pYobi->mx = sizeX / 2 + pAct->x;
 		pYobi->my = sizeY / 2 + pAct->y;
-	}else{	// Ъ°╙├ежегеєе╔ежд╬Хr
+	}else{	// ц░У╬Хя╝ЕшЮЧф╕з╬Фr
 		pYobi->mx = ( sizeX * 64 ) / 2 + pAct->x;
 		pYobi->my = ( sizeY * 48 ) / 2 + pAct->y;
 	}
-	// ЙИ╖╓╙Л╦у
+	// хИЖчоЧ
 	pAct->dx = ( pYobi->mx - pAct->x ) / WINDOW_CREATE_FRAME;
 	pAct->dy = ( pYobi->my - pAct->y ) / WINDOW_CREATE_FRAME;
 	
 	return pAct;
 }
 	
-// еве╦есй`е╖ечеєе┐е╣епд╬╨╨Д╙╖м║┼
+// уВвуГЛуГб`уВ╖уГзуГ│уВ┐уВ╣уВпуБошбМшЗГ
 enum{
-	ANIM_DISP_PET,				// е┌е├е╚▒э╩╛
-	ANIM_DISP_PET_SEND,			// е┌е├е╚есй`еы╦═╨┼Хrбв╗н├ц═тд╪╥╞Д╙
-	ANIM_DISP_PET_RECIEVE,		// е┌е├е╚есй`еы╩▄╨┼Хrбв╗н├ц─┌д╪╥╞Д╙
+	ANIM_DISP_PET,				// уГЪуГГуГИшбичд║
+	ANIM_DISP_PET_SEND,			// уГЪуГГуГИуГб`уГлщАБф┐бrуАБчФ╗щЭвхдЦуБ╕чз╗
+	ANIM_DISP_PET_RECIEVE,		// уГЪуГГуГИуГб`уГлхПЧф┐бrуАБчФ╗щЭвхЖЕуБ╕чз╗
 	
-	ANIM_DISP_PET_MAIN,			// е┌е├е╚д╬╨╨Д╙▀xТkДI└э
-	ANIM_DISP_PET_WALK,			// Ъiдн
-	ANIM_DISP_PET_STAND,		// ┤¤ЩC
-	ANIM_DISP_PET_ATTACK,		// ╣еУ─
-	ANIM_DISP_PET_GUARD,		// емй`е╔
-	ANIM_DISP_PET_DAMAGE,		// е└есй`е╕
-	ANIM_DISP_PET_DEAD,			// ╦└═Ў
-	ANIM_DISP_PET_ITEM,			// е┌е├е╚еведе╞ер▒э╩╛
+	ANIM_DISP_PET_MAIN,			// уГЪуГГуГИуБошбМшИЖxkIчРЖ
+	ANIM_DISP_PET_WALK,			// iуБН
+	ANIM_DISP_PET_STAND,		// х╛ЕC
+	ANIM_DISP_PET_ATTACK,		// цФ╗
+	ANIM_DISP_PET_GUARD,		// уВм`уГЙ
+	ANIM_DISP_PET_DAMAGE,		// уГАуГб`уВ╕
+	ANIM_DISP_PET_DEAD,			// цн╗ф║б
+	ANIM_DISP_PET_ITEM,			// уГЪуГГуГИуВвуВдуГЖуГашбичд║
 	
-	ANIM_DISP_LETTER_MOVE,		// ╩╓╝И╥╞Д╙
-	ANIM_DISP_LETTER,			// ╩╓╝Иеве╦есй`е╖ечеє
+	ANIM_DISP_LETTER_MOVE,		// цЙЛчз╗
+	ANIM_DISP_LETTER,			// цЙЛуВвуГЛуГб`уВ╖уГзуГ│
 	
-	ANIM_DISP_MIX_PET_INIT,		// ║╧│╔е┌е├е╚│ї╞┌╗п
-	ANIM_DISP_MIX_PET_MOVE,		// ║╧│╔е┌е├е╚╩│д┘д╩дмдщ╥╞Д╙
-	ANIM_DISP_MIX_PET_MOJI,		// ║╧│╔е┌е├е╚дмдтд╕дтд╕д╖д╞бв║╧│╔═ъ┴╦
-	ANIM_DISP_MIX_PET_END,		// ║╧│╔е┌е├е╚╗н├ц═тд╪
+	ANIM_DISP_MIX_PET_INIT,		// хРИцИРуГЪуГГуГИхИЭцЬЯхМЦ
+	ANIM_DISP_MIX_PET_MOVE,		// хРИцИРуГЪуГГуГИщгЯуБ╣уБкуБМуВЙчз╗
+	ANIM_DISP_MIX_PET_MOJI,		// хРИцИРуГЪуГГуГИуБМуВВуБШуВВуБШуБЧуБжуАБхРИцИРхоМф║Ж
+	ANIM_DISP_MIX_PET_END,		// хРИцИРуГЪуГГуГИчФ╗щЭвхдЦуБ╕
 	
 };
 
-// еве╦есй`е╖ечеєе┐е╣еп▒э╩╛ДI└э ***********************************************/
+// уВвуГЛуГб`уВ╖уГзуГ│уВ┐уВ╣уВпшбичд║IчРЖ ***********************************************/
 void AnimDisp( ACTION *pAct )
 {
 	int flag = FALSE;
 	int x, y, i;
 	
-	// е┌е├е╚д╬Хr
+	// уГЪуГГуГИуБоr
 	switch( pAct->actNo ){
 	
-	case ANIM_DISP_PET:	// е┌е├е╚▒э╩╛
+	case ANIM_DISP_PET:	// уГЪуГГуГИшбичд║
 	
-		// ╫єепеъе├епд╟╖╜╧ЄЙфУQ
+		// х╖жуВпуГкуГГуВпуБзцЦ╣хРСQ
 		if( pAct->hitDispNo == HitDispNo && 
 			mouse.autoState & MOUSE_LEFT_CRICK ){
-			// ╖╜╧ЄЙфУQ
+			// цЦ╣хРСQ
 			pAct->anim_ang++;
-			// еъе▀е├е╚е┴езе├еп
+			// уГкуГЯуГГуГИуГБуВзуГГуВп
 			if( pAct->anim_ang >= 8 ) pAct->anim_ang = 0;
-			play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+			play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 		}
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 		
 		break;
 		
-	case ANIM_DISP_PET_SEND:	// е┌е├е╚есй`еы╦═╨┼Хrбв╗н├ц═тд╪╥╞Д╙
+	case ANIM_DISP_PET_SEND:	// уГЪуГГуГИуГб`уГлщАБф┐бrуАБчФ╗щЭвхдЦуБ╕чз╗
 	
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_WALK;
-		// еве╦есй`е╖ечеє╧Єдн( г░блг╖ )( ╧┬дмг░д╟╙╥╗╪дъ )
+		// уВвуГЛуГб`уВ╖уГзуГ│хРСуБН( я╝Ря╜Юя╝Ч )( ф╕ЛуБМя╝РуБзхП│хЫЮуВК )
 		pAct->anim_ang = 2;
-		// ╖╜╧Є
+		// цЦ╣хРС
 		pAct->crs = crs_change_tbl2[ pAct->anim_ang ];
-		// ележеєе┐й`
+		// уВлуВжуГ│уВ┐`
 		pAct->dx++;
-		// г▓е╒еьй`ерд╦╥╗╗╪╝╙╦┘
+		// я╝ТуГХуГм`уГауБлф╕АхЫЮхКащАЯ
 		if( pAct->dx % 3 == 0 ){ 
-			// е╣е╘й`е╔╝╙╦┘
+			// уВ╣уГФ`уГЙхКащАЯ
 			if( pAct->spd < 20 ){ 
 				pAct->spd++;
 			}
 		}
-		// г│е╒еьй`ерд╦╥╗╗╪╝╙╦┘
+		// я╝УуГХуГм`уГауБлф╕АхЫЮхКащАЯ
 		if( pAct->dx % 5 == 0 ){ 
 			if( pAct->dy >= 2 ) pAct->dy--;
 		}
-		// ╥╞Д╙ДI└э
+		// чз╗IчРЖ
 		gemini( pAct );
 		
-		// еведе╞ердвдыХr
+		// уВвуВдуГЖуГауБВуВЛr
 		if( pActMailItem != NULL ){
-			// еведе╞ерд╦╜№д┼ддд┐дщ
+			// уВвуВдуГЖуГауБлш┐СуБеуБДуБЯуВЙ
 			//if( pAct->x - pActMailItem->x < 32 ){
 			//	pActMailItem->x = pAct->x - 32;
 			//}
@@ -437,65 +437,65 @@ void AnimDisp( ACTION *pAct )
 				pActMailItem->x = pAct->x;
 			}
 		}
-		// ╗н├ц═тд╪╧√дид┐дщежегеєе╔ежщ]д╕ды
+		// чФ╗щЭвхдЦуБ╕ц╢ИуБИуБЯуВЙуВжуВгуГ│уГЙуВж]уБШуВЛ
 		if( pAct->x <= - 100 ){ 
-			// ежегеєе╔еж─иЪв
+			// уВжуВгуГ│уГЙуВжцК╣
 			DeathAction( pActMenuWnd );
 			pActMenuWnd = NULL;
-			// е┌е├е╚─иЪв
+			// уГЪуГГуГИцК╣
 			DeathAction( pActPet );
 			pActPet = NULL;
-			// есй`еыеведе╞ер─иЪв
+			// уГб`уГлуВвуВдуГЖуГацК╣
 			DeathAction( pActMailItem );
 			pActMailItem = NULL;
-			// ╥╗╙Eежегеєе╔ежд╪
+			// ф╕АEуВжуВгуГ│уГЙуВжуБ╕
 			mailWndNo = MAIL_WND_VIEW;	
-			// ежегеєе╔ежщ]д╕ды╥Ї
+			// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 			play_se( 203, 320, 240 );
-			// ╚ы┴же╒ейй`еле╣С°д╣
+			// хЕехКЫуГХуВй`уВлуВ╣
 			GetKeyInputFocus( &MyChatBuffer );
 		}
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		pattern( pAct, pAct->dy, ANM_LOOP );
 		
 		break;
 		
-	case ANIM_DISP_PET_RECIEVE:	// е┌е├е╚есй`еы╩▄╨┼Хrбв╗н├ц─┌д╪╥╞Д╙
+	case ANIM_DISP_PET_RECIEVE:	// уГЪуГГуГИуГб`уГлхПЧф┐бrуАБчФ╗щЭвхЖЕуБ╕чз╗
 	
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_WALK;
-		// еве╦есй`е╖ечеє╧Єдн( г░блг╖ )( ╧┬дмг░д╟╙╥╗╪дъ )
+		// уВвуГЛуГб`уВ╖уГзуГ│хРСуБН( я╝Ря╜Юя╝Ч )( ф╕ЛуБМя╝РуБзхП│хЫЮуВК )
 		pAct->anim_ang = 6;
-		// ╖╜╧Є
+		// цЦ╣хРС
 		pAct->crs = crs_change_tbl2[ pAct->anim_ang ];
-		// ележеєе┐й`
+		// уВлуВжуГ│уВ┐`
 		pAct->dx++;
-		// е╣е╘й`е╔╝╙╦┘
+		// уВ╣уГФ`уГЙхКащАЯ
 		if( pAct->spd > 0 ){ 
-			// г▓е╒еьй`ерд╦╥╗╗╪╝╙╦┘
+			// я╝ТуГХуГм`уГауБлф╕АхЫЮхКащАЯ
 			if( pAct->dx % 3 == 0 ){ 
 				pAct->spd--;
-				// ╓╣д▐д├д┐Хrбв╨╨Д╙ещеєе└ер
+				// цнвуБ╛уБгуБЯrуАБшбМщ╣░цеЧшЮЧцШЖ
 				if( pAct->spd <= 0 ){ 
 					pAct->actNo = ANIM_DISP_PET_MAIN;
-					// еведе╞ердвдыХr
+					// уВвуВдуГЖуГауБВуВЛr
 					if( pActMailItem != NULL ){
 						pActMailItem->dispPrio = DISP_PRIO_BOX3;
 					}
 				}
 			}
 		}
-		// г│е╒еьй`ерд╦╥╗╗╪╝╙╦┘
+		// я╝УуГХуГм`уГауБлф╕АхЫЮхКащАЯ
 		if( pAct->dx % 8 == 0 ){ 
-			// еве╦есй`е╖ечеє╝╙╦┘
+			// уВвуГЛуГб`уВ╖уГзуГ│хКащАЯ
 			if( pAct->dy < 12 ) pAct->dy++;
 		}
-		// ╥╞Д╙ДI└э
+		// чз╗IчРЖ
 		gemini( pAct );
 		
-		// еведе╞ердвдыХr
+		// уВвуВдуГЖуГауБВуВЛr
 		if( pActMailItem != NULL ){
-			// еведе╞ерд╦╜№д┼ддд┐дщ
+			// уВвуВдуГЖуГауБлш┐СуБеуБДуБЯуВЙ
 			//if( pAct->x - pActMailItem->x < 32 ){
 			//	pActMailItem->x = pAct->x - 32;
 			//}
@@ -503,297 +503,297 @@ void AnimDisp( ACTION *pAct )
 				pActMailItem->x = pAct->x;
 			}
 		}
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		pattern( pAct, pAct->dy, ANM_LOOP );
 		
 		break;
 	
-	case ANIM_DISP_PET_MAIN:	// е┌е├е╚д╬╨╨Д╙▀xТkДI└э
+	case ANIM_DISP_PET_MAIN:	// уГЪуГГуГИуБошбМшИЖxkIчРЖ
 		
-		// г╡╖╓д╬г│д╟Ъiдн
+		// я╝ХхИЖуБоя╝УуБзiуБН
 		if( Rnd( 0, 4 ) >= 2 ){ 
 			pAct->actNo = ANIM_DISP_PET_WALK;
-			// ╖╜╧Єещеєе└ер
+			// цЦ╣хРСуГйуГ│уГАуГа
 			pAct->anim_ang = Rnd( 0, 7 );
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = crs_change_tbl2[ pAct->anim_ang ];
-			// ещеєе└ер╥╞Д╙е╣е╘й`е╔
+			// уГйуГ│уГАуГачз╗щ╣░цФ╗хЖд`уГЙ
 			pAct->spd = Rnd( 1, 12 );
-			// еве╦есй`е╖ечеєе╣е╘й`е╔
+			// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 			pAct->dy = 13 - pAct->spd;
 		}
 		else pAct->actNo = Rnd( ANIM_DISP_PET_STAND, ANIM_DISP_PET_DEAD );
 		
-		// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+		// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 		pAct->anim_no_bak = -1;
 		
 		break;
 		
-	case ANIM_DISP_PET_WALK:	// Ъiдн
+	case ANIM_DISP_PET_WALK:	// iуБН
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_WALK;
 		
-		// ╥╞Д╙ДI└э
+		// чз╗IчРЖ
 		gemini( pAct );
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		if( pattern( pAct, pAct->dy, ANM_NO_LOOP ) ){
-			// ещеєе└ер└Rдъ╖╡д╖
+			// уГйуГ│уГАуГаRуВКш┐ФуБЧ
 			if( Rnd( 0, 3 ) == 0 ){
 				pAct->actNo = ANIM_DISP_PET_MAIN;
 			}else{
-				// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+				// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 				pAct->anim_no_bak = -1;
 			}
 		}
 		
-		// еъе▀е├е╚е┴езе├еп
-		// ╔╧
+		// уГкуГЯуГГуГИуГБуВзуГГуВп
+		// ф╕К
 		if( pActPet->y < pActMenuWnd->y + 64 ){
 			pActPet->y = pActMenuWnd->y + 64;
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = crs_bound_tbl[ 0 ][ pAct->crs ];
-			// ╧Єдн╘O╢и
+			// хРСуБНOхоЪ
 			pAct->anim_ang = crs_change_tbl[ pAct->crs ];
 		}
-		// ╧┬
+		// ф╕Л
 		if( pActPet->y > pActMenuWnd->y + 424 - 32 ){
 			pActPet->y = pActMenuWnd->y + 424 - 32;
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = crs_bound_tbl[ 2 ][ pAct->crs ];
-			// ╧Єдн╘O╢и
+			// хРСуБНOхоЪ
 			pAct->anim_ang = crs_change_tbl[ pAct->crs ];
 		}
-		// ╫є
+		// х╖ж
 		if( pActPet->x < pActMenuWnd->x + 32 ){
 			pActPet->x = pActMenuWnd->x + 32;
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = crs_bound_tbl[ 3 ][ pAct->crs ];
-			// ╧Єдн╘O╢и
+			// хРСуБНOхоЪ
 			pAct->anim_ang = crs_change_tbl[ pAct->crs ];
 		}
-		// ╙╥
+		// хП│
 		if( pActPet->x > pActMenuWnd->x + 272 - 32 ){
 			pActPet->x = pActMenuWnd->x + 272 - 32;
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = crs_bound_tbl[ 1 ][ pAct->crs ];
-			// ╧Єдн╘O╢и
+			// хРСуБНOхоЪ
 			pAct->anim_ang = crs_change_tbl[ pAct->crs ];
 		}
 		
 		break;
 
-	case ANIM_DISP_PET_STAND:	// ┤¤ЩC
+	case ANIM_DISP_PET_STAND:	// х╛ЕC
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_STAND;
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		if( pattern( pAct, ANM_NOMAL_SPD, ANM_NO_LOOP ) ){
-			// ещеєе└ер└Rдъ╖╡д╖
+			// уГйуГ│уГАуГаRуВКш┐ФуБЧ
 			//if( Rnd( 0, 1 ) == 0 ){
 				pAct->actNo = ANIM_DISP_PET_MAIN;
 			//}else{
-				// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+				// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 			//	pAct->anim_no_bak = -1;
 			//}
 		}
 	
 		break;
 	
-	case ANIM_DISP_PET_ATTACK:	// ╣еУ─
+	case ANIM_DISP_PET_ATTACK:	// цФ╗
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_ATTACK;
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		if( pattern( pAct, ANM_NOMAL_SPD, ANM_NO_LOOP ) ){
-			// ещеєе└ер└Rдъ╖╡д╖
+			// уГйуГ│уГАуГаRуВКш┐ФуБЧ
 			if( Rnd( 0, 1 ) == 0 ){
 				pAct->actNo = ANIM_DISP_PET_MAIN;
 			}else{
-				// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+				// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 				pAct->anim_no_bak = -1;
 			}
 		}
 	
 		break;
 		
-	case ANIM_DISP_PET_GUARD:	// емй`е╔
+	case ANIM_DISP_PET_GUARD:	// уВм`уГЙ
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_GUARD;
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		if( pattern( pAct, ANM_NOMAL_SPD, ANM_NO_LOOP ) ){
-			// ещеєе└ер└Rдъ╖╡д╖
+			// уГйуГ│уГАуГаRуВКш┐ФуБЧ
 			if( Rnd( 0, 1 ) == 0 ){
 				pAct->actNo = ANIM_DISP_PET_MAIN;
 			}else{
-				// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+				// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 				//pAct->anim_no_bak = -1;
 			}
 		}
 	
 		break;
 		
-	case ANIM_DISP_PET_DAMAGE:	// е└есй`е╕
+	case ANIM_DISP_PET_DAMAGE:	// уГАуГб`уВ╕
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_DAMAGE;
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		if( pattern( pAct, ANM_NOMAL_SPD, ANM_NO_LOOP ) ){
-			// ещеєе└ер└Rдъ╖╡д╖
+			// уГйуГ│уГАуГаRуВКш┐ФуБЧ
 			if( Rnd( 0, 1 ) == 0 ){
 				pAct->actNo = ANIM_DISP_PET_MAIN;
 			}else{
-				// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+				// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 				pAct->anim_no_bak = -1;
 			}
 		}
 	
 		break;
 		
-	case ANIM_DISP_PET_DEAD:	// ╦└═Ў
+	case ANIM_DISP_PET_DEAD:	// цн╗ф║б
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_DEAD;
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		if( pattern( pAct, ANM_NOMAL_SPD, ANM_NO_LOOP ) ){
-			// ещеєе└ер└Rдъ╖╡д╖
+			// уГйуГ│уГАуГаRуВКш┐ФуБЧ
 			if( Rnd( 0, 2 ) == 0 ){
 				pAct->actNo = ANIM_DISP_PET_MAIN;
 			}else{
-				// ╟░╗╪д╬еве╦есй`е╖ечеє═№дьд╡д╗ды
+				// хЙНхЫЮуБоуВвуГЛуГб`уВ╖уГзуГ│х┐ШуВМуБХуБЫуВЛ
 				//pAct->anim_no_bak = -1;
 			}
 		}
 	
 		break;
 		
-	case ANIM_DISP_PET_ITEM:	// ╦═╨┼е┌е├е╚еведе╞ер▒э╩╛
+	case ANIM_DISP_PET_ITEM:	// щАБф┐буГЪуГГуГИуВвуВдуГЖуГашбичд║
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 		
 		break;
 	
-	case ANIM_DISP_LETTER_MOVE:	// ╩╓╝И╥╞Д╙
+	case ANIM_DISP_LETTER_MOVE:	// цЙЛчз╗
 	
-		// ╥╞Д╙
+		// чз╗
 		if( pAct->x < 245 ) pAct->x += 5;
-		// ╩╓╝Иеве╦есй`е╖ечеєд╪
+		// цЙЛуВвуГЛуГб`уВ╖уГзуГ│уБ╕
 		else{ 
 			pAct->actNo = ANIM_DISP_LETTER;
-			// еве╦есй`е╖ечеє
+			// уВвуГЛуГб`уВ╖уГзуГ│
 			pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 			pAct->anim_cnt += 8;
 		}
 		break;
 	
-	case ANIM_DISP_LETTER:		// ╩╓╝Иеве╦есй`е╖ечеє
+	case ANIM_DISP_LETTER:		// цЙЛуВвуГЛуГб`уВ╖уГзуГ│
 	
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 		
 		break;
 		
-	case ANIM_DISP_MIX_PET_INIT:	// ║╧│╔е┌е├е╚│ї╞┌╗п
+	case ANIM_DISP_MIX_PET_INIT:	// хРИцИРуГЪуГГуГИхИЭцЬЯхМЦ
 	
-		// ещеєе└ер╥╞Д╙е╣е╘й`е╔
+		// уГйуГ│уГАуГачз╗щ╣░цФ╗хЖд`уГЙ
 		pAct->spd = 11;//Rnd( 6, 12 );
-		// еве╦есй`е╖ечеєе╣е╘й`е╔
+		// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 		pAct->dy = 14 - pAct->spd;
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_WALK;
 		
-		// ╫ю│їд╬е▌едеєе╚дЄ╠╜д╣
+		// цЬАхИЭуБоуГЭуВдуГ│уГИуВТцОвуБЩ
 		for( i = 5 ; i < MAX_ITEM ; i++ ){
 			if( ItemBuffer[ i ].mixFlag >= 1 ){ 
 				pAct->dx = i;
 				break;
 			}
 		}
-		// ╥╞Д╙д╪
+		// чз╗хй┤
 		pAct->actNo = ANIM_DISP_MIX_PET_MOVE;
 		break;
 		
-	case ANIM_DISP_MIX_PET_MOVE:	// ║╧│╔е┌е├е╚╩│д┘д╩дмдщ╥╞Д╙
+	case ANIM_DISP_MIX_PET_MOVE:	// хРИцИРуГЪуГГуГИщгЯуБ╣уБкуБМуВЙчз╗
 		
-		// ─┐╡─╡╪╘O╢и
+		// чЫочЪДхЬ░OхоЪ
 		x = ItemBuffer[ pAct->dx ].defX;
 		y = ItemBuffer[ pAct->dx ].defY;
 		
-		// еьй`е└й`
+		// уГм`уГА`
 		radar( pAct, &x, &y );
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_WALK;
 		
-		// ╡╜╫┼д╖д╞д╩длд├д┐дщ
+		// хИ░чЭАуБЧуБжуБкуБЛуБгуБЯуВЙ
 		if( y >= pAct->spd / 2 ){
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = x;
-			// ╧Єдн╘O╢иги─┐╡─╡╪Йф╕№Хrд╦╥╗╗╪д└д▒гй
+			// хРСуБНOхоЪя╝ИчЫочЪДхЬ░ц╢УrуБлф╕АхЫЮуБауБСя╝Й
 			if( pAct->level == FALSE ){
 				pAct->anim_ang = crs_change_tbl[ pAct->crs ];
-				// евеєе░еыЙфУQе╒еще░г╧г╬
+				// уВвуГ│уВ░уГлQуГХуГйуВ░я╝пя╝о
 				pAct->level = TRUE;
 			}
 			
-			// ╥╞Д╙ДI└э
+			// чз╗IчРЖ
 			gemini( pAct );
-			// еве╦есй`е╖ечеє
+			// уВвуГЛуГб`уВ╖уГзуГ│
 			pattern( pAct, pAct->dy, ANM_LOOP );
 			//pattern( pAct, 2, ANM_LOOP );
 		}
-		// ╡╜╫┼д╖д┐дщ
+		// хИ░чЭАуБЧуБЯуВЙ
 		else{
-			// евеєе░еыЙфУQе╒еще░г╧г╞г╞
+			// уВвуГ│уВ░уГлQуГХуГйуВ░я╝пя╝жя╝ж
 			pAct->level = FALSE;
-			// еведе╞ер╩╣дж╥Ї
+			// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 			play_se( 204, 320, 240 );
 			
-			// ╫юссд▐д╟╨╨д├д┐е╒еще░г╧г╬д╬Хr
+			// цЬАх╛МуБ╛уБзшбМуБгуБЯуГХуГйуВ░я╝пя╝оуБоr
 			if( pAct->delta == 1 ){
-				// дтд╕дтд╕д╣дыд╪
+				// уВВуБШуВВуБШуБЩуВЛуБ╕
 				pAct->actNo = ANIM_DISP_MIX_PET_MOJI;
-				// Д╙╫ў╖м║┼
+				// х╣╝щЮг
 				pAct->anim_no = ANIM_STAND;
 				
-				// ещеєе└ер╥╞Д╙е╣е╘й`е╔
+				// уГйуГ│уГАуГачз╗щ╣░цФ╗хЖд`уГЙ
 				pAct->spd = 10;//Rnd( 6, 12 );
-				// еве╦есй`е╖ечеєе╣е╘й`е╔
+				// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 				pAct->dy = 14 - pAct->spd;
 
-				// ├ш╗ндЄ╧┬д╦д╣ды
+				// цППчФ╗уВТф╕ЛуБлуБЩуВЛ
 				for( i = 5 ; i < MAX_ITEM ; i++ ){
 					if( ItemBuffer[ i ].mixFlag >= 1 ){ 
 						ItemBuffer[ i ].mixFlag = 4;
 					}
 				}
 				
-				// дтд╕дтд╕д╣ды╗╪╩¤ещеєе└ер
+				// уВВуБШуВВуБШуБЩуВЛхЫЮцХ░уГйуГ│уГАуГа
 				pAct->delta = Rnd( 2, 15 );
 				pAct->mp = 15;
 				break;
 			}
 			
-			// ╥╞Д╙е╣е╘й`е╔▀Wдпд╣ды
+			// чз╗щ╣░цФ╗хЖд`уГЙWуБПуБЩуВЛ
 			pAct->spd = ( int )( ( double )pAct->spd * 0.79 );
-			// еъе▀е├е╚е┴езе├еп
+			// уГкуГЯуГГуГИуГБуВзуГГуВп
 			if( pAct->spd < 2 ) pAct->spd = 2;
-			// еве╦есй`е╖ечеєе╣е╘й`е╔
+			// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 			pAct->dy = 13 - pAct->spd;
 			
-			// е┌е├е╚д╦еведе╞ердЄдпд├д─д▒ды
+			// уГЪуГГуГИуБлуВвуВдуГЖуГауВТуБПуБгуБдуБСуВЛ
 			ItemBuffer[ pAct->dx ].mixFlag = 3;
 			
-			// ┤╬д╬е▌едеєе╚дЄ╠╜д╣
+			// цмбуБоуГЭуВдуГ│уГИуВТцОвуБЩ
 			for( i = pAct->dx + 1 ; i < MAX_ITEM ; i++ ){
 				if( ItemBuffer[ i ].mixFlag >= 1 ){ 
 					pAct->dx = i;
@@ -801,223 +801,223 @@ void AnimDisp( ACTION *pAct )
 				}
 			}
 			
-			// ╫юссд▐д╟╨╨д├д┐дщ
+			// цЬАх╛МуБ╛уБзшбМуБгуБЯуВЙ
 			if( i >= MAX_ITEM ){
-				// еведе╞ердм│Ўдндыд╚д│дэдЄ╠╜д╣
+				// уВвуВдуГЖуГауБМхЗ║уБНуВЛуБиуБУуВНуВТцОвуБЩ
 				for( i = 5 ; i < MAX_ITEM ; i++ ){
-					// д╜д╬Щ┌д╦еведе╞ердмЯoддХr
+					// уБЭуБохЖешб░уБЕхМ╣хХ╢oуБДr
 					if( pc.item[ i ].useFlag == FALSE ){
-						// д╜д│д╟ЫQ╢и
+						// уБЭуБУуБзQхоЪ
 						pAct->dx = i;
 						break;
 					}else
-					// ╜ё╗╪║╧│╔д╣дыеведе╞ерЩ┌д╩дщ
+					// ф╗КхЫЮхРИцИРуБЩуВЛуВвуВдуГЖуГахЖешГЬ
 					if( ItemBuffer[ i ].mixFlag >= 1 ){ 
-						// д╜д│д╟ЫQ╢и
+						// уБЭуБУуБзQхоЪ
 						pAct->dx = i;
 						break;
 					}
 				}
-				// ╫юссд▐д╟╨╨д├д┐е╒еще░г╧г╬
+				// цЬАх╛МуБ╛уБзшбМуБгуБЯуГХуГйуВ░я╝пя╝о
 				pAct->delta = 1;
 				
 			}
 		}
 		break;
 		
-	case ANIM_DISP_MIX_PET_MOJI:	// ║╧│╔е┌е├е╚дмдтд╕дтд╕д╖д╞═ъ│╔бг
+	case ANIM_DISP_MIX_PET_MOJI:	// хРИцИРуГЪуГГуГИуБМуВВуБШуВВуБШуБЧуБжхоМцИРуАВ
 		
-		// еве╦есй`е╖ечеє
+		// уВвуГЛуГб`уВ╖уГзуГ│
 		pattern( pAct, 1, ANM_LOOP );
 		//pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 	
-		// Хrщgдмднд┐дщ
+		// rgуБМуБНуБЯуВЙ
 		if( pAct->maxHp >= pAct->mp ) pAct->maxHp = 0;
 		else{
 			pAct->maxHp++;
 			break;
 		}
 		
-		// дтд╕дтд╕д╣ды
+		// уВВуБШуВВуБШуБЩуВЛ
 		switch( pAct->hp ){
 			
-			// ╙╥╧Єдн
+			// хП│хРСуБН
 			case 0:
 			case 3:
-				// ╧Єдн╘O╢и
+				// хРСуБНOхоЪ
 				pAct->anim_ang++;
-				// еъе▀е├е╚е┴езе├еп
+				// уГкуГЯуГГуГИуГБуВзуГГуВп
 				if( pAct->anim_ang >= 8 ) pAct->anim_ang = 0;
-				// дтд╕дтд╕╥Ї
+				// уВВуБШуВВуБШщЯ│
 				if( pAct->hp == 0 ){ 
-					// еведе╞ер╩╣дж╥Ї
+					// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 					play_se( 216, 320, 240 );
 				}
-				// ележеєе╚е╫еще╣
+				// уВлуВжуГ│уГИуГЧуГйуВ╣
 				if( pAct->hp == 3 ){ 
 					pAct->dir++;
 					pAct->hp = 0;
-					// ╩╫╒ёдъе╣е╘й`е╔Йф╕№
+					// щжЦцМпуВКуВ╣уГФ`уГЙц╢У
 					pAct->mp--;
 					if( pAct->mp < 4 ) pAct->mp = 4;
 				}
 				else pAct->hp++;
 			break;
 			
-			// ╫є╧Єдн
+			// х╖жхРСуБН
 			case 1:
 			case 2:
-				// ╧Єдн╘O╢и
+				// хРСуБНOхоЪ
 				pAct->anim_ang--;
-				// еъе▀е├е╚е┴езе├еп
+				// уГкуГЯуГГуГИуГБуВзуГГуВп
 				if( pAct->anim_ang < 0 ) pAct->anim_ang = 7;
 				pAct->hp++;
 			break;
 		}
 		
-		// дтд╕дтд╕╜Kд├д┐дщ
+		// уВВуБШуВВуБШKуБгуБЯуВЙ
 		if( pAct->dir >= pAct->delta ){
-			// ╦═╨┼д╣ды
+			// щАБф┐буБЩуВЛ
 			if( pAct->dir == pAct->delta ){
 				pAct->dir++;
-				// ╬─╫╓│ї╞┌╗п
+				// цЦЗхнЧхИЭцЬЯхМЦ
 				char moji[ 256 ];
-				// ╬─╫╓│ї╞┌╗п
+				// цЦЗхнЧхИЭцЬЯхМЦ
 				moji[ 0 ] = NULL;
-				// ║╧│╔д╣дыеведе╞ердЄе┴езе├еп
+				// хРИцИРуБЩуВЛуВвуВдуГЖуГауВТуГБуВзуГГуВп
 				for( i = 5 ; i < 20 ; i++ ){
-					// ║╧│╔е╒еще░┴вд├д╞дддыХr
+					// хРИцИРуГХуГйуВ░члЛуБгуБжуБДуВЛr
 					if( ItemBuffer[ i ].mixFlag >= TRUE ){
 						char work[ 256 ];
-						// ╬─╫╓┴╨╫ў│╔
+						// цЦЗхнЧхИЧф╜ЬцИР
 						sprintf( work,"%d|", i );
 						strcat( moji, work );
-						// е╒еще░г╧г╞г╞
+						// уГХуГйуВ░я╝пя╝жя╝ж
 						//ItemBuffer[ i ].mixFlag = FALSE;
 					}
 				}
-				// ╫юссд╬|дЄг╬г╒г╠г╠д╦д╣ды
+				// цЬАх╛МуБо|уВТя╝оя╝╡я╝мя╝муБлуБЩуВЛ
 				moji[ strlen( moji ) - 1 ] = NULL;
 				
-				// е┌е├е╚е╣енеы╩╣дждЄ╦═╨┼ги╜ёд╧║╧│╔д╖длд╩ддгй
+				// уГЪуГГуГИуВ╣уВнуГлф╜┐уБЖуВТщАБф┐бя╝Иф╗КуБпхРИцИРуБЧуБЛуБкуБДя╝Й
 				lssproto_PS_send( sockfd, petStatusNo, SelectWazaNo, 0, moji );
-				// ╩▄╨┼┤¤д┴е╒еще░г╧г╬
+				// хПЧф┐бх╛ЕуБбуГХуГйуВ░я╝пя╝о
 				ItemMixRecvFlag = TRUE;
 			}	
 			
-			// ╩▄╨┼┤¤д┴е╒еще░г╧г╬
+			// хПЧф┐бх╛ЕуБбуГХуГйуВ░я╝пя╝о
 			if(	ItemMixRecvFlag == FALSE ){
-				// еведе╞ер╩╣дж╥Ї
+				// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 				play_se( 115, 320, 240 );
 				//play_se( 212, 320, 240 );
-				// ║╧│╔е╒еще░д╬│ї╞┌╗п
+				// хРИцИРуГХуГйуВ░уБохИЭцЬЯхМЦ
 				for( i = 5 ; i < MAX_ITEM ; i++ ){
 					ItemBuffer[ i ].mixFlag = FALSE;
 				}
-				// ещеєе└ер╥╞Д╙е╣е╘й`е╔
+				// уГйуГ│уГАуГачз╗щ╣░цФ╗хЖд`уГЙ
 				pAct->spd = 11;
-				// еве╦есй`е╖ечеєе╣е╘й`е╔
+				// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 				pAct->dy = 14 - pAct->spd;
-				// ╗н├ц═тд╪
+				// чФ╗щЭвхдЦуБ╕
 				pAct->actNo = ANIM_DISP_MIX_PET_END;
 			}
 		}
 		
 		break;
 		
-	case ANIM_DISP_MIX_PET_END:	// ║╧│╔е┌е├е╚╗н├ц═тд╪
+	case ANIM_DISP_MIX_PET_END:	// хРИцИРуГЪуГГуГИчФ╗щЭвхдЦуБ╕
 	
-		// ─┐╡─╡╪╘O╢и
+		// чЫочЪДхЬ░OхоЪ
 		x = 750;
 		y = 240;
 		
-		// еьй`е└й`
+		// уГм`уГА`
 		radar( pAct, &x, &y );
 		
-		// Д╙╫ў╖м║┼
+		// х╣╝щЮг
 		pAct->anim_no = ANIM_WALK;
 		
-		// ╡╜╫┼д╖д╞д╩длд├д┐дщ
+		// хИ░чЭАуБЧуБжуБкуБЛуБгуБЯуВЙ
 		if( y >= pAct->spd / 2 ){
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = x;
 			
-			// ╧Єдн╘O╢иги─┐╡─╡╪Йф╕№Хrд╦╥╗╗╪д└д▒гй
+			// хРСуБНOхоЪя╝ИчЫочЪДхЬ░ц╢УrуБлф╕АхЫЮуБауБСя╝Й
 			if( pAct->level == FALSE ){
 				pAct->anim_ang = crs_change_tbl[ pAct->crs ];
-				// евеєе░еыЙфУQе╒еще░г╧г╬
+				// уВвуГ│уВ░уГлQуГХуГйуВ░я╝пя╝о
 				pAct->level = TRUE;
 			}
 			
-			// ╥╞Д╙ДI└э
+			// чз╗IчРЖ
 			gemini( pAct );
-			// еве╦есй`е╖ечеє
+			// уВвуГЛуГб`уВ╖уГзуГ│
 			pattern( pAct, pAct->dy, ANM_LOOP );
 		}
-		// ╡╜╫┼д╖д┐дщ
+		// хИ░чЭАуБЧуБЯуВЙ
 		else{
-			// евепе╖ечеє─иЪв
+			// уВвуВпуВ╖уГзуГ│цК╣
 			DeathAction( pAct );
 			pActPet2 = NULL;
-			// ║╧│╔е┌е├е╚╖м║┼│ї╞┌╗п
+			// хРИцИРуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 			ItemMixPetNo = -1;
 		}
 		break;
 		
 	}
 	
-	// е┌е├е╚╗н├ц─┌д╟Д╙ддд╞дддыХr
+	// уГЪуГГуГИчФ╗щЭвхЖЕуБзхй┤уБДчЪоуБДr
 	if( ANIM_DISP_PET_MAIN <= pAct->actNo && pAct->actNo <= ANIM_DISP_PET_DEAD ){
-		// е┌е├е╚дЄ╫єепеъе├епд╖д┐Хr
+		// уГЪуГГуГИуВТх╖жуВпуГкуГГуВпуБЧуБЯr
 		if( pAct->hitDispNo == HitDispNo && 
 			mouse.autoState & MOUSE_LEFT_CRICK ){
-			// ╨╨Д╙│ї╞┌╗п
+			// шбМцШаш╖Чшпи
 			pAct->actNo = ANIM_DISP_PET_WALK;
-			// ╖╜╧Єещеєе└ер
+			// цЦ╣хРСуГйуГ│уГАуГа
 			pAct->anim_ang = Rnd( 0, 7 );
-			// е│й`е╣╘O╢и
+			// уВ│`уВ╣OхоЪ
 			pAct->crs = crs_change_tbl2[ pAct->anim_ang ];
-			// ещеєе└ер╥╞Д╙е╣е╘й`е╔
+			// уГйуГ│уГАуГачз╗щ╣░цФ╗хЖд`уГЙ
 			pAct->spd = 15;
 			//pAct->spd = Rnd( 6, 12 );
-			// еве╦есй`е╖ечеєе╣е╘й`е╔
+			// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 			//pAct->dy = 13 - pAct->spd;
 			pAct->dy = 2;
-			play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+			play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 		}
 	}
 }
 
-// еве╦есй`е╖ечеєе┐е╣еп╫ў│╔ ***********************************************/
+// уВвуГЛуГб`уВ╖уГзуГ│уВ┐уВ╣уВпф╜ЬцИР ***********************************************/
 ACTION *MakeAnimDisp( int x, int y, int sprNo, int mode )
 {
 	ACTION *pAct;
 	
-	// евепе╖ечеєе▌едеєе┐╚б╡├
+	// уВвуВпуВ╖уГзуГ│уГЭуВдуГ│уВ┐хПЦх╛Ч
 	pAct = GetAction( PRIO_JIKI, NULL );
 	if( pAct == NULL ) return NULL;
 	
-	// Мg╨╨щv╩¤
+	// gшбМvцХ░
 	pAct->func = AnimDisp;
-	// ╡▒д┐дъ┼╨╢ид╣ды
+	// х╜УуБЯуВКхИдхоЪуБЩуВЛ
 	pAct->atr |= ACT_ATR_HIT;
-	// anim_tbl.h д╬╖м║┼
+	// anim_tbl.h уБочХкхП╖
 	pAct->anim_chr_no = sprNo;
-	// Д╙╫ў╖м║┼
+	// х╣╝щЮг
 	//pAct->anim_no = ANIM_WALK;
 	pAct->anim_no = ANIM_STAND;
-	// еве╦есй`е╖ечеє╧Єдн( г░блг╖ )( ╧┬дмг░д╟╙╥╗╪дъ )
+	// уВвуГЛуГб`уВ╖уГзуГ│хРСуБН( я╝Ря╜Юя╝Ч )( ф╕ЛуБМя╝РуБзхП│хЫЮуВК )
 	pAct->anim_ang = 1;
-	/* ▒э╩╛ГЮ╧╚╢╚ */
+	/* шбичд║хЕИх║ж */
 	pAct->dispPrio = DISP_PRIO_BOX3;
-	/* │ї╞┌╬╗╓├ */
+	/* хИЭцЬЯф╜Нч╜о */
 	pAct->x = x;
 	pAct->y = y;
-	// етй`е╔╘O╢и
+	// уГв`уГЙOхоЪ
 	pAct->actNo = mode;
-	// етй`е╔д╦дшд├д╞│ї╞┌╗п
+	// уГв`уГЙуБлуВИуБгуБжхИЭцЬЯхМЦ
 	if( pAct->actNo == ANIM_DISP_PET ){
-		// еве╦есй`е╖ечеєе╣е╘й`е╔
+		// уВвуГЛуГб`уВ╖уГзуГ│уВ╣уГФ`уГЙ
 		pAct->dy = 12;
 	}else
 	if( pAct->actNo == ANIM_DISP_PET_RECIEVE ){
@@ -1025,221 +1025,221 @@ ACTION *MakeAnimDisp( int x, int y, int sprNo, int mode )
 		pAct->spd = 30;
 	}
 	
-	// еве╦есй`е╖ечеє
+	// уВвуГЛуГб`уВ╖уГзуГ│
 	pattern( pAct, ANM_NOMAL_SPD, ANM_LOOP );
 	
 	return pAct;
 }
 
-// есй`еые╟й`е┐д╬▒г┤ц ****************************************************************/
+// уГб`уГлуГЗ`уВ┐уБоф┐ЭхнШ ****************************************************************/
 BOOL SaveMailHistory( int no )
 {
 	FILE *fp; 
 	
-	// Х°дн▐zд▀е╒ебедеыекй`е╫еє
+	// zуБ┐уГХуВбуВдуГлуВк`уГЧуГ│
 	if( ( fp = fopen( MAIL_HISTORY_FILE_NAME, "r+b" ) ) == NULL ){
 		return FALSE;
 	}
 	
-	// д│д╬енеуещд╬Х°днд│дрИЎ╦∙д▐д╟е╒ебедеые▌едеєе┐дЄ▀Mд▐д╗ды
+	// уБУуБоуВнуГгуГйуБощХ┐щПКшУ╝щТОцжи╦ЙуБЕцп│шНкуБЕшЮЧщГбшЬ╗MуБ╛уБЫуВЛ
 	fseek( fp, sizeof( MAIL_HISTORY ) * MAX_ADR_BOOK * selectPcNo, SEEK_SET );
 	
-	// ╜ё╗╪Х°дн▐zдр├√┤╠╖м║┼д╬д╚д│дэд▐д╟е╒ебедеые▌едеєе┐▀Mдсды
+	// ф╗КхЫЮzуВАхРНхИ║чХкхП╖уБоуБиуБУуВНуБ╛уБзуГХуВбуВдуГлуГЭуВдуГ│уВ┐MуВБуВЛ
 	fseek( fp, sizeof( MAIL_HISTORY ) * no, SEEK_CUR );
 	
-	// е╟й`е┐Х°дн▐zд▀
+	// уГЗ`уВ┐zуБ┐
 	if( fwrite( &MailHistory[ no ], sizeof( MAIL_HISTORY ), 1, fp ) < 1 ){
 	
-		fclose( fp );// е╒ебедеыепеэй`е║
+		fclose( fp );// уГХуВбуВдуГлуВпуГн`уВ║
 		return FALSE;
 	}
 	
-	// е╟й`е┐Х°дн▐zд▀
+	// уГЗ`уВ┐zуБ┐
 	//if( fwrite( MailHistory, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK, fp ) < MAX_ADR_BOOK ){
 	//	return FALSE;
 	//}
-	// е╒ебедеыепеэй`е║
+	// уГХуВбуВдуГлуВпуГн`уВ║
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// есй`еые╟й`е┐д╬╒iд▀▐zд▀ ****************************************************************/
+// уГб`уГлуГЗ`уВ┐уБоiуБ┐zуБ┐ ****************************************************************/
 BOOL LoadMailHistory( void )
 {
 	FILE *fp;
-	MAIL_HISTORY work[ MAX_ADR_BOOK * 2 ];	// е┴езе├еп╙├есй`еыШЛ╘ь╠х
+	MAIL_HISTORY work[ MAX_ADR_BOOK * 2 ];	// уГБуВзуГГуВпчФиуГб`уГлщАаф╜У
 
-	// ╒iд▀▐zд▀е╒ебедеыекй`е╫еє
+	// iуБ┐zуБ┐уГХуВбуВдуГлуВк`уГЧуГ│
 	if( ( fp = fopen( MAIL_HISTORY_FILE_NAME, "rb" ) ) == NULL ){
-		// д╩ддХrбвПК╓╞╡─д╦╫ў│╔
+		// уБкуБДrуАБхИ╢чЪДуБлф╜ЬцИР
 		if( ( fp = fopen( MAIL_HISTORY_FILE_NAME, "wb" ) ) != NULL ){
-			// е╟й`е┐Х°дн▐zд▀
+			// уГЗ`уВ┐zуБ┐
 			fwrite( MailHistory, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK, fp );
 			fwrite( MailHistory, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK, fp );
-			fclose( fp );	// е╒ебедеыепеэй`е║
+			fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 		}
 		
 		return FALSE;
 	}
 	
-	// е╒ебедеые╡еде║д╬е┴езе├еп
+	// уГХуВбуВдуГлуВ╡уВдуВ║уБоуГБуВзуГГуВп
 	if( fread( work, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK * 2, fp ) < MAX_ADR_BOOK * 2 ){
-		// е╡еде║дм▀`джХr
-		// д╩ддХrбвПК╓╞╡─д╦╫ў│╔
+		// уВ╡уВдуВ║уБМ`уБЖr
+		// уБкуБДrуАБхИ╢чЪДуБлф╜ЬцИР
 		if( ( fp = fopen( MAIL_HISTORY_FILE_NAME, "wb" ) ) != NULL ){
 #ifdef _DEBUG		
-		MessageBox( hWnd, "╥╘╟░д╬есй`еые╟й`е┐дЄ╧ў│¤д╖д▐д╖д┐бг", "┤_╒J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "ф╗ехЙНуБоуГб`уГлуГЗ`уВ┐уВТхЙКщЩдуБЧуБ╛уБЧуБЯуАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-			// е╟й`е┐Х°дн▐zд▀
+			// уГЗ`уВ┐zуБ┐
 			fwrite( MailHistory, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK, fp );
 			fwrite( MailHistory, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK, fp );
-			fclose( fp );	// е╒ебедеыепеэй`е║
+			fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 		}
 		
 		return FALSE;
 	}
 	
 	
-	// ╒iд▀д│дрИЎ╦∙д▐д╟е╒ебедеые▌едеєе┐дЄ▀Mд▐д╗ды
+	// iуБ┐уБУуВАщПКшУ╝щТОцжи╦ЙуБЕцп│шНкуБЕшЮЧщГбшЬ╗MуБ╛уБЫуВЛ
 	fseek( fp, sizeof( MAIL_HISTORY ) * MAX_ADR_BOOK * selectPcNo, SEEK_SET );
 	
-	// е╟й`е┐╒iд▀▐zд▀
+	// уГЗ`уВ┐iуБ┐zуБ┐
 	if( fread( MailHistory, sizeof( MAIL_HISTORY ), MAX_ADR_BOOK, fp ) < MAX_ADR_BOOK ){
 	
-		fclose( fp );	// е╒ебедеыепеэй`е║
+		fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 		return FALSE;
 	}
-	// е╒ебедеыепеэй`е║
+	// уГХуВбуВдуГлуВпуГн`уВ║
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// е┴еуе├е╚д╬╡╟хh╬─╫╓д╬▒г┤ц ****************************************************************/
+// уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуБоф┐ЭхнШ ****************************************************************/
 BOOL SaveChatRegistyStr( void )
 {
 	FILE *fp; 
 	
-	// Х°дн▐zд▀е╒ебедеыекй`е╫еє
+	// zуБ┐уГХуВбуВдуГлуВк`уГЧуГ│
 	if( ( fp = fopen( CAHT_REGISTY_STR_FILE_NAME, "r+b" ) ) == NULL ){
 #ifdef _DEBUG		
-		MessageBox( hWnd, "е┴еуе├е╚д╬╡╟хh╬─╫╓д╬е╗й`е╓д╦╩зФбгбг▒", "┤_╒J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуБоуВ╗`уГЦуБлхд▒уАВуАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
 		return FALSE;
 	}
 	
-	// е╟й`е┐Х°дн▐zд▀
+	// уГЗ`уВ┐zуБ┐
 	if( fwrite( chatRegistryStr, sizeof( STR_BUFFER ), MAX_CHAT_REGISTY_STR, fp ) < MAX_CHAT_REGISTY_STR ){
 	
 #ifdef _DEBUG		
-		MessageBox( hWnd, "е┴еуе├е╚д╬╡╟хh╬─╫╓д╬е╗й`е╓д╦╩зФбгбг▓", "┤_╒J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуБоуВ╗`уГЦуБлхд▒уАВуАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-		fclose( fp );// е╒ебедеыепеэй`е║
+		fclose( fp );// уГХуВбуВдуГлуВпуГн`уВ║
 		return FALSE;
 	}
-	// е╒ебедеыепеэй`е║
+	// уГХуВбуВдуГлуВпуГн`уВ║
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// е┴еуе├е╚д╬╡╟хh╬─╫╓д╬╒iд▀▐zд▀ ****************************************************************/
+// уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуБоiуБ┐zуБ┐ ****************************************************************/
 BOOL LoadChatRegistyStr( void )
 {
 	FILE *fp;
 	int i;
 	
 
-	// ╒iд▀▐zд▀е╒ебедеыекй`е╫еє
+	// iуБ┐zуБ┐уГХуВбуВдуГлуВк`уГЧуГ│
 	if( ( fp = fopen( CAHT_REGISTY_STR_FILE_NAME, "rb" ) ) == NULL ){
-		// д╩ддХrбвПК╓╞╡─д╦╫ў│╔
+		// уБкуБДrуАБхИ╢чЪДуБлф╜ЬцИР
 		if( ( fp = fopen( CAHT_REGISTY_STR_FILE_NAME, "wb" ) ) != NULL ){
 #ifdef _DEBUG		
-		MessageBox( hWnd, "е┴еуе├е╚д╬╡╟хh╬─╫╓е╒ебедеыдЄ╫ў│╔д╖д▐д╣бг", "┤_╒J", MB_OK );
+		MessageBox( hWnd, "уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуГХуВбуВдуГлуВТф╜ЬцИРуБЧуБ╛уБЩуАВ", "_J", MB_OK );
 #endif
-			// е┴еуе├е╚д╬╬─╫╓╡╟хhд╬╚ы┴же╨е├е╒ебй`д╬│ї╞┌╗п
+			// уГБуГгуГГуГИуБоцЦЗхнЧчЩ╗hуБохЕехКЫуГРуГГуГХуВб`уБохИЭцЬЯхМЦ
 			for( i = 0 ; i < 8 ; i++ ){
-				// есй`еы╬─╒┬ │ї╞┌╘O╢и
+				// уГб`уГлцЦЗчла хИЭцЬЯOхоЪ
 				chatRegistryStr[ i ].buffer[ 0 ] = NULL;
 				chatRegistryStr[ i ].cnt = 0;
-				// ╬─╫╓┴╨д╬щLд╡
+				// цЦЗхнЧхИЧуБоLуБХ
 				chatRegistryStr[ i ].len = MAX_CHAT_REGISTY_STR_LEN;
-				// ╥╗╨╨д╬щLд╡
+				// ф╕АшбМуБоLуБХ
 				chatRegistryStr[ i ].lineLen = 0;
-				// ╥╗╨╨д╬щg╕Ї
+				// ф╕АшбМуБоgщЪФ
 				chatRegistryStr[ i ].lineDist = 20;
-				// ╬─╫╓┴╨д╬╔л
+				// цЦЗхнЧхИЧуБошЙ▓
 				chatRegistryStr[ i ].color = 0;
-				// ╬─╫╓┴╨д╬╫∙Ш╦
+				// цЦЗхнЧхИЧуБох║з
 				//chatRegistryStr[ i ].x = pActMenuWnd->x + 12;
 				//chatRegistryStr[ i ].y = pActMenuWnd->y + 280 - 136 + i * 48;
-				// ╬─╫╓┴╨д╬▒э╩╛ГЮ╧╚эШ╬╗
+				// цЦЗхнЧхИЧуБошбичд║хЕИф╜Н
 				chatRegistryStr[ i ].fontPrio = FONT_PRIO_FRONT;
 			}
-			// е╟й`е┐Х°дн▐zд▀
+			// уГЗ`уВ┐zуБ┐
 			fwrite( chatRegistryStr, sizeof( STR_BUFFER ), MAX_CHAT_REGISTY_STR, fp );
-			fclose( fp );	// е╒ебедеыепеэй`е║
+			fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 		}
 		
 		return FALSE;
 	}
 	
-	// е╟й`е┐╒iд▀▐zд▀
+	// уГЗ`уВ┐iуБ┐zуБ┐
 	if( fread( chatRegistryStr, sizeof( STR_BUFFER ), MAX_CHAT_REGISTY_STR, fp ) < MAX_CHAT_REGISTY_STR ){
 		
 #ifdef _DEBUG		
-		MessageBox( hWnd, "е┴еуе├е╚д╬╡╟хh╬─╫╓д╬еэй`е╔д╦╩зФбгб", "┤_╒J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуБоуГн`уГЙуБлхд▒уАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-		fclose( fp );	// е╒ебедеыепеэй`е║
+		fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 		return FALSE;
 	}
-	// е╒ебедеыепеэй`е║
+	// уГХуВбуВдуГлуВпуГн`уВ║
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// евеые╨ерд╬▒г┤ц ****************************************************************/
+// уВвуГлуГРуГауБоф┐ЭхнШ ****************************************************************/
 BOOL SaveAlbum( int no )
 {
 	FILE *fp; 
 	int i;
 	
-	// Х°дн▐zд▀е╒ебедеыекй`е╫еє
+	// zуБ┐уГХуВбуВдуГлуВк`уГЧуГ│
 	if( ( fp = fopen( ALBUM_FILE_NAME, "r+b" ) ) == NULL ){
 #ifdef _DEBUG		
-		MessageBox( hWnd, "евеые╨ере╒ебедеыд╬е╗й`е╓д╦╩зФбгбг▒", "┤_╒J", MB_OK );
+		MessageBox( hWnd, "уВвуГлуГРуГауГХуВбуВдуГлуБоуВ╗`уГЦуБлхд▒уАВуАВ", "_J", MB_OK );
 #endif
 		return FALSE;
 	}
-	// ╦√╚╦д╬евеые╨ер╖╓▀Mдсды
+	// ф╗Цф║║уБоуВвуГлуГРуГахИЖMуВБуВЛ
 	for( i = 0 ; i < AlbumIdCnt ; i++ ){
-		// г╔г─ележеєе╚д╬╖╓д└д▒▀Mд▐д╗ды
+		// я╝йя╝дуВлуВжуГ│уГИуБохИЖуБауБСMуБ╛уБЫуВЛ
 		fseek( fp, 16, SEEK_CUR );
 		fseek( fp, sizeof( PET_ALBUM ) * MAX_PET_KIND, SEEK_CUR );
 	}
-	// г╔г─╖╓д└д▒▀Mд▐д╗ды
+	// я╝йя╝дхИЖуБауБСMуБ╛уБЫуВЛ
 	fseek( fp, 16, SEEK_CUR );
-	// ╜ё╗╪Х°дн▐zдревеые╨ер╖м║┼д▐д╟▀Mдсды
+	// ф╗КхЫЮzуВАуВвуГлуГРуГачХкхП╖уБ╛уБзMуВБуВЛ
 	fseek( fp, sizeof( PET_ALBUM ) * no, SEEK_CUR );
 	
-	// е╟й`е┐Х°дн▐zд▀
+	// уГЗ`уВ┐zуБ┐
 	if( fwrite( &PetAlbum[ no ], sizeof( PET_ALBUM ), 1, fp ) < 1 ){
 	
 #ifdef _DEBUG		
-		MessageBox( hWnd, "евеые╨ере╒ебедеыд╬е╗й`е╓д╦╩зФбгбг▓", "┤_╒J", MB_OK );
+		MessageBox( hWnd, "уВвуГлуГРуГауГХуВбуВдуГлуБоуВ╗`уГЦуБлхд▒уАВуАВ", "_J", MB_OK );
 #endif
-		fclose( fp );// е╒ебедеыепеэй`е║
+		fclose( fp );// уГХуВбуВдуГлуВпуГн`уВ║
 		return FALSE;
 	}
-	// е╒ебедеыепеэй`е║
+	// уГХуВбуВдуГлуВпуГн`уВ║
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// евеые╨ерд╬╒iд▀▐zд▀ ****************************************************************/
+// уВвуГлуГРуГауБоiуБ┐zуБ┐ ****************************************************************/
 BOOL LoadAlbum( void )
 {
 	FILE *fp;
@@ -1247,36 +1247,36 @@ BOOL LoadAlbum( void )
 	char id2[ 16 ];
 	int i;
 	
-	// г╔г─ележеєе┐│ї╞┌╗п
+	// я╝йя╝дуВлуВжуГ│уВ┐хИЭцЬЯхМЦ
 	AlbumIdCnt = 0;
 	
-	// мF╘┌д╬г╔г─╚б╡├
+	// FхЬиуБоя╝йя╝дхПЦх╛Ч
 	getCdkey( id );
-	// ╬─╫╓┴╨д╬щLд╡╚б╡├
+	// цЦЗхнЧхИЧуБоLуБХхПЦх╛Ч
 	id[ 15 ] = strlen( id );
 	
-	// ╒iд▀▐zд▀е╒ебедеыекй`е╫еє
+	// iуБ┐zуБ┐уГХуВбуВдуГлуВк`уГЧуГ│
 	if( ( fp = fopen( ALBUM_FILE_NAME, "r+b" ) ) == NULL ){
 		
-		// д╩ддХrбвПК╓╞╡─д╦╫ў│╔
+		// уБкуБДrуАБхИ╢чЪДуБлф╜ЬцИР
 		if( ( fp = fopen( ALBUM_FILE_NAME, "wb" ) ) != NULL ){
 #ifdef _DEBUG		
-		//MessageBox( hWnd, "евеые╨ере╒ебедеыдЄ╫ў│╔д╖д▐д╣бг", "┤_╒J", MB_OK );
+		//MessageBox( hWnd, "уВвуГлуГРуГауГХуВбуВдуГлуВТф╜ЬцИРуБЧуБ╛уБЩуАВ", "_J", MB_OK );
 #endif
-			// г╬г╒г╠г╠д╬д╚д│дэдЄ┬ёдсды
+			// я╝оя╝╡я╝мя╝муБоуБиуБУуВНуВТхЯЛуВБуВЛ
 			id[ id[ 15 ] ] = Rnd( 1, 100 );
-			// г╔г─д╬░╡║┼╗п
+			// я╝йя╝дуБоцЪЧхП╖хМЦ
 			for( i = 0 ; i < 16 ; i++ ){
 				id[ i ] ^= IdEncryptionTbl[ i ];
 				
 			}
-			// г╔г─е╟й`е┐Х°дн▐zд▀
+			// я╝йя╝дуГЗ`уВ┐zуБ┐
 			fwrite( id, sizeof( id ), 1, fp );
 			
-			// евеые╨ерШЛ╘ь╠хдЄ▀m╡▒д╦│ї╞┌╗п
+			// уВвуГлуГРуГащАаф╜УуВТmх╜УуБлхИЭцЬЯхМЦ
 			for( i = 0 ; i < MAX_PET_KIND ; i++ ){
 				int j;
-				// ├√╟░╖╓еый`е╫
+				// хРНхЙНхИЖуГл`уГЧ
 				for( j = 0 ; j < PET_NAME_LEN + 1 ; j++ ){
 					PetAlbum[ i ].name[ j ] = Rnd( 1, 255 );
 					PetAlbum[ i ].freeName[ j ] = Rnd( 1, 255 );
@@ -1296,197 +1296,197 @@ BOOL LoadAlbum( void )
 				PetAlbum[ i ].wind = Rnd( 1, 30000 );
 			}
 			
-			// е╟й`е┐Х°дн▐zд▀
+			// уГЗ`уВ┐zуБ┐
 			fwrite( PetAlbum, sizeof( PET_ALBUM ), MAX_PET_KIND, fp );
-			fclose( fp );	// е╒ебедеыепеэй`е║
+			fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 		}
 		
 		return FALSE;
 	}
 	
-	// г╔г─╠╜д╣д▐д╟еый`е╫ги ЯoддХrд╧╨┬╥О╫ў│╔ гй
+	// я╝йя╝дцОвуБЩуБ╛уБзуГл`уГЧя╝И oуБДrуБпцЦ░щЮТ я╝Й
 	while( 1 ){
-		// е╟й`е┐╒iд▀▐zд▀
+		// уГЗ`уВ┐iуБ┐zуБ┐
 		if( fread( id2, sizeof( id2 ), 1, fp ) < 1 ){
 #ifdef _DEBUG		
-		//MessageBox( hWnd, "д╜д╬г╔г─д╧▒г┤цд╡дьд╞д▐д╗дєгб╨┬╥О╫ў│╔д╖д▐д╣бг", "┤_╒J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "уБЭуБоя╝йя╝дуБпф┐ЭхнШуБХуВМуБжуБ╛уБЫуВУя╝БцЦ░щЮТхЧУчнПшУ╝хЯВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-			// ╩зФбд╖д┐Хrгиг┼г╧г╞гй╨┬╥О╫ў│╔
-			// г╬г╒г╠г╠д╬д╚д│дэдЄ┬ёдсды
+			// хд▒уГ╗чнПrя╝Ия╝ея╝пя╝жя╝ЙцЦ░щЮТ
+			// я╝оя╝╡я╝мя╝муБоуБиуБУуВНуВТхЯЛуВБуВЛ
 			id[ id[ 15 ] ] = Rnd( 1, 100 );
-			// г╔г─д╬░╡║┼╗п
+			// я╝йя╝дуБоцЪЧхП╖хМЦ
 			for( i = 0 ; i < 16 ; i++ ){
 				id[ i ] ^= IdEncryptionTbl[ i ];
 				
 			}
-			// г╔г─е╟й`е┐Х°дн▐zд▀
+			// я╝йя╝дуГЗ`уВ┐zуБ┐
 			fwrite( id, sizeof( id ), 1, fp );
-			// е╟й`е┐Х°дн▐zд▀
+			// уГЗ`уВ┐zуБ┐
 			fwrite( PetAlbum, sizeof( PET_ALBUM ), MAX_PET_KIND, fp );
-			fclose( fp );	// е╒ебедеыепеэй`е║
+			fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 			return FALSE;
 		}
-		// г╔г─д╬░╡║┼╗пдЄС°д╣
+		// я╝йя╝дуБоцЪЧхП╖хМЦуВТ
 		for( i = 0 ; i < 16 ; i++ ){
 			id2[ i ] ^= IdEncryptionTbl[ i ];
 		}
-		// г╬г╒г╠г╠╬─╫╓дЄ┬ёдсды
+		// я╝оя╝╡я╝мя╝мцЦЗхнЧуВТхЯЛуВБуВЛ
 		id2[ id2[ 15 ] ] = NULL;
 		
-		// ▀`джг╔г─д╬Хr
+		// `уБЖя╝йя╝дуБоr
 		//if( strstr( id, id2 ) == 0 ){
 		if( strcmp( id, id2 ) != 0 ){
 #ifdef _DEBUG		
-		//MessageBox( hWnd, "д─дод╬г╔г─дЄд╡дмд╖д▐д╣бг", "┤_╒J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "уБдуБОуБоя╝йя╝дуВТуБХуБМуБЧуБ╛уБЩуАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-			// ┤╬д╬г╔г─д╬ИЎ╦∙д▐д╟е╒ебедеые▌едеєе┐дЄ▀Mд▐д╗ды
+			// цмбуБоя╝йя╝дуБощПКшУ╝щТОцжи╦ЙуБЕцп│шНкуБЕшЮЧщГбшЬ╗MуБ╛уБЫуВЛ
 			if( fseek( fp, sizeof( PET_ALBUM ) * MAX_PET_KIND, SEEK_CUR ) != 0 ){
 #ifdef _DEBUG		
-		//MessageBox( hWnd, "┤╬д╬евеые╨ердмд╩ддд╟д╣", "┤_╒J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "цмбуБоуВвуГлуГРуГауБМуБкуБДуБзуБЩ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-				fclose( fp );	// е╒ебедеыепеэй`е║
+				fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 				return FALSE;
 			}
 			
 		}
-		// двд├д┐Хr
+		// уБВуБгуБЯr
 		else{
 #ifdef _DEBUG		
-		//MessageBox( hWnd, "д│д╬╚╦д╬евеые╨ердЄ╥Кд─д▒д▐д╖д┐бг", "┤_╒J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "уБУуБоф║║уБоуВвуГлуГРуГауВТуБдуБСуБ╛уБЧуБЯуАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-			// евеые╨ере╟й`е┐╒iд▀▐zд▀
+			// уВвуГлуГРуГауГЗ`уВ┐iуБ┐zуБ┐
 			if( fread( PetAlbum, sizeof( PET_ALBUM ), MAX_PET_KIND, fp ) < MAX_PET_KIND ){
 		
 #ifdef _DEBUG		
-		//MessageBox( hWnd, "евеые╨ерд╬еэй`е╔д╦╩зФбгб", "┤_╒J", MB_OK | MB_ICONSTOP );
+		//MessageBox( hWnd, "уВвуГлуГРуГауБоуГн`уГЙуБлхд▒уАВ", "_J", MB_OK | MB_ICONSTOP );
 #endif
-				fclose( fp );	// е╒ебедеыепеэй`е║
+				fclose( fp );	// уГХуВбуВдуГлуВпуГн`уВ║
 				return FALSE;
 			}
 			break;
 		}
-		// г╔г─ележеєе┐
+		// я╝йя╝дуВлуВжуГ│уВ┐
 		AlbumIdCnt++;
 	}
-	// е╒ебедеыепеэй`е║
+	// уГХуВбуВдуГлуВпуГн`уВ║
 	fclose( fp );
 	
 	return TRUE;
 }
 
-// еэе░едеєХrд╬│ї╞┌╗пги╠л╠яМЯ╙├гй **************************************************/
+// уГнуВ░уВдуГ│rуБохИЭцЬЯхМЦя╝ИхдкчФ░чФия╝Й **************************************************/
 void InitOhtaParam( void )
 {
-	LoadMailHistory();					// есй`еые╟й`е┐д╬╒iд▀▐zд▀
-	LoadChatHistoryStr();				// е┴еуе├е╚д╬┬─Ъs╬─╫╓д╬╒iд▀▐zд▀
-	mailLamp = CheckMailNoReadFlag();	// ╬┤╒iе┴езе├еп
-	StatusUpPoint = 0;					// е╣е╞й`е┐е╣еве├е╫е▌едеєе╚│ї╞┌╗п
-	battleResultMsg.useFlag = 0;		// СщъL╜Y╣√е╒еще░│ї╞┌╗п
+	LoadMailHistory();					// уГб`уГлуГЗ`уВ┐уБоiуБ┐zуБ┐
+	LoadChatHistoryStr();				// уГБуГгуГГуГИуБох▒еsцЦЗхнЧуБоiуБ┐zуБ┐
+	mailLamp = CheckMailNoReadFlag();	// цЬкiуГБуВзуГГуВп
+	StatusUpPoint = 0;					// уВ╣уГЖ`уВ┐уВ╣уВвуГГуГЧуГЭуВдуГ│уГИхИЭцЬЯхМЦ
+	battleResultMsg.useFlag = 0;		// цоЫLYцЮЬуГХуГйуВ░хИЭцЬЯхМЦ
 	MapWmdFlagBak = 0;
 }
 
-// есй`еы╬┤╒iе┴езе├еп ****************************************************************/
+// уГб`уГлцЬкiуГБуВзуГГуВп ****************************************************************/
 BOOL CheckMailNoReadFlag( void )
 {
 	int i,j;
 	
-	// ├√┤╠╖╓еый`е╫
+	// хРНхИ║хИЖуГл`уГЧ
 	for( i = 0 ; i < MAX_ADR_BOOK ; i++ ){
-		// ┬─Ъs╖╓еый`е╫
+		// х▒еsхИЖуГл`уГЧ
 		for( j = 0 ; j < MAIL_MAX_HISTORY ; j++ ){
-			// ╬┤╒iесй`еыдмдвдыХr
+			// цЬкiуГб`уГлуБМуБВуВЛr
 			if( MailHistory[ i ].noReadFlag[ j ] >= TRUE ) return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-// ╨┬╥Ое┌е├е╚е┴езе├еп ****************************************************************/
+// цЦ░шоац░УхО╗щЪ╢╨Фц░У ****************************************************************/
 void CheckNewPet( int sprNo )
 {
-	int tblNo = sprNo - 100250; // е╞й`е╓еыд╬╖м║┼
-	int albumNo;				// евеые╨ер╖м║┼
+	int tblNo = sprNo - 100250; // уГЖ`уГЦуГлуБочХкхП╖
+	int albumNo;				// уВвуГлуГРуГачХкхП╖
 	
-	// е┌е├е╚д╬г╙г╨г╥╖м║┼д└д├д┐дщ
+	// уГЪуГГуГИуБоя╝│я╝░я╝▓чХкхП╖уБауБгуБЯуВЙ
 	if( 0 <= tblNo && tblNo < MAX_PET_TBL ){
-		// ╜ё╗╪╡╟хhд╣дыевеые╨ерд╬╖м║┼
+		// ф╗КхЫЮчЩ╗hуБЩуВЛуВвуГлуГРуГауБочХкхП╖
 		albumNo = PetAlbumTbl[ tblNo ].albumNo;
-		// е╞й`е╓еыд╦двдыХr
+		// уГЖ`уГЦуГлуБлуБВуВЛr
 		if( albumNo != -1 ){
-			// е╒еще░┴вд├д╞д╩длд├д┐дщ
+			// уГХуГйуВ░члЛуБгуБжуБкуБЛуБгуБЯуВЙ
 			if( PetAlbum[ albumNo ].flag == 0 ){
-				// ╥Кд┐е╒еще░г╧г╬
+				// уБЯуГХуГйуВ░я╝пя╝о
 				PetAlbum[ albumNo ].flag = 1;
-				// ├√╟░е│е╘й`
+				// хРНхЙНуВ│уГФ`
 				strcpy( PetAlbum[ albumNo ].name, PetAlbumTbl[ tblNo ].name );
-				// евеые╨ерд╬▒г┤ц
+				// уВвуГлуГРуГауБоф┐ЭхнШ
 				SaveAlbum( albumNo );
 			}
 		}
 	}
 }
 
-// СщъLХrд╬╨┬╥Ое┌е├е╚е┴езе├еп **********************************************************/
+// цоЫLrуБоцЦ░шоац░УхО╗щЪ╢╨Фц░У **********************************************************/
 void CheckBattleNewPet( void )
 {
 	int i;
 	
-	// г▓г░╠х╖╓еый`е╫
+	// я╝Тя╝Рф╜УхИЖуГл`уГЧ
 	for( i = 0 ; i < 20 ; i++ ){
-		// е▌едеєе┐дмЯoддХrбвС°ды
+		// уГЭуВдуГ│уВ┐уБМoуБДrуАБ
 		if( p_party[ i ] == NULL ) continue;
-		// д╜д│д╦ддд╩ддХrбвС°ды
+		// уБЭуБУуБлуБДуБкуБДrуАБ
 		if( p_party[ i ]->func == NULL ) continue;
-		// ╨┬╥Ое┌е├е╚д╬е┴езе├еп
+		// цЦ░шоац░Уш╢гш┐ЭщЪ╢╨Фц░У
 		CheckNewPet( p_party[ i ]->anim_chr_no );
 	}
 }
 
-// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░ *****************************************************/
+// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░ *****************************************************/
 void CenteringStr( char *inStr, char *outStr, int max )
 {
 	int len, space, amari;
 	
-	// щLд╡дЄ╟єдсды
+	// LуБХуВТц▒ВуВБуВЛ
 	len = strlen( inStr );
 	
-	// еъе▀е├е╚е┴езе├еп
+	// уГкуГЯуГГуГИуГБуВзуГГуВп
 	if( len >= max ){ 
-		// е│е╘й`д╣дыд└д▒
+		// уВ│уГФ`уБЩуВЛуБауБС
 		strncpy( outStr, inStr, max );
-		outStr[ max ] = NULL;	// ╜K╢╦╙Ы║┼дЄдддьды
+		outStr[ max ] = NULL;	// KчлпхП╖уВТуБДуВМуВЛ
 		return;
 	}
 		
-	// двд▐дъдЄ╟єдсды
+	// уБВуБ╛уВКуВТц▒ВуВБуВЛ
 	amari= ( max - len ) % 2;
-	// ┐╒░╫д╬╩¤╙Л╦у
+	// чй║чЩ╜уБоцХ░чоЧ
 	space = ( max - len ) / 2;
 	
-	// ╫ю│їд╦┐╒░╫дмдвдыХr
+	// цЬАхИЭуБлчй║чЩ╜уБМуБВуВЛr
 	if( space != 0 ){
-		// ╬─╫╓┴╨╫ў│╔
+		// цЦЗхнЧхИЧф╜ЬцИР
 		sprintf( outStr, "%*c%s%*c", space, ' ', inStr, space + amari, ' ' );
 	}else{
-		// ╬─╫╓┴╨╫ў│╔
+		// цЦЗхнЧхИЧф╜ЬцИР
 		sprintf( outStr, "%s ", inStr );
 	}
 }
 
-// ╓╕╢ид╡дьд┐╝╝дЄ│╓д├д╞дддыдле┴езе├епд╣ды *************************************/
+// цМЗхоЪуБХуВМуБЯцКАуВТцМБуБгуБжуБДуВЛуБЛуГБуВзуГГуВпуБЩуВЛ *************************************/
 int CheckPetSkill( int skillId )
 {
 	int i, j;
 	
-	// е┌е├е╚д╬╩¤╖╓еый`е╫
+	// уГЪуГГуГИуБоцХ░хИЖуГл`уГЧ
 	for( j = 0 ; j < MAX_PET ; j++ ){
-		// д╜д╬Щ┌д╦е┌е├е╚дмддд┐дщ
+		// уБЭуБохЖешб░шоац░Уш╢гуБДщГб
 		if( pet[ j ].useFlag == TRUE ){
-			// ╝╝╩¤╖╓еый`е╫
+			// цКАцХ░хИЖуГл`уГЧ
 			for( i = 0 ; i < pet[ j ].maxSkill ; i++ ){
-				// д╜д╬Щ┌д╦╝╝двдыХr
+				// уБЭуБохЖецАЭц┐Аr
 				if( petSkill[ j ][ i ].useFlag == TRUE ){
-					// ╝╝дмдвд├д┐дщ
+					// цКАуБМуБВуБгуБЯуВЙ
 					if( petSkill[ j ][ i ].skillId == skillId ){
 						return TRUE;
 					}
@@ -1497,27 +1497,27 @@ int CheckPetSkill( int skillId )
 	return FALSE;
 }	
 	
-// еведе╞ерщv▀Bд╬│ї╞┌╗п *******************************************************/
+// уВвуВдуГЖуГаvBуБохИЭцЬЯхМЦ *******************************************************/
 void InitItem( int x, int y )
 {
 	int i, j = 0, k = 0;
 	
-	// ╫░Вф╞╖
-	// ю^
+	// шгЕц╖ж
+	// ^
 	ItemBuffer[ 0 ].defX = x + 136;
 	ItemBuffer[ 0 ].defY = y + 59;
 	ItemBuffer[ 0 ].x = ItemBuffer[ 0 ].defX;
 	ItemBuffer[ 0 ].y = ItemBuffer[ 0 ].defY;
 	ItemBuffer[ 0 ].bmpNo = 20000 + 0;
 	ItemBuffer[ 0 ].dispPrio = DISP_PRIO_ITEM;
-	// ╠х
+	// ф╜У
 	ItemBuffer[ 1 ].defX = x + 134;
 	ItemBuffer[ 1 ].defY = y + 129;
 	ItemBuffer[ 1 ].x = ItemBuffer[ 1 ].defX;
 	ItemBuffer[ 1 ].y = ItemBuffer[ 1 ].defY;
 	ItemBuffer[ 1 ].bmpNo = 20200 + 1;
 	ItemBuffer[ 1 ].dispPrio = DISP_PRIO_ITEM;
-	// ╩╓
+	// цЙЛ
 	ItemBuffer[ 2 ].defX = x + 61;
 	ItemBuffer[ 2 ].defY = y + 129;
 	ItemBuffer[ 2 ].x = ItemBuffer[ 2 ].defX;
@@ -1525,7 +1525,7 @@ void InitItem( int x, int y )
 	ItemBuffer[ 2 ].bmpNo = 20400 + 2;
 	ItemBuffer[ 2 ].dispPrio = DISP_PRIO_ITEM;
 	
-	// евепе╗е╡еъг▒
+	// уВвуВпуВ╗уВ╡уГкя╝С
 	//ItemBuffer[ 3 ].defX = x + 32;
 	ItemBuffer[ 3 ].defX = x + 32;
 	ItemBuffer[ 3 ].defY = y + 68;
@@ -1533,7 +1533,7 @@ void InitItem( int x, int y )
 	ItemBuffer[ 3 ].y = ItemBuffer[ 3 ].defY;
 	ItemBuffer[ 3 ].bmpNo = 20600 + 3;
 	ItemBuffer[ 3 ].dispPrio = DISP_PRIO_ITEM;
-	// евепе╗е╡еъг▓
+	// уВвуВпуВ╗уВ╡уГкя╝Т
 	//ItemBuffer[ 4 ].defX = x + 82;
 	ItemBuffer[ 4 ].defX = x + 83;
 	ItemBuffer[ 4 ].defY = y + 68;
@@ -1542,7 +1542,7 @@ void InitItem( int x, int y )
 	ItemBuffer[ 4 ].bmpNo = 20800 + 4;
 	ItemBuffer[ 4 ].dispPrio = DISP_PRIO_ITEM;
 	
-	// еведе╞ер╩¤еый`е╫
+	// уВвуВдуГЖуГацХ░уГл`уГЧ
 	for( i = 5 ; i < MAX_ITEM ; i++ ){
 	
 		ItemBuffer[ i ].defX = x + 32 + j;
@@ -1553,24 +1553,24 @@ void InitItem( int x, int y )
 		ItemBuffer[ i ].dispPrio = DISP_PRIO_ITEM;
 		ItemBuffer[ i ].mixFlag = FALSE;
 		
-		j += 51; // г╪╫∙Ш╦д║дщд╣
-		// еъе▀е├е╚е┴езе├еп
+		j += 51; // я╝╕х║зцСФц░жцдБ
+		// уГкуГЯуГГуГИуГБуВзуГГуВп
 		if( j >= 48 * 5 ){
 			j = 0;
-			k += 48; // г┘╫∙Ш╦д║дщд╣
+			k += 48; // я╝╣х║зцСФц░жцдБ
 		}
 	}
 }
 
-// ╡▒д┐дъ┼╨╢ие▄е├епе╣╫ў│╔ *****├┐╧ф╫ў│╔┼╨╢и*************************************************/
+// х╜УуБЯуВКхИдхоЪуГЬуГГуВпуВ╣ф╜ЬцИР *****цпПчо▒ф╜ЬцИРхИдхоЪ*************************************************/
 BOOL MakeHitBox( int x1, int y1, int x2, int y2, int dispPrio )
 {
-	// ╦─╜╟д╬двд┐дъ┼╨╢и
+	// хЫЫшзТуБоуБВуБЯуВКхИдхоЪ
 	if( mouse.nowPoint.x <= x2 && x1 <= mouse.nowPoint.x &&
 		mouse.nowPoint.y <= y2 && y1 <= mouse.nowPoint.y ){
-		// е▄е├епе╣▒э╩╛д╣дыХr
+		// уГЬуГГуВпуВ╣шбичд║уБЩуВЛr
 		if( dispPrio >= 0 ){
-			// е▄е├епе╣▒э╩╛е╟й`е┐дЄе╨е├е╒ебд╦┴ядсды
+			// уГЬуГГуВпуВ╣шбичд║уГЗ`уВ┐уВТуГРуГГуГХуВбуБлц║ЬуВБуВЛ
 			StockBoxDispBuffer( x1, y1, x2, y2, dispPrio, BoxColor, 0 );
 		}
 		return TRUE;
@@ -1578,7 +1578,7 @@ BOOL MakeHitBox( int x1, int y1, int x2, int y2, int dispPrio )
 	return FALSE;
 }
 
-// ╩╓╝Иеве╦есй`е╖ечеє─иЪв **************************************************************/
+// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣ **************************************************************/
 void DeathLetterAction( void )
 {
 	int i;
@@ -1589,7 +1589,7 @@ void DeathLetterAction( void )
 	}
 }
 
-// ╦═╨┼╧р╩╓е╒еще░│ї╞┌╗п ***************************************************************/
+// щАБф┐бчЫ╕цЙЛуГХуГйуВ░хИЭцЬЯхМЦ ***************************************************************/
 void InitMailSendFlag( void )
 {
 	int i;
@@ -1597,466 +1597,466 @@ void InitMailSendFlag( void )
 	for( i = 0 ; i < MAX_ADR_BOOK ; i++ ) mailWndSendFlag[ i ] = 0;
 }
 
-// есе╦ехй`евепе╖ечеє─иЪвги╫єВ╚гй *****************************************************/
+// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣уДЧщ╛Л *****************************************************/
 void DeathMenuAction( void )
 {
-	// ежегеєе╔еж─иЪв
+	// уВжуВгуГ│уГЙуВжцК╣
 	DeathAction( pActMenuWnd );
 	pActMenuWnd = NULL;
-	// е┌е├е╚д╬├√╟░Йф╕№ежегеєе╔еж
+	// уГЪуГГуГИуБохРНхЙНц╢У╬Хя╝ЕшЮЧф╕з
 	DeathAction( pActMenuWnd3 );
 	pActMenuWnd3 = NULL;
-	// ╚ы┴же╒ейй`еле╣С°д╣
+	// хЕехКЫуГХуВй`уВлуВ╣
 	GetKeyInputFocus( &MyChatBuffer );
-	// е┌е├е╚─иЪв
+	// уГЪуГГуГИцК╣
 	DeathAction( pActPet );
 	pActPet = NULL;
-	// есй`еыеведе╞ер─иЪв
+	// уГб`уГлуВвуВдуГЖуГацК╣
 	DeathAction( pActMailItem );
 	pActMailItem = NULL;
-	// ┤_╒Jежегеєе╔еж─иЪв
+	// _JуВжуВгуГ│уГЙуВжцК╣
 	DeathAction( pActYesNoWnd );
 	pActYesNoWnd = NULL;
-	// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+	// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 	DeathLetterAction();
 		
 }
-// есе╦ехй`евепе╖ечеє─иЪвги╙╥В╚гй *****************************************************/
+// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣уДУщ╛Л *****************************************************/
 void DeathMenuAction2( void )
 {
-	// ежегеєе╔еж─иЪв
+	// уВжуВгуГ│уГЙуВжцК╣
 	DeathAction( pActMenuWnd2 );
 	pActMenuWnd2 = NULL;
-	// ║╧│╔е┌е├е╚─иЪв
+	// хРИцИРуГЪуГГуГИцК╣
 	DeathAction( pActPet2 );
 	pActPet2 = NULL;
-	// ║╧│╔д╖д╞дддые┌е├е╚╖м║┼│ї╞┌╗п
+	// хРИцИРуБЧуБжуБДуВЛуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 	ItemMixPetNo = -1;
 }
 
-// есе╦ехй`щv▀Bд╬│ї╞┌╗п *******************************************************/
+// уГбуГЛуГе`vBуБохИЭцЬЯхМЦ *******************************************************/
 void InitMenu( void )
 {
 
 	int i;
 	
-	// е╖е╣е╞ер
+	// уВ╖уВ╣уГЖуГа
 	for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
 	systemWndNo = 0;
-	// е▐е├е╫
+	// уГЮуГГуГЧ
 	for( i = 0 ; i < MENU_MAP_0 ; i++ ) mapWndFontNo[ i ] = -2;
 	mapWndNo = 0;
-	// е╣е╞й`е┐е╣
+	// уВ╣уГЖ`уВ┐уВ╣
 	for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndFontNo[ i ] = -2;
 	for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndBtnFlag[ i ] = 0;
-	// е┌е├е╚
+	// уГЪуГГуГИ
 	for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
 	petWndNo = 0;
-	// еведе╞ер
+	// уВвуВдуГЖуГа
 	for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndFontNo[ i ] = -2;
 	for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndBtnFlag[ i ] = 0;
 	itemWndNo = 0;
-	// есй`еы
+	// уГб`уГл
 	for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
 	for( i = 0 ; i < MAX_ADR_BOOK ; i++ ) mailWndSendFlag[ i ] = 0;
 	mailWndNo = MAIL_WND_VIEW;
-	// евеые╨ер
+	// уВвуГлуГРуГа
 	for( i = 0 ; i < MENU_ALBUM_0 ; i++ ) albumWndFontNo[ i ] = -2;
 	albumWndNo = 0;
 	//BattleResultWndFlag = FALSE;
-	// е┐е╣епе╨й`
+	// уВ┐уВ╣уВпуГР`
 	for( i = 0 ; i < TASK_BAR ; i++ ) taskBarFontNo[ i ] = -2;
-	// СщъL╜Y╣√ежегеєе╔еж
+	// цоЫLYцЮЬуВжуВгуГ│уГЙуВж
 	for( i = 0 ; i < MENU_BTL_RESULT_0 ; i++ ) resultWndFontNo[ i ] = -2;
-	// е╚е░еые╒еще░
+	// уГИуВ░уГлуГХуГйуВ░
 	MenuToggleFlag = 0;
-	// есе╦ехй`евепе╖ечеє─иЪвги╫єВ╚гй
+	// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣уДЧщ╛Л
 	DeathMenuAction();
-	// есе╦ехй`евепе╖ечеє─иЪвги╙╥В╚гй
+	// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣уДУщ╛Л
 	DeathMenuAction2();
-	// е╔еще├е░еведе╞ер│ї╞┌╗п
+	// уГЙуГйуГГуВ░уВвуВдуГЖуГахИЭцЬЯхМЦ
 	mouse.itemNo = -1;
-	// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+	// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 	itemNo = -1;
-	// ▀xТkд╖д╞дддыЕт╨g│ї╞┌╗п
+	// xkуБЧуБжуБДуВЛх║СgхИЭцЬЯхМЦ
 	jujutuNo = -1;	
-	// ║╧│╔е┌е├е╚╖м║┼│ї╞┌╗п
+	// хРИцИРуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 	ItemMixPetNo = -1;
 }
 
-// есе╦ехй`щv▀Bд╬│ї╞┌╗пг▓ *******************************************************/
+// уГбуГЛуГе`vBуБохИЭцЬЯхМЦя╝Т *******************************************************/
 void InitMenu2( void )
 {
-	// е╚е░еые╒еще░
+	// уГИуВ░уГлуГХуГйуВ░
 	MenuToggleFlag = 0;
-	// есе╦ехй`евепе╖ечеє─иЪвги╫єВ╚гй
+	// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣уДЧщ╛Л
 	DeathMenuAction();
-	// есе╦ехй`евепе╖ечеє─иЪвги╙╥В╚гй
+	// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣уДУщ╛Л
 	DeathMenuAction2();
-	// е╔еще├е░еведе╞ер│ї╞┌╗п
+	// уГЙуГйуГГуВ░уВвуВдуГЖуГахИЭцЬЯхМЦ
 	mouse.itemNo = -1;
-	// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+	// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 	itemNo = -1;
-	// ▀xТkд╖д╞дддыЕт╨g│ї╞┌╗п
+	// xkуБЧуБжуБДуВЛх║СgхИЭцЬЯхМЦ
 	jujutuNo = -1;	
-	// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+	// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 	BattleResultWndFlag = FALSE;
 }
 
-// есе╦ехй`│Ўд╞дыдле┴езе├еп *******************************************************/
+// уГбуГЛуГе`хЗ║уБжуВЛуБЛуГБуВзуГГуВп *******************************************************/
 BOOL CheckMenuFlag( void )
 {
 	BOOL flag = FALSE;
 	
-	// е╚е░еые╒еще░
+	// уГИуВ░уГлуГХуГйуВ░
 	if( MenuToggleFlag != 0 ) flag = TRUE;
-	// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+	// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 	if( BattleResultWndFlag >= 1 ) flag = TRUE;
-	// е▐е├е╫ежегеєе╔еже╨е├епеве├е╫двдыХr
+	// уГЮуГГуГЧуВжуВгуГ│уГЙуВжуГРуГГуВпуВвуГГуГЧуБВуВЛr
 	if( MapWmdFlagBak >= TRUE ) flag = TRUE;
 	
 	return flag;
 }
 
 // ****************************************************************************/
-// есе╦ехй`ДI└э ***************************************************************/
+// уГбуГЛуГе`IчРЖ ***************************************************************/
 // ****************************************************************************/
 void MenuProc( void )
 {
 	int x, y, i;
 	//int x0, y0;
 	char moji[ 256 ];
-	// ╫∙Ш╦╓кдыд┐дсд╬е▄е├епе╣
+	// х║зщЕецпкщГбх╣Ыш┐ЭхаАц░У
 	//MakeHitBox( mouse.nowPoint.x - 24, mouse.nowPoint.y - 24, 
 	//			mouse.nowPoint.x + 23, mouse.nowPoint.y + 23, DISP_PRIO_IME3 );
 	
-	// е╖е╣е╞ересе╦ехй`д╚енеуеєе╗еы
+	// уВ╖уВ╣уГЖуГауГбуГЛуГе`уБиуВнуГгуГ│уВ╗уГл
 	if( joy_trg[ 0 ] & JOY_ESC && checkFieldMenuFlag() == FALSE ){
-		// г╔г═г┼е╨е├е╒ебй`д╦╬─╫╓дмЯoддХr
+		// я╝йя╝ня╝еуГРуГГуГХуВб`уБлцЦЗхнЧуБМoуБДr
 		if( ImeBufferBak2 == NULL ){
-			// енеуеєе╗еыд╬Хr
+			// уВнуГгуГ│уВ╗уГлуБоr
 			if( MenuToggleFlag != 0 || BattleResultWndFlag >= 1 ){ 
 				MenuToggleFlag = 0;
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// е╔еще├е░еведе╞ер│ї╞┌╗п
+				// уГЙуГйуГГуВ░уВвуВдуГЖуГахИЭцЬЯхМЦ
 				mouse.itemNo = -1;
-				// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+				// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 				itemNo = -1;
-				// ▀xТkд╖д╞дддыЕт╨g│ї╞┌╗п
+				// xkуБЧуБжуБДуВЛх║СgхИЭцЬЯхМЦ
 				jujutuNo = -1;	
-				// е▐е├е╫ежегеєе╔еж│Ўд╡д╩ддХr
+				// уГЮуГГуГЧуВжуВгуГ│уГЙуВжхЗ║уБХуБкуБДr
 				if( MapWmdFlagBak != TRUE ){
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
 				}
-			}else{  // е╖е╣е╞ересе╦ехй`д╬Хr
+			}else{  // уВ╖уВ╣уГЖуГауГбуГЛуГе`уБоr
 				if( ImeBufferBak2 == '\0' ){ 
 				
-					MenuToggleFlag ^= JOY_ESC;	// г┼г╙г├енй`
-					// ежегеєе╔ежщ_дп╥Ї
+					MenuToggleFlag ^= JOY_ESC;	// я╝ея╝│я╝гуВн`
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
-					// е╖е╣е╞ер
+					// уВ╖уВ╣уГЖуГа
 					for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
-					systemWndNo = 0;		// ежегеєе╔еж╖м║┼│ї╞┌╗п
+					systemWndNo = 0;		// уВжуВгуГ│уГЙуВжчХкхП╖хИЭцЬЯхМЦ
 				
-					// ежегеєе╔ежщ_дпХr
+					// уВжуВгуГ│уГЙуВж_уБПr
 					if( MenuToggleFlag & JOY_ESC ){
-						MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// еведе╞ерд╚е▐е├е╫ежегеєе╔ежд╬Хrд└д▒▓╨д╣
-						MenuToggleFlag |= JOY_ESC;	// г┼г╙г├енй`
-						// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+						MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// уВвуВдуГЖуГауБиуГЮуГГуГЧуВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
+						MenuToggleFlag |= JOY_ESC;	// я╝ея╝│я╝гуВн`
+						// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 						BattleResultWndFlag = FALSE;
-						// ежегеєе╔ежщ_дп╥Ї
+						// уВжуВгуГ│уГЙуВж_уБПщЯ│
 						play_se( 202, 320, 240 );
 					}else{
-						// ежегеєе╔ежщ]д╕ды╥Ї
+						// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 						play_se( 203, 320, 240 );
 					}
 				}
 			}
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			DeathMenuAction();
 			DeathMenuAction2();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			saveUserSetting();
 		}
 	}
-	// е╖е╣е╞ересе╦ехй`епеъе├епд╬Хr
+	// уВ╖уВ╣уГЖуГауГбуГЛуГе`уВпуГкуГГуВпуБоr
 	if( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 3 ] ){ 
 			
-		MenuToggleFlag ^= JOY_ESC;	// г┼г╙г├енй`
-		// е╖е╣е╞ер
+		MenuToggleFlag ^= JOY_ESC;	// я╝ея╝│я╝гуВн`
+		// уВ╖уВ╣уГЖуГа
 		for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
-		systemWndNo = 0;		// ежегеєе╔еж╖м║┼│ї╞┌╗п
-		// есе╦ехй`евепе╖ечеє─иЪв
+		systemWndNo = 0;		// уВжуВгуГ│уГЙуВжчХкхП╖хИЭцЬЯхМЦ
+		// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 		DeathMenuAction();
-		// е╤ещесй`е┐е╗й`е╓
+		// уГСуГйуГб`уВ┐уВ╗`уГЦ
 		saveUserSetting();
 		
-		// ежегеєе╔ежщ_дпХr
+		// уВжуВгуГ│уГЙуВж_уБПr
 		if( MenuToggleFlag & JOY_ESC ){
-			MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// еведе╞ерд╚е▐е├е╫ежегеєе╔ежд╬Хrд└д▒▓╨д╣
-			MenuToggleFlag |= JOY_ESC;	// г┼г╙г├енй`
-			// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+			MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// уВвуВдуГЖуГауБиуГЮуГГуГЧуВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
+			MenuToggleFlag |= JOY_ESC;	// я╝ея╝│я╝гуВн`
+			// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 			BattleResultWndFlag = FALSE;
-			// ежегеєе╔ежщ_дп╥Ї
+			// уВжуВгуГ│уГЙуВж_уБПщЯ│
 			play_se( 202, 320, 240 );
 		}else{
-			// ежегеєе╔ежщ]д╕ды╥Ї
+			// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 			play_se( 203, 320, 240 );
 		}
 	}
 	
-	// е╣е╞й`е┐е╣ежегеєе╔еж
+	// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж
 	if( ( joy_trg[ 0 ] & JOY_CTRL_S && ImeBufferBak2 == '\0' ) 
 		|| ( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 1 ] ) ){ 
 		
-		// СщъL╓╨д╬Хr
+		// цоЫLф╕нуБоr
 		if( ProcNo == PROC_BATTLE ){
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 			play_se( 220, 320, 240 );
 		}else{
 		
-			MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-			// е╣е╞й`е┐е╣
+			MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+			// уВ╣уГЖ`уВ┐уВ╣
 			for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndFontNo[ i ] = -2;
 			for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndBtnFlag[ i ] = 0;
 			statusWndNo = 0;
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			DeathMenuAction();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			saveUserSetting();
 	
-			// ежегеєе╔ежщ_дпХr
+			// уВжуВгуГ│уГЙуВж_уБПr
 			if( MenuToggleFlag & JOY_CTRL_S ){
-				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// еведе╞ерд╚е▐е├е╫ежегеєе╔ежд╬Хrд└д▒▓╨д╣
-				MenuToggleFlag |= JOY_CTRL_S;	// е╣е╞й`е┐е╣ежегеєе╔еж
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// уВвуВдуГЖуГауБиуГЮуГГуГЧуВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
+				MenuToggleFlag |= JOY_CTRL_S;	// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔ежщ]д╕ды╥Ї
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 				play_se( 203, 320, 240 );
 			}
 		}
 	}
 	
-	// е┌е├е╚ежегеєе╔еж
+	// уГЪуГГуГИуВжуВгуГ│уГЙуВж
 	if( ( joy_trg[ 0 ] & JOY_CTRL_P && ImeBufferBak2 == '\0' )
 		|| ( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 2 ] ) ){ 
 		
-		// СщъL╓╨д╬Хr╙╓д╧еиеєележеєе╚╤▌│Ў╓╨д╬Хr
+		// цоЫLф╕нуБоrхПИуБпуВиуГ│уВлуВжуГ│уГИц╝ФхЗ║ф╕нуБоr
 		//if( ProcNo == PROC_BATTLE || ( ProcNo == PROC_GAME && SubProcNo == 5 ){
 		if( ProcNo == PROC_BATTLE ){
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 			play_se( 220, 320, 240 );
 		}else{
 			
-			MenuToggleFlag ^= JOY_CTRL_P;	// CTRL + P енй`
-			// е┌е├е╚
+			MenuToggleFlag ^= JOY_CTRL_P;	// CTRL + P уВн`
+			// уГЪуГГуГИ
 			for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
-			petWndNo = 0;		// ежегеєе╔еж╖м║┼│ї╞┌╗п
+			petWndNo = 0;		// уВжуВгуГ│уГЙуВжчХкхП╖хИЭцЬЯхМЦ
 			
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			DeathMenuAction();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			saveUserSetting();
 			
-			// ежегеєе╔ежщ_дпХr
+			// уВжуВгуГ│уГЙуВж_уБПr
 			if( MenuToggleFlag & JOY_CTRL_P ){
-				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// еведе╞ерд╚е▐е├е╫ежегеєе╔ежд╬Хrд└д▒▓╨д╣
+				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// уВвуВдуГЖуГауБиуГЮуГГуГЧуВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
 				MenuToggleFlag |= JOY_CTRL_P;
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔ежщ]д╕ды╥Ї
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 				play_se( 203, 320, 240 );
 			}
 		}
 	}
-	// еведе╞ережегеєе╔еж
+	// уВвуВдуГЖуГауВжуВгуГ│уГЙуВж
 	if( ( joy_trg[ 0 ] & JOY_CTRL_I && ImeBufferBak2 == '\0' ) 
 		|| ( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 4 ] ) ){ 
 		
-		// СщъL╓╨д╬Хr
+		// цоЫLф╕нуБоr
 		if( ProcNo == PROC_BATTLE ){
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 			play_se( 220, 320, 240 );
 		}else{
 			
-			MenuToggleFlag ^= JOY_CTRL_I;	// CTRL + I енй`
-			// еведе╞ере╒ейеєе╚╖м║┼│ї╞┌╗п
+			MenuToggleFlag ^= JOY_CTRL_I;	// CTRL + I уВн`
+			// уВвуВдуГЖуГауГХуВйуГ│уГИчХкхП╖хИЭцЬЯхМЦ
 			for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndFontNo[ i ] = -2;
 			for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndBtnFlag[ i ] = 0;
 			itemWndNo = 0;
 			mouse.itemNo = -1;
 			itemWndDropGold = 0;
 			
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			if( BattleResultWndFlag >= 1 ) DeathMenuAction();
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			DeathMenuAction2();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			saveUserSetting();
 			
-			// ежегеєе╔ежщ_дпХr
+			// уВжуВгуГ│уГЙуВж_уБПr
 			if( MenuToggleFlag & JOY_CTRL_I ){
-				MenuToggleFlag &= ~JOY_CTRL_M;	// е▐е├е╫ежегеєе╔ежд└д▒╧√д╣
+				MenuToggleFlag &= ~JOY_CTRL_M;	// уГЮуГГуГЧуВжуВгуГ│уГЙуВжуБауБСц╢ИуБЩ
 				MenuToggleFlag |= JOY_CTRL_I;
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// е╨е├епеве├е╫│ї╞┌╗п
+				// уГРуГГуВпуВвуГГуГЧхИЭцЬЯхМЦ
 				MapWmdFlagBak = FALSE;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔ежщ]д╕ды╥Ї
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 				play_se( 203, 320, 240 );
 			}
 		}
 	}
 	
-	// е▐е├е╫ежегеєе╔еж
+	// уГЮуГГуГЧуВжуВгуГ│уГЙуВж
 	if( ( joy_trg[ 0 ] & JOY_CTRL_M && ImeBufferBak2 == '\0' ) 
 		|| ( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 0 ] )
 		|| ( MapWmdFlagBak == TRUE && BattleResultWndFlag == FALSE && EncountFlag == FALSE && ProcNo == PROC_GAME && SubProcNo == 3 )
 		){ 
 		
-		// СщъL╓╨д╬Хr
+		// цоЫLф╕нуБоr
 		if( ProcNo == PROC_BATTLE ){
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 			play_se( 220, 320, 240 );
 		}else{
 			
-			MenuToggleFlag ^= JOY_CTRL_M;	// CTRL + M енй`
-			// е┌е├е╚
+			MenuToggleFlag ^= JOY_CTRL_M;	// CTRL + M уВн`
+			// уГЪуГГуГИ
 			for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
-			mapWndNo = 0;		// ежегеєе╔еж╖м║┼│ї╞┌╗п
+			mapWndNo = 0;		// уВжуВгуГ│уГЙуВжчХкхП╖хИЭцЬЯхМЦ
 			
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			if( BattleResultWndFlag >= 1 ) DeathMenuAction();
 			DeathMenuAction2();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			//saveUserSetting();
 			
-			// ежегеєе╔ежщ_дпХr
+			// уВжуВгуГ│уГЙуВж_уБПr
 			if( MenuToggleFlag & JOY_CTRL_M ){
-				MenuToggleFlag &= ~JOY_CTRL_I;	// еведе╞ережегеєе╔ежд└д▒╧√д╣
+				MenuToggleFlag &= ~JOY_CTRL_I;	// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБауБСц╢ИуБЩ
 				MenuToggleFlag |= JOY_CTRL_M;
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// е╨е├епеве├е╫│ї╞┌╗п
+				// уГРуГГуВпуВвуГГуГЧхИЭцЬЯхМЦ
 				MapWmdFlagBak = FALSE;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔ежщ]д╕ды╥Ї	
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│	
 				play_se( 203, 320, 240 );
 			}
 		}
 	}
 
-	// есй`еыежегеєе╔еж
+	// уГб`уГлуВжуВгуГ│уГЙуВж
 	if( ( joy_trg[ 0 ] & JOY_CTRL_E && ImeBufferBak2 == '\0' )
 		|| ( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 5 ] ) ){ 
 		
-		// СщъL╓╨д╬Хr
+		// цоЫLф╕нуБоr
 		if( ProcNo == PROC_BATTLE ){
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 			play_se( 220, 320, 240 );
 		}else{
 			
-			MenuToggleFlag ^= JOY_CTRL_E;	// CTRL + E енй`
-			// е┌е├е╚
+			MenuToggleFlag ^= JOY_CTRL_E;	// CTRL + E уВн`
+			// уГЪуГГуГИ
 			for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
-			mailWndNo = MAIL_WND_VIEW;	// ежегеєе╔еж╖м║┼│ї╞┌╗п
-			mailViewWndPageNo = 0;		// ├√┤╠╥╗╙Eежегеєе╔ежд╬е┌й`е╕╖м║┼│ї╞┌╗п
-			mailItemNo = -1;			// е┌е├е╚есй`еыеведе╞ер╖м║┼│ї╞┌╗п
-			InitMailSendFlag();			// ╦═╨┼╧р╩╓е╒еще░│ї╞┌╗п
-			// есе╦ехй`евепе╖ечеє─иЪв
+			mailWndNo = MAIL_WND_VIEW;	// уВжуВгуГ│уГЙуВжчХкхП╖хИЭцЬЯхМЦ
+			mailViewWndPageNo = 0;		// хРНхИ║ф╕АEуВжуВгуГ│уГЙуВжуБоуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
+			mailItemNo = -1;			// уГЪуГГуГИуГб`уГлуВвуВдуГЖуГачХкхП╖хИЭцЬЯхМЦ
+			InitMailSendFlag();			// щАБф┐бчЫ╕цЙЛуГХуГйуВ░хИЭцЬЯхМЦ
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			DeathMenuAction();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			saveUserSetting();
 			
-			// ежегеєе╔ежщ_дпХr
+			// уВжуВгуГ│уГЙуВж_уБПr
 			if( MenuToggleFlag & JOY_CTRL_E ){
-				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// еведе╞ерд╚е▐е├е╫ежегеєе╔ежд╬Хrд└д▒▓╨д╣
+				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// уВвуВдуГЖуГауБиуГЮуГГуГЧуВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
 				MenuToggleFlag |= JOY_CTRL_E;
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔ежщ]д╕ды╥Ї
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 				play_se( 203, 320, 240 );
 			}
 		}
 	}
 	
 //#ifdef _DEBUG
-	// евеые╨ережегеєе╔еж
+	// уВвуГлуГРуГауВжуВгуГ│уГЙуВж
 	if( ( joy_trg[ 0 ] & JOY_CTRL_A && ImeBufferBak2 == '\0' )
 	 	|| ( TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 6 ] ) ){
 		
-		// СщъL╓╨д╬Хr
+		// цоЫLф╕нуБоr
 		if( ProcNo == PROC_BATTLE ){
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 			play_se( 220, 320, 240 );
 		}else{
 			
-			MenuToggleFlag ^= JOY_CTRL_A;	// CTRL + A енй`
-			// е┌е├е╚
+			MenuToggleFlag ^= JOY_CTRL_A;	// CTRL + A уВн`
+			// уГЪуГГуГИ
 			for( i = 0 ; i < MENU_ALBUM_0 ; i++ ) albumWndFontNo[ i ] = -2;
-			mapWndNo = 0;		// ежегеєе╔еж╖м║┼│ї╞┌╗п
+			mapWndNo = 0;		// уВжуВгуГ│уГЙуВжчХкхП╖хИЭцЬЯхМЦ
 			
-			// есе╦ехй`евепе╖ечеє─иЪв
+			// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 			DeathMenuAction();
-			// е╤ещесй`е┐е╗й`е╓
+			// уГСуГйуГб`уВ┐уВ╗`уГЦ
 			saveUserSetting();
 			
-			// ежегеєе╔ежщ_дпХr
+			// уВжуВгуГ│уГЙуВж_уБПr
 			if( MenuToggleFlag & JOY_CTRL_A ){
-				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// еведе╞ерд╚е▐е├е╫ежегеєе╔ежд╬Хrд└д▒▓╨д╣
+				MenuToggleFlag &= JOY_CTRL_I | JOY_CTRL_M;	// уВвуВдуГЖуГауБиуГЮуГГуГЧуВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
 				MenuToggleFlag |= JOY_CTRL_A;
-				// СщъL╜Y╣√ежегеєе╔едеж│ї╞┌╗п
+				// цоЫLYцЮЬуВжуВгуГ│уГЙуВдуВжхИЭцЬЯхМЦ
 				BattleResultWndFlag = FALSE;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔ежщ]д╕ды╥Ї
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 				play_se( 203, 320, 240 );
 			}
 		}
 	}
 //#else
-	// евеые╨ережегеєе╔еж
+	// уВвуГлуГРуГауВжуВгуГ│уГЙуВж
 //	if( joy_trg[ 0 ] & JOY_CTRL_A && ImeBufferBak2 == '\0' ||	
 //		TaskBarFlag == TRUE && mouse.onceState & MOUSE_LEFT_CRICK && HitDispNo == taskBarFontNo[ 6 ] ){ 
-			// г╬г╟╥Ї
+			// я╝оя╝зщЯ│
 //			play_se( 220, 320, 240 );
 //	}
 //#endif
 
-// е┐е╣епе╨й`ДI└э *************************************************************/
+// уВ┐уВ╣уВпуГР`IчРЖ *************************************************************/
 
-	// ╥╗╨╨едеєе╒ейЩ┌ЙTдъд─д╓д╖ги№\╔лгй
+	// ф╕АшбМуВдуГ│уГХуВйTуВКуБдуБ╢уБЧя╝И\шЙ▓я╝Й
 	//StockBoxDispBuffer( 0, 456, 640, 480, DISP_PRIO_MENU, 0, 1 );
 	StockDispBuffer( TASK_BAR_X, TASK_BAR_Y, DISP_PRIO_MENU, CG_TASK_BAR_BACK, 1 );
-	// е┐е╣епе╨й`дЄе╣епеэй`еы
+	// уВ┐уВ╣уВпуГР`уВТуВ╣уВпуГн`уГл
 	if( mouse.nowPoint.y >= 456 ){
-		// е╣епеэй`еыги│ЎмFгй
+		// уВ╣уВпуГн`уГля╝ИхЗ║Fя╝Й
 		if( taskBarY > TASK_BAR_Y ) taskBarY--;
-		// е┐е╣епе╨й`е╒еще░г╧г╬
+		// уВ┐уВ╣уВпуГР`уГХуГйуВ░я╝пя╝о
 		TaskBarFlag = TRUE;
 	}else{
-		// е┐е╣епе╨й`│Ўд╞дддыХr
+		// уВ┐уВ╣уВпуГР`хЗ║уБжуБДуВЛr
 		if( TaskBarFlag == TRUE ){
-			// е╣епеэй`еыгиыLдьдыгй
+			// уВ╣уВпуГн`уГля╝ИLуВМуВЛя╝Й
 			if( taskBarY < TASK_BAR_Y + 24 ) taskBarY++;
-			// ╬─╫╓д╬╡▒д┐дъ┼╨╢и│ї╞┌╗п
+			// цЦЗхнЧуБох╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 			if( taskBarY == TASK_BAR_Y + 24 ){
 				for( i = 0 ; i < TASK_BAR ; i++ ) albumWndFontNo[ i ] = -2;
 				TaskBarFlag = FALSE;
@@ -2064,7 +2064,7 @@ void MenuProc( void )
 		}
 	}
 	
-	// е┐е╣епе╨й`дЄ▒э╩╛
+	// уВ┐уВ╣уВпуГР`уВТшбичд║
 	//if( taskBarY != 480 ){
 	if( TaskBarFlag == TRUE ){
 		x = taskBarX, y = taskBarY;
@@ -2079,21 +2079,21 @@ void MenuProc( void )
 		
 	}
 	//else{
-	//	// е┐е╣епе╨й`е╒еще░г╧г╞г╞
+	//	// уВ┐уВ╣уВпуГР`уГХуГйуВ░я╝пя╝жя╝ж
 	//	TaskBarFlag = FALSE;
 	//}
 		
-//бЄ е╖е╣е╞ережегеєе╔ежДI└э *****************************************************/
+//тЧО уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВжIчРЖ *****************************************************/
 
 	if( MenuToggleFlag & JOY_ESC ){
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( systemWndNo ){
 		
-		case 0:	// е╖е╣е╞ер есе╦ехй`д╬Хr
+		case 0:	// уВ╖уВ╣уГЖуГа уГбуГЛуГе`уБоr
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
 				for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
 				break;
@@ -2101,78 +2101,78 @@ void MenuProc( void )
 				if( pActMenuWnd->hp <= 0 ) break;
 			}
 			
-			// ╫єепеъе├епд╖д┐Хr
+			// х╖жуВпуГкуГГуВпуБЧуБЯr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// еэе░евеже╚д╬Хr
+				// уГнуВ░уВвуВжуГИуБоr
 				if( HitFontNo == systemWndFontNo[ 0 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
 					systemWndNo = 1;
-					// ежегеєе╔ежщ_дп╥Ї
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
 					break;
 				}
-				// е┴еуе├е╚╘O╢ид╬Хr
+				// уГБуГгуГГуГИOхоЪуБоr
 				if( HitFontNo == systemWndFontNo[ 1 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
 					systemWndNo = 2;
-					// ежегеєе╔ежщ_дп╥Ї
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
 					break;
 				}
-				// г┬г╟г═╘O╢ид╬Хr
+				// я╝вя╝зя╝нOхоЪуБоr
 				if( HitFontNo == systemWndFontNo[ 4 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
 					systemWndNo = 4;
-					// ежегеєе╔ежщ_дп╥Ї
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
 					break;
 				}
-				// Д┐╣√╥Ї╘O╢ид╬Хr
+				// цКЧч▓╝OхоЪуБоr
 				if( HitFontNo == systemWndFontNo[ 3 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
 					systemWndNo = 3;
-					// ежегеєе╔ежщ_дп╥Ї
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
 					break;
 				}
-				// щ]д╕дыХr
+				// ]уБШуВЛr
 				if( HitFontNo == systemWndFontNo[ 2 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
-					// е╖е╣е╞ережегеєе╔ежщ]д╕ды
+					// уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 					MenuToggleFlag ^= JOY_ESC;
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
 					break;
 				}
 			}
-			// ╫∙Ш╦╘O╢и
+			// х║зхЧ╜OхоЪ
 			x = pActMenuWnd->x + 28;
 			y = pActMenuWnd->y + 56;
 			
-			// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды ╬─╫╓▒э╩╛╗║│х╨ю
-			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бб═╦│Ў╙╬╧╖бб ", 2 );	y += 40;
-			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"бб ┴─╠ь╘O╢ибб", 2 );	y += 40;
-			systemWndFontNo[ 4 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" ббг┬г╟г═╘O╢ибб ", 2 );	y += 40;
-			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" ббД┐╣√╥Ї╘O╢ибб ", 2 );	y += 52;
-			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"  бб╣╪ ▒╒  бб", 2 );	y += 40;
+			// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ цЦЗхнЧшбичд║ч╝УхЖ▓шУД
+			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААщААхЗ║ц╕╕цИПуАА ", 2 );	y += 40;
+			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"уАА шБКхдйOхоЪуАА", 2 );	y += 40;
+			systemWndFontNo[ 4 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААя╝вя╝зя╝нOхоЪуАА ", 2 );	y += 40;
+			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААцКЧч▓╝OхоЪуАА ", 2 );	y += 52;
+			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"  уААхЕ│ щЧн  уАА", 2 );	y += 40;
 			
 			break;
 			
-		case 1:	// еэе░евеже╚ есе╦ехй`д╬Хr
+		case 1:	// уГнуВ░уВвуВжуГИ уГбуГЛуГе`уБоr
 			
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 3, 3, CG_WND_TITLE_LOGOUT, 1 );
 				for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
 				break;
@@ -2180,50 +2180,50 @@ void MenuProc( void )
 				if( pActMenuWnd->hp <= 0 ) break;
 			}
 			
-			// ╫єепеъе├епд╖д┐Хr
+			// х╖жуВпуГкуГГуВпуБЧуБЯr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// д╧ддд╬Хr
+				// уБпуБДуБоr
 				if( HitFontNo == systemWndFontNo[ 0 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
 					GameState = GAME_LOGIN;
 					ChangeProc( PROC_CHAR_LOGOUT );
-					// е╟е╒ейеые╚е╤еье├е╚д╦С°д╣
+					// уГЗуГХуВйуГлуГИуГСуГмуГГуГИуБл
 					//PaletteChange( DEF_PAL, 0 );
-					// еэе░евеже╚╥Ї
+					// уГнуВ░уВвуВжуГИщЯ│
 					play_se( 206, 320, 240 );
 					break;
 				}
-				// дддддид╬Хr
+				// уБДуБДуБИуБоr
 				if( HitFontNo == systemWndFontNo[ 1 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
-					// ежегеєе╔щ]д╕ды
+					// уВжуВгуГ│уГЙ]уБШуВЛ
 					systemWndNo = 0;	
-					// епеъе├еп╥Ї
+					// уВпуГкуГГуВпщЯ│
 					//play_se( 217, 320, 240 );
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
 					break;
 				}
 			}
 			
-			// ╫∙Ш╦╘O╢и
+			// х║зхЧ╜OхоЪ
 			x = pActMenuWnd->x + 28;
 			y = pActMenuWnd->y + 56;
 			
-			// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
-			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бббб═╦│Ў╙╬╧╖бббб ", 2 );	y += 40;
-			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бббб╖╡╗╪╙╬╧╖бббб ", 2 );	y += 40;
+			// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
+			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААуААщААхЗ║ц╕╕цИПуААуАА ", 2 );	y += 40;
+			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААуААш┐ФхЫЮц╕╕цИПуААуАА ", 2 );	y += 40;
 			break;
 			
-		case 2:	// е┴еуе├е╚д╬╘O╢и есе╦ехй`д╬Хr
+		case 2:	// уГБуГгуГГуГИуБоOхоЪ уГбуГЛуГе`уБоr
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 4, 8, CG_WND_TITLE_CHAT, 1 );
 				for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
 				break;
@@ -2231,125 +2231,125 @@ void MenuProc( void )
 				if( pActMenuWnd->hp <= 0 ) break;
 			}
 			
-			// ╫єепеъе├епд╖д┐Хrгиекй`е╚гй
+			// х╖жуВпуГкуГГуВпуБЧуБЯrя╝ИуВк`уГИя╝Й
 			if( mouse.autoState & MOUSE_LEFT_CRICK ){
-				// е┴еуе├е╚▒э╩╛д╬╨╨╩¤ббЙИдфд╣Хr
+				// уГБуГгуГГуГИшбичд║уБошбМцХ░уААуВДуБЩr
 				if( HitFontNo == systemWndFontNo[ 0 ] ){
-					// ╨╨╩¤Йф╕№
+					// шбМцХ░ц╢У
 					NowMaxChatLine++;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( NowMaxChatLine > MAX_CHAT_LINE ){ 
 						NowMaxChatLine = MAX_CHAT_LINE;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						// епеъе├еп╥Ї
+						// уВпуГкуГГуВпщЯ│
 						play_se( 217, 320, 240 );
 					}
 				}
-				// е┴еуе├е╚▒э╩╛д╬╨╨╩¤ббЬpдщд╣Хr
+				// уГБуГгуГГуГИшбичд║уБошбМцХ░уААpуВЙуБЩr
 				if( HitFontNo == systemWndFontNo[ 1 ] ){
-					// ╨╨╩¤Йф╕№
+					// шбМцХ░ц╢У
 					NowMaxChatLine--;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( NowMaxChatLine <= -1 ){
 						NowMaxChatLine = 0;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						// епеъе├еп╥Ї
+						// уВпуГкуГГуВпщЯ│
 						play_se( 217, 320, 240 );
 					}
 				}
-				// е┴еуе├е╚╬─╫╓д╬╔л╘O╢ид╬Хr
+				// уГБуГгуГГуГИцЦЗхнЧуБошЙ▓OхоЪуБоr
 				if( HitFontNo == systemWndFontNo[ 2 ] ){
-					// ╔лЙф╕№
+					// шЙ▓ц╢У
 					MyChatBuffer.color++;	
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( MyChatBuffer.color >= 10 ) MyChatBuffer.color = 0;
-					// епеъе├еп╥Ї
+					// уВпуГкуГГуВпщЯ│
 					play_se( 217, 320, 240 );
 				}
 				
-				// ╬─╫╓╡╟хh
+				// цЦЗхнЧчЩ╗h
 				if( HitFontNo == systemWndFontNo[ 4 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
 					systemWndNo = 5;
-					// ежегеєе╔ежщ_дп╥Ї
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
 					break;
 				}
-				// е┴еуе├е╚╔∙д╬┤єднд╡ббЙИдфд╣Хr
+				// уГБуГгуГГуГИхг░уБохдзуБНуБХуААуВДуБЩr
 				if( HitFontNo == systemWndFontNo[ 5 ] ){
-					// ┤єднд╡Йф╕№
+					// хдзуБНуБХц╢У
 					NowMaxVoice++;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( NowMaxVoice > MAX_VOICE ){ 
 						NowMaxVoice = MAX_VOICE;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						// епеъе├еп╥Ї
+						// уВпуГкуГГуВпщЯ│
 						play_se( 217, 320, 240 );
 					}
 				}
-				// е┴еуе├е╚╔∙д╬┤єднд╡ббЬpдщд╣Хr
+				// уГБуГгуГГуГИхг░уБохдзуБНуБХуААpуВЙуБЩr
 				if( HitFontNo == systemWndFontNo[ 6 ] ){
-					// ┤єднд╡Йф╕№
+					// хдзуБНуБХц╢У
 					NowMaxVoice--;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( NowMaxVoice <= 0 ){
 						NowMaxVoice = 1;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						// епеъе├еп╥Ї
+						// уВпуГкуГГуВпщЯ│
 						play_se( 217, 320, 240 );
 					}
 				}
 			}
-			// ╫єепеъе├епд╖д┐Хr
+			// х╖жуВпуГкуГГуВпуБЧуБЯr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// С°дыХr
+				// r
 				if( HitFontNo == systemWndFontNo[ 3 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
-					// е┴еуе├е╚╘O╢иежегеєе╔щ]д╕ды
+					// уГБуГгуГГуГИOхоЪуВжуВгуГ│уГЙ]уБШуВЛ
 					systemWndNo = 0;	
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
-					// е╤ещесй`е┐е╗й`е╓
+					// уГСуГйуГб`уВ┐уВ╗`уГЦ
 					saveUserSetting();
 					break;
 				}
 			}
-			// ╫∙Ш╦╘O╢и
+			// х║зхЧ╜OхоЪ
 			x = pActMenuWnd->x + 48 - 5;
 			y = pActMenuWnd->y + 56;
-																	  sprintf( moji,"бЇмF╘┌д╬▒э╩╛╨╨╩¤%3d ╨╨бЇ",NowMaxChatLine );
+																	  sprintf( moji,"тЧЖFхЬиуБошбичд║шбМцХ░%3d шбМтЧЖ",NowMaxChatLine );
 									StockFontBuffer( x - 16, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );				y += 32;
-			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" ббббЙИббдфббд╣бббб ", 2 );	y += 32;
-			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" ббббЬpббдщббд╣бббб ", 2 );	y += 32;
-			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, MyChatBuffer.color, 	"бб бб╬─╫╓╔лЙф╕№бб бб", 2 );	y += 32;
-			systemWndFontNo[ 4 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0				, 	"бб бб ╬─╫╓╡╟хhбб бб ", 2 );	y += 44;
+			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" уААуААуААуВДуААуБЩуААуАА ", 2 );	y += 32;
+			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" уААуААpуААуВЙуААуБЩуААуАА ", 2 );	y += 32;
+			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, MyChatBuffer.color, 	"уАА уААцЦЗхнЧшЙ▓ц╢У уАА", 2 );	y += 32;
+			systemWndFontNo[ 4 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0				, 	"уАА уАА цЦЗхнЧчЩ╗hуАА уАА ", 2 );	y += 44;
 			
-																	  sprintf( moji,"бЇмF╘┌д╬╔∙д╬┤єднд╡%3d бЇ",NowMaxVoice );
+																	  sprintf( moji,"тЧЖFхЬиуБохг░уБохдзуБНуБХ%3d тЧЖ",NowMaxVoice );
 									StockFontBuffer( x - 16, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );				y += 32;
-			systemWndFontNo[ 5 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" бббб┤єдндпд╣дыбббб ", 2 );	y += 32;
-			systemWndFontNo[ 6 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" бббб╨бд╡дпд╣дыбббб ", 2 );	y += 44;
+			systemWndFontNo[ 5 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" уААуААхдзуБНуБПуБЩуВЛуААуАА ", 2 );	y += 32;
+			systemWndFontNo[ 6 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 					" уААуААх░ПуБХуБПуБЩуВЛуААуАА ", 2 );	y += 44;
 			
-			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 		"ббббббС°ббббдыбббббб", 2 );	y += 40;
+			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 		"уААуААуААуААуГ╗цР┐уААуАА", 2 );	y += 40;
 			
 			break;
 			
-		case 3:	// Д┐╣√╥Їд╬╘O╢и есе╦ехй`д╬Хr
+		case 3:	// цКЧч░╕хНзOхоЪ уГбуГЛуГе`уБоr
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 4, 6, CG_WND_TITLE_SE, 1 );
 				for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
 				break;
@@ -2357,77 +2357,77 @@ void MenuProc( void )
 				if( pActMenuWnd->hp <= 0 ) break;
 			}
 			
-			// ╫єепеъе├епд╖д┐Хrгиекй`е╚гй
+			// х╖жуВпуГкуГГуВпуБЧуБЯrя╝ИуВк`уГИя╝Й
 			if( mouse.autoState & MOUSE_LEFT_CRICK ){
-				// ╥Ї┴┐┤єдндпд╣дыХr
+				// щЯ│щЗПхдзуБНуБПуБЩуВЛr
 				if( HitFontNo == systemWndFontNo[ 0 ] ){
-					// ╥Ї┴┐Йф╕№
+					// щЯ│щЗПц╢У
 					t_music_se_volume++;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( t_music_se_volume > 15 ){ 
 						t_music_se_volume = 15;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						// епеъе├еп╥Ї
+						// уВпуГкуГГуВпщЯ│
 						play_se( 217, 320, 240 );
 					}
 				}
-				// ╥Ї┴┐┤єдндпд╣дыХr
+				// щЯ│щЗПхдзуБНуБПуБЩуВЛr
 				if( HitFontNo == systemWndFontNo[ 1 ] ){
-					// ╥Ї┴┐Йф╕№
+					// щЯ│щЗПц╢У
 					t_music_se_volume--;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( t_music_se_volume < 0 ){
 						t_music_se_volume = 0;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						// епеъе├еп╥Ї
+						// уВпуГкуГГуВпщЯ│
 						play_se( 217, 320, 240 );
 					}
 				}
-				// е╣е╞еьекд╚ете╬ещеыдЄ╟╨дъ╠цдидыХr
+				// уВ╣уГЖуГмуВкуБиуГвуГОуГйуГлуВТхИЗуВКцЫ┐уБИуВЛr
 				if( HitFontNo == systemWndFontNo[ 2 ] ){
-					// е╣е╞еьекете╬ещеыЙф╕№
+					// уВ╣уГЖуГмуВкуГвуГОуГйуГлц╢У
 					stereo_flg = !stereo_flg;	
-					// епеъе├еп╥Ї
+					// уВпуГкуГГуВпщЯ│
 					play_se( 217, 320, 240 );
 				}
 			}
-			// ╫єепеъе├епд╖д┐Хr
+			// х╖жуВпуГкуГГуВпуБЧуБЯr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// С°дыХr
+				// r
 				if( HitFontNo == systemWndFontNo[ 3 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
-					// е┴еуе├е╚╘O╢иежегеєе╔щ]д╕ды
+					// уГБуГгуГГуГИOхоЪуВжуВгуГ│уГЙ]уБШуВЛ
 					systemWndNo = 0;	
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
-					// е╤ещесй`е┐е╗й`е╓
+					// уГСуГйуГб`уВ┐уВ╗`уГЦ
 					saveUserSetting();
 					break;
 				}
 			}
-			// ╫∙Ш╦╘O╢и
+			// х║зхЧ╜OхоЪ
 			x = pActMenuWnd->x + 48 - 5;
 			y = pActMenuWnd->y + 64;
-																	  sprintf( moji,"бЇббмF╘┌╡─╥Ї┴┐%3dбб бЇ",t_music_se_volume );
+																	  sprintf( moji,"тЧЖуААFхЬичЪДщЯ│щЗП%3dуАА тЧЖ",t_music_se_volume );
 									StockFontBuffer( x - 8, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );				y += 40;
-			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бббб╝╙┤є╥Ї┴┐бббб ", 2 );	y += 40;
-			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бббб╝ї╨б╥Ї┴┐бббб ", 2 );	y += 40;
+			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААуААхКахдзщЯ│щЗПуААуАА ", 2 );	y += 40;
+			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААуААхЗПх░ПщЯ│щЗПуААуАА ", 2 );	y += 40;
 			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, monoStereoStr[ stereo_flg ], 2 );	y += 52;
-			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"бббббб╖╡бббб╗╪бббббб", 2 );	y += 40;
+			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"уААуААуААш┐ФуААуААхЫЮуААуААуАА", 2 );	y += 40;
 			
 			break;
 			
-		case 4:	// г┬г╟г═д╬╘O╢и есе╦ехй`д╬Хr
+		case 4:	// я╝вя╝зя╝нуБоOхоЪ уГбуГЛуГе`уБоr
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 4, 8, CG_WND_TITLE_BGM, 1 );
 				for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
 				break;
@@ -2435,109 +2435,109 @@ void MenuProc( void )
 				if( pActMenuWnd->hp <= 0 ) break;
 			}
 			
-			// ╫єепеъе├епд╖д┐Хrгиекй`е╚гй
+			// х╖жуВпуГкуГГуВпуБЧуБЯrя╝ИуВк`уГИя╝Й
 			if( mouse.autoState & MOUSE_LEFT_CRICK ){
-				// ╥Ї┴┐┤єдндпд╣дыХr
+				// щЯ│щЗПхдзуБНуБПуБЩуВЛr
 				if( HitFontNo == systemWndFontNo[ 0 ] ){
-					// ╥Ї┴┐Йф╕№
+					// щЯ│щЗПц╢У
 					t_music_bgm_volume++;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( t_music_bgm_volume > 15 ){ 
 						t_music_bgm_volume = 15;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						play_se( 217, 320, 240 );	// епеъе├еп╥Ї
-						bgm_volume_change();		// ╥Ї┴┐Йф╕№
+						play_se( 217, 320, 240 );	// уВпуГкуГГуВпщЯ│
+						bgm_volume_change();		// щЯ│щЗПц╢У
 					}
 				}
-				// ╥Ї┴┐╨бд╡дпд╣дыХr
+				// щЯ│щЗПх░ПуБХуБПуБЩуВЛr
 				if( HitFontNo == systemWndFontNo[ 1 ] ){
-					// ╥Ї┴┐Йф╕№
+					// щЯ│щЗПц╢У
 					t_music_bgm_volume--;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( t_music_bgm_volume < 0 ){
 						t_music_bgm_volume = 0;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );	
 					}else{
-						play_se( 217, 320, 240 );	// епеъе├еп╥Ї
-						bgm_volume_change();		// ╥Ї┴┐Йф╕№
+						play_se( 217, 320, 240 );	// уВпуГкуГГуВпщЯ│
+						bgm_volume_change();		// щЯ│щЗПц╢У
 					}
 				}
-				// е╞еєе▌дЄ╦┘дпд╣дыХr
+				// уГЖуГ│уГЭуВТщАЯуБПуБЩуВЛr
 				if( HitFontNo == systemWndFontNo[ 3 ] ){
-					// е╞еєе▌е╫еще╣
+					// уГЖуГ│уГЭуГЧуГйуВ╣
 					t_music_bgm_pitch[t_music_bgm_no]++;
 					set_gbm_pitch();
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( t_music_bgm_pitch[t_music_bgm_no] > 8 ){ 
 						t_music_bgm_pitch[t_music_bgm_no] = 8;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );
 					}else{
-						play_se( 217, 320, 240 );	// епеъе├еп╥Ї
-						set_gbm_pitch();			// е╞еєе▌Йф╕№
+						play_se( 217, 320, 240 );	// уВпуГкуГГуВпщЯ│
+						set_gbm_pitch();			// уГЖуГ│уГЭц╢У
 					}
 				}
-				// е╞еєе▌дЄ▀Wдпд╣ды
+				// уГЖуГ│уГЭуВТWуБПуБЩуВЛ
 				if( HitFontNo == systemWndFontNo[ 4 ] ){
-					// е╞еєе▌е╫еще╣
+					// уГЖуГ│уГЭуГЧуГйуВ╣
 					t_music_bgm_pitch[t_music_bgm_no]--;
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( t_music_bgm_pitch[t_music_bgm_no] < -8 ){ 
 						t_music_bgm_pitch[t_music_bgm_no] = -8;
-						// г╬г╟╥Ї
+						// я╝оя╝зщЯ│
 						play_se( 220, 320, 240 );	
 					}else{
-						play_se( 217, 320, 240 );	// епеъе├еп╥Ї
-						set_gbm_pitch();			// е╞еєе▌Йф╕№
+						play_se( 217, 320, 240 );	// уВпуГкуГГуВпщЯ│
+						set_gbm_pitch();			// уГЖуГ│уГЭц╢У
 					}
 				}
 			}
-			// ╫єепеъе├епд╖д┐Хr
+			// х╖жуВпуГкуГГуВпуБЧуБЯr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// С°дыХr
+				// r
 				if( HitFontNo == systemWndFontNo[ 2 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
-					// е┴еуе├е╚╘O╢иежегеєе╔щ]д╕ды
+					// уГБуГгуГГуГИOхоЪуВжуВгуГ│уГЙ]уБШуВЛ
 					systemWndNo = 0;	
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
-					// е╤ещесй`е┐е╗й`е╓
+					// уГСуГйуГб`уВ┐уВ╗`уГЦ
 					saveUserSetting();
 					break;
 				}
 			}
-			// ╫∙Ш╦╘O╢и
+			// х║зхЧ╜OхоЪ
 			x = pActMenuWnd->x + 48 - 5;
 			y = pActMenuWnd->y + 64;
-																	  sprintf( moji,"бЇббмF╘┌д╬╥Ї┴┐ %3dбббЇ",t_music_bgm_volume );
+																	  sprintf( moji,"тЧЖуААFхЬиуБощЯ│щЗП %3dуААтЧЖ",t_music_bgm_volume );
 									StockFontBuffer( x - 8, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );				y += 40;
-			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бббб┤єдндпд╣дыбббб ", 2 );	y += 40;
-			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" бббб╨бд╡дпд╣дыбббб ", 2 );	y += 48;
+			systemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААуААхдзуБНуБПуБЩуВЛуААуАА ", 2 );	y += 40;
+			systemWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	" уААуААх░ПуБХуБПуБЩуВЛуААуАА ", 2 );	y += 48;
 			if( t_music_bgm_pitch[t_music_bgm_no] == 0 ){			  
-																	  sprintf( moji,"бЇ мF╘┌д╬е╞еєе▌ б└0" );
-									StockFontBuffer( x - 8 + 173, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, "бЇ", 0 );
+																	  sprintf( moji,"тЧЖ FхЬиуБоуГЖуГ│уГЭ ┬▒0" );
+									StockFontBuffer( x - 8 + 173, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, "тЧЖ", 0 );
 			}
-			else													  sprintf( moji,"бЇ мF╘┌д╬е╞еєе▌ %+3d бЇ",t_music_bgm_pitch[t_music_bgm_no] );
+			else													  sprintf( moji,"тЧЖ FхЬиуБоуГЖуГ│уГЭ %+3d тЧЖ",t_music_bgm_pitch[t_music_bgm_no] );
 									StockFontBuffer( x - 8, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );				y += 40;
-			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"бббббб╦┘дпд╣дыбббббб", 2 );	y += 40;
-			systemWndFontNo[ 4 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"бббббб▀Wдпд╣дыбббббб", 2 );	y += 52;
-			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"бббббб╖╡   ╗╪бббббб", 2 );	y += 40;
+			systemWndFontNo[ 3 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"уААуААуААщАЯуБПуБЩуВЛуААуААуАА", 2 );	y += 40;
+			systemWndFontNo[ 4 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"уААуААуААWуБПуБЩуВЛуААуААуАА", 2 );	y += 52;
+			systemWndFontNo[ 2 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"уААуААуААш┐Ф   хЫЮуААуААуАА", 2 );	y += 40;
 			
 			break;
 			
-		case 5:	// ╬─╫╓╡╟хhд╬Хr ╬─╫╓╡╟┬╝╩▒
+		case 5:	// цЦЗхнЧчЩ╗hуБоr цЦЗхнЧчЩ╗х╜ХцЧ╢
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 430, CG_WND_TITLE_CHAT, -1 );
 				for( i = 0 ; i < MENU_SYSTEM_0 ; i++ ) systemWndFontNo[ i ] = -2;
-				// ╚ы┴же╒ейй`еле╣Йф╕№
+				// хЕехКЫуГХуВй`уВлуВ╣ц╢У
 				GetKeyInputFocus( &chatRegistryStr[ 0 ] );
 				
 				break;
@@ -2545,197 +2545,197 @@ void MenuProc( void )
 				if( pActMenuWnd->hp <= 0 ) break;
 			}
 			
-			// ╬─╫╓╡╟хhежегеєе╔еж▒э╩╛
+			// цЦЗхнЧчЩ╗hуВжуВгуГ│уГЙуВжшбичд║
 			StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_CHAT_REGISTY_WND, 1 );
-			// ╫єепеъе├епд╖д┐Хr
+			// х╖жуВпуГкуГГуВпуБЧуБЯr
 			if( mouse.onceState & MOUSE_LEFT_CRICK ){
-				// С°дыХr
+				// r
 				if( HitDispNo == systemWndFontNo[ 3 ] ){
-					// ежегеєе╔еж─иЪв
+					// уВжуВгуГ│уГЙуВжцК╣
 					DeathAction( pActMenuWnd );
 					pActMenuWnd = NULL;
-					// ╚ы┴же╒ейй`еле╣С°д╣
+					// хЕехКЫуГХуВй`уВлуВ╣
 					GetKeyInputFocus( &MyChatBuffer );
-					// е┴еуе├е╚╘O╢иежегеєе╔щ]д╕ды
+					// уГБуГгуГГуГИOхоЪуВжуВгуГ│уГЙ]уБШуВЛ
 					systemWndNo = 0;	
-					// ежегеєе╔ежщ]д╕ды╥Ї
+					// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 					play_se( 203, 320, 240 );
-					// е╤ещесй`е┐е╗й`е╓
+					// уГСуГйуГб`уВ┐уВ╗`уГЦ
 					saveUserSetting();
-					// е┴еуе├е╚д╬╡╟хh╬─╫╓д╬▒г┤ц
+					// уГБуГгуГГуГИуБочЩ╗hцЦЗхнЧуБоф┐ЭхнШ
 					SaveChatRegistyStr();
 					break;
 				}
 			}
-			// ╫∙Ш╦╘O╢и
+			// х║зхЧ╜OхоЪ
 			x = pActMenuWnd->x + 18;
 			y = pActMenuWnd->y + 58;
 			
-			// ╡╟хh╩¤╖╓еый`е╫
+			// чЩ╗hцХ░хИЖуГл`уГЧ
 			for( i = 0 ; i < 8 ; i++ ){
-				// ╬─╫╓┴╨д╬╫∙Ш╦
+				// цЦЗхнЧхИЧуБох║з
 				chatRegistryStr[ i ].x = x + 2;
 				chatRegistryStr[ i ].y = y;
 				StockFontBuffer2( &chatRegistryStr[ i ] ); y += 43;
-				// ЦШ─┌д╦╚ыд├д╞ддд┐дщ
+				// хЖЕуБлхЕеуБгуБжуБДуБЯуВЙ
 				if( MakeHitBox( chatRegistryStr[ i ].x - 4, chatRegistryStr[ i ].y - 3, 
 					chatRegistryStr[ i ].x + 234 + 3, chatRegistryStr[ i ].y + 16 + 3, DISP_PRIO_IME3 ) == TRUE ){
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// ╚ы┴же╒ейй`еле╣Йф╕№
+						// хЕехКЫуГХуВй`уВлуВ╣ц╢У
 						GetKeyInputFocus( &chatRegistryStr[ i ] );
-						play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+						play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 					}
 				}
 			}
-			// С°дые▄е┐еє
+			// цп│хаАщкП
 			systemWndFontNo[ 3 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, 410, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 			
 			break;
 		}
 	}
 	
-//бЄ е╣е╞й`е┐е╣ежегеєе╔ежДI└э ******╫┤╠м┤░┐┌┤ж└э***********************************************/
+//тЧО уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВжIчРЖ ******чК╢цАБчкЧхПгхдДчРЖ***********************************************/
 
 	if( MenuToggleFlag & JOY_CTRL_S ){
 	
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( statusWndNo ){
 		
-		case 0:	// ╫╘╖╓д╬е╣е╞й`е┐е╣
+		case 0:	// шЗкхИЖуБоуВ╣уГЖ`уВ┐уВ╣
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 4, 4, 4, 8, CG_WND_TITLE_SYSTEM, 1 );
 				
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 360, 0, -1 );
 				
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndFontNo[ i ] = -2;
 				for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndBtnFlag[ i ] = 0;
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// е╫еьедефй`е╣е╞й`е┐е╣ежегеєе╔еж▒э╩╛
+					// уГЧуГмуВдуГд`уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_STATUS_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// ╓┘щgд╬е╣е╞й`е┐е╣╥╗╙Eежегеєе╔ежд╬Хr
+						// ф╗▓gуБоуВ╣уГЖ`уВ┐уВ╣ф╕АEуВжуВгуГ│уГЙуВжуБоr
 						if( HitDispNo == statusWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
 							statusWndNo = 1;
-							// ежегеєе╔ежщ_дп╥Ї
+							// уВжуВгуГ│уГЙуВж_уБПщЯ│
 							play_se( 202, 320, 240 );
 						}
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == statusWndFontNo[ 1 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е╖е╣е╞ережегеєе╔ежщ]д╕ды
+							// уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 							MenuToggleFlag ^= JOY_CTRL_S;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
 					
-					// │╞║┼Йф╕№
+					// чз░хП╖ц╢У
 					if( HitDispNo == statusWndFontNo[ 6 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
 							if( pActMenuWnd3 == NULL ){
-								// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+								// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 								//pActMenuWnd3 = MakeWindowDisp( 4, 4 + 280 + 56, 4, 2, NULL, 1 );
 								pActMenuWnd3 = MakeWindowDisp( 4, 16 + 280 + 70, 272, 88, 0, -1 );
-								// ежегеєе╔ежщ_дп╥Ї
+								// уВжуВгуГ│уГЙуВж_уБПщЯ│
 								play_se( 202, 320, 240 );
-								// ├√╟░дЄе│е╘й`
+								// хРНхЙНуВТуВ│уГФ`
 								//strcpy( shougouChange.buffer, pet[ petStatusNo ].name );
 								shougouChange.buffer[ 0 ] = NULL;
 								shougouChange.cnt = 0;
-								// ╬─╫╓┴╨д╬щLд╡
+								// цЦЗхнЧхИЧуБоLуБХ
 								shougouChange.len = 12;
-								// ╬─╫╓┴╨д╬╔л
+								// цЦЗхнЧхИЧуБошЙ▓
 								shougouChange.color = 0;
-								// ╬─╫╓┴╨д╬╫∙Ш╦
+								// цЦЗхнЧхИЧуБох║з
 								shougouChange.x = pActMenuWnd3->x + 38;
 								shougouChange.y = pActMenuWnd3->y + 25;
-								// ╬─╫╓┴╨д╬▒э╩╛ГЮ╧╚эШ╬╗
+								// цЦЗхнЧхИЧуБошбичд║хЕИф╜Н
 								shougouChange.fontPrio = FONT_PRIO_FRONT;
-								// е▄е┐еє░╝
+								// уГЬуВ┐уГ│хЗ╣
 								statusWndBtnFlag[ 6 ] = TRUE;
 							}else{
-								// ежегеєе╔еж─иЪв
+								// уВжуВгуГ│уГЙуВжцК╣
 								DeathAction( pActMenuWnd3 );
 								pActMenuWnd3 = NULL;
-								// ╚ы┴же╒ейй`еле╣С°д╣
+								// хЕехКЫуГХуВй`уВлуВ╣
 								GetKeyInputFocus( &MyChatBuffer );
-								// ежегеєе╔ежщ]д╕ды╥Ї
+								// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 								play_se( 203, 320, 240 );
 							}
 							statusWndBtnFlag[ 6 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && statusWndBtnFlag[ 6 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							statusWndBtnFlag[ 6 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							statusWndBtnFlag[ 6 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						statusWndBtnFlag[ 6 ] = FALSE;
 					}
-					// еье┘еыеве├е╫д╟дндыХr
+					// уГмуГЩуГлуВвуГГуГЧуБзуБНуВЛr
 					if( StatusUpPoint != 0 ){
-						// е▄е┐еєд╬╩¤еый`е╫
+						// уГЬуВ┐уГ│уБоцХ░уГл`уГЧ
 						for( i = 2 ; i < 6 ; i++ ){
-							// ╦╪╘чд╡еве├е╫
+							// ч┤ацЧйуБХуВвуГГуГЧ
 							if( HitDispNo == statusWndFontNo[ i ] ){
-								// е▄е┐еє░╝
-								// ╫єепеъе├епд╖д┐Хr
+								// уГЬуВ┐уГ│хЗ╣
+								// х╖жуВпуГкуГГуВпуБЧуБЯr
 								if( mouse.onceState & MOUSE_LEFT_CRICK ){
-									// е╣енеыеве├е╫╦═╨┼
+									// уВ╣уВнуГлуВвуГГуГЧщАБф┐б
 									lssproto_SKUP_send( sockfd, i - 2 );
-									// ележеєе╚е▐еде╩е╣
+									// уВлуВжуГ│уГИуГЮуВдуГКуВ╣
 									StatusUpPoint--;
-									// еье┘еыеве├е╫╥Ї
+									// уГмуГЩуГлуВвуГГуГЧщЯ│
 									play_se( 211, 320, 240 );
-									// е▄е┐еє░╝
+									// уГЬуВ┐уГ│хЗ╣
 									statusWndBtnFlag[ i ] = TRUE;
 								}
-								// ╫єепеъе├епд╖д╞дыХr
+								// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 								if( mouse.state & MOUSE_LEFT_CRICK && statusWndBtnFlag[ i ] == TRUE ){
-									// е▄е┐еє░╝
+									// уГЬуВ┐уГ│хЗ╣
 									statusWndBtnFlag[ i ] = TRUE;
 								}else{
-									// е▄е┐еє═╣
+									// уГЬуВ┐уГ│хЗ╕
 									statusWndBtnFlag[ i ] = FALSE;
 								}
 							}else{
-								// е▄е┐еє═╣
+								// уГЬуВ┐уГ│хЗ╕
 								statusWndBtnFlag[ i ] = FALSE;
 							}
 						}
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 					
 					#define PET_WND_ATTR_X 159
 					#define PET_WND_ATTR_Y 5
 					
-						int x2; // есй`е┐й`д╬щLд╡
+						int x2; // уГб`уВ┐`уБоLуБХ
 
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 20;
 						y = pActMenuWnd->y + 28;
 						
 						//sprintf( moji,"%s", pc.name );
-						// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+						// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 						CenteringStr( pc.name, moji, CHAR_NAME_LEN );
 						//sprintf( moji,"0123456789012345", pc.name );
 						StockFontBuffer( x - 6, y, FONT_PRIO_FRONT, 0, moji, 0 );
@@ -2743,7 +2743,7 @@ void MenuProc( void )
 						//sprintf( moji,"01234560", pc.name );
 						StockFontBuffer( x + 170, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 21;
 						//sprintf( moji,"%s", pc.freeName );
-						// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+						// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 						CenteringStr( pc.freeName, moji, CHAR_FREENAME_LEN );
 						//sprintf( moji,"012345678901", pc.name );
 						StockFontBuffer( x + 2, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 21;
@@ -2793,36 +2793,36 @@ void MenuProc( void )
 						StockFontBuffer( x + 61 + 120, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 20;
 						
 						y += 17;
-						// е░еый`е╫
+						// уВ░уГл`уГЧ
 						statusWndFontNo[ 0 ] = StockDispBuffer( x + 59, y, DISP_PRIO_IME3, CG_STATUS_WND_GROUP_BTN, 2 );
-						// щ]д╕ды
+						// ]уБШуВЛ
 						statusWndFontNo[ 1 ] = StockDispBuffer( x + 173, y, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
-						// юЖе░еще╒еге├еп▒э╩╛
+						// уВ░уГйуГХуВгуГГуВпшбичд║
 						StockDispBuffer( pActMenuWnd->x + 210, pActMenuWnd->y + 119, DISP_PRIO_IME3, pc.faceGraNo, 0 );
 						
-						// ▀BД┘
+						// B
 						//StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_STATUS_WND_VICTORY_MARK, 0 );
-						// еье┘еыеве├е╫д╟дндыХr
+						// уГмуГЩуГлуВвуГГуГЧуБзуБНуВЛr
 						if( StatusUpPoint != 0 ){
-							// еье┘еыеве├е╫е▌едеєе╚
+							// уГмуГЩуГлуВвуГГуГЧуГЭуВдуГ│уГИ
 							StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_STATUS_WND_LV_UP_POINT, 0 );
 							sprintf( moji, "%2d", StatusUpPoint );
 							StockFontBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 50, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my + 88, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );
 							
-							// еве├е╫е▄е┐еє
+							// уВвуГГуГЧуГЬуВ┐уГ│
 							statusWndFontNo[ 2 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_STATUS_WND_UP_BTN_UP + statusWndBtnFlag[ 2 ], 2 );
 							statusWndFontNo[ 3 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 120, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_STATUS_WND_UP_BTN_UP + statusWndBtnFlag[ 3 ], 2 );
 							statusWndFontNo[ 4 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my + 20, DISP_PRIO_IME3, CG_STATUS_WND_UP_BTN_UP + statusWndBtnFlag[ 4 ], 2 );
 							statusWndFontNo[ 5 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 120, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my + 20, DISP_PRIO_IME3, CG_STATUS_WND_UP_BTN_UP + statusWndBtnFlag[ 5 ], 2 );
 						}
-						// │╞║┼Йф╕№
+						// чз░хП╖ц╢У
 						statusWndFontNo[ 6 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_STATUS_WND_SHOUGOU_BTN_UP + statusWndBtnFlag[ 6 ], 2 );
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 19;
 						y = pActMenuWnd->y + 174;
 						
-						// ╡╪╩Ї╨╘двдыХr
+						// хЬ░х▒ЮцАзуБВуВЛr
 						if( pc.earth > 0 ){
 							x2 = ( int )( pc.earth * 0.8 );
 							StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_GREEN, 1 );
@@ -2831,7 +2831,7 @@ void MenuProc( void )
 						}
 						y += 20;
 						
-						// ╦о╩Ї╨╘двдыХr
+						// ц░┤х▒ЮцАзуБВуВЛr
 						if( pc.water > 0 ){
 							x2 = ( int )( pc.water * 0.8 );
 							
@@ -2841,7 +2841,7 @@ void MenuProc( void )
 						}
 						y += 20;
 						
-						// ╗Ё╩Ї╨╘двдыХr
+						// чБлх▒ЮцАзуБВуВЛr
 						if( pc.fire > 0 ){
 							x2 = ( int )( pc.fire * 0.8 );
 							StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_RED, 1 );
@@ -2850,7 +2850,7 @@ void MenuProc( void )
 						}
 						y += 20;
 						
-						// яL╩Ї╨╘двдыХr
+						// Lх▒ЮцАзуБВуВЛr
 						if( pc.wind > 0 ){
 							x2 = ( int )( pc.wind * 0.8 );
 							StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_YELLOW, 1 );
@@ -2861,38 +2861,38 @@ void MenuProc( void )
 					}
 				}
 			}
-			// │╞║┼Йф╕№ежегеєе╔еждмдвдыХr
+			// чз░хП╖ц╢У╬Хя╝ЕшЮЧф╕з╬Фr
 			if( pActMenuWnd3 != NULL ){
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd3->hp > 0 ){
-					// е┌е├е╚╘Ф╝Ъежегеєе╔еж▒э╩╛
+					// уГЪуГГуГИуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd3->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd3->pYobi )->my, DISP_PRIO_MENU, CG_NAME_CHANGE_WND, 1 );
-					// ╚ы┴же╒ейй`еле╣╚б╡├
+					// хЕехКЫуГХуВй`уВлуВ╣хПЦх╛Ч
 					GetKeyInputFocus( &shougouChange );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// │╞║┼Йф╕№г╧г╦е▄е┐еє
+						// чз░хП╖ц╢Ух╕Мшб░хаАщкП
 						if( HitDispNo == statusWndFontNo[ 7 ] ){
-							// еъе┐й`еєенй`ДI└э 
+							// уГкуВ┐`уГ│уВн`IчРЖ 
 							KeyboardReturn();
 						}
-						// │╞║┼Йф╕№енеуеєе╗еые▄е┐еє
+						// чз░хП╖ц╢УцВншЮЧф║Тцп│хаАщкП
 						if( HitDispNo == statusWndFontNo[ 8 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd3 );
 							pActMenuWnd3 = NULL;
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+					// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 					if(	pActMenuWnd3 != NULL ){
-						// ╬─╫╓┴╨д╬▒э╩╛
+						// цЦЗхнЧхИЧуБошбичд║
 						StockFontBuffer2( &shougouChange );
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd3->x + 20;
 						y = pActMenuWnd3->y + 60;
 						statusWndFontNo[ 7 ] = StockDispBuffer( x + 60, y + 7, DISP_PRIO_IME3, CG_OK_BTN, 2 );
@@ -2902,46 +2902,46 @@ void MenuProc( void )
 			}
 			break;
 			
-		case 1:	// ╓┘щgд╬е╣е╞й`е┐е╣╥╗╙E  ╗я░щ╡─╡╪╬╗╥╗╙E
+		case 1:	// ф╗▓gуБоуВ╣уГЖ`уВ┐уВ╣ф╕АE  ф╝Щф╝┤чЪДхЬ░ф╜Нф╕АE
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 16, 16, 4, 9, CG_WND_TITLE_SYSTEM, 1 );
 				pActMenuWnd = MakeWindowDisp( 4, 0, 256, 456, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndFontNo[ i ] = -2;
 				for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndBtnFlag[ i ] = 0;
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// е╣е╞й`е┐е╣╥╗╙Eежегеєе╔еж▒э╩╛
+					// уВ╣уГЖ`уВ┐уВ╣ф╕АEуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_STATUS_WND_GROUP_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// С°дыХr
+						// r
 						if( HitDispNo == statusWndFontNo[ 11 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
 							statusWndNo = 0;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
-						int selectFlag;	// ▀xТkе▄е├епе╣▒э╩╛д╣дыдле╒еще░
-						// ╫∙Ш╦╘O╢и
+						int selectFlag;	// xkуГЬуГГуВпуВ╣шбичд║уБЩуВЛуБЛуГХуГйуВ░
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 17;
 						y = pActMenuWnd->y + 25;
 						
-						// ▀xТkе▄е├епе╣▒э╩╛д╣дыХr
+						// xkуГЬуГГуВпуВ╣шбичд║уБЩуВЛr
 						if( itemNo != -1 || jujutuNo != -1 ) selectFlag = 2;
 						else selectFlag = FALSE;
 						
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
-						// ╫╘╖╓д╬├√╟░
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
+						// шЗкхИЖуБохРНхЙН
 						//sprintf( moji,"%-16s", pc.name );
 						CenteringStr( pc.name, moji, CHAR_NAME_LEN );
 						statusWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji,selectFlag ); y += 19;
@@ -2949,9 +2949,9 @@ void MenuProc( void )
 						StockFontBuffer( x + 77, y, FONT_PRIO_FRONT, 0, 	moji, 0 );
 						sprintf( moji,"%4d %4d", pc.hp, pc.maxHp );
 						StockFontBuffer( x + 142, y, FONT_PRIO_FRONT, 0, 	moji, 0 ); y += 20;
-						// е┌е├е╚
+						// уГЪуГГуГИ
 						for( i = 0 ; i < 5 ; i++ ){
-							// д╜д╬Щ┌д╦е┌е├е╚дмддд┐дщ
+							// уБЭуБохЖешб░шоац░Уш╢гуБДщГб
 							if( pet[ i ].useFlag == TRUE ){
 								if( pet[ i ].freeName[ 0 ] != NULL )
 									//sprintf( moji,"%-16s", pet[ i ].freeName );
@@ -2960,15 +2960,15 @@ void MenuProc( void )
 									//sprintf( moji,"%-16s", pet[ i ].name );
 									CenteringStr( pet[ i ].name, moji, PET_NAME_LEN );
 								statusWndFontNo[ i + 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji,selectFlag ); y += 20;
-								//sprintf( moji,"Hpг║%4d", pet[ i ].hp );
+								//sprintf( moji,"Hpя╝Ъ%4d", pet[ i ].hp );
 								sprintf( moji,"%4d %4d", pet[ i ].hp, pet[ i ].maxHp );
 								StockFontBuffer( x + 142, y, FONT_PRIO_FRONT, 0, 	moji, 0 ); y += 20;
 							}
 						}
 						y = 268;
-						// ╓┘щg
+						// ф╗▓g
 						for( i = 0 ; i < 5 ; i++ ){
-							// ╫╘╖╓д╟д╩ддХrдлд─д╜д╬Щ┌д╦╓┘щgдмдддыХr
+							// шЗкхИЖуБзуБкуБДrуБЛуБдуБЭуБохЖещЕехМНgуБМуБДуВЛr
 							if( pc.id != party[ i ].id && party[ i ].useFlag == TRUE ){
 								//sprintf( moji,"%-16s", party[ i ].name );
 								CenteringStr( party[ i ].name, moji, CHAR_NAME_LEN );
@@ -2986,11 +2986,11 @@ void MenuProc( void )
 							//sprintf( moji,"%4d %4d", pc.hp, pc.maxHp );
 							//StockFontBuffer( x + 142, y, FONT_PRIO_FRONT, 0, 	moji, 0 ); y += 19;
 								
-								//sprintf( moji,"%17s Hpг║%4d", party[ i ].name, party[ i ].hp );
+								//sprintf( moji,"%17s Hpя╝Ъ%4d", party[ i ].name, party[ i ].hp );
 								//itemWndFontNo[ i ] = StockFontBuffer( pActMenuWnd2->x + 64, pActMenuWnd2->y + 32 + 340 + 16, FONT_PRIO_FRONT, 0, moji, 2 );	y += 20;
 							}
 						}
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						statusWndFontNo[ 11 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, 441, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
@@ -2999,210 +2999,210 @@ void MenuProc( void )
 		}
 	}
 	
-//бЄ е┌е├е╚ежегеєе╔ежДI└э ********│ш╬я┤░┐┌┤ж└э************************************************/
+//тЧО уГЪуГГуГИуВжуВгуГ│уГЙуВжIчРЖ ********хоачЙйчкЧхПгхдДчРЖ************************************************/
 
 	if( MenuToggleFlag & JOY_CTRL_P ){
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( petWndNo ){
 		
-		case 0:	// е┌е├е╚╥╗╙Eежегеєе╔еж
+		case 0:	// уГЪуГГуГИф╕АEуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 16, 16, 4, 8, CG_WND_TITLE_SYSTEM, 1 );
 				
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 320, 0, -1 );
 				
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
-				// ╩▄╨┼╖м║┼│ї╞┌╗п
+				// хПЧф┐бчХкхП╖хИЭцЬЯхМЦ
 				BattlePetReceivePetNo = -1;
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// е┌е├е╚╥╗╙Eежегеєе╔еж▒э╩╛
+					// уГЪуГГуГИф╕АEуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_PET_WND_VIEW, 1 );
 					
-					// ддд╩дде┌е├е╚е┴езе├еп
+					// уБДуБкуБДуГЪуГГуГИуГБуВзуГГуВп
 					for( i = 0 ; i < 5 ; i++ ){
-						// д│д╬Щ┌д╦е┌е├е╚дмддд╩ддХr
+						// уБУуБохЖешб░шоац░Уш╢гуБДшГЬr
 						if( pet[ i ].useFlag == FALSE ){
-							// е╨е╚еыдЄ╜т│¤
+							// уГРуГИуГлуВТшзгщЩд
 							if( i == pc.battlePetNo ) pc.battlePetNo = -1;
-							// есй`еыд╬Хr
+							// уГб`уГлуБоr
 							if( i == pc.mailPetNo ) pc.mailPetNo = -1;
-							// д╚дъдвдид║г▓▄Кд╦д╣ды
+							// уБиуВКуБВуБИуБЪя╝ТуБлуБЩуВЛ
 							pc.selectPetNo[ i ] = FALSE;
 						}
 					}
-					// е╣е┐есеєележеєе╚│ї╞┌╗п
+					// уВ╣уВ┐уГбуГ│уВлуВжуГ│уГИхИЭцЬЯхМЦ
 					BattlePetStMenCnt = 0;
-					// е╣е┐есеєе┴езе├еп
+					// уВ╣уВ┐уГбуГ│уГБуВзуГГуВп
 					for( i = 0 ; i < 5 ; i++ ){
 						if( pc.selectPetNo[ i ] == TRUE ) BattlePetStMenCnt++;
 					}
 					
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// е┌е├е╚д╬╩¤╖╓еый`е╫
+						// уГЪуГГуГИуБоцХ░хИЖуГл`уГЧ
 						for( i = 0 ; i < 5 ; i++ ){
-							// д│д╬Щ┌д╦е┌е├е╚дмдддыХrдлд─бв╩▄╨┼╓╨д╟д╩ддХr
+							// уБУуБохЖешб░шоац░Уш╢гуБДrуБЛуБдуАБхПЧф┐бф╕нуБзуБкуБДr
 							if( pet[ i ].useFlag == TRUE && BattlePetReceivePetNo != i ){
-								// е┌е├е╚▀xТkд╖д┐Хr
+								// уГЪуГГуГИxkуБЧуБЯr
 								if( HitDispNo == petWndFontNo[ i ] ){
-									// есй`еыд╬Хr
+									// уГб`уГлуБоr
 									if( i == pc.mailPetNo ){
-										// есй`еыд╩д╖д╦д╣ды
+										// уГб`уГлуБкуБЧуБлуБЩуВЛ
 										pc.mailPetNo = -1;
-										play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+										play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 									}else
-									// ╧╚░kд╬Хr
+									// хЕИkуБоr
 									if( i == pc.battlePetNo && BattlePetReceiveFlag == FALSE ){
-										// ╧╚░kд╩д╖д╦д╣ды
+										// хЕИkуБкуБЧуБлуБЩуВЛ
 										lssproto_KS_send( sockfd, -1 );
-										// ╩▄╨┼┤¤д┴е╒еще░г╧г╬
+										// хПЧф┐бх╛ЕуБбуГХуГйуВ░я╝пя╝о
 										BattlePetReceiveFlag = TRUE;
-										// е╨е╚еы╩▄╨┼╓╨д╬е┌е├е╚╖м║┼╙ЫСЫ
+										// уГРуГИуГлхПЧф┐бф╕нуБоуГЪуГГуГИчХкхП╖
 										BattlePetReceivePetNo = i;
 										
-										// г▓▄Кд╦д╣ды
+										// я╝ТуБлуБЩуВЛ
 										pc.selectPetNo[ i ] = FALSE;
-										BattlePetStMenCnt--; // ележеєе┐й`е▐еде╩е╣
+										BattlePetStMenCnt--; // уВлуВжуГ│уВ┐`уГЮуВдуГКуВ╣
 										//pc.battlePetNo = -1;
-										// есй`еые▄е┐еєд╩ддХr
+										// уГб`уГлуГЬуВ┐уГ│уБкуБДr
 										if( pc.mailPetNo == -1 ){
-											// есй`еыд╦д╣ды
+											// уГб`уГлуБлуБЩуВЛ
 											pc.mailPetNo = i;
 										}
-										play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+										play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 									}else
-									// е╣е┐есеєд╬Хr
+									// уВ╣уВ┐уГбуГ│уБоr
 									if( pc.selectPetNo[ i ] == TRUE ){
-										// ╧╚░kдмддд╩длд├д┐дщ
+										// хЕИkуБМуБДуБкуБЛуБгуБЯуВЙ
 										if( pc.battlePetNo == -1 && BattlePetReceiveFlag == FALSE ){
-											// ╦└дєд╟ЯoддХr
+											// цн╗уВУуБзoуБДr
 											if( pet[ i ].hp > 0 ){ 
-												// ╧╚░k╦═╨┼
+												// хЕИkщАБф┐б
 												lssproto_KS_send( sockfd, i );
-												// ╩▄╨┼┤¤д┴е╒еще░г╧г╬
+												// хПЧф┐бх╛ЕуБбуГХуГйуВ░я╝пя╝о
 												BattlePetReceiveFlag = TRUE;
-												// е╨е╚еы╩▄╨┼╓╨д╬е┌е├е╚╖м║┼╙ЫСЫ
+												// уГРуГИуГлхПЧф┐бф╕нуБоуГЪуГГуГИчХкхП╖
 												BattlePetReceivePetNo = i;
-												play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+												play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 											}else{
-												play_se( 220, 320, 240 ); // г╬г╟╥Ї
+												play_se( 220, 320, 240 ); // я╝оя╝зщЯ│
 											}
 										}else{
-											// есй`еые▄е┐еєд╩ддХr
+											// уГб`уГлуГЬуВ┐уГ│уБкуБДr
 											if( pc.mailPetNo == -1 ){
 												pc.mailPetNo = i;
 											}
-											// г▓▄Кд╦д╣ды
+											// я╝ТуБлуБЩуВЛ
 											pc.selectPetNo[ i ] = FALSE;
-											BattlePetStMenCnt--; // ележеєе┐й`е▐еде╩е╣
-											play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+											BattlePetStMenCnt--; // уВлуВжуГ│уВ┐`уГЮуВдуГКуВ╣
+											play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 										}
 									}else
-									// г▓▄Кд╬Хr
+									// я╝ТуБоr
 									if( pc.selectPetNo[ i ] == FALSE ){
-										// е┘еєе┴дм┐╒ддд╞д┐дщ
+										// уГЩуГ│уГБуБМчй║уБДуБжуБЯуВЙ
 										if( BattlePetStMenCnt < 3 ){
-											// е╣е┐есеєд╦д╣ды
+											// уВ╣уВ┐уГбуГ│уБлуБЩуВЛ
 											pc.selectPetNo[ i ] = TRUE;
-											BattlePetStMenCnt++; // ележеєе┐й`е╫еще╣
-											play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+											BattlePetStMenCnt++; // уВлуВжуГ│уВ┐`уГЧуГйуВ╣
+											play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 										}else{
-											// есй`еые▄е┐еєд╩ддХr
+											// уГб`уГлуГЬуВ┐уГ│уБкуБДr
 											if( pc.mailPetNo == -1 ){
 												pc.mailPetNo = i;
-												play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+												play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 											}else{
-												play_se( 220, 320, 240 ); // г╬г╟╥Ї
+												play_se( 220, 320, 240 ); // я╝оя╝зщЯ│
 											}
 										}
 									}
 								}
-								// ╘Ф╝Ъежегеєе╔еж▀xТkд╖д┐Хr
+								// уВжуВгуГ│уГЙуВжxkуБЧуБЯr
 								if( HitFontNo == petWndFontNo[ i + 5 ] ){
-									petStatusNo = i; // е┌е├е╚╖м║┼╙ЫСЫ
+									petStatusNo = i; // уГЪуГГуГИчХкхП╖
 									petWndNo = 1;
-									// ежегеєе╔еж─иЪв
+									// уВжуВгуГ│уГЙуВжцК╣
 									DeathAction( pActMenuWnd );
 									pActMenuWnd = NULL;
-									// ежегеєе╔ежщ_дп╥Ї
+									// уВжуВгуГ│уГЙуВж_уБПщЯ│
 									play_se( 202, 320, 240 );
 								}
 								
 							}
 						}
-						// щ]д╕ды
+						// ]уБШуВЛ
 						if( HitDispNo == petWndFontNo[ 10 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е┌е├е╚ежегеєе╔ежщ]д╕ды
+							// уГЪуГГуГИуВжуВгуГ│уГЙуВж]уБШуВЛ
 							MenuToggleFlag ^= JOY_CTRL_P;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
-							// е╤ещесй`е┐е╗й`е╓
+							// уГСуГйуГб`уВ┐уВ╗`уГЦ
 							saveUserSetting();
 						}
-						// ╘Ф╝Ъе▄е┐еє
+						// уГЬуВ┐уГ│
 						if( HitDispNo == petWndFontNo[ 11 ] ){
-							petStatusNo = 0; // е┌е├е╚╖м║┼╙ЫСЫ
-							// е┌е├е╚дддыдле┴езе├еп
+							petStatusNo = 0; // уГЪуГГуГИчХкхП╖
+							// уГЪуГГуГИуБДуВЛуБЛуГБуВзуГГуВп
 							for( i = 0 ; i < 5 ; i++ ){
-								// д│д╬Щ┌д╦е┌е├е╚дмдддыХr
+								// уБУуБохЖешб░шоац░Уш╢гуБДr
 								if( pet[ i ].useFlag == TRUE ){ 
 									petStatusNo = i;
 									break;
 								}
 							}
 							petWndNo = 1;
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ежегеєе╔ежщ_дп╥Ї
+							// уВжуВгуГ│уГЙуВж_уБПщЯ│
 							play_se( 202, 320, 240 );
 						}
 					}
-					// ╙╥епеъе├епд╖д┐Хr
+					// хП│уВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_RIGHT_CRICK ){
-						// е┌е├е╚д╬╩¤╖╓еый`е╫
+						// уГЪуГГуГИуБоцХ░хИЖуГл`уГЧ
 						for( i = 0 ; i < 5 ; i++ ){
-							// д│д╬Щ┌д╦е┌е├е╚дмдддыХr
+							// уБУуБохЖешб░шоац░Уш╢гуБДr
 							if( pet[ i ].useFlag == TRUE && eventWarpSendFlag == FALSE ){
-								// е┌е├е╚▀xТkд╖д┐Хr
+								// уГЪуГГуГИxkуБЧуБЯr
 								if( HitFontNo == petWndFontNo[ i + 5 ] ){
-									// е┌е├е╚дм║╧│╔╓╨д╕дуЯoддХr
+									// уГЪуГГуГИуБМхРИцИРф╕нуБШуВГoуБДr
 									if( ItemMixPetNo != i ){
-										// е┌е├е╚дЄ╓├дп╦═╨┼
+										// уГЪуГГуГИуВТч╜оуБПщАБф┐б
 										lssproto_DP_send( sockfd, nowGx, nowGy, i );
-										// е╣е┐есеєд╬Хr
+										// уВ╣уВ┐уГбуГ│уБоr
 										if( pc.selectPetNo[ i ] == TRUE ){
-											pc.selectPetNo[ i ] = FALSE; // г▓▄К┬фд┴
-											BattlePetStMenCnt--; // ележеєе┐й`е▐еде╩е╣
+											pc.selectPetNo[ i ] = FALSE; // я╝ТшР╜уБб
+											BattlePetStMenCnt--; // уВлуВжуГ│уВ┐`уГЮуВдуГКуВ╣
 										}
-										// ╧╚░kд╬Хr
+										// хЕИkуБоr
 										if( i == pc.battlePetNo ){
-											// ╧╚░kд╩д╖д╦д╣ды
+											// хЕИkуБкуБЧуБлуБЩуВЛ
 											lssproto_KS_send( sockfd, -1 );
 										}
-										// есй`еыд╬Хr
+										// уГб`уГлуБоr
 										if( pc.mailPetNo == i ){
 											pc.mailPetNo = -1;
 										}
-										play_se( 217, 320, 240 ); // епеъе├еп╥Ї
+										play_se( 217, 320, 240 ); // уВпуГкуГГуВпщЯ│
 									}else{
-										// г╬г╟╥Ї
+										// я╝оя╝зщЯ│
 										play_se( 220, 320, 240 );
 									}
 								}
 							}
 						}
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 					
 						int flag = FALSE;
@@ -3211,100 +3211,100 @@ void MenuProc( void )
 						int atrFlag = FALSE;
 						int atrGraNo[ 4 ];
 						
-						// ╥╗╨╨едеєе╒ей
-						//strcpy( OneLineInfoStr, "е┌е├е╚дЄ▀xТkд╖д╞дпд└д╡ддбг");
-						// ╫∙Ш╦╘O╢и
+						// ф╕АшбМуВдуГ│уГХуВй
+						//strcpy( OneLineInfoStr, "уГЪуГГуГИуВТxkуБЧуБжуБПуБауБХуБДуАВ");
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 16 + 50, y = pActMenuWnd->y + 31;
-						// е┌е├е╚╖╓еый`е╫
+						// уГЪуГГуГИхИЖуГл`уГЧ
 						for( i = 0 ; i < 5 ; i++ ){
-							// д│д╬Щ┌д╦е┌е├е╚дмдддыХr
+							// уБУуБохЖешб░шоац░Уш╢гуБДr
 							if( pet[ i ].useFlag == TRUE ){
 							
-								color = FONT_PAL_WHITE;		// е╟е╒ейеые╚╔л
-								//color = FONT_PAL_RED;		// е╟е╒ейеые╚╔л
-								btnNo = 0;					// е╟е╒ейеые╚╨▌д▀
-								// е╣е┐есеє╚ыдъд╬Хr
+								color = FONT_PAL_WHITE;		// уГЗуГХуВйуГлуГИшЙ▓
+								//color = FONT_PAL_RED;		// уГЗуГХуВйуГлуГИшЙ▓
+								btnNo = 0;					// уГЗуГХуВйуГлуГИф╝СуБ┐
+								// уВ╣уВ┐уГбуГ│хЕеуВКуБоr
 								if( pc.selectPetNo[ i ] == TRUE ){ 
 									color = FONT_PAL_AQUA; 		
 									//color = FONT_PAL_WHITE; 		
 									btnNo = 2;
 								}
-								// ╧╚░kд╬Хr
+								// хЕИkуБоr
 								if( i == pc.battlePetNo ){
 									color = FONT_PAL_YELLOW;
 									btnNo = 1;
 								}
-								// есй`еыд╬Хr
+								// уГб`уГлуБоr
 								if( i == pc.mailPetNo ){
 									//color = FONT_PAL_PURPLE;
 									color = FONT_PAL_GREEN;
 									btnNo = 3;
 								}
-								// ├√╟░д╬╬─╫╓┴╨╫ў│╔
-								// двд└├√дмдвдыХr
+								// хРНхЙНуБоцЦЗхнЧхИЧф╜ЬцИР
+								// уБВуБахРНуБМуБВуВЛr
 								if( pet[ i ].freeName[ 0 ] != NULL ){
 									//sprintf( moji, "%s", pet[ i ].freeName );
-									// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+									// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 									CenteringStr( pet[ i ].freeName, moji, PET_NAME_LEN );
 								}else{
 									//sprintf( moji, "%s", pet[ i ].name );
-									// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+									// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 									CenteringStr( pet[ i ].name, moji, PET_NAME_LEN );
 								}
 								petWndFontNo[ i + 5 ] = StockFontBuffer( x + 3, y, FONT_PRIO_FRONT, color, moji, 2 ); y += 24;
 									
 								atrFlag = FALSE;
-								// ╩Ї╨╘▒э╩╛
-								if( pet[ i ].earth > 0 ){	// ╡╪
-									// ┤єд╬Хr
+								// х▒ЮцАзшбичд║
+								if( pet[ i ].earth > 0 ){	// хЬ░
+									// хдзуБоr
 									if( pet[ i ].earth > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_EARTH_BIG;
-									// ╨бд╬Хr
+									// х░ПуБоr
 									else atrGraNo[ atrFlag ] = CG_ATR_ICON_EARTH_SML;
-									atrFlag++; // е╒еще░г╧г╬
+									atrFlag++; // уГХуГйуВ░я╝пя╝о
 								}
-								if( pet[ i ].water > 0 ){	// ╦о
-									// ┤єд╬Хr
+								if( pet[ i ].water > 0 ){	// ц░┤
+									// хдзуБоr
 									if( pet[ i ].water > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_WATER_BIG;
-									// ╨бд╬Хr
+									// х░ПуБоr
 									else atrGraNo[ atrFlag ] = CG_ATR_ICON_WATER_SML;
-									atrFlag++; // е╒еще░г╧г╬
+									atrFlag++; // уГХуГйуВ░я╝пя╝о
 								}
-								if( pet[ i ].fire > 0 ){	// ╗Ё
-									// ┤єд╬Хr
+								if( pet[ i ].fire > 0 ){	// чБл
+									// хдзуБоr
 									if( pet[ i ].fire > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_FIRE_BIG;
-									// ╨бд╬Хr
+									// х░ПуБоr
 									else atrGraNo[ atrFlag ] = CG_ATR_ICON_FIRE_SML;
-									atrFlag++; // е╒еще░г╧г╬
+									atrFlag++; // уГХуГйуВ░я╝пя╝о
 								}
-								if( pet[ i ].wind > 0 ){	// яL
-									// ┤єд╬Хr
+								if( pet[ i ].wind > 0 ){	// L
+									// хдзуБоr
 									if( pet[ i ].wind > 50 ) atrGraNo[ atrFlag ] = CG_ATR_ICON_WIND_BIG;
-									// ╨бд╬Хr
+									// х░ПуБоr
 									else atrGraNo[ atrFlag ] = CG_ATR_ICON_WIND_SML;
-									atrFlag++; // е╒еще░г╧г╬
+									atrFlag++; // уГХуГйуВ░я╝пя╝о
 								}
-								// ╥╗ВА─┐
+								// ф╕АчЫо
 								if( atrFlag > 0 ) StockDispBuffer( pActMenuWnd->x + 228, y - 16, DISP_PRIO_IME3, atrGraNo[ 0 ], 0 );
-								// ╢■ВА─┐
+								// ф║МчЫо
 								if( atrFlag > 1 ) StockDispBuffer( pActMenuWnd->x + 228 + 16 , y - 16, DISP_PRIO_IME3, atrGraNo[ 1 ], 0 );
 								 
-								//petWndFontNo[ i + 5 ] = StockFontBuffer( x + 132 + 24 , y, FONT_PRIO_FRONT, color, "г╙г╘", 2 );
+								//petWndFontNo[ i + 5 ] = StockFontBuffer( x + 132 + 24 , y, FONT_PRIO_FRONT, color, "я╝│я╝┤", 2 );
 								petWndFontNo[ i ] = StockDispBuffer( x - 27, y - 14, DISP_PRIO_IME3, CG_PET_WND_REST_BTN + btnNo, 2 );
 								sprintf( moji, "%3d   %4d %4d", pet[ i ].level, pet[ i ].hp, pet[ i ].maxHp );
 								//sprintf( moji, "999   9999 9999", pet[ i ].level, pet[ i ].hp );
-								//sprintf( moji, "ббббLV %2d  HP %4d/%4d", pet[ i ].level, pet[ i ].hp, pet[ i ].maxHp );
+								//sprintf( moji, "уААуААLV %2d  HP %4d/%4d", pet[ i ].level, pet[ i ].hp, pet[ i ].maxHp );
 								StockFontBuffer( x + 26 + 27, y, FONT_PRIO_FRONT, color, 	moji, 0 ); y += 27;
 								flag = TRUE;
 							}
 						}
-						// е┌е├е╚дмддд╩ддХr
+						// уГЪуГГуГИуБМуБДуБкуБДr
 						if( flag != TRUE ){ 
-							// щ]д╕ды▒э╩╛
+							// ]уБШуВЛшбичд║
 							petWndFontNo[ 10 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, pActMenuWnd->y + 299, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
-							StockFontBuffer( x + 10, y, FONT_PRIO_FRONT, 0, "е┌е├е╚дЄ│╓д├д╞д▐д╗дє", 0 ); y += 40;
+							StockFontBuffer( x + 10, y, FONT_PRIO_FRONT, 0, "уГЪуГГуГИуВТцМБуБгуБжуБ╛уБЫуВУ", 0 ); y += 40;
 						}else{
-							// щ]д╕ды▒э╩╛
-							//petWndFontNo[ 10 ] = StockFontBuffer( x + 44, y, FONT_PRIO_FRONT, FONT_PAL_AQUA,  "ббббщ] д╕ дыбббб", 2 );
+							// ]уБШуВЛшбичд║
+							//petWndFontNo[ 10 ] = StockFontBuffer( x + 44, y, FONT_PRIO_FRONT, FONT_PAL_AQUA,  "уААуАА] уБШ уВЛуААуАА", 2 );
 							petWndFontNo[ 10 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 56, pActMenuWnd->y + 299, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 							petWndFontNo[ 11 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx - 56, pActMenuWnd->y + 299, DISP_PRIO_IME3, CG_PET_WND_STATUS_BTN, 2 );
 						}
@@ -3313,312 +3313,312 @@ void MenuProc( void )
 			}
 			break;
 			
-		case 1: // е┌е├е╚д╬╘Ф╝Ъежегеєе╔еж
+		case 1: // уГЪуГГуГИуБоуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 16, 16, 4, 7, CG_WND_TITLE_SYSTEM, 1 );
 				
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 332, 0, -1 );
 				
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// е┌е├е╚╘Ф╝Ъежегеєе╔еж▒э╩╛
+					// уГЪуГГуГИуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_PET_WND_DETAIL, 1 );
-					// е┌е├е╚евепе╖ечеєевепе╖ечеєд╩ддХr
+					// уГЪуГГуГИуВвуВпуВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уБкуБДr
 					if( pActPet == NULL ){
-						// е┌е├е╚евепе╖ечеє╫ў│╔
+						// уГЪуГГуГИуВвуВпуВ╖уГзуГ│ф╜ЬцИР
 						pActPet = MakeAnimDisp( pActMenuWnd->x + 200, pActMenuWnd->y + 144, pet[ petStatusNo ].graNo, ANIM_DISP_PET );
 					}
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// е┌е├е╚╥╗╙Eежегеєе╔ежд╦С°ды
+						// уГЪуГГуГИф╕АEуВжуВгуГ│уГЙуВжуБл
 						if( HitDispNo == petWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// е┌е├е╚╥╗╙Eежегеєе╔ежд╦д╣ды
+							// уГЪуГГуГИф╕АEуВжуВгуГ│уГЙуВжуБлуБЩуВЛ
 							petWndNo = 0;	
-							// ├√╟░Йф╕№ежегеєе╔еж─иЪв
+							// хРНхЙНц╢У╬Хя╝ЕшЮЧф╕з╬┤
 							DeathAction( pActMenuWnd3 );
 							pActMenuWnd3 = NULL;
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
-						// е┌е├е╚д╬╝╝е▄е┐еє
+						// уГЪуГГуГИуБоцКАуГЬуВ┐уГ│
 						if( HitDispNo == petWndFontNo[ 4 ] ){
-							// ╝╝ежегеєе╔еж╖м║┼
+							// цКАуВжуВгуГ│уГЙуВжчХкхП╖
 							petWndNo = 2;
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// е┌е├е╚╥╗╙Eежегеєе╔ежд╦д╣ды
+							// уГЪуГГуГИф╕АEуВжуВгуГ│уГЙуВжуБлуБЩуВЛ
 							petWndNo = 2;	
-							// ├√╟░Йф╕№ежегеєе╔еж─иЪв
+							// хРНхЙНц╢У╬Хя╝ЕшЮЧф╕з╬┤
 							DeathAction( pActMenuWnd3 );
 							pActMenuWnd3 = NULL;
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
-							// ежегеєе╔ежщ_дп╥Ї
+							// уВжуВгуГ│уГЙуВж_уБПщЯ│
 							play_se( 202, 320, 240 );
 						}
 					}
-					// ╟░д╬е┌е├е╚д╬е╣е╞й`е┐е╣
+					// хЙНуБоуГЪуГГуГИуБоуВ╣уГЖ`уВ┐уВ╣
 					if( HitDispNo == petWndFontNo[ 1 ] || joy_auto[ 0 ] & JOY_A ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						//if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A ){
-							// ├√╟░Йф╕№ежегеєе╔еждмдвдыХr
+							// хРНхЙНц╢У╬Хя╝ЕшЮЧф╕з╬Фr
 							if( pActMenuWnd3 != NULL ){
-								// ежегеєе╔еж─иЪв
+								// уВжуВгуГ│уГЙуВжцК╣
 								DeathAction( pActMenuWnd3 );
 								pActMenuWnd3 = NULL;
-								// ╚ы┴же╒ейй`еле╣С°д╣
+								// хЕехКЫуГХуВй`уВлуВ╣
 								GetKeyInputFocus( &MyChatBuffer );
-								// ежегеєе╔ежщ]д╕ды╥Ї
+								// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 								play_se( 203, 320, 240 );
 							}
 							while( 1 ){
 								petStatusNo--;
-								// еъе▀е├е╚е┴езе├еп
+								// уГкуГЯуГГуГИуГБуВзуГГуВп
 								if( petStatusNo <= -1 ) petStatusNo = 4;
 								if( pet[ petStatusNo ].useFlag == TRUE ) break;
 							}
-							// еве╦есй`е╖ечеє╖м║┼Йф╕№
+							// уВвуГЛуГб`уВ╖уГзуГ│чХкхП╖ц╢У
 							pActPet->anim_chr_no = pet[ petStatusNo ].graNo;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 ); 
 							petWndBtnFlag[ 1 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && petWndBtnFlag[ 1 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							petWndBtnFlag[ 1 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							petWndBtnFlag[ 1 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						petWndBtnFlag[ 1 ] = FALSE;
 					}
-					// ┤╬д╬е┌е├е╚д╬е╣е╞й`е┐е╣
+					// цмбуБоуГЪуГГуГИуБоуВ╣уГЖ`уВ┐уВ╣
 					if( HitDispNo == petWndFontNo[ 2 ] || joy_auto[ 0 ] & JOY_B ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						//if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
-							// ├√╟░Йф╕№ежегеєе╔еждмдвдыХr
+							// хРНхЙНц╢У╬Хя╝ЕшЮЧф╕з╬Фr
 							if( pActMenuWnd3 != NULL ){
-								// ежегеєе╔еж─иЪв
+								// уВжуВгуГ│уГЙуВжцК╣
 								DeathAction( pActMenuWnd3 );
 								pActMenuWnd3 = NULL;
-								// ╚ы┴же╒ейй`еле╣С°д╣
+								// хЕехКЫуГХуВй`уВлуВ╣
 								GetKeyInputFocus( &MyChatBuffer );
-								// ежегеєе╔ежщ]д╕ды╥Ї
+								// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 								play_se( 203, 320, 240 );
 							}
 							while( 1 ){
 								petStatusNo++;
-								// еъе▀е├е╚е┴езе├еп
+								// уГкуГЯуГГуГИуГБуВзуГГуВп
 								if( petStatusNo >= 5 ) petStatusNo = 0;
 								if( pet[ petStatusNo ].useFlag == TRUE ) break;
 							}
-							// еве╦есй`е╖ечеє╖м║┼Йф╕№
+							// уВвуГЛуГб`уВ╖уГзуГ│чХкхП╖ц╢У
 							pActPet->anim_chr_no = pet[ petStatusNo ].graNo;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 ); 
 							petWndBtnFlag[ 2 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && petWndBtnFlag[ 2 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							petWndBtnFlag[ 2 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							petWndBtnFlag[ 2 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						petWndBtnFlag[ 2 ] = FALSE;
 					}
-					// ├√╟░Йф╕№е▄е┐еє
+					// хРНхЙНц╢УхаАщкП
 					if( HitDispNo == petWndFontNo[ 3 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// ├√╕╢д▒╙Hд╬ХrгиЙф╕№┐╔─▄гй
+							// хРНф╗ШуБСHуБоrя╝Иц╢Уш╡бхЯ╜
 							if( pet[ petStatusNo ].changeNameFlag == TRUE ){
 								if( pActMenuWnd3 == NULL ){
-									// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+									// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 									//pActMenuWnd3 = MakeWindowDisp( 16, 16 + 280 + 56, 4, 2, NULL, 1 );
 									pActMenuWnd3 = MakeWindowDisp( 4, 4 + 280 + 56, 272, 88, 0, -1 );
-									// ежегеєе╔ежщ_дп╥Ї
+									// уВжуВгуГ│уГЙуВж_уБПщЯ│
 									play_se( 202, 320, 240 );
-									// ├√╟░дЄе│е╘й`
+									// хРНхЙНуВТуВ│уГФ`
 									//strcpy( petNameChange.buffer, pet[ petStatusNo ].name );
 									petNameChange.buffer[ 0 ] = NULL;
 									petNameChange.cnt = 0;
-									// ╬─╫╓┴╨д╬щLд╡
+									// цЦЗхнЧхИЧуБоLуБХ
 									petNameChange.len = 16;
-									// ╬─╫╓┴╨д╬╔л
+									// цЦЗхнЧхИЧуБошЙ▓
 									petNameChange.color = 0;
-									// ╬─╫╓┴╨д╬╫∙Ш╦
+									// цЦЗхнЧхИЧуБох║з
 									petNameChange.x = pActMenuWnd3->x + 22;
 									petNameChange.y = pActMenuWnd3->y + 25;
-									// ╬─╫╓┴╨д╬▒э╩╛ГЮ╧╚эШ╬╗
+									// цЦЗхнЧхИЧуБошбичд║хЕИф╜Н
 									petNameChange.fontPrio = FONT_PRIO_FRONT;
-								}else{	// ежегеєе╔еждвд├д┐дщщ]д╕ды
-									// ежегеєе╔еж─иЪв
+								}else{	// уВжуВгуГ│уГЙуВжуБВуБгуБЯуВЙ]уБШуВЛ
+									// уВжуВгуГ│уГЙуВжцК╣
 									DeathAction( pActMenuWnd3 );
 									pActMenuWnd3 = NULL;
-									// ╚ы┴же╒ейй`еле╣С°д╣
+									// хЕехКЫуГХуВй`уВлуВ╣
 									GetKeyInputFocus( &MyChatBuffer );
-									// ежегеєе╔ежщ]д╕ды╥Ї
+									// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 									play_se( 203, 320, 240 );
 								}		
 								petWndBtnFlag[ 3 ] = TRUE;
 								
 							}else{
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && petWndBtnFlag[ 3 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							petWndBtnFlag[ 3 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							petWndBtnFlag[ 3 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						petWndBtnFlag[ 3 ] = FALSE;
 					}
-					// ╨┤╒цдЄ┤щдые▄е┐еє
+					// хЖЩчЬЯуВТцТоуВЛуГЬуВ┐уГ│
 					if( HitDispNo == petWndFontNo[ 7 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							int tblNo = pet[ petStatusNo ].graNo - 100250; // е╞й`е╓еыд╬╖м║┼
+							int tblNo = pet[ petStatusNo ].graNo - 100250; // уГЖ`уГЦуГлуБочХкхП╖
 							int albumNo;
-							// еиещй`е┴езе├еп
+							// уВиуГй`уГБуВзуГГуВп
 							if( 0 <= tblNo && tblNo < MAX_PET_TBL ){
-							// е╞й`е╓еы╖╓еый`е╫
+							// уГЖ`уГЦуГлхИЖуГл`уГЧ
 							//for( tblNo = 0 ; tblNo < MAX_PET_TBL ; tblNo++ ){
-								// ╜ё╗╪╡╟хhд╣дыевеые╨ерд╬╖м║┼
+								// ф╗КхЫЮчЩ╗hуБЩуВЛуВвуГлуГРуГауБочХкхП╖
 								albumNo = PetAlbumTbl[ tblNo ].albumNo;
-								// е╞й`е╓еыд╦двдыХr
+								// уГЖ`уГЦуГлуБлуБВуВЛr
 								if( albumNo != -1 ){
-									// ╨┤╒ц┤щд├д┐е╒еще░г╧г╬
+									// хЖЩчЬЯцТоуБгуБЯуГХуГйуВ░я╝пя╝о
 									PetAlbum[ albumNo ].flag = 2;
 									
-									// двд└├√дмдвдыХr
+									// уБВуБахРНуБМуБВуВЛr
 									if( pet[ petStatusNo ].freeName[ 0 ] != NULL ){
 										strcpy( PetAlbum[ albumNo ].freeName, pet[ petStatusNo ].freeName );
 									}else{
-										// ▒╛├√е│е╘й`
+										// цЬмхРНуВ│уГФ`
 										strcpy( PetAlbum[ albumNo ].freeName, PetAlbumTbl[ tblNo ].name );
 									}
-									// ▒╛├√е│е╘й`
+									// цЬмхРНуВ│уГФ`
 									strcpy( PetAlbum[ albumNo ].name, PetAlbumTbl[ tblNo ].name );
-									// юЖе░еще╒еге├еп╖м║┼
+									// уВ░уГйуГХуВгуГГуВпчХкхП╖
 									PetAlbum[ albumNo ].faceGraNo = PetAlbumTbl[ tblNo ].faceGraNo;
-									// еье┘еы
+									// уГмуГЩуГл
 									PetAlbum[ albumNo ].level = pet[ petStatusNo ].level;
-									// ╫ю┤єг╚г╨
+									// цЬАхдзя╝ия╝░
 									PetAlbum[ albumNo ].maxHp = pet[ petStatusNo ].maxHp;
-									// ═є┴ж
+									// шЕХхКЫ
 									PetAlbum[ albumNo ].str = pet[ petStatusNo ].atk;
-									// ╦╪╘чд╡
+									// ч┤ацЧйуБХ
 									PetAlbum[ albumNo ].quick = pet[ petStatusNo ].quick;
-									// ╖└╙∙
+									// щШ▓х╛б
 									PetAlbum[ albumNo ].def = pet[ petStatusNo ].def;
 									
-									// ╡╪
+									// хЬ░
 									PetAlbum[ albumNo ].earth = pet[ petStatusNo ].earth;
-									// ╦о
+									// ц░┤
 									PetAlbum[ albumNo ].water = pet[ petStatusNo ].water;
-									// ╗Ё
+									// чБл
 									PetAlbum[ albumNo ].fire = pet[ petStatusNo ].fire;
-									// яL
+									// L
 									PetAlbum[ albumNo ].wind = pet[ petStatusNo ].wind;
 								
-									// ╨┤╒цдЄ┤щды╥Ї
+									// хЖЩчЬЯуВТцТоуВЛщЯ│
 									play_se( 201, 320, 240 );
-									// ╥╗╨╨едеєе╒ейд╦▒э╩╛
-									sprintf( moji,"%s д╬╨┤╒цдЄ┤щд├д┐гб", PetAlbum[ albumNo ].freeName );
-									// е┴еуе├е╚╬─╫╓дЄе╨е├е╒ебд╦┴ядсдыги╥╗╨╨гй
+									// ф╕АшбМуВдуГ│уГХуВйуБлшбичд║
+									sprintf( moji,"%s уБохЖЩчЬЯуВТцТоуБгуБЯя╝Б", PetAlbum[ albumNo ].freeName );
+									// уГБуГгуГГуГИцЦЗхнЧуВТуГРуГГуГХуВбуБлц║ЬуВБуВЛя╝Иф╕АшбМя╝Й
 									StockChatBufferLine( moji, FONT_PAL_WHITE );
 									
 									petWndBtnFlag[ 7 ] = TRUE;
-									// евеые╨ерд╬▒г┤ц 
+									// уВвуГлуГРуГауБоф┐ЭхнШ 
 									SaveAlbum( albumNo );
 									
 								}else{
-									// г╬г╟╥Ї
+									// я╝оя╝зщЯ│
 									play_se( 220, 320, 240 );
 #ifdef _DEBUG		
-		sprintf( moji,"е░еще╒еге├еп╖м║┼дмдкдлд╖дддлдт %d",pet[ petStatusNo ].graNo );
-		MessageBox( hWnd, moji, "┤_╒J", MB_OK | MB_ICONSTOP );
+		sprintf( moji,"уВ░уГйуГХуВгуГГуВпчХкхП╖уБМуБКуБЛуБЧуБДуБЛуВВ %d",pet[ petStatusNo ].graNo );
+		MessageBox( hWnd, moji, "_J", MB_OK | MB_ICONSTOP );
 #endif
 							//	}
 								}
 							}else{
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 #ifdef _DEBUG		
-		sprintf( moji,"е┌е├е╚д╬е╞й`е╓еы╖м║┼дмдкдлд╖дддлдт %d",tblNo );
-		MessageBox( hWnd, moji, "┤_╒J", MB_OK | MB_ICONSTOP );
+		sprintf( moji,"уГЪуГГуГИуБоуГЖ`уГЦуГлчХкхП╖уБМуБКуБЛуБЧуБДуБЛуВВ %d",tblNo );
+		MessageBox( hWnd, moji, "_J", MB_OK | MB_ICONSTOP );
 #endif
 							}
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && petWndBtnFlag[ 7 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							petWndBtnFlag[ 7 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							petWndBtnFlag[ 7 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						petWndBtnFlag[ 7 ] = FALSE;
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 					
 					#define PET_WND_ATTR_X 159
 					#define PET_WND_ATTR_Y 5
 					
-						int x2; // есй`е┐й`д╬щLд╡
-						// ╫∙Ш╦╘O╢и
+						int x2; // уГб`уВ┐`уБоLуБХ
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 20;
 						y = pActMenuWnd->y + 35;
 						
-						// двд└├√дмдвдыХr
+						// уБВуБахРНуБМуБВуВЛr
 						if( pet[ petStatusNo ].freeName[ 0 ] != NULL )
 							//sprintf( moji,"%s", pet[ petStatusNo ].freeName );
-							// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+							// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 							CenteringStr( pet[ petStatusNo ].freeName, moji, PET_NAME_LEN );
 						else
 							//sprintf( moji,"%s", pet[ petStatusNo ].name );
-							// ╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+							// цЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 							CenteringStr( pet[ petStatusNo ].name, moji, PET_NAME_LEN );
 						StockFontBuffer( x - 7, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24; 
-						//StockFontBuffer( x - 7, y, FONT_PRIO_FRONT, 0, "╩└┤·▒э╩╛", 0 ); 
-						// ├√╟░Йф╕№
+						//StockFontBuffer( x - 7, y, FONT_PRIO_FRONT, 0, "ф╕Цф╗гшбичд║", 0 ); 
+						// хРНхЙНц╢У
 						petWndFontNo[ 3 ] = StockDispBuffer( x + 66, y + 7, DISP_PRIO_IME3, CG_NAME_CHANGE_BTN + petWndBtnFlag[ 3 ], 2 );
 						y += 23;
 						sprintf( moji,"%3d",pet[ petStatusNo ].level );
@@ -3640,7 +3640,7 @@ void MenuProc( void )
 						sprintf( moji, "%4d", pet[ petStatusNo ].maxHp );
 						StockFontBuffer( x + 48 + 45, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
 						
-						// ╡╪╩Ї╨╘двдыХr
+						// хЬ░х▒ЮцАзуБВуВЛr
 						if( pet[ petStatusNo ].earth > 0 ){
 							x2 = ( int )( pet[ petStatusNo ].earth * 0.8 );
 							StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_GREEN, 1 );
@@ -3651,7 +3651,7 @@ void MenuProc( void )
 						sprintf( moji, "%3d", pet[ petStatusNo ].atk );
 						StockFontBuffer( x + 50, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
 						
-						// ╦о╩Ї╨╘двдыХr
+						// ц░┤х▒ЮцАзуБВуВЛr
 						if( pet[ petStatusNo ].water > 0 ){
 							x2 = ( int )( pet[ petStatusNo ].water * 0.8 );
 							//StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_BLUE, 1 );
@@ -3666,7 +3666,7 @@ void MenuProc( void )
 						sprintf( moji, "%3d", pet[ petStatusNo ].def );
 						StockFontBuffer( x + 50, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
 						
-						// ╗Ё╩Ї╨╘двдыХr
+						// чБлх▒ЮцАзуБВуВЛr
 						if( pet[ petStatusNo ].fire > 0 ){
 							x2 = ( int )( pet[ petStatusNo ].fire * 0.8 );
 							StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_RED, 1 );
@@ -3677,7 +3677,7 @@ void MenuProc( void )
 						sprintf( moji, "%3d", pet[ petStatusNo ].quick );
 						StockFontBuffer( x + 50, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
 						
-						// яL╩Ї╨╘двдыХr
+						// Lх▒ЮцАзуБВуВЛr
 						if( pet[ petStatusNo ].wind > 0 ){
 							x2 = ( int )( pet[ petStatusNo ].wind * 0.8 );
 							StockBoxDispBuffer( x + PET_WND_ATTR_X + 0, y + PET_WND_ATTR_Y + 0, x + PET_WND_ATTR_X + 0 + x2, y + PET_WND_ATTR_Y + 8, DISP_PRIO_IME4, SYSTEM_PAL_YELLOW, 1 );
@@ -3688,13 +3688,13 @@ void MenuProc( void )
 						sprintf( moji, "%3d", pet[ petStatusNo ].ai );
 						StockFontBuffer( x + 50, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
 						
-					//	sprintf( moji, "Fire г║%4d  Waterг║%4d", pet[ petStatusNo ].fire, pet[ petStatusNo ].water );
+					//	sprintf( moji, "Fire я╝Ъ%4d  Waterя╝Ъ%4d", pet[ petStatusNo ].fire, pet[ petStatusNo ].water );
 					//	StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
-					//	sprintf( moji, "Earthг║%4d  Wind г║%4d", pet[ petStatusNo ].earth, pet[ petStatusNo ].wind );
+					//	sprintf( moji, "Earthя╝Ъ%4d  Wind я╝Ъ%4d", pet[ petStatusNo ].earth, pet[ petStatusNo ].wind );
 					//	StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 24;
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						y += 12;
-						// ╨┤╒цдЄ┤щдые▄е┐еє
+						// хЖЩчЬЯуВТцТоуВЛуГЬуВ┐уГ│
 						petWndFontNo[ 7 ] = StockDispBuffer( x + 52, y, DISP_PRIO_IME3, CG_ALBUM_WND_SNAP_BTN_UP + petWndBtnFlag[ 7 ], 2 );
 						petWndFontNo[ 4 ] = StockDispBuffer( x + 178, y, DISP_PRIO_IME3, CG_PET_WND_WAZA_BTN, 2 ); y += 31;
 						petWndFontNo[ 0 ] = StockDispBuffer( x + 100 + 70, y, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
@@ -3704,43 +3704,43 @@ void MenuProc( void )
 				}
 			}
 			
-			// ├√╟░Йф╕№ежегеєе╔еждмдвдыХr
+			// хРНхЙНц╢У╬Хя╝ЕшЮЧф╕з╬Фr
 			if( pActMenuWnd3 != NULL ){
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd3->hp > 0 ){
-					// е┌е├е╚╘Ф╝Ъежегеєе╔еж▒э╩╛
+					// уГЪуГГуГИуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd3->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd3->pYobi )->my, DISP_PRIO_MENU, CG_NAME_CHANGE_WND, 1 );
-					// ╚ы┴же╒ейй`еле╣╚б╡├
+					// хЕехКЫуГХуВй`уВлуВ╣хПЦх╛Ч
 					GetKeyInputFocus( &petNameChange );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// ├√╟░Йф╕№г╧г╦е▄е┐еє
+						// хРНхЙНц╢Ух╕Мшб░хаАщкП
 						if( HitDispNo == petWndFontNo[ 5 ] ){
-							// еъе┐й`еєенй`ДI└э
+							// уГкуВ┐`уГ│уВн`IчРЖ
 							KeyboardReturn();
 						
 						}
-						// ├√╟░Йф╕№енеуеєе╗еые▄е┐еє
+						// хРНхЙНц╢УцВншЮЧф║Тцп│хаАщкП
 						if( HitDispNo == petWndFontNo[ 6 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd3 );
 							pActMenuWnd3 = NULL;
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+					// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 					if(	pActMenuWnd3 != NULL ){
-						// ╬─╫╓┴╨д╬▒э╩╛
+						// цЦЗхнЧхИЧуБошбичд║
 						StockFontBuffer2( &petNameChange );
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd3->x + 20;
 						y = pActMenuWnd3->y + 60;
-						//petWndFontNo[ 5 ] = StockFontBuffer( x + 8, y + 8, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" г╧г╦ ", 2 );
-						//petWndFontNo[ 6 ] = StockFontBuffer( x + 100, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" енеуеєе╗еы ", 2 );
+						//petWndFontNo[ 5 ] = StockFontBuffer( x + 8, y + 8, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" я╝пя╝л ", 2 );
+						//petWndFontNo[ 6 ] = StockFontBuffer( x + 100, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" уВнуГгуГ│уВ╗уГл ", 2 );
 						petWndFontNo[ 5 ] = StockDispBuffer( x + 60, y + 7, DISP_PRIO_IME3, CG_OK_BTN, 2 );
 						petWndFontNo[ 6 ] = StockDispBuffer( x + 170, y + 7, DISP_PRIO_IME3, CG_CANCEL_BTN, 2 );
 					}
@@ -3748,122 +3748,122 @@ void MenuProc( void )
 			}
 			break;
 			
-		case 2: // е┌е├е╚д╬╝╝ежегеєе╔еж
+		case 2: // уГЪуГГуГИуБоцКАуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 4, 4, 4, 7, CG_WND_TITLE_SYSTEM, 1 );
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 348, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// е┌е├е╚╝╝ежегеєе╔еж
+					// уГЪуГГуГИцКАуВжуВгуГ│уГЙуВж
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_PET_WAZA_WND, 1 );
-					// │╓д╞ды╝╝д╬╩¤╖╓еый`е╫
+					// цМБуБжуВЛцКАуБоцХ░хИЖуГл`уГЧ
 					for( i = 0 ; i < pet[ petStatusNo ].maxSkill ; i++ ){
 					//for( i = 0 ; i < 7 ; i++ ){
-						// ╝╝е┘й`е╣дЄ▒э╩╛
+						// цКАуГЩ`уВ╣уВТшбичд║
 						StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_PET_WAZA_BAR_1 + i, 1 );
 					}
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// е┌е├е╚╘Ф╝Ъежегеєе╔ежд╦С°ды
+						// уГЪуГГуГИуВжуВгуГ│уГЙуВжуБл
 						if( HitDispNo == petWndFontNo[ 7 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е┌е├е╚╥╗╙Eежегеєе╔ежд╦д╣ды
+							// уГЪуГГуГИф╕АEуВжуВгуГ│уГЙуВжуБлуБЩуВЛ
 							petWndNo = 1;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ╟░д╬е┌е├е╚д╬е╣е╞й`е┐е╣
+					// хЙНуБоуГЪуГГуГИуБоуВ╣уГЖ`уВ┐уВ╣
 					if( HitDispNo == petWndFontNo[ 8 ] || joy_auto[ 0 ] & JOY_A ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A ){
 							while( 1 ){
 								petStatusNo--;
-								// еъе▀е├е╚е┴езе├еп
+								// уГкуГЯуГГуГИуГБуВзуГГуВп
 								if( petStatusNo <= -1 ) petStatusNo = 4;
 								if( pet[ petStatusNo ].useFlag == TRUE ) break;
 							}
-							// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+							// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 							for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 ); 
 							petWndBtnFlag[ 8 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && petWndBtnFlag[ 8 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							petWndBtnFlag[ 8 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							petWndBtnFlag[ 8 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						petWndBtnFlag[ 8 ] = FALSE;
 					}
-					// ┤╬д╬е┌е├е╚д╬е╣е╞й`е┐е╣
+					// цмбуБоуГЪуГГуГИуБоуВ╣уГЖ`уВ┐уВ╣
 					if( HitDispNo == petWndFontNo[ 9 ] || joy_auto[ 0 ] & JOY_B ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
 							while( 1 ){
 								petStatusNo++;
-								// еъе▀е├е╚е┴езе├еп
+								// уГкуГЯуГГуГИуГБуВзуГГуВп
 								if( petStatusNo >= 5 ) petStatusNo = 0;
 								if( pet[ petStatusNo ].useFlag == TRUE ) break;
 							}
-							// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+							// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 							for( i = 0 ; i < MENU_PET_0 ; i++ ) petWndFontNo[ i ] = -2;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 ); 
 							petWndBtnFlag[ 9 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && petWndBtnFlag[ 9 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							petWndBtnFlag[ 9 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							petWndBtnFlag[ 9 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						petWndBtnFlag[ 9 ] = FALSE;
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 32;
 						y = pActMenuWnd->y + 252;
 						
-						// ╒h├ўЩ┌
+						// hцШО
 						for( i = 0 ; i < pet[ petStatusNo ].maxSkill ; i++ ){
 						//for( i = 0 ; i < 7 ; i++ ){
-							// д╜д╬Щ┌д╦╝╝двдыХr
+							// уБЭуБохЖецАЭц┐Аr
 							if( petSkill[ petStatusNo ][ i ].useFlag == TRUE ){
-								// ╡▒д┐д├д╞дддыХr
+								// х╜УуБЯуБгуБжуБДуВЛr
 								if( HitFontNo == petWndFontNo[ i ] ){
-									// ╕─╨╨е▌едеєе╚
+									// цФ╣шбМуГЭуВдуГ│уГИ
 									char *splitPoint = petSkill[ petStatusNo ][ i ].memo;
-									//char *splitPoint = "1▒э╩╛е╞е╣е╚д╟д╣бг╦╜д╬├√╟░д╧╠л╠я╒▄╔·д╟д╣бгд│дьдлдщдтдшдэд╖дпдкюКддд╖д▐д╣бг";
-									// ╝╝д╬╒h├ў▒э╩╛
-									// ╨╨╩¤╖╓еый`е╫
+									//char *splitPoint = "1шбичд║уГЖуВ╣уГИуБзуБЩуАВчзБуБохРНхЙНуБпхдкчФ░хУ▓чФЯуБзуБЩуАВуБУуВМуБЛуВЙуВВуВИуВНуБЧуБПуБКуБДуБЧуБ╛уБЩуАВ";
+									// цКАуБоhцШОшбичд║
+									// шбМцХ░хИЖуГл`уГЧ
 									while( 1 ){
-										// г▓г┤╬─╫╓дЄ│мдид╞д┐дщ╖╓╕ю
+										// я╝Тя╝ФцЦЗхнЧуВТш╢ЕуБИуБжуБЯуВЙхИЖхЙ▓
 										if( strlen( splitPoint ) > 24 ){
 											strncpy( moji, splitPoint, 24 );
-											moji[ 24 ] = NULL;	// ╜K╢╦╙Ы║┼дЄдддьды
-											// ╚л╜╟д╬░ы╖╓д└д├д┐Хr
+											moji[ 24 ] = NULL;	// KчлпхП╖уВТуБДуВМуВЛ
+											// хЕишзТуБохНКхИЖуБауБгуБЯr
 											if( GetStrLastByte( moji ) == 3 ){
 												moji[ 23 ] = NULL;
 												splitPoint += 23;
@@ -3879,107 +3879,107 @@ void MenuProc( void )
 										}
 									}
 #ifdef _DEBUG						
-									// ╙╥епеъе├епд╖д┐Хr
+									// хП│уВпуГкуГГуВпуБЧуБЯr
 									if( mouse.onceState & MOUSE_RIGHT_CRICK ){
-										// е╒егй`еые╔д╟╩╣дидыХr
+										// уГХуВг`уГлуГЙуБзф╜┐уБИуВЛr
 										if( petSkill[ petStatusNo ][ i ].field != PETSKILL_FIELD_BATTLE ){
 											int j;
 											int cnt = 0;
 											switch( petSkill[ petStatusNo ][ i ].skillId ){
 											
-												case PETSKILL_MERGE: 	// ╞╒═иеведе╞ер║╧│╔
-													// ╢■д─╥╘╔╧е╒еще░дм┴вд├д╞дддыдлдЄе┴езе├еп
+												case PETSKILL_MERGE: 	// цЩощАЪуВвуВдуГЖуГахРИцИР
+													// ф║МуБдф╗еф╕КуГХуГйуВ░уБМчлЛуБгуБжуБДуВЛуБЛуВТуГБуВзуГГуВп
 													for( j = 5 ; j < 20 ; j++ ){
 														if( ItemBuffer[ j ].mixFlag == 1 ) cnt++;
 													}
 													break;
 													
-												case PETSKILL_MERGE2: 	// ┴╧└эеведе╞ер║╧│╔
-													// ╢■д─╥╘╔╧е╒еще░дм┴вд├д╞дддыдлдЄе┴езе├еп
+												case PETSKILL_MERGE2: 	// цЦЩчРЖуВвуВдуГЖуГахРИцИР
+													// ф║МуБдф╗еф╕КуГХуГйуВ░уБМчлЛуБгуБжуБДуВЛуБЛуВТуГБуВзуГГуВп
 													for( j = 5 ; j < 20 ; j++ ){
 														if( ItemBuffer[ j ].mixFlag == 2 ) cnt++;
 													}
 													break;
 											}
 											
-											// ╢■д─╥╘╔╧┴вд├д╞ддд┐дщ
+											// ф║МуБдф╗еф╕КчлЛуБгуБжуБДуБЯуВЙ
 											if( cnt >= 2 ){
-												// ╬─╫╓│ї╞┌╗п
+												// цЦЗхнЧхИЭцЬЯхМЦ
 												moji[ 0 ] = NULL;
-												// ║╧│╔д╣дыеведе╞ердЄе┴езе├еп
+												// хРИцИРуБЩуВЛуВвуВдуГЖуГауВТуГБуВзуГГуВп
 												for( j = 5 ; j < 20 ; j++ ){
-													// ║╧│╔е╒еще░┴вд├д╞дддыХr
+													// хРИцИРуГХуГйуВ░члЛуБгуБжуБДуВЛr
 													if( ItemBuffer[ j ].mixFlag >= TRUE ){
 														char work[ 256 ];
-														// ╬─╫╓┴╨╫ў│╔
+														// цЦЗхнЧхИЧф╜ЬцИР
 														sprintf( work,"%d|", j );
 														strcat( moji, work );
-														// е╒еще░г╧г╞г╞
+														// уГХуГйуВ░я╝пя╝жя╝ж
 														ItemBuffer[ j ].mixFlag = FALSE;
 													}
 												}
-												// ╫юссд╬|дЄг╬г╒г╠г╠д╦д╣ды
+												// цЬАх╛МуБо|уВТя╝оя╝╡я╝мя╝муБлуБЩуВЛ
 												moji[ strlen( moji ) - 1 ] = NULL;
 												
-												// е┌е├е╚е╣енеы╩╣дждЄ╦═╨┼ги╜ёд╧║╧│╔д╖длд╩ддгй
+												// уГЪуГГуГИуВ╣уВнуГлф╜┐уБЖуВТщАБф┐бя╝Иф╗КуБпхРИцИРуБЧуБЛуБкуБДя╝Й
 												lssproto_PS_send( sockfd, petStatusNo, i, 0, moji );
 												
-												// еведе╞ер╩╣дж╥Ї
+												// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 												play_se( 212, 320, 240 );
 											}else{
-												// г╬г╟╥Ї
+												// я╝оя╝зщЯ│
 												play_se( 220, 320, 240 );
 											}
 										}else{
-											// г╬г╟╥Ї
+											// я╝оя╝зщЯ│
 											play_se( 220, 320, 240 );
 										}
 									}
 #endif									
-									// ╫єепеъе├епд╖д┐Хr
+									// х╖жуВпуГкуГГуВпуБЧуБЯr
 									if( mouse.onceState & MOUSE_LEFT_CRICK ){
-										// е╒егй`еые╔д╟╩╣дидыбвеведе╞ережегеєе╔еждмщ_ддд╞дддыбве┌е├е╚евепе╖ечеєдмЯoддХr
+										// уГХуВг`уГлуГЙуБзф╜┐уБИуВЛуАБуВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБМ_уБДуБжуБДуВЛуАБуГЪуГГуГИуВвуВпуВ╖уГзуГ│уБМoуБДr
 										if( petSkill[ petStatusNo ][ i ].field != PETSKILL_FIELD_BATTLE && pActPet2 == NULL && MenuToggleFlag & JOY_CTRL_I ){
 											int j;
 											int cnt = 0;
-											// ║╧│╔д╬╖NюРд╟╖╓ск
+											// хРИцИРуБоNуБзхИЖх▓Р
 											switch( petSkill[ petStatusNo ][ i ].skillId ){
 											
-												case PETSKILL_MERGE: 	// ╞╒═иеведе╞ер║╧│╔
-													// ╢■д─╥╘╔╧е╒еще░дм┴вд├д╞дддыдлдЄе┴езе├еп
+												case PETSKILL_MERGE: 	// цЩощАЪуВвуВдуГЖуГахРИцИР
+													// ф║МуБдф╗еф╕КуГХуГйуВ░уБМчлЛуБгуБжуБДуВЛуБЛуВТуГБуВзуГГуВп
 													for( j = 5 ; j < MAX_ITEM ; j++ ){
 														if( ItemBuffer[ j ].mixFlag == 1 ) cnt++;
 													}
 													break;
 													
-												case PETSKILL_MERGE2: 	// ┴╧└эеведе╞ер║╧│╔
-													// ╢■д─╥╘╔╧е╒еще░дм┴вд├д╞дддыдлдЄе┴езе├еп
+												case PETSKILL_MERGE2: 	// цЦЩчРЖуВвуВдуГЖуГахРИцИР
+													// ф║МуБдф╗еф╕КуГХуГйуВ░уБМчлЛуБгуБжуБДуВЛуБЛуВТуГБуВзуГГуВп
 													for( j = 5 ; j < MAX_ITEM ; j++ ){
 														if( ItemBuffer[ j ].mixFlag == 2 ) cnt++;
 													}
 													break;
 											}
 											
-											// ╢■д─╥╘╔╧┴вд├д╞ддд┐дщ
+											// ф║МуБдф╗еф╕КчлЛуБгуБжуБДуБЯуВЙ
 											if( cnt >= 2 ){
 											
-												// е┌е├е╚евепе╖ечеєевепе╖ечеєд╩ддХr
+												// уГЪуГГуГИуВвуВпуВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уБкуБДr
 												if( pActPet2 == NULL ){
-													// е┌е├е╚евепе╖ечеє╫ў│╔
+													// уГЪуГГуГИуВвуВпуВ╖уГзуГ│ф╜ЬцИР
 													pActPet2 = MakeAnimDisp( 750, 240, pet[ petStatusNo ].graNo, ANIM_DISP_MIX_PET_INIT );
-													// ║╧│╔е┌е├е╚╖м║┼╙ЫСЫ
+													// хРИцИРуГЪуГГуГИчХкхП╖
 													ItemMixPetNo = petStatusNo;
 												}
-												// ╝╝╖м║┼╙ЫСЫ
+												// цКАчХкхП╖
 												SelectWazaNo = i;
-												// еведе╞ер╩╣дж╥Ї
+												// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 												play_se( 212, 320, 240 );
 											}else{
-												// г╬г╟╥Ї
+												// я╝оя╝зщЯ│
 												play_se( 220, 320, 240 );
 											}
 										}else{
-											// г╬г╟╥Ї
+											// я╝оя╝зщЯ│
 											play_se( 220, 320, 240 );
 										}
 									}
@@ -3987,11 +3987,11 @@ void MenuProc( void )
 							}
 						}
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 40;
 						y = pActMenuWnd->y + 32;
 						
-						// двд└├√дмдвдыХr
+						// уБВуБахРНуБМуБВуВЛr
 						if( pet[ petStatusNo ].freeName[ 0 ] != NULL )
 							//sprintf( moji,"%s", pet[ petStatusNo ].freeName );
 							CenteringStr( pet[ petStatusNo ].freeName, moji, PET_NAME_LEN );
@@ -4000,34 +4000,34 @@ void MenuProc( void )
 							CenteringStr( pet[ petStatusNo ].name, moji, PET_NAME_LEN );
 						StockFontBuffer( x - 28, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 26; x += 18;
 						
-						// ╝╝▒э╩╛
+						// цКАшбичд║
 						for( i = 0 ; i < pet[ petStatusNo ].maxSkill ; i++ ){
-							// д╜д╬Щ┌д╦╝╝двдыХr
+							// уБЭуБохЖецАЭц┐Аr
 							if( petSkill[ petStatusNo ][ i ].useFlag == TRUE ){
 								int color = FONT_PAL_GRAY;
-								sprintf( moji,"бббб %-22s",petSkill[ petStatusNo ][ i ].name );
+								sprintf( moji,"уААуАА %-22s",petSkill[ petStatusNo ][ i ].name );
 								//CenteringStr( petSkill[ petStatusNo ][ i ].name, moji, SKILL_NAME_LEN );
-								//sprintf( moji,"бббб %s",moji );
-								//sprintf( moji,"е┌е├е╚д╬╝╝д╟д╣бгдвдвдвдв" );
-								// е╒егй`еые╔д╟╩╣дидыХr
+								//sprintf( moji,"уААуАА %s",moji );
+								//sprintf( moji,"уГЪуГГуГИуБоцКАуБзуБЩуАВуБВуБВуБВуБВ" );
+								// уГХуВг`уГлуГЙуБзф╜┐уБИуВЛr
 								if(	petSkill[ petStatusNo ][ i ].field != PETSKILL_FIELD_BATTLE ) color = FONT_PAL_WHITE;
 								petWndFontNo[ i ] = StockFontBuffer( x - 43, y, FONT_PRIO_FRONT, color, moji, 2 ); 
 							}
 							y += 25;
 						}
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 20;
 						y = pActMenuWnd->y + 330;
 						
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						petWndFontNo[ 7 ] = StockDispBuffer( x + 100 + 70, y, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 						petWndFontNo[ 8 ] = StockDispBuffer( x + 16 + 16 + 8, y, DISP_PRIO_IME3, CG_PREV_BTN + petWndBtnFlag[ 8 ], 2 );
 						petWndFontNo[ 9 ] = StockDispBuffer( x + 50 + 16 + 18, y, DISP_PRIO_IME3, CG_NEXT_BTN + petWndBtnFlag[ 9 ], 2 );
 						
-						//petWndFontNo[ 7 ] = StockFontBuffer( x + 100, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"ббС°ббббдыбб", 2 );
-						//petWndFontNo[ 8 ] = StockFontBuffer( x + 16, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" г╝ ", 2 );
-						//petWndFontNo[ 9 ] = StockFontBuffer( x + 50, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" г╛ ", 2 ); y += 32;
+						//petWndFontNo[ 7 ] = StockFontBuffer( x + 100, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"уААуААуГ╗цР┐", 2 );
+						//petWndFontNo[ 8 ] = StockFontBuffer( x + 16, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" я╝Ь ", 2 );
+						//petWndFontNo[ 9 ] = StockFontBuffer( x + 50, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, 	" я╝Ю ", 2 ); y += 32;
 					}
 				}
 			}
@@ -4035,115 +4035,115 @@ void MenuProc( void )
 		}
 	}
 	
-//бЄ еведе╞ережегеєе╔ежДI└э ****┤ж└э╬я╞╖┤░┐┌***************************************************/
+//тЧО уВвуВдуГЖуГауВжуВгуГ│уГЙуВжIчРЖ ****хдДчРЖчЙйхУБчкЧхПг***************************************************/
 	if( MenuToggleFlag & JOY_CTRL_I ){
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( itemWndNo ){
 		
-		case 0:	// еведе╞ерббесе╦ехй`д╬Хr
+		case 0:	// уВвуВдуГЖуГауААуГбуГЛуГе`уБоr
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd2 == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd2 = MakeWindowDisp( 365, 4, 271, 440, 0, -1 );
-				// еведе╞ерщv▀Bд╬│ї╞┌╗п
+				// уВвуВдуГЖуГаvBуБохИЭцЬЯхМЦ
 				InitItem( pActMenuWnd2->x, pActMenuWnd2->y );
-				// ▀xТkд╡дьд┐еведе╞ер╖м║┼│ї╞┌╗п
+				// xkуБХуВМуБЯуВвуВдуГЖуГачХкхП╖хИЭцЬЯхМЦ
 				itemNo = -1;
-				// ║╧│╔е┌е├е╚╖м║┼│ї╞┌╗п
+				// хРИцИРуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 				ItemMixPetNo = -1;
-				// е┌е├е╚есй`еыд╬еведе╞ер▀xТkежегеєе╔ежд╬Хr
+				// уГЪуГГуГИуГб`уГлуБоуВвуВдуГЖуГаxkуВжуВгуГ│уГЙуВжуБоr
 				if( MenuToggleFlag & JOY_CTRL_E && mailWndNo == MAIL_WND_ITEM ){
-					// еведе╞ережегеєе╔ежщ]д╕ды
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 					MenuToggleFlag &= ~JOY_CTRL_E;
 					DeathMenuAction();
 				}
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd2->hp > 0 ){
-					// еведе╞ережегеєе╔еж╔╧▒э╩╛
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжф╕Кшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_MENU, CG_ITEM_WND_0, 1 );
-					// еведе╞ережегеєе╔еж╧┬▒э╩╛
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжф╕Лшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_MENU, CG_ITEM_WND_1, 1 );
 					
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == itemWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd2 );
 							pActMenuWnd2 = NULL;
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet2 );
 							pActPet2 = NULL;
-							// ║╧│╔е┌е├е╚╖м║┼│ї╞┌╗п
+							// хРИцИРуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 							ItemMixPetNo = -1;
-							// еведе╞ережегеєе╔ежщ]д╕ды
+							// уВвуВдуГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 							MenuToggleFlag ^= JOY_CTRL_I;
-							// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞ддд┐дщщ]д╕ды
+							// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБДуБЯуВЙ]уБШуВЛ
 							if( MenuToggleFlag & JOY_CTRL_S ){
 							
-								MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-								// есе╦ехй`евепе╖ечеє─иЪв
+								MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+								// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 								DeathMenuAction();
 							}
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
-							// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+							// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 							itemNo = -1;
 						}
-						// Ет╨gежегеєе╔ежд╬Хr
+						// х║СgуВжуВгуГ│уГЙуВжуБоr
 						//if( HitDispNo == itemWndFontNo[ 1 ] ){
 						if( HitDispNo == itemWndFontNo[ 1 ] ){
 							itemWndNo = 1;
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd2 );
 							pActMenuWnd2 = NULL;
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet2 );
 							pActPet2 = NULL;
-							// ║╧│╔е┌е├е╚╖м║┼│ї╞┌╗п
+							// хРИцИРуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 							ItemMixPetNo = -1;
-							// ежегеєе╔ежщ_дп╥Ї
+							// уВжуВгуГ│уГЙуВж_уБПщЯ│
 							play_se( 202, 320, 240 );
 							
-							// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞д╩длд├д┐дщ
+							// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБкуБЛуБгуБЯуВЙ
 							if( !( MenuToggleFlag & JOY_CTRL_S ) ){
 							
-								MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-								// е╣е╞й`е┐е╣
+								MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+								// уВ╣уГЖ`уВ┐уВ╣
 								for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndFontNo[ i ] = -2;
 								for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndBtnFlag[ i ] = 0;
 								statusWndNo = 1;
-								// есе╦ехй`евепе╖ечеє─иЪв
+								// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 								DeathMenuAction();
-								// е╤ещесй`е┐е╗й`е╓
+								// уГСуГйуГб`уВ┐уВ╗`уГЦ
 								saveUserSetting();
 								
-								MenuToggleFlag &= JOY_CTRL_I;	// еведе╞ережегеєе╔ежд╬Хrд└д▒▓╨д╣
-								MenuToggleFlag |= JOY_CTRL_S;	// е╣е╞й`е┐е╣ежегеєе╔еж
+								MenuToggleFlag &= JOY_CTRL_I;	// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
+								MenuToggleFlag |= JOY_CTRL_S;	// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж
 							}else{
-								// е╣е╞й`е┐е╣ежегеєе╔ежд╟╥╗╙Eд╟д╩ддХr
+								// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВжуБзф╕АEуБзуБкуБДr
 								if( statusWndNo != 1 ){
-									// ежегеєе╔еж─иЪв
+									// уВжуВгуГ│уГЙуВжцК╣
 									DeathAction( pActMenuWnd );
 									pActMenuWnd = NULL;
 									statusWndNo = 1;
 								}
 							}
 						}
-						// еведе╞ер▀xТkд╡дьд╞дыХr
+						// уВвуВдуГЖуГаxkуБХуВМуБжуВЛr
 						if( itemNo != -1 && MenuToggleFlag & JOY_CTRL_S && statusWndNo == 1 ){
-							// ╚╦╩¤╖╓еый`е╫
+							// ф║║цХ░хИЖуГл`уГЧ
 							for( i = 0 ; i < 11 ; i++ ){
-								// еведе╞ер╩╣дж╚╦▀xТk
+								// уВвуВдуГЖуГаф╜┐уБЖф║║xk
 								if( HitFontNo == statusWndFontNo[ i ] && eventWarpSendFlag == FALSE ){
-									//еведе╞ер╩╣дж╦═╨┼
+									//уВвуВдуГЖуГаф╜┐уБЖщАБф┐б
 									lssproto_ID_send( sockfd, nowGx, nowGy, itemNo, i );
-									// еведе╞ер╩╣дж╥Ї
+									// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 									play_se( 212, 320, 240 );
-									// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+									// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 									itemNo = -1;
 									
 								}
@@ -4151,208 +4151,208 @@ void MenuProc( void )
 						}
 					}
 					
-					// дк╜Ёд╬┬фд╚д╣е▄е┐еєд╬Хr
+					// уБКщЗСуБошР╜уБиуБЩуГЬуВ┐уГ│уБоr
 					if( HitDispNo == itemWndFontNo[ 2 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// ┬фд╚д╣дк╜Ёдмдвд├д┐дщ
+							// шР╜уБиуБЩуБКщЗСуБМуБВуБгуБЯуВЙ
 							if( itemWndDropGold > 0 && eventWarpSendFlag == FALSE ){
-								// е▄е┐еє░╝д╦д╣ды
+								// уГЬуВ┐уГ│хЗ╣уБлуБЩуВЛ
 								itemWndBtnFlag[ 2 ] = TRUE;
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								play_se( 217, 320, 240 ); 
 							}else{
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}
 						}
-						// е▄е┐еє░╝длд─╫єепеъе├епыxд╖д┐Хr
+						// уГЬуВ┐уГ│хЗ╣уБЛуБдх╖жуВпуГкуГГуВпxуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK_UP && itemWndBtnFlag[ 2 ] == TRUE ){
 							itemWndBtnFlag[ 2 ] = FALSE;
-							// еведе╞ер╩╣дж╥Ї
+							// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 							play_se( 212, 320, 240 );
-							// дк╜Ё┬фд╚д╣╦═╨┼
+							// уБКщЗСшР╜уБиуБЩщАБф┐б
 							lssproto_DG_send( sockfd, nowGx, nowGy, itemWndDropGold );
 							itemWndDropGold = 0;
 						}
 					}else{
-						// е▄е┐еє═╣д╦д╣ды
+						// уГЬуВ┐уГ│хЗ╕уБлуБЩуВЛ
 						itemWndBtnFlag[ 2 ] = FALSE;
 					}
 					
-					// дк╜ЁЙИдфд╣е▄е┐еєд╬Хr
+					// уБКщЗСуВДуБЩуГЬуВ┐уГ│уБоr
 					if( HitDispNo == itemWndFontNo[ 3 ] ){
-						// е▄е┐еє░╝длд─╫єепеъе├епыxд╖д┐Хr
+						// уГЬуВ┐уГ│хЗ╣уБЛуБдх╖жуВпуГкуГГуВпxуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK_UP && itemWndBtnFlag[ 3 ] == TRUE ){
 							
 							itemWndBtnFlag[ 3 ] = FALSE;
-							// еведе╞ер╩╣дж╥Ї
+							// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 							//play_se( 212, 320, 240 );
 						}
-						// е▄е┐еє░╝д╬Хr
+						// уГЬуВ┐уГ│хЗ╣уБоr
 						if( itemWndBtnFlag[ 3 ] == TRUE ){
-							// е╫еще╣
+							// уГЧуГйуВ╣
 							itemWndDropGold += itemWndDropGoldInc;
-							// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`е╫еще╣
+							// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`уГЧуГйуВ╣
 							itemWndDropGoldCnt++;
-							// ЙИ╖╓Йф╕№д╬Хr
+							// хИЖц╢Уr
 							if( itemWndDropGoldCnt >= 30 ){ 
-								// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`│ї╞┌╗п
+								// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`хИЭцЬЯхМЦ
 								itemWndDropGoldCnt = 0;		
-								// ╫ю│їд└д▒г▒д╦д╣ды
+								// цЬАхИЭуБауБСя╝СуБлуБЩуВЛ
 								if( itemWndDropGoldInc == 0 ) itemWndDropGoldInc = 1;
 								else{
-									// г▒г░▒╢д╦д╣ды
+									// я╝Ся╝РхАНуБлуБЩуВЛ
 									itemWndDropGoldInc *= 5;
-									// еъе▀е├е╚е┴езе├еп
+									// уГкуГЯуГГуГИуГБуВзуГГуВп
 									if( itemWndDropGoldInc > 10000 ) itemWndDropGoldInc = 10000;		
 								}
 							}
-							// еъе▀е├е╚е┴езе├еп
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( itemWndDropGold >= pc.gold ){ 
 								itemWndDropGold = pc.gold;
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}else{
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								//play_se( 217, 320, 240 ); 
 							
 							}
 						}
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// е╫еще╣
+							// уГЧуГйуВ╣
 							itemWndDropGold++;
-							// еъе▀е├е╚е┴езе├еп
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( itemWndDropGold >= pc.gold ){ 
 								itemWndDropGold = pc.gold;
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}else{
-								// Т╬д╞дыдк╜ЁЙИ╖╓
+								// щЯжчЪоцпкхИЖ
 								itemWndDropGoldInc = 0;		
-								// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`│ї╞┌╗п
+								// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`хИЭцЬЯхМЦ
 								itemWndDropGoldCnt = 0;		
-								// е▄е┐еє░╝д╦д╣ды
+								// уГЬуВ┐уГ│хЗ╣уБлуБЩуВЛ
 								itemWndBtnFlag[ 3 ] = TRUE;
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								play_se( 217, 320, 240 ); 
 							}
 						}
 						
 					}else{
-						// е▄е┐еє═╣д╦д╣ды
+						// уГЬуВ┐уГ│хЗ╕уБлуБЩуВЛ
 						itemWndBtnFlag[ 3 ] = FALSE;
 					}
 					
-					// дк╜ЁЬpдщд╣е▄е┐еєд╬Хr
+					// уБКщЗСpуВЙуБЩуГЬуВ┐уГ│уБоr
 					if( HitDispNo == itemWndFontNo[ 4 ] ){
-						// е▄е┐еє░╝длд─╫єепеъе├епыxд╖д┐Хr
+						// уГЬуВ┐уГ│хЗ╣уБЛуБдх╖жуВпуГкуГГуВпxуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK_UP && itemWndBtnFlag[ 4 ] == TRUE ){
 							itemWndBtnFlag[ 4 ] = FALSE;
-							// еведе╞ер╩╣дж╥Ї
+							// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 							//play_se( 212, 320, 240 );
 						}
-						// е▄е┐еє░╝д╬Хr
+						// уГЬуВ┐уГ│хЗ╣уБоr
 						if( itemWndBtnFlag[ 4 ] == TRUE ){
-							// е▐еде╩е╣
+							// уГЮуВдуГКуВ╣
 							itemWndDropGold -= itemWndDropGoldInc;
-							// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`е╫еще╣
+							// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`уГЧуГйуВ╣
 							itemWndDropGoldCnt++;
-							// ЙИ╖╓Йф╕№д╬Хr
+							// хИЖц╢Уr
 							if( itemWndDropGoldCnt >= 30 ){ 
-								// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`│ї╞┌╗п
+								// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`хИЭцЬЯхМЦ
 								itemWndDropGoldCnt = 0;		
-								// ╫ю│їд└д▒г▒д╦д╣ды
+								// цЬАхИЭуБауБСя╝СуБлуБЩуВЛ
 								if( itemWndDropGoldInc == 0 ) itemWndDropGoldInc = 1;
 								else{
-									// г▒г░▒╢д╦д╣ды
+									// я╝Ся╝РхАНуБлуБЩуВЛ
 									itemWndDropGoldInc *= 5;
-									// еъе▀е├е╚е┴езе├еп
+									// уГкуГЯуГГуГИуГБуВзуГГуВп
 									if( itemWndDropGoldInc > 10000 ) itemWndDropGoldInc = 10000;		
 								}
 							}
-							// еъе▀е├е╚е┴езе├еп
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( itemWndDropGold < 0 ){ 
 								itemWndDropGold = 0;
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}else{
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								//play_se( 217, 320, 240 ); 
 							
 							}
 						}
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// е▐еде╩е╣
+							// уГЮуВдуГКуВ╣
 							itemWndDropGold--;
-							// еъе▀е├е╚е┴езе├еп
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( itemWndDropGold <= 0 ){ 
 								itemWndDropGold = 0;
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}else{
-								// Т╬д╞дыдк╜ЁЙИ╖╓
+								// щЯжчЪоцпкхИЖ
 								itemWndDropGoldInc = 0;		
-								// Т╬д╞дыдк╜ЁЙИ╖╓ележеєе┐й`│ї╞┌╗п
+								// щЯжчЪоцпкхИЖуВлуВжуГ│уВ┐`хИЭцЬЯхМЦ
 								itemWndDropGoldCnt = 0;		
-								// е▄е┐еє░╝д╦д╣ды
+								// уГЬуВ┐уГ│хЗ╣уБлуБЩуВЛ
 								itemWndBtnFlag[ 4 ] = TRUE;
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								play_se( 217, 320, 240 ); 
 							
 							}
 						}
 					}else{
-						// е▄е┐еє═╣д╦д╣ды
+						// уГЬуВ┐уГ│хЗ╕уБлуБЩуВЛ
 						itemWndBtnFlag[ 4 ] = FALSE;
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd2 != NULL ){
 					
 						x = pActMenuWnd2->x + 16;
 						y = pActMenuWnd2->y + 351 + 7;
 						
-						// еведе╞ер▀xТkд╡дьд╞дддыХr
+						// уВвуВдуГЖуГаxkуБХуВМуБжуБДуВЛr
 						if( itemNo != -1 ){
-							// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+							// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 							//if( pc.item[ i ].useFlag == TRUE ){ 
-								// е▄е├епе╣▒э╩╛е╟й`е┐дЄе╨е├е╒ебд╦┴ядсды
+								// уГЬуГГуВпуВ╣шбичд║уГЗ`уВ┐уВТуГРуГГуГХуВбуБлц║ЬуВБуВЛ
 								StockBoxDispBuffer( ItemBuffer[ itemNo ].defX - 24, ItemBuffer[ itemNo ].defY - 24,
 													ItemBuffer[ itemNo ].defX + 26, ItemBuffer[ itemNo ].defY + 23, 
 													DISP_PRIO_IME4, SYSTEM_PAL_AQUA, 0 );
 							//}else{
-								// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+								// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 							//	itemNo != -1;
 							//}
 						}
-						// еведе╞ереый`е╫
+						// уВвуВдуГЖуГауГл`уГЧ
 						for( i = 0 ; i < MAX_ITEM ; i++ ){
-							// ЦШ─┌д╦╚ыд├д╞ддд┐дщ
+							// хЖЕуБлхЕеуБгуБжуБДуБЯуВЙ
 							if( MakeHitBox( ItemBuffer[ i ].defX - 24, ItemBuffer[ i ].defY - 24, 
 											ItemBuffer[ i ].defX + 26, ItemBuffer[ i ].defY + 23, DISP_PRIO_IME3 ) == TRUE ){
-								// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+								// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 								if( pc.item[ i ].useFlag == TRUE && ItemBuffer[ i ].mixFlag <= 2 ){ 
-									// ╕─╨╨е▌едеєе╚
+									// цФ╣шбМуГЭуВдуГ│уГИ
 									char *splitPoint = pc.item[ i ].memo;
 									int color = pc.item[ i ].color;
 									
-									// ╫░Вфд╟дндыдле┴езе├еп
+									// шгЕц╡ГцЙжцпкщЪ╢╨Фц░У
 									if( pc.level < pc.item[ i ].level ) color = FONT_PAL_RED;
-									//char *splitPoint = "▒э╩╛е╞е╣е╚д╟д╣бг╦╜д╬├√╟░д╧╠л╠я╒▄╔·д╟д╣бгд│дьдлдщдтдшдэд╖дпдкюКддд╖д▐д╣бг";
-									// еведе╞ерд╬├√╟░▒э╩╛
+									//char *splitPoint = "шбичд║уГЖуВ╣уГИуБзуБЩуАВчзБуБохРНхЙНуБпхдкчФ░хУ▓чФЯуБзуБЩуАВуБУуВМуБЛуВЙуВВуВИуВНуБЧуБПуБКуБДуБЧуБ╛уБЩуАВ";
+									// уВвуВдуГЖуГауБохРНхЙНшбичд║
 									//StockFontBuffer( pActMenuWnd2->x + 16, pActMenuWnd2->y + 331, FONT_PRIO_FRONT, pc.item[ i ].color, pc.item[ i ].name, 0 );	
 									StockFontBuffer( pActMenuWnd2->x + 16, pActMenuWnd2->y + 331, FONT_PRIO_FRONT, color, pc.item[ i ].name, 0 );	
 									//StockFontBuffer( pActMenuWnd2->x + 16, pActMenuWnd2->y + 331, FONT_PRIO_FRONT, pc.item[ i ].color, pc.item[ i ].name, 0 );	
-									// еведе╞ерд╬╒h├ў▒э╩╛
-									// ╨╨╩¤╖╓еый`е╫
+									// уВвуВдуГЖуГауБоhцШОшбичд║
+									// шбМцХ░хИЖуГл`уГЧ
 									while( 1 ){
-										// г▓г╕╬─╫╓дЄ│мдид╞д┐дщ╖╓╕ю
+										// я╝Тя╝ШцЦЗхнЧуВТш╢ЕуБИуБжуБЯуВЙхИЖхЙ▓
 										if( strlen( splitPoint ) > 28 ){
 											strncpy( moji, splitPoint, 28 );
-											moji[ 28 ] = NULL;	// ╜K╢╦╙Ы║┼дЄдддьды
-											// ╚л╜╟д╬░ы╖╓д└д├д┐Хr
+											moji[ 28 ] = NULL;	// KчлпхП╖уВТуБДуВМуВЛ
+											// хЕишзТуБохНКхИЖуБауБгуБЯr
 											if( GetStrLastByte( moji ) == 3 ){
 												moji[ 27 ] = NULL;
 												splitPoint += 27;
@@ -4368,130 +4368,130 @@ void MenuProc( void )
 										}
 									}
 								}
-								// ║╧│╔╓╨д╟д╩длд├д┐дщ
+								// хРИцИРф╕нуБзуБкуБЛуБгуБЯуВЙ
 								if( pActPet2 == NULL ){
 								
-								// еведе╞ердЄе╔еще├е░д╖д╞д╩дпд╞╫єепеъе├епдм╤║д╡дьд╞ддд╞е▐еже╣дЄД╙длд╖д┐Хr
+								// уВвуВдуГЖуГауВТуГЙуГйуГГуВ░уБЧуБжуБкуБПуБжх╖жуВпуГкуГГуВпуБМцК╝уБХуВМуБжуБДуБжуГЮуВжуВ╣уВТхй┤чнПr
 								if( mouse.onceState & MOUSE_LEFT_CRICK && mouse.itemNo == -1 ){
-									// ║╧│╔е╒еще░г╧г╞г╞д╦д╣ды
+									// хРИцИРуГХуГйуВ░я╝пя╝жя╝жуБлуБЩуВЛ
 									ItemBuffer[ i ].mixFlag = FALSE;
-									// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+									// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 									if( pc.item[ i ].useFlag == TRUE ){
-										// е╔еще├е░е╒еще░г╧г╬
+										// уГЙуГйуГГуВ░уГХуГйуВ░я╝пя╝о
 										ItemBuffer[ i ].dragFlag = TRUE;
 										mouse.itemNo = i;
-										// еведе╞ер▀xТk╖м║┼│ї╞┌╗п
+										// уВвуВдуГЖуГаxkчХкхП╖хИЭцЬЯхМЦ
 										itemNo = -1;
 									}
 								}
-								// ╫єепеъе├епыxд╖д┐Хr
+								// х╖жуВпуГкуГГуВпxуБЧуБЯr
 								if( mouse.onceState & MOUSE_LEFT_CRICK_UP ){
-									// ║╬дле╔еще├е░д╖д╞дддыХrбв╜╗УQд╣ды
+									// ф╜ХуБЛуГЙуГйуГГуВ░уБЧуБжуБДуВЛrуАБф║дQуБЩуВЛ
 									if( mouse.itemNo != -1 ){
-										// ╜╗УQд╬Хr
+										// ф║дQуБоr
 										if( mouse.itemNo != i ){
-											// ╜╗УQд╬╦═╨┼
+											// ф║дQуБощАБф┐б
 											lssproto_MI_send( sockfd, mouse.itemNo, i );
-											// епеъе├еп╥Ї
+											// уВпуГкуГГуВпщЯ│
 											play_se( 217, 320, 240 );
 										}
-										// е╔еще├е░е╒еще░│ї╞┌╗п
+										// уГЙуГйуГГуВ░уГХуГйуВ░хИЭцЬЯхМЦ
 										ItemBuffer[ mouse.itemNo ].dragFlag = FALSE;
-										// е▐еже╣д╬еведе╞ер╖м║┼│ї╞┌╗п
+										// уГЮуВжуВ╣уБоуВвуВдуГЖуГачХкхП╖хИЭцЬЯхМЦ
 										mouse.itemNo = -1; 
 									}
 								}
-								// ╫єе└е╓еыепеъе├епд╟еведе╞ер╩╣╙├
+								// х╖жуГАуГЦуГлуВпуГкуГГуВпуБзуВвуВдуГЖуГаф╜┐чФи
 								if( mouse.onceState & MOUSE_LEFT_DBL_CRICK ){
-									// д╜д╬Щ┌д╦еведе╞ердмЯoдддлд─е╒егй`еые╔╔╧д╟╩╣дид╩ддХr
+									// уБЭуБохЖешб░уБЕхМ╣хХ╢oуБДуБЛуБдуГХуВг`уГлуГЙф╕КуБзф╜┐уБИуБкуБДr
 									if( pc.item[ i ].useFlag != TRUE || pc.item[ i ].field == ITEM_FIELD_BATTLE || pc.level < pc.item[ i ].level ){
-										// г╬г╟╥Ї
+										// я╝оя╝зщЯ│
 										play_se( 220, 320, 240 );
-									}else{ // ╩╣╙├┐╔─▄д╩Хr
-										// е╔еще├е░еведе╞ер│ї╞┌╗п
+									}else{ // ф╜┐чФихПпшГ╜уБкr
+										// уГЙуГйуГГуВ░уВвуВдуГЖуГахИЭцЬЯхМЦ
 										mouse.itemNo = -1;
-										// е┐й`е▓е├е╚д╟╖╓ск
+										// уВ┐`уВ▓уГГуГИуБзхИЖх▓Р
 										switch( pc.item[ i ].target ){
 											
-										case ITEM_TARGET_MYSELF:	// ╫╘╖╓д╬д▀
+										case ITEM_TARGET_MYSELF:	// шЗкхИЖуБоуБ┐
 										
-											// е╒еще░г╧г╞г╞д╬Хr
+											// уГХуГйуВ░я╝пя╝жя╝жуБоr
 											if( eventWarpSendFlag == FALSE ){
-												//еведе╞ер╩╣дж╦═╨┼
+												//уВвуВдуГЖуГаф╜┐уБЖщАБф┐б
 												lssproto_ID_send( sockfd, nowGx, nowGy, i, 0 );
-												// еведе╞ер╩╣дж╥Ї
+												// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 												play_se( 212, 320, 240 );
 											}
 											
 											break;
 											
-										case ITEM_TARGET_OTHER:	// ╦√д╬╚╦ги╫╘╖╓║мдр)
+										case ITEM_TARGET_OTHER:	// ф╗ЦуБоф║║я╝ИшЗкхИЖхРлуВА)
 										
-											// е┐й`е▓е├е╚▀xТkежегеєе╔ежд╪
+											// уВ┐`уВ▓уГГуГИxkуВжуВгуГ│уГЙуВжуБ╕
 											//itemWndNo = 2;
-											// ежегеєе╔еж─иЪв
+											// уВжуВгуГ│уГЙуВжцК╣
 										//	DeathAction( pActMenuWnd2 );
 										//	pActMenuWnd2 = NULL;
-											// ежегеєе╔ежщ_дп╥Ї
+											// уВжуВгуГ│уГЙуВж_уБПщЯ│
 										//	play_se( 202, 320, 240 );
-											// ▀xТkд╡дьд┐еведе╞ер╖м║┼╙ЫСЫ
+											// xkуБХуВМуБЯуВвуВдуГЖуГачХкхП╖
 											itemNo = i;
-											// епеъе├еп╥Ї
+											// уВпуГкуГГуВпщЯ│
 											play_se( 217, 320, 240 );
 											//jujutuNo = -1;
 											
-											// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞д╩длд├д┐дщ
+											// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБкуБЛуБгуБЯуВЙ
 											if( !( MenuToggleFlag & JOY_CTRL_S ) ){
 											
-												MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-												// е╣е╞й`е┐е╣
+												MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+												// уВ╣уГЖ`уВ┐уВ╣
 												for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndFontNo[ i ] = -2;
 												for( i = 0 ; i < MENU_STATUS_0 ; i++ ) statusWndBtnFlag[ i ] = 0;
 												statusWndNo = 1;
-												// есе╦ехй`евепе╖ечеє─иЪв
+												// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 												DeathMenuAction();
-												// е╤ещесй`е┐е╗й`е╓
+												// уГСуГйуГб`уВ┐уВ╗`уГЦ
 												saveUserSetting();
-												// ежегеєе╔ежщ_дп╥Ї
+												// уВжуВгуГ│уГЙуВж_уБПщЯ│
 												play_se( 202, 320, 240 );
 												
-												MenuToggleFlag &= JOY_CTRL_I;	// еведе╞ережегеєе╔ежд╬Хrд└д▒▓╨д╣
-												MenuToggleFlag |= JOY_CTRL_S;	// е╣е╞й`е┐е╣ежегеєе╔еж
+												MenuToggleFlag &= JOY_CTRL_I;	// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
+												MenuToggleFlag |= JOY_CTRL_S;	// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж
 											}else{
-												// е╣е╞й`е┐е╣ежегеєе╔ежд╟╥╗╙Eд╟д╩ддХr
+												// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВжуБзф╕АEуБзуБкуБДr
 												if( statusWndNo != 1 ){
-													// ежегеєе╔еж─иЪв
+													// уВжуВгуГ│уГЙуВжцК╣
 													DeathAction( pActMenuWnd );
 													pActMenuWnd = NULL;
 													statusWndNo = 1;
-													// ежегеєе╔ежщ_дп╥Ї
+													// уВжуВгуГ│уГЙуВж_уБПщЯ│
 													play_se( 202, 320, 240 );
 												}
 											}
 											
 											break;
 #if 0											
-										case ITEM_TARGET_ALLMYSIDE:	// ╬╢╖╜╚л╠х
+										case ITEM_TARGET_ALLMYSIDE:	// хС│цЦ╣хЕиф╜У
 										
-											//еведе╞ер╩╣дж╦═╨┼
+											//уВвуВдуГЖуГаф╜┐уБЖщАБф┐б
 											lssproto_ID_send( sockfd, nowGx, nowGy, i, 0 );
-											// еведе╞ер╩╣дж╥Ї
+											// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 											play_se( 212, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_ALLOTHERSIDE:	// ╧р╩╓В╚╚л╠х
+										case ITEM_TARGET_ALLOTHERSIDE:	// чЫ╕цЙЛчГн
 										
-											//еведе╞ер╩╣дж╦═╨┼
+											//уВвуВдуГЖуГаф╜┐уБЖщАБф┐б
 											lssproto_ID_send( sockfd, nowGx, nowGy, i, 0 );
-											// еведе╞ер╩╣дж╥Ї
+											// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 											play_se( 212, 320, 240 );
 											break;
 											
-										case ITEM_TARGET_ALL:	// ╚лд╞
+										case ITEM_TARGET_ALL:	// хЕиуБж
 										
-											//еведе╞ер╩╣дж╦═╨┼
+											//уВвуВдуГЖуГаф╜┐уБЖщАБф┐б
 											lssproto_ID_send( sockfd, nowGx, nowGy, i, 0 );
-											// еведе╞ер╩╣дж╥Ї
+											// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 											play_se( 212, 320, 240 );
 											break;
 #endif
@@ -4499,74 +4499,74 @@ void MenuProc( void )
 									}
 								}
 //#ifdef _DEBUG		
-								// еведе╞ере╔еще├е░д╖д╞д╩дддлд─бв╙╥епеъе├епд╟║╧│╔▒э╩╛
+								// уВвуВдуГЖуГауГЙуГйуГГуВ░уБЧуБжуБкуБДуБЛуБдуАБхП│уВпуГкуГГуВпуБзхРИцИРшбичд║
 								if( mouse.onceState & MOUSE_RIGHT_CRICK  && mouse.itemNo == -1 ){
 									int j;
 									int cnt = 0;
-									// д╜д╬Щ┌д╦еведе╞ердмдвдыХrдлд─бвдлд─╫░Вфд╖д╞д╩ддХrбв║╧│╔д╟дндыХr
+									// уБЭуБохЖешб░уБЕхМ╣хХ╢rуБЛуБдуАБуБЛуБдшгЕц╡ГчнПчЪошГЬrуАБхРИцИРуБзуБНуВЛr
 									if( pc.item[ i ].useFlag == TRUE && i >= 5 && pc.item[ i ].sendFlag & ITEM_FLAG_MIX ){
 										int j;
 										int flag = 0;
-										// ▀xТkеведе╞ер╖м║┼│ї╞┌╗п
+										// xkуВвуВдуГЖуГачХкхП╖хИЭцЬЯхМЦ
 										if( itemNo != -1 ) itemNo = -1;
-										// ║╬║╧│╔длдЄ╒{д┘ды
+										// ф╜ХхРИцИРуБЛуВТ{уБ╣уВЛ
 										for( j = 5 ; j < 20 ; j++ ){
-											// ║╧│╔е╒еще░┴вд├д╞дддыХr
+											// хРИцИРуГХуГйуВ░члЛуБгуБжуБДуВЛr
 											if( ItemBuffer[ j ].mixFlag >= TRUE ){
 												flag = ItemBuffer[ j ].mixFlag;
 												break;
 											}
 										}
-										// ║╧│╔е╒еще░г╧г╞г╞д╬Хr
+										// хРИцИРуГХуГйуВ░я╝пя╝жя╝жуБоr
 										if( ItemBuffer[ i ].mixFlag == FALSE ){
-											// д▐д└║╬дт▀xТkд╡дьд╞д╩длд├д┐дщ
+											// уБ╛уБаф╜ХуВВxkуБХуВМуБжуБкуБЛуБгуБЯуВЙ
 											if( flag == 0 ){
-												// ┴╧└эд╬Хr
+												// цЦЩчРЖуБоr
 												if( pc.item[ i ].sendFlag & ITEM_FLAG_COOKING_MIX ){
-													// ╝╝дЄ│╓д├д╞дддыдле┴езе├епд╣ды
+													// цКАуВТцМБуБгуБжуБДуВЛуБЛуГБуВзуГГуВпуБЩуВЛ
 													if( CheckPetSkill( PETSKILL_MERGE2 ) == TRUE ){
 														ItemBuffer[ i ].mixFlag = 2;
-														// епеъе├еп╥Ї
+														// уВпуГкуГГуВпщЯ│
 														play_se( 217, 320, 240 );
 													}else{
-														// г╬г╟╥Ї
+														// я╝оя╝зщЯ│
 														play_se( 220, 320, 240 );
 													}
 												}
-												// ╞╒═и║╧│╔д╬Хr
+												// цЩощАЪхРИцИРуБоr
 												else{ 
-													// ╝╝дЄ│╓д├д╞дддыдле┴езе├епд╣ды
+													// цКАуВТцМБуБгуБжуБДуВЛуБЛуГБуВзуГГуВпуБЩуВЛ
 													if( CheckPetSkill( PETSKILL_MERGE ) == TRUE ){
 														ItemBuffer[ i ].mixFlag = 1;
-														// епеъе├еп╥Ї
+														// уВпуГкуГГуВпщЯ│
 														play_se( 217, 320, 240 );
 													}else{
-														// г╬г╟╥Ї
+														// я╝оя╝зщЯ│
 														play_se( 220, 320, 240 );
 													}
 												}
 											}else{
 											
-												// ┴╧└эд╬Хr
+												// цЦЩчРЖуБоr
 												if( pc.item[ i ].sendFlag & ITEM_FLAG_COOKING_MIX ){
 													if( flag == 2 ){
 														ItemBuffer[ i ].mixFlag = 2;
-														// епеъе├еп╥Ї
+														// уВпуГкуГГуВпщЯ│
 														play_se( 217, 320, 240 );
 													}else{
-														// г╬г╟╥Ї
+														// я╝оя╝зщЯ│
 														play_se( 220, 320, 240 );
 													}
 													
 												}
-												// ╞╒═и║╧│╔д╬Хr
+												// цЩощАЪхРИцИРуБоr
 												else{
 													if( flag == 1 ){
 														ItemBuffer[ i ].mixFlag = 1;
-														// епеъе├еп╥Ї
+														// уВпуГкуГГуВпщЯ│
 														play_se( 217, 320, 240 );
 													}else{
-														// г╬г╟╥Ї
+														// я╝оя╝зщЯ│
 														play_se( 220, 320, 240 );
 													}
 													
@@ -4574,46 +4574,46 @@ void MenuProc( void )
 											}
 										}else{
 											ItemBuffer[ i ].mixFlag = FALSE;
-											// епеъе├еп╥Ї
+											// уВпуГкуГГуВпщЯ│
 											play_se( 217, 320, 240 );
 										}
 									}else{
-										// г╬г╟╥Ї
+										// я╝оя╝зщЯ│
 										play_se( 220, 320, 240 );
 									}
-									// ╢■д─╥╘╔╧е╒еще░дм┴вд├д╞дддыдлдЄе┴езе├еп
+									// ф║МуБдф╗еф╕КуГХуГйуВ░уБМчлЛуБгуБжуБДуВЛуБЛуВТуГБуВзуГГуВп
 									for( j = 5 ; j < 20 ; j++ ){
 										if( ItemBuffer[ j ].mixFlag >= 1 ) cnt++;
 									}
-									// ╢■д─╥╘╔╧┴вд├д╞ддд┐дщ
+									// ф║МуБдф╗еф╕КчлЛуБгуБжуБДуБЯуВЙ
 									if( cnt >= 2 ){
-										// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞д╩длд├д┐дщ
+										// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБкуБЛуБгуБЯуВЙ
 										if( !( MenuToggleFlag & JOY_CTRL_P ) ){
 										
-											MenuToggleFlag ^= JOY_CTRL_P;	// CTRL + S енй`
-											// е╣е╞й`е┐е╣
+											MenuToggleFlag ^= JOY_CTRL_P;	// CTRL + S уВн`
+											// уВ╣уГЖ`уВ┐уВ╣
 											for( j = 0 ; j < MENU_PET_0 ; j++ ) petWndFontNo[ j ] = -2;
 											for( j = 0 ; j < MENU_PET_0 ; j++ ) petWndBtnFlag[ j ] = 0;
 											petWndNo = 0;
-											// есе╦ехй`евепе╖ечеє─иЪв
+											// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 											DeathMenuAction();
-											// е╤ещесй`е┐е╗й`е╓
+											// уГСуГйуГб`уВ┐уВ╗`уГЦ
 											saveUserSetting();
-											// ежегеєе╔ежщ_дп╥Ї
+											// уВжуВгуГ│уГЙуВж_уБПщЯ│
 											play_se( 202, 320, 240 );
 											
-											MenuToggleFlag &= JOY_CTRL_I;	// еведе╞ережегеєе╔ежд╬Хrд└д▒▓╨д╣
-											MenuToggleFlag |= JOY_CTRL_P;	// е╣е╞й`е┐е╣ежегеєе╔еж
+											MenuToggleFlag &= JOY_CTRL_I;	// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБоrуБауБСцоЛуБЩ
+											MenuToggleFlag |= JOY_CTRL_P;	// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж
 										}
 										
 									//	else{
-											// е╣е╞й`е┐е╣ежегеєе╔ежд╟╥╗╙Eд╟д╩ддХr
+											// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВжуБзф╕АEуБзуБкуБДr
 									//		if( petWndNo != 0 ){
-									//			// ежегеєе╔еж─иЪв
+									//			// уВжуВгуГ│уГЙуВжцК╣
 									//			DeathAction( pActMenuWnd );
 									//			pActMenuWnd = NULL;
 									//			petWndNo = 0;
-												// ежегеєе╔ежщ_дп╥Ї
+												// уВжуВгуГ│уГЙуВж_уБПщЯ│
 									//			play_se( 202, 320, 240 );
 									//		}
 									//	}
@@ -4622,103 +4622,103 @@ void MenuProc( void )
 //#endif
 								}
 							}
-							// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+							// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 							//if( pc.item[ i ].useFlag == TRUE && ItemBuffer[ i ].dragFlag == FALSE ){ 
 							if( pc.item[ i ].useFlag == TRUE ){
-								// ║╧│╔╓╨д╟ЯoддХr
+								// хРИцИРф╕нуБзoуБДr
 								if( ItemBuffer[ i ].mixFlag <= 2 ){
-									// еведе╞ер▒э╩╛
+									// уВвуВдуГЖуГашбичд║
 									StockDispBuffer( ItemBuffer[ i ].defX, ItemBuffer[ i ].defY, ItemBuffer[ i ].dispPrio, pc.item[ i ].graNo, 0 );
 								}else
-								// е┌е├е╚╩│д┘Ъiдн╓╨
+								// уГЪуГГуГИщгЯуБ╣iуБНф╕н
 								if( ItemBuffer[ i ].mixFlag == 3 ){
-									// еведе╞ер▒э╩╛
+									// уВвуВдуГЖуГашбичд║
 									StockDispBuffer( pActPet2->x, pActPet2->y - 16, DISP_PRIO_DRAG, pc.item[ i ].graNo, 0 );
 								}else
-								// дтд╕дтд╕╓╨ги║╧│╔гй
+								// уВВуБШуВВуБШф╕ня╝ИхРИцИРя╝Й
 								if( ItemBuffer[ i ].mixFlag == 4 ){
-									// еведе╞ер▒э╩╛
+									// уВвуВдуГЖуГашбичд║
 									StockDispBuffer( pActPet2->x, pActPet2->y, ItemBuffer[ i ].dispPrio, pc.item[ i ].graNo, 0 );
 								}
 							}
-							// ║╧│╔╬─╫╓▒э╩╛
+							// хРИцИРцЦЗхнЧшбичд║
 							if( ItemBuffer[ i ].mixFlag >= TRUE ){ 
-								// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+								// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 								if( pc.item[ i ].useFlag == TRUE ){ 
-									// ╞╒═и║╧│╔д╬Хr
+									// цЩощАЪхРИцИРуБоr
 									if( ItemBuffer[ i ].mixFlag == 1 ){
-										// ║╧│╔
-										StockFontBuffer( ItemBuffer[ i ].defX - 17, ItemBuffer[ i ].defY, FONT_PRIO_FRONT, 0, "║╧│╔", 0 );
+										// хРИцИР
+										StockFontBuffer( ItemBuffer[ i ].defX - 17, ItemBuffer[ i ].defY, FONT_PRIO_FRONT, 0, "хРИцИР", 0 );
 									}else 
-									// ╒{└э║╧│╔д╬Хr
+									// {чРЖхРИцИРуБоr
 									if( ItemBuffer[ i ].mixFlag == 2 ){
-										// ┴╧└э║╧│╔
-										StockFontBuffer( ItemBuffer[ i ].defX - 17, ItemBuffer[ i ].defY, FONT_PRIO_FRONT, 0, "┴╧└э", 0 );
+										// цЦЩчРЖхРИцИР
+										StockFontBuffer( ItemBuffer[ i ].defX - 17, ItemBuffer[ i ].defY, FONT_PRIO_FRONT, 0, "цЦЩчРЖ", 0 );
 									}
 								}else{
-									// ║╧│╔е╒еще░г╧г╞г╞
+									// хРИцИРуГХуГйуВ░я╝пя╝жя╝ж
 									ItemBuffer[ i ].mixFlag = TRUE;
 								}
 							}
 						}
 						
-						// ╫єепеъе├епыxд╖д┐Хr
+						// х╖жуВпуГкуГГуВпxуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK_UP ){
-							// ║╬дле╔еще├е░д╖д╞дддыХr
+							// ф╜ХуБЛуГЙуГйуГГуВ░уБЧуБжуБДуВЛr
 							if( mouse.itemNo != -1 ){
-								// ежегеєе╔еж═тд╩дщ
+								// уВжуВгуГ│уГЙуВжхдЦуБкуВЙ
 								if( mouse.nowPoint.x <= pActMenuWnd2->x && mouse.itemNo != -1 && eventWarpSendFlag == FALSE ){
-									// еведе╞ердЄ╓├дп╦═╨┼
+									// уВвуВдуГЖуГауВТч╜оуБПщАБф┐б
 									lssproto_DI_send( sockfd,nowGx, nowGy, mouse.itemNo );
 								}
-								// е╔еще├е░е╒еще░│ї╞┌╗п
+								// уГЙуГйуГГуВ░уГХуГйуВ░хИЭцЬЯхМЦ
 								ItemBuffer[ mouse.itemNo ].dragFlag = FALSE;
-								// е▐еже╣д╬еведе╞ер╖м║┼│ї╞┌╗п
+								// уГЮуВжуВ╣уБоуВвуВдуГЖуГачХкхП╖хИЭцЬЯхМЦ
 								mouse.itemNo = -1; 
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								play_se( 217, 320, 240 );
 							}
 						}
-						// е╔еще├е░д╖д╞дддыХr
+						// уГЙуГйуГГуВ░уБЧуБжуБДуВЛr
 						if( mouse.itemNo != -1 ){
-							// ╙╥епеъе├епд╡дьд┐Хrенеуеєе╗еы
+							// хП│уВпуГкуГГуВпуБХуВМуБЯrуВнуГгуГ│уВ╗уГл
 							if( mouse.onceState & MOUSE_RIGHT_CRICK ){
-								// ╘кд╬╬╗╓├д╦С°д╣
+								// хЕГуБоф╜Нч╜оуБл
 								//ItemBuffer[ mouse.itemNo ].x = ItemBuffer[ mouse.itemNo ].defX;
 								//ItemBuffer[ mouse.itemNo ].y = ItemBuffer[ mouse.itemNo ].defY;
-								// е╔еще├е░е╒еще░│ї╞┌╗п
+								// уГЙуГйуГГуВ░уГХуГйуВ░хИЭцЬЯхМЦ
 								ItemBuffer[ mouse.itemNo ].dragFlag = FALSE;
-								// е▐еже╣д╬еведе╞ер╖м║┼│ї╞┌╗п
+								// уГЮуВжуВ╣уБоуВвуВдуГЖуГачХкхП╖хИЭцЬЯхМЦ
 								mouse.itemNo = -1; 
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								play_se( 217, 320, 240 );
 								
 							}
-							// еведе╞ер▒э╩╛
+							// уВвуВдуГЖуГашбичд║
 							//StockDispBuffer( ItemBuffer[ mouse.itemNo ].x, ItemBuffer[ mouse.itemNo ].y, ItemBuffer[ mouse.itemNo ].dispPrio, ItemBuffer[ mouse.itemNo ].bmpNo, 0 );
 							StockDispBuffer( mouse.nowPoint.x, mouse.nowPoint.y,DISP_PRIO_DRAG, pc.item[ mouse.itemNo ].graNo, 0 );
 						}
-						// ежегеєе╔еждвдыХr
+						// уВжуВгуГ│уГЙуВжуБВуВЛr
 						if( pActMenuWnd2 != NULL ){
-							// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
-							// щ]д╕дые▄е┐еє
+							// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
+							// ]уБШуВЛуГЬуВ┐уГ│
 							itemWndFontNo[ 0 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, pActMenuWnd2->y + 422, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 							//itemWndFontNo[ 0 ] = StockDispBuffer( pActMenuWnd2->x + 24 + 48 * 3, pActMenuWnd2->y + 32, DISP_PRIO_IME3, CG_ITEM_WND_JUJUTU_BTN, 2 );
-							// Ет╨gе▄е┐еє
-							//itemWndFontNo[ 1 ] = StockFontBuffer( pActMenuWnd2->x + 24 + 48 * 3 + 20, pActMenuWnd2->y + 32 + 8, FONT_PRIO_FRONT, 0, 	" Ет ╨g ", 2 );
+							// х║СgуГЬуВ┐уГ│
+							//itemWndFontNo[ 1 ] = StockFontBuffer( pActMenuWnd2->x + 24 + 48 * 3 + 20, pActMenuWnd2->y + 32 + 8, FONT_PRIO_FRONT, 0, 	"  g ", 2 );
 							//itemWndFontNo[ 1 ] = StockDispBuffer( pActMenuWnd2->x + 24 + 48 * 3 + 20 + 32, pActMenuWnd2->y + 32, DISP_PRIO_IME3, CG_ITEM_WND_JUJUTU_BTN, 2 );
 							itemWndFontNo[ 1 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_IME3, CG_ITEM_WND_JUJUTU_BTN, 2 );
-							// дк╜Ё▒э╩╛
+							// уБКщЗСшбичд║
 							sprintf( moji,"%7d", pc.gold );
 												 StockFontBuffer( pActMenuWnd2->x + 32 + 48 * 3 + 16, pActMenuWnd2->y + 87, FONT_PRIO_FRONT, 0, moji, 0 );
-							// ┬фд╚д╣дк╜Ё▒э╩╛
+							// шР╜уБиуБЩуБКщЗСшбичд║
 							sprintf( moji,"%7d", itemWndDropGold );
 												 StockFontBuffer( pActMenuWnd2->x + 32 + 48 * 3 + 16, pActMenuWnd2->y + 138, FONT_PRIO_FRONT, 0, moji, 0 );
-							// дк╜Ё┬фд╚д╣е▄е┐еє
+							// уБКщЗСшР╜уБиуБЩуГЬуВ┐уГ│
 							itemWndFontNo[ 2 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_IME3, CG_ITEM_WND_GOLD_DROP_BTN_UP + itemWndBtnFlag[ 2 ], 2 );
-							// дк╜Ёе╫еще╣е▄е┐еє
+							// уБКщЗСуГЧуГйуВ╣уГЬуВ┐уГ│
 							itemWndFontNo[ 3 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_IME3, CG_ITEM_WND_GOLD_INC_BTN_UP + itemWndBtnFlag[ 3 ], 2 );
-							// дк╜Ёе▐еде╩е╣е▄е┐еє
+							// уБКщЗСуГЮуВдуГКуВ╣уГЬуВ┐уГ│
 							itemWndFontNo[ 4 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_IME3, CG_ITEM_WND_GOLD_DEC_BTN_UP + itemWndBtnFlag[ 4 ], 2 );
 							//itemWndFontNo[ 4 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx + 20, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_IME3, CG_ITEM_WND_GOLD_INC_BTN_UP + itemWndBtnFlag[ 4 ], 2 );
 						}
@@ -4727,46 +4727,46 @@ void MenuProc( void )
 			}
 			break;
 			
-		case 1:	// Ет╨g▀xТkежегеєе╔еж
+		case 1:	// х║СgxkуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd2 == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd2 = MakeWindowDisp( 384 - 16, 16, 4, 9, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd2 = MakeWindowDisp( 364, 4, 272, 280, 0, -1 );
-				// еведе╞ер
+				// уВвуВдуГЖуГа
 				for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndFontNo[ i ] = -2;
 				for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndBtnFlag[ i ] = 0;
-				jujutuNo = -1;	// ▀xТkд╖д╞дддыЕт╨g│ї╞┌╗п
+				jujutuNo = -1;	// xkуБЧуБжуБДуВЛх║СgхИЭцЬЯхМЦ
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd2->hp > 0 ){
 					x = pActMenuWnd2->x + 74;
 					y = pActMenuWnd2->y + 208;
-					// еведе╞ережегеєе╔еж╔╧▒э╩╛
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжф╕Кшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my + 10, DISP_PRIO_MENU, CG_JUJUTU_WND, 1 );
-					// Ет╨g▀xТkд╖д┐Хr
+					// х║СgxkуБЧуБЯr
 					for( i = 0 ; i < 5 ; i++ ){
 						if( HitFontNo == itemWndFontNo[ i ] ){
-							// ╕─╨╨е▌едеєе╚
+							// цФ╣шбМуГЭуВдуГ│уГИ
 							char *splitPoint = magic[ i ].memo;
-							//char *splitPoint = "▒э╩╛е╞е╣е╚д╟д╣бг╦╜д╬├√╟░д╧╠л╠я╒▄╔·д╟д╣бгд│дьдлдщдтдшдэд╖дпдкюКддд╖д▐д╣бг";
-							//char moji2[ 256 ] = "╦╜д╬├√╟░д╧╠л╠я╒▄╔·д╚╔ъд╖д▐д╣бгд│дьдлдтдшдэд╖дпдкюКддд╖д▐д╣бг";
-							// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+							//char *splitPoint = "шбичд║уГЖуВ╣уГИуБзуБЩуАВчзБуБохРНхЙНуБпхдкчФ░хУ▓чФЯуБзуБЩуАВуБУуВМуБЛуВЙуВВуВИуВНуБЧуБПуБКуБДуБЧуБ╛уБЩуАВ";
+							//char moji2[ 256 ] = "чзБуБохРНхЙНуБпхдкчФ░хУ▓чФЯуБичФ│уБЧуБ╛уБЩуАВуБУуВМуБЛуВВуВИуВНуБЧуБПуБКуБДуБЧуБ╛уБЩуАВ";
+							// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 							sprintf( moji,"%2d/%2d", magic[ i ].mp, pc.mp );
 							StockFontBuffer( pActMenuWnd2->x + 74 + 81, pActMenuWnd2->y + 183, FONT_PRIO_FRONT, 0, moji, 0 );
-							// Ет╨gд╬╒h├ў▒э╩╛
-							// еведе╞ерд╬├√╟░▒э╩╛
+							// х║СgуБоhцШОшбичд║
+							// уВвуВдуГЖуГауБохРНхЙНшбичд║
 							//StockFontBuffer( pActMenuWnd2->x + 16, pActMenuWnd2->y + 331, FONT_PRIO_FRONT, pc.item[ i ].color, pc.item[ i ].name, 0 );	
-							// ╨╨╩¤╖╓еый`е╫
+							// шбМцХ░хИЖуГл`уГЧ
 							while( 1 ){
-								// г▓г▓╬─╫╓дЄ│мдид╞д┐дщ╖╓╕ю
+								// я╝Тя╝ТцЦЗхнЧуВТш╢ЕуБИуБжуБЯуВЙхИЖхЙ▓
 								if( strlen( splitPoint ) > 22 ){
 									strncpy( moji, splitPoint, 22 );
-									moji[ 22 ] = NULL;	// ╜K╢╦╙Ы║┼дЄдддьды
-									// ╚л╜╟д╬░ы╖╓д└д├д┐Хr
+									moji[ 22 ] = NULL;	// KчлпхП╖уВТуБДуВМуВЛ
+									// хЕишзТуБохНКхИЖуБауБгуБЯr
 									if( GetStrLastByte( moji ) == 3 ){
 										moji[ 21 ] = NULL;
 										splitPoint += 21;
@@ -4782,7 +4782,7 @@ void MenuProc( void )
 								}
 							}
 #if 0
-							// ╬─╫╓┴╨дмдвдыХr
+							// цЦЗхнЧхИЧуБМуБВуВЛr
 							if( magic[ i ].memo[ 0 ] != NULL ){
 								strncpy( moji, magic[ i ].memo, 22 );
 								moji[ 22 ] = NULL;
@@ -4795,74 +4795,74 @@ void MenuProc( void )
 								}
 							}
 #endif
-							// еведе╞ер▒э╩╛
+							// уВвуВдуГЖуГашбичд║
 							StockDispBuffer( pActMenuWnd2->x + 37, pActMenuWnd2->y + 220, DISP_PRIO_ITEM, pc.item[ i ].graNo, 0 );
 							
-							// ╫єепеъе├епд╖д┐Хr
+							// х╖жуВпуГкуГГуВпуБЧуБЯr
 							if( mouse.onceState & MOUSE_LEFT_CRICK ){
-								// ╩╣╙├▓╗┐╔╙╓д╧г═г╨▓╗╫уд╬Хr
+								// ф╜┐чФиф╕НхПпхПИуБпя╝ня╝░ф╕Нш╢│уБоr
 								if( magic[ i ].field == MAGIC_FIELD_BATTLE || magic[ i ].mp > pc.mp ){
-									// г╬г╟╥Ї
+									// я╝оя╝зщЯ│
 									play_se( 220, 320, 240 );
-								}else{ // ╩╣╙├┐╔─▄д╩Хr
-									// е┐й`е▓е├е╚д╟╖╓ск
+								}else{ // ф╜┐чФихПпшГ╜уБкr
+									// уВ┐`уВ▓уГГуГИуБзхИЖх▓Р
 									switch( magic[ i ].target ){
 										
-									case MAGIC_TARGET_MYSELF:	// ╫╘╖╓д╬д▀
+									case MAGIC_TARGET_MYSELF:	// шЗкхИЖуБоуБ┐
 										
-										// еде┘еєе╚е╒еще░г╧г╞г╞д╬Хr
+										// уВдуГЩуГ│уГИуГХуГйуВ░я╝пя╝жя╝жуБоr
 										if( eventWarpSendFlag == FALSE ){
-											// Ет╨g╩╣╙├╦═╨┼
+											// х║Сgф╜┐чФищАБф┐б
 											lssproto_MU_send( sockfd, nowGx, nowGy, i, 0 );
-											// е┐й`е▓е├е╚▀xТkежегеєе╔ежд╪
+											// уВ┐`уВ▓уГГуГИxkуВжуВгуГ│уГЙуВжуБ╕
 											//itemWndNo = 0;
-											// ежегеєе╔еж─иЪв
+											// уВжуВгуГ│уГЙуВжцК╣
 											//DeathAction( pActMenuWnd2 );
 											//pActMenuWnd2 = NULL;
-											// Ет╨g╥Ї
+											// х║СgщЯ│
 											play_se( 100, 320, 240 );
-											// ежегеєе╔ежщ_дп╥Ї
+											// уВжуВгуГ│уГЙуВж_уБПщЯ│
 											//play_se( 202, 320, 240 );
 										}
 										break;
 										
-									case MAGIC_TARGET_OTHER:	// ╦√д╬╚╦ги╫╘╖╓║мдр)
+									case MAGIC_TARGET_OTHER:	// ф╗ЦуБоф║║я╝ИшЗкхИЖхРлуВА)
 									
-										// е┐й`е▓е├е╚▀xТkежегеєе╔ежд╪
+										// уВ┐`уВ▓уГГуГИxkуВжуВгуГ│уГЙуВжуБ╕
 										//itemWndNo = 2;
-										// ежегеєе╔еж─иЪв
+										// уВжуВгуГ│уГЙуВжцК╣
 										//DeathAction( pActMenuWnd2 );
 										//pActMenuWnd2 = NULL;
-										// ежегеєе╔ежщ_дп╥Ї
+										// уВжуВгуГ│уГЙуВж_уБПщЯ│
 										//play_se( 202, 320, 240 );
-										// ▀xТkд╡дьд┐Ет╨g╖м║┼╙ЫСЫ
+										// xkуБХуВМуБЯх║СgчХкхП╖
 										jujutuNo = i;
-										// епеъе├еп╥Ї
+										// уВпуГкуГГуВпщЯ│
 										play_se( 217, 320, 240 );
 										//itemNo = -1;
 										break;
 #if 0
-									case MAGIC_TARGET_ALLMYSIDE:	// ╬╢╖╜╚л╠х
+									case MAGIC_TARGET_ALLMYSIDE:	// хС│цЦ╣хЕиф╜У
 									
-										// Ет╨g╩╣╙├╦═╨┼
+										// х║Сgф╜┐чФищАБф┐б
 										lssproto_MU_send( sockfd, nowGx, nowGy, i, 0 );
-										// Ет╨g╥Ї
+										// х║СgщЯ│
 										play_se( 100, 320, 240 );
 										break;
 										
-									case MAGIC_TARGET_ALLOTHERSIDE:	// ╧р╩╓В╚╚л╠х
+									case MAGIC_TARGET_ALLOTHERSIDE:	// чЫ╕цЙЛчГн
 									
-										// Ет╨g╩╣╙├╦═╨┼
+										// х║Сgф╜┐чФищАБф┐б
 										lssproto_MU_send( sockfd, nowGx, nowGy, i, 0 );
-										// Ет╨g╥Ї
+										// х║СgщЯ│
 										play_se( 100, 320, 240 );
 										break;
 										
-									case MAGIC_TARGET_ALL:	// ╚лд╞
+									case MAGIC_TARGET_ALL:	// хЕиуБж
 									
-										// Ет╨g╩╣╙├╦═╨┼
+										// х║Сgф╜┐чФищАБф┐б
 										lssproto_MU_send( sockfd, nowGx, nowGy, i, 0 );
-										// Ет╨g╥Ї
+										// х║СgщЯ│
 										play_se( 100, 320, 240 );
 										break;
 #endif									
@@ -4871,172 +4871,172 @@ void MenuProc( void )
 							}
 						}
 					}
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// С°дыХr
+						// r
 						if( HitDispNo == itemWndFontNo[ 12 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd2 );
 							pActMenuWnd2 = NULL;
-							// е╖е╣е╞ережегеєе╔ежщ]д╕ды
+							// уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 							//MenuToggleFlag ^= JOY_CTRL_I;
 							itemWndNo = 0;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
-							// ▀xТkд╖д╞дддыЕт╨g│ї╞┌╗п
+							// xkуБЧуБжуБДуВЛх║СgхИЭцЬЯхМЦ
 							jujutuNo = -1;	
 							
-							// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞ддд┐дщщ]д╕ды
+							// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБДуБЯуВЙ]уБШуВЛ
 							if( MenuToggleFlag & JOY_CTRL_S ){
 							
-								MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-								// есе╦ехй`евепе╖ечеє─иЪв
+								MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+								// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 								DeathMenuAction();
 							}
 						}
-						// Ет╨g▀xТkд╡дьд╞дыХr
+						// х║СgxkуБХуВМуБжуВЛr
 						if( jujutuNo != -1 && MenuToggleFlag & JOY_CTRL_S && statusWndNo == 1 ){
-							// ╚╦╩¤╖╓еый`е╫
+							// ф║║цХ░хИЖуГл`уГЧ
 							for( i = 0 ; i < 11 ; i++ ){
-								// Ет╨g╩╣дж╚╦▀xТk
+								// х║Сgф╜┐уБЖф║║xk
 								if( HitFontNo == statusWndFontNo[ i ] && eventWarpSendFlag == FALSE ){
-									// Ет╨g╩╣╙├╦═╨┼
+									// х║Сgф╜┐чФищАБф┐б
 									lssproto_MU_send( sockfd, nowGx, nowGy, jujutuNo, i );
-									// Ет╨g╥Ї
+									// х║СgщЯ│
 									play_se( 100, 320, 240 );
-									// ▓╨дъг═г╨╙Л╦у
-									if( magic[ jujutuNo ].mp > pc.mp - magic[ jujutuNo ].mp ) jujutuNo = -1;;	// г═г╨▓╗╫уги│ргй
+									// цоЛуВКя╝ня╝░чоЧ
+									if( magic[ jujutuNo ].mp > pc.mp - magic[ jujutuNo ].mp ) jujutuNo = -1;;	// я╝ня╝░ф╕Нш╢│я╝Иш╡дя╝Й
 									
 								}
 							}
 						}
 						
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd2 != NULL ){
 						int flag = FALSE;
 						int col;
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd2->x + 30;
 						y = pActMenuWnd2->y + 35;
 						
-						// Ет╨g▒э╩╛
+						// х║Сgшбичд║
 						for( i = 0 ; i < 5 ; i++ ){
 							if( magic[ i ].useFlag == TRUE ){
-								col = FONT_PAL_WHITE;	// ╩╣╙├┐╔─▄д╩╔лги░╫гй
-								if( jujutuNo == i ) col = FONT_PAL_AQUA;	// ▀xТk╓╨д╬Ет╨g
-								if( magic[ i ].mp > pc.mp ) col = FONT_PAL_RED;	// г═г╨▓╗╫уги│ргй
-								if( magic[ i ].field == MAGIC_FIELD_BATTLE ) col = FONT_PAL_GRAY;	// ╩╣╙├▓╗┐╔д╩╔лги│ргй
-								// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+								col = FONT_PAL_WHITE;	// ф╜┐чФихПпшГ╜уБкшЙ▓я╝ИчЩ╜я╝Й
+								if( jujutuNo == i ) col = FONT_PAL_AQUA;	// xkф╕нуБох║Сg
+								if( magic[ i ].mp > pc.mp ) col = FONT_PAL_RED;	// я╝ня╝░ф╕Нш╢│я╝Иш╡дя╝Й
+								if( magic[ i ].field == MAGIC_FIELD_BATTLE ) col = FONT_PAL_GRAY;	// ф╜┐чФиф╕НхПпуБкшЙ▓я╝Иш╡дя╝Й
+								// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 								//sprintf( moji," %-16s ", magic[ i ].name );
 								CenteringStr( magic[ i ].name, moji, MAGIC_NAME_LEN );
 								itemWndFontNo[ i ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, col, moji, 2 ); y += 28;
 								flag = TRUE;
 							}
 						}
-						if( flag == FALSE ) StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, "Ет╨gдмдвдъд▐д╗дє", 0 );
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						if( flag == FALSE ) StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, "х║СgуБМуБВуВКуБ╛уБЫуВУ", 0 );
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						itemWndFontNo[ 12 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, pActMenuWnd2->y + 262 + 10, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
 			}
 			break;
 			
-		case 2:	// е┐й`е▓е├е╚▀xТkежегеєе╔еж
+		case 2:	// уВ┐`уВ▓уГГуГИxkуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd2 == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd2 = MakeWindowDisp( 384 - 16, 16, 4, 9, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd2 = MakeWindowDisp( 368, 4, 192, 304, 0, -1 );
-				// еведе╞ер
+				// уВвуВдуГЖуГа
 				for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndFontNo[ i ] = -2;
 				for( i = 0 ; i < MENU_ITEM_0 ; i++ ) itemWndBtnFlag[ i ] = 0;
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd2->hp > 0 ){
-					// еведе╞ережегеєе╔еж╔╧▒э╩╛
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжф╕Кшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_MENU, CG_ITEM_WND_SELECT_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// ╩╣дж╚╦▀xТkд╖д┐Хr
+						// ф╜┐уБЖф║║xkуБЧуБЯr
 						for( i = 0 ; i < 11 ; i++ ){
 							if( HitFontNo == itemWndFontNo[ i ] && eventWarpSendFlag == FALSE ){
-								// Ет╨g▀xТkд╬Хr
+								// х║СgxkуБоr
 								if( jujutuNo != -1 ){
-									// Ет╨g╩╣╙├╦═╨┼
+									// х║Сgф╜┐чФищАБф┐б
 									lssproto_MU_send( sockfd, nowGx, nowGy, jujutuNo, i );
-									// Ет╨g╥Ї
+									// х║СgщЯ│
 									play_se( 100, 320, 240 );
-									// г═г╨Яoдпд╩д├д┐ХrС°ды
+									// я╝ня╝░oуБПуБкуБгуБЯr
 									if( magic[ jujutuNo ].mp > pc.mp - magic[ jujutuNo ].mp ){
-										// ежегеєе╔еж─иЪв
+										// уВжуВгуГ│уГЙуВжцК╣
 										DeathAction( pActMenuWnd2 );
 										pActMenuWnd2 = NULL;
 										itemWndNo = 1;
-										// ежегеєе╔ежщ]д╕ды╥Ї
+										// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 										play_se( 203, 320, 240 );
 									}
-								}else{	// еведе╞ерд╬Хr
-									//еведе╞ер╩╣дж╦═╨┼
+								}else{	// уВвуВдуГЖуГауБоr
+									//уВвуВдуГЖуГаф╜┐уБЖщАБф┐б
 									lssproto_ID_send( sockfd, nowGx, nowGy, itemNo, i );
-									// еведе╞ер╩╣дж╥Ї
+									// уВвуВдуГЖуГаф╜┐уБЖщЯ│
 									play_se( 212, 320, 240 );
-									// ежегеєе╔еж─иЪв
+									// уВжуВгуГ│уГЙуВжцК╣
 									DeathAction( pActMenuWnd2 );
 									pActMenuWnd2 = NULL;
 									itemWndNo = 0;
-									// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞ддд┐дщщ]д╕ды
+									// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБДуБЯуВЙ]уБШуВЛ
 									if( MenuToggleFlag & JOY_CTRL_S ){
 									
-										MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-										// есе╦ехй`евепе╖ечеє─иЪв
+										MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+										// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 										DeathMenuAction();
 									}
-									// ежегеєе╔ежщ]д╕ды╥Ї
+									// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 									play_se( 203, 320, 240 );
 								}
 							}
 						}
-						// С°дыХr
+						// r
 						if( HitDispNo == itemWndFontNo[ 11 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd2 );
 							pActMenuWnd2 = NULL;
-							// Ет╨g▀xТkд╬Хr
+							// х║СgxkуБоr
 							if( jujutuNo != -1 ) itemWndNo = 1;
 							else{ 
-								// еведе╞ережегеєе╔ежд╦С°ды
+								// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБл
 								itemWndNo = 0;
-								// е╣е╞й`е┐е╣ежегеєе╔ежщ_ддд╞ддд┐дщщ]д╕ды
+								// уВ╣уГЖ`уВ┐уВ╣уВжуВгуГ│уГЙуВж_уБДуБжуБДуБЯуВЙ]уБШуВЛ
 								if( MenuToggleFlag & JOY_CTRL_S ){
 								
-									MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S енй`
-									// есе╦ехй`евепе╖ечеє─иЪв
+									MenuToggleFlag ^= JOY_CTRL_S;	// CTRL + S уВн`
+									// уГбуГЛуГе`уВвуВпуВ╖уГзуГ│цК╣
 									DeathMenuAction();
 								}
 							}
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd2 != NULL ){
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd2->x + 25;
 						y = pActMenuWnd2->y + 30;
 						
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
-						// ╫╘╖╓д╬├√╟░
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
+						// шЗкхИЖуБохРНхЙН
 						sprintf( moji,"%-16s", pc.name );
 						itemWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 2 ); y += 23;
-						// е┌е├е╚
+						// уГЪуГГуГИ
 						for( i = 0 ; i < 5 ; i++ ){
-							// д╜д╬Щ┌д╦е┌е├е╚дмддд┐дщ
+							// уБЭуБохЖешб░шоац░Уш╢гуБДщГб
 							if( pet[ i ].useFlag == TRUE ){
-								// двд└├√дмдвдыХr
+								// уБВуБахРНуБМуБВуВЛr
 								if( pet[ i ].freeName[ 0 ] != NULL )
 									sprintf( moji,"%-16s", pet[ i ].freeName );
 								else
@@ -5045,15 +5045,15 @@ void MenuProc( void )
 							}
 						}
 						y = 183;
-						// ╓┘щg
+						// ф╗▓g
 						for( i = 0 ; i < 5 ; i++ ){
-							// ╫╘╖╓д╟д╩ддХrдлд─д╜д╬Щ┌д╦╓┘щgдмдддыХr
+							// шЗкхИЖуБзуБкуБДrуБЛуБдуБЭуБохЖещЕехМНgуБМуБДуВЛr
 							if( pc.id != party[ i ].id && party[ i ].useFlag == TRUE ){
 								sprintf( moji,"%-16s", party[ i ].name );
 								itemWndFontNo[ i + 6 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 2 ); y += 23;
 							}
 						}
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						itemWndFontNo[ 11 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, pActMenuWnd2->y + 287, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
@@ -5062,60 +5062,60 @@ void MenuProc( void )
 		}
 	}
 	
-//бЄ е▐е├е╫ежегеєе╔ежДI└э **╡╪═╝┤░┐┌┤ж└э*****************************************************/
+//тЧО уГЮуГГуГЧуВжуВгуГ│уГЙуВжIчРЖ **хЬ░хЫ╛чкЧхПгхдДчРЖ*****************************************************/
 
 	if( MenuToggleFlag & JOY_CTRL_M ){
 	
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( mapWndNo ){
 		
-		case 0:	// е▐е├е╫ежегеєе╔еж
+		case 0:	// уГЮуГГуГЧуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd2 == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd2 = MakeWindowDisp( 0, 0, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd2 = MakeWindowDisp( 388, 4, 248, 240, 0, -1 );
 				//pActMenuWnd2 = MakeWindowDisp( 365, 4, 271, 440, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAP_0 ; i++ ) mapWndFontNo[ i ] = -2;
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd2->hp > 0 ){
-					// е▐е├е╫ежегеєе╔еж▒э╩╛
+					// уГЮуГГуГЧуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->my, DISP_PRIO_MENU, CG_MAP_WND, 0 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == mapWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd2 );
 							pActMenuWnd2 = NULL;
-							// ежегеєе╔ежщ]д╕ды
+							// уВжуВгуГ│уГЙуВж]уБШуВЛ
 							MenuToggleFlag ^= JOY_CTRL_M;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd2 != NULL ){
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd2->x + 61;
 						y = pActMenuWnd2->y + 186;
 						
-						// е▐е├е╫д╬├√╟░▒э╩╛
+						// уГЮуГГуГЧуБохРНхЙНшбичд║
 						StockFontBuffer( pActMenuWnd2->x + 22, pActMenuWnd2->y + 31, FONT_PRIO_FRONT, 0, nowFloorName, 0 );
 						
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
-						sprintf( moji, "Ц| %3d", nowGx );
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
+						sprintf( moji, "| %3d", nowGx );
 						StockFontBuffer( x, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 );
-						sprintf( moji, "─╧ %3d", nowGy );
+						sprintf( moji, "хНЧ %3d", nowGy );
 						StockFontBuffer( x + 73, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, moji, 0 ); y += 36;
-						// щ]д╕дые▄е┐еє
-						//mapWndFontNo[ 0 ]= StockFontBuffer( x + 40, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"ббщ] д╕ дыбб", 2 );
+						// ]уБШуВЛуГЬуВ┐уГ│
+						//mapWndFontNo[ 0 ]= StockFontBuffer( x + 40, y, FONT_PRIO_FRONT, FONT_PAL_AQUA, 	"уАА] уБШ уВЛуАА", 2 );
 						mapWndFontNo[ 0 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd2->pYobi )->mx, y, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 				}
@@ -5124,32 +5124,32 @@ void MenuProc( void )
 		}	
 	}
 	
-//бЄ есй`еыежегеєе╔ежДI└э ****╙╩╝■┤░┐┌┤ж└э***************************************************/
+//тЧО уГб`уГлуВжуВгуГ│уГЙуВжIчРЖ ****щВоф╗╢чкЧхПгхдДчРЖ***************************************************/
 
 	if( MenuToggleFlag & JOY_CTRL_E )
 	{
 	
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( mailWndNo ){
 		
-		case MAIL_WND_VIEW:	// ├√┤╠╥╗╙Eежегеєе╔еж
+		case MAIL_WND_VIEW:	// хРНхИ║ф╕АEуВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 0, 0, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 440, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
-				// есй`еыдм╜ьддд╞дддые┌й`е╕╖м║┼дЄ╠╜д╣гиЯoддХrд╧е╟е╒ейеые╚гй
+				// уГб`уГлуБМх▒КуБДуБжуБДуВЛуГЪ`уВ╕чХкхП╖уВТцОвуБЩя╝ИoуБДrуБпуГЗуГХуВйуГлуГИя╝Й
 				for( i = 0 ; i < MAX_ADR_BOOK ; i++ ){
 					int j;
-					// ┬─Ъsе┌й`е╕╖╓еый`е╫
+					// х▒еsуГЪ`уВ╕хИЖуГл`уГЧ
 					for( j = 0 ; j < MAIL_MAX_HISTORY ; j++ ){
-						// ╬┤╒iе┴езе├еп
+						// цЬкiуГБуВзуГГуВп
 						if( MailHistory[ i ].noReadFlag[ j ] >= TRUE ){
-							// е┌й`е╕╖м║┼д╬╥Щдиды
+							// уГЪ`уВ╕чХкхП╖уБоуБИуВЛ
 							mailViewWndPageNo = i / MAX_ADR_BOOK_COUNT;
 							i =  MAX_ADR_BOOK;
 							break;
@@ -5157,250 +5157,250 @@ void MenuProc( void )
 					}
 				}
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
 					static int nowDelNo;
-					// ├√┤╠╥╗╙Eежегеєе╔еж▒э╩╛
+					// хРНхИ║ф╕АEуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_MAIL_WND, 1 );
 					
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK && pActYesNoWnd == NULL ){
 					
 						int nowNo = mailViewWndPageNo * MAX_ADR_BOOK_COUNT;
-						// е┌й`е╕─┌еый`е╫
+						// уГЪ`уВ╕хЖЕуГл`уГЧ
 						//for( i = mailViewWndPageNo * 4 ; i < mailViewWndPageNo * 4 + 4 ; i++ ){
 						for( i = 0 ; i < 12 ; i += 3, nowNo++ ){
-							// ├√╟░дмдвды╦∙д╦е╟й`е┐дм╚ыд├д╞дддыд╚д╣ды
+							// хРНхЙНуБМуБВуВЛцЙАуБлуГЗ`уВ┐уБМхЕеуБгуБжуБДуВЛуБиуБЩуВЛ
 							if( addressBook[ nowNo ].useFlag == TRUE ){
-								// г╧г╬гпг╧г╞г╞е▄е┐еє
+								// я╝пя╝оя╝Пя╝пя╝жя╝жуГЬуВ┐уГ│
 								//if( HitDispNo == mailWndFontNo[ i ] ){
-									// епеъе├еп╥Ї
+									// уВпуГкуГГуВпщЯ│
 								//	play_se( 217, 320, 240 );
 								//}
-								// ┬─Ъsе▄е┐еє
+								// х▒еsуГЬуВ┐уГ│
 								//if( HitDispNo == mailWndFontNo[ i ] ){
 								if( HitFontNo == mailWndFontNo[ i ] ){
 									mailHistoryWndSelectNo = nowNo;
-									// ежегеєе╔еж─иЪв
+									// уВжуВгуГ│уГЙуВжцК╣
 									DeathAction( pActMenuWnd );
 									pActMenuWnd = NULL;
-									// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+									// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 									DeathLetterAction();
-									// ┬─Ъsежегеєе╔ежд╪
+									// х▒еsуВжуВгуГ│уГЙуВжуБ╕
 									mailWndNo = MAIL_WND_HISTORY;
-									// ежегеєе╔ежщ_дп╥Ї
+									// уВжуВгуГ│уГЙуВж_уБПщЯ│
 									play_se( 202, 320, 240 );
 								}
 								
-								// ╧ў│¤е▄е┐еє
+								// хЙКщЩдуГЬуВ┐уГ│
 								if( HitDispNo == mailWndFontNo[ i + 1 ] ){
-									// ┤_╒Jежегеєе╔ежд╩ддХr
+									// _JуВжуВгуГ│уГЙуВжуБкуБДr
 									if( pActYesNoWnd == NULL ){
-										// ежегеєе╔ежщ_дп╥Ї
+										// уВжуВгуГ│уГЙуВж_уБПщЯ│
 										play_se( 202, 320, 240 );
-										// ┤_╒Jежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+										// _JуВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 										pActYesNoWnd = MakeWindowDisp( pActMenuWnd->x + 42, i * 32 + 54, 176, 56, 0, 4 );
 										
-										// ╧ў│¤д╣ды╖м║┼дЄ╙ЫСЫ
+										// хЙКщЩдуБЩуВЛчХкхП╖уВТ
 										nowDelNo = nowNo;
 									}
 								}
-								// есй`еые▄е┐еє
+								// уГб`уГлуГЬуВ┐уГ│
 								if( HitDispNo == mailWndFontNo[ i + 2 ] ){
-									// ежегеєе╔еж─иЪв
+									// уВжуВгуГ│уГЙуВжцК╣
 									DeathAction( pActMenuWnd );
 									pActMenuWnd = NULL;
-									// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+									// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 									DeathLetterAction();
-									// ╦═╨┼╧р╩╓е╒еще░│ї╞┌╗п
+									// щАБф┐бчЫ╕цЙЛуГХуГйуВ░хИЭцЬЯхМЦ
 									InitMailSendFlag();
-									// ╦═╨┼╧р╩╓д└д▒е╒еще░┴вд╞ды
+									// щАБф┐бчЫ╕цЙЛуБауБСуГХуГйуВ░члЛуБжуВЛ
 									mailWndSendFlag[ nowNo ] = TRUE;
-									// ежегеєе╔еж╖м║┼е╨е├епеве├е╫
+									// уВжуВгуГ│уГЙуВжчХкхП╖уГРуГГуВпуВвуГГуГЧ
 									mailWndNoBak = mailWndNo;
-									// есй`еые┌е├е╚дм▀xТkд╡дьд╞ддд┐дщ
+									// уГб`уГлуГЪуГГуГИуБМxkуБХуВМуБжуБДуБЯуВЙ
 									if( pc.mailPetNo != -1 ){
-										// ▀xТkежегеєе╔ежд╪
+										// xkуВжуВгуГ│уГЙуВжуБ╕
 										mailWndNo = MAIL_WND_SELECT;
 									}else{
-										// ╞╒═иесй`еы╦═╨┼ежегеєе╔еж
+										// цЩощАЪуГб`уГлщАБф┐буВжуВгуГ│уГЙуВж
 										mailWndNo = MAIL_WND_SEND;
 									}
-									// ежегеєе╔ежщ_дп╥Ї
+									// уВжуВгуГ│уГЙуВж_уБПщЯ│
 									play_se( 202, 320, 240 );
 								}
 							}
 						}
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == mailWndFontNo[ 19 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							//for( i = 0 ; i < 4 ; i++ ){
 							//	DeathAction( pActLetter[ i ] );
 							//	pActLetter[ i ] = NULL;
 							//}
-							// ежегеєе╔ежщ]д╕ды
+							// уВжуВгуГ│уГЙуВж]уБШуВЛ
 							MenuToggleFlag ^= JOY_CTRL_E;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
 					
-					// ╟░д╦С°ды
+					// хЙНуБл
 					if( ( HitDispNo == mailWndFontNo[ 26 ] || joy_auto[ 0 ] & JOY_A ) && pActYesNoWnd == NULL ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						//if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A ){
-							mailViewWndPageNo--; // е┌й`е╕С°д╣
+							mailViewWndPageNo--; // уГЪ`уВ╕
 							if( mailViewWndPageNo < 0 ) mailViewWndPageNo = MAX_ADR_BOOK_PAGE - 1;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 26 ] = TRUE;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( ( mouse.state & MOUSE_LEFT_CRICK /*|| joy_auto[ 0 ] & JOY_A*/ ) && mailWndBtnFlag[ 26 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 26 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 26 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 26 ] = FALSE;
 					}
-					// ┤╬д╦▀Mдр
+					// цмбуБлMуВА
 					if( ( HitDispNo == mailWndFontNo[ 27 ] || joy_auto[ 0 ] & JOY_B ) && pActYesNoWnd == NULL ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						//if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
-							mailViewWndPageNo++; // е┌й`е╕▀Mд▐д╗ды
+							mailViewWndPageNo++; // уГЪ`уВ╕MуБ╛уБЫуВЛ
 							if( mailViewWndPageNo >= MAX_ADR_BOOK_PAGE ) mailViewWndPageNo = 0;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 27 ] = TRUE;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( ( mouse.state & MOUSE_LEFT_CRICK /*|| joy_auto[ 0 ] & JOY_B*/ ) && mailWndBtnFlag[ 27 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 27 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 27 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 27 ] = FALSE;
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						int nowNo = mailViewWndPageNo * MAX_ADR_BOOK_COUNT;
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x;
 						y = pActMenuWnd->y;
 						
-						// г╧г╬г╠г╔г╬г┼гмг╧г╞г╞г╠г╔г╬г┼е░еще╒еге├еп╖м║┼
+						// я╝пя╝оя╝мя╝йя╝оя╝ея╝Мя╝пя╝жя╝жя╝мя╝йя╝оя╝еуВ░уГйуГХуВгуГГуВпчХкхП╖
 						int graNo[ 3 ] = { 	CG_MAIL_WND_OFF_LINE_BTN,
 											CG_MAIL_WND_ON_LINE_SUN_BTN,
 											CG_MAIL_WND_ON_LINE_MOON_BTN
 										};
 										
-						// е┌й`е╕─┌еый`е╫
+						// уГЪ`уВ╕хЖЕуГл`уГЧ
 						//for( i = mailViewWndPageNo * 4 ; i < mailViewWndPageNo * 4 + 4 ; i++ ){
 						//for( i = 0 ; i < 4 ; i++ ){
 						for( i = 0 ; i < 12 ; i += 3, nowNo++ ){
-							// ├√╟░дмдвды╦∙д╦е╟й`е┐дм╚ыд├д╞дддыд╚д╣ды
+							// хРНхЙНуБМуБВуВЛцЙАуБлуГЗ`уВ┐уБМхЕеуБгуБжуБДуВЛуБиуБЩуВЛ
 							if( addressBook[ nowNo ].useFlag == TRUE ){
 								int j = 0;
-								// ╩╓╝Иеве╦есй`е╖ечеє▒э╩╛
+								// цЙЛуВвуГЛуГб`уВ╖уГзуГ│шбичд║
 								for( j = 0 ; j < MAIL_MAX_HISTORY ; j++ ){
-									// ╩╓╝Иевепе╖ечеєдмд╩ддХr
+									// цЙЛуВвуВпуВ╖уГзуГ│уБМуБкуБДr
 									if( pActLetter[ i / 3 ] == NULL ){
 										if( MailHistory[ nowNo ].noReadFlag[ j ] >= TRUE ){
-											// еве╦есй`е╖ечеєе┐е╣еп╫ў│╔
+											// уВвуГЛуГб`уВ╖уГзуГ│уВ┐уВ╣уВпф╜ЬцИР
 											pActLetter[ i / 3 ] = MakeAnimDisp( x - 20, y + 38, SPR_mail, ANIM_DISP_LETTER_MOVE );
 										}
 									}
 								}
-								// юЖ▒э╩╛
+								// шбичд║
 								StockDispBuffer( x + 44, y + 68, DISP_PRIO_IME3, addressBook[ nowNo ].graNo, 0 );
 								//StockDispBuffer( x + 44, y + 68, DISP_PRIO_IME3, pc.faceGraNo, 0 );
-								// ├√╟░▒э╩╛
+								// хРНхЙНшбичд║
 								CenteringStr( addressBook[ nowNo ].name, moji, CHAR_NAME_LEN );
 								mailWndFontNo[ i ] = StockFontBuffer( x + 80, y + 30, FONT_PRIO_FRONT, 0, moji, 2 );
 								//StockFontBuffer( x + 80, y + 30, FONT_PRIO_FRONT, 0, "0123456789012345", 0 );
-								//StockFontBuffer( x + 80, y + 31, FONT_PRIO_FRONT, 0, "двдвдвдвдвдвдвдв", 0 );
-								// еье┘еы▒э╩╛
+								//StockFontBuffer( x + 80, y + 31, FONT_PRIO_FRONT, 0, "уБВуБВуБВуБВуБВуБВуБВуБВ", 0 );
+								// уГмуГЩуГлшбичд║
 								sprintf( moji,"%3d", addressBook[ nowNo ].level );
 								//sprintf( moji,"999", addressBook[ nowNo ].level );
 								StockFontBuffer( x + 104, y + 60, FONT_PRIO_FRONT, 0, moji, 0 );
-								// е┌е├е╚д╬╩¤▒э╩╛
+								// уГЪуГГуГИуБоцХ░шбичд║
 								//sprintf( moji,"%3d", addressBook[ nowNo ].level );
 								//sprintf( moji,"999", addressBook[ nowNo ].level );
 								//StockFontBuffer( x + 84, y + 88, FONT_PRIO_FRONT, 0, moji, 0 );
-								// г─г╨▒э╩╛
+								// я╝дя╝░шбичд║
 								sprintf( moji,"%8d", addressBook[ nowNo ].dp );
 								//sprintf( moji,"9999999", addressBook[ nowNo ].dp );
 								//sprintf( moji,"9999", addressBook[ nowNo ].level );
 								StockFontBuffer( x + 103, y + 88, FONT_PRIO_FRONT, 0, moji, 0 );
-								// г╧г╬гпг╧г╞г╞е▄е┐еє
+								// я╝пя╝оя╝Пя╝пя╝жя╝жуГЬуВ┐уГ│
 								//StockDispBuffer( x + 242, y + 58, DISP_PRIO_IME3, CG_MAIL_WND_ON_LINE_BTN + !( addressBook[ nowNo ].onlineFlag ), 0 );
 								StockDispBuffer( x + 225, y + 60, DISP_PRIO_IME3, graNo[ addressBook[ nowNo ].onlineFlag ], 0 );
-								// ┬─Ъsе▄е┐еє
+								// х▒еsуГЬуВ┐уГ│
 								//mailWndFontNo[ i ] = StockDispBuffer( x + 242, y + 78, DISP_PRIO_IME3, CG_MAIL_WND_HISTORY_BTN, 2 );
-								// есй`еые▄е┐еє
+								// уГб`уГлуГЬуВ┐уГ│
 								mailWndFontNo[ i + 2 ] = StockDispBuffer( x + 225, y + 80, DISP_PRIO_IME3, CG_MAIL_WND_MAIL_BTN, 2 );
-								// ╧ў│¤е▄е┐еє
+								// хЙКщЩдуГЬуВ┐уГ│
 								//mailWndFontNo[ i + 1 ] = StockDispBuffer( x + 242, y + 98, DISP_PRIO_IME3, CG_MAIL_WND_DELETE_BTN, 2 );
 								mailWndFontNo[ i + 1 ] = StockDispBuffer( x + 225, y + 100, DISP_PRIO_IME3, CG_MAIL_WND_DELETE_BTN, 2 );
 								
 							}
 							y += 96;
 						}
-						// ╟░е▄е┐еє
+						// хЙНуГЬуВ┐уГ│
 						mailWndFontNo[ 26 ] = StockDispBuffer( pActMenuWnd->x + 25 + 28 - 8, pActMenuWnd->y + 421, DISP_PRIO_IME3, CG_PREV_BTN + mailWndBtnFlag[ 26 ], 2 );
-						// е┌й`е╕╖м║┼▒э╩╛
+						// уГЪ`уВ╕чХкхП╖шбичд║
 						sprintf( moji,"%2d", mailViewWndPageNo + 1 );
 						StockFontBuffer( pActMenuWnd->x + 46 + 28 - 8, pActMenuWnd->y + 413, FONT_PRIO_FRONT, 0, moji, 0 );
-						// ┤╬е▄е┐еє
+						// цмбуГЬуВ┐уГ│
 						mailWndFontNo[ 27 ] = StockDispBuffer( pActMenuWnd->x + 75 + 28, pActMenuWnd->y + 421, DISP_PRIO_IME3, CG_NEXT_BTN + mailWndBtnFlag[ 27 ], 2 );
-						// есй`еые▄е┐еє
+						// уГб`уГлуГЬуВ┐уГ│
 						//mailWndFontNo[ 18 ] = StockDispBuffer( pActMenuWnd->x + 135, pActMenuWnd->y + 421, DISP_PRIO_IME3, CG_MAIL_WND_MAIL_BTN, 2 );
-						// щ]д╕дые▄е┐еє
+						// ]уБШуВЛуГЬуВ┐уГ│
 						mailWndFontNo[ 19 ] = StockDispBuffer( pActMenuWnd->x + 220 - 28, pActMenuWnd->y + 421, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 					
-					// ┤_╒Jежегеєе╔еждвдыХr
+					// _JуВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActYesNoWnd != NULL ){
-						// д╧ддд╬Хr
+						// уБпуБДуБоr
 						if( ( ( WINDOW_DISP *)pActYesNoWnd->pYobi )->yesNoResult == TRUE ){
-							// ╧ў│¤д╣дыдЄ╦═╨┼
+							// хЙКщЩдуБЩуВЛуВТщАБф┐б
 							lssproto_DAB_send( sockfd, nowDelNo );
-							// евеые╨ере╟й`е┐дЄ╧√д╣
+							// уВвуГлуГРуГауГЗ`уВ┐уВТц╢ИуБЩ
 							//memset( MailHistory[ nowDelNo ], 0, sizeof( MAIL_HISTORY ) );
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
-							// ┤_╒Jежегеєе╔еж─иЪв
+							// _JуВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActYesNoWnd );
 							pActYesNoWnd = NULL;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}else
-						// дддддид╬Хr
+						// уБДуБДуБИуБоr
 						if( ( ( WINDOW_DISP *)pActYesNoWnd->pYobi )->yesNoResult == FALSE ){
-							// ┤_╒Jежегеєе╔еж─иЪв
+							// _JуВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActYesNoWnd );
 							pActYesNoWnd = NULL;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
@@ -5409,628 +5409,628 @@ void MenuProc( void )
 			}
 			break;
 			
-		case MAIL_WND_SELECT:	// ▀xТkежегеєе╔еж
-			// ежегеєе╔еждмд╩ддХr
+		case MAIL_WND_SELECT:	// xkуВжуВгуГ│уГЙуВж
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 40, 196, 3, 3, NULL, 0 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
-				// ддд╩дде┌е├е╚е┴езе├еп
+				// уБДуБкуБДуГЪуГГуГИуГБуВзуГГуВп
 				for( i = 0 ; i < 5 ; i++ ){
-					// д│д╬Щ┌д╦е┌е├е╚дмддд╩ддХr
+					// уБУуБохЖешб░шоац░Уш╢гуБДшГЬr
 					if( pet[ i ].useFlag == FALSE ){
-						// есй`еыд╬Хr
+						// уГб`уГлуБоr
 						if( i == pc.mailPetNo ){ 
 							pc.mailPetNo = -1;
-							// е╤ещесй`е┐е╗й`е╓
+							// уГСуГйуГб`уВ┐уВ╗`уГЦ
 							saveUserSetting();
 						}
 					}
 				}
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// ╞╒═иесй`еыд╬Хr
+						// цЩощАЪуГб`уГлуБоr
 						if( HitFontNo == mailWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╞╒═иесй`еы╦═╨┼ежегеєе╔ежд╪
+							// цЩощАЪуГб`уГлщАБф┐буВжуВгуГ│уГЙуВжуБ╕
 							mailWndNo = MAIL_WND_SEND;	
-							// ежегеєе╔ежщ_дп╥Ї
+							// уВжуВгуГ│уГЙуВж_уБПщЯ│
 							play_se( 202, 320, 240 );
 						}
-						// е┌е├е╚есй`еыд╬Хr
+						// уГЪуГГуГИуГб`уГлуБоr
 						if( HitFontNo == mailWndFontNo[ 1 ] ){
-							// есй`еые┌е├е╚▀xТkд╡дьд╞дыХr
+							// уГб`уГлуГЪуГГуГИxkуБХуВМуБжуВЛr
 							if( pc.mailPetNo != -1 ){
-								// ежегеєе╔еж─иЪв
+								// уВжуВгуГ│уГЙуВжцК╣
 								DeathAction( pActMenuWnd );
 								pActMenuWnd = NULL;
-								// е┌е├е╚есй`еы╦═╨┼ежегеєе╔ежд╪
+								// уГЪуГГуГИуГб`уГлщАБф┐буВжуВгуГ│уГЙуВжуБ╕
 								mailWndNo = MAIL_WND_PET_SEND;	
-								// ежегеєе╔ежщ_дп╥Ї
+								// уВжуВгуГ│уГЙуВж_уБПщЯ│
 								play_se( 202, 320, 240 );
 							}else{
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}
 						}
-						// С°дыХr
+						// r
 						if( HitDispNo == mailWndFontNo[ 2 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╥╗╙Eежегеєе╔ежд╪
+							// ф╕АEуВжуВгуГ│уГЙуВжуБ╕
 							mailWndNo = MAIL_WND_VIEW;	
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						int color = FONT_PAL_WHITE;
 						
-						// есй`еые┌е├е╚▀xТkд╡дьд╞ЯoддХr
+						// уГб`уГлуГЪуГГуГИxkуБХуВМуБжoуБДr
 						if( pc.mailPetNo == -1 ) 
 						color = FONT_PAL_RED;
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 28;
 						y = pActMenuWnd->y + 32;
 						
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
-						mailWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"бб╞╒бб═иесй`еыбб", 2 );	y += 32;
-						mailWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, color, 	"ббе┌е├е╚есй`еыбб", 2 );	y += 48;
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
+						mailWndFontNo[ 0 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, 	"уААцЩоуААщАЪуГб`уГлуАА", 2 );	y += 32;
+						mailWndFontNo[ 1 ] = StockFontBuffer( x, y, FONT_PRIO_FRONT, color, 	"уААуГЪуГГуГИуГб`уГлуАА", 2 );	y += 48;
 						mailWndFontNo[ 2 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, y, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
 			}
 			break;
 			
-		case MAIL_WND_SEND:	// ╞╒═иесй`еы╦═╨┼ежегеєе╔еж
+		case MAIL_WND_SEND:	// цЩощАЪуГб`уГлщАБф┐буВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 0, 0, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 304, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
-				//mailPetSendWndPageNo = 0;		// ╞╒═и╦═╨┼╧р╩╓е┌й`е╕╖м║┼│ї╞┌╗п
-				mailPetSendWndPageNo = mailViewWndPageNo;		// ╞╒═и╦═╨┼╧р╩╓е┌й`е╕╖м║┼│ї╞┌╗п
-				//mailViewWndPageNo = 0;		// ├√┤╠╥╗╙Eежегеєе╔ежд╬е┌й`е╕╖м║┼│ї╞┌╗п
+				//mailPetSendWndPageNo = 0;		// цЩощАЪщАБф┐бчЫ╕цЙЛуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
+				mailPetSendWndPageNo = mailViewWndPageNo;		// цЩощАЪщАБф┐бчЫ╕цЙЛуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
+				//mailViewWndPageNo = 0;		// хРНхИ║ф╕АEуВжуВгуГ│уГЙуВжуБоуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
 				
-				// есй`еы╬─╒┬ │ї╞┌╘O╢и
+				// уГб`уГлцЦЗчла хИЭцЬЯOхоЪ
 				//MailStr.buffer[ 0 ] = NULL;
 				//MailStr.cnt = 0;
-				// ╬─╫╓┴╨д╬щLд╡
+				// цЦЗхнЧхИЧуБоLуБХ
 				MailStr.len = 140;
-				// ╥╗╨╨д╬щLд╡
+				// ф╕АшбМуБоLуБХ
 				MailStr.lineLen = 28;
-				// ╥╗╨╨д╬щg╕Ї
+				// ф╕АшбМуБоgщЪФ
 				MailStr.lineDist = 20;
-				// ╬─╫╓┴╨д╬╔л
+				// цЦЗхнЧхИЧуБошЙ▓
 				MailStr.color = 0;
-				// ╬─╫╓┴╨д╬╫∙Ш╦
+				// цЦЗхнЧхИЧуБох║з
 				MailStr.x = pActMenuWnd->x + 12;
 				MailStr.y = pActMenuWnd->y + 280 - 136;
-				// ╬─╫╓┴╨д╬▒э╩╛ГЮ╧╚эШ╬╗
+				// цЦЗхнЧхИЧуБошбичд║хЕИф╜Н
 				MailStr.fontPrio = FONT_PRIO_FRONT;
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// ╦═╨┼ежегеєе╔еж▒э╩╛
+					// щАБф┐буВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_MAIL_WND_SEND_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						int nowNo = mailPetSendWndPageNo * MAX_ADR_BOOK_COUNT;
-						// е┌й`е╕─┌еый`е╫
+						// уГЪ`уВ╕хЖЕуГл`уГЧ
 						//for( i = mailViewWndPageNo * 4 ; i < mailViewWndPageNo * 4 + 4 ; i++ ){
 						for( i = 0 ; i < MAX_ADR_BOOK_COUNT ; i++ ){
-							// ╦═╨┼╧р╩╓▀xТkд╖д┐Хr
+							// щАБф┐бчЫ╕цЙЛxkуБЧуБЯr
 							if( HitFontNo == mailWndFontNo[ i ] ){
-								// ├√╟░дмдвды╦∙д╦е╟й`е┐дм╚ыд├д╞дддыд╚д╣ды
+								// хРНхЙНуБМуБВуВЛцЙАуБлуГЗ`уВ┐уБМхЕеуБгуБжуБДуВЛуБиуБЩуВЛ
 								if( addressBook[ nowNo + i ].useFlag == TRUE ){
-									// ▀xТkд╡дьд╞ддд╩длд├д┐дщ
+									// xkуБХуВМуБжуБДуБкуБЛуБгуБЯуВЙ
 									if( mailWndSendFlag[ nowNo + i ] == FALSE ) mailWndSendFlag[ nowNo + i ] = TRUE;
 									else mailWndSendFlag[ nowNo + i ] = FALSE;
-									// епеъе├еп╥Ї
+									// уВпуГкуГГуВпщЯ│
 									play_se( 217, 320, 240 );
 								}
 							}
 							
 						}
-						// С°дыХr
+						// r
 						if( HitDispNo == mailWndFontNo[ 19 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╟░д╬ежегеєе╔ежд╦С°ды
+							// хЙНуБоуВжуВгуГ│уГЙуВжуБл
 							mailWndNo = mailWndNoBak;	
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
 						}
 					}
 					
-					// ╦═╨┼е▄е┐еє
+					// щАБф┐буГЬуВ┐уГ│
 					if( HitDispNo == mailWndFontNo[ 18 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
 							int flag = FALSE;
-							// ╝╚д╦▀xТkд╖д╞дыдле┴езе├еп
+							// цЧвуБлxkуБЧуБжуВЛуБЛуГБуВзуГГуВп
 							for( i = 0 ; i < MAX_ADR_BOOK ; i++ ){ 
 								if( mailWndSendFlag[ i ] == TRUE ) flag = TRUE;
 							}
-							// ╬─╫╓┴╨дмдвдыХr
+							// цЦЗхнЧхИЧуБМуБВуВЛr
 							if( MailStr.buffer[ 0 ] != NULL && flag == TRUE ){
-								// г▓г░╚╦╖╓еый`е╫
+								// я╝Тя╝Рф║║хИЖуГл`уГЧ
 								for( i = 0 ; i < MAX_ADR_BOOK ; i++ ){
-									// е╒еще░┴вд├д╞дыХr
+									// уГХуГйуВ░члЛуБгуБжуВЛr
 									if( mailWndSendFlag[ i ] == TRUE ){
 										char moji2[ 256 ];
-										// д╚дъдвдид║е│е╘й`
+										// уБиуВКуБВуБИуБЪуВ│уГФ`
 										strcpy( moji2, MailStr.buffer );
-										// еие╣е▒й`е╫ДI└э
+										// уВиуВ╣уВ▒`уГЧIчРЖ
 										makeSendString( moji2, moji, sizeof( moji ) );
-										// есй`еы╦═╨┼
+										// уГб`уГлщАБф┐б
 										lssproto_MSG_send( sockfd, i, moji, FONT_PAL_WHITE ); 
-										// есй`еы╦═╨┼
+										// уГб`уГлщАБф┐б
 										//lssproto_MSG_send( sockfd, i, MailStr.buffer, FONT_PAL_WHITE ); 
 										
 									}
 								}
-								// ╬─╫╓┴╨│ї╞┌╗п
+								// цЦЗхнЧхИЧхИЭцЬЯхМЦ
 								//MailStr.buffer[ 0 ] = NULL;
 								//MailStr.cnt = 0;
-								// ╦═╨┼╥Ї
+								// щАБф┐бщЯ│
 								play_se( 101, 320, 240 );
 								mailWndBtnFlag[ 18 ] = TRUE;
 							}else{
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 18 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 18 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 18 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 18 ] = FALSE;
 					}
 					
-					// ╟░д╦С°ды
+					// хЙНуБл
 					if( HitDispNo == mailWndFontNo[ 16 ] || joy_auto[ 0 ] & JOY_A ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						//if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A ){
-							mailPetSendWndPageNo--; // е┌й`е╕С°д╣
+							mailPetSendWndPageNo--; // уГЪ`уВ╕
 							if( mailPetSendWndPageNo < 0 ) mailPetSendWndPageNo = MAX_ADR_BOOK_PAGE - 1;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 16 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 16 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 16 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 16 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 16 ] = FALSE;
 					}
-					// ┤╬д╦▀Mдр
+					// цмбуБлMуВА
 					if( HitDispNo == mailWndFontNo[ 17 ] || joy_auto[ 0 ] & JOY_B ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						//if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
-							mailPetSendWndPageNo++; // е┌й`е╕▀Mд▐д╗ды
+							mailPetSendWndPageNo++; // уГЪ`уВ╕MуБ╛уБЫуВЛ
 							if( mailPetSendWndPageNo >= MAX_ADR_BOOK_PAGE ) mailPetSendWndPageNo = 0;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 17 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 17 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 17 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 17 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 17 ] = FALSE;
 					}
 					
-					// ╬─╒┬епеъеве▄е┐еє
+					// цЦЗчлауВпуГкуВвуГЬуВ┐уГ│
 					if( HitDispNo == mailWndFontNo[ 14 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// есй`еы╬─╒┬ │ї╞┌╘O╢и
+							// уГб`уГлцЦЗчла хИЭцЬЯOхоЪ
 							MailStr.buffer[ 0 ] = NULL;
 							MailStr.cnt = 0;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 14 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 14 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 14 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 14 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 14 ] = FALSE;
 					}
-					// ▀xТkепеъеве▄е┐еє
+					// xkуВпуГкуВвуГЬуВ┐уГ│
 					if( HitDispNo == mailWndFontNo[ 15 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// ╦═╨┼╧р╩╓е╒еще░│ї╞┌╗п
+							// щАБф┐бчЫ╕цЙЛуГХуГйуВ░хИЭцЬЯхМЦ
 							InitMailSendFlag();
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 15 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 15 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 15 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 15 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 15 ] = FALSE;
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						int nowNo = mailPetSendWndPageNo * MAX_ADR_BOOK_COUNT;
 						int color;
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x;
 						y = pActMenuWnd->y;
-						// ╚ы┴же╒ейй`еле╣╚б╡├
+						// хЕехКЫуГХуВй`уВлуВ╣хПЦх╛Ч
 						GetKeyInputFocus( &MailStr );
-						// ╬─╫╓┴╨д╬▒э╩╛
+						// цЦЗхнЧхИЧуБошбичд║
 						StockFontBuffer2( &MailStr );
 						
-						// е┌й`е╕─┌еый`е╫
+						// уГЪ`уВ╕хЖЕуГл`уГЧ
 						//for( i = mailViewWndPageNo * 4 ; i < mailViewWndPageNo * 4 + 4 ; i++ ){
 						//for( i = 0 ; i < 4 ; i++ ){
 						for( i = 0 ; i < MAX_ADR_BOOK_COUNT ; i++ ){
-							// ├√╟░дмдвды╦∙д╦е╟й`е┐дм╚ыд├д╞дддыд╚д╣ды
+							// хРНхЙНуБМуБВуВЛцЙАуБлуГЗ`уВ┐уБМхЕеуБгуБжуБДуВЛуБиуБЩуВЛ
 							if( addressBook[ nowNo + i ].useFlag == TRUE ){
-								color = FONT_PAL_WHITE;	// е╟е╒ейеые╚╔л
-								// ▀xТkд╡дьд╞дддыХr
+								color = FONT_PAL_WHITE;	// уГЗуГХуВйуГлуГИшЙ▓
+								// xkуБХуВМуБжуБДуВЛr
 								if( mailWndSendFlag[ nowNo + i ] == TRUE ){
-									// ╗╞╔л
+									// щ╗ДшЙ▓
 									color = FONT_PAL_AQUA;
 								}
-								// ├√╟░▒э╩╛
+								// хРНхЙНшбичд║
 								CenteringStr( addressBook[ nowNo + i ].name, moji, CHAR_NAME_LEN );
 								mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177 - 136, FONT_PRIO_FRONT, color, moji, 2 );
 								//mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, "aaaaaaaaaaaaaaaa", 2 );
-								//mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, "двдвдвдвдвдвдвдв", 2 );
+								//mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, "уБВуБВуБВуБВуБВуБВуБВуБВ", 2 );
 								
 							}
 							y += 23;
 						}
-						// ▀xТkепеъеве▄е┐еє
+						// xkуВпуГкуВвуГЬуВ┐уГ│
 						mailWndFontNo[ 15 ] = StockDispBuffer( pActMenuWnd->x + 51, pActMenuWnd->y + 211 - 136, DISP_PRIO_IME3, CG_MAIL_WND_CLEAR_BTN_UP + mailWndBtnFlag[ 15 ], 2 );
-						// ╟░е▄е┐еє
+						// хЙНуГЬуВ┐уГ│
 						mailWndFontNo[ 16 ] = StockDispBuffer( pActMenuWnd->x + 26 - 8 + 4, pActMenuWnd->y + 241 - 132, DISP_PRIO_IME3, CG_PREV_BTN + mailWndBtnFlag[ 16 ], 2 );
-						// е┌й`е╕╖м║┼▒э╩╛
+						// уГЪ`уВ╕чХкхП╖шбичд║
 						sprintf( moji,"%2d", mailPetSendWndPageNo + 1 );
 						StockFontBuffer( pActMenuWnd->x + 47 - 8 + 4, pActMenuWnd->y + 233 - 132, FONT_PRIO_FRONT, 0, moji, 0 );
-						// ┤╬е▄е┐еє
+						// цмбуГЬуВ┐уГ│
 						mailWndFontNo[ 17 ] = StockDispBuffer( pActMenuWnd->x + 76 + 4, pActMenuWnd->y + 241 - 132, DISP_PRIO_IME3, CG_NEXT_BTN + mailWndBtnFlag[ 17 ], 2 );
-						// ╬─╒┬епеъеве▄е┐еє
+						// цЦЗчлауВпуГкуВвуГЬуВ┐уГ│
 						mailWndFontNo[ 14 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 60, pActMenuWnd->y + 390 - 136, DISP_PRIO_IME3, CG_MAIL_WND_CLEAR_BTN_UP + mailWndBtnFlag[ 14 ], 2 );
-						// ╦═╨┼е▄е┐еє
+						// щАБф┐буГЬуВ┐уГ│
 						mailWndFontNo[ 18 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx - 60, pActMenuWnd->y + 421 - 136, DISP_PRIO_IME3, CG_SEND_BTN + mailWndBtnFlag[ 18 ] * 75, 2 );
-						// С°ды
+						// 
 						mailWndFontNo[ 19 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 60, pActMenuWnd->y + 421 - 136, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
 			}
 			break;
 			
-		case MAIL_WND_PET_SEND:	// е┌е├е╚есй`еы╦═╨┼ежегеєе╔еж
+		case MAIL_WND_PET_SEND:	// уГЪуГГуГИуГб`уГлщАБф┐буВжуВгуГ│уГЙуВж
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 0, 0, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 440, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
-				// ╦═╨┼╧р╩╓е╒еще░│ї╞┌╗п
+				// щАБф┐бчЫ╕цЙЛуГХуГйуВ░хИЭцЬЯхМЦ
 				//for( i = 0 ; i < MAX_ADR_BOOK ; i++ ) mailWndSendFlag[ i ] = 0;
-				//mailPetSendWndPageNo = 0;		// ╞╒═и╦═╨┼╧р╩╓е┌й`е╕╖м║┼│ї╞┌╗п
-				mailPetSendWndPageNo = mailViewWndPageNo;		// ╞╒═и╦═╨┼╧р╩╓е┌й`е╕╖м║┼│ї╞┌╗п
-				// есй`еы╬─╒┬ │ї╞┌╘O╢и
+				//mailPetSendWndPageNo = 0;		// цЩощАЪщАБф┐бчЫ╕цЙЛуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
+				mailPetSendWndPageNo = mailViewWndPageNo;		// цЩощАЪщАБф┐бчЫ╕цЙЛуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
+				// уГб`уГлцЦЗчла хИЭцЬЯOхоЪ
 				//MailStr.buffer[ 0 ] = NULL;
 				//MailStr.cnt = 0;
-				// ╬─╫╓┴╨д╬щLд╡
+				// цЦЗхнЧхИЧуБоLуБХ
 				MailStr.len = MAIL_STR_LEN;
-				// ╥╗╨╨д╬щLд╡
+				// ф╕АшбМуБоLуБХ
 				MailStr.lineLen = 28;
-				// ╥╗╨╨д╬щg╕Ї
+				// ф╕АшбМуБоgщЪФ
 				MailStr.lineDist = 20;
-				// ╬─╫╓┴╨д╬╔л
+				// цЦЗхнЧхИЧуБошЙ▓
 				MailStr.color = 0;
-				// ╬─╫╓┴╨д╬╫∙Ш╦
+				// цЦЗхнЧхИЧуБох║з
 				MailStr.x = pActMenuWnd->x + 12;
 				MailStr.y = pActMenuWnd->y + 280;
-				// ╬─╫╓┴╨д╬▒э╩╛ГЮ╧╚эШ╬╗
+				// цЦЗхнЧхИЧуБошбичд║хЕИф╜Н
 				MailStr.fontPrio = FONT_PRIO_FRONT;
 				
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// е┌е├е╚евепе╖ечеєевепе╖ечеєд╩ддХr
+					// уГЪуГГуГИуВвуВпуВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уБкуБДr
 					if( pActPet == NULL ){
-						// е┌е├е╚евепе╖ечеє╫ў│╔
+						// уГЪуГГуГИуВвуВпуВ╖уГзуГ│ф╜ЬцИР
 						pActPet = MakeAnimDisp( pActMenuWnd->x + 190, pActMenuWnd->y + 120, pet[ pc.mailPetNo ].graNo, ANIM_DISP_PET );
 					}
-					// еведе╞еревепе╖ечеєд╩ддХrдлд─бвеведе╞ер▀xТkд╡дьд╞дддыХr
+					// уВвуВдуГЖуГауВвуВпуВ╖уГзуГ│уБкуБДrуБЛуБдуАБуВвуВдуГЖуГаxkуБХуВМуБжуБДуВЛr
 					if( pActMailItem == NULL && mailItemNo != -1 ){
-						// еведе╞еревепе╖ечеє╫ў│╔
+						// уВвуВдуГЖуГауВвуВпуВ╖уГзуГ│ф╜ЬцИР
 						pActMailItem = MakeAnimDisp( pActMenuWnd->x + 56, pActMenuWnd->y + 96, pc.item[ mailItemNo ].graNo, ANIM_DISP_PET_ITEM );
 						pActMailItem->atr |= ACT_ATR_INFO;
 						pActMailItem->atr |= ACT_ATR_TYPE_ITEM;
 						pActMailItem->dispPrio = DISP_PRIO_DRAG;
-						// еведе╞ер├√е│е╘й`
+						// уВвуВдуГЖуГахРНуВ│уГФ`
 						strcpy( pActMailItem->name, pc.item[ mailItemNo ].name );
 					}
-					// ╦═╨┼ежегеєе╔еж▒э╩╛
+					// щАБф┐буВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_MAIL_WND_PET_SEND_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
 						int nowNo = mailPetSendWndPageNo * MAX_ADR_BOOK_COUNT;
-						// е┌й`е╕─┌еый`е╫
+						// уГЪ`уВ╕хЖЕуГл`уГЧ
 						//for( i = mailViewWndPageNo * 4 ; i < mailViewWndPageNo * 4 + 4 ; i++ ){
 						for( i = 0 ; i < MAX_ADR_BOOK_COUNT ; i++ ){
-							// ╦═╨┼╧р╩╓▀xТkд╖д┐Хrгие┌е├е╚есй`еыд╧╥╗╚╦д╦д╖дл╦═дьд╩ддгй
+							// щАБф┐бчЫ╕цЙЛxkуБЧуБЯrя╝ИуГЪуГГуГИуГб`уГлуБпф╕Аф║║уБлуБЧуБЛщАБуВМуБкуБДя╝Й
 							if( HitFontNo == mailWndFontNo[ i ] ){
-								// ├√╟░дмдвды╦∙д╦е╟й`е┐дм╚ыд├д╞дддыд╚д╣ды
+								// хРНхЙНуБМуБВуВЛцЙАуБлуГЗ`уВ┐уБМхЕеуБгуБжуБДуВЛуБиуБЩуВЛ
 								if( addressBook[ nowNo + i ].useFlag == TRUE ){
 									int j, flag = FALSE;
-									// ╝╚д╦▀xТkд╖д╞дыдле┴езе├еп
+									// цЧвуБлxkуБЧуБжуВЛуБЛуГБуВзуГГуВп
 									for( j = 0 ; j < MAX_ADR_BOOK ; j++ ){ 
 										if( mailWndSendFlag[ j ] == TRUE ) flag = TRUE;
 									}
 									
-									// ▀xТkд╖д╞д╩длд├д┐дщ
+									// xkуБЧуБжуБкуБЛуБгуБЯуВЙ
 									if( flag == FALSE ){
 										mailWndSendFlag[ nowNo + i ] = TRUE;
-										// епеъе├еп╥Ї
+										// уВпуГкуГГуВпщЯ│
 										play_se( 217, 320, 240 );
-									}else{ // ╝╚д╦▀xТkд╡дьд╞ддд┐дщ
-										// ▀xТkд╡дьд╞дддыд╚д│дэдЄепеъе├епд╖д┐Хr
+									}else{ // цЧвуБлxkуБХуВМуБжуБДуБЯуВЙ
+										// xkуБХуВМуБжуБДуВЛуБиуБУуВНуВТуВпуГкуГГуВпуБЧуБЯr
 										if( mailWndSendFlag[ nowNo + i ] == TRUE ){ 
 											mailWndSendFlag[ nowNo + i ] = FALSE;
-											// епеъе├еп╥Ї
+											// уВпуГкуГГуВпщЯ│
 											play_se( 217, 320, 240 );
-										}else{ // ▀xТkд╡дьд╞ддд╩ддд╚д│дэдЄепеъе├епд╖д┐Хr
-											// г╬г╟╥Ї
+										}else{ // xkуБХуВМуБжуБДуБкуБДуБиуБУуВНуВТуВпуГкуГГуВпуБЧуБЯr
+											// я╝оя╝зщЯ│
 											play_se( 220, 320, 240 );
 										}
 									}
 								}
 							}
 						}
-						// С°дыХr
+						// r
 						if( HitDispNo == mailWndFontNo[ 19 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// еведе╞ер─иЪв
+							// уВвуВдуГЖуГацК╣
 							DeathAction( pActMailItem );
 							pActMailItem = NULL;
-							// ╥╗╙Eежегеєе╔ежд╪
+							// ф╕АEуВжуВгуГ│уГЙуВжуБ╕
 							mailWndNo = MAIL_WND_VIEW;	
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
 						}
-						// еведе╞ере▄е┐еє
+						// уВвуВдуГЖуГауГЬуВ┐уГ│
 						if( HitDispNo == mailWndFontNo[ 15 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// еведе╞ер─иЪв
+							// уВвуВдуГЖуГацК╣
 							DeathAction( pActMailItem );
 							pActMailItem = NULL;
-							// ╟░д╬ежегеєе╔ежд╦С°ды
+							// хЙНуБоуВжуВгуГ│уГЙуВжуБл
 							mailWndNo = MAIL_WND_ITEM;	
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
-							// ╚ы┴же╒ейй`еле╣С°д╣
+							// хЕехКЫуГХуВй`уВлуВ╣
 							GetKeyInputFocus( &MyChatBuffer );
 						}
 					}
-					// ╦═╨┼е▄е┐еє
+					// щАБф┐буГЬуВ┐уГ│
 					if( HitDispNo == mailWndFontNo[ 18 ] ){
 						
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
 							int flag = FALSE;
-							// ╝╚д╦▀xТkд╖д╞дыдле┴езе├еп
+							// цЧвуБлxkуБЧуБжуВЛуБЛуГБуВзуГГуВп
 							for( i = 0 ; i < MAX_ADR_BOOK ; i++ ){ 
 								if( mailWndSendFlag[ i ] == TRUE ) flag = TRUE;
 							}
-							// ╬─╫╓┴╨дмдвдыХr
+							// цЦЗхнЧхИЧуБМуБВуВЛr
 							//if( MailStr.buffer[ 0 ] != NULL && flag == TRUE && mailItemNo != -1 ){
 							if( MailStr.buffer[ 0 ] != NULL && flag == TRUE 
 								&& pActPet != NULL 
 								&& pActPet->actNo == ANIM_DISP_PET
 								&& pc.mailPetNo != ItemMixPetNo ){
-								// е┌е├е╚дм║╧│╔╓╨д╕дуЯoддХr
+								// уГЪуГГуГИуБМхРИцИРф╕нуБШуВГoуБДr
 								//&& pActPet2 == NULL ){
-								// г▓г░╚╦╖╓еый`е╫
+								// я╝Тя╝Рф║║хИЖуГл`уГЧ
 								for( i = 0 ; i < MAX_ADR_BOOK ; i++ ){
-									// е╒еще░┴вд├д╞дыХr
+									// уГХуГйуВ░члЛуБгуБжуВЛr
 									if( mailWndSendFlag[ i ] == TRUE ){
 										char moji2[ 256 ];
-										// д╚дъдвдид║е│е╘й`
+										// уБиуВКуБВуБИуБЪуВ│уГФ`
 										strcpy( moji2, MailStr.buffer );
-										// еие╣е▒й`е╫ДI└э
+										// уВиуВ╣уВ▒`уГЧIчРЖ
 										makeSendString( moji2, moji, sizeof( moji ) );
-										// е┌е├е╚есй`еы╦═╨┼
+										// уГЪуГГуГИуГб`уГлщАБф┐б
 										lssproto_PMSG_send( sockfd, i, pc.mailPetNo, mailItemNo, moji2, FONT_PAL_WHITE ); 
 										//lssproto_PMSG_send( sockfd, i, pc.mailPetNo, mailItemNo, MailStr.buffer, FONT_PAL_WHITE ); 
-										// есй`еые┌е├е╚╖м║┼│ї╞┌╗п
+										// уГб`уГлуГЪуГГуГИчХкхП╖хИЭцЬЯхМЦ
 										pc.mailPetNo = -1;
-										// ║╧│╔е╒еще░┴вд├д╞ддд┐дщ
+										// хРИцИРуГХуГйуВ░члЛуБгуБжуБДуБЯуВЙ
 										ItemBuffer[ mailItemNo ].mixFlag = 0;
-										// е╤ещесй`е┐е╗й`е╓
+										// уГСуГйуГб`уВ┐уВ╗`уГЦ
 										saveUserSetting();
-										// е┌е├е╚евепе╖ечеєевепе╖ечеєдвдыХr
+										// уГЪуГГуГИуВвуВпуВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уБВуВЛr
 										if( pActPet != NULL ){
-											// е┌е├е╚╗н├ц═тд╪
+											// уГЪуГГуГИчФ╗щЭвхдЦуБ╕
 											pActPet->actNo = 1;
 										}
 									}
 								}
-								// ╬─╫╓┴╨│ї╞┌╗п
+								// цЦЗхнЧхИЧхИЭцЬЯхМЦ
 								//MailStr.buffer[ 0 ] = NULL;
 								//MailStr.cnt = 0;
-								// ╦═╨┼╥Ї
+								// щАБф┐бщЯ│
 								play_se( 101, 320, 240 );
 								mailWndBtnFlag[ 18 ] = TRUE;
 							}else{
-								// г╬г╟╥Ї
+								// я╝оя╝зщЯ│
 								play_se( 220, 320, 240 );
 							}
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 18 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 18 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 18 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 18 ] = FALSE;
 					}
 					
-					// ╟░д╦С°ды
+					// хЙНуБл
 					if( HitDispNo == mailWndFontNo[ 16 ] || joy_auto[ 0 ] & JOY_A ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A ){
-							mailPetSendWndPageNo--; // е┌й`е╕С°д╣
+							mailPetSendWndPageNo--; // уГЪ`уВ╕
 							if( mailPetSendWndPageNo < 0 ) mailPetSendWndPageNo = MAX_ADR_BOOK_PAGE - 1;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 16 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 16 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 16 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 16 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 16 ] = FALSE;
 					}
-					// ┤╬д╦▀Mдр
+					// цмбуБлMуВА
 					if( HitDispNo == mailWndFontNo[ 17 ] || joy_auto[ 0 ] & JOY_B ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
-							mailPetSendWndPageNo++; // е┌й`е╕▀Mд▐д╗ды
+							mailPetSendWndPageNo++; // уГЪ`уВ╕MуБ╛уБЫуВЛ
 							if( mailPetSendWndPageNo >= MAX_ADR_BOOK_PAGE ) mailPetSendWndPageNo = 0;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 17 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 17 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 17 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 17 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 17 ] = FALSE;
 					}
 					
-					// ╬─╒┬епеъеве▄е┐еє
+					// цЦЗчлауВпуГкуВвуГЬуВ┐уГ│
 					if( HitDispNo == mailWndFontNo[ 14 ] ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.onceState & MOUSE_LEFT_CRICK ){
-							// есй`еы╬─╒┬ │ї╞┌╘O╢и
+							// уГб`уГлцЦЗчла хИЭцЬЯOхоЪ
 							MailStr.buffer[ 0 ] = NULL;
 							MailStr.cnt = 0;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 14 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 14 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 14 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 14 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 14 ] = FALSE;
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						int nowNo = mailPetSendWndPageNo * MAX_ADR_BOOK_COUNT;
 						int color;
 						
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x;
 						y = pActMenuWnd->y;
-						// ╚ы┴же╒ейй`еле╣╚б╡├
+						// хЕехКЫуГХуВй`уВлуВ╣хПЦх╛Ч
 						GetKeyInputFocus( &MailStr );
 						
-						// е┌е├е╚д╬├√╟░▒э╩╛
-						// двд└├√дмЯoддХr
+						// уГЪуГГуГИуБохРНхЙНшбичд║
+						// уБВуБахРНуБМoуБДr
 						if( pet[ pc.mailPetNo ].freeName[ 0 ] == NULL ){
 							//StockFontBuffer( x + 120, y + 14, FONT_PRIO_FRONT, 0, pet[ pc.mailPetNo ].name, 0 );
 							CenteringStr( pet[ pc.mailPetNo ].name, moji, PET_NAME_LEN );
@@ -6040,120 +6040,120 @@ void MenuProc( void )
 						}
 						StockFontBuffer( x + 120, y + 14, FONT_PRIO_FRONT, 0, moji, 0 );
 						//StockFontBuffer( x + 120, y + 14, FONT_PRIO_FRONT, 0, "0123456789012345", 0 );
-						//StockFontBuffer( x + 120, y + 14, FONT_PRIO_FRONT, 0, moji"двдвдвдвдвдвдвдв", 0 );
+						//StockFontBuffer( x + 120, y + 14, FONT_PRIO_FRONT, 0, moji"уБВуБВуБВуБВуБВуБВуБВуБВ", 0 );
 						
-						// ╬─╫╓┴╨д╬▒э╩╛
+						// цЦЗхнЧхИЧуБошбичд║
 						StockFontBuffer2( &MailStr );
 						
-						// е┌й`е╕─┌еый`е╫
+						// уГЪ`уВ╕хЖЕуГл`уГЧ
 						//for( i = mailViewWndPageNo * 4 ; i < mailViewWndPageNo * 4 + 4 ; i++ ){
 						//for( i = 0 ; i < 4 ; i++ ){
 						for( i = 0 ; i < MAX_ADR_BOOK_COUNT ; i++ ){
-							// ├√╟░дмдвды╦∙д╦е╟й`е┐дм╚ыд├д╞дддыд╚д╣ды
+							// хРНхЙНуБМуБВуВЛцЙАуБлуГЗ`уВ┐уБМхЕеуБгуБжуБДуВЛуБиуБЩуВЛ
 							if( addressBook[ nowNo + i ].useFlag == TRUE ){
-								color = FONT_PAL_WHITE;	// е╟е╒ейеые╚╔л
-								// ▀xТkд╡дьд╞дддыХr
+								color = FONT_PAL_WHITE;	// уГЗуГХуВйуГлуГИшЙ▓
+								// xkуБХуВМуБжуБДуВЛr
 								if( mailWndSendFlag[ nowNo + i ] == TRUE ){
-									// ╗╞╔л
+									// щ╗ДшЙ▓
 									color = FONT_PAL_AQUA;
 								}
-								// ├√╟░▒э╩╛
+								// хРНхЙНшбичд║
 								CenteringStr( addressBook[ nowNo + i ].name, moji, CHAR_NAME_LEN );
 								mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, moji, 2 );
 								//mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, "aaaaaaaaaaaaaaaa", 2 );
-								//mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, "двдвдвдвдвдвдвдв", 2 );
+								//mailWndFontNo[ i ] = StockFontBuffer( x + 111, y + 177, FONT_PRIO_FRONT, color, "уБВуБВуБВуБВуБВуБВуБВуБВ", 2 );
 								
 							}
 							y += 23;
 						}
-						// еведе╞ере▄е┐еє
+						// уВвуВдуГЖуГауГЬуВ┐уГ│
 						mailWndFontNo[ 15 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_IME3, CG_MAIL_WND_ITEM_BTN, 2 );
-						// ╟░е▄е┐еє
+						// хЙНуГЬуВ┐уГ│
 						mailWndFontNo[ 16 ] = StockDispBuffer( pActMenuWnd->x + 25 - 8 + 4, pActMenuWnd->y + 241, DISP_PRIO_IME3, CG_PREV_BTN + mailWndBtnFlag[ 16 ], 2 );
-						// е┌й`е╕╖м║┼▒э╩╛
+						// уГЪ`уВ╕чХкхП╖шбичд║
 						sprintf( moji,"%2d", mailPetSendWndPageNo + 1 );
 						StockFontBuffer( pActMenuWnd->x + 46 - 8 + 4, pActMenuWnd->y + 233, FONT_PRIO_FRONT, 0, moji, 0 );
-						// ┤╬е▄е┐еє
+						// цмбуГЬуВ┐уГ│
 						mailWndFontNo[ 17 ] = StockDispBuffer( pActMenuWnd->x + 75 + 4, pActMenuWnd->y + 241, DISP_PRIO_IME3, CG_NEXT_BTN + mailWndBtnFlag[ 17 ], 2 );
-						// ╬─╒┬епеъеве▄е┐еє
+						// цЦЗчлауВпуГкуВвуГЬуВ┐уГ│
 						mailWndFontNo[ 14 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 60, pActMenuWnd->y + 390, DISP_PRIO_IME3, CG_MAIL_WND_CLEAR_BTN_UP + mailWndBtnFlag[ 14 ], 2 );
-						// ╦═╨┼е▄е┐еє
+						// щАБф┐буГЬуВ┐уГ│
 						mailWndFontNo[ 18 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx - 60, pActMenuWnd->y + 421, DISP_PRIO_IME3, CG_SEND_BTN + mailWndBtnFlag[ 18 ] * 75, 2 );
-						// С°ды
+						// 
 						mailWndFontNo[ 19 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx + 60, pActMenuWnd->y + 421, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
 			}
 			break;
 
-		case MAIL_WND_ITEM:	// еведе╞ер▀xТkежегеєе╔еж
-			// ежегеєе╔еждмд╩ддХr
+		case MAIL_WND_ITEM:	// уВвуВдуГЖуГаxkуВжуВгуГ│уГЙуВж
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 0, 0, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 24, 271, 281, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
-				mailSendWndPageNo = 0;		// ╦═╨┼╧р╩╓е┌й`е╕╖м║┼│ї╞┌╗п
-				// еведе╞ерщv▀Bд╬│ї╞┌╗п
+				mailSendWndPageNo = 0;		// щАБф┐бчЫ╕цЙЛуГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
+				// уВвуВдуГЖуГаvBуБохИЭцЬЯхМЦ
 				InitItem( pActMenuWnd->x, pActMenuWnd->y );
-				// еведе╞ережегеєе╔ежд╬Хr
+				// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуБоr
 				if( MenuToggleFlag & JOY_CTRL_I && itemWndNo == 0 ){
-					// еведе╞ережегеєе╔ежщ]д╕ды
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 					MenuToggleFlag &= ~JOY_CTRL_I;
 					DeathMenuAction2();
 				}
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// еведе╞ережегеєе╔еж╧┬▒э╩╛
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжф╕Лшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my - 80, DISP_PRIO_MENU, CG_ITEM_WND_1, 1 );
-					// еведе╞ережегеєе╔еже┐еде╚еы▒э╩╛
+					// уВвуВдуГЖуГауВжуВгуГ│уГЙуВжуВ┐уВдуГИуГлшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my - 80, DISP_PRIO_MENU, CG_BTL_ITEM_WND_TITLE, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// С°дыХr
+						// r
 						if( HitDispNo == mailWndFontNo[ 19 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╥╗╙Eежегеєе╔ежд╪
+							// ф╕АEуВжуВгуГ│уГЙуВжуБ╕
 							mailWndNo = MAIL_WND_PET_SEND;	
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 16;
 						y = pActMenuWnd->y + 191 + 7;
 						
-						// еведе╞ереый`е╫
+						// уВвуВдуГЖуГауГл`уГЧ
 						for( i = 5 ; i < MAX_ITEM ; i++ ){
-							// ЦШ─┌д╦╚ыд├д╞ддд┐дщ
+							// хЖЕуБлхЕеуБгуБжуБДуБЯуВЙ
 							if( MakeHitBox( ItemBuffer[ i ].defX - 24, ItemBuffer[ i ].defY - 24 - 160, 
 											ItemBuffer[ i ].defX + 25, ItemBuffer[ i ].defY + 23 - 160, DISP_PRIO_IME3 ) == TRUE ){
-								// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+								// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 								if( pc.item[ i ].useFlag == TRUE ){ 
 									int color = FONT_PAL_WHITE;
 										
-									// ╕─╨╨е▌едеєе╚
+									// цФ╣шбМуГЭуВдуГ│уГИ
 									char *splitPoint = pc.item[ i ].memo;
-									//char *splitPoint = "▒э╩╛е╞е╣е╚д╟д╣бг╦╜д╬├√╟░д╧╠л╠я╒▄╔·д╟д╣бгд│дьдлдщдтдшдэд╖дпдкюКддд╖д▐д╣бг";
-									// ╫░Вфд╟дндыдле┴езе├еп
+									//char *splitPoint = "шбичд║уГЖуВ╣уГИуБзуБЩуАВчзБуБохРНхЙНуБпхдкчФ░хУ▓чФЯуБзуБЩуАВуБУуВМуБЛуВЙуВВуВИуВНуБЧуБПуБКуБДуБЧуБ╛уБЩуАВ";
+									// шгЕц╡ГцЙжцпкщЪ╢╨Фц░У
 									if( pc.level < pc.item[ i ].level ) color = FONT_PAL_RED;
-									// еведе╞ерд╬├√╟░▒э╩╛
+									// уВвуВдуГЖуГауБохРНхЙНшбичд║
 									StockFontBuffer( pActMenuWnd->x + 16, pActMenuWnd->y + 332 - 160, FONT_PRIO_FRONT, color, pc.item[ i ].name, 0 );	
-									// еведе╞ерд╬╒h├ў▒э╩╛
-									// ╨╨╩¤╖╓еый`е╫
+									// уВвуВдуГЖуГауБоhцШОшбичд║
+									// шбМцХ░хИЖуГл`уГЧ
 									while( 1 ){
-										// г▓г╕╬─╫╓дЄ│мдид╞д┐дщ╖╓╕ю
+										// я╝Тя╝ШцЦЗхнЧуВТш╢ЕуБИуБжуБЯуВЙхИЖхЙ▓
 										if( strlen( splitPoint ) > 28 ){
 											strncpy( moji, splitPoint, 28 );
-											moji[ 28 ] = NULL;	// ╜K╢╦╙Ы║┼дЄдддьды
-											// ╚л╜╟д╬░ы╖╓д└д├д┐Хr
+											moji[ 28 ] = NULL;	// KчлпхП╖уВТуБДуВМуВЛ
+											// хЕишзТуБохНКхИЖуБауБгуБЯr
 											if( GetStrLastByte( moji ) == 3 ){
 												moji[ 27 ] = NULL;
 												splitPoint += 27;
@@ -6170,37 +6170,37 @@ void MenuProc( void )
 									}
 								}
 								
-								// ╫єе└е╓еыепеъе├епд╟еведе╞ер╩╣╙├
+								// х╖жуГАуГЦуГлуВпуГкуГГуВпуБзуВвуВдуГЖуГаф╜┐чФи
 								if( mouse.onceState & MOUSE_LEFT_DBL_CRICK ){
-									// д╜д╬Щ┌д╦еведе╞ердмдвд├д╞бв╦═╨┼┐╔─▄д╬еведе╞ерд╬Хr
+									// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓хХдтС║цЙШш╢┤ш╡бхЯнш┐ЭуБЕхМ╣хХ╢r
 									//if( pc.item[ i ].useFlag == TRUE && pc.item[ i ].sendFlag == TRUE ){
 									if( pc.item[ i ].useFlag == TRUE && pc.item[ i ].sendFlag & ITEM_FLAG_PET_MAIL ){
-										mailItemNo = i;	// еведе╞ер╖м║┼╙ЫСЫ
-										// ежегеєе╔еж─иЪв
+										mailItemNo = i;	// уВвуВдуГЖуГачХкхП╖
+										// уВжуВгуГ│уГЙуВжцК╣
 										DeathAction( pActMenuWnd );
 										pActMenuWnd = NULL;
-										// ╥╗╙Eежегеєе╔ежд╪
+										// ф╕АEуВжуВгуГ│уГЙуВжуБ╕
 										mailWndNo = MAIL_WND_PET_SEND;	
-										// ежегеєе╔ежщ]д╕ды╥Ї
+										// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 										play_se( 203, 320, 240 );
-										// ╚ы┴же╒ейй`еле╣С°д╣
+										// хЕехКЫуГХуВй`уВлуВ╣
 										GetKeyInputFocus( &MyChatBuffer );
 									}else{
-										// г╬г╟╥Ї
+										// я╝оя╝зщЯ│
 										play_se( 220, 320, 240 );
 									}
 								}
 							}
-							// д╜д╬Щ┌д╦еведе╞ердмдвд├д┐дщ
+							// уБЭуБохЖешб░уБЕхМ╣хХ╢чЫ▓щГб
 							//if( pc.item[ i ].useFlag == TRUE && ItemBuffer[ i ].dragFlag == FALSE ){ 
 							if( pc.item[ i ].useFlag == TRUE ){ 
-								// еведе╞ер▒э╩╛
+								// уВвуВдуГЖуГашбичд║
 								StockDispBuffer( ItemBuffer[ i ].defX, ItemBuffer[ i ].defY - 160, ItemBuffer[ i ].dispPrio, pc.item[ i ].graNo, 0 );
 							}
 						}
-						// ежегеєе╔еждвд├д┐дщ
+						// уВжуВгуГ│уГЙуВжуБВуБгуБЯуВЙ
 						if( pActMenuWnd != NULL ){
-							// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+							// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 							mailWndFontNo[ 19 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, pActMenuWnd->y + 262, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 						}
 					}
@@ -6208,229 +6208,229 @@ void MenuProc( void )
 			}
 			break;
 			
-		case MAIL_WND_HISTORY:	// ┬─Ъsежегеєе╔еж
-			// ежегеєе╔еждмд╩ддХr
+		case MAIL_WND_HISTORY:	// х▒еsуВжуВгуГ│уГЙуВж
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				//pActMenuWnd = MakeWindowDisp( 0, 0, 3, 6, CG_WND_TITLE_SYSTEM, 1 );
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 424, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_MAIL_0 ; i++ ) mailWndFontNo[ i ] = -2;
 				
-				// ▒э╩╛д╣дые┌й`е╕дЄ╘O╢иги╥╗╖м╣┼дд╬┤╒iесй`еыдЄ▀xТkд╣дыгй
-				// ┬─Ъs╖╓еый`е╫		
+				// шбичд║уБЩуВЛуГЪ`уВ╕уВТOхоЪя╝Иф╕АчХкхПдуБДцЬкiуГб`уГлуВТxkуБЩуВЛя╝Й
+				// х▒еsхИЖуГл`уГЧ		
 				for( mailHistoryWndPageNo = MAIL_MAX_HISTORY - 1 ; mailHistoryWndPageNo > 0 ; mailHistoryWndPageNo-- ){
-					// еъе▀е├е╚е┴езе├еп
+					// уГкуГЯуГГуГИуГБуВзуГГуВп
 					if( mailHistoryWndPageNo < 0 ) mailHistoryWndPageNo = MAIL_MAX_HISTORY - 1;
-					// МgыHд╦▒э╩╛д╣ды┬─Ъs╖м║┼
+					// gHуБлшбичд║уБЩуВЛх▒еsчХкхП╖
 					mailHistoryWndNowPageNo = ( MailHistory[ mailHistoryWndSelectNo ].newHistoryNo + mailHistoryWndPageNo ) % MAIL_MAX_HISTORY;
-					// ╬┤╒iе╒еще░┴вд├д╞дддыХrбвТiд▒ды
+					// цЬкiуГХуГйуВ░члЛуБгуБжуБДуВЛrуАБiуБСуВЛ
 					if( MailHistory[ mailHistoryWndSelectNo ].noReadFlag[ mailHistoryWndNowPageNo ] >= TRUE ) break;
 				}
 #if 0
-				// е┌е├е╚евепе╖ечеєевепе╖ечеєд╩ддХr
+				// уГЪуГГуГИуВвуВпуВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уБкуБДr
 				if( pActPet == NULL ){
-					// е┌е├е╚евепе╖ечеє╫ў│╔
+					// уГЪуГГуГИуВвуВпуВ╖уГзуГ│ф╜ЬцИР
 					pActPet = MakeAnimDisp( pActMenuWnd->x - 204, pActMenuWnd->y + 160, pet[ pc.mailPetNo ].graNo, ANIM_DISP_PET_RECIEVE );
 					pActPet->atr |= ACT_ATR_INFO;
 					pActPet->atr |= ACT_ATR_TYPE_PET;
 					pActPet->level = 32;
-					strcpy( pActPet->name, "е╞е╣е╚е┌е├е╚" );
+					strcpy( pActPet->name, "уГЖуВ╣уГИуГЪуГГуГИ" );
 				}
-				// еведе╞еревепе╖ечеєд╩ддХrдлд─бвеведе╞ердм╜ьддд╞дддыХr
+				// уВвуВдуГЖуГауВвуВпуВ╖уГзуГ│уБкуБДrуБЛуБдуАБуВвуВдуГЖуГауБМх▒КуБДуБжуБДуВЛr
 				if( pActMailItem == NULL && MailHistory[ mailHistoryWndSelectNo ].itemGraNo[ mailHistoryWndNowPageNo ] != -1 ){
-					// еведе╞еревепе╖ечеє╫ў│╔
+					// уВвуВдуГЖуГауВвуВпуВ╖уГзуГ│ф╜ЬцИР
 					pActMailItem = MakeAnimDisp( pActMenuWnd->x - 204, pActMenuWnd->y + 128, pc.item[ 5 ].graNo, ANIM_DISP_PET_ITEM );
 					pActMailItem->atr |= ACT_ATR_INFO;
 					pActMailItem->atr |= ACT_ATR_TYPE_ITEM;
 					pActMailItem->dispPrio = DISP_PRIO_DRAG;
-					// еведе╞ер├√е│е╘й`
-					strcpy( pActMailItem->name, "╜ьддд┐еведе╞ер" );
+					// уВвуВдуГЖуГахРНуВ│уГФ`
+					strcpy( pActMailItem->name, "х▒КуБДуБЯуВвуВдуГЖуГа" );
 				}
 #endif
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
 					static int nowDelNo;
-					// ┬─Ъsежегеєе╔еж▒э╩╛
+					// х▒еsуВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_MAIL_WND_HISTORY_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// есй`еые▄е┐еє
+						// уГб`уГлуГЬуВ┐уГ│
 						if( HitDispNo == mailWndFontNo[ 18 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// еведе╞ер─иЪв
+							// уВвуВдуГЖуГацК╣
 							DeathAction( pActMailItem );
 							pActMailItem = NULL;
-							// ежегеєе╔еж╖м║┼е╨е├епеве├е╫
+							// уВжуВгуГ│уГЙуВжчХкхП╖уГРуГГуВпуВвуГГуГЧ
 							mailWndNoBak = mailWndNo;
-							// ╦═╨┼╧р╩╓е╒еще░│ї╞┌╗п
+							// щАБф┐бчЫ╕цЙЛуГХуГйуВ░хИЭцЬЯхМЦ
 							InitMailSendFlag();
-							// ╦═╨┼╧р╩╓д└д▒е╒еще░┴вд╞ды
+							// щАБф┐бчЫ╕цЙЛуБауБСуГХуГйуВ░члЛуБжуВЛ
 							mailWndSendFlag[ mailHistoryWndSelectNo ] = TRUE;
-							// есй`еые┌е├е╚дм▀xТkд╡дьд╞ддд┐дщ
+							// уГб`уГлуГЪуГГуГИуБМxkуБХуВМуБжуБДуБЯуВЙ
 							if( pc.mailPetNo != -1 ){
-								// ▀xТkежегеєе╔ежд╪
+								// xkуВжуВгуГ│уГЙуВжуБ╕
 								mailWndNo = MAIL_WND_SELECT;
 							}else{
-								// ╞╒═иесй`еы╦═╨┼ежегеєе╔еж
+								// цЩощАЪуГб`уГлщАБф┐буВжуВгуГ│уГЙуВж
 								mailWndNo = MAIL_WND_SEND;
 							}
-							// ежегеєе╔ежщ_дп╥Ї
+							// уВжуВгуГ│уГЙуВж_уБПщЯ│
 							play_se( 202, 320, 240 );
 						}
-						// С°дыХr
+						// r
 						if( HitDispNo == mailWndFontNo[ 19 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// еведе╞ер─иЪв
+							// уВвуВдуГЖуГацК╣
 							DeathAction( pActMailItem );
 							pActMailItem = NULL;
-							// ╥╗╙Eежегеєе╔ежд╪
+							// ф╕АEуВжуВгуГ│уГЙуВжуБ╕
 							mailWndNo = MAIL_WND_VIEW;	
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
-					// ╟░д╦С°ды
+					// хЙНуБл
 					if( HitDispNo == mailWndFontNo[ 16 ] || joy_auto[ 0 ] & JOY_A ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A ){
-							mailHistoryWndPageNo--; // е┌й`е╕С°д╣
+							mailHistoryWndPageNo--; // уГЪ`уВ╕
 							if( mailHistoryWndPageNo < 0 ) mailHistoryWndPageNo = MAIL_MAX_HISTORY - 1;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// еведе╞ер─иЪв
+							// уВвуВдуГЖуГацК╣
 							DeathAction( pActMailItem );
 							pActMailItem = NULL;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 16 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 16 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 16 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 16 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 16 ] = FALSE;
 					}
-					// ┤╬д╦▀Mдр
+					// цмбуБлMуВА
 					if( HitDispNo == mailWndFontNo[ 17 ] || joy_auto[ 0 ] & JOY_B ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
-							mailHistoryWndPageNo++; // е┌й`е╕▀Mд▐д╗ды
+							mailHistoryWndPageNo++; // уГЪ`уВ╕MуБ╛уБЫуВЛ
 							if( mailHistoryWndPageNo >= MAIL_MAX_HISTORY ) mailHistoryWndPageNo = 0;
-							// ╩╓╝Иеве╦есй`е╖ечеє─иЪв
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│цК╣
 							DeathLetterAction();
-							// е┌е├е╚─иЪв
+							// уГЪуГГуГИцК╣
 							DeathAction( pActPet );
 							pActPet = NULL;
-							// еведе╞ер─иЪв
+							// уВвуВдуГЖуГацК╣
 							DeathAction( pActMailItem );
 							pActMailItem = NULL;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							mailWndBtnFlag[ 17 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && mailWndBtnFlag[ 17 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							mailWndBtnFlag[ 17 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							mailWndBtnFlag[ 17 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						mailWndBtnFlag[ 17 ] = FALSE;
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x;
 						y = pActMenuWnd->y;
 						char *splitPoint;
-						// МgыHд╦▒э╩╛д╣ды┬─Ъs╖м║┼
+						// gHуБлшбичд║уБЩуВЛх▒еsчХкхП╖
 						mailHistoryWndNowPageNo = ( MailHistory[ mailHistoryWndSelectNo ].newHistoryNo + mailHistoryWndPageNo ) % MAIL_MAX_HISTORY;
-						// ╬┤╒iе╒еще░┴вд├д╞дддыХr
+						// цЬкiуГХуГйуВ░члЛуБгуБжуБДуВЛr
 						if( MailHistory[ mailHistoryWndSelectNo ].noReadFlag[ mailHistoryWndNowPageNo ] >= TRUE ){
-							// е┌е├е╚есй`еыд╬Хr
+							// уГЪуГГуГИуГб`уГлуБоr
 							if( MailHistory[ mailHistoryWndSelectNo ].noReadFlag[ mailHistoryWndNowPageNo ] > TRUE ){
-								// е┌е├е╚евепе╖ечеєевепе╖ечеєд╩ддХr
+								// уГЪуГГуГИуВвуВпуВ╖уГзуГ│уВвуВпуВ╖уГзуГ│уБкуБДr
 								if( pActPet == NULL ){
-									// е┌е├е╚евепе╖ечеє╫ў│╔
+									// уГЪуГГуГИуВвуВпуВ╖уГзуГ│ф╜ЬцИР
 									pActPet = MakeAnimDisp( pActMenuWnd->x - 204, pActMenuWnd->y + 160, MailHistory[ mailHistoryWndSelectNo ].noReadFlag[ mailHistoryWndNowPageNo ], ANIM_DISP_PET_RECIEVE );
 									pActPet->atr |= ACT_ATR_INFO;
 									pActPet->atr |= ACT_ATR_TYPE_PET;
-									// е┌е├е╚д╬г╠г╓
+									// уГЪуГГуГИуБоя╝мя╝╢
 									pActPet->level = MailHistory[ mailHistoryWndSelectNo ].petLevel[ mailHistoryWndNowPageNo ];
-									// е┌е├е╚д╬├√╟░
+									// уГЪуГГуГИуБохРНхЙН
 									strcpy( pActPet->name, MailHistory[ mailHistoryWndSelectNo ].petName[ mailHistoryWndNowPageNo ] );
 								}
-								// еведе╞еревепе╖ечеєд╩ддХrдлд─бвеведе╞ердм╜ьддд╞дддыХr
+								// уВвуВдуГЖуГауВвуВпуВ╖уГзуГ│уБкуБДrуБЛуБдуАБуВвуВдуГЖуГауБМх▒КуБДуБжуБДуВЛr
 								if( pActMailItem == NULL && MailHistory[ mailHistoryWndSelectNo ].itemGraNo[ mailHistoryWndNowPageNo ] != -1 ){
-									// еведе╞еревепе╖ечеє╫ў│╔
+									// уВвуВдуГЖуГауВвуВпуВ╖уГзуГ│ф╜ЬцИР
 									pActMailItem = MakeAnimDisp( pActMenuWnd->x - 204, pActMenuWnd->y + 128, MailHistory[ mailHistoryWndSelectNo ].itemGraNo[ mailHistoryWndNowPageNo ], ANIM_DISP_PET_ITEM );
 									pActMailItem->atr |= ACT_ATR_INFO;
 									pActMailItem->atr |= ACT_ATR_TYPE_ITEM;
 									pActMailItem->dispPrio = DISP_PRIO_DRAG;
-									// еведе╞ер├√е│е╘й`
-									strcpy( pActMailItem->name, "╜ьддд┐еведе╞ер" );
+									// уВвуВдуГЖуГахРНуВ│уГФ`
+									strcpy( pActMailItem->name, "х▒КуБДуБЯуВвуВдуГЖуГа" );
 								}
 							}
-							// ╩╓╝Иеве╦есй`е╖ечеєд╩ддХr
+							// цЙЛуВвуГЛуГб`уВ╖уГзуГ│уБкуБДr
 							if( pActLetter[ 0 ] == NULL ){
-								// еве╦есй`е╖ечеєе┐е╣еп╫ў│╔
+								// уВвуГЛуГб`уВ╖уГзуГ│уВ┐уВ╣уВпф╜ЬцИР
 								pActLetter[ 0 ] = MakeAnimDisp( x + 28, y + 244, SPR_mail, ANIM_DISP_LETTER );
 							}
-							// ╝╚╒iд╦д╣ды
+							// цЧвiуБлуБЩуВЛ
 							MailHistory[ mailHistoryWndSelectNo ].noReadFlag[ mailHistoryWndNowPageNo ] = FALSE;
-							// есй`еые╟й`е┐д╬▒г┤ц
+							// уГб`уГлуГЗ`уВ┐уБоф┐ЭхнШ
 							SaveMailHistory( mailHistoryWndSelectNo );
-							// ╬┤╒iе┴езе├еп
+							// цЬкiуГБуВзуГГуВп
 							mailLamp = CheckMailNoReadFlag();
 							
 						}
-						// ╕─╨╨е▌едеєе╚
+						// цФ╣шбМуГЭуВдуГ│уГИ
 						splitPoint = MailHistory[ mailHistoryWndSelectNo ].str[ mailHistoryWndNowPageNo ];
-						//char *splitPoint = "г▒г▓г│г┤г╡г╢г╖г╕г╣г░г▒г▓г│г┤г╡г╢г╖г╕г╣г░г▒г▓г│г┤г╡г╢г╖г╕г╣г░г▒г▓г│г┤г╡г╢г╖г╕г╣г░г▒г▓г│г┤г╡г╢г╖г╕г╣г░г▒г▓г│г┤г╡г╢г╖г╕г╣г░г▒г▓г│г┤г╡г╢г╖г╕г╣г░";
-						// ├√╟░▒э╩╛
+						//char *splitPoint = "я╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Ря╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Ря╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Ря╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Ря╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Ря╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Ря╝Ся╝Тя╝Уя╝Фя╝Хя╝Ця╝Чя╝Шя╝Щя╝Р";
+						// хРНхЙНшбичд║
 						CenteringStr( addressBook[ mailHistoryWndSelectNo ].name, moji, CHAR_NAME_LEN );
 						StockFontBuffer( x + 64, y + 34, FONT_PRIO_FRONT, 0, moji, 0 );
-						// ╚╒╕╢▒э╩╛
+						// цЧеф╗Шшбичд║
 						StockFontBuffer( x + 148, y + 236, FONT_PRIO_FRONT, 0, MailHistory[ mailHistoryWndSelectNo ].dateStr[ mailHistoryWndNowPageNo ], 0 );
 						//StockFontBuffer( x + 128, y + 240, FONT_PRIO_FRONT, 0, " 9/14 12:10", 0 );
 						
-						// ╬─╒┬▒э╩╛
+						// цЦЗчлашбичд║
 						while( 1 ){
-							// г▓г▓╬─╫╓дЄ│мдид╞д┐дщ╖╓╕ю
+							// я╝Тя╝ТцЦЗхнЧуВТш╢ЕуБИуБжуБЯуВЙхИЖхЙ▓
 							if( strlen( splitPoint ) > 28 ){
 								strncpy( moji, splitPoint, 28 );
-								moji[ 28 ] = NULL;	// ╜K╢╦╙Ы║┼дЄдддьды
-								// ╚л╜╟д╬░ы╖╓д└д├д┐Хr
+								moji[ 28 ] = NULL;	// KчлпхП╖уВТуБДуВМуВЛ
+								// хЕишзТуБохНКхИЖуБауБгуБЯr
 								if( GetStrLastByte( moji ) == 3 ){
 									moji[ 27 ] = NULL;
 									splitPoint += 27;
@@ -6445,16 +6445,16 @@ void MenuProc( void )
 								break;
 							}
 						}
-						// ╟░е▄е┐еє
+						// хЙНуГЬуВ┐уГ│
 						mailWndFontNo[ 16 ] = StockDispBuffer( pActMenuWnd->x + 25 + 16 + 8, pActMenuWnd->y + 405, DISP_PRIO_IME3, CG_PREV_BTN + mailWndBtnFlag[ 16 ], 2 );
-						// е┌й`е╕╖м║┼▒э╩╛
+						// уГЪ`уВ╕чХкхП╖шбичд║
 						sprintf( moji,"%2d", mailHistoryWndPageNo + 1 );
 						StockFontBuffer( pActMenuWnd->x + 46 + 16 + 9, pActMenuWnd->y + 397, FONT_PRIO_FRONT, 0, moji, 0 );
-						// ┤╬е▄е┐еє
+						// цмбуГЬуВ┐уГ│
 						mailWndFontNo[ 17 ] = StockDispBuffer( pActMenuWnd->x + 75 + 16 + 9 + 8, pActMenuWnd->y + 405, DISP_PRIO_IME3, CG_NEXT_BTN + mailWndBtnFlag[ 17 ], 2 );
-						// есй`еые▄е┐еє
+						// уГб`уГлуГЬуВ┐уГ│
 						mailWndFontNo[ 18 ] = StockDispBuffer( pActMenuWnd->x + 196, pActMenuWnd->y + 371, DISP_PRIO_IME3, CG_MAIL_WND_MAIL_BTN, 2 );
-						// щ]д╕дые▄е┐еє
+						// ]уБШуВЛуГЬуВ┐уГ│
 						mailWndFontNo[ 19 ] = StockDispBuffer( pActMenuWnd->x + 220 -16 - 8, pActMenuWnd->y + 405, DISP_PRIO_IME3, CG_RETURN_BTN, 2 );
 					}
 				}
@@ -6465,129 +6465,129 @@ void MenuProc( void )
 		}
 	}
 	
-//бЄ евеые╨ережегеєе╔ежДI└э ***********╫и╝н┤░┐┌┤ж└э********************************************/
+//тЧО уВвуГлуГРуГауВжуВгуГ│уГЙуВжIчРЖ ***********ф╕Уш╛СчкЧхПгхдДчРЖ********************************************/
 
 	if( MenuToggleFlag & JOY_CTRL_A ){
 	
-		// ежегеєе╔еж╖м║┼д╟╖╓ск
+		// уВжуВгуГ│уГЙуВжчХкхП╖уБзхИЖх▓Р
 		switch( albumWndNo ){
 		
-		case 0:	// ╫╘╖╓д╬е╣е╞й`е┐е╣
+		case 0:	// шЗкхИЖуБоуВ╣уГЖ`уВ┐уВ╣
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 4, 4, 272, 448, 0, -1 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_ALBUM_0 ; i++ ) albumWndFontNo[ i ] = -2;
-				// е┌й`е╕╖м║┼│ї╞┌╗п
+				// уГЪ`уВ╕чХкхП╖хИЭцЬЯхМЦ
 				albumWndPageNo = 0;
-				// евеые╨ер╖м║┼│ї╞┌╗п
+				// уВвуГлуГРуГачХкхП╖хИЭцЬЯхМЦ
 				albumNo = -1;
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// евеые╨ережегеєе╔еж▒э╩╛
+					// уВвуГлуГРуГауВжуВгуГ│уГЙуВжшбичд║
 					StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->my, DISP_PRIO_MENU, CG_ALBUM_WND, 1 );
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// е┌й`е╕д╬╧╚ю^евеые╨ер╖м║┼
+						// уГЪ`уВ╕уБохЕИ^уВвуГлуГРуГачХкхП╖
 						int nowTopNo = albumWndPageNo * 8;
-						// г▒е┌й`е╕╖╓еый`е╫
+						// я╝СуГЪ`уВ╕хИЖуГл`уГЧ
 						for( i = 0 ; i < 8 ; i++ ){
-							// е┌е├е╚▀xдєд└Хrбвдлд─╨┤╒цд╚д├д╞дддыд╚дн
+							// уГЪуГГуГИxуВУуБаrуАБуБЛуБдхЖЩчЬЯуБиуБгуБжуБДуВЛуБиуБН
 							if( HitFontNo == albumWndFontNo[ i ] && PetAlbum[ nowTopNo + i ].flag >= 2 ){
 							//if( HitFontNo == albumWndFontNo[ i ] ){
-								// евеые╨ер╖м║┼╙ЫСЫ
+								// уВвуГлуГРуГачХкхП╖
 								albumNo = nowTopNo + i;
-								// ╨┬╥Од╟д╩дпд╣ды
+								// цЦ░цЙжшГЬх╖е
 								PetAlbum[ albumNo ].flag = 3;
-								// евеые╨ерд╬▒г┤ц
+								// уВвуГлуГРуГауБоф┐ЭхнШ
 								SaveAlbum( albumNo );
-								// епеъе├еп╥Ї
+								// уВпуГкуГГуВпщЯ│
 								play_se( 217, 320, 240 );
 							}
 						}
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == albumWndFontNo[ 19 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// ежегеєе╔ежщ]д╕ды
+							// уВжуВгуГ│уГЙуВж]уБШуВЛ
 							MenuToggleFlag ^= JOY_CTRL_A;
-							// ежегеєе╔ежщ]д╕ды╥Ї
+							// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 							play_se( 203, 320, 240 );
 						}
 					}
 					
-					// ╟░д╦С°ды
+					// хЙНуБл
 					if( HitDispNo == albumWndFontNo[ 16 ] || joy_auto[ 0 ] & JOY_A ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_A){
 							int limitPage = MAX_PET_KIND / MAX_PET_PAGE_SIZE;
-							albumWndPageNo--; // е┌й`е╕С°д╣
-							// еъе▀е├е╚е┴езе├еп
+							albumWndPageNo--; // уГЪ`уВ╕
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( albumWndPageNo < 0 ) albumWndPageNo = limitPage;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							albumWndBtnFlag[ 16 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && albumWndBtnFlag[ 16 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							albumWndBtnFlag[ 16 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							albumWndBtnFlag[ 16 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						albumWndBtnFlag[ 16 ] = FALSE;
 					}
-					// ┤╬д╦▀Mдр
+					// цмбуБлMуВА
 					if( HitDispNo == albumWndFontNo[ 17 ] || joy_auto[ 0 ] & JOY_B ){
-						// ╫єепеъе├епд╖д┐Хr
+						// х╖жуВпуГкуГГуВпуБЧуБЯr
 						if( mouse.autoState & MOUSE_LEFT_CRICK || joy_auto[ 0 ] & JOY_B ){
 							int limitPage = MAX_PET_KIND / MAX_PET_PAGE_SIZE;
-							albumWndPageNo++; // е┌й`е╕▀Mд▐д╗ды
-							// еъе▀е├е╚е┴езе├еп
+							albumWndPageNo++; // уГЪ`уВ╕MуБ╛уБЫуВЛ
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( albumWndPageNo > limitPage ) albumWndPageNo = 0;
-							// епеъе├еп╥Ї
+							// уВпуГкуГГуВпщЯ│
 							play_se( 217, 320, 240 );
 							albumWndBtnFlag[ 17 ] = TRUE;
 						}
-						// ╫єепеъе├епд╖д╞дыХr
+						// х╖жуВпуГкуГГуВпуБЧуБжуВЛr
 						if( mouse.state & MOUSE_LEFT_CRICK && albumWndBtnFlag[ 17 ] == TRUE ){
-							// е▄е┐еє░╝
+							// уГЬуВ┐уГ│хЗ╣
 							albumWndBtnFlag[ 17 ] = TRUE;
 						}else{
-							// е▄е┐еє═╣
+							// уГЬуВ┐уГ│хЗ╕
 							albumWndBtnFlag[ 17 ] = FALSE;
 						}
 					}else{
-						// е▄е┐еє═╣
+						// уГЬуВ┐уГ│хЗ╕
 						albumWndBtnFlag[ 17 ] = FALSE;
 					}
 					
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						#define ALBUM_WND_ATTR_X 34
 						#define ALBUM_WND_ATTR_Y 0
 						int x2;
-						int nowTopNo;	// е┌й`е╕д╬╧╚ю^евеые╨ер╖м║┼
-						// ╫∙Ш╦╘O╢и
+						int nowTopNo;	// уГЪ`уВ╕уБохЕИ^уВвуГлуГРуГачХкхП╖
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x;
 						y = pActMenuWnd->y + 28;
 						
-						// евеые╨ер╖м║┼двдыХr
+						// уВвуГлуГРуГачХкхП╖уБВуВЛr
 						if( albumNo != -1 ){
-							// ├√╟░╬─╫╓┴╨д╬е╗еєе┐й`еъеєе░
+							// хРНхЙНцЦЗхнЧхИЧуБоуВ╗уГ│уВ┐`уГкуГ│уВ░
 							CenteringStr( PetAlbum[ albumNo ].freeName, moji, PET_NAME_LEN );
-							//CenteringStr( "г┴г┬г├г─г┼г╞г╟г╚", moji, PET_NAME_LEN );
+							//CenteringStr( "я╝бя╝вя╝гя╝дя╝ея╝жя╝зя╝и", moji, PET_NAME_LEN );
 							//CenteringStr( "AAAAAAAAAAAAAAAA", moji, PET_NAME_LEN );
 							StockFontBuffer( x + 13, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 22; 
-							//StockFontBuffer( x - 7, y, FONT_PRIO_FRONT, 0, "╩└┤·▒э╩╛", 0 ); 
+							//StockFontBuffer( x - 7, y, FONT_PRIO_FRONT, 0, "ф╕Цф╗гшбичд║", 0 ); 
 							
 							sprintf( moji,"%3d",PetAlbum[ albumNo ].level );
 							//sprintf( moji,"999",PetAlbum[ albumNo ].level );
@@ -6609,7 +6609,7 @@ void MenuProc( void )
 							//sprintf( moji,"999",PetAlbum[ albumNo ].level );
 							StockFontBuffer( x + 36 + 72, y, FONT_PRIO_FRONT, 0, moji, 0 ); y += 29;
 							
-							// ╡╪╩Ї╨╘двдыХr
+							// хЬ░х▒ЮцАзуБВуВЛr
 							if( PetAlbum[ albumNo ].earth > 0 ){
 								x2 = ( int )( PetAlbum[ albumNo ].earth * 0.8 );
 								
@@ -6620,7 +6620,7 @@ void MenuProc( void )
 							}
 							y += 20;
 							
-							// ╦о╩Ї╨╘двдыХr
+							// ц░┤х▒ЮцАзуБВуВЛr
 							if( PetAlbum[ albumNo ].water > 0 ){
 								x2 = ( int )( PetAlbum[ albumNo ].water * 0.8 );
 								
@@ -6635,7 +6635,7 @@ void MenuProc( void )
 							}
 							y += 20;
 							
-							// ╗Ё╩Ї╨╘двдыХr
+							// чБлх▒ЮцАзуБВуВЛr
 							if( PetAlbum[ albumNo ].fire > 0 ){
 								x2 = ( int )( PetAlbum[ albumNo ].fire * 0.8 );
 								
@@ -6646,7 +6646,7 @@ void MenuProc( void )
 							}
 							y += 20;
 							
-							// яL╩Ї╨╘двдыХr
+							// Lх▒ЮцАзуБВуВЛr
 							if( PetAlbum[ albumNo ].wind > 0 ){
 								x2 = ( int )( PetAlbum[ albumNo ].wind * 0.8 );
 								
@@ -6656,62 +6656,62 @@ void MenuProc( void )
 								//StockBoxDispBuffer( x + 126, y + 5, x + 126 + x2wind, y + 13, DISP_PRIO_IME3, SYSTEM_PAL_BLACK, 0 );
 							}
 							
-							// юЖе░еще╒еге├еп▒э╩╛
+							// уВ░уГйуГХуВгуГГуВпшбичд║
 							//StockDispBuffer( pActMenuWnd->x + 151 + 48, pActMenuWnd->y + 65 + 52, DISP_PRIO_IME3, 28001, 0 );
 							StockDispBuffer( pActMenuWnd->x + 151 + 48, pActMenuWnd->y + 65 + 52, DISP_PRIO_IME3, PetAlbum[ albumNo ].faceGraNo, 0 );
 						}
 						
 						y = pActMenuWnd->y + 215;
 						
-						// е┌й`е╕д╬╧╚ю^евеые╨ер╖м║┼
+						// уГЪ`уВ╕уБохЕИ^уВвуГлуГРуГачХкхП╖
 						nowTopNo = albumWndPageNo * 8;
-						// ╥╗е┌й`е╕╖╓еый`е╫
+						// ф╕АуГЪ`уВ╕хИЖуГл`уГЧ
 						for( i = 0 ; i < 8 ; i++ ){
-							// еъе▀е├е╚е┴езе├еп
+							// уГкуГЯуГГуГИуГБуВзуГГуВп
 							if( nowTopNo + i >= MAX_PET_KIND ) break;
 							
-							// ╨┬╥Ое╒еще░┴вд├д╞ддд┐дщ
+							// цЦ░цжицеЧхВ▓чЫ▓чЪоуБДщГб
 							if( PetAlbum[ nowTopNo + i ].flag == 2 ){
-								// ╨┬╥О▒э╩╛
+								// цЦ░чбО
 								StockDispBuffer( x + 24, y + 9, DISP_PRIO_IME3, CG_ALBUM_WND_NEW_ICON, 0 );
 							}
-							// евеые╨ерг╬г╧▒э╩╛
+							// уВвуГлуГРуГая╝оя╝пшбичд║
 							sprintf( moji,"No.%3d",nowTopNo + i + 1 );
 							//sprintf( moji,"No.999");
 							StockFontBuffer( x + 46, y + 1, FONT_PRIO_FRONT, 0, moji, 0 );
 							
-							// е┌е├е╚д╬├√╟░▒э╩╛
-							// е╒еще░┴вд├д╞дыХr
+							// уГЪуГГуГИуБохРНхЙНшбичд║
+							// уГХуГйуВ░члЛуБгуБжуВЛr
 							if( PetAlbum[ nowTopNo + i ].flag != 0 ){
-								// ╥Кд┐д╚дн
+								// уБЯуБиуБН
 								if( PetAlbum[ nowTopNo + i ].flag == 1 ){
 									CenteringStr( PetAlbum[ nowTopNo + i ].name, moji, PET_NAME_LEN );
-									//CenteringStr( "г┴г┬г├г─г┼г╞г╟г╚", moji, PET_NAME_LEN );
+									//CenteringStr( "я╝бя╝вя╝гя╝дя╝ея╝жя╝зя╝и", moji, PET_NAME_LEN );
 									StockFontBuffer( x + 112, y, FONT_PRIO_FRONT, FONT_PAL_GRAY, moji, 0 );
-									// ╡▒д┐дъ┼╨╢и╖м║┼│ї╞┌╗п
+									// х╜УуБЯуВКхИдхоЪчХкхП╖хИЭцЬЯхМЦ
 									albumWndFontNo[ i ] = -2;
 								}else
-								// ╨┤╒ц┤щд├д┐Хr
+								// хЖЩчЬЯцТоуБгуБЯr
 								if( PetAlbum[ nowTopNo + i ].flag >= 2 ){
 									CenteringStr( PetAlbum[ nowTopNo + i ].name, moji, PET_NAME_LEN );
-									//CenteringStr( "г┴г┬г├г─г┼г╞г╟г╚", moji, PET_NAME_LEN );
+									//CenteringStr( "я╝бя╝вя╝гя╝дя╝ея╝жя╝зя╝и", moji, PET_NAME_LEN );
 									albumWndFontNo[ i ] = StockFontBuffer( x + 112, y, FONT_PRIO_FRONT, 0, moji, 2 );
 								}
 							}else{
-								// ╡▒д┐дъ┼╨╢и╖м║┼│ї╞┌╗п
+								// х╜УуБЯуВКхИдхоЪчХкхП╖хИЭцЬЯхМЦ
 								albumWndFontNo[ i ] = -2;
 							}
 							y += 22;
 						}
 						
-						// ╟░е▄е┐еє
+						// хЙНуГЬуВ┐уГ│
 						albumWndFontNo[ 16 ] = StockDispBuffer( pActMenuWnd->x + 25 + 32 + 10 + 40, pActMenuWnd->y + 400, DISP_PRIO_IME3, CG_PREV_BTN + albumWndBtnFlag[ 16 ], 2 );
-						// е┌й`е╕╖м║┼▒э╩╛
+						// уГЪ`уВ╕чХкхП╖шбичд║
 						//sprintf( moji,"%2d", albumHistoryWndPageNo + 1 );
 						//StockFontBuffer( pActMenuWnd->x + 46 + 16 + 9, pActMenuWnd->y + 397, FONT_PRIO_FRONT, 0, moji, 0 );
-						// ┤╬е▄е┐еє
+						// цмбуГЬуВ┐уГ│
 						albumWndFontNo[ 17 ] = StockDispBuffer( pActMenuWnd->x + 75 + 32 + 9 + 10 + 40, pActMenuWnd->y + 400, DISP_PRIO_IME3, CG_NEXT_BTN + albumWndBtnFlag[ 17 ], 2 );
-						// щ]д╕дые▄е┐еє
+						// ]уБШуВЛуГЬуВ┐уГ│
 						albumWndFontNo[ 19 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, pActMenuWnd->y + 448 - 19, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 				}
@@ -6720,95 +6720,95 @@ void MenuProc( void )
 		}
 	}
 
-//бЄ СщъL╜Y╣√ежегеєе╔еж ***********************************************************/
+//тЧО цоЫLYцЮЬуВжуВгуГ│уГЙуВж ***********************************************************/
 	if( BattleResultWndFlag >= 1 && ProcNo == PROC_GAME && SubProcNo == 3 ){
-		// Хrщgдмднд┐дщ
+		// rgуБМуБНуБЯуВЙ
 		if( -- ResultWndTimer <= 0 ){
-			// ежегеєе╔еж─иЪв
+			// уВжуВгуГ│уГЙуВжцК╣
 			DeathAction( pActMenuWnd );
 			pActMenuWnd = NULL;
-			// е╖е╣е╞ережегеєе╔ежщ]д╕ды
+			// уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 			BattleResultWndFlag = FALSE;
-			// е▐е├е╫ежегеєе╔еж│Ўд╡д╩ддХr
+			// уГЮуГГуГЧуВжуВгуГ│уГЙуВжхЗ║уБХуБкуБДr
 			if( MapWmdFlagBak != TRUE ){
-				// ежегеєе╔ежщ]д╕ды╥Ї
+				// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 				play_se( 203, 320, 240 );
 			}
 		}
 		
-		// СщъL╜Y╣√ежегеєе╔ежд╬╖NюРд╟╖╓ск
+		// цоЫLYцЮЬуВжуВгуГ│уГЙуВжуБоNуБзхИЖх▓Р
 		switch( BattleResultWndFlag ){
 		
-		case 1:	// ╜UЄYВОежегеєе╔ежд╬Хr
-			// ежегеєе╔еждмд╩ддХr
+		case 1:	// UY╬Хя╝ЕшЮЧф╕з╬Фr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
 				int flag = 0;
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 320 - 160, 240 - 96 - 24, 5, 5, CG_WND_TITLE_RESULT, 2 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_BTL_RESULT_0 ; i++ ) resultWndFontNo[ i ] = -2;
-				// еье┘еыеве├е╫е┴езе├еп
+				// уГмуГЩуГлуВвуГГуГЧуГБуВзуГГуВп
 				for( i = 0 ; i < 4 ; i++ ){
-					// еье┘еыеве├е╫д╬Хrе╒еще░г╧г╬
+					// уГмуГЩуГлуВвуГГуГЧуБоrуГХуГйуВ░я╝пя╝о
 					if( battleResultMsg.resChr[ i ].levelUp == TRUE ) flag = TRUE;
 				}
 				if( flag == TRUE ){
-					// еье┘еыеве├е╫╥Ї
+					// уГмуГЩуГлуВвуГГуГЧщЯ│
 					play_se( 211, 320, 240 );
 				}else{
-					// ежегеєе╔ежщ_дп╥Ї
+					// уВжуВгуГ│уГЙуВж_уБПщЯ│
 					play_se( 202, 320, 240 );
 				}
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == resultWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е╖е╣е╞ережегеєе╔ежщ]д╕ды
+							// уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 							BattleResultWndFlag = FALSE;
-							// е▐е├е╫ежегеєе╔еж│Ўд╡д╩ддХr
+							// уГЮуГГуГЧуВжуВгуГ│уГЙуВжхЗ║уБХуБкуБДr
 							if( MapWmdFlagBak != TRUE ){
-								// ежегеєе╔ежщ]д╕ды╥Ї
+								// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 								play_se( 203, 320, 240 );
 							}
 						}
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						int color;
 						int flag, j;
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 12;
 						y = pActMenuWnd->y + 44;
 						
-						// ╫╘╖╓д╬├√╟░
+						// шЗкхИЖуБохРНхЙН
 						//sprintf( moji,"%s", pc.name );
 						CenteringStr( pc.name, moji, CHAR_NAME_LEN );
 						//sprintf( moji,"0000000000000000", pc.name );
 						StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 0 ); 
-						color = FONT_PAL_GRAY;	// е╟е╒ейеые╚╔л
-						// еье┘еыеве├е╫д╬Хr
+						color = FONT_PAL_GRAY;	// уГЗуГХуВйуГлуГИшЙ▓
+						// уГмуГЩуГлуВвуГГуГЧуБоr
 						if( battleResultMsg.resChr[ 0 ].levelUp == TRUE ){
-							// еье┘еыеве├е╫▒э╩╛
+							// уГмуГЩуГлуВвуГГуГЧшбичд║
 							StockFontBuffer( x + 152, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW, "LvUp!", 0 ); 
 						}
-						// ╜UЄYВО▒э╩╛
+						// UYчбО
 						sprintf( moji,"Exp %+5d", battleResultMsg.resChr[ 0 ].exp );
 						StockFontBuffer( x + 148 + 58, y, FONT_PRIO_FRONT, 0, moji, 0 ); 
 						y += 20;
 						
-						// е┌е├е╚╖╓еый`е╫
+						// уГЪуГГуГИхИЖуГл`уГЧ
 						for( i = 0 ; i < 5 ; i++ ){
-							// д│д╬Щ┌д╦е┌е├е╚дмдддыХr длд─ е╣е┐есеєд╬Хr
+							// уБУуБохЖешб░шоац░Уш╢гуБДr уБЛуБд уВ╣уВ┐уГбуГ│уБоr
 							if( pet[ i ].useFlag == TRUE && pc.selectPetNo[ i ] == TRUE ){
-								// ├√╟░д╬╬─╫╓┴╨╫ў│╔
-								// двд└├√дмдвдыХr
+								// хРНхЙНуБоцЦЗхнЧхИЧф╜ЬцИР
+								// уБВуБахРНуБМуБВуВЛr
 								if( pet[ i ].freeName[ 0 ] != NULL )
 									//sprintf( moji, "%s ", pet[ i ].freeName );
 									CenteringStr( pet[ i ].freeName, moji, PET_NAME_LEN );
@@ -6816,28 +6816,28 @@ void MenuProc( void )
 									//sprintf( moji, "%s ", pet[ i ].name );
 									CenteringStr( pet[ i ].name, moji, PET_NAME_LEN );
 								StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 0 );
-								color = FONT_PAL_GRAY;	// е╟е╒ейеые╚╔л
-								flag = FALSE;			// е╒еще░│ї╞┌╗п
-								// СщъL╜Y╣√ШЛ╘ь╠хд╬╓╨длдщ╠╜д╣бг
+								color = FONT_PAL_GRAY;	// уГЗуГХуВйуГлуГИшЙ▓
+								flag = FALSE;			// уГХуГйуВ░хИЭцЬЯхМЦ
+								// цоЫLYцЮЬщАаф╜УуБоф╕нуБЛуВЙцОвуБЩуАВ
 								for( j = 1 ; j < 4 ; j++ ){
-									// двд├д┐дщ
+									// уБВуБгуБЯуВЙ
 									if( battleResultMsg.resChr[ j ].petNo == i ){
-										// еье┘еыеве├е╫д╬Хr
-										if( battleResultMsg.resChr[ j ].levelUp == TRUE ){	// еье┘еыеве├е╫д╬Хr
-											// еье┘еыеве├е╫▒э╩╛
+										// уГмуГЩуГлуВвуГГуГЧуБоr
+										if( battleResultMsg.resChr[ j ].levelUp == TRUE ){	// уГмуГЩуГлуВвуГГуГЧуБоr
+											// уГмуГЩуГлуВвуГГуГЧшбичд║
 											StockFontBuffer( x + 152, y, FONT_PRIO_FRONT, FONT_PAL_YELLOW,"LvUp!", 0 ); 
 										}
-										// ╜UЄYВО▒э╩╛
+										// UYчбО
 										sprintf( moji,"Exp %+5d", battleResultMsg.resChr[ j ].exp );
 										StockFontBuffer( x + 148 + 58, y, FONT_PRIO_FRONT, 0, moji, 0 ); 
 										flag = TRUE;
 									}
 								}
-								// Яoдлд├д┐дщ
+								// oуБЛуБгуБЯуВЙ
 								if( flag == FALSE ){
-									// еье┘еыеве├е╫▒э╩╛
+									// уГмуГЩуГлуВвуГГуГЧшбичд║
 									//StockFontBuffer( x + 148, y, FONT_PRIO_FRONT, color,"LvUp!", 0 ); 
-									// ╜UЄYВО▒э╩╛
+									// UYчбО
 									sprintf( moji,"Exp %+4d", battleResultMsg.resChr[ j ].exp );
 									StockFontBuffer( x + 148 + 58, y, FONT_PRIO_FRONT, 0, "Exp    +0", 0 ); 
 								}
@@ -6846,82 +6846,82 @@ void MenuProc( void )
 						}
 						flag = FALSE;
 						y = pActMenuWnd->y + 134;
-						// 	еведе╞ер: ▒э╩╛
-						StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, "еведе╞ерг║", 0 ); 
-						// е▓е├е╚еведе╞ерд╬▒э╩╛
+						// 	уВвуВдуГЖуГа: шбичд║
+						StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, "уВвуВдуГЖуГая╝Ъ", 0 ); 
+						// уВ▓уГГуГИуВвуВдуГЖуГауБошбичд║
 						for( i = 0 ; i < 3 ; i++ ){
-							// еведе╞ердмдвд├д┐дщ
+							// уВвуВдуГЖуГауБМуБВуБгуБЯуВЙ
 							if( battleResultMsg.item[ i ][ 0 ] != NULL ){
 								StockFontBuffer( x + 85, y, FONT_PRIO_FRONT, 0, battleResultMsg.item[ i ], 0 ); 
 								y += 22;
 								flag = TRUE;
 							}
 						}
-						// еведе╞ерЯoддХr
+						// уВвуВдуГЖуГаoуБДr
 						if( flag == FALSE ){
-							StockFontBuffer( x + 85, y, FONT_PRIO_FRONT, 0, "╚б╡├д╟днд▐д╗дєд╟д╖д┐бг", 0 ); 
+							StockFontBuffer( x + 85, y, FONT_PRIO_FRONT, 0, "хПЦх╛ЧуБзуБНуБ╛уБЫуВУуБзуБЧуБЯуАВ", 0 ); 
 						}
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						resultWndFontNo[ 0 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, pActMenuWnd->y + 216, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 				}
 			}
 			break;
 			
-		case 2:	// г─г╨ежегеєе╔ежд╬д╚дн
+		case 2:	// я╝дя╝░уВжуВгуГ│уГЙуВжуБоуБиуБН
 		
-			// ежегеєе╔еждмд╩ддХr
+			// уВжуВгуГ│уГЙуВжуБМуБкуБДr
 			if( pActMenuWnd == NULL ){
 				int flag = 0;
-				// ежегеєе╔еж▒э╩╛е┐е╣еп╫ў│╔
+				// уВжуВгуГ│уГЙуВжшбичд║уВ┐уВ╣уВпф╜ЬцИР
 				pActMenuWnd = MakeWindowDisp( 320 - 96, 240 - 72, 3, 3, CG_WND_TITLE_RESULT, 2 );
-				// ╡▒д┐дъ┼╨╢и│ї╞┌╗п
+				// х╜УуБЯуВКхИдхоЪхИЭцЬЯхМЦ
 				for( i = 0 ; i < MENU_BTL_RESULT_0 ; i++ ) resultWndFontNo[ i ] = -2;
-				// ежегеєе╔ежщ_дп╥Ї
+				// уВжуВгуГ│уГЙуВж_уБПщЯ│
 				play_se( 202, 320, 240 );
 			}else{
-				// ежегеєе╔еждм│Ў└┤двдмд├д╞ддд┐дщ
+				// уВжуВгуГ│уГЙуВжуБМхЗ║цЭеуБВуБМуБгуБжуБДуБЯуВЙ
 				if( pActMenuWnd->hp > 0 ){
-					// ╫єепеъе├епд╖д┐Хr
+					// х╖жуВпуГкуГГуВпуБЧуБЯr
 					if( mouse.onceState & MOUSE_LEFT_CRICK ){
-						// щ]д╕дыХr
+						// ]уБШуВЛr
 						if( HitDispNo == resultWndFontNo[ 0 ] ){
-							// ежегеєе╔еж─иЪв
+							// уВжуВгуГ│уГЙуВжцК╣
 							DeathAction( pActMenuWnd );
 							pActMenuWnd = NULL;
-							// е╖е╣е╞ережегеєе╔ежщ]д╕ды
+							// уВ╖уВ╣уГЖуГауВжуВгуГ│уГЙуВж]уБШуВЛ
 							BattleResultWndFlag = FALSE;
-							// е▐е├е╫ежегеєе╔еж│Ўд╡д╩ддХr
+							// уГЮуГГуГЧуВжуВгуГ│уГЙуВжхЗ║уБХуБкуБДr
 							if( MapWmdFlagBak != TRUE ){
-								// ежегеєе╔ежщ]д╕ды╥Ї
+								// уВжуВгуГ│уГЙуВж]уБШуВЛщЯ│
 								play_se( 203, 320, 240 );
 							}
 						}
 					}
 					
-					// ежегеєе╔еждвдыХr
+					// уВжуВгуГ│уГЙуВжуБВуВЛr
 					if( pActMenuWnd != NULL ){
 						int color = FONT_PAL_WHITE;
 						//int flag, j;
-						// ╫∙Ш╦╘O╢и
+						// х║зхЧ╜OхоЪ
 						x = pActMenuWnd->x + 17;
 						y = pActMenuWnd->y + 48;
 						
-						//color = FONT_PAL_GRAY;	// е╟е╒ейеые╚╔л
+						//color = FONT_PAL_GRAY;	// уГЗуГХуВйуГлуГИшЙ▓
 						
-						// г─г╨▒э╩╛
-						sprintf( moji," г─ббг╨бб%+8d", battleResultMsg.resChr[ 0 ].exp );
-						//sprintf( moji," г─ббг╨бб%+8d", -9999999 );
-						//sprintf( moji," г─ббг╨бб%+8d", -100 );
+						// я╝дя╝░шбичд║
+						sprintf( moji," я╝дуААя╝░уАА%+8d", battleResultMsg.resChr[ 0 ].exp );
+						//sprintf( moji," я╝дуААя╝░уАА%+8d", -9999999 );
+						//sprintf( moji," я╝дуААя╝░уАА%+8d", -100 );
 						StockFontBuffer( x, y, FONT_PRIO_FRONT, color, moji, 0 ); 
 						y += 28;
-						// г─г╨▒э╩╛
-						sprintf( moji," ║╧бб╙Лбб%8d", battleResultMsg.resChr[ 1 ].exp );
-						//sprintf( moji," ║╧бб╙Лбб%8d", 99999999 );
-						//sprintf( moji," ║╧бб╙Лбб%8d", 1100 );
+						// я╝дя╝░шбичд║
+						sprintf( moji," хРИуААуАА%8d", battleResultMsg.resChr[ 1 ].exp );
+						//sprintf( moji," хРИуААуАА%8d", 99999999 );
+						//sprintf( moji," хРИуААуАА%8d", 1100 );
 						StockFontBuffer( x, y, FONT_PRIO_FRONT, 0, moji, 0 ); 
 						
-						// ╬─╫╓▒э╩╛е╨е├е╒ебд╦┴ядсды
+						// цЦЗхнЧшбичд║уГРуГГуГХуВбуБлц║ЬуВБуВЛ
 						resultWndFontNo[ 0 ] = StockDispBuffer( ( ( WINDOW_DISP *)pActMenuWnd->pYobi )->mx, pActMenuWnd->y + 120, DISP_PRIO_IME3, CG_CLOSE_BTN, 2 );
 					}
 				}

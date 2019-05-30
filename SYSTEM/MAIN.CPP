@@ -12,46 +12,46 @@
 
 
 #if 1
-// ͨ���r
-#define REALBIN_DIR		"data\\real_1.bin" 		// REAL.BIN�Έ���
-#define ADRNBIN_DIR		"data\\adrn_1.bin" 		// ADRN.BIN�Έ���
-#define SPRBIN_DIR		"data\\spr_1.bin" 		// SPR.BIN�Έ���
-#define SPRADRNBIN_DIR	"data\\spradrn_1.bin" 	// SPRADRN.BIN�Έ���
+// 通常r
+#define REALBIN_DIR		"data\\real_1.bin" 		// REAL.BINの鏊
+#define ADRNBIN_DIR		"data\\adrn_1.bin" 		// ADRN.BINの鏊
+#define SPRBIN_DIR		"data\\spr_1.bin" 		// SPR.BINの鏊
+#define SPRADRNBIN_DIR	"data\\spradrn_1.bin" 	// SPRADRN.BINの鏊
 
 #else
 
-// ����ե��å��ޥ�����
-#define REALBIN_DIR		"..\\realbin\\data\\real.bin" 		// REAL.BIN�Έ���
-#define ADRNBIN_DIR		"..\\realbin\\data\\adrn.bin" 		// ADRN.BIN�Έ���
-#define SPRBIN_DIR		"..\\spr\\spr.bin" 					// SPR.BIN�Έ���
-#define SPRADRNBIN_DIR	"..\\spr\\spradrn.bin" 				// SPRADRN.BIN�Έ���
+// グラフィックマシン用
+#define REALBIN_DIR		"..\\realbin\\data\\real.bin" 		// REAL.BINの鏊
+#define ADRNBIN_DIR		"..\\realbin\\data\\adrn.bin" 		// ADRN.BINの鏊
+#define SPRBIN_DIR		"..\\spr\\spr.bin" 					// SPR.BINの鏊
+#define SPRADRNBIN_DIR	"..\\spr\\spradrn.bin" 				// SPRADRN.BINの鏊
 
 #endif
 
 
 //---------------------------------------------------------------------------//
-// ��Ҫ �������`�Х�������x                                                 //
+// 概要 ：グロ`バル涫x                                                 //
 //---------------------------------------------------------------------------//
-HINSTANCE	hInst;			// ���󥹥��󥹥ϥ�ɥ붨�x ʵ�����ھ������
-HWND hWnd;					// ������ɥ��ϥ�ɥ�  ����
-int	CmdShow;				// WinMain�v���������򥰥��`�Х�ˤ���  WinMain�������۾ݺ�ȫ���
-LPSTR CmdLine;				// WinMain�v���Υ��ޥ�ɥ饤�������򥰥��`�Х�ˤ���  WinMain�����������в���ȫ���
-HANDLE hMutex;				// ͬ�r���ӥ����å����֥������ȤΥϥ�ɥ�  ͬʱ����������ķ�����
+HINSTANCE	hInst;			// インスタンスハンドル定x 实例窗口句柄定义
+HWND hWnd;					// ウィンドウハンドル  窗口
+int	CmdShow;				// WinMainv数の引数をグロ`バルにする  WinMain函数的论据和全球的
+LPSTR CmdLine;				// WinMainv数のコマンドライン引数をグロ`バルにする  WinMain函数的命令行参数全球的
+HANDLE hMutex;				// 同r起鹰隶Д氓芝弗Д趣违膝螗丧  同时启动检查对象的方向盘
 
-BOOL WindowMode = TRUE;		// ������ɥ���`��/ / / /����ģʽ
-//BOOL WindowMode = FALSE;	// �ե륹����`���`��/ /????????
+BOOL WindowMode = TRUE;		// ウィンドウモ`ド/ / / /窗口模式
+//BOOL WindowMode = FALSE;	// フルスクリ`ンモ`ド/ /????????
 							//	TRUE  : WindowMode
 							//	FALSE : FullScreen
-BOOL NoDelay = TRUE;		// TCP_NODELAY ��ʹ�����ɤ�����add by ringo  TCP_NODELAY�Ƿ�ʹ�� һ�ַ���Ż�
-int ResoMode = 0;			// ����ȥ�`�ɣ����������������������������������������������ɉ䣩�ֱ���ģʽ
-int LowResoCmdFlag = 0;		// ����ȉ�����ޥ�ɥե饰  �ֱ��ʱ��ָ��ת�۵�
+BOOL NoDelay = TRUE;		// TCP_NODELAY を使うかどうか。add by ringo  TCP_NODELAY是否使用 一种封包优化
+int ResoMode = 0;			// 解像度モ`ド（０：６４０＊４８０　１：３２０＊２４０　２：可洌┓直媛誓Ｊ
+int LowResoCmdFlag = 0;		// 解像度涓偿蕙螗丧榨楗  分辨率变更指令转折点
 
 #ifdef _DEBUG
-//BOOL offlineFlag = FALSE;	// ���ե饤��ե饰 ����ת�۵�  �ѻ�ģʽ
-BOOL offlineFlag = FALSE;  //û���Ժ��ԭ��
-char DebugKey0[ 256 ];		// �ǥХå����`�� ���Լ�0
-char DebugKey1[ 256 ];		// �ǥХå����`��
-char DebugKey2[ 256 ];		// �ǥХå����`��
+//BOOL offlineFlag = FALSE;	// オフラインフラグ 离线转折点  脱机模式
+BOOL offlineFlag = FALSE;  //没用以后查原因
+char DebugKey0[ 256 ];		// デバックキ`０ 调试键0
+char DebugKey1[ 256 ];		// デバックキ`１
+char DebugKey2[ 256 ];		// デバックキ`２
 #endif
 
 
@@ -61,21 +61,21 @@ char sprBinName[256];
 char sprAdrnBinName[256];
 
 
-/* ���ޥ�ɥ饤�����   �����н��� */
+/* コマンドライン解析   命令行解析 */
 void AnalyzeCmdLine( void );
-// ������ɥ���`���Ф��椨�v������
-//����ģʽת����������
+// ウィンドウモ`ド切り替えv数宣言
+//窗口模式转换函数宣言
 void ChangeWindowMode( void );
-// ����ȥ�`���O���I��
-//�ֱ���ģʽ�趨����
+// 解像度モ`ドO定I理
+//分辨率模式设定处理
 void SetResoMode(int Mode);
 
-// Windows�Υ�å��`����եå�����  ����Ϣ�Ĺ�
-//HRESULT CALLBACK HookProc( int nCode, WPARAM wParam, LPARAM lParam );				//�ᥤ��ץ����`����`
+// Windowsのメッセ`ジをフックする  的信息的钩
+//HRESULT CALLBACK HookProc( int nCode, WPARAM wParam, LPARAM lParam );				//メインプロシ`ジャ`
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ���ᥤ���`�ׄI���v��                                               //
-// ���� ��HANDLE hInstance                                                   //
+// 概要 ：メインル`プI理v数                                               //
+// 引数 ：HANDLE hInstance                                                   //
 //        HANDLE hPrevInstance                                               //	
 //        LPSTR lpCmdLine                                                    //
 //        int   nCmdShow                                                     //
@@ -83,83 +83,83 @@ void SetResoMode(int Mode);
 int PASCAL WinMain( HINSTANCE hInstance ,HINSTANCE hPrevInstance ,LPSTR lpCmdLine ,int nCmdShow )
 {
 	WNDCLASS wndclass;
-	hInst = hInstance;		// ???????�Ǥ��ä�???????????��????????�˴���
+	hInst = hInstance;		// ???????でもらった???????????を????????に代入
 
-	CmdShow = nCmdShow;		// WinMain�v���������򥰥��`�Х�ˤ���
-	CmdLine = lpCmdLine;	// WinMain�v���Υ��ޥ�ɥ饤�������򥰥��`�Х�ˤ���	
+	CmdShow = nCmdShow;		// WinMainv数の引数をグロ`バルにする
+	CmdLine = lpCmdLine;	// WinMainv数のコマンドライン引数をグロ`バルにする	
 	
 #ifndef _DEBUG
 //#ifdef _DEBUG
-	// ͬ�r���ӥ����å����֥�����������  ͬʱ�������������� û�������Ժ�鿴��
+	// 同r起鹰隶Д氓芝弗Д茸鞒  同时启动检查对象作成 没起作用以后查看下
 	hMutex = CreateMutex( NULL, TRUE, DEF_APPNAME );
-	// ͬ�r�˶��������Ϥ����r  ͬʱ����������ʱ��
+	// 同rに二つ立ち上げたr  同时两个启动的时候
 	if( GetLastError() == ERROR_ALREADY_EXISTS ){
-		MessageBox( hWnd, "�ӣ����������Ѿ��������޷����������", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "ＳｔｏｎｅＡｇｅ已经启动，无法多次启动。", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
-	// ���åץǩ`�Ȥ���g�Ф����������å�  �Ӽ�����ʵ������
+	// アップデ`トからg行したかチェック  从检查更新实行了吗
 	if( !strstr( CmdLine, "updated" ) ){
-		MessageBox( hWnd, "�ӣ���������.�������������", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "ＳｔｏｎｅＡｇｅ.ｅｘｅ请启动。", "_J", MB_OK | MB_ICONSTOP );
 		return FALSE;
 	}
 #endif
 
-    //*** ������ɥ����饹������ ***���ڰ������
-	//���������ʵ��������ʡ�ԵĻ����ڻ�
-    if( !hPrevInstance )	// �⤷���Υ��󥹥��󥹤������Фʤ���ڻ�ʡ�� 
+    //*** ウインドウクラスの生成 ***窗口班的生成
+	//如果其他的实例启动中省略的话初期化
+    if( !hPrevInstance )	// もし他のインスタンスが起又肖胜槌跗诨÷ 
 	{
-		wndclass.style = CS_BYTEALIGNCLIENT | CS_DBLCLKS;	// ���饹��������
-		wndclass.lpfnWndProc = WindMsgProc;		// ������ɥ��ץ����`����`���ɥ쥹���x
-		wndclass.cbClsExtra = 0;				// ���饹�����a�㶨�x�ʤ�
-		wndclass.cbWndExtra = 0;				// ������ɥ������a��ǩ`���o��
-		wndclass.hInstance = hInstance;			// ���󥹥��󥹥ϥ�ɥ붨�x
-//		wndclass.hIcon = LoadIcon(hInstance ,"ICON1");	// ????����ICON1����`��
+		wndclass.style = CS_BYTEALIGNCLIENT | CS_DBLCLKS;	// クラススタイル
+		wndclass.lpfnWndProc = WindMsgProc;		// ウインドウプロシ`ジャ`アドレス定x
+		wndclass.cbClsExtra = 0;				// クラス挨窝a足定xなし
+		wndclass.cbWndExtra = 0;				// ウインドウ挨窝a足デ`タoし
+		wndclass.hInstance = hInstance;			// インスタンスハンドル定x
+//		wndclass.hIcon = LoadIcon(hInstance ,"ICON1");	// ????からICON1をロ`ド
 	    wndclass.hIcon = LoadIcon( hInstance, MAKEINTRESOURCE(SA_ICON2));
 		//wndclass.hIcon = LoadIcon( NULL, IDI_APPLICATION);
 
 	
 #ifdef _DEBUG
-		wndclass.hCursor = (LoadCursor(hInstance ,MAKEINTRESOURCE(SA_MOUSE)));	// ����ʸӡ���O��SA_MOUSE
+		wndclass.hCursor = (LoadCursor(hInstance ,MAKEINTRESOURCE(SA_MOUSE)));	// 光标を矢印にO定SA_MOUSE
 #else		
-		wndclass.hCursor = LoadCursor(NULL ,IDC_ARROW);	// ???????��ʸӡ���O��  ���趨
-		//wndclass.hCursor = LoadCursor(NULL ,MAKEINTRESOURCE(SA_MOUSE));	// ???????��ʸӡ���O��  ���趨
+		wndclass.hCursor = LoadCursor(NULL ,IDC_ARROW);	// ???????を矢印にO定  箭设定
+		//wndclass.hCursor = LoadCursor(NULL ,MAKEINTRESOURCE(SA_MOUSE));	// ???????を矢印にO定  箭设定
 #endif
 		
-		//���ڵı���ɫ
-		wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);// ������ɥ��α���ɫ
-		wndclass.lpszMenuName= NULL;			// ��˥�`�ʤ�  û�в˵�
-		wndclass.lpszClassName = DEF_APPNAME;	// �����ȥ�Щ`�����O��  �����������趨
+		//窗口的背景色
+		wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);// ウィンドウの背景色
+		wndclass.lpszMenuName= NULL;			// メニュ`なし  没有菜单
+		wndclass.lpszClassName = DEF_APPNAME;	// タイトルバ`文字O定  标题栏文字设定
 		if( !RegisterClass(&wndclass) )
-			return FALSE;						// ���ɤ�ʧ��������K�ˤ���
+			return FALSE;						// 作成に失・筏郡榻K了する
 	}
 
-	// �i���z�ߥե����������O��  ��ȡ�ļ������趨
-	strcpy( realBinName, REALBIN_DIR );			// REAL.BIN�Έ���
-	strcpy( adrnBinName, ADRNBIN_DIR );			// ADRN.BIN�Έ���
-	strcpy( sprBinName, SPRBIN_DIR );			// SPR.BIN�Έ���
-	strcpy( sprAdrnBinName, SPRADRNBIN_DIR );	// SPRADRN.BIN�Έ���
+	// iみzみファイル名のO定  读取文件名的设定
+	strcpy( realBinName, REALBIN_DIR );			// REAL.BINの鏊
+	strcpy( adrnBinName, ADRNBIN_DIR );			// ADRN.BINの鏊
+	strcpy( sprBinName, SPRBIN_DIR );			// SPR.BINの鏊
+	strcpy( sprAdrnBinName, SPRADRNBIN_DIR );	// SPRADRN.BINの鏊
 	
-	//���ޥ�ɥ饤�����   ������
+	//コマンドライン解析   命令行
 	AnalyzeCmdLine();
 	
-	// ����ȥ�`���O��   �ֱ���ģʽ�趨
+	// 解像度モ`ドO定   分辨率模式设定
 	SetResoMode( ResoMode );
 	
-	// ������ɥ�������  ���ڵ�����
+	// ウィンドウの作成  窗口的作成
 	ChangeWindowMode();
-	// ������ɥ�������
+	// ウィンドウの作成
 	//ChangeWindowMode();
 	
-	// ȫ�ƤΥ�����ɥ����饭�`�ܩ`��������Z��  �����еĴ��ڼ����������
+	// 全てのウィンドウからキ`ボ`ド入力をZう  从所有的窗口键盘输入夺走
 	//SetFocus( hWnd );
 
 	//{
-		// ALT+TAB �o���ˤ���
+		// ALT+TAB o郡摔工
 	//	int nOldVal;
 	//	SystemParametersInfo (SPI_SCREENSAVERRUNNING, TRUE, &nOldVal, 0);
 	//}
 	
-	// Windows�Υ�å��`����եå��ץ����`����򥻥åȤ���
+	// Windowsのメッセ`ジをフックプロジ`ジャをセットする
 	///SetWindowsHookEx( WH_SYSMSGFILTER, HookProc, hInstance, 0 );
 	//SetWindowsHookEx( WH_MSGFILTER, HookProc, hInstance, 0 );
 	//SetWindowsHookEx( WH_KEYBOARD, HookProc, hInstance, 0 );
@@ -174,19 +174,19 @@ int PASCAL WinMain( HINSTANCE hInstance ,HINSTANCE hPrevInstance ,LPSTR lpCmdLin
 
 #ifdef _DEBUG
 
-// �ǥХå����`���� **���Լ�����*********************************************************/
+// デバックキ`解析 **调试键解析*********************************************************/
 void DebugKey( char *str )
 {
 	char *work;
 	int i = 0;
 	
-	// ���ޥ�ɥ饤�󥪥ץ����� key0: ������Ȥ�
-	//������ѡ��key0:��ʱ��
+	// コマンドラインオプションに key0: があるとき
+	//命令行选项key0:的时候
 	if( ( work = strstr( str, "KEY0:" ) ) )
 	{
-		work += 5;	// �����ФΤ���Ȥ����ޤǥݥ����M���
-		// : ������ޤǥ�`��
-		//�����еĵط�Ϊֹ�ƽ�ָ��/ /:��ѭ��
+		work += 5;	// 文字列のあるところまでポインタMめる
+		// : がくるまでル`プ
+		//文字列的地方为止推进指针/ /:到循环
 		while( *work != ':' ){
 			DebugKey0[ i ] = *work++;
 			i++;
@@ -196,13 +196,13 @@ void DebugKey( char *str )
 			}
 		}
 	}
-	DebugKey0[ i ] = NULL;	// �K��ӛ��
+	DebugKey0[ i ] = NULL;	// K端号
 	i = 0;
-	// ���ޥ�ɥ饤�󥪥ץ����� key1: ������Ȥ�
+	// コマンドラインオプションに key1: があるとき
 	if( ( work = strstr( str, "KEY1:" ) ) )
 	{
-		work += 5;	// �����ФΤ���Ȥ����ޤǥݥ����M���
-		// : ������ޤǥ�`��
+		work += 5;	// 文字列のあるところまでポインタMめる
+		// : がくるまでル`プ
 		while( *work != ':' ){
 			DebugKey1[ i ] = *work++;
 			i++;
@@ -212,13 +212,13 @@ void DebugKey( char *str )
 			}
 		}
 	}	
-	DebugKey1[ i ] = NULL;	// �K��ӛ��
+	DebugKey1[ i ] = NULL;	// K端号
 	i = 0;
-	// ���ޥ�ɥ饤�󥪥ץ����� key1: ������Ȥ�
+	// コマンドラインオプションに key1: があるとき
 	if( ( work = strstr( str, "KEY2:" ) ) )
 	{
-		work += 5;	// �����ФΤ���Ȥ����ޤǥݥ����M���
-		// : ������ޤǥ�`��
+		work += 5;	// 文字列のあるところまでポインタMめる
+		// : がくるまでル`プ
 		while( *work != ':' ){
 			DebugKey2[ i ] = *work++;
 			i++;
@@ -228,16 +228,16 @@ void DebugKey( char *str )
 			}
 		}
 	}	
-	DebugKey2[ i ] = NULL;	// �K��ӛ��
+	DebugKey2[ i ] = NULL;	// K端号
 }
 
 #endif
-/* ���ޥ�ɥ饤����� ****�����н���*****************************************************/
+/* コマンドライン解析 ****命令行解析*****************************************************/
 void AnalyzeCmdLine( void )
 {
 	char *addr;
 
-	// �i���z�ߥե��������Ή��
+	// iみzみファイル名の涓
 	if( addr = strstr( CmdLine, "realbin:" ) )
 	{
 		sprintf( realBinName, "data\\real_%d.bin", atoi(addr+strlen("realbin:")) );
@@ -255,15 +255,15 @@ void AnalyzeCmdLine( void )
 		sprintf( sprAdrnBinName, "data\\spradrn_%d.bin", atoi(addr+strlen("spradrnbin:")) );
 	}
 
-	// ���ޥ�ɥ饤�󥪥ץ����� windowmode ������Ȥ�
-	/// /?۫�M????�d?�Sindowmode / / nodelay???�G? ???????????????????ȝ?0.4???
+	// コマンドラインオプションに windowmode があるとき
+	/// /?郢M????d?Sindowmode / / nodelay???G? ????????????????????0.4???
 	if( strstr( CmdLine, "windowmode" ) ) WindowMode = TRUE;
 	
-	// nodelay???�G? ???????????????????ȝ?0.4??? ���ץ������O������ͨ�Ŵ����������뤢��ˤ���r��
+	// nodelay???G? ????????????????????0.4??? オプションのO定。（通信待ち０．４秒ありにするr）
 	if( strstr( CmdLine, "nodelay" ) ) NoDelay = FALSE;
 	
 #ifdef _DEBUG
-	// ���ե饤���`�ɤ��O��  �ѻ�ģʽ���趨
+	// オフラインモ`ドのO定  脱机模式的设定
 	if( strstr( CmdLine, "offline" ) )
 	{
 		offlineFlag = TRUE;
@@ -345,55 +345,55 @@ void AnalyzeCmdLine( void )
 		*name = '\0';
 	}
 #endif
-	//  ???�V�g???�?
+	//  ???Vg????
 	DebugKey( CmdLine );
 #else
-	// �ǥե���ȤΈ��ϤϤ��� Ĭ�ϵ��������
+	// デフォルトの龊悉悉长 默认的情况这是
 	ProcNo = PROC_ID_PASSWORD;
 #endif
-	// �����е�IP��ַ����  ���ޥ�ɥ饤���IP���ɥ쥹����
+	// 命令行的IP地址解析  コマンドラインのIPアドレス解析
 	ipAddressAnalyze( CmdLine );
 }
-/* ������ɥ���`���Ф��椨 ***************************************************/
+/* ウィンドウモ`ド切り替え ***************************************************/
 void ChangeWindowMode( void )
 {
-	RECT clientRect;		// ���饤����Ȥα�ʾ�I��
-	DWORD windowStyle;		// ������ɥ���������
+	RECT clientRect;		// クライアントの表示I域
+	DWORD windowStyle;		// ウィンドウスタイル
 
-	// ������ɥ���`�ɤΕr
+	// ウィンドウモ`ドのr
 	if( WindowMode ){
 	
-		// ������ɥ���������
+		// ウィンドウスタイル
 		windowStyle = WS_MINIMIZEBOX | WS_SYSMENU | 
-			            //�ҿ���1
+			            //我开启1
 						WS_THICKFRAME |
 						WS_CAPTION | WS_OVERLAPPED;
 							
-		// ������ɥ����ɕr�Ǥʤ��ä���
+		// ウィンドウ作成rでなかったら
 		if( DDinitFlag ){
-			// �ޥ������`������ʾ
+			// マウスカ`ソルを表示
 			//ShowCursor( TRUE );
 		}
 	}
-	// �ե륹����`��Εr
+	// フルスクリ`ンのr
 	else{	
 	
-		// ������ɥ���������
+		// ウィンドウスタイル
 		windowStyle = WS_VISIBLE | WS_POPUP;
-		// �ޥ������`������L��
+		// マウスカ`ソルをLす
 		//ShowCursor( FALSE );
 	}
 	
-	// ���饤������I����O��
+	// クライアントI域のO定
 	SetRect( &clientRect, 0, 0, lpDraw->xSize, lpDraw->ySize );
-	// ���饤������I��Υ��������饦����ɥ���������Ӌ�㤷 clientRect ������
-	//�Ӵ��ڳߴ��С�ͻ�����ļ���clientRect�Ž�
+	// クライアントI域のサイズからウィンドウサイズを算し clientRect へ入れる
+	//从窗口尺寸大小客户领域的计算clientRect放进
 	AdjustWindowRectEx( &clientRect, windowStyle, FALSE, NULL );
-	// ������ɥ������ɤ���Ȥ�
-	//if( !DDinitFlag ){	// DirectDraw�����ڻ�����Ƥʤ��Ȥ�
-	if( hWnd == NULL ){	// DirectDraw�����ڻ�����Ƥʤ��Ȥ�
+	// ウィンドウを作成するとき
+	//if( !DDinitFlag ){	// DirectDrawが初期化されてないとき
+	if( hWnd == NULL ){	// DirectDrawが初期化されてないとき
 	
-		// ������ɥ�������
+		// ウインドウの生成
 		hWnd = CreateWindowEx( 	NULL, 
 								DEF_APPNAME, 
 								DEF_APPNAME, 
@@ -409,13 +409,13 @@ void ChangeWindowMode( void )
 								hInst, 
 								NULL );
 	}
-	// ������ɥ���`�ɤ�������Ȥ�
+	// ウィンドウモ`ドを涓工毪趣
 	else{	
-		// ������ɥ���������Ή��
+		// ウィンドウスタイルの涓
 		SetWindowLong( hWnd, GWL_STYLE, windowStyle );
-		// ���ɤ���������ɥ����ʾ
+		// 作成したウインドウを表示
 		ShowWindow( hWnd, CmdShow );
-		// ������ɥ���λ�äȥ������Ή��
+		// ウィンドウの位置とサイズの涓
 		SetWindowPos( 	hWnd, 
 						HWND_NOTOPMOST, 
 						0, 
@@ -426,15 +426,15 @@ void ChangeWindowMode( void )
 						SWP_FRAMECHANGED );
 	}
 	
-	// ���ɤ���������ɥ����ʾ
+	// 作成したウインドウを表示
 	ShowWindow( hWnd, CmdShow );
 
-	// ������ɥ����ʾ����
+	// ウィンドウを表示更新
 	UpdateWindow( hWnd );
 }
 
 #if 0
-// Windows�Υ�å��`����եå�����
+// Windowsのメッセ`ジをフックする
 HRESULT CALLBACK HookProc( int nCode, WPARAM wParam, LPARAM lParam )
 {
 	int a = 0;
@@ -455,40 +455,40 @@ HRESULT CALLBACK HookProc( int nCode, WPARAM wParam, LPARAM lParam )
 #endif
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ����å��`����`�ׄI���v��                                                     //
-// ���� ���ʤ�   ��Ϣѭ����������/ // /��������                                                            //
+// 概要 ：メッセ`ジル`プI理v数                                                     //
+// 引数 ：なし   信息循环处理函数/ // /参数：无                                                            //
 //---------------------------------------------------------------------------//
 BOOL SystemTask( void )
 {
 	MSG msg;
 	
-	// ������ ��å��`����`�� ������
-	// ��å��`���������g��`��  ��Ϣ�м�ѭ��
+	// ☆★☆★☆ メッセ`ジル`プ ☆★☆★☆
+	// メッセ`ジがあるgル`プ  信息有间循环
 	while( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )){
-		// ��å��`�����ܤ�ȡ�롢WM_QUIT ���ܤ�ȡ���FALSE�����äƤ��ƽK��
+		// メッセ`ジを受け取る、WM_QUIT を受け取るとFALSEが返ってきてK了
 		//if( GetMessage( &msg, NULL, 0, 0 ) == FALSE ) return FALSE; 
-		// WM_QUIT ���ܤ�ȡ��ȽK��
+		// WM_QUIT を受け取るとK了
 		if( msg.message == WM_QUIT ) return FALSE;
 		
-		TranslateMessage(&msg);		// ��Q����Ҫ�ʥ�å��`���ω�Q����
+		TranslateMessage(&msg);		// Qが必要なメッセ`ジはQする
 		
-		DispatchMessage(&msg);		// ������ɥ��ץ����`����إ�å��`�����ͤ�
+		DispatchMessage(&msg);		// ウィンドウプロシ`ジャへメッセ`ジを送る
 			
 	}
 	return TRUE;
 }
 
 //---------------------------------------------------------------------------//
-// ��Ҫ ��������ɥ���å��`���I���v��                                       //
-// ���� ��HWND hWnd:     ������ɥ����R�e�ϥ�ɥ�                            //
-//        UINT Message:  �I������������å��`��                              //
-//        WPARAM wParam: �I������������å��`���a�����                    //
-//        LPARAM lParam: �I������������å��`���a�����                    //
+// 概要 ：ウインドウメッセ`ジI理v数                                       //
+// 引数 ：HWND hWnd:     ウィンドウのReハンドル                            //
+//        UINT Message:  I理する制御メッセ`ジ                              //
+//        WPARAM wParam: I理する制御メッセ`ジa足情螅                    //
+//        LPARAM lParam: I理する制御メッセ`ジa足情螅                    //
 //---------------------------------------------------------------------------//
 LRESULT CALLBACK WindMsgProc( HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam )
 {
 	switch( Message ){
-		//case MSGF_NEXTWINDOW: // ALT+TAB Ѻ�����Ȥ�
+		//case MSGF_NEXTWINDOW: // ALT+TAB 押したとき
 			//SetActiveWindow( hWnd );
 		//	{ 
 		//		int a; 
@@ -496,92 +496,92 @@ LRESULT CALLBACK WindMsgProc( HWND hWnd, UINT Message, WPARAM wParam, LPARAM lPa
 		//	}
 		//	break;
 		
-/** �����ƥ��v�B��å��`�� ***ϵͳ�����Ϣ**************************************************/
+/** システムvBメッセ`ジ ***系统相关信息**************************************************/
 
-		//���Ӧ������������߷Ǽ����˵�ʱ��  ��Ӧ��ʧȥ�����ֹͣ�ʱ
-		case WM_ACTIVATE:	// ���Υ��ץꥱ�`����󤬥����ƥ����֤Ϸǥ����ƥ��֤ˤʤä��r
+		//这个应用软件激活或者非激活了的时候  当应用失去焦点或停止活动时
+		case WM_ACTIVATE:	// このアプリケ`ションがアクティブ又は非アクティブになったr
 			
-			// ������ɥ��������ƥ��֤ˤ����Ȥ� ���ڱ������ʱ����Ǳ�����Ϊ�����ʱ��
+			// ウィンドウがアクティブにされるとき 窗口被激活的时候或是被设置为焦点的时间
 			if( ( wParam == WA_ACTIVE || wParam == WA_CLICKACTIVE ) && lpDraw != NULL){
 			
-				// ���`�ե����� LOST ���Ƥ�����  ������LOST��
+				// サ`フェスが LOST していたら  表面有LOST了
 				if( CheckSurfaceLost() == TRUE ){
-					// DirectDraw �_��
+					// DirectDraw _放
 					ReleaseDirectDraw();
-					// ����ȥ�`���O��
+					// 解像度モ`ドO定
 					SetResoMode( ResoMode );
-					// DirectDraw ���ڻ�
+					// DirectDraw 初期化
 					if( InitDirectDraw() == FALSE ){
-						MessageBox( hWnd, "�ģ������ģ����γ��ڻ���ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
-						// �ףɣΣģϣףӤ� WM_CLOSE ��å��`�����ͤ餻��
+						MessageBox( hWnd, "ＤｉｒｅｃｔＤｒａｗの初期化に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
+						// ＷＩＮＤＯＷＳに WM_CLOSE メッセ`ジを送らせる
 						PostMessage( hWnd, WM_CLOSE, 0, 0L );
 					}
-					// ������ɥ���`���Ф��椨
+					// ウィンドウモ`ド切り替え
 					//ChangeWindowMode();
-					// ���ե�����`�󥵩`�ե���������   �����������  Ӧ���ǽ���
+					// オフスクリ`ンサ`フェスの作成   清洁表面的作成  应该是界面
 					InitOffScreenSurface();
-					// �ѥ�åȳ��ڻ�
+					// パレット初期化
 					if( InitPalette() == FALSE ){
 						PostMessage( hWnd, WM_CLOSE, 0, 0L );
 					}
-					// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ�������
-					//ս����ͼ�����غ�ս���س̵Ļ�������
+					// バトルマップiみzみとバトルサ`フェスの画像作成
+					//战斗地图，加载和战斗回程的画像作成
 					if( ProcNo == PROC_BATTLE ){ 
-						// �Хåե����ڻ�
+						// バッファ初期化
 						DispBuffer.DispCnt = 0;
 						FontCnt = 0;
 						ReadBattleMap( BattleMapNo );
-						// �Хå����`�ե������\�ǥ��ꥢ�`
+						// バックサ`フェスを\でクリア`
 						ClearBackSurface();	
-						// �£ͣФ�Хå����`�ե����˥��å�
+						// ＢＭＰをバックサ`フェスにセット
 						PutBmp();	
-						// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`  ����ʵ����渴�Ƶ�ս��
-						//��������һ����̨�����еľ���������ҳ���ϡ�
+						// バックサ`フェスからバトルサ`フェスへコピ`  背部实体表面复制到战斗
+						//函数复制一个后台缓存中的矩形区域到主页面上。
 
 						lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-						// �Хåե����ڻ�
+						// バッファ初期化
 						DispBuffer.DispCnt = 0;
 						FontCnt = 0;
-						// �F�ڤΕr�g��ӛ��
+						// F在のrgを
 						NowTime = GetTickCount();
 					}
 				}
-				// �ѥ�åȥ��֥������Ȥ��ʤ��r  ���̶����ʱ��
+				// パレットオブジェクトがないr  托盘对象的时候
 				if( lpDraw->lpPALETTE != NULL ){
-					// ������ɥ���`�ɤΕr  ���ڷ�ʽ��ʱ��
+					// ウィンドウモ`ドのr  窗口方式的时候
 					if( WindowMode ){
-						// ���ɤ��Ƥ������ѥ�åȤˉ䤨��  ������������̸ı�
-						//��ɫ��
+						// 作成しておいたパレットに浃à  制作方面的托盘改变
+						//调色板
 						lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 					}
 				}
-				// �ޥ�������å������γ��ڻ�  ���������ĳ��ڻ�
+				// マウスクリック入力の初期化  鼠标点击输入的初期化
 				mouse.state = MOUSE_NO_CRICK;
 				mouse.onceState = MOUSE_NO_CRICK;
-				// �r�g���W�����줵����  ��ʱ������������ ��õ�ǰʱ��ϵͳ����--��
+				// rgのWれ忘れさせる  的时间晚让人忘了 获得当前时间系统启动--》
 				NowTime = GetTickCount();
 			}
 			
-			//�����쥯�ȥ���ץåȤ�����
-			//���`�ܩ`�ɣϣˤʤ�
-			// /ֱ�����������/ /����OK�Ļ�
+			//ダイレクトインプットの修正
+			//キ`ボ`ドＯＫなら
+			// /直接输入的修正/ /键盘OK的话
 			if(keyboad_flg == TRUE)
-			{		//���`�ܩ`�ɣϣˤʤ�
-				// ���`�ܩ`�ɥ��֥������Ȥ�����Ȥ�  ���̶����ʱ��
+			{		//キ`ボ`ドＯＫなら
+				// キ`ボ`ドオブジェクトがあるとき  键盘对象的时候
 				if(pDInputDevice != NULL){
-					// ������ɥ����ǥ����ƥ��֤ˤ����Ȥ�  ���ڷǱ������ʱ��
+					// ウィンドウが非アクティブにされるとき  窗口非被激活的时候
 					if(wParam == WA_INACTIVE)
 					{
-						// DInput ֹͣ
+						// DInput 停止
 						DInputActiveFlag = FALSE;
-						// ���`�Хåե��γ��ڻ�  ������ĳ��ڻ�  ʵ�ʴ������̶���
+						// キ`バッファの初期化  键缓冲的初期化  实际创建键盘对象
 						for( int i = 0 ; i < 256 ; i++ ) di_key[ i ] = 0;
 						pDInputDevice->Unacquire();
 					}
 					else
 					{
 						
-						// DInput �ͻ�  ������  ������
+						// DInput 活  获得鼠标  找鼠标的
 						DInputActiveFlag = TRUE;
 						pDInputDevice->Acquire();
 					
@@ -589,307 +589,307 @@ LRESULT CALLBACK WindMsgProc( HWND hWnd, UINT Message, WPARAM wParam, LPARAM lPa
 				}
 			}
 
-			//���祤���ƥ��å��ϣˤʤ�  ���Ƹ�OK�Ļ�
+			//ジョイスティックＯＫなら  控制杆OK的话
 			if(joy_flg == TRUE){		
-				// ���祤���ƥ��å����֥������Ȥ�����Ȥ�  ���Ƹ˶����ʱ��
+				// ジョイスティックオブジェクトがあるとき  控制杆对象的时候
 				if(pDInputDevice2 == NULL)
 					break;
 
-				// ������ɥ����ǥ����ƥ��֤ˤ����Ȥ�  ���ڷǱ������ʱ��
+				// ウィンドウが非アクティブにされるとき  窗口非被激活的时候
 				if(wParam == WA_INACTIVE){
-					// DInput ֹͣ
+					// DInput 停止
 					DInputActiveFlag = FALSE;
 					pDInputDevice2->Unacquire();
 				}
 				else{
-					// DInput �ͻ�
+					// DInput 活
 					DInputActiveFlag = TRUE;
 					pDInputDevice2->Acquire();
 				}
 			}
 			break;
 
-//		case WM_ACTIVATEAPP: // ���������Υ��ץꥱ�`�������Ƥä��r
+//		case WM_ACTIVATEAPP: // 制御がこのアプリケ`ションに移ったr
 		
-			// ALT+TAB�Ф��椨�ˤ�LOST���������ޏ�
+			// ALT+TAB切り替えにてLOSTした情螭蛐
 			//if( ( wParam ) && lpDraw != NULL ){
 			//break;
 			
-		case WM_CLOSE:				// ������ɥ��]����Ȥ�
+		case WM_CLOSE:				// ウィンドウ]じるとき
 		
-			DestroyWindow( hWnd );	// ������ɥ����Ɨ����롢ͬ�r��
-									// WM_DESTROY ��å��`�����ͤ���
+			DestroyWindow( hWnd );	// ウィンドウを破する、同rに
+									// WM_DESTROY メッセ`ジが送られる
 			break;
 
-		case WM_DESTROY:			// ������ɥ����Ɨ����줿�Ȥ�
+		case WM_DESTROY:			// ウィンドウが破されたとき
 
-			PostQuitMessage( 0 );	// WM_QUIT ��å��`�����ͤ� ( �I���νK�� )
+			PostQuitMessage( 0 );	// WM_QUIT メッセ`ジを送る ( I理のK了 )
 			break;
 			
 #if 0			
-		case WM_PALETTECHANGED:		// �ѥ�åȤ�������줿�Ȥ�
-			// DirectDraw���֥������Ȥ��ʤ��r
+		case WM_PALETTECHANGED:		// パレットが涓丹欷郡趣
+			// DirectDrawオブジェクトがないr
 			if( lpDraw == NULL ) break;
-			// �ѥ�åȥ��֥������Ȥ��ʤ��r
+			// パレットオブジェクトがないr
 			if( lpDraw->lpPALETTE == NULL ) break;
-			// ������ɥ���`�ɤΕr
-			//�ҿ���
+			// ウィンドウモ`ドのr
+			//我开启
 			if( WindowMode ){
-				// ���ɤ��Ƥ������ѥ�åȤˉ䤨��
+				// 作成しておいたパレットに浃à
 				lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
-			}  //�ҿ���
+			}  //我开启
 			break;
 			//if( (HWND)wParam == hWnd )  break;
 			
-		case WM_PALETTEISCHANGING:		// �ѥ�åȤ�������줿�Ȥ�
-			// DirectDraw���֥������Ȥ��ʤ��r
+		case WM_PALETTEISCHANGING:		// パレットが涓丹欷郡趣
+			// DirectDrawオブジェクトがないr
 			if( lpDraw == NULL ) break;
-			// �ѥ�åȥ��֥������Ȥ��ʤ��r
+			// パレットオブジェクトがないr
 			if( lpDraw->lpPALETTE == NULL ) break;
-			// ������ɥ���`�ɤΕr
+			// ウィンドウモ`ドのr
 			//if( WindowMode ){
-				// ���ɤ��Ƥ������ѥ�åȤˉ䤨��
+				// 作成しておいたパレットに浃à
 				lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 			//}
 			break;
 		
-		case WM_QUERYNEWPALETTE:	// �ѥ�åȉ���Ǥ���Ȥ���������ɥ���`�ɤΕr�Τߣ�
+		case WM_QUERYNEWPALETTE:	// パレット涓扦毪趣ēΕ％螗丧Ε猢`ドのrのみ）
 		
-			// DirectDraw���֥������Ȥ��ʤ��r
+			// DirectDrawオブジェクトがないr
 			if( lpDraw == NULL ) break;
-			// �ѥ�åȥ��֥������Ȥ��ʤ��r
+			// パレットオブジェクトがないr
 			if( lpDraw->lpPALETTE == NULL ) break;
 			
-			// ������ɥ���`�ɤΕr
+			// ウィンドウモ`ドのr
 			//if( WindowMode ){
-				// ���ɤ��Ƥ������ѥ�åȤˉ䤨��
+				// 作成しておいたパレットに浃à
 				lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 			//}
 			
 			break;
 #endif			
 			
-/** ���`������å��`�� *****��������Ϣ************************************************/
+/** キ`入力メッセ`ジ *****键输入信息************************************************/
 
-      	case WM_KEYDOWN:	// ���`�����I��
+      	case WM_KEYDOWN:	// キ`入力I理
 		
-			// ���`�ե����������`�Εr
-			///�������봦��ά�`/ /�س̵�ʱ��
+			// サ`フェスヴィジ`のr
+			///键盘输入处理维`/ /回程的时候
 			if( SurfaceBusyFlag == TRUE ){
 				SurfaceBusyFlag = FALSE;
-				//MessageBox( hWnd, "ʧȥ��ͼ�������޸�����", "�_�J", MB_OK | MB_ICONSTOP );
+				//MessageBox( hWnd, "失去的图像数据修复。。", "_J", MB_OK | MB_ICONSTOP );
 			
-				// DirectDraw �_��
+				// DirectDraw _放
 				ReleaseDirectDraw();
-				// ����ȥ�`���O��
+				// 解像度モ`ドO定
 				SetResoMode( ResoMode );
-				// DirectDraw ���ڻ�
+				// DirectDraw 初期化
 				if( InitDirectDraw() == FALSE ){
-					MessageBox( hWnd, "�ģ������ģ����γ��ڻ���ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
-					// �ףɣΣģϣףӤ� WM_CLOSE ��å��`�����ͤ餻��
+					MessageBox( hWnd, "ＤｉｒｅｃｔＤｒａｗの初期化に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
+					// ＷＩＮＤＯＷＳに WM_CLOSE メッセ`ジを送らせる
 					PostMessage( hWnd, WM_CLOSE, 0, 0L );
 				}
-				// ������ɥ���`���Ф��椨
+				// ウィンドウモ`ド切り替え
 				//ChangeWindowMode();
-				// ���ե�����`�󥵩`�ե��������� 
+				// オフスクリ`ンサ`フェスの作成 
 				InitOffScreenSurface();
-				// �ѥ�åȳ��ڻ�
+				// パレット初期化
 				if( InitPalette() == FALSE ){
 					PostMessage( hWnd, WM_CLOSE, 0, 0L );
 				}
-				// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ�������
+				// バトルマップiみzみとバトルサ`フェスの画像作成
 				if( ProcNo == PROC_BATTLE ){ 
-					// �Хåե����ڻ�
+					// バッファ初期化
 					DispBuffer.DispCnt = 0;
 					FontCnt = 0;
 					ReadBattleMap( BattleMapNo );
-					// �Хå����`�ե������\�ǥ��ꥢ�`
+					// バックサ`フェスを\でクリア`
 					ClearBackSurface();	
-					// �£ͣФ�Хå����`�ե����˥��å�
+					// ＢＭＰをバックサ`フェスにセット
 					PutBmp();	
-					// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+					// バックサ`フェスからバトルサ`フェスへコピ`
 					lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-					// �Хåե����ڻ�
+					// バッファ初期化
 					DispBuffer.DispCnt = 0;
 					FontCnt = 0;
-					// �F�ڤΕr�g��ӛ��
+					// F在のrgを
 					NowTime = GetTickCount();
 				}
-				// �ѥ�åȥ��֥������Ȥ��ʤ��r
+				// パレットオブジェクトがないr
 				if( lpDraw->lpPALETTE != NULL ){
-					// ������ɥ���`�ɤΕr
+					// ウィンドウモ`ドのr
 					if( WindowMode ){
-						// ���ɤ��Ƥ������ѥ�åȤˉ䤨��
+						// 作成しておいたパレットに浃à
 						lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 					}
 				}
-				// �ޥ�������å������γ��ڻ�
+				// マウスクリック入力の初期化
 				mouse.state = MOUSE_NO_CRICK;
 				mouse.onceState = MOUSE_NO_CRICK;
-				// �r�g���W�����줵����
+				// rgのWれ忘れさせる
 				NowTime = GetTickCount();
 			}
 			
             switch( wParam ){
-                case VK_ESCAPE: // �ţӣå��`Ѻ���줿�Ȥ�
-					// �ףɣΣģϣףӤ� WM_CLOSE ��å��`�����ͤ餻��
-					//ESC�����Ƶ�ʱ���WM _ CLOSE / / WINDOWS��Ϣ�ӻ�
+                case VK_ESCAPE: // ＥＳＣキ`押されたとき
+					// ＷＩＮＤＯＷＳに WM_CLOSE メッセ`ジを送らせる
+					//ESC键被推的时候对WM _ CLOSE / / WINDOWS信息延缓
 					//PostMessage( hWnd, WM_CLOSE, 0, 0L );
 					break;
 					
-				case VK_RETURN:	// �꥿�`�󥭩`Ѻ���줿�r   
+				case VK_RETURN:	// リタ`ンキ`押されたr   
 				
-					/* �꥿�`�󥭩`�I��   ���»س���ʱ�س��� /����*/
+					/* リタ`ンキ`I理   按下回车键时回车键 /处理*/
 					KeyboardReturn();
 				
 					break;
 					
-				case VK_BACK:	// BS ��һ��������  ��һ����ɾ��
+				case VK_BACK:	// BS で一文字削除  在一个字删除
 				
-					// �£ӥ��`�I��   / / BS/ / BS������
+					// ＢＳキ`I理   / / BS/ / BS键处理
 					KeyboardBackSpace();
 				
 					break;
 					
-				case VK_DELETE:	// ����åȥХåե����ꥢ
+				case VK_DELETE:	// チャットバッファクリア
 				
-					/* ����å����֤�ȫ�ƥ��ꥢ���� */
+					/* チャット文字を全てクリアする */
 					ClearChatBuffer();
 					
 					break;
 					
-				case VK_F5:	// ����åȥХåե����ꥢ
+				case VK_F5:	// チャットバッファクリア
 					
-					/* ����å����֤�ȫ�ƥ��ꥢ����  �����������/��������ȫ����� */
+					/* チャット文字を全てクリアする  缓冲清除聊天/聊天文字全部清除 */
 					wParam = wParam;
 					
 					break;
 			}
 			break;
 			
-		case WM_SYSKEYDOWN:	// ALT���`Ѻ���줿�Ȥ�  ����ALT����ʱ��
+		case WM_SYSKEYDOWN:	// ALTキ`押されたとき  按下ALT键的时候
 		
-			// ���`�ե����������`�Εr ʵ��ά��Ϣ��ʱ��
+			// サ`フェスヴィジ`のr 实体维信息的时候
 			if( SurfaceBusyFlag == TRUE ){
 				SurfaceBusyFlag = FALSE;
-				//MessageBox( hWnd, "ʧ��줿����ǩ`�����ޏͤ��ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+				//MessageBox( hWnd, "失われた画像デ`タを修します。", "_J", MB_OK | MB_ICONSTOP );
 			
-				// DirectDraw �_��
+				// DirectDraw _放
 				ReleaseDirectDraw();
-				// ����ȥ�`���O��
+				// 解像度モ`ドO定
 				SetResoMode( ResoMode );
-				// DirectDraw ���ڻ�
+				// DirectDraw 初期化
 				if( InitDirectDraw() == FALSE ){
-					MessageBox( hWnd, "�ģ������ģ����γ��ڻ���ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
-					// �ףɣΣģϣףӤ� WM_CLOSE ��å��`�����ͤ餻��
+					MessageBox( hWnd, "ＤｉｒｅｃｔＤｒａｗの初期化に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
+					// ＷＩＮＤＯＷＳに WM_CLOSE メッセ`ジを送らせる
 					PostMessage( hWnd, WM_CLOSE, 0, 0L );
 				}
-				// ������ɥ���`���Ф��椨
+				// ウィンドウモ`ド切り替え
 				//ChangeWindowMode();
-				// ���ե�����`�󥵩`�ե��������� 
+				// オフスクリ`ンサ`フェスの作成 
 				InitOffScreenSurface();
-				// �ѥ�åȳ��ڻ�
+				// パレット初期化
 				if( InitPalette() == FALSE ){
 					PostMessage( hWnd, WM_CLOSE, 0, 0L );
 				}
-				// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ�������
+				// バトルマップiみzみとバトルサ`フェスの画像作成
 				if( ProcNo == PROC_BATTLE ){ 
-					// �Хåե����ڻ�
+					// バッファ初期化
 					DispBuffer.DispCnt = 0;
 					FontCnt = 0;
 					ReadBattleMap( BattleMapNo );
-					// �Хå����`�ե������\�ǥ��ꥢ�`
+					// バックサ`フェスを\でクリア`
 					ClearBackSurface();	
-					// �£ͣФ�Хå����`�ե����˥��å�
+					// ＢＭＰをバックサ`フェスにセット
 					PutBmp();	
-					// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+					// バックサ`フェスからバトルサ`フェスへコピ`
 					lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-					// �Хåե����ڻ�
+					// バッファ初期化
 					DispBuffer.DispCnt = 0;
 					FontCnt = 0;
-					// �F�ڤΕr�g��ӛ��
+					// F在のrgを
 					NowTime = GetTickCount();
 				}
-				// �ѥ�åȥ��֥������Ȥ��ʤ��r
+				// パレットオブジェクトがないr
 				if( lpDraw->lpPALETTE != NULL ){
-					// ������ɥ���`�ɤΕr
+					// ウィンドウモ`ドのr
 					if( WindowMode ){
-						// ���ɤ��Ƥ������ѥ�åȤˉ䤨��
+						// 作成しておいたパレットに浃à
 						lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 					}
 				}
-				// �ޥ�������å������γ��ڻ�
+				// マウスクリック入力の初期化
 				mouse.state = MOUSE_NO_CRICK;
 				mouse.onceState = MOUSE_NO_CRICK;
-				// �r�g���W�����줵����
+				// rgのWれ忘れさせる
 				NowTime = GetTickCount();
 			}
 			
 			switch( wParam )
 			{
-					//�ڴ���ģʽ���  ALT+RETURN
-				//���»س���ʱ�س��� /����*/
-				case VK_RETURN:	// ALT+RETURN �ǥ�����ɥ���`�ɉ��  �ڴ���ģʽ���
+					//在窗口模式变更  ALT+RETURN
+				//按下回车键时回车键 /处理*/
+				case VK_RETURN:	// ALT+RETURN でウィンドウモ`ド涓  在窗口模式变更
 				
-					// �ݳ��Фϒi����  �ݳ��д���
+					// 演出中はiける  演出中穿过
 					if( BackBufferDrawType == DRAW_BACK_PRODUCE ) break; 
 					
-					// DirectDraw���֥������Ȥ��ʤ��r  �����ʱ��
+					// DirectDrawオブジェクトがないr  对象的时候
 					if( lpDraw == NULL ) break;
 					
-					// ������ɥ���`�ɥե饰���
+					// ウィンドウモ`ドフラグ涓
 					if( WindowMode == TRUE ) WindowMode = FALSE;
 					else WindowMode = TRUE;
 					
-					// DirectDraw �_��
+					// DirectDraw _放
 					ReleaseDirectDraw();
 
-					// ����ȥ�`���O��
+					// 解像度モ`ドO定
 					SetResoMode( ResoMode );
 
-					// DirectDraw ���ڻ�
+					// DirectDraw 初期化
 					InitDirectDraw();
-					// ���ե�����`�󥵩`�ե��������� 
+					// オフスクリ`ンサ`フェスの作成 
 					InitOffScreenSurface();
-					// ������ɥ���`���Ф��椨
+					// ウィンドウモ`ド切り替え
 					ChangeWindowMode();
-					// ȫ������ɥ������軭Ҫ��
+					// 全ウィンドウに再描画要求
 					//SendMessage( HWND_BROADCAST, WM_PAINT, NULL, NULL );
 		
-					// �ѥ�åȳ��ڻ�
+					// パレット初期化
 					if( InitPalette() == FALSE ){
 						PostMessage( hWnd, WM_CLOSE, 0, 0L );
 					}
-					// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ�������
+					// バトルマップiみzみとバトルサ`フェスの画像作成
 					if( ProcNo == PROC_BATTLE ){ 
-						// �Хåե����ڻ�
+						// バッファ初期化
 						DispBuffer.DispCnt = 0;
 						FontCnt = 0;
 						ReadBattleMap( BattleMapNo );
-						// �Хå����`�ե������\�ǥ��ꥢ�`
+						// バックサ`フェスを\でクリア`
 						ClearBackSurface();	
-						// �£ͣФ�Хå����`�ե����˥��å�
+						// ＢＭＰをバックサ`フェスにセット
 						PutBmp();	
-						// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+						// バックサ`フェスからバトルサ`フェスへコピ`
 						lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-						// �Хåե����ڻ�
+						// バッファ初期化
 						DispBuffer.DispCnt = 0;
 						FontCnt = 0;
-						// �F�ڤΕr�g��ӛ��
+						// F在のrgを
 						NowTime = GetTickCount();
 					}	
 					
 					break;
 				default:
-					// δ�I����å��`����ǥե���ȄI���v���ضɤ��ƄI��������
-					//δ��������Ϣ��������Ĭ�Ͻ�������
+					// 未I理メッセ`ジをデフォルトI理v数へ渡してI理させる
+					//未处理的信息处理函数默认交给处理
 					return DefWindowProc( hWnd, Message, wParam, lParam );
 			}
 			break;
 			
-      	case WM_CHAR:	// ���������I��  �������봦��
+      	case WM_CHAR:	// 文字入力I理  文字输入处理
 		
-				// ���֥Хåե�������  ���ֻ�����
+				// 文字バッファに溜める  文字缓冲蓄
 
 			// StockChatBufferWord( WORD wParam );
 
@@ -897,212 +897,212 @@ LRESULT CALLBACK WindMsgProc( HWND hWnd, UINT Message, WPARAM wParam, LPARAM lPa
 			
 			break;
 			
-/** �ޥ���������å��`�� *********���������Ϣ********************************************/
+/** マウス入力メッセ`ジ *********鼠标输入信息********************************************/
 
-		case WM_MOUSEMOVE:		// �ޥ�����Ӥ������r  �ƶ�����ʱ��
+		case WM_MOUSEMOVE:		// マウスを婴筏r  移动鼠标的时候
 		
-			// �F�ڤΥޥ�����λ�ä�ӛ������
+			// F在のマウスの位置をする
 			MouseNowPoint( LOWORD(lParam), HIWORD(lParam) );
 			if( mouse.flag == TRUE ){ 
-				ShowCursor( FALSE ); // �ޥ������`���������
+				ShowCursor( FALSE ); // マウスカ`ソルを消す
 				mouse.flag = FALSE;
 			}
-			// ���`�ե����������`�Εr
+			// サ`フェスヴィジ`のr
 			if( SurfaceBusyFlag == TRUE ){
 				SurfaceBusyFlag = FALSE;
-				//MessageBox( hWnd, "ʧ��줿����ǩ`�����ޏͤ��ޤ���", "�_�J", MB_OK | MB_ICONSTOP );
+				//MessageBox( hWnd, "失われた画像デ`タを修します。", "_J", MB_OK | MB_ICONSTOP );
 			
-				// DirectDraw �_��
+				// DirectDraw _放
 				ReleaseDirectDraw();
-				// ����ȥ�`���O��
+				// 解像度モ`ドO定
 				SetResoMode( ResoMode );
-				// DirectDraw ���ڻ�
+				// DirectDraw 初期化
 				if( InitDirectDraw() == FALSE ){
-					MessageBox( hWnd, "�ģ������ģ����γ��ڻ���ʧ�����ޤ�����", "�_�J", MB_OK | MB_ICONSTOP );
-					// �ףɣΣģϣףӤ� WM_CLOSE ��å��`�����ͤ餻��
+					MessageBox( hWnd, "ＤｉｒｅｃｔＤｒａｗの初期化に失・筏蓼筏俊", "_J", MB_OK | MB_ICONSTOP );
+					// ＷＩＮＤＯＷＳに WM_CLOSE メッセ`ジを送らせる
 					PostMessage( hWnd, WM_CLOSE, 0, 0L );
 				}
-				// ������ɥ���`���Ф��椨
+				// ウィンドウモ`ド切り替え
 				//ChangeWindowMode();
-				// ���ե�����`�󥵩`�ե��������� 
+				// オフスクリ`ンサ`フェスの作成 
 				InitOffScreenSurface();
-				// �ѥ�åȳ��ڻ�
+				// パレット初期化
 				if( InitPalette() == FALSE ){
 					PostMessage( hWnd, WM_CLOSE, 0, 0L );
 				}
-				// �Хȥ�ޥå��i���z�ߤȥХȥ륵�`�ե����λ�������
+				// バトルマップiみzみとバトルサ`フェスの画像作成
 				if( ProcNo == PROC_BATTLE ){ 
-					// �Хåե����ڻ�
+					// バッファ初期化
 					DispBuffer.DispCnt = 0;
 					FontCnt = 0;
 					ReadBattleMap( BattleMapNo );
-					// �Хå����`�ե������\�ǥ��ꥢ�`
+					// バックサ`フェスを\でクリア`
 					ClearBackSurface();	
-					// �£ͣФ�Хå����`�ե����˥��å�
+					// ＢＭＰをバックサ`フェスにセット
 					PutBmp();	
-					// �Хå����`�ե�������Хȥ륵�`�ե����إ��ԩ`
+					// バックサ`フェスからバトルサ`フェスへコピ`
 					lpBattleSurface->BltFast( 0, 0, lpDraw->lpBACKBUFFER, NULL, DDBLTFAST_WAIT );
-					// �Хåե����ڻ�
+					// バッファ初期化
 					DispBuffer.DispCnt = 0;
 					FontCnt = 0;
-					// �F�ڤΕr�g��ӛ��
+					// F在のrgを
 					NowTime = GetTickCount();
 				}
-				// �ѥ�åȥ��֥������Ȥ��ʤ��r
+				// パレットオブジェクトがないr
 				if( lpDraw->lpPALETTE != NULL ){
-					// ������ɥ���`�ɤΕr
+					// ウィンドウモ`ドのr
 					if( WindowMode ){
-						// ���ɤ��Ƥ������ѥ�åȤˉ䤨��
+						// 作成しておいたパレットに浃à
 						lpDraw->lpPALETTE->SetEntries( 0, 0, 256, Palette );
 					}
 				}
-				// �ޥ�������å������γ��ڻ�
+				// マウスクリック入力の初期化
 				mouse.state = MOUSE_NO_CRICK;
 				mouse.onceState = MOUSE_NO_CRICK;
-				// �r�g���W�����줵����
+				// rgのWれ忘れさせる
 				NowTime = GetTickCount();
 			}
 
 			break;
 			
-		case WM_NCMOUSEMOVE:	// �ޥ�����������ɥ�����Ϥ߳����r  ���Ӵ���¶���˵�ʱ��
+		case WM_NCMOUSEMOVE:	// マウスがウィンドウからはみ出たr  鼠标从窗口露出了的时候
 		
-			// �ޥ�������å������γ��ڻ�
+			// マウスクリック入力の初期化
 			mouse.state = MOUSE_NO_CRICK;
 			mouse.onceState = MOUSE_NO_CRICK;
 			if( mouse.flag == FALSE ){ 
-				ShowCursor( TRUE ); // �ޥ������`������ʾ
+				ShowCursor( TRUE ); // マウスカ`ソルを表示
 				mouse.flag = TRUE;
 			}
 			
 			break;
 			
-		case WM_LBUTTONDOWN:	// �󥯥�å�(Ѻ�����r)
+		case WM_LBUTTONDOWN:	// 左クリック(押したr)
 		
-			// �󥯥�å����줿�r�Υޥ�����λ�ä�ӛ������
+			// 左クリックされたrのマウスの位置をする
 			MouseCrickLeftDownPoint( LOWORD(lParam), HIWORD(lParam) );
 			
 			break;
 			
-		case WM_LBUTTONUP:		// �󥯥�å�(�x�����r)
+		case WM_LBUTTONUP:		// 左クリック(xしたr)
 		
-			// �󥯥�å����줿�r�Υޥ�����λ�ä�ӛ������
+			// 左クリックされたrのマウスの位置をする
 			MouseCrickLeftUpPoint( LOWORD(lParam), HIWORD(lParam) );
 			
 			break;
 
-		case WM_LBUTTONDBLCLK:		// ����֥륯��å�
+		case WM_LBUTTONDBLCLK:		// 左ダブルクリック
 		
-			// ����֥륯��å����줿�r�Υޥ�����λ�ä�ӛ������
+			// 左ダブルクリックされたrのマウスの位置をする
 			MouseDblCrickLeftUpPoint( LOWORD(lParam), HIWORD(lParam) );
 			
 			break;
 			
-		case WM_RBUTTONDOWN:	// �ҥ���å�(Ѻ�����r)
+		case WM_RBUTTONDOWN:	// 右クリック(押したr)
 		
-			// �󥯥�å����줿�r�Υޥ�����λ�ä�ӛ������
+			// 左クリックされたrのマウスの位置をする
 			MouseCrickRightDownPoint( LOWORD(lParam), HIWORD(lParam) );
 			
 			break;
 			
-		case WM_RBUTTONUP:		// �ҥ���å�(�x�����r)
+		case WM_RBUTTONUP:		// 右クリック(xしたr)
 		
-			// �󥯥�å����줿�r�Υޥ�����λ�ä�ӛ������
+			// 左クリックされたrのマウスの位置をする
 			MouseCrickRightUpPoint( LOWORD(lParam), HIWORD(lParam) );
 			
 			break;
 
-		case WM_RBUTTONDBLCLK:		// �ҥ��֥륯��å�
+		case WM_RBUTTONDBLCLK:		// 右ダブルクリック
 		
-			// �ҥ��֥륯��å����줿�r�Υޥ�����λ�ä�ӛ������
+			// 右ダブルクリックされたrのマウスの位置をする
 			MouseDblCrickRightUpPoint( LOWORD(lParam), HIWORD(lParam) );
 			
 			break;
 			
-		case WM_MBUTTONDOWN:	// �Х���å�(Ѻ�����r)
+		case WM_MBUTTONDOWN:	// 中クリック(押したr)
 			break;
 
-/** �ɣͣ��v�B��å��`���I�� *******�й���Ϣ����*******************************************/
+/** ＩＭＥvBメッセ`ジI理 *******有关信息处理*******************************************/
 			
-			//��С���ڱ仯��ʱ��
-		case WM_IME_COMPOSITION: // �ɣͣŤΤ��ä��㤤������ɥ��ˉ仯������r
+			//的小窗口变化的时候
+		case WM_IME_COMPOSITION: // ＩＭＥのちっちゃいウィンドウに浠r
 	
-			// WM_IME_COMPOSITION ��å��`���΄I��
+			// WM_IME_COMPOSITION メッセ`ジのI理
 			ImeComposition( lParam );
 			
 			break;
 
-			//������ȷ���󡣱任�е����ֶ��ڵ�ʱ��Ҳ������BS��/ / IME�����ڿ��е�
-		case WM_IME_ENDCOMPOSITION: // ���֤�_������ֱ������롣��Q�Ф����֤�ȫ��BS�Ǥ������Ȥ��⤯�롣
-			// �ɣͣťХåե��`��դˤ���
+			//文字来确定后。变换中的文字都在的时候也会乱码BS。/ / IME缓冲在空中的
+		case WM_IME_ENDCOMPOSITION: // 文字を_定した直後に来る。Q中の文字を全部BSでけしたときもくる。
+			// ＩＭＥバッファ`を空にする
 			*ImeBuffer = '\0';
 			break;
 		
 		case WM_IME_NOTIFY:
-			/* WM_IME_NOTIFY ��å��`���΄I��   ��Ϣ����*/
+			/* WM_IME_NOTIFY メッセ`ジのI理   信息处理*/
 			//ImeNotify( wParam ,lParam );
-			// ������DEFWINDOWPROC������ȡ���Q���a������ɥ�������褦����
-			// �ɣͣ�������`�ɤ�ȡ��
-			//������DEFWINDOWPROC���任�򲹴��ڷ�����/ / IME���뷽ʽ��ȡ��
+			// ここにDEFWINDOWPROCがあると、Q候aウインドウを出すようだ。
+			// ＩＭＥ入力モ`ドの取得
+			//这里有DEFWINDOWPROC，变换候补窗口发出。/ / IME输入方式的取得
 			ImmGetConversionStatus(  hImc, &conversion, &sentence  );
 			break;
 			
 		case WM_IME_CHAR:
-			// ������DefWindowProc������ȡ�WM_CHAR�����ɤ���
-			//������DefWindowProc��WM _ CHAR����
+			// ここにDefWindowProcがあると、WM_CHARを生成する
+			//这里有DefWindowProc，WM _ CHAR生成
 			break;
 #if 0
 		//case WM_IME_SETCONTEXT:
-			//���ڻ������Ȥ����Ƥ�Τ��ʣ��ե��`�������Ƥä��Ȥ�������褦����
+			//初期化したとき来てるのかな？フォ`カスが移ったときも来るようだ。
 			//DefWindowProc( hWnd, Message, wParam, lParam );
 		//	break;
-		case WM_IME_STARTCOMPOSITION:// IME��ON��״�B�ǡ����֤���������ֱ������롣
+		case WM_IME_STARTCOMPOSITION:// IMEがONの状Bで、文字を入力した直後に来る。
 		//	DefWindowProc( hWnd, Message, wParam, lParam );
 			break;
 		case WM_IME_CONTROL:
 			break;
-		case WM_IME_SELECT: // IME�򤨤����Ȥ�����餷�����Хåե�����ڻ��Ȥ�����Ф����Τ��ʣ�
+		case WM_IME_SELECT: // IMEをえらんだとき来るらしい。バッファを初期化とかすればいいのかな？
 			break;
-		case WM_IME_KEYDOWN:   // IME�Υ��`���`��
-			// ������DefWindowProc������ȡ�WM_KEYDOWN�����ɤ���
+		case WM_IME_KEYDOWN:   // IMEのキ`コ`ド
+			// ここにDefWindowProcがあると、WM_KEYDOWNを生成する
 			break;
 #endif
 	
 		default:
-			// δ�I����å��`����ǥե���ȄI���v���ضɤ��ƄI��������
+			// 未I理メッセ`ジをデフォルトI理v数へ渡してI理させる
 			return DefWindowProc( hWnd, Message, wParam, lParam );
 	}
 
 	return 0;
 }
 
-/** ����ȥ�`���O���I�� *****�ֱ���ģʽ�趨����*********************************************/
+/** 解像度モ`ドO定I理 *****分辨率模式设定处理*********************************************/
 void SetResoMode(int Mode){
 	ResoMode = Mode;
-	// DirectDraw���혋����g��_��   ��ʼ��DIRECT_DRAW����ָ��
+	// DirectDraw管理造体g体_保   初始化DIRECT_DRAW返回指针
 	lpDraw = ( DIRECT_DRAW *)GlobalAllocPtr( GPTR, ( DWORD )sizeof( DIRECT_DRAW ) );
 	if( lpDraw == NULL ){
-		MessageBox( hWnd, "GlobalAllocPtr Error ( DIRECT_DRAW )", "�_�J", MB_OK | MB_ICONSTOP );
+		MessageBox( hWnd, "GlobalAllocPtr Error ( DIRECT_DRAW )", "_J", MB_OK | MB_ICONSTOP );
 		return;
 	}
 
 	switch(Mode){
 	case 0:
-		//��������������  ��?640 480
-		lpDraw->xSize = 640;//windows  ���ڵĴ�С ��Direct û��ϵ
+		//６４０＊４８０  ?640 480
+		lpDraw->xSize = 640;//windows  窗口的大小 和Direct 没关系
 		lpDraw->ySize = 480;
 		SurfaceSizeX = 64;
 		SurfaceSizeY = 48;
 		break;
 	case 1:
-		//��������������
+		//３２０＊２４０
 		lpDraw->xSize = 320;
 		lpDraw->ySize = 240;
 		SurfaceSizeX = 32;
 		SurfaceSizeY = 24;
 		break;
 	case 2:
-		//�ɉ�
+		//可
 		lpDraw->xSize = 640;
 		lpDraw->ySize = 480;
 		SurfaceSizeX = 64;

@@ -9,28 +9,28 @@
 
 void dwafTestProc( void )
 {
-	/* ���֥ץ��������ŤǷ��  �ӽ���/�������*/*/
+	/* サブプロセス番号で分岐  子进程/号码分歧*/*/
 	switch( SubProcNo ){
 	
 		case 0:
 
 			InitChat();
-			// �����ե��`����ȡ��  ����۽�ȡ��
+			// 入力フォ`カス取得  输入聚焦取得
 			GetKeyInputFocus( &MyChatBuffer );
 			SubProcNo++;
 			break;
 		
 		case 1:
 
-			drawMap();		// �ޥåױ�ʾ  ��ͼ��ʾ
+			drawMap();		// マップ表示  地图显示
 			
-			/* ����åȄI��   ���촦��*/
+			/* チャットI理   聊天处理*/
 			ChatProc();
-			// ����åȥХåե��`��ե���ȥХåե�������  ���컺�����建����
+			// チャットバッファ`をフォントバッファに溜める  聊天缓冲字体缓冲蓄
 			ChatBufferToFontBuffer(); 
-			// ��˥�`�I��  �˵�����
+			// メニュ`I理  菜单处理
 			MenuProc();
-			// �ɣͣ��v�B�I��
+			// ＩＭＥvBI理
 			ImeProc();		
 			
 			break;
